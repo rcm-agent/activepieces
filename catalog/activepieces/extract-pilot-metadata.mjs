@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -13,6 +12,8 @@ const PIECE_OUTPUT_DIR = path.join(OUTPUT_DIR, 'pieces');
 const TRIGGER_CANDIDATES_OUTPUT_PATH = path.join(OUTPUT_DIR, 'trigger_candidates.json');
 const SCHEMA_VERSION = 'activepieces-catalog-candidate.v1';
 const RUNTIME_STATUS = 'candidate_only';
+const UPSTREAM_REPO = 'activepieces/activepieces';
+const UPSTREAM_COMMIT = '4e381ffae90afc7bc79ef22c4c9486d051419e00';
 const PILOT_PIECES = ['slack', 'discord', 'gmail', 'google-sheets', 'hubspot', 'github', 'notion'];
 const WEBHOOK_TRIGGER_STRATEGIES = new Set(['WEBHOOK', 'APP_WEBHOOK']);
 const POLLING_TRIGGER_STRATEGIES = new Set(['POLLING']);
@@ -57,7 +58,7 @@ function main() {
 }
 
 function buildCatalog() {
-  const upstreamCommit = getGitHead();
+  const upstreamCommit = UPSTREAM_COMMIT;
   const artifacts = PILOT_PIECES.map((slug) => buildPieceArtifact({ slug, upstreamCommit }));
   const triggerCandidates = buildTriggerCandidates({ artifacts, upstreamCommit });
   const index = buildIndex({ artifacts, triggerCandidates, upstreamCommit });
@@ -111,7 +112,7 @@ function buildPieceArtifact({ slug, upstreamCommit }) {
       note: 'Generated catalog candidate only; Activepieces runtime execution is out of scope.',
     },
     provenance: {
-      upstream_repo: 'activepieces/activepieces',
+      upstream_repo: UPSTREAM_REPO,
       upstream_commit: upstreamCommit,
       piece_path: toRepoPath(pieceDir),
       index_path: toRepoPath(indexPath),
@@ -1208,13 +1209,6 @@ function requiredString(value, label) {
 
 function unique(values) {
   return [...new Set(values.filter((value) => value !== null && value !== undefined && value !== ''))];
-}
-
-function getGitHead() {
-  return execFileSync('git', ['rev-parse', 'HEAD'], {
-    cwd: REPO_ROOT,
-    encoding: 'utf8',
-  }).trim();
 }
 
 function readText(filePath) {

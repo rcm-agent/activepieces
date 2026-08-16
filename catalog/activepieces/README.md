@@ -53,6 +53,10 @@ runtime delivery.
 - Canonical path and owner: `catalog/activepieces/extract-pilot-metadata.mjs`.
 - Authoritative writer: the extractor is the only writer for
   `catalog/activepieces/generated/pilot`.
+- Upstream provenance owner: the extractor pins the upstream repository and
+  commit represented by the pilot source. The pin changes only when that source
+  snapshot is deliberately refreshed, after which the extractor regenerates
+  every artifact; catalog-only commits do not change it.
 - Distribution writer: `catalog/activepieces/sync-to-orchestrator.mjs` is the
   only writer for the generated Activepieces pilot directory copied into
   `rcm-orchestrator`.
