@@ -1,0 +1,571 @@
+{
+  "actions": [
+    {
+      "description": "Add contact to list",
+      "display_name": "Add contact To List",
+      "name": "add_contact_to_list",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/add-contact-to-list-action.ts"
+    },
+    {
+      "description": "Adds a contact to a specified workflow in your HubSpot account.",
+      "display_name": "Add Contact to Workflow",
+      "name": "add-contact-to-workflow",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/add-contact-to-workflow.ts"
+    },
+    {
+      "description": "Creates associations between objects",
+      "display_name": "Create Associations",
+      "name": "create-associations",
+      "source_line": 13,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/create-associations.ts"
+    },
+    {
+      "description": "Creates a blog post in you Hubspot COS blog.",
+      "display_name": "Create COS Blog Post",
+      "name": "create-blog-post",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/create-blog-post.ts"
+    },
+    {
+      "description": "Creates a company in Hubspot.",
+      "display_name": "Create Company",
+      "name": "create-company",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/create-company.ts"
+    },
+    {
+      "description": "Creates a contact in Hubspot.",
+      "display_name": "Create Contact",
+      "name": "create-contact",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/create-contact.ts"
+    },
+    {
+      "description": "Creates a custom object in Hubspot.",
+      "display_name": "Create Custom Object",
+      "name": "create-custome-object",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/create-custom-object.ts"
+    },
+    {
+      "description": "Creates a new deal in Hubspot.",
+      "display_name": "Create Deal",
+      "name": "create-deal",
+      "source_line": 17,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/create-deal.ts"
+    },
+    {
+      "description": "Creates a line item in Hubspot.",
+      "display_name": "Create Line Item",
+      "name": "create-line-item",
+      "source_line": 14,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/create-line-item.ts"
+    },
+    {
+      "description": "Creates a new contact or updates an existing contact based on email address.",
+      "display_name": "Create or Update Contact",
+      "name": "create-or-update-contact",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/create-or-update-contact.ts"
+    },
+    {
+      "description": "Creates a new landing/site page.",
+      "display_name": "Create Page",
+      "name": "create-page",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/create-page.ts"
+    },
+    {
+      "description": "Creates a product in Hubspot.",
+      "display_name": "Create Product",
+      "name": "create-product",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/create-product.ts"
+    },
+    {
+      "description": "Creates a ticket in HubSpot.",
+      "display_name": "Create Ticket",
+      "name": "create-ticket",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/create-ticket.ts"
+    },
+    {
+      "description": "Make a custom API call to a specific endpoint",
+      "display_name": "Custom API Call",
+      "name": "custom_api_call",
+      "source_line": 127,
+      "source_path": "packages/pieces/community/hubspot/src/index.ts"
+    },
+    {
+      "description": "Deletes an existing landing/site page.",
+      "display_name": "Delete Page",
+      "name": "delete-page",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/delete-page.ts"
+    },
+    {
+      "description": "Finds associations between objects",
+      "display_name": "Find Associations",
+      "name": "find-associations",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/find-associations.ts"
+    },
+    {
+      "description": "Finds a company by searching.",
+      "display_name": "Find Company",
+      "name": "find-company",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/find-company.ts"
+    },
+    {
+      "description": "Finds a contact by searching.",
+      "display_name": "Find Contact",
+      "name": "find-contact",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/find-contact.ts"
+    },
+    {
+      "description": "Finds a custom object by searching.",
+      "display_name": "Find Custom Object",
+      "name": "find-custom-object",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/find-custom-object.ts"
+    },
+    {
+      "description": "Finds a deal by searching.",
+      "display_name": "Find Deal",
+      "name": "find-deal",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/find-deal.ts"
+    },
+    {
+      "description": "Finds a line item by searching.",
+      "display_name": "Find Line Item",
+      "name": "find-line-item",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/find-line-item.ts"
+    },
+    {
+      "description": "Finds a product by searching.",
+      "display_name": "Find Product",
+      "name": "find-product",
+      "source_line": 11,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/find-product.ts"
+    },
+    {
+      "description": "Finds a ticket by searching.",
+      "display_name": "Find Ticket",
+      "name": "find-ticket",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/find-ticket.ts"
+    },
+    {
+      "description": "Gets a company.",
+      "display_name": "Get Company",
+      "name": "get-company",
+      "source_line": 11,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/get-company.ts"
+    },
+    {
+      "description": "Gets a contact.",
+      "display_name": "Get Contact",
+      "name": "get-contact",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/get-contact.ts"
+    },
+    {
+      "description": "Gets a custom object.",
+      "display_name": "Get Custom Object",
+      "name": "get-custom-object",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/get-custom-object.ts"
+    },
+    {
+      "description": "Gets a deal.",
+      "display_name": "Get Deal",
+      "name": "get-deal",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/get-deal.ts"
+    },
+    {
+      "description": "Gets a line item.",
+      "display_name": "Get Line Item",
+      "name": "get-line-item",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/get-line-item.ts"
+    },
+    {
+      "description": "Gets an existing owner by email.",
+      "display_name": "Get Owner by Email",
+      "name": "get-owner-by-email",
+      "source_line": 5,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/get-owner-by-email.ts"
+    },
+    {
+      "description": "Gets an existing owner by ID.",
+      "display_name": "Get Owner by ID",
+      "name": "get-owner-by-id",
+      "source_line": 5,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/get-owner-by-id.ts"
+    },
+    {
+      "description": "Gets landing/site page Details.",
+      "display_name": "Get Page",
+      "name": "get-page",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/get-page.ts"
+    },
+    {
+      "description": "Finds and retrieves CRM object pipeline stage details.",
+      "display_name": "Get Pipeline Stage Details",
+      "name": "get-pipeline-stage-details",
+      "source_line": 5,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/get-pipeline-stage-details.ts"
+    },
+    {
+      "description": "Gets a product.",
+      "display_name": "Get Product",
+      "name": "get-product",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/get-product.ts"
+    },
+    {
+      "description": "Gets a ticket.",
+      "display_name": "Get Ticket",
+      "name": "get-ticket",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/get-ticket.ts"
+    },
+    {
+      "description": "Removes associations between objects",
+      "display_name": "Remove Associations",
+      "name": "remove-associations",
+      "source_line": 13,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/remove-associations.ts"
+    },
+    {
+      "description": "Remove a contact from a specific list.",
+      "display_name": "Remove Contact from List",
+      "name": "remove-contact-from-list",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/remove-contact-from-list.ts"
+    },
+    {
+      "description": "Removes email subscription.",
+      "display_name": "Remove Email Subscription",
+      "name": "remove-email-subscription",
+      "source_line": 5,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/remove-email-subscription.ts"
+    },
+    {
+      "description": "Updates a company in Hubspot.",
+      "display_name": "Update Company",
+      "name": "update-company",
+      "source_line": 13,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/update-company.ts"
+    },
+    {
+      "description": "Updates a contact in Hubspot.",
+      "display_name": "Update Contact",
+      "name": "update-contact",
+      "source_line": 13,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/update-contact.ts"
+    },
+    {
+      "description": "Updates a custom object in Hubspot.",
+      "display_name": "Update Custom Object",
+      "name": "update-custome-object",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/update-custom-object.ts"
+    },
+    {
+      "description": "Updates a deal in HubSpot.",
+      "display_name": "Update Deal",
+      "name": "update-deal",
+      "source_line": 20,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/update-deal.ts"
+    },
+    {
+      "description": "Updates a line item in Hubspot.",
+      "display_name": "Update Line Item",
+      "name": "update-line-item",
+      "source_line": 14,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/update-line-item.ts"
+    },
+    {
+      "description": "Updates a product in Hubspot.",
+      "display_name": "Update Product",
+      "name": "update-product",
+      "source_line": 13,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/update-product.ts"
+    },
+    {
+      "description": "Updates a ticket in HubSpot.",
+      "display_name": "Update Ticket",
+      "name": "update-ticket",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/update-ticket.ts"
+    },
+    {
+      "description": "Uploads a file to HubSpot File Manager.",
+      "display_name": "Upload File",
+      "name": "upload-file",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/hubspot/src/lib/actions/upload-file.ts"
+    }
+  ],
+  "auth": {
+    "auth_url_candidates": [
+      "https://app.hubspot.com/oauth/authorize"
+    ],
+    "declared_symbol": "hubspotAuth",
+    "source_path": "packages/pieces/community/hubspot/src/lib/auth.ts",
+    "token_url_candidates": [
+      "https://api.hubapi.com/oauth/v1/token"
+    ],
+    "types": [
+      "oauth2"
+    ]
+  },
+  "nango_provider_key_candidates": [
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for hubspot",
+      "provider_key": "hubspot"
+    }
+  ],
+  "package": {
+    "name": "@activepieces/piece-hubspot",
+    "version": "0.8.4"
+  },
+  "piece": {
+    "auth_symbol": "hubspotAuth",
+    "authors": [
+      "Salem-Alaa",
+      "kishanprmr",
+      "MoShizzle",
+      "khaledmashaly",
+      "abuaboud"
+    ],
+    "categories": [
+      "SALES_AND_CRM"
+    ],
+    "description": "Powerful CRM that offers tools for sales, customer service, and marketing automation.",
+    "display_name": "HubSpot",
+    "export_name": "hubspot",
+    "logo_url": "https://cdn.activepieces.com/pieces/hubspot.png",
+    "minimum_supported_release": "0.5.0",
+    "slug": "hubspot"
+  },
+  "provenance": {
+    "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
+    "index_path": "packages/pieces/community/hubspot/src/index.ts",
+    "piece_path": "packages/pieces/community/hubspot",
+    "upstream_commit": "4e381ffae90afc7bc79ef22c4c9486d051419e00",
+    "upstream_repo": "activepieces/activepieces"
+  },
+  "runtime_execution": {
+    "note": "Generated catalog candidate only; Activepieces runtime execution is out of scope.",
+    "status": "candidate_only",
+    "supported": false
+  },
+  "runtime_status": "candidate_only",
+  "schema_version": "activepieces-catalog-candidate.v1",
+  "triggers": [
+    {
+      "description": "Triggers when a deal enters a specified stage.",
+      "display_name": "Updated Deal Stage",
+      "name": "deal-stage-updated",
+      "source_line": 96,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/deal-stage-updated.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a new article is added to your COS blog.",
+      "display_name": "New COS Blog Article",
+      "name": "new-blog-article",
+      "source_line": 84,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-blog-article.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Trigger when a new company is added.",
+      "display_name": "New Company",
+      "name": "new-company",
+      "source_line": 71,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-company.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a specified property is updated on a company.",
+      "display_name": "New Company Property Change",
+      "name": "new-company-property-change",
+      "source_line": 124,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-company-property-change.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Trigger when new contact is available.",
+      "display_name": "New Contact",
+      "name": "new-contact",
+      "source_line": 73,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-contact.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a new contact is added to the specified list.",
+      "display_name": "New Contact in List",
+      "name": "new-contact-in-list",
+      "source_line": 88,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-contact-in-list.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a specified property is updated on a contact.",
+      "display_name": "New Contact Property Change",
+      "name": "new-contact-property-change",
+      "source_line": 126,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-contact-property-change.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when new custom object is available.",
+      "display_name": "New Custom Object",
+      "name": "new-custom-object",
+      "source_line": 89,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-custom-object.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a specified property is updated on a custom object.",
+      "display_name": "New Custom Object Property Change",
+      "name": "new-custom-object-property-change",
+      "source_line": 131,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-custom-object-property-change.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Trigger when a new deal is added.",
+      "display_name": "New Deal",
+      "name": "new-deal",
+      "source_line": 73,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-deal.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a specified property is updated on a deal.",
+      "display_name": "New Deal Property Change",
+      "name": "new-deal-property-change",
+      "source_line": 125,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-deal-property-change.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when all,or specific new email event is available.",
+      "display_name": "New Email Event",
+      "name": "new-email-event",
+      "source_line": 70,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-email-event.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a new email timeline subscription added for the portal.",
+      "display_name": "New Email Subscriptions Timeline",
+      "name": "new-email-subscriptions-timeline",
+      "source_line": 58,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/email-subscriptions-timeline.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a new engagement is created.",
+      "display_name": "New Engagement",
+      "name": "new-engagement",
+      "source_line": 65,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-engagement.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a form is submitted.",
+      "display_name": "New Form Submission",
+      "name": "new-form-submission",
+      "source_line": 124,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-form-submission.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when new line item is available.",
+      "display_name": "New Line Item",
+      "name": "new-line-item",
+      "source_line": 77,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-line-item.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a company recently created or updated.",
+      "display_name": "Company Recently Created or Updated",
+      "name": "new-or-updated-company",
+      "source_line": 73,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-or-updated-company.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a contact recently created or updated.",
+      "display_name": "Contact Recently Created or Updated",
+      "name": "new-or-updated-contact",
+      "source_line": 73,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-or-updated-contact.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a line item recently created or updated.",
+      "display_name": "Line Item Recently Created or Updated",
+      "name": "new-or-updated-line-item",
+      "source_line": 73,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-or-updated-line-item.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a product recently created or updated.",
+      "display_name": "Product Recently Created or Updated",
+      "name": "new-or-updated-product",
+      "source_line": 73,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-or-updated-product.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when new product is available.",
+      "display_name": "New Product",
+      "name": "new-product",
+      "source_line": 77,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-product.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Trigger when a new task is added.",
+      "display_name": "New Task",
+      "name": "new-task",
+      "source_line": 73,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-task.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Trigger when new ticket is available.",
+      "display_name": "New Ticket",
+      "name": "new-ticket",
+      "source_line": 73,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-ticket.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a specified property is updated on a ticket.",
+      "display_name": "New Ticket Property Change",
+      "name": "new-ticket-property-change",
+      "source_line": 125,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-ticket-property-change.ts",
+      "trigger_strategy": "POLLING"
+    }
+  ]
+}

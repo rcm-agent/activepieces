@@ -1,0 +1,305 @@
+{
+  "actions": [
+    {
+      "description": "Adds labels to an existing issue.",
+      "display_name": "Add Labels to Issue",
+      "name": "add_labels_to_issue",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/github/src/lib/actions/add-labels-to-issue.ts"
+    },
+    {
+      "description": "Creates a new branch on a repository.",
+      "display_name": "Create Branch",
+      "name": "create_branch",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/github/src/lib/actions/create-branch.ts"
+    },
+    {
+      "description": "Adds a comment to the specified issue (also works with pull requests)",
+      "display_name": "Create comment on a issue",
+      "name": "createCommentOnAIssue",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/github/src/lib/actions/create-comment-on-a-issue.ts"
+    },
+    {
+      "description": "Make a custom API call to a specific endpoint",
+      "display_name": "Custom API Call",
+      "name": "custom_api_call",
+      "source_line": 57,
+      "source_path": "packages/pieces/community/github/src/index.ts"
+    },
+    {
+      "description": "Deletes a branch from a repository.",
+      "display_name": "Delete Branch",
+      "name": "delete_branch",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/github/src/lib/actions/delete-branch.ts"
+    },
+    {
+      "description": "Finds a branch by name and returns its details.",
+      "display_name": "Find Branch",
+      "name": "find_branch",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/github/src/lib/actions/find-branch.ts"
+    },
+    {
+      "description": "Finds an issue based title.",
+      "display_name": "Find Issue",
+      "name": "find_issue",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/github/src/lib/actions/find-issue.ts"
+    },
+    {
+      "description": "Finds a user by their login name.",
+      "display_name": "Find User",
+      "name": "find_user",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/github/src/lib/actions/find-user.ts"
+    },
+    {
+      "description": "Grabs information from a specific issue",
+      "display_name": "Get issue information",
+      "name": "getIssueInformation",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/github/src/lib/actions/get-issue-information.ts"
+    },
+    {
+      "description": "Creates a comment on a commit in a GitHub repository",
+      "display_name": "Create Commit Comment",
+      "name": "github_create_commit_comment",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/github/src/lib/actions/create-commit-comment.ts"
+    },
+    {
+      "description": "Creates a comment on a discussion in a GitHub repository",
+      "display_name": "Create Discussion Comment",
+      "name": "github_create_discussion_comment",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/github/src/lib/actions/create-discussion-comment.ts"
+    },
+    {
+      "description": "Create a GitHub Gist",
+      "display_name": "Create Gist",
+      "name": "github_create_gist",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/github/src/lib/actions/create-gist.ts"
+    },
+    {
+      "description": "Create Issue in GitHub Repository",
+      "display_name": "Create Issue",
+      "name": "github_create_issue",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/github/src/lib/actions/create-issue.ts"
+    },
+    {
+      "description": "Creates a review comment on a pull request in a GitHub repository",
+      "display_name": "Create Pull Request Review Comment",
+      "name": "github_create_pull_request_review_comment",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/github/src/lib/actions/create-pull-request-review-comment.ts"
+    },
+    {
+      "description": "Locks the specified issue",
+      "display_name": "Lock issue",
+      "name": "lockIssue",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/github/src/lib/actions/lock-issue.ts"
+    },
+    {
+      "description": "Perform a raw GraphQL query",
+      "display_name": "Raw GraphQL query",
+      "name": "rawGraphqlQuery",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/github/src/lib/actions/raw-graphql-query.ts"
+    },
+    {
+      "description": "Unlocks the specified issue",
+      "display_name": "Unlock issue",
+      "name": "unlockIssue",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/github/src/lib/actions/unlock-issue.ts"
+    },
+    {
+      "description": "Updates an existing issue.",
+      "display_name": "Update Issue",
+      "name": "update_issue",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/github/src/lib/actions/update-issue.ts"
+    }
+  ],
+  "auth": {
+    "auth_url_candidates": [
+      "https://github.com/login/oauth/authorize"
+    ],
+    "declared_symbol": "githubAuth",
+    "source_path": "packages/pieces/community/github/src/lib/auth.ts",
+    "token_url_candidates": [
+      "https://github.com/login/oauth/access_token"
+    ],
+    "types": [
+      "oauth2"
+    ]
+  },
+  "nango_provider_key_candidates": [
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for github",
+      "provider_key": "github"
+    }
+  ],
+  "package": {
+    "name": "@activepieces/piece-github",
+    "version": "0.7.3"
+  },
+  "piece": {
+    "auth_symbol": "githubAuth",
+    "authors": [
+      "kishanprmr",
+      "MoShizzle",
+      "AbdulTheActivePiecer",
+      "khaledmashaly",
+      "abuaboud",
+      "tintinthedev",
+      "murex971",
+      "sanket-a11y"
+    ],
+    "categories": [
+      "DEVELOPER_TOOLS"
+    ],
+    "description": "Developer platform that allows developers to create, store, manage and share their code",
+    "display_name": "GitHub",
+    "export_name": "github",
+    "logo_url": "https://cdn.activepieces.com/pieces/github.png",
+    "minimum_supported_release": "0.30.0",
+    "slug": "github"
+  },
+  "provenance": {
+    "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
+    "index_path": "packages/pieces/community/github/src/index.ts",
+    "piece_path": "packages/pieces/community/github",
+    "upstream_commit": "4e381ffae90afc7bc79ef22c4c9486d051419e00",
+    "upstream_repo": "activepieces/activepieces"
+  },
+  "runtime_execution": {
+    "note": "Generated catalog candidate only; Activepieces runtime execution is out of scope.",
+    "status": "candidate_only",
+    "supported": false
+  },
+  "runtime_status": "candidate_only",
+  "schema_version": "activepieces-catalog-candidate.v1",
+  "triggers": [
+    {
+      "description": "Triggers when a new branch is created.",
+      "display_name": "New Branch",
+      "name": "new_branch",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/new-branch.ts",
+      "trigger_strategy": "WEBHOOK"
+    },
+    {
+      "description": "Triggers when a new collaborator is added to a repository.",
+      "display_name": "New Collaborator",
+      "name": "new_collaborator",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/new-collaborator.ts",
+      "trigger_strategy": "WEBHOOK"
+    },
+    {
+      "description": "Triggers when a new commit is pushed.",
+      "display_name": "New Commit",
+      "name": "new_commit",
+      "source_line": 22,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/new-commit.ts",
+      "trigger_strategy": "WEBHOOK"
+    },
+    {
+      "description": "Triggers when a new label is created in a repository.",
+      "display_name": "New Label",
+      "name": "new_label",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/new-label.ts",
+      "trigger_strategy": "WEBHOOK"
+    },
+    {
+      "description": "Triggers when you are mentioned in a comment.",
+      "display_name": "New Mention",
+      "name": "new_mention",
+      "source_line": 38,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/new-mention.ts",
+      "trigger_strategy": "WEBHOOK"
+    },
+    {
+      "description": "Triggers when a new milestone is created.",
+      "display_name": "New Milestone",
+      "name": "new_milestone",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/new-milestone.ts",
+      "trigger_strategy": "WEBHOOK"
+    },
+    {
+      "description": "Triggers when a new release is added.",
+      "display_name": "New Release",
+      "name": "new_release",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/new-release.ts",
+      "trigger_strategy": "WEBHOOK"
+    },
+    {
+      "description": "Triggers when you are requested to review a pull request.",
+      "display_name": "New Review Request",
+      "name": "new_review_request",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/new-review-request.ts",
+      "trigger_strategy": "WEBHOOK"
+    },
+    {
+      "description": "Triggers when there is activity relating to a discussion.",
+      "display_name": "New Discussion",
+      "name": "trigger_discussion",
+      "source_line": 913,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/index.ts",
+      "trigger_strategy": "WEBHOOK"
+    },
+    {
+      "description": "Triggers when there is a new comment posted on a discussion.",
+      "display_name": "New Comment Posted",
+      "name": "trigger_discussion_comment",
+      "source_line": 1161,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/index.ts",
+      "trigger_strategy": "WEBHOOK"
+    },
+    {
+      "description": "Triggers when there is activity relating to an issue.",
+      "display_name": "New Issue",
+      "name": "trigger_issues",
+      "source_line": 460,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/index.ts",
+      "trigger_strategy": "WEBHOOK"
+    },
+    {
+      "description": "Triggers when there is activity on a pull request.",
+      "display_name": "New Pull Request",
+      "name": "trigger_pull_request",
+      "source_line": 22,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/index.ts",
+      "trigger_strategy": "WEBHOOK"
+    },
+    {
+      "description": "Triggers when there is a push to a repository branch. This includes when a commit is pushed, when a commit tag is pushed, when a branch is deleted, when a tag is deleted, or when a repository is created from a template.",
+      "display_name": "Push",
+      "name": "trigger_push",
+      "source_line": 701,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/index.ts",
+      "trigger_strategy": "WEBHOOK"
+    },
+    {
+      "description": "Trigger when there is activity relating to repository stars.",
+      "display_name": "New Star",
+      "name": "trigger_star",
+      "source_line": 285,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/index.ts",
+      "trigger_strategy": "WEBHOOK"
+    }
+  ]
+}

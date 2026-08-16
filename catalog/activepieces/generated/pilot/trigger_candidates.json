@@ -1,0 +1,2298 @@
+{
+  "artifact_root": "catalog/activepieces/generated/pilot",
+  "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
+  "runtime_status": "candidate_only",
+  "schema_version": "activepieces-catalog-candidate.v1",
+  "trigger_count": 66,
+  "triggers": [
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.slack.channel_created",
+      "description": "Triggers when a channel is created",
+      "display_name": "Channel created",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-slack",
+      "package_version": "0.17.0",
+      "piece_display_name": "Slack",
+      "piece_slug": "slack",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 16,
+      "source_path": "packages/pieces/community/slack/src/lib/triggers/new-channel.ts",
+      "trigger_name": "channel_created",
+      "trigger_strategy": "APP_WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.slack.new_command",
+      "description": "Triggers when a specific command is sent to the bot (e.g., @bot command arg1 arg2)",
+      "display_name": "New Command in Channel",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-slack",
+      "package_version": "0.17.0",
+      "piece_display_name": "Slack",
+      "piece_slug": "slack",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 11,
+      "source_path": "packages/pieces/community/slack/src/lib/triggers/new-command.ts",
+      "trigger_name": "new_command",
+      "trigger_strategy": "APP_WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.slack.new_mention",
+      "description": "Triggers when a user or user group is mentioned.",
+      "display_name": "New Mention in Channel",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-slack",
+      "package_version": "0.17.0",
+      "piece_display_name": "Slack",
+      "piece_slug": "slack",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/slack/src/lib/triggers/new-mention.ts",
+      "trigger_name": "new_mention",
+      "trigger_strategy": "APP_WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.slack.new_reaction_added",
+      "description": "Triggers when a new reaction is added to a message",
+      "display_name": "New Reaction",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-slack",
+      "package_version": "0.17.0",
+      "piece_display_name": "Slack",
+      "piece_slug": "slack",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 11,
+      "source_path": "packages/pieces/community/slack/src/lib/triggers/new-reaction-added.ts",
+      "trigger_name": "new_reaction_added",
+      "trigger_strategy": "APP_WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.slack.new_reaction_removed",
+      "description": "Triggers when a reaction is removed from a message",
+      "display_name": "Reaction Removed",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-slack",
+      "package_version": "0.17.0",
+      "piece_display_name": "Slack",
+      "piece_slug": "slack",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/slack/src/lib/triggers/new-reaction-removed.ts",
+      "trigger_name": "new_reaction_removed",
+      "trigger_strategy": "APP_WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.slack.new-command-in-direct-message",
+      "description": "Triggers when a specific command is sent to the bot (e.g., @bot command arg1 arg2) via Direct Message.",
+      "display_name": "New Command in Direct Message",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-slack",
+      "package_version": "0.17.0",
+      "piece_display_name": "Slack",
+      "piece_slug": "slack",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 11,
+      "source_path": "packages/pieces/community/slack/src/lib/triggers/new-command-in-direct-message.ts",
+      "trigger_name": "new-command-in-direct-message",
+      "trigger_strategy": "APP_WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.slack.new-direct-message",
+      "description": "Triggers when a message was posted in a direct message channel.",
+      "display_name": "New Direct Message",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-slack",
+      "package_version": "0.17.0",
+      "piece_display_name": "Slack",
+      "piece_slug": "slack",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/slack/src/lib/triggers/new-direct-message.ts",
+      "trigger_name": "new-direct-message",
+      "trigger_strategy": "APP_WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.slack.new-mention-in-direct-message",
+      "description": "Triggers when a username is mentioned in a direct message channel.",
+      "display_name": "New Mention in Direct Message",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-slack",
+      "package_version": "0.17.0",
+      "piece_display_name": "Slack",
+      "piece_slug": "slack",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/slack/src/lib/triggers/new-mention-in-direct-message.ts",
+      "trigger_name": "new-mention-in-direct-message",
+      "trigger_strategy": "APP_WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.slack.new-message",
+      "description": "Triggers when a new message is posted to any channel.",
+      "display_name": "New Public Message Posted Anywhere",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-slack",
+      "package_version": "0.17.0",
+      "piece_display_name": "Slack",
+      "piece_slug": "slack",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 5,
+      "source_path": "packages/pieces/community/slack/src/lib/triggers/new-message.ts",
+      "trigger_name": "new-message",
+      "trigger_strategy": "APP_WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.slack.new-message-in-channel",
+      "description": "Triggers when a new message is posted to a specific #channel you choose.",
+      "display_name": "New Message Posted to Channel",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-slack",
+      "package_version": "0.17.0",
+      "piece_display_name": "Slack",
+      "piece_slug": "slack",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/slack/src/lib/triggers/new-message-in-channel.ts",
+      "trigger_name": "new-message-in-channel",
+      "trigger_strategy": "APP_WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.slack.new-modal-interaction",
+      "description": "Triggers when a user interacts with a modal.",
+      "display_name": "New Modal Interaction",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-slack",
+      "package_version": "0.17.0",
+      "piece_display_name": "Slack",
+      "piece_slug": "slack",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/slack/src/lib/triggers/new-modal-interaction.ts",
+      "trigger_name": "new-modal-interaction",
+      "trigger_strategy": "APP_WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.slack.new-saved-message",
+      "description": "Triggers when you save a message.",
+      "display_name": "New Saved Message",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-slack",
+      "package_version": "0.17.0",
+      "piece_display_name": "Slack",
+      "piece_slug": "slack",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 5,
+      "source_path": "packages/pieces/community/slack/src/lib/triggers/new-saved-message.ts",
+      "trigger_name": "new-saved-message",
+      "trigger_strategy": "APP_WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.slack.new-team-custom-emoji",
+      "description": "Triggers when a custom emoji has been added to a team.",
+      "display_name": "New Team Custom Emoji",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-slack",
+      "package_version": "0.17.0",
+      "piece_display_name": "Slack",
+      "piece_slug": "slack",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 11,
+      "source_path": "packages/pieces/community/slack/src/lib/triggers/new-team-custom-emoji.ts",
+      "trigger_name": "new-team-custom-emoji",
+      "trigger_strategy": "APP_WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.slack.new-user",
+      "description": "Triggers when a new user is created / first joins your org.",
+      "display_name": "New User",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for slack",
+          "provider_key": "slack-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-slack",
+      "package_version": "0.17.0",
+      "piece_display_name": "Slack",
+      "piece_slug": "slack",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 54,
+      "source_path": "packages/pieces/community/slack/src/lib/triggers/new-user.ts",
+      "trigger_name": "new-user",
+      "trigger_strategy": "APP_WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "secret_text"
+      ],
+      "candidate_id": "activepieces_candidate.discord.new_member",
+      "description": "Triggers when a new member joins a guild",
+      "display_name": "New Member",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for discord",
+          "provider_key": "discord-dev"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for discord",
+          "provider_key": "discord"
+        }
+      ],
+      "package_name": "@activepieces/piece-discord",
+      "package_version": "0.5.0",
+      "piece_display_name": "Discord",
+      "piece_slug": "discord",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 53,
+      "source_path": "packages/pieces/community/discord/src/lib/triggers/new-member.ts",
+      "trigger_name": "new_member",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "secret_text"
+      ],
+      "candidate_id": "activepieces_candidate.discord.new_message",
+      "description": "Triggers when a message is sent in a channel",
+      "display_name": "New message",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for discord",
+          "provider_key": "discord-dev"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for discord",
+          "provider_key": "discord"
+        }
+      ],
+      "package_name": "@activepieces/piece-discord",
+      "package_version": "0.5.0",
+      "piece_display_name": "Discord",
+      "piece_slug": "discord",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 49,
+      "source_path": "packages/pieces/community/discord/src/lib/triggers/new-message.ts",
+      "trigger_name": "new_message",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.gmail.gmail_new_email_received",
+      "description": "Triggers when new mail is found in your Gmail inbox",
+      "display_name": "New Email",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for gmail",
+          "provider_key": "google"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "possible",
+          "evidence": "inferred from package/auth metadata for gmail",
+          "provider_key": "gmail"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for gmail",
+          "provider_key": "google-mail"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for gmail",
+          "provider_key": "google-mail-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-gmail",
+      "package_version": "0.12.3",
+      "piece_display_name": "Gmail",
+      "piece_slug": "gmail",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 16,
+      "source_path": "packages/pieces/community/gmail/src/lib/triggers/new-email.ts",
+      "trigger_name": "gmail_new_email_received",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.gmail.new_attachment",
+      "description": "Triggers when an email with an attachment arrives.",
+      "display_name": "New Attachment",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for gmail",
+          "provider_key": "google"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "possible",
+          "evidence": "inferred from package/auth metadata for gmail",
+          "provider_key": "gmail"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for gmail",
+          "provider_key": "google-mail"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for gmail",
+          "provider_key": "google-mail-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-gmail",
+      "package_version": "0.12.3",
+      "piece_display_name": "Gmail",
+      "piece_slug": "gmail",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 26,
+      "source_path": "packages/pieces/community/gmail/src/lib/triggers/new-attachment.ts",
+      "trigger_name": "new_attachment",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.gmail.new_label",
+      "description": "Triggers when a new label is created.",
+      "display_name": "New Label",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for gmail",
+          "provider_key": "google"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "possible",
+          "evidence": "inferred from package/auth metadata for gmail",
+          "provider_key": "gmail"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for gmail",
+          "provider_key": "google-mail"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for gmail",
+          "provider_key": "google-mail-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-gmail",
+      "package_version": "0.12.3",
+      "piece_display_name": "Gmail",
+      "piece_slug": "gmail",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/gmail/src/lib/triggers/new-label.ts",
+      "trigger_name": "new_label",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.gmail.new_labeled_email",
+      "description": "Triggers when a label is added to an email",
+      "display_name": "New Labeled Email",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for gmail",
+          "provider_key": "google"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "possible",
+          "evidence": "inferred from package/auth metadata for gmail",
+          "provider_key": "gmail"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for gmail",
+          "provider_key": "google-mail"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for gmail",
+          "provider_key": "google-mail-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-gmail",
+      "package_version": "0.12.3",
+      "piece_display_name": "Gmail",
+      "piece_slug": "gmail",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 56,
+      "source_path": "packages/pieces/community/gmail/src/lib/triggers/new-labeled-email.ts",
+      "trigger_name": "new_labeled_email",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.google-sheets.google-sheets-new-or-updated-row",
+      "description": "Triggers when a new row is added or modified in a spreadsheet.",
+      "display_name": "New or Updated Row",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-sheets",
+          "provider_key": "google"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "possible",
+          "evidence": "inferred from package/auth metadata for google-sheets",
+          "provider_key": "google-sheets"
+        }
+      ],
+      "package_name": "@activepieces/piece-google-sheets",
+      "package_version": "0.14.6",
+      "piece_display_name": "Google Sheets",
+      "piece_slug": "google-sheets",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 30,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/triggers/new-or-updated-row.trigger.ts",
+      "trigger_name": "google-sheets-new-or-updated-row",
+      "trigger_strategy": "WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.google-sheets.googlesheets_new_row_added",
+      "description": "Triggers when a new row is added to bottom of a spreadsheet.",
+      "display_name": "New Row Added",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-sheets",
+          "provider_key": "google"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "possible",
+          "evidence": "inferred from package/auth metadata for google-sheets",
+          "provider_key": "google-sheets"
+        }
+      ],
+      "package_name": "@activepieces/piece-google-sheets",
+      "package_version": "0.14.6",
+      "piece_display_name": "Google Sheets",
+      "piece_slug": "google-sheets",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 25,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/triggers/new-row-added-webhook.ts",
+      "trigger_name": "googlesheets_new_row_added",
+      "trigger_strategy": "WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.google-sheets.new-spreadsheet",
+      "description": "Triggers when a new spreadsheet is created.",
+      "display_name": "New Spreadsheet",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-sheets",
+          "provider_key": "google"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "possible",
+          "evidence": "inferred from package/auth metadata for google-sheets",
+          "provider_key": "google-sheets"
+        }
+      ],
+      "package_name": "@activepieces/piece-google-sheets",
+      "package_version": "0.14.6",
+      "piece_display_name": "Google Sheets",
+      "piece_slug": "google-sheets",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 52,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/triggers/new-spreadsheet.ts",
+      "trigger_name": "new-spreadsheet",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.google-sheets.new-worksheet",
+      "description": "Triggers when a worksheet is created in a spreadsheet.",
+      "display_name": "New Worksheet",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-sheets",
+          "provider_key": "google"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "possible",
+          "evidence": "inferred from package/auth metadata for google-sheets",
+          "provider_key": "google-sheets"
+        }
+      ],
+      "package_name": "@activepieces/piece-google-sheets",
+      "package_version": "0.14.6",
+      "piece_display_name": "Google Sheets",
+      "piece_slug": "google-sheets",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/triggers/new-worksheet.ts",
+      "trigger_name": "new-worksheet",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.hubspot.deal-stage-updated",
+      "description": "Triggers when a deal enters a specified stage.",
+      "display_name": "Updated Deal Stage",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for hubspot",
+          "provider_key": "hubspot"
+        }
+      ],
+      "package_name": "@activepieces/piece-hubspot",
+      "package_version": "0.8.4",
+      "piece_display_name": "HubSpot",
+      "piece_slug": "hubspot",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 96,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/deal-stage-updated.ts",
+      "trigger_name": "deal-stage-updated",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.hubspot.new-blog-article",
+      "description": "Triggers when a new article is added to your COS blog.",
+      "display_name": "New COS Blog Article",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for hubspot",
+          "provider_key": "hubspot"
+        }
+      ],
+      "package_name": "@activepieces/piece-hubspot",
+      "package_version": "0.8.4",
+      "piece_display_name": "HubSpot",
+      "piece_slug": "hubspot",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 84,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-blog-article.ts",
+      "trigger_name": "new-blog-article",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.hubspot.new-company",
+      "description": "Trigger when a new company is added.",
+      "display_name": "New Company",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for hubspot",
+          "provider_key": "hubspot"
+        }
+      ],
+      "package_name": "@activepieces/piece-hubspot",
+      "package_version": "0.8.4",
+      "piece_display_name": "HubSpot",
+      "piece_slug": "hubspot",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 71,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-company.ts",
+      "trigger_name": "new-company",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.hubspot.new-company-property-change",
+      "description": "Triggers when a specified property is updated on a company.",
+      "display_name": "New Company Property Change",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for hubspot",
+          "provider_key": "hubspot"
+        }
+      ],
+      "package_name": "@activepieces/piece-hubspot",
+      "package_version": "0.8.4",
+      "piece_display_name": "HubSpot",
+      "piece_slug": "hubspot",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 124,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-company-property-change.ts",
+      "trigger_name": "new-company-property-change",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.hubspot.new-contact",
+      "description": "Trigger when new contact is available.",
+      "display_name": "New Contact",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for hubspot",
+          "provider_key": "hubspot"
+        }
+      ],
+      "package_name": "@activepieces/piece-hubspot",
+      "package_version": "0.8.4",
+      "piece_display_name": "HubSpot",
+      "piece_slug": "hubspot",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 73,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-contact.ts",
+      "trigger_name": "new-contact",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.hubspot.new-contact-in-list",
+      "description": "Triggers when a new contact is added to the specified list.",
+      "display_name": "New Contact in List",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for hubspot",
+          "provider_key": "hubspot"
+        }
+      ],
+      "package_name": "@activepieces/piece-hubspot",
+      "package_version": "0.8.4",
+      "piece_display_name": "HubSpot",
+      "piece_slug": "hubspot",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 88,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-contact-in-list.ts",
+      "trigger_name": "new-contact-in-list",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.hubspot.new-contact-property-change",
+      "description": "Triggers when a specified property is updated on a contact.",
+      "display_name": "New Contact Property Change",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for hubspot",
+          "provider_key": "hubspot"
+        }
+      ],
+      "package_name": "@activepieces/piece-hubspot",
+      "package_version": "0.8.4",
+      "piece_display_name": "HubSpot",
+      "piece_slug": "hubspot",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 126,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-contact-property-change.ts",
+      "trigger_name": "new-contact-property-change",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.hubspot.new-custom-object",
+      "description": "Triggers when new custom object is available.",
+      "display_name": "New Custom Object",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for hubspot",
+          "provider_key": "hubspot"
+        }
+      ],
+      "package_name": "@activepieces/piece-hubspot",
+      "package_version": "0.8.4",
+      "piece_display_name": "HubSpot",
+      "piece_slug": "hubspot",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 89,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-custom-object.ts",
+      "trigger_name": "new-custom-object",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.hubspot.new-custom-object-property-change",
+      "description": "Triggers when a specified property is updated on a custom object.",
+      "display_name": "New Custom Object Property Change",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for hubspot",
+          "provider_key": "hubspot"
+        }
+      ],
+      "package_name": "@activepieces/piece-hubspot",
+      "package_version": "0.8.4",
+      "piece_display_name": "HubSpot",
+      "piece_slug": "hubspot",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 131,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-custom-object-property-change.ts",
+      "trigger_name": "new-custom-object-property-change",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.hubspot.new-deal",
+      "description": "Trigger when a new deal is added.",
+      "display_name": "New Deal",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for hubspot",
+          "provider_key": "hubspot"
+        }
+      ],
+      "package_name": "@activepieces/piece-hubspot",
+      "package_version": "0.8.4",
+      "piece_display_name": "HubSpot",
+      "piece_slug": "hubspot",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 73,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-deal.ts",
+      "trigger_name": "new-deal",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.hubspot.new-deal-property-change",
+      "description": "Triggers when a specified property is updated on a deal.",
+      "display_name": "New Deal Property Change",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for hubspot",
+          "provider_key": "hubspot"
+        }
+      ],
+      "package_name": "@activepieces/piece-hubspot",
+      "package_version": "0.8.4",
+      "piece_display_name": "HubSpot",
+      "piece_slug": "hubspot",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 125,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-deal-property-change.ts",
+      "trigger_name": "new-deal-property-change",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.hubspot.new-email-event",
+      "description": "Triggers when all,or specific new email event is available.",
+      "display_name": "New Email Event",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for hubspot",
+          "provider_key": "hubspot"
+        }
+      ],
+      "package_name": "@activepieces/piece-hubspot",
+      "package_version": "0.8.4",
+      "piece_display_name": "HubSpot",
+      "piece_slug": "hubspot",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 70,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-email-event.ts",
+      "trigger_name": "new-email-event",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.hubspot.new-email-subscriptions-timeline",
+      "description": "Triggers when a new email timeline subscription added for the portal.",
+      "display_name": "New Email Subscriptions Timeline",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for hubspot",
+          "provider_key": "hubspot"
+        }
+      ],
+      "package_name": "@activepieces/piece-hubspot",
+      "package_version": "0.8.4",
+      "piece_display_name": "HubSpot",
+      "piece_slug": "hubspot",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 58,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/email-subscriptions-timeline.ts",
+      "trigger_name": "new-email-subscriptions-timeline",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.hubspot.new-engagement",
+      "description": "Triggers when a new engagement is created.",
+      "display_name": "New Engagement",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for hubspot",
+          "provider_key": "hubspot"
+        }
+      ],
+      "package_name": "@activepieces/piece-hubspot",
+      "package_version": "0.8.4",
+      "piece_display_name": "HubSpot",
+      "piece_slug": "hubspot",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 65,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-engagement.ts",
+      "trigger_name": "new-engagement",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.hubspot.new-form-submission",
+      "description": "Triggers when a form is submitted.",
+      "display_name": "New Form Submission",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for hubspot",
+          "provider_key": "hubspot"
+        }
+      ],
+      "package_name": "@activepieces/piece-hubspot",
+      "package_version": "0.8.4",
+      "piece_display_name": "HubSpot",
+      "piece_slug": "hubspot",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 124,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-form-submission.ts",
+      "trigger_name": "new-form-submission",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.hubspot.new-line-item",
+      "description": "Triggers when new line item is available.",
+      "display_name": "New Line Item",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for hubspot",
+          "provider_key": "hubspot"
+        }
+      ],
+      "package_name": "@activepieces/piece-hubspot",
+      "package_version": "0.8.4",
+      "piece_display_name": "HubSpot",
+      "piece_slug": "hubspot",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 77,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-line-item.ts",
+      "trigger_name": "new-line-item",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.hubspot.new-or-updated-company",
+      "description": "Triggers when a company recently created or updated.",
+      "display_name": "Company Recently Created or Updated",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for hubspot",
+          "provider_key": "hubspot"
+        }
+      ],
+      "package_name": "@activepieces/piece-hubspot",
+      "package_version": "0.8.4",
+      "piece_display_name": "HubSpot",
+      "piece_slug": "hubspot",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 73,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-or-updated-company.ts",
+      "trigger_name": "new-or-updated-company",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.hubspot.new-or-updated-contact",
+      "description": "Triggers when a contact recently created or updated.",
+      "display_name": "Contact Recently Created or Updated",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for hubspot",
+          "provider_key": "hubspot"
+        }
+      ],
+      "package_name": "@activepieces/piece-hubspot",
+      "package_version": "0.8.4",
+      "piece_display_name": "HubSpot",
+      "piece_slug": "hubspot",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 73,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-or-updated-contact.ts",
+      "trigger_name": "new-or-updated-contact",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.hubspot.new-or-updated-line-item",
+      "description": "Triggers when a line item recently created or updated.",
+      "display_name": "Line Item Recently Created or Updated",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for hubspot",
+          "provider_key": "hubspot"
+        }
+      ],
+      "package_name": "@activepieces/piece-hubspot",
+      "package_version": "0.8.4",
+      "piece_display_name": "HubSpot",
+      "piece_slug": "hubspot",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 73,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-or-updated-line-item.ts",
+      "trigger_name": "new-or-updated-line-item",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.hubspot.new-or-updated-product",
+      "description": "Triggers when a product recently created or updated.",
+      "display_name": "Product Recently Created or Updated",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for hubspot",
+          "provider_key": "hubspot"
+        }
+      ],
+      "package_name": "@activepieces/piece-hubspot",
+      "package_version": "0.8.4",
+      "piece_display_name": "HubSpot",
+      "piece_slug": "hubspot",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 73,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-or-updated-product.ts",
+      "trigger_name": "new-or-updated-product",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.hubspot.new-product",
+      "description": "Triggers when new product is available.",
+      "display_name": "New Product",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for hubspot",
+          "provider_key": "hubspot"
+        }
+      ],
+      "package_name": "@activepieces/piece-hubspot",
+      "package_version": "0.8.4",
+      "piece_display_name": "HubSpot",
+      "piece_slug": "hubspot",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 77,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-product.ts",
+      "trigger_name": "new-product",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.hubspot.new-task",
+      "description": "Trigger when a new task is added.",
+      "display_name": "New Task",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for hubspot",
+          "provider_key": "hubspot"
+        }
+      ],
+      "package_name": "@activepieces/piece-hubspot",
+      "package_version": "0.8.4",
+      "piece_display_name": "HubSpot",
+      "piece_slug": "hubspot",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 73,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-task.ts",
+      "trigger_name": "new-task",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.hubspot.new-ticket",
+      "description": "Trigger when new ticket is available.",
+      "display_name": "New Ticket",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for hubspot",
+          "provider_key": "hubspot"
+        }
+      ],
+      "package_name": "@activepieces/piece-hubspot",
+      "package_version": "0.8.4",
+      "piece_display_name": "HubSpot",
+      "piece_slug": "hubspot",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 73,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-ticket.ts",
+      "trigger_name": "new-ticket",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.hubspot.new-ticket-property-change",
+      "description": "Triggers when a specified property is updated on a ticket.",
+      "display_name": "New Ticket Property Change",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for hubspot",
+          "provider_key": "hubspot"
+        }
+      ],
+      "package_name": "@activepieces/piece-hubspot",
+      "package_version": "0.8.4",
+      "piece_display_name": "HubSpot",
+      "piece_slug": "hubspot",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 125,
+      "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-ticket-property-change.ts",
+      "trigger_name": "new-ticket-property-change",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.github.new_branch",
+      "description": "Triggers when a new branch is created.",
+      "display_name": "New Branch",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for github",
+          "provider_key": "github"
+        }
+      ],
+      "package_name": "@activepieces/piece-github",
+      "package_version": "0.7.3",
+      "piece_display_name": "GitHub",
+      "piece_slug": "github",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/new-branch.ts",
+      "trigger_name": "new_branch",
+      "trigger_strategy": "WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.github.new_collaborator",
+      "description": "Triggers when a new collaborator is added to a repository.",
+      "display_name": "New Collaborator",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for github",
+          "provider_key": "github"
+        }
+      ],
+      "package_name": "@activepieces/piece-github",
+      "package_version": "0.7.3",
+      "piece_display_name": "GitHub",
+      "piece_slug": "github",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/new-collaborator.ts",
+      "trigger_name": "new_collaborator",
+      "trigger_strategy": "WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.github.new_commit",
+      "description": "Triggers when a new commit is pushed.",
+      "display_name": "New Commit",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for github",
+          "provider_key": "github"
+        }
+      ],
+      "package_name": "@activepieces/piece-github",
+      "package_version": "0.7.3",
+      "piece_display_name": "GitHub",
+      "piece_slug": "github",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 22,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/new-commit.ts",
+      "trigger_name": "new_commit",
+      "trigger_strategy": "WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.github.new_label",
+      "description": "Triggers when a new label is created in a repository.",
+      "display_name": "New Label",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for github",
+          "provider_key": "github"
+        }
+      ],
+      "package_name": "@activepieces/piece-github",
+      "package_version": "0.7.3",
+      "piece_display_name": "GitHub",
+      "piece_slug": "github",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/new-label.ts",
+      "trigger_name": "new_label",
+      "trigger_strategy": "WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.github.new_mention",
+      "description": "Triggers when you are mentioned in a comment.",
+      "display_name": "New Mention",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for github",
+          "provider_key": "github"
+        }
+      ],
+      "package_name": "@activepieces/piece-github",
+      "package_version": "0.7.3",
+      "piece_display_name": "GitHub",
+      "piece_slug": "github",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 38,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/new-mention.ts",
+      "trigger_name": "new_mention",
+      "trigger_strategy": "WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.github.new_milestone",
+      "description": "Triggers when a new milestone is created.",
+      "display_name": "New Milestone",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for github",
+          "provider_key": "github"
+        }
+      ],
+      "package_name": "@activepieces/piece-github",
+      "package_version": "0.7.3",
+      "piece_display_name": "GitHub",
+      "piece_slug": "github",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/new-milestone.ts",
+      "trigger_name": "new_milestone",
+      "trigger_strategy": "WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.github.new_release",
+      "description": "Triggers when a new release is added.",
+      "display_name": "New Release",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for github",
+          "provider_key": "github"
+        }
+      ],
+      "package_name": "@activepieces/piece-github",
+      "package_version": "0.7.3",
+      "piece_display_name": "GitHub",
+      "piece_slug": "github",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/new-release.ts",
+      "trigger_name": "new_release",
+      "trigger_strategy": "WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.github.new_review_request",
+      "description": "Triggers when you are requested to review a pull request.",
+      "display_name": "New Review Request",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for github",
+          "provider_key": "github"
+        }
+      ],
+      "package_name": "@activepieces/piece-github",
+      "package_version": "0.7.3",
+      "piece_display_name": "GitHub",
+      "piece_slug": "github",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/new-review-request.ts",
+      "trigger_name": "new_review_request",
+      "trigger_strategy": "WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.github.trigger_discussion",
+      "description": "Triggers when there is activity relating to a discussion.",
+      "display_name": "New Discussion",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for github",
+          "provider_key": "github"
+        }
+      ],
+      "package_name": "@activepieces/piece-github",
+      "package_version": "0.7.3",
+      "piece_display_name": "GitHub",
+      "piece_slug": "github",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 913,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/index.ts",
+      "trigger_name": "trigger_discussion",
+      "trigger_strategy": "WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.github.trigger_discussion_comment",
+      "description": "Triggers when there is a new comment posted on a discussion.",
+      "display_name": "New Comment Posted",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for github",
+          "provider_key": "github"
+        }
+      ],
+      "package_name": "@activepieces/piece-github",
+      "package_version": "0.7.3",
+      "piece_display_name": "GitHub",
+      "piece_slug": "github",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 1161,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/index.ts",
+      "trigger_name": "trigger_discussion_comment",
+      "trigger_strategy": "WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.github.trigger_issues",
+      "description": "Triggers when there is activity relating to an issue.",
+      "display_name": "New Issue",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for github",
+          "provider_key": "github"
+        }
+      ],
+      "package_name": "@activepieces/piece-github",
+      "package_version": "0.7.3",
+      "piece_display_name": "GitHub",
+      "piece_slug": "github",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 460,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/index.ts",
+      "trigger_name": "trigger_issues",
+      "trigger_strategy": "WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.github.trigger_pull_request",
+      "description": "Triggers when there is activity on a pull request.",
+      "display_name": "New Pull Request",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for github",
+          "provider_key": "github"
+        }
+      ],
+      "package_name": "@activepieces/piece-github",
+      "package_version": "0.7.3",
+      "piece_display_name": "GitHub",
+      "piece_slug": "github",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 22,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/index.ts",
+      "trigger_name": "trigger_pull_request",
+      "trigger_strategy": "WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.github.trigger_push",
+      "description": "Triggers when there is a push to a repository branch. This includes when a commit is pushed, when a commit tag is pushed, when a branch is deleted, when a tag is deleted, or when a repository is created from a template.",
+      "display_name": "Push",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for github",
+          "provider_key": "github"
+        }
+      ],
+      "package_name": "@activepieces/piece-github",
+      "package_version": "0.7.3",
+      "piece_display_name": "GitHub",
+      "piece_slug": "github",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 701,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/index.ts",
+      "trigger_name": "trigger_push",
+      "trigger_strategy": "WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.github.trigger_star",
+      "description": "Trigger when there is activity relating to repository stars.",
+      "display_name": "New Star",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for github",
+          "provider_key": "github"
+        }
+      ],
+      "package_name": "@activepieces/piece-github",
+      "package_version": "0.7.3",
+      "piece_display_name": "GitHub",
+      "piece_slug": "github",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 285,
+      "source_path": "packages/pieces/community/github/src/lib/trigger/index.ts",
+      "trigger_name": "trigger_star",
+      "trigger_strategy": "WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.notion.new_comment",
+      "description": "Triggers whenever someone adds a new comment to a specific Notion page. Perfect for notifications, review workflows, or automated responses to team feedback.",
+      "display_name": "New Comment",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for notion",
+          "provider_key": "notion-dev"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for notion",
+          "provider_key": "notion"
+        }
+      ],
+      "package_name": "@activepieces/piece-notion",
+      "package_version": "0.6.1",
+      "piece_display_name": "Notion",
+      "piece_slug": "notion",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 16,
+      "source_path": "packages/pieces/community/notion/src/lib/triggers/new-comment.ts",
+      "trigger_name": "new_comment",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.notion.new_database_item",
+      "description": "Triggers when an item is added to a database.",
+      "display_name": "New Database Item",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for notion",
+          "provider_key": "notion-dev"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for notion",
+          "provider_key": "notion"
+        }
+      ],
+      "package_name": "@activepieces/piece-notion",
+      "package_version": "0.6.1",
+      "piece_display_name": "Notion",
+      "piece_slug": "notion",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 17,
+      "source_path": "packages/pieces/community/notion/src/lib/triggers/new-database-item.ts",
+      "trigger_name": "new_database_item",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.notion.updated_database_item",
+      "description": "Triggers when an item is updated in a database.",
+      "display_name": "Updated Database Item",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for notion",
+          "provider_key": "notion-dev"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for notion",
+          "provider_key": "notion"
+        }
+      ],
+      "package_name": "@activepieces/piece-notion",
+      "package_version": "0.6.1",
+      "piece_display_name": "Notion",
+      "piece_slug": "notion",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 17,
+      "source_path": "packages/pieces/community/notion/src/lib/triggers/updated-database-item.ts",
+      "trigger_name": "updated_database_item",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.notion.updated_page",
+      "description": "Triggers whenever any page in your Notion workspace is modified or updated. Ideal for syncing content changes, backup processes, or notifying teams about documentation updates.",
+      "display_name": "Updated Page",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for notion",
+          "provider_key": "notion-dev"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for notion",
+          "provider_key": "notion"
+        }
+      ],
+      "package_name": "@activepieces/piece-notion",
+      "package_version": "0.6.1",
+      "piece_display_name": "Notion",
+      "piece_slug": "notion",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 15,
+      "source_path": "packages/pieces/community/notion/src/lib/triggers/updated-page.ts",
+      "trigger_name": "updated_page",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    }
+  ],
+  "upstream_commit": "4e381ffae90afc7bc79ef22c4c9486d051419e00"
+}

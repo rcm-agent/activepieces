@@ -1,0 +1,172 @@
+{
+  "actions": [
+    {
+      "description": "Creates a draft reply to an existing email.",
+      "display_name": "Create Draft Reply",
+      "name": "create_draft_reply",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/create-draft-reply-action.ts"
+    },
+    {
+      "description": "Make a custom API call to a specific endpoint",
+      "display_name": "Custom API Call",
+      "name": "custom_api_call",
+      "source_line": 37,
+      "source_path": "packages/pieces/community/gmail/src/index.ts"
+    },
+    {
+      "description": "Get an email via Id.",
+      "display_name": "Get Email",
+      "name": "gmail_get_mail",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/get-mail-action.ts"
+    },
+    {
+      "description": "Find emails using advanced search criteria. If no filters are provided, the latest emails are returned.",
+      "display_name": "Find Email",
+      "name": "gmail_search_mail",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/search-email-action.ts"
+    },
+    {
+      "description": "Reply to an existing email.",
+      "display_name": "Reply to Email",
+      "name": "reply_to_email",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/reply-to-email-action.ts"
+    },
+    {
+      "description": "Send approval request email and then wait until the email is approved or disapproved",
+      "display_name": "Request Approval in Email",
+      "name": "request_approval_in_mail",
+      "source_line": 13,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/request-approval-in-email.ts"
+    },
+    {
+      "description": "Send an email through a Gmail account",
+      "display_name": "Send Email",
+      "name": "send_email",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/send-email-action.ts"
+    }
+  ],
+  "auth": {
+    "auth_url_candidates": [
+      "https://accounts.google.com/o/oauth2/auth"
+    ],
+    "declared_symbol": "gmailAuth",
+    "source_path": "packages/pieces/community/gmail/src/lib/auth.ts",
+    "token_url_candidates": [
+      "https://oauth2.googleapis.com/token"
+    ],
+    "types": [
+      "oauth2",
+      "custom_auth"
+    ]
+  },
+  "nango_provider_key_candidates": [
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for gmail",
+      "provider_key": "google"
+    },
+    {
+      "candidate_only": true,
+      "confidence": "possible",
+      "evidence": "inferred from package/auth metadata for gmail",
+      "provider_key": "gmail"
+    },
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for gmail",
+      "provider_key": "google-mail"
+    },
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for gmail",
+      "provider_key": "google-mail-dev"
+    }
+  ],
+  "package": {
+    "name": "@activepieces/piece-gmail",
+    "version": "0.12.3"
+  },
+  "piece": {
+    "auth_symbol": "gmailAuth",
+    "authors": [
+      "kanarelo",
+      "abdullahranginwala",
+      "BastienMe",
+      "Salem-Alaa",
+      "kishanprmr",
+      "MoShizzle",
+      "AbdulTheActivePiecer",
+      "khaledmashaly",
+      "abuaboud",
+      "AdamSelene",
+      "sanket-a11y",
+      "onyedikachi-david"
+    ],
+    "categories": [
+      "BUSINESS_INTELLIGENCE",
+      "COMMUNICATION"
+    ],
+    "description": "Email service by Google",
+    "display_name": "Gmail",
+    "export_name": "gmail",
+    "logo_url": "https://cdn.activepieces.com/pieces/gmail.png",
+    "minimum_supported_release": "0.82.0",
+    "slug": "gmail"
+  },
+  "provenance": {
+    "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
+    "index_path": "packages/pieces/community/gmail/src/index.ts",
+    "piece_path": "packages/pieces/community/gmail",
+    "upstream_commit": "4e381ffae90afc7bc79ef22c4c9486d051419e00",
+    "upstream_repo": "activepieces/activepieces"
+  },
+  "runtime_execution": {
+    "note": "Generated catalog candidate only; Activepieces runtime execution is out of scope.",
+    "status": "candidate_only",
+    "supported": false
+  },
+  "runtime_status": "candidate_only",
+  "schema_version": "activepieces-catalog-candidate.v1",
+  "triggers": [
+    {
+      "description": "Triggers when new mail is found in your Gmail inbox",
+      "display_name": "New Email",
+      "name": "gmail_new_email_received",
+      "source_line": 16,
+      "source_path": "packages/pieces/community/gmail/src/lib/triggers/new-email.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when an email with an attachment arrives.",
+      "display_name": "New Attachment",
+      "name": "new_attachment",
+      "source_line": 26,
+      "source_path": "packages/pieces/community/gmail/src/lib/triggers/new-attachment.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a new label is created.",
+      "display_name": "New Label",
+      "name": "new_label",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/gmail/src/lib/triggers/new-label.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a label is added to an email",
+      "display_name": "New Labeled Email",
+      "name": "new_labeled_email",
+      "source_line": 56,
+      "source_path": "packages/pieces/community/gmail/src/lib/triggers/new-labeled-email.ts",
+      "trigger_strategy": "POLLING"
+    }
+  ]
+}

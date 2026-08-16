@@ -1,0 +1,197 @@
+{
+  "actions": [
+    {
+      "description": "Add a comment to any Notion page to start discussions, provide feedback, or leave notes for team collaboration.",
+      "display_name": "Add Comment",
+      "name": "add_comment",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/add-comment.ts"
+    },
+    {
+      "description": "Appends content to the end of a page.",
+      "display_name": "Append to Page",
+      "name": "append_to_page",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/append-to-page.ts"
+    },
+    {
+      "description": "Archive (soft-delete) a database item without permanently removing it. Archived items can be restored later if needed.",
+      "display_name": "Archive Database Item",
+      "name": "archive_database_item",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/archive-database-item.ts"
+    },
+    {
+      "description": "Add a new item to a Notion database with custom field values and optional content. Ideal for creating tasks, records, or entries in structured databases.",
+      "display_name": "Create Database Item",
+      "name": "create_database_item",
+      "source_line": 11,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/create-database-item.ts"
+    },
+    {
+      "description": "Create a new Notion page as a sub-page with custom title and content. Perfect for organizing documentation, notes, or creating structured page hierarchies.",
+      "display_name": "Create Page",
+      "name": "createPage",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/create-page.ts"
+    },
+    {
+      "description": "Make a custom API call to a specific endpoint",
+      "display_name": "Custom API Call",
+      "name": "custom_api_call",
+      "source_line": 53,
+      "source_path": "packages/pieces/community/notion/src/index.ts"
+    },
+    {
+      "description": "Search for Notion pages by title with flexible matching options. Perfect for finding specific pages, building page references, or creating automated workflows based on page discovery.",
+      "display_name": "Find Page",
+      "name": "find_page",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/find-page.ts"
+    },
+    {
+      "description": "Retrieve all comments from a Notion page, organized by discussion threads. Perfect for tracking feedback, managing reviews, or monitoring page discussions.",
+      "display_name": "Get Page Comments",
+      "name": "get_page_comments",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/get-page-comments.ts"
+    },
+    {
+      "description": "Retrieve the actual content of a page (represented by blocks).",
+      "display_name": "Get block content",
+      "name": "getPageOrBlockChildren",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/get-page-or-block-children.ts"
+    },
+    {
+      "description": "Searches for an item in database by field.",
+      "display_name": "Find Database Item",
+      "name": "notion-find-database-item",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/find-item.ts"
+    },
+    {
+      "description": "Restore an archived database item back to active status. Perfect for recovering accidentally archived tasks, projects, or records.",
+      "display_name": "Restore Database Item",
+      "name": "restore_database_item",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/restore-database-item.ts"
+    },
+    {
+      "description": "Get detailed information about a Notion database including all its properties, field types, and configuration. Perfect for building dynamic forms, validation rules, or understanding database schemas.",
+      "display_name": "Retrieve Database Structure",
+      "name": "retrieve_database",
+      "source_line": 11,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/retrieve-database.ts"
+    },
+    {
+      "description": "Update specific fields in a Notion database item. Perfect for maintaining data, tracking changes, or syncing information across systems.",
+      "display_name": "Update Database Item",
+      "name": "update_database_item",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/update-database-item.ts"
+    }
+  ],
+  "auth": {
+    "auth_url_candidates": [
+      "https://api.notion.com/v1/oauth/authorize"
+    ],
+    "declared_symbol": "notionAuth",
+    "source_path": "packages/pieces/community/notion/src/lib/auth.ts",
+    "token_url_candidates": [
+      "https://api.notion.com/v1/oauth/token"
+    ],
+    "types": [
+      "oauth2",
+      "custom_auth"
+    ]
+  },
+  "nango_provider_key_candidates": [
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for notion",
+      "provider_key": "notion-dev"
+    },
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for notion",
+      "provider_key": "notion"
+    }
+  ],
+  "package": {
+    "name": "@activepieces/piece-notion",
+    "version": "0.6.1"
+  },
+  "piece": {
+    "auth_symbol": "notionAuth",
+    "authors": [
+      "ShayPunter",
+      "kishanprmr",
+      "MoShizzle",
+      "khaledmashaly",
+      "abuaboud",
+      "AdamSelene",
+      "ezhil56x",
+      "onyedikachi-david"
+    ],
+    "categories": [
+      "PRODUCTIVITY"
+    ],
+    "description": "The all-in-one workspace",
+    "display_name": "Notion",
+    "export_name": "notion",
+    "logo_url": "https://cdn.activepieces.com/pieces/notion.png",
+    "minimum_supported_release": "0.30.0",
+    "slug": "notion"
+  },
+  "provenance": {
+    "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
+    "index_path": "packages/pieces/community/notion/src/index.ts",
+    "piece_path": "packages/pieces/community/notion",
+    "upstream_commit": "4e381ffae90afc7bc79ef22c4c9486d051419e00",
+    "upstream_repo": "activepieces/activepieces"
+  },
+  "runtime_execution": {
+    "note": "Generated catalog candidate only; Activepieces runtime execution is out of scope.",
+    "status": "candidate_only",
+    "supported": false
+  },
+  "runtime_status": "candidate_only",
+  "schema_version": "activepieces-catalog-candidate.v1",
+  "triggers": [
+    {
+      "description": "Triggers whenever someone adds a new comment to a specific Notion page. Perfect for notifications, review workflows, or automated responses to team feedback.",
+      "display_name": "New Comment",
+      "name": "new_comment",
+      "source_line": 16,
+      "source_path": "packages/pieces/community/notion/src/lib/triggers/new-comment.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when an item is added to a database.",
+      "display_name": "New Database Item",
+      "name": "new_database_item",
+      "source_line": 17,
+      "source_path": "packages/pieces/community/notion/src/lib/triggers/new-database-item.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when an item is updated in a database.",
+      "display_name": "Updated Database Item",
+      "name": "updated_database_item",
+      "source_line": 17,
+      "source_path": "packages/pieces/community/notion/src/lib/triggers/updated-database-item.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers whenever any page in your Notion workspace is modified or updated. Ideal for syncing content changes, backup processes, or notifying teams about documentation updates.",
+      "display_name": "Updated Page",
+      "name": "updated_page",
+      "source_line": 15,
+      "source_path": "packages/pieces/community/notion/src/lib/triggers/updated-page.ts",
+      "trigger_strategy": "POLLING"
+    }
+  ]
+}

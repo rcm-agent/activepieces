@@ -1,0 +1,200 @@
+{
+  "actions": [
+    {
+      "description": "Add Guild Member Role",
+      "display_name": "Add role to member",
+      "name": "add_role_to_member",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/add-role-to-member.ts"
+    },
+    {
+      "description": "Bans a guild member",
+      "display_name": "Ban guild member",
+      "name": "ban_guild_member",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ban-a-guild-member.ts"
+    },
+    {
+      "description": "create a channel",
+      "display_name": "Create channel",
+      "name": "create_channel",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/create-channel.ts"
+    },
+    {
+      "description": "Creates a new role on the specified guild",
+      "display_name": "Create guild role",
+      "name": "createGuildRole",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/create-guild-role.ts"
+    },
+    {
+      "description": "Make a custom API call to a specific endpoint",
+      "display_name": "Custom API Call",
+      "name": "custom_api_call",
+      "source_line": 54,
+      "source_path": "packages/pieces/community/discord/src/index.ts"
+    },
+    {
+      "description": "delete a channel",
+      "display_name": "Delete channel",
+      "name": "delete_channel",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/delete-channel.ts"
+    },
+    {
+      "description": "Deletes the specified role from the specified guild",
+      "display_name": "Delete guild role",
+      "name": "deleteGuildRole",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/delete-guild-role.ts"
+    },
+    {
+      "description": "find a channel by name",
+      "display_name": "Find channel",
+      "name": "find_channel",
+      "source_line": 11,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/find-channel.ts"
+    },
+    {
+      "description": "List Guild Members",
+      "display_name": "List guild members",
+      "name": "list_guild_members",
+      "source_line": 11,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/find-guild-member.ts"
+    },
+    {
+      "description": "Removes the guild ban from a user",
+      "display_name": "Remove ban from user",
+      "name": "remove_ban_from_user",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/remove-ban-from-user.ts"
+    },
+    {
+      "description": "Remove Guild Member",
+      "display_name": "Remove member from guild",
+      "name": "remove_member_from_guild",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/remove-member-from-guild.ts"
+    },
+    {
+      "description": "Remove Guild Member Role",
+      "display_name": "Remove role from member",
+      "name": "remove_role_from_member",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/remove-role-from-member.ts"
+    },
+    {
+      "description": "rename a channel",
+      "display_name": "Rename channel",
+      "name": "rename_channel",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/rename-channel.ts"
+    },
+    {
+      "description": "send a message to a channel asking for approval and wait for a response",
+      "display_name": "Request Approval in a Channel",
+      "name": "request_approval_message",
+      "source_line": 11,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/send-approval-message.ts"
+    },
+    {
+      "description": "Send a discord message via webhook",
+      "display_name": "Send Message Webhook",
+      "name": "send_message_webhook",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/send-message-webhook.ts"
+    },
+    {
+      "description": "Send messages via bot to any channel or thread you want, with an optional file attachment.",
+      "display_name": "Send Message with Bot",
+      "name": "sendMessageWithBot",
+      "source_line": 15,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/send-message-with-bot.ts"
+    }
+  ],
+  "auth": {
+    "auth_url_candidates": [],
+    "declared_symbol": "discordAuth",
+    "source_path": "packages/pieces/community/discord/src/lib/auth.ts",
+    "token_url_candidates": [],
+    "types": [
+      "secret_text"
+    ]
+  },
+  "nango_provider_key_candidates": [
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for discord",
+      "provider_key": "discord-dev"
+    },
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for discord",
+      "provider_key": "discord"
+    }
+  ],
+  "package": {
+    "name": "@activepieces/piece-discord",
+    "version": "0.5.0"
+  },
+  "piece": {
+    "auth_symbol": "discordAuth",
+    "authors": [
+      "creed983",
+      "TaskMagicKyle",
+      "karimkhaleel",
+      "Abdallah-Alwarawreh",
+      "kishanprmr",
+      "MoShizzle",
+      "AbdulTheActivePiecer",
+      "khaledmashaly",
+      "abuaboud",
+      "tintinthedev",
+      "AshotZaqoyan"
+    ],
+    "categories": [
+      "COMMUNICATION"
+    ],
+    "description": "Instant messaging and VoIP social platform",
+    "display_name": "Discord",
+    "export_name": "discord",
+    "logo_url": "https://cdn.activepieces.com/pieces/discord.png",
+    "minimum_supported_release": "0.82.0",
+    "slug": "discord"
+  },
+  "provenance": {
+    "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
+    "index_path": "packages/pieces/community/discord/src/index.ts",
+    "piece_path": "packages/pieces/community/discord",
+    "upstream_commit": "4e381ffae90afc7bc79ef22c4c9486d051419e00",
+    "upstream_repo": "activepieces/activepieces"
+  },
+  "runtime_execution": {
+    "note": "Generated catalog candidate only; Activepieces runtime execution is out of scope.",
+    "status": "candidate_only",
+    "supported": false
+  },
+  "runtime_status": "candidate_only",
+  "schema_version": "activepieces-catalog-candidate.v1",
+  "triggers": [
+    {
+      "description": "Triggers when a new member joins a guild",
+      "display_name": "New Member",
+      "name": "new_member",
+      "source_line": 53,
+      "source_path": "packages/pieces/community/discord/src/lib/triggers/new-member.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a message is sent in a channel",
+      "display_name": "New message",
+      "name": "new_message",
+      "source_line": 49,
+      "source_path": "packages/pieces/community/discord/src/lib/triggers/new-message.ts",
+      "trigger_strategy": "POLLING"
+    }
+  ]
+}
