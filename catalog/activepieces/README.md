@@ -12,6 +12,9 @@ node catalog/activepieces/extract-pilot-metadata.mjs check
 node catalog/activepieces/extract-pilot-metadata.mjs validate
 node catalog/activepieces/sync-to-orchestrator.mjs
 node catalog/activepieces/sync-provider-map-to-frontend.mjs
+node catalog/activepieces/generate-piece-directory.mjs generate
+node catalog/activepieces/generate-piece-directory.mjs check
+node catalog/activepieces/generate-piece-directory.mjs sync-frontend
 ```
 
 `generate` reads the forked Activepieces source under `packages/pieces/community`
@@ -32,6 +35,15 @@ replaces the frontend generated TypeScript read model at
 `basekey-frontend/src/generated/activepieces-nango-provider-map/index.ts`. Use
 `--frontend-root /path/to/basekey-frontend` or `BASEKEY_FRONTEND_ROOT` when the checkout
 is not a sibling directory.
+
+`generate-piece-directory` reads every piece under `packages/pieces/community`
+and writes `catalog/activepieces/generated/directory/pieces.json`: display name,
+description, logo, categories and auth kinds. `sync-frontend` also writes the
+frontend read model at
+`basekey-frontend/src/generated/activepieces-piece-directory/index.ts`, which the
+Data Hub connector catalog uses to list apps. The directory is display metadata
+only (`runtime_status: "catalog_only"`); a listed piece is connectable only
+through the provider map and runs only after an RCM catalog promotion.
 
 ## Runtime Placement
 
@@ -64,6 +76,9 @@ runtime delivery.
   `catalog/activepieces/sync-provider-map-to-frontend.mjs` is the only writer
   for `catalog/activepieces/generated/provider-map` and the frontend generated
   read model.
+- Directory writer: `catalog/activepieces/generate-piece-directory.mjs` is the
+  only writer for `catalog/activepieces/generated/directory` and the frontend
+  piece-directory read model.
 - Current input hops: local filesystem reads of piece `package.json`,
   `src/index.ts`, auth modules, and referenced action/trigger source files.
 - Runtime status: every generated piece artifact must carry

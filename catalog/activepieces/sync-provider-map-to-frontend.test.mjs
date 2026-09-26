@@ -64,6 +64,7 @@ test('admits the canonical TanStack Start route and generates the Discord provid
     const generated = await readFile(path.join(frontendRoot, GENERATED_TARGET), 'utf8');
     assert.match(generated, /"packageName": "@activepieces\/piece-discord"/);
     assert.match(generated, /"providerConfigKey": "discord-dev"/);
+    assert.match(generated, /"logoUrl": "https:\/\/cdn\.activepieces\.com\/pieces\/discord\.png"/);
   } finally {
     await rm(frontendRoot, { recursive: true, force: true });
   }

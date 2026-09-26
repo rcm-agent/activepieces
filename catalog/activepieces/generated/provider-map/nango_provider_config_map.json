@@ -10,6 +10,7 @@
         "custom_auth"
       ],
       "display_name": "Slack",
+      "logo_url": "https://cdn.activepieces.com/pieces/slack.png",
       "package_name": "@activepieces/piece-slack",
       "package_version": "0.17.0",
       "piece_slug": "slack",
@@ -44,6 +45,7 @@
         "secret_text"
       ],
       "display_name": "Discord",
+      "logo_url": "https://cdn.activepieces.com/pieces/discord.png",
       "package_name": "@activepieces/piece-discord",
       "package_version": "0.5.0",
       "piece_slug": "discord",
@@ -79,6 +81,7 @@
         "custom_auth"
       ],
       "display_name": "Gmail",
+      "logo_url": "https://cdn.activepieces.com/pieces/gmail.png",
       "package_name": "@activepieces/piece-gmail",
       "package_version": "0.12.3",
       "piece_slug": "gmail",
@@ -128,6 +131,7 @@
         "custom_auth"
       ],
       "display_name": "Google Sheets",
+      "logo_url": "https://cdn.activepieces.com/pieces/google-sheets.png",
       "package_name": "@activepieces/piece-google-sheets",
       "package_version": "0.14.6",
       "piece_slug": "google-sheets",
@@ -162,6 +166,7 @@
         "oauth2"
       ],
       "display_name": "HubSpot",
+      "logo_url": "https://cdn.activepieces.com/pieces/hubspot.png",
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.8.4",
       "piece_slug": "hubspot",
@@ -189,6 +194,7 @@
         "oauth2"
       ],
       "display_name": "GitHub",
+      "logo_url": "https://cdn.activepieces.com/pieces/github.png",
       "package_name": "@activepieces/piece-github",
       "package_version": "0.7.3",
       "piece_slug": "github",
@@ -217,6 +223,7 @@
         "custom_auth"
       ],
       "display_name": "Notion",
+      "logo_url": "https://cdn.activepieces.com/pieces/notion.png",
       "package_name": "@activepieces/piece-notion",
       "package_version": "0.6.1",
       "piece_slug": "notion",

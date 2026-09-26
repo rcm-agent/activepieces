@@ -242,6 +242,7 @@ function buildProviderConfig({ indexPiece, artifact }) {
   return sortObjectKeys({
     auth_types: requiredStringArray(indexPiece.auth_types, `${packageName} auth_types`),
     display_name: requiredString(indexPiece.display_name, `${packageName} display_name`),
+    logo_url: requiredLogoUrl(artifact.piece?.logo_url, packageName),
     package_name: packageName,
     package_version: requiredString(indexPiece.package_version, `${packageName} package_version`),
     piece_slug: requiredString(indexPiece.slug, `${packageName} slug`),
@@ -255,6 +256,14 @@ function buildProviderConfig({ indexPiece, artifact }) {
     runtime_status: RUNTIME_STATUS,
     source_artifact_path: artifactPath,
   });
+}
+
+function requiredLogoUrl(value, packageName) {
+  const logoUrl = requiredString(value, `${packageName} logo_url`);
+  if (!logoUrl.startsWith('https://')) {
+    throw new Error(`${packageName} logo_url must be an https URL.`);
+  }
+  return logoUrl;
 }
 
 function requiredCandidateRecords(value, contextLabel) {
@@ -347,6 +356,7 @@ function renderFrontendModule(providerMap) {
   const records = providerMap.provider_configs.map((config) => sortObjectKeys({
     authTypes: config.auth_types,
     displayName: config.display_name,
+    logoUrl: config.logo_url,
     packageName: config.package_name,
     packageVersion: config.package_version,
     pieceSlug: config.piece_slug,
