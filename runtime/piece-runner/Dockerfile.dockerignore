@@ -1,0 +1,7 @@
+**
+!runtime/piece-runner/package.json
+!runtime/piece-runner/package-lock.json
+!runtime/piece-runner/*.mjs
+!packages/pieces/community/slack/package.json
+!packages/pieces/community/discord/package.json
+!packages/pieces/framework/package.json

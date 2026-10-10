@@ -43,15 +43,15 @@ frontend read model at
 `basekey-frontend/src/generated/activepieces-piece-directory/index.ts`, which the
 Data Hub connector catalog uses to list apps. The directory is display metadata
 only (`runtime_status: "catalog_only"`); a listed piece is connectable only
-through the provider map and runs only after an RCM catalog promotion.
+through the provider map. Execution also requires promotion in the RCM catalog
+and an action on the piece runner's allowlist.
 
 ## Runtime Placement
 
-The fork is source-only. The orchestrator consumes copied JSON artifacts from
-`rcm_orchestrator/connectors/catalog/generated/activepieces/pilot`; it does not
-run Activepieces workers, queues, APIs, or containers. Nango remains the
-connection owner, and RCM-owned connector services decide which generated
-catalog candidates are promoted to executable functions.
+RCM runs allowlisted piece actions in the piece runner (`runtime/piece-runner`),
+invoked only by the orchestrator's connector runtime with a Nango credential.
+There is still no Activepieces API, worker, queue or server. Nango remains the
+connection owner.
 
 For triggers, the generated `trigger_candidates.json` file is provenance only.
 Executable triggers must be promoted into the orchestrator-owned
