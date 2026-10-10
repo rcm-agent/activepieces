@@ -4,6 +4,9 @@ import { fileURLToPath } from 'node:url';
 import { pieceCatalog } from './catalog.mjs';
 import { runnerErrors } from './errors.mjs';
 
+// Readings are 20 ms apart, so a broken monitor still stops the action within 200 ms.
+const MISSING_READING_LIMIT = 10;
+
 async function invoke(request) {
   try {
     pieceCatalog.validateTuple(request ?? {});
@@ -50,14 +53,19 @@ function execute({ payload, limits, auth }) {
       child.kill('SIGKILL');
     };
     const timer = setTimeout(() => stop('TIMEOUT'), limits.timeout_ms);
+    let missingReadings = 0;
     const memory = setInterval(async () => {
       try {
         if (!child.pid || terminal || closed) return;
         const status = await readFile(`/proc/${child.pid}/status`, 'utf8');
         if (terminal || closed) return;
         const rss = /^VmRSS:\s+(\d+)\s+kB$/m.exec(status);
+        if (rss) missingReadings = 0;
         if (rss && Number(rss[1]) > limits.memory_mb * 1024) stop('MEMORY_LIMIT_EXCEEDED');
-        else if (!rss && !/^State:\s+[ZX]/m.test(status)) stop('MEMORY_MONITOR_UNAVAILABLE');
+        // An exiting process drops VmRSS before its state turns zombie; only a lasting gap is a broken monitor.
+        else if (!rss && !/^State:\s+[ZX]/m.test(status) && ++missingReadings >= MISSING_READING_LIMIT) {
+          stop('MEMORY_MONITOR_UNAVAILABLE');
+        }
       } catch (error) {
         if (terminal || closed || child.exitCode !== null || child.signalCode !== null) return;
         if (error.code === 'ENOENT') {
