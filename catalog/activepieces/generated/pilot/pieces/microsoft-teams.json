@@ -1,0 +1,211 @@
+{
+  "actions": [
+    {
+      "description": "Make a custom API call to a specific endpoint",
+      "display_name": "Custom API Call",
+      "name": "custom_api_call",
+      "source_line": 55,
+      "source_path": "packages/pieces/community/microsoft-teams/src/index.ts"
+    },
+    {
+      "description": "Create a new channel in Microsoft Teams.",
+      "display_name": "Create Channel",
+      "name": "microsoft_teams_create_channel",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/microsoft-teams/src/lib/actions/create-channel.ts"
+    },
+    {
+      "description": "Start a new chat and send an initial message.",
+      "display_name": "Create Chat & Send Message",
+      "name": "microsoft_teams_create_chat_and_send_message",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/microsoft-teams/src/lib/actions/create-chat-and-send-message.ts"
+    },
+    {
+      "description": "Create a new private channel in a team.",
+      "display_name": "Create Private Channel",
+      "name": "microsoft_teams_create_private_channel",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/microsoft-teams/src/lib/actions/create-private-channel.ts"
+    },
+    {
+      "description": "Soft-Deletes a message in chat.You can only delete messages you sent.",
+      "display_name": "Delete Chat Message",
+      "name": "microsoft_teams_delete_chat_message",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/microsoft-teams/src/lib/actions/delete-chat-message.ts"
+    },
+    {
+      "description": "Finds channels by name.",
+      "display_name": "Find Channel",
+      "name": "microsoft_teams_find_channel",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-teams/src/lib/actions/find-channel.ts"
+    },
+    {
+      "description": "Finds a team member by email or display name.",
+      "display_name": "Find Team Member",
+      "name": "microsoft_teams_find_team_member",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-teams/src/lib/actions/find-team-member.ts"
+    },
+    {
+      "description": "Fetch a specific channel message by team, channel, and message ID (optionally a reply).",
+      "display_name": "Get Channel Message",
+      "name": "microsoft_teams_get_channel_message",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/microsoft-teams/src/lib/actions/get-channel-message.ts"
+    },
+    {
+      "description": "Fetch a specific chat message by chat and message ID.",
+      "display_name": "Get Chat Message",
+      "name": "microsoft_teams_get_chat_message",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/microsoft-teams/src/lib/actions/get-chat-message.ts"
+    },
+    {
+      "description": "Retrieves recordings for a Teams meeting. Provide a Recording to fetch its metadata; omit it to list all available recordings.",
+      "display_name": "Get Meeting Recording",
+      "name": "microsoft_teams_get_meeting_recording",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/microsoft-teams/src/lib/actions/get-meeting-recording.ts"
+    },
+    {
+      "description": "Retrieves transcripts for a Teams meeting. Provide a Transcript to fetch its text content; omit it to list all available transcripts.",
+      "display_name": "Get Meeting Transcript",
+      "name": "microsoft_teams_get_meeting_transcript",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-teams/src/lib/actions/get-meeting-transcript.ts"
+    },
+    {
+      "description": "Post a reply to an existing channel message.",
+      "display_name": "Reply to Channel Message",
+      "name": "microsoft_teams_reply_to_channel_message",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/microsoft-teams/src/lib/actions/reply-to-channel-message.ts"
+    },
+    {
+      "description": "Sends a message to a teams's channel.",
+      "display_name": "Send Channel Message",
+      "name": "microsoft_teams_send_channel_message",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/microsoft-teams/src/lib/actions/send-channel-message.ts"
+    },
+    {
+      "description": "Sends a message in an existing chat.",
+      "display_name": "Send Chat Message",
+      "name": "microsoft_teams_send_chat_message",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/microsoft-teams/src/lib/actions/send-chat-message.ts"
+    },
+    {
+      "description": "Send approval message to a user and then wait until the message is approved or disapproved",
+      "display_name": "Request Approval from a User",
+      "name": "request_approval_direct_message",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/microsoft-teams/src/lib/actions/request-approval-direct-message.ts"
+    },
+    {
+      "description": "Send approval message to a channel and then wait until the message is approved or disapproved",
+      "display_name": "Request Approval in Channel",
+      "name": "request_approval_in_channel",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/microsoft-teams/src/lib/actions/request-approval-channel-message.ts"
+    }
+  ],
+  "auth": {
+    "auth_url_candidates": [
+      "https://{cloud}/{tenantId}/oauth2/v2.0/authorize"
+    ],
+    "declared_symbol": "microsoftTeamsAuth",
+    "source_path": "packages/pieces/community/microsoft-teams/src/lib/auth.ts",
+    "token_url_candidates": [
+      "https://{cloud}/{tenantId}/oauth2/v2.0/token"
+    ],
+    "types": [
+      "oauth2"
+    ]
+  },
+  "nango_provider_key_candidates": [
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for microsoft-teams",
+      "provider_key": "microsoft-teams"
+    },
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for microsoft-teams",
+      "provider_key": "microsoft-teams-dev"
+    }
+  ],
+  "package": {
+    "name": "@activepieces/piece-microsoft-teams",
+    "version": "0.7.2"
+  },
+  "piece": {
+    "auth_symbol": "microsoftTeamsAuth",
+    "authors": [
+      "kishanprmr"
+    ],
+    "categories": [
+      "BUSINESS_INTELLIGENCE",
+      "COMMUNICATION"
+    ],
+    "description": null,
+    "display_name": "Microsoft Teams",
+    "export_name": "microsoftTeams",
+    "logo_url": "https://cdn.activepieces.com/pieces/microsoft-teams.png",
+    "minimum_supported_release": "0.87.0",
+    "slug": "microsoft-teams"
+  },
+  "provenance": {
+    "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
+    "index_path": "packages/pieces/community/microsoft-teams/src/index.ts",
+    "piece_path": "packages/pieces/community/microsoft-teams",
+    "upstream_commit": "59c94f454ef3afed9974b41650e3d78067918328",
+    "upstream_repo": "activepieces/activepieces"
+  },
+  "runtime_execution": {
+    "note": "Generated catalog candidate only; Activepieces runtime execution is out of scope.",
+    "status": "candidate_only",
+    "supported": false
+  },
+  "runtime_status": "candidate_only",
+  "schema_version": "activepieces-catalog-candidate.v1",
+  "triggers": [
+    {
+      "description": "Triggers when a new channel is created in a team.",
+      "display_name": "New Channel",
+      "name": "new-channel",
+      "source_line": 20,
+      "source_path": "packages/pieces/community/microsoft-teams/src/lib/triggers/new-channel.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a new message is posted in a channel.",
+      "display_name": "New Channel Message",
+      "name": "new-channel-message",
+      "source_line": 20,
+      "source_path": "packages/pieces/community/microsoft-teams/src/lib/triggers/new-channel-message.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a new chat is created.",
+      "display_name": "New Chat",
+      "name": "new-chat",
+      "source_line": 18,
+      "source_path": "packages/pieces/community/microsoft-teams/src/lib/triggers/new-chat.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a new message is received in a chat.",
+      "display_name": "New Chat Message",
+      "name": "new-chat-message",
+      "source_line": 20,
+      "source_path": "packages/pieces/community/microsoft-teams/src/lib/triggers/new-chat-message.ts",
+      "trigger_strategy": "POLLING"
+    }
+  ]
+}

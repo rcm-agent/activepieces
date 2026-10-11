@@ -17,6 +17,12 @@
     "@activepieces/piece-google-calendar": "0.12.3",
     "@activepieces/piece-google-drive": "0.11.3",
     "@activepieces/piece-google-sheets": "0.17.2",
+    "@activepieces/piece-microsoft-excel-365": "0.8.2",
+    "@activepieces/piece-microsoft-onedrive": "0.6.1",
+    "@activepieces/piece-microsoft-outlook": "0.7.2",
+    "@activepieces/piece-microsoft-outlook-calendar": "0.3.1",
+    "@activepieces/piece-microsoft-sharepoint": "0.4.2",
+    "@activepieces/piece-microsoft-teams": "0.7.2",
     "@activepieces/piece-slack": "0.21.1",
     "@activepieces/shared": "0.68.3"
   }

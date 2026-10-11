@@ -1,0 +1,334 @@
+{
+  "actions": [
+    {
+      "description": "Add a worksheet to a workbook",
+      "display_name": "Add a Worksheet to a Workbook",
+      "name": "add_worksheet",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/add-worksheet.ts"
+    },
+    {
+      "description": "Appends multiple row of values to a worksheet.",
+      "display_name": "Append Multiple Rows",
+      "name": "append_multiple_rows",
+      "source_line": 40,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/append-multiple-rows.ts"
+    },
+    {
+      "description": "Append row of values to a worksheet",
+      "display_name": "Append Row to Worksheet",
+      "name": "append_row",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/append-row.ts"
+    },
+    {
+      "description": "Append rows to a table",
+      "display_name": "Append Rows to a Table",
+      "name": "append_table_rows",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/append-table-rows.ts"
+    },
+    {
+      "description": "Clear contents/formatting of a column by its index.",
+      "display_name": "Clear Column by Index",
+      "name": "clear_column",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/clear-column-by-index.ts"
+    },
+    {
+      "description": "Clear a block of cells (range) content or formatting.",
+      "display_name": "Clear Cells by Range",
+      "name": "clear_range",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/clear-cells-by-range.ts"
+    },
+    {
+      "description": "Clear contents/formatting of an entire row by its ID.",
+      "display_name": "Clear Row by ID",
+      "name": "clear_row",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/clear-row-by-id.ts"
+    },
+    {
+      "description": "Clear a worksheet",
+      "display_name": "Clear Worksheet",
+      "name": "clear_worksheet",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/clear-worksheet.ts"
+    },
+    {
+      "description": "Converts a table to a range",
+      "display_name": "Convert to Range",
+      "name": "convert_to_range",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/convert-to-range.ts"
+    },
+    {
+      "description": "Duplicate a worksheet into a new worksheet, in the same workbook or a different one. Copies values, formulas, and number formats.",
+      "display_name": "Copy Worksheet",
+      "name": "copy_worksheet",
+      "source_line": 18,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/copy-worksheet.ts"
+    },
+    {
+      "description": "Create a table in a worksheet",
+      "display_name": "Create Table",
+      "name": "create_table",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/create-table.ts"
+    },
+    {
+      "description": "Add a new worksheet (tab) to an existing workbook with optional default headers.",
+      "display_name": "Create Worksheet",
+      "name": "create_worksheet",
+      "source_line": 15,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/create-worksheet.ts"
+    },
+    {
+      "description": "Create a new workbook at the specified location",
+      "display_name": "Create Workbook",
+      "name": "createWorkbook",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/create-workbook.ts"
+    },
+    {
+      "description": "Make a custom API call to a specific endpoint",
+      "display_name": "Custom API Call",
+      "name": "custom_api_call",
+      "source_line": 100,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/index.ts"
+    },
+    {
+      "description": "Delete an entire row from a worksheet by its row number.",
+      "display_name": "Delete Row",
+      "name": "delete_row",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/delete-row.ts"
+    },
+    {
+      "description": "Delete a table from a worksheet",
+      "display_name": "Delete Table",
+      "name": "delete_table",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/delete-table.ts"
+    },
+    {
+      "description": "Delete a workbook",
+      "display_name": "Delete Workbook",
+      "name": "delete_workbook",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/delete-workbook.ts"
+    },
+    {
+      "description": "Delete a worksheet in a workbook",
+      "display_name": "Delete Worksheet",
+      "name": "delete_worksheet",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/delete-worksheet.ts"
+    },
+    {
+      "description": "Locate a row by specifying a lookup column and value (e.g. find a row where “ID” = 123).",
+      "display_name": "Find Row",
+      "name": "find_row",
+      "source_line": 15,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/find-row.ts"
+    },
+    {
+      "description": "Finds an existing workbook by name.",
+      "display_name": "Find Workbook",
+      "name": "find-workbook",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/find-workbooks.ts"
+    },
+    {
+      "description": "Finds an existing worksheet by name.",
+      "display_name": "Find Worksheet",
+      "name": "find-worksheet",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/find-worksheets.ts"
+    },
+    {
+      "description": "Retrieve the values in a given cell range (e.g., “A1:C10”).",
+      "display_name": "Get Cells in Range",
+      "name": "get_range",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/get-cells-in-range.ts"
+    },
+    {
+      "description": "List columns of a table in a worksheet",
+      "display_name": "Get Table Columns",
+      "name": "get_table_columns",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/get-table-columns.ts"
+    },
+    {
+      "description": "List rows of a table in a worksheet",
+      "display_name": "Get Table Rows",
+      "name": "get_table_rows",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/get-table-rows.ts"
+    },
+    {
+      "description": "Retrieve a list of workbooks",
+      "display_name": "Get Workbooks",
+      "name": "get_workbooks",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/get-workbooks.ts"
+    },
+    {
+      "description": "Retrieve metadata of a worksheet by its ID.",
+      "display_name": "Get Worksheet by ID",
+      "name": "get_worksheet",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/get-worksheet-by-id.ts"
+    },
+    {
+      "description": "Retrieve rows from a worksheet",
+      "display_name": "Get Worksheet Rows",
+      "name": "get_worksheet_rows",
+      "source_line": 23,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/get-worksheet-rows.ts"
+    },
+    {
+      "description": "Retrieve worksheets from a workbook",
+      "display_name": "Get Worksheets",
+      "name": "get_worksheets",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/get-worksheets.ts"
+    },
+    {
+      "description": "List columns of a worksheet.",
+      "display_name": "Get Worksheet Columns",
+      "name": "get-worksheet-columns",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/get-wroksheet-columns.ts"
+    },
+    {
+      "description": "  Retrieve the entire content of a row by its row ID.",
+      "display_name": "Get Row by ID",
+      "name": "getRowById",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/get-row-by-id.ts"
+    },
+    {
+      "description": "Lookup a value in a table column in a worksheet",
+      "display_name": "Lookup Table Column",
+      "name": "lookup_table_column",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/lookup-table-column.ts"
+    },
+    {
+      "description": "Change the name of an existing worksheet.",
+      "display_name": "Rename Worksheet",
+      "name": "rename_worksheet",
+      "source_line": 14,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/rename-worksheet.ts"
+    },
+    {
+      "description": "Update a row in a worksheet",
+      "display_name": "Update Worksheet Rows",
+      "name": "update_row",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/actions/update-row.ts"
+    }
+  ],
+  "auth": {
+    "auth_url_candidates": [
+      "https://{cloud}/common/oauth2/v2.0/authorize"
+    ],
+    "declared_symbol": "excelAuth",
+    "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/auth.ts",
+    "token_url_candidates": [
+      "https://{cloud}/common/oauth2/v2.0/token"
+    ],
+    "types": [
+      "oauth2"
+    ]
+  },
+  "nango_provider_key_candidates": [
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for microsoft-excel-365",
+      "provider_key": "microsoft-excel"
+    },
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for microsoft-excel-365",
+      "provider_key": "microsoft-excel-dev"
+    }
+  ],
+  "package": {
+    "name": "@activepieces/piece-microsoft-excel-365",
+    "version": "0.8.2"
+  },
+  "piece": {
+    "auth_symbol": "excelAuth",
+    "authors": [
+      "BastienMe",
+      "kishanprmr",
+      "MoShizzle",
+      "abuaboud",
+      "Pranith124",
+      "onyedikachi-david"
+    ],
+    "categories": [
+      "PRODUCTIVITY"
+    ],
+    "description": "Spreadsheet software by Microsoft",
+    "display_name": "Microsoft Excel 365",
+    "export_name": "microsoftExcel",
+    "logo_url": "https://cdn.activepieces.com/pieces/microsoft-excel-365.png",
+    "minimum_supported_release": "0.30.0",
+    "slug": "microsoft-excel-365"
+  },
+  "provenance": {
+    "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
+    "index_path": "packages/pieces/community/microsoft-excel-365/src/index.ts",
+    "piece_path": "packages/pieces/community/microsoft-excel-365",
+    "upstream_commit": "59c94f454ef3afed9974b41650e3d78067918328",
+    "upstream_repo": "activepieces/activepieces"
+  },
+  "runtime_execution": {
+    "note": "Generated catalog candidate only; Activepieces runtime execution is out of scope.",
+    "status": "candidate_only",
+    "supported": false
+  },
+  "runtime_status": "candidate_only",
+  "schema_version": "activepieces-catalog-candidate.v1",
+  "triggers": [
+    {
+      "description": "Trigger when a new row is added, and it can include existing rows as well.",
+      "display_name": "New Row",
+      "name": "new_row",
+      "source_line": 68,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/trigger/new-row-added.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Fires when a new row is added to a table within a worksheet.",
+      "display_name": "New Row in Table",
+      "name": "new_row_in_table",
+      "source_line": 113,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/trigger/new-row-in-table.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Fires when a new worksheet is created in a workbook.",
+      "display_name": "New Worksheet",
+      "name": "new_worksheet",
+      "source_line": 66,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/trigger/new-worksheet.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Fires when a row (in a worksheet) is added or updated.",
+      "display_name": "Updated Row",
+      "name": "updated_row",
+      "source_line": 106,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/trigger/updated-row.ts",
+      "trigger_strategy": "POLLING"
+    }
+  ]
+}

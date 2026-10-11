@@ -9,6 +9,12 @@ COPY packages/pieces/community/discord/package.json ${LAMBDA_TASK_ROOT}/packages
 COPY packages/pieces/community/google-sheets/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/google-sheets/package.json
 COPY packages/pieces/community/google-calendar/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/google-calendar/package.json
 COPY packages/pieces/community/google-drive/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/google-drive/package.json
+COPY packages/pieces/community/microsoft-outlook/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/microsoft-outlook/package.json
+COPY packages/pieces/community/microsoft-outlook-calendar/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/microsoft-outlook-calendar/package.json
+COPY packages/pieces/community/microsoft-teams/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/microsoft-teams/package.json
+COPY packages/pieces/community/microsoft-excel-365/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/microsoft-excel-365/package.json
+COPY packages/pieces/community/microsoft-onedrive/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/microsoft-onedrive/package.json
+COPY packages/pieces/community/microsoft-sharepoint/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/microsoft-sharepoint/package.json
 RUN npm run check-versions
 
 CMD ["runtime/piece-runner/lambda.handler"]

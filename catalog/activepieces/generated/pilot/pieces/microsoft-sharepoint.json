@@ -1,0 +1,244 @@
+{
+  "actions": [
+    {
+      "description": "Make a custom API call to a specific endpoint",
+      "display_name": "Custom API Call",
+      "name": "custom_api_call",
+      "source_line": 59,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/index.ts"
+    },
+    {
+      "description": "Copy a file or folder from one site to another within the same tenant, with overwrite option.",
+      "display_name": "Copy File or Folder (Across Sites)",
+      "name": "microsoft_sharepoint_copy_item",
+      "source_line": 14,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/actions/copy-item.ts"
+    },
+    {
+      "description": "Copy a file or folder to another folder within the same site.",
+      "display_name": "Copy File or Folder (Within Site)",
+      "name": "microsoft_sharepoint_copy_item_within_site",
+      "source_line": 21,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/actions/copy-item-within-site.ts"
+    },
+    {
+      "description": "Creates a new folder at path you specify.",
+      "display_name": "Create Folder",
+      "name": "microsoft_sharepoint_create_folder",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/actions/create-folder.ts"
+    },
+    {
+      "description": "Creates a new list.",
+      "display_name": "Create List",
+      "name": "microsoft_sharepoint_create_list",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/actions/create-list.ts"
+    },
+    {
+      "description": "Creates a new item in a list.",
+      "display_name": "Create List Item",
+      "name": "microsoft_sharepoint_create_list_item",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/actions/create-list-item.ts"
+    },
+    {
+      "description": "Deletes an existing item from a list.",
+      "display_name": "Delete List Item",
+      "name": "microsoft_sharepoint_delete_list_item",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/actions/delete-list-item.ts"
+    },
+    {
+      "description": "Look up a file by its name or path.",
+      "display_name": "Find File",
+      "name": "microsoft_sharepoint_find_file",
+      "source_line": 14,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/actions/find-file.ts"
+    },
+    {
+      "description": "Search for SharePoint sites by name and return matching results.",
+      "display_name": "Find Site",
+      "name": "microsoft_sharepoint_find_site",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/actions/find-site.ts"
+    },
+    {
+      "description": "List all files and subfolders in a specified folder, optionally with detailed metadata.",
+      "display_name": "Get Folder Contents",
+      "name": "microsoft_sharepoint_get_folder_contents",
+      "source_line": 14,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/actions/get-folder-contents.ts"
+    },
+    {
+      "description": "Fetch metadata of a SharePoint site (site ID, title, URL, description, etc.).",
+      "display_name": "Get Site Information",
+      "name": "microsoft_sharepoint_get_site_information",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/actions/get-site-information.ts"
+    },
+    {
+      "description": "Move a file from one folder to another within the same drive.",
+      "display_name": "Move File",
+      "name": "microsoft_sharepoint_move_file",
+      "source_line": 14,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/actions/move-file.ts"
+    },
+    {
+      "description": "Publishes a SharePoint page, making it available to all users. If the page is checked out, it will be automatically checked in. Note: Pages with active approval flows will not publish until approval is complete.",
+      "display_name": "Publish Page",
+      "name": "microsoft_sharepoint_publish_page",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/actions/publish-page.ts"
+    },
+    {
+      "description": "Finds a item in a list based on name.",
+      "display_name": "Find List Item",
+      "name": "microsoft_sharepoint_search_list_item",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/actions/search-list-item.ts"
+    },
+    {
+      "description": "Updates an existing item in a list.",
+      "display_name": "Update List Item",
+      "name": "microsoft_sharepoint_update_list_item",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/actions/update-list-item.ts"
+    },
+    {
+      "description": "Uploads a new file at path you specify.",
+      "display_name": "Upload File",
+      "name": "microsoft_sharepoint_upload_file",
+      "source_line": 13,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/actions/upload-file.ts"
+    }
+  ],
+  "auth": {
+    "auth_url_candidates": [
+      "https://{cloud}/common/oauth2/v2.0/authorize"
+    ],
+    "declared_symbol": "microsoftSharePointAuth",
+    "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/auth.ts",
+    "token_url_candidates": [
+      "https://{cloud}/common/oauth2/v2.0/token"
+    ],
+    "types": [
+      "oauth2"
+    ]
+  },
+  "nango_provider_key_candidates": [
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
+      "provider_key": "sharepoint-online"
+    },
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
+      "provider_key": "sharepoint-online-dev"
+    }
+  ],
+  "package": {
+    "name": "@activepieces/piece-microsoft-sharepoint",
+    "version": "0.4.2"
+  },
+  "piece": {
+    "auth_symbol": "microsoftSharePointAuth",
+    "authors": [
+      "kishanprmr",
+      "pranith124",
+      "onyedikachi-david"
+    ],
+    "categories": [
+      "CONTENT_AND_FILES"
+    ],
+    "description": null,
+    "display_name": "Microsoft SharePoint",
+    "export_name": "microsoftSharePoint",
+    "logo_url": "https://cdn.activepieces.com/pieces/microsoft-sharepoint.png",
+    "minimum_supported_release": "0.78.0",
+    "slug": "microsoft-sharepoint"
+  },
+  "provenance": {
+    "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
+    "index_path": "packages/pieces/community/microsoft-sharepoint/src/index.ts",
+    "piece_path": "packages/pieces/community/microsoft-sharepoint",
+    "upstream_commit": "59c94f454ef3afed9974b41650e3d78067918328",
+    "upstream_repo": "activepieces/activepieces"
+  },
+  "runtime_execution": {
+    "note": "Generated catalog candidate only; Activepieces runtime execution is out of scope.",
+    "status": "candidate_only",
+    "supported": false
+  },
+  "runtime_status": "candidate_only",
+  "schema_version": "activepieces-catalog-candidate.v1",
+  "triggers": [
+    {
+      "description": "Fires when a new file is created or added in a specific folder.",
+      "display_name": "New File in Folder",
+      "name": "new_file_in_folder",
+      "source_line": 17,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/triggers/new-file-in-folder.ts",
+      "trigger_strategy": "WEBHOOK"
+    },
+    {
+      "description": "Fires when a new file is added anywhere in the first-level subfolders of a folder. Note: This trigger will not monitor subfolders created after the flow is activated.",
+      "display_name": "New File in Subfolders",
+      "name": "new_file_in_subfolders",
+      "source_line": 17,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/triggers/new-file-in-subfolders.ts",
+      "trigger_strategy": "WEBHOOK"
+    },
+    {
+      "description": "Triggers when a new list is created in a site.",
+      "display_name": "New List",
+      "name": "new_list",
+      "source_line": 67,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/triggers/new-list.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a new item is created in a SharePoint list.",
+      "display_name": "New List Item",
+      "name": "new_list_item",
+      "source_line": 75,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/triggers/new-list-item.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a file is created or updated in a given folder.",
+      "display_name": "New or Updated File",
+      "name": "new_or_updated_file",
+      "source_line": 90,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/triggers/new-or-updated-file.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a folder is created or updated (e.g., name change).",
+      "display_name": "New or Updated Folder",
+      "name": "new_or_updated_folder",
+      "source_line": 90,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/triggers/new-or-updated-folder.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a list is created or updated in a site.",
+      "display_name": "New or Updated List",
+      "name": "new_or_updated_list",
+      "source_line": 78,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/triggers/new-or-updated-list.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Fires when an existing item in a SharePoint list is updated.",
+      "display_name": "Updated List Item",
+      "name": "updated_list_item",
+      "source_line": 13,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/triggers/updated-list-item.ts",
+      "trigger_strategy": "WEBHOOK"
+    }
+  ]
+}

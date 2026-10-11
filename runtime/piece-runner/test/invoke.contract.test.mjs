@@ -56,6 +56,37 @@ test('Google Drive passes the OAuth token, defaults to 256 MiB, honors a request
   const result = await run({ request: { ...request, memory_mb: 513 } });
   assert.deepEqual([result.status, result.refusal?.code], ['refused', 'INVALID_LIMIT']);
 });
+test('Microsoft Outlook passes the OAuth token to the default Graph mailbox', async () => {
+  const request = { ...requestTuple({ piece: '@activepieces/piece-microsoft-outlook', action: 'outlook_get_message' }), auth_type: 'OAUTH2', auth: { access_token: 'outlook-contract-token', raw: {} }, props: { messageId: 'contract-message' }, timeout_ms: 15000 };
+  const body = { id: 'contract-message', subject: 'Contract message' };
+  assert.deepEqual(await run({ request, body, method: 'GET', url: 'https://graph.microsoft.com/v1.0/me/messages/contract-message' }), { status: 'completed', output: body });
+});
+test('Microsoft Outlook Calendar passes the OAuth token to the default Graph calendar', async () => {
+  const request = { ...requestTuple({ piece: '@activepieces/piece-microsoft-outlook-calendar', action: 'list_events' }), auth_type: 'OAUTH2', auth: { access_token: 'outlook-calendar-contract-token', data: {} }, props: { calendarId: 'contract-calendar' }, timeout_ms: 15000 };
+  const body = { value: [{ id: 'contract-event', subject: 'Contract event' }] };
+  assert.deepEqual(await run({ request, body, method: 'GET', url: 'https://graph.microsoft.com/v1.0/me/calendars/contract-calendar/events' }), { status: 'completed', output: body });
+});
+test('Microsoft Teams passes the OAuth token through its Graph client', async () => {
+  const request = { ...requestTuple({ piece: '@activepieces/piece-microsoft-teams', action: 'microsoft_teams_get_channel_message' }), auth_type: 'OAUTH2', auth: { access_token: 'teams-contract-token', raw: {} }, props: { teamId: 'contract-team', channelId: 'contract-channel', messageId: 'contract-message' }, timeout_ms: 15000 };
+  const body = { id: 'contract-message', body: { content: 'Contract message' } };
+  assert.deepEqual(await run({ request, body, method: 'GET', url: 'https://graph.microsoft.com/v1.0/teams/contract-team/channels/contract-channel/messages/contract-message' }), { status: 'completed', output: body });
+});
+test('Microsoft Excel passes the OAuth token through its Graph client', async () => {
+  const request = { ...requestTuple({ piece: '@activepieces/piece-microsoft-excel-365', action: 'get_worksheets' }), auth_type: 'OAUTH2', auth: { access_token: 'excel-contract-token', data: {} }, props: { storageSource: 'onedrive', workbookId: 'contract-workbook', returnAll: true }, timeout_ms: 15000 };
+  const worksheets = [{ id: 'contract-worksheet', name: 'Sheet1', position: 0 }];
+  assert.deepEqual(await run({ request, body: { value: worksheets }, method: 'GET', url: 'https://graph.microsoft.com/v1.0/me/drive/items/contract-workbook/workbook/worksheets' }), { status: 'completed', output: worksheets });
+});
+test('Microsoft OneDrive passes the OAuth token to the default Graph drive', async () => {
+  const request = { ...requestTuple({ piece: '@activepieces/piece-microsoft-onedrive', action: 'onedrive_get_item' }), auth_type: 'OAUTH2', auth: { access_token: 'onedrive-contract-token', raw: {} }, props: { itemId: 'contract-item' }, timeout_ms: 15000 };
+  const body = { id: 'contract-item', name: 'Contract file' };
+  const output = { ...body, type: 'file', mimeType: null, size: null, webUrl: null, createdDateTime: null, lastModifiedDateTime: null, childCount: null, parentId: null, parentPath: null, driveId: null, driveType: null, createdByName: null, createdByEmail: null, lastModifiedByName: null, lastModifiedByEmail: null, description: null, deleted: false, remoteItemId: null, remoteDriveId: null };
+  assert.deepEqual(await run({ request, body, method: 'GET', url: 'https://graph.microsoft.com/v1.0/me/drive/items/contract-item' }), { status: 'completed', output });
+});
+test('Microsoft SharePoint passes the OAuth token through its Graph client', async () => {
+  const request = { ...requestTuple({ piece: '@activepieces/piece-microsoft-sharepoint', action: 'microsoft_sharepoint_get_folder_contents' }), auth_type: 'OAUTH2', auth: { access_token: 'sharepoint-contract-token', data: {} }, props: { siteId: 'contract-site', driveId: 'contract-drive', folderId: 'root' }, timeout_ms: 15000 };
+  const items = [{ id: 'contract-item', name: 'Contract folder', folder: { childCount: 0 } }];
+  assert.deepEqual(await run({ request, body: { value: items }, method: 'GET', url: 'https://graph.microsoft.com/v1.0/sites/contract-site/drive/root/children' }), { status: 'completed', output: items });
+});
 test('refuses invalid calls, unavailable store/server services, hung actions and excessive output or limits', async () => {
   for (const [request, response, code] of [
     [{ ...discord, auth_type: 'BASIC' }, {}, 'AUTH_TYPE_MISMATCH'],

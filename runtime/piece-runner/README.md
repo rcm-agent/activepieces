@@ -1,6 +1,6 @@
 # Piece runner
 
-Standalone Node 20 package outside the repository's Bun workspaces. It executes the Slack, Discord and Google actions listed below. RCM's orchestrator connector runtime supplies a Nango credential; Nango remains the connection owner.
+Standalone Node 20 package outside the repository's Bun workspaces. It executes the Slack, Discord, Google and Microsoft 365 actions listed below. RCM's orchestrator connector runtime supplies a Nango credential; Nango remains the connection owner.
 
 | Piece | Allowed actions |
 | --- | --- |
@@ -9,6 +9,12 @@ Standalone Node 20 package outside the repository's Bun workspaces. It executes 
 | Google Sheets | `get-many-rows`, `find_rows`, `find_row_by_num`, `insert_row`, `google-sheets-insert-multiple-rows`, `update_row` |
 | Google Calendar | `google_calendar_find_busy_free_periods`, `google_calendar_get_events`, `google_calendar_get_event_by_id`, `create_google_calendar_event`, `update_event` |
 | Google Drive | `search-folder`, `create_new_gdrive_folder` |
+| Microsoft Outlook | `outlook_send_email`, `outlook_reply_to_message`, `outlook_forward_message`, `outlook_search_messages`, `outlook_list_messages`, `outlook_get_message` |
+| Microsoft Outlook Calendar | `list_events`, `create_event` |
+| Microsoft Teams | `microsoft_teams_send_channel_message`, `microsoft_teams_reply_to_channel_message`, `microsoft_teams_send_chat_message`, `microsoft_teams_find_channel`, `microsoft_teams_get_channel_message` |
+| Microsoft Excel 365 | `get_workbooks`, `get_worksheets`, `get_worksheet_rows`, `append_row`, `append_multiple_rows`, `update_row` |
+| Microsoft OneDrive | `onedrive_search_items`, `onedrive_list_folder_children`, `onedrive_get_item`, `onedrive_create_folder`, `onedrive_create_text_file`, `onedrive_move_item` |
+| Microsoft SharePoint | `microsoft_sharepoint_find_site`, `microsoft_sharepoint_get_folder_contents`, `microsoft_sharepoint_find_file`, `microsoft_sharepoint_search_list_item`, `microsoft_sharepoint_create_folder`, `microsoft_sharepoint_create_list_item` |
 
 Runner versions come from `package.json` dependencies; allowlist entries derive their versions from that manifest.
 
@@ -36,6 +42,8 @@ The result is `{ status: 'completed', output }`, `{ status: 'refused', refusal }
 
 Auth input is selected exclusively by `auth_type`: Nango's `API_KEY` credential `{ apiKey }` becomes `{ type: 'SECRET_TEXT', secret_text }`, `BASIC` accepts `{ username, password }`, and `OAUTH2` accepts `{ access_token, raw }`, mapping the provider's raw OAuth response to AP's `data`. Normalized `{ secret_text }` and OAuth `{ access_token, data }` inputs also work; Nango fields take precedence when both are supplied. Discord declares `SECRET_TEXT`, so it accepts `API_KEY`. Slack declares `OAUTH2` and `CUSTOM_AUTH`; this runner accepts only `OAUTH2` for Slack. An undeclared auth kind is refused. Props must match the installed action's declarations: unknown names, missing required values and supplied File props are refused.
 
+Microsoft 365 actions accept `OAUTH2` and use `https://graph.microsoft.com`; Outlook defaults to the connected user's `/me` mailbox. Outlook email attachments remain unavailable because supplied File props are refused.
+
 Each allowed invocation starts a fresh child with an empty environment. Defaults and hard ceilings are:
 
 | Field | Default | Hard ceiling |
@@ -44,7 +52,7 @@ Each allowed invocation starts a fresh child with an empty environment. Defaults
 | `memory_mb` | 256 | 512 |
 | `max_output_bytes` | 262,144 | 1,048,576 |
 
-An entry may set `memoryMb` (64-512) as the default memory limit for its calls; others default to 256 MiB. Give an entry 512 when its piece holds more than 200 MB resident right after `require`; none does today (the bundled 2026-10 pieces hold 60-67 MB). A request's own `memory_mb` replaces the default and is validated the same way, so requests above 512 MiB are still refused.
+An entry may set `memoryMb` (64-512) as the default memory limit for its calls; others default to 256 MiB. Give an entry 512 when its piece holds more than 200 MB resident right after `require`; no entry sets it today. Earlier bundled piece measurements held 60-67 MB; the Microsoft pieces still need resident-memory measurements. A request's own `memory_mb` replaces the default and is validated the same way, so requests above 512 MiB are still refused.
 
 Limits must be integers; timeout and output limits must be positive, and memory must be at least 64 MiB. Memory enforcement combines a V8 heap limit with a Linux RSS monitor. The serialized request is capped at 1 MiB; the output limit counts serialized response bytes. Expiry kills the child and returns `TIMEOUT`. Invalid limits, excessive memory and excessive output return named refusals. Store, files, server, pause, connections, agent and flows services throw `CONTEXT_SERVICE_UNAVAILABLE` when used.
 

@@ -14,7 +14,13 @@ function propsMetadata(declarations) { return Object.fromEntries(Object.entries(
 test('exports installed action props, required flags, auth kinds and deterministic action ids', async () => {
   const exported = pieceCatalog.exportActions({});
   assert.deepEqual(JSON.parse(await readFile(resolve(packageRoot, '../../catalog/activepieces/generated/runner/actions.json'), 'utf8')), exported);
-  assert.deepEqual(exported.map((item) => item.id), ['send_channel_message', 'send_message_with_bot', 'get-many-rows', 'find_rows', 'find_row_by_num', 'insert_row', 'google-sheets-insert-multiple-rows', 'update_row', 'google_calendar_find_busy_free_periods', 'google_calendar_get_events', 'google_calendar_get_event_by_id', 'create_google_calendar_event', 'update_event', 'search-folder', 'create_new_gdrive_folder']);
+  assert.deepEqual(exported.map((item) => item.id), ['send_channel_message', 'send_message_with_bot', 'get-many-rows', 'find_rows', 'find_row_by_num', 'insert_row', 'google-sheets-insert-multiple-rows', 'update_row', 'google_calendar_find_busy_free_periods', 'google_calendar_get_events', 'google_calendar_get_event_by_id', 'create_google_calendar_event', 'update_event', 'search-folder', 'create_new_gdrive_folder',
+    'outlook_send_email', 'outlook_reply_to_message', 'outlook_forward_message', 'outlook_search_messages', 'outlook_list_messages', 'outlook_get_message',
+    'list_events', 'create_event',
+    'microsoft_teams_send_channel_message', 'microsoft_teams_reply_to_channel_message', 'microsoft_teams_send_chat_message', 'microsoft_teams_find_channel', 'microsoft_teams_get_channel_message',
+    'get_workbooks', 'get_worksheets', 'get_worksheet_rows', 'append_row', 'append_multiple_rows', 'update_row',
+    'onedrive_search_items', 'onedrive_list_folder_children', 'onedrive_get_item', 'onedrive_create_folder', 'onedrive_create_text_file', 'onedrive_move_item',
+    'microsoft_sharepoint_find_site', 'microsoft_sharepoint_get_folder_contents', 'microsoft_sharepoint_find_file', 'microsoft_sharepoint_search_list_item', 'microsoft_sharepoint_create_folder', 'microsoft_sharepoint_create_list_item']);
   for (const entry of pieceCatalog.entries) {
     const piece = require(entry.piece)[entry.exportName], action = piece.getAction(entry.action);
     const metadata = exported.find((item) => item.piece === entry.piece && item.action === entry.action);
@@ -35,7 +41,7 @@ test('fails closed when a pinned piece version differs from the fork', async () 
     for (const path of [...new Set(pieceCatalog.entries.map((entry) => `packages/pieces/community/${entry.forkDirectory}/package.json`))]) {
       const target = join(repositoryRoot, path); await mkdir(dirname(target), { recursive: true }); await writeFile(target, await readFile(resolve(packageRoot, '../..', path), 'utf8'));
     }
-    for (const forkDirectory of ['slack', 'google-sheets', 'google-calendar', 'google-drive']) {
+    for (const forkDirectory of ['slack', 'google-sheets', 'google-calendar', 'google-drive', 'microsoft-outlook', 'microsoft-outlook-calendar', 'microsoft-teams', 'microsoft-excel-365', 'microsoft-onedrive', 'microsoft-sharepoint']) {
       const target = join(repositoryRoot, `packages/pieces/community/${forkDirectory}/package.json`), original = await readFile(target, 'utf8');
       await writeFile(target, JSON.stringify({ version: '0.0.0' }));
       assert.throws(() => pieceCatalog.verifyVersions({ repositoryRoot }), { name: 'RunnerRefusal', code: 'VERSION_MISMATCH' });

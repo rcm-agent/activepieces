@@ -1,0 +1,491 @@
+{
+  "actions": [
+    {
+      "description": "Tag an email with one or more Outlook categories.",
+      "display_name": "Add Label to Email",
+      "name": "addLabelToEmail",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/add-label-to-email.ts"
+    },
+    {
+      "description": "Save a new email to your Drafts folder without sending it.",
+      "display_name": "Create Draft Email",
+      "name": "createDraftEmail",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/create-draft-email.ts"
+    },
+    {
+      "description": "Make a custom API call to a specific endpoint",
+      "display_name": "Custom API Call",
+      "name": "custom_api_call",
+      "source_line": 130,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/index.ts"
+    },
+    {
+      "description": "Save the files attached to an email so later steps can use them.",
+      "display_name": "Download Attachment",
+      "name": "downloadAttachment",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/download-email-attachment.ts"
+    },
+    {
+      "description": "Search your mailbox by keywords, sender or subject.",
+      "display_name": "Find Email",
+      "name": "findEmail",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/find-email.ts"
+    },
+    {
+      "description": "Forward an email to new recipients with an optional note.",
+      "display_name": "Forward Email",
+      "name": "forwardEmail",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/forward-email.ts"
+    },
+    {
+      "description": "Move an email into another folder.",
+      "display_name": "Move Email to Folder",
+      "name": "moveEmailToFolder",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/move-email-to-folder.ts"
+    },
+    {
+      "description": "Attaches a file to a draft message.",
+      "display_name": "Add Attachment to Draft",
+      "name": "outlook_add_message_attachment",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-add-message-attachment.ts"
+    },
+    {
+      "description": "Adds categories (labels) to a message.",
+      "display_name": "Add Categories to Message",
+      "name": "outlook_add_message_categories",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-add-message-categories.ts"
+    },
+    {
+      "description": "Moves several messages to one folder in a single batched call.",
+      "display_name": "Batch Move Messages",
+      "name": "outlook_batch_move_messages",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-batch-move-messages.ts"
+    },
+    {
+      "description": "Applies the same property changes to several messages at once.",
+      "display_name": "Batch Update Messages",
+      "name": "outlook_batch_update_messages",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-batch-update-messages.ts"
+    },
+    {
+      "description": "Copies a mail folder under another folder.",
+      "display_name": "Copy Mail Folder",
+      "name": "outlook_copy_mail_folder",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-copy-mail-folder.ts"
+    },
+    {
+      "description": "Copies a message into another mail folder.",
+      "display_name": "Copy Message",
+      "name": "outlook_copy_message",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-copy-message.ts"
+    },
+    {
+      "description": "Creates an unsent draft message.",
+      "display_name": "Create Draft",
+      "name": "outlook_create_draft",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-create-draft.ts"
+    },
+    {
+      "description": "Forces mail from a sender into the Focused or Other tab.",
+      "display_name": "Create Focused Inbox Override",
+      "name": "outlook_create_focused_inbox_override",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-create-focused-inbox-override.ts"
+    },
+    {
+      "description": "Creates an unsent forward draft for a message.",
+      "display_name": "Create Forward Draft",
+      "name": "outlook_create_forward_draft",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-create-forward-draft.ts"
+    },
+    {
+      "description": "Creates a mail folder, or returns the existing one with the same name.",
+      "display_name": "Create Mail Folder",
+      "name": "outlook_create_mail_folder",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-create-mail-folder.ts"
+    },
+    {
+      "description": "Creates an unsent reply-all draft for a message.",
+      "display_name": "Create Reply-All Draft",
+      "name": "outlook_create_reply_all_draft",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-create-reply-all-draft.ts"
+    },
+    {
+      "description": "Creates an unsent reply draft for a message.",
+      "display_name": "Create Reply Draft",
+      "name": "outlook_create_reply_draft",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-create-reply-draft.ts"
+    },
+    {
+      "description": "Removes a Focused Inbox sender override.",
+      "display_name": "Delete Focused Inbox Override",
+      "name": "outlook_delete_focused_inbox_override",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-delete-focused-inbox-override.ts"
+    },
+    {
+      "description": "Deletes a mail folder and everything inside it.",
+      "display_name": "Delete Mail Folder",
+      "name": "outlook_delete_mail_folder",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-delete-mail-folder.ts"
+    },
+    {
+      "description": "Moves a message to the Deleted Items folder.",
+      "display_name": "Delete Message (to Deleted Items)",
+      "name": "outlook_delete_message",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-delete-message.ts"
+    },
+    {
+      "description": "Removes an attachment from a message.",
+      "display_name": "Delete Message Attachment",
+      "name": "outlook_delete_message_attachment",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-delete-message-attachment.ts"
+    },
+    {
+      "description": "Downloads one file attachment of a message.",
+      "display_name": "Download Message Attachment",
+      "name": "outlook_download_message_attachment",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-download-message-attachment.ts"
+    },
+    {
+      "description": "Forwards a message to new recipients.",
+      "display_name": "Forward Message",
+      "name": "outlook_forward_message",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-forward-message.ts"
+    },
+    {
+      "description": "Reads one mail folder by ID or well-known name.",
+      "display_name": "Get Mail Folder",
+      "name": "outlook_get_mail_folder",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-get-mail-folder.ts"
+    },
+    {
+      "description": "Reads pre-send mail tips for a set of recipients.",
+      "display_name": "Get Mail Tips",
+      "name": "outlook_get_mail_tips",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-get-mail-tips.ts"
+    },
+    {
+      "description": "Retrieves a single message by its ID.",
+      "display_name": "Get Message",
+      "name": "outlook_get_message",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-get-message.ts"
+    },
+    {
+      "description": "Reads the metadata of one attachment.",
+      "display_name": "Get Message Attachment",
+      "name": "outlook_get_message_attachment",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-get-message-attachment.ts"
+    },
+    {
+      "description": "Downloads the raw MIME (RFC-822) content of a message.",
+      "display_name": "Get Message MIME Content",
+      "name": "outlook_get_message_mime",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-get-message-mime.ts"
+    },
+    {
+      "description": "Reads the identity of the connected account.",
+      "display_name": "Get My Profile",
+      "name": "outlook_get_my_profile",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-get-my-profile.ts"
+    },
+    {
+      "description": "Lists the time zones Outlook accepts for this account.",
+      "display_name": "Get Supported Time Zones",
+      "name": "outlook_get_supported_time_zones",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-get-supported-time-zones.ts"
+    },
+    {
+      "description": "Lists the sub-folders of one mail folder.",
+      "display_name": "List Child Mail Folders",
+      "name": "outlook_list_child_mail_folders",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-list-child-mail-folders.ts"
+    },
+    {
+      "description": "Lists the Focused Inbox sender overrides of the mailbox.",
+      "display_name": "List Focused Inbox Overrides",
+      "name": "outlook_list_focused_inbox_overrides",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-list-focused-inbox-overrides.ts"
+    },
+    {
+      "description": "Lists the top-level mail folders of the mailbox.",
+      "display_name": "List Mail Folders",
+      "name": "outlook_list_mail_folders",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-list-mail-folders.ts"
+    },
+    {
+      "description": "Tracks created, renamed and deleted mail folders.",
+      "display_name": "List Folder Changes (Delta)",
+      "name": "outlook_list_mail_folders_delta",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-list-mail-folders-delta.ts"
+    },
+    {
+      "description": "Lists the attachments of a message without downloading them.",
+      "display_name": "List Message Attachments",
+      "name": "outlook_list_message_attachments",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-list-message-attachments.ts"
+    },
+    {
+      "description": "Lists messages from the mailbox or a single mail folder.",
+      "display_name": "List Messages",
+      "name": "outlook_list_messages",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-list-messages.ts"
+    },
+    {
+      "description": "Tracks created, updated and deleted messages in a folder.",
+      "display_name": "List Message Changes (Delta)",
+      "name": "outlook_list_messages_delta",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-list-messages-delta.ts"
+    },
+    {
+      "description": "Moves a mail folder under another folder.",
+      "display_name": "Move Mail Folder",
+      "name": "outlook_move_mail_folder",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-move-mail-folder.ts"
+    },
+    {
+      "description": "Moves a message to another mail folder.",
+      "display_name": "Move Message",
+      "name": "outlook_move_message",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-move-message.ts"
+    },
+    {
+      "description": "Permanently deletes a message so it cannot be recovered.",
+      "display_name": "Permanently Delete Message",
+      "name": "outlook_permanently_delete_message",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-permanently-delete-message.ts"
+    },
+    {
+      "description": "Removes categories (labels) from a message.",
+      "display_name": "Remove Categories from Message",
+      "name": "outlook_remove_message_categories",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-remove-message-categories.ts"
+    },
+    {
+      "description": "Replies to the sender and all recipients of a message.",
+      "display_name": "Reply All to Message",
+      "name": "outlook_reply_all_to_message",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-reply-all-to-message.ts"
+    },
+    {
+      "description": "Replies to the sender of a message.",
+      "display_name": "Reply to Message",
+      "name": "outlook_reply_to_message",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-reply-to-message.ts"
+    },
+    {
+      "description": "Searches messages with a full-text query.",
+      "display_name": "Search Messages",
+      "name": "outlook_search_messages",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-search-messages.ts"
+    },
+    {
+      "description": "Sends an existing draft message.",
+      "display_name": "Send Draft",
+      "name": "outlook_send_draft",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-send-draft.ts"
+    },
+    {
+      "description": "Composes and sends a new email.",
+      "display_name": "Send Email",
+      "name": "outlook_send_email",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-send-email.ts"
+    },
+    {
+      "description": "Marks a message as read or unread.",
+      "display_name": "Mark Message Read / Unread",
+      "name": "outlook_set_message_read_status",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-set-message-read-status.ts"
+    },
+    {
+      "description": "Changes the classification of a Focused Inbox override.",
+      "display_name": "Update Focused Inbox Override",
+      "name": "outlook_update_focused_inbox_override",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-update-focused-inbox-override.ts"
+    },
+    {
+      "description": "Renames a mail folder.",
+      "display_name": "Rename Mail Folder",
+      "name": "outlook_update_mail_folder",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-update-mail-folder.ts"
+    },
+    {
+      "description": "Updates the writable properties of a message.",
+      "display_name": "Update Message",
+      "name": "outlook_update_message",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/outlook-update-message.ts"
+    },
+    {
+      "description": "Remove one or more Outlook categories from an email.",
+      "display_name": "Remove Label from Email",
+      "name": "removeLabelFromEmail",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/remove-label-from-email.ts"
+    },
+    {
+      "description": "Reply to an Outlook email, or save the reply as a draft.",
+      "display_name": "Reply to Email",
+      "name": "reply-email",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/reply-email.ts"
+    },
+    {
+      "description": "Send an email with an approval link and pause until it is answered.",
+      "display_name": "Request Approval in Email",
+      "name": "request_approval_in_mail",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/request-approval-send-email.ts"
+    },
+    {
+      "description": "Send an email from your Outlook mailbox.",
+      "display_name": "Send Email",
+      "name": "send-email",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/send-email.ts"
+    },
+    {
+      "description": "Send an email that is waiting in your Drafts folder.",
+      "display_name": "Send Draft Email",
+      "name": "sendDraftEmail",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/actions/send-draft-email.ts"
+    }
+  ],
+  "auth": {
+    "auth_url_candidates": [
+      "https://{cloud}/{tenant}/oauth2/v2.0/authorize"
+    ],
+    "declared_symbol": "microsoftOutlookAuth",
+    "source_path": "packages/pieces/community/microsoft-outlook/src/lib/common/auth.ts",
+    "token_url_candidates": [
+      "https://{cloud}/{tenant}/oauth2/v2.0/token"
+    ],
+    "types": [
+      "oauth2"
+    ]
+  },
+  "nango_provider_key_candidates": [
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for microsoft-outlook",
+      "provider_key": "outlook"
+    },
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for microsoft-outlook",
+      "provider_key": "outlook-dev"
+    }
+  ],
+  "package": {
+    "name": "@activepieces/piece-microsoft-outlook",
+    "version": "0.7.2"
+  },
+  "piece": {
+    "auth_symbol": "microsoftOutlookAuth",
+    "authors": [
+      "lucaslimasouza",
+      "kishanprmr",
+      "sanket-a11y"
+    ],
+    "categories": [
+      "PRODUCTIVITY"
+    ],
+    "description": null,
+    "display_name": "Microsoft Outlook",
+    "export_name": "microsoftOutlook",
+    "logo_url": "https://cdn.activepieces.com/pieces/microsoft-outlook.png",
+    "minimum_supported_release": "0.88.2",
+    "slug": "microsoft-outlook"
+  },
+  "provenance": {
+    "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
+    "index_path": "packages/pieces/community/microsoft-outlook/src/index.ts",
+    "piece_path": "packages/pieces/community/microsoft-outlook",
+    "upstream_commit": "59c94f454ef3afed9974b41650e3d78067918328",
+    "upstream_repo": "activepieces/activepieces"
+  },
+  "runtime_execution": {
+    "note": "Generated catalog candidate only; Activepieces runtime execution is out of scope.",
+    "status": "candidate_only",
+    "supported": false
+  },
+  "runtime_status": "candidate_only",
+  "schema_version": "activepieces-catalog-candidate.v1",
+  "triggers": [
+    {
+      "description": "Triggers once for each attachment on a new email.",
+      "display_name": "New Attachment",
+      "name": "newAttachment",
+      "source_line": 26,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/triggers/new-attachment.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a new email arrives in your Inbox.",
+      "display_name": "New Email",
+      "name": "newEmail",
+      "source_line": 85,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/triggers/new-email.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a new email lands in the folder you pick.",
+      "display_name": "New Email in Folder",
+      "name": "newEmailInFolder",
+      "source_line": 58,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/triggers/new-email-in-folder.ts",
+      "trigger_strategy": "POLLING"
+    }
+  ]
+}

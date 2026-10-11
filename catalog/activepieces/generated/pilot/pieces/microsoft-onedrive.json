@@ -1,0 +1,365 @@
+{
+  "actions": [
+    {
+      "description": "Create a copy of a file in your OneDrive, optionally in a different folder or with a new name.",
+      "display_name": "Copy File",
+      "name": "copy_file",
+      "source_line": 14,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/copy-file.ts"
+    },
+    {
+      "description": "Make a custom API call to a specific endpoint",
+      "display_name": "Custom API Call",
+      "name": "custom_api_call",
+      "source_line": 98,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/index.ts"
+    },
+    {
+      "description": "Get and download a file using a File ID or filename.",
+      "display_name": "Get File",
+      "name": "download_file",
+      "source_line": 13,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/download-file.ts"
+    },
+    {
+      "description": "List files in a OneDrive folder",
+      "display_name": "List Files",
+      "name": "list_files",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/list-files.ts"
+    },
+    {
+      "description": "List folders in a OneDrive folder",
+      "display_name": "List Folders",
+      "name": "list_folders",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/list-folders.ts"
+    },
+    {
+      "description": "Add an existing file to a bundle or album.",
+      "display_name": "Add Item to Bundle",
+      "name": "onedrive_add_item_to_bundle",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-add-item-to-bundle.ts"
+    },
+    {
+      "description": "Check in a checked-out file so its changes become visible to others.",
+      "display_name": "Check In File",
+      "name": "onedrive_checkin_item",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-checkin-item.ts"
+    },
+    {
+      "description": "Check out a file so others cannot edit it until it is checked in.",
+      "display_name": "Check Out File",
+      "name": "onedrive_checkout_item",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-checkout-item.ts"
+    },
+    {
+      "description": "Start copying a OneDrive file or folder. The copy runs in the background; check it with Get Copy Status.",
+      "display_name": "Copy File or Folder",
+      "name": "onedrive_copy_item",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-copy-item.ts"
+    },
+    {
+      "description": "Create a bundle that groups existing files so they can be shared together.",
+      "display_name": "Create Bundle",
+      "name": "onedrive_create_bundle",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-create-bundle.ts"
+    },
+    {
+      "description": "Create a folder in OneDrive, or return it if a folder with that name already exists.",
+      "display_name": "Create Folder",
+      "name": "onedrive_create_folder",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-create-folder.ts"
+    },
+    {
+      "description": "Create a view, edit or embed sharing link for a OneDrive file or folder.",
+      "display_name": "Create Sharing Link",
+      "name": "onedrive_create_sharing_link",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-create-sharing-link.ts"
+    },
+    {
+      "description": "Create a plain-text file in a OneDrive folder from text you provide.",
+      "display_name": "Create Text File",
+      "name": "onedrive_create_text_file",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-create-text-file.ts"
+    },
+    {
+      "description": "Move a OneDrive file or folder to the recycle bin. Deleting a folder also deletes everything in it.",
+      "display_name": "Delete File or Folder (to Recycle Bin)",
+      "name": "onedrive_delete_item",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-delete-item.ts"
+    },
+    {
+      "description": "Remove a person's access or revoke a sharing link on a OneDrive file or folder.",
+      "display_name": "Remove Permission (Stop Sharing)",
+      "name": "onedrive_delete_item_permission",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-delete-item-permission.ts"
+    },
+    {
+      "description": "Undo a check-out and throw away any changes made while the file was checked out.",
+      "display_name": "Discard Check-Out",
+      "name": "onedrive_discard_checkout",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-discard-checkout.ts"
+    },
+    {
+      "description": "Download a file by its ID or path.",
+      "display_name": "Download File",
+      "name": "onedrive_download_file",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-download-file.ts"
+    },
+    {
+      "description": "Convert a file to PDF, HTML or JPG and download the result.",
+      "display_name": "Convert and Download File",
+      "name": "onedrive_download_file_as_format",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-download-file-as-format.ts"
+    },
+    {
+      "description": "Download the content of a previous version of a file.",
+      "display_name": "Download File Version",
+      "name": "onedrive_download_item_version",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-download-item-version.ts"
+    },
+    {
+      "description": "Check the progress of a copy started with Copy File or Folder.",
+      "display_name": "Get Copy Status",
+      "name": "onedrive_get_copy_status",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-get-copy-status.ts"
+    },
+    {
+      "description": "Get the connected OneDrive drive, including its type and storage quota.",
+      "display_name": "Get Drive",
+      "name": "onedrive_get_drive",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-get-drive.ts"
+    },
+    {
+      "description": "Get the metadata of a file or folder by its ID or path.",
+      "display_name": "Get File or Folder",
+      "name": "onedrive_get_item",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-get-item.ts"
+    },
+    {
+      "description": "Get a well-known OneDrive folder such as Documents or Photos.",
+      "display_name": "Get Special Folder",
+      "name": "onedrive_get_special_folder",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-get-special-folder.ts"
+    },
+    {
+      "description": "Grant specific people read or write access to a OneDrive file or folder.",
+      "display_name": "Share with People (Invite)",
+      "name": "onedrive_invite_to_item",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-invite-to-item.ts"
+    },
+    {
+      "description": "List the photo albums and file bundles in a personal OneDrive.",
+      "display_name": "List Albums and Bundles",
+      "name": "onedrive_list_bundles",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-list-bundles.ts"
+    },
+    {
+      "description": "List items that changed in the drive since a saved delta token, one page at a time.",
+      "display_name": "List Drive Changes (Delta)",
+      "name": "onedrive_list_drive_changes",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-list-drive-changes.ts"
+    },
+    {
+      "description": "List the drives available to the signed-in user.",
+      "display_name": "List My Drives",
+      "name": "onedrive_list_drives",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-list-drives.ts"
+    },
+    {
+      "description": "List the files and folders inside a folder, one page at a time.",
+      "display_name": "List Folder Contents",
+      "name": "onedrive_list_folder_children",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-list-folder-children.ts"
+    },
+    {
+      "description": "List who has access to a OneDrive file or folder, including sharing links.",
+      "display_name": "List File Permissions",
+      "name": "onedrive_list_item_permissions",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-list-item-permissions.ts"
+    },
+    {
+      "description": "Get the small, medium and large thumbnail image URLs of a file.",
+      "display_name": "Get File Thumbnails",
+      "name": "onedrive_list_item_thumbnails",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-list-item-thumbnails.ts"
+    },
+    {
+      "description": "List the saved versions of a file.",
+      "display_name": "List File Versions",
+      "name": "onedrive_list_item_versions",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-list-item-versions.ts"
+    },
+    {
+      "description": "Move a OneDrive file or folder to another folder, optionally renaming it.",
+      "display_name": "Move File or Folder",
+      "name": "onedrive_move_item",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-move-item.ts"
+    },
+    {
+      "description": "Remove a file from a bundle or album without deleting the file.",
+      "display_name": "Remove Item from Bundle",
+      "name": "onedrive_remove_item_from_bundle",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-remove-item-from-bundle.ts"
+    },
+    {
+      "description": "Overwrite the content of an existing OneDrive file, keeping its ID and sharing links.",
+      "display_name": "Replace File Content",
+      "name": "onedrive_replace_file_content",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-replace-file-content.ts"
+    },
+    {
+      "description": "Look up the file or folder behind a OneDrive or SharePoint sharing link.",
+      "display_name": "Resolve Sharing Link",
+      "name": "onedrive_resolve_sharing_link",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-resolve-sharing-link.ts"
+    },
+    {
+      "description": "Make a previous version of a file the current version.",
+      "display_name": "Restore File Version",
+      "name": "onedrive_restore_item_version",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-restore-item-version.ts"
+    },
+    {
+      "description": "Search OneDrive for files and folders by name, metadata or content.",
+      "display_name": "Search Files and Folders",
+      "name": "onedrive_search_items",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-search-items.ts"
+    },
+    {
+      "description": "Rename a OneDrive file or folder, or set its description.",
+      "display_name": "Rename / Update File or Folder",
+      "name": "onedrive_update_item",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-update-item.ts"
+    },
+    {
+      "description": "Change a permission on a OneDrive file or folder to read or write.",
+      "display_name": "Update Permission Role",
+      "name": "onedrive_update_item_permission",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-update-item-permission.ts"
+    },
+    {
+      "description": "Upload a file to a OneDrive folder, replacing any file with the same name.",
+      "display_name": "Upload File",
+      "name": "onedrive_upload_file",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/onedrive-upload-file.ts"
+    },
+    {
+      "description": "Upload a file to your Microsoft OneDrive with chunked upload if the file is larger than 4MiB",
+      "display_name": "Upload file",
+      "name": "upload_onedrive_file",
+      "source_line": 16,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/actions/upload-file.ts"
+    }
+  ],
+  "auth": {
+    "auth_url_candidates": [
+      "https://{cloud}/common/oauth2/v2.0/authorize"
+    ],
+    "declared_symbol": "oneDriveAuth",
+    "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/auth.ts",
+    "token_url_candidates": [
+      "https://{cloud}/common/oauth2/v2.0/token"
+    ],
+    "types": [
+      "oauth2"
+    ]
+  },
+  "nango_provider_key_candidates": [
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for microsoft-onedrive",
+      "provider_key": "one-drive"
+    },
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for microsoft-onedrive",
+      "provider_key": "one-drive-dev"
+    }
+  ],
+  "package": {
+    "name": "@activepieces/piece-microsoft-onedrive",
+    "version": "0.6.1"
+  },
+  "piece": {
+    "auth_symbol": "oneDriveAuth",
+    "authors": [
+      "BastienMe",
+      "kishanprmr",
+      "MoShizzle",
+      "abuaboud",
+      "ikus060"
+    ],
+    "categories": [
+      "CONTENT_AND_FILES"
+    ],
+    "description": "Cloud storage by Microsoft",
+    "display_name": "Microsoft OneDrive",
+    "export_name": "microsoftOneDrive",
+    "logo_url": "https://cdn.activepieces.com/pieces/oneDrive.png",
+    "minimum_supported_release": "0.87.0",
+    "slug": "microsoft-onedrive"
+  },
+  "provenance": {
+    "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
+    "index_path": "packages/pieces/community/microsoft-onedrive/src/index.ts",
+    "piece_path": "packages/pieces/community/microsoft-onedrive",
+    "upstream_commit": "59c94f454ef3afed9974b41650e3d78067918328",
+    "upstream_repo": "activepieces/activepieces"
+  },
+  "runtime_execution": {
+    "note": "Generated catalog candidate only; Activepieces runtime execution is out of scope.",
+    "status": "candidate_only",
+    "supported": false
+  },
+  "runtime_status": "candidate_only",
+  "schema_version": "activepieces-catalog-candidate.v1",
+  "triggers": [
+    {
+      "description": "Trigger when a new file is uploaded.",
+      "display_name": "New File",
+      "name": "new_file",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/triggers/new-file.ts",
+      "trigger_strategy": "POLLING"
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "actions": [
+    {
+      "description": "Create a new event in a calendar",
+      "display_name": "Create a new event in a calendar",
+      "name": "create_event",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/microsoft-outlook-calendar/src/lib/actions/create-event.ts"
+    },
+    {
+      "description": "Make a custom API call to a specific endpoint",
+      "display_name": "Custom API Call",
+      "name": "custom_api_call",
+      "source_line": 45,
+      "source_path": "packages/pieces/community/microsoft-outlook-calendar/src/index.ts"
+    },
+    {
+      "description": "Delete an event in a calendar",
+      "display_name": "Delete an event in a calendar",
+      "name": "delete_event",
+      "source_line": 11,
+      "source_path": "packages/pieces/community/microsoft-outlook-calendar/src/lib/actions/delete-event.ts"
+    },
+    {
+      "description": "List events in a calendar",
+      "display_name": "List events in a calendar",
+      "name": "list_events",
+      "source_line": 11,
+      "source_path": "packages/pieces/community/microsoft-outlook-calendar/src/lib/actions/list-events.ts"
+    }
+  ],
+  "auth": {
+    "auth_url_candidates": [
+      "https://{cloud}/common/oauth2/v2.0/authorize"
+    ],
+    "declared_symbol": "outlookCalendarAuth",
+    "source_path": "packages/pieces/community/microsoft-outlook-calendar/src/index.ts",
+    "token_url_candidates": [
+      "https://{cloud}/common/oauth2/v2.0/token"
+    ],
+    "types": [
+      "oauth2"
+    ]
+  },
+  "nango_provider_key_candidates": [
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for microsoft-outlook-calendar",
+      "provider_key": "outlook"
+    },
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for microsoft-outlook-calendar",
+      "provider_key": "outlook-dev"
+    }
+  ],
+  "package": {
+    "name": "@activepieces/piece-microsoft-outlook-calendar",
+    "version": "0.3.1"
+  },
+  "piece": {
+    "auth_symbol": "outlookCalendarAuth",
+    "authors": [
+      "antonyvigouret"
+    ],
+    "categories": [
+      "PRODUCTIVITY"
+    ],
+    "description": "Calendar software by Microsoft",
+    "display_name": "Microsoft Outlook Calendar",
+    "export_name": "microsoftOutlookCalendar",
+    "logo_url": "https://cdn.activepieces.com/pieces/microsoft-outlook.png",
+    "minimum_supported_release": "0.30.0",
+    "slug": "microsoft-outlook-calendar"
+  },
+  "provenance": {
+    "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
+    "index_path": "packages/pieces/community/microsoft-outlook-calendar/src/index.ts",
+    "piece_path": "packages/pieces/community/microsoft-outlook-calendar",
+    "upstream_commit": "59c94f454ef3afed9974b41650e3d78067918328",
+    "upstream_repo": "activepieces/activepieces"
+  },
+  "runtime_execution": {
+    "note": "Generated catalog candidate only; Activepieces runtime execution is out of scope.",
+    "status": "candidate_only",
+    "supported": false
+  },
+  "runtime_status": "candidate_only",
+  "schema_version": "activepieces-catalog-candidate.v1",
+  "triggers": []
+}

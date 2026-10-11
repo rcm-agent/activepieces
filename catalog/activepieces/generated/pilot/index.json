@@ -166,11 +166,113 @@
       "runtime_status": "candidate_only",
       "slug": "notion",
       "trigger_count": 4
+    },
+    {
+      "action_count": 57,
+      "artifact_path": "catalog/activepieces/generated/pilot/pieces/microsoft-outlook.json",
+      "auth_types": [
+        "oauth2"
+      ],
+      "display_name": "Microsoft Outlook",
+      "nango_provider_key_candidates": [
+        "outlook",
+        "outlook-dev"
+      ],
+      "package_name": "@activepieces/piece-microsoft-outlook",
+      "package_version": "0.7.2",
+      "runtime_status": "candidate_only",
+      "slug": "microsoft-outlook",
+      "trigger_count": 3
+    },
+    {
+      "action_count": 4,
+      "artifact_path": "catalog/activepieces/generated/pilot/pieces/microsoft-outlook-calendar.json",
+      "auth_types": [
+        "oauth2"
+      ],
+      "display_name": "Microsoft Outlook Calendar",
+      "nango_provider_key_candidates": [
+        "outlook",
+        "outlook-dev"
+      ],
+      "package_name": "@activepieces/piece-microsoft-outlook-calendar",
+      "package_version": "0.3.1",
+      "runtime_status": "candidate_only",
+      "slug": "microsoft-outlook-calendar",
+      "trigger_count": 0
+    },
+    {
+      "action_count": 16,
+      "artifact_path": "catalog/activepieces/generated/pilot/pieces/microsoft-teams.json",
+      "auth_types": [
+        "oauth2"
+      ],
+      "display_name": "Microsoft Teams",
+      "nango_provider_key_candidates": [
+        "microsoft-teams",
+        "microsoft-teams-dev"
+      ],
+      "package_name": "@activepieces/piece-microsoft-teams",
+      "package_version": "0.7.2",
+      "runtime_status": "candidate_only",
+      "slug": "microsoft-teams",
+      "trigger_count": 4
+    },
+    {
+      "action_count": 33,
+      "artifact_path": "catalog/activepieces/generated/pilot/pieces/microsoft-excel-365.json",
+      "auth_types": [
+        "oauth2"
+      ],
+      "display_name": "Microsoft Excel 365",
+      "nango_provider_key_candidates": [
+        "microsoft-excel",
+        "microsoft-excel-dev"
+      ],
+      "package_name": "@activepieces/piece-microsoft-excel-365",
+      "package_version": "0.8.2",
+      "runtime_status": "candidate_only",
+      "slug": "microsoft-excel-365",
+      "trigger_count": 4
+    },
+    {
+      "action_count": 41,
+      "artifact_path": "catalog/activepieces/generated/pilot/pieces/microsoft-onedrive.json",
+      "auth_types": [
+        "oauth2"
+      ],
+      "display_name": "Microsoft OneDrive",
+      "nango_provider_key_candidates": [
+        "one-drive",
+        "one-drive-dev"
+      ],
+      "package_name": "@activepieces/piece-microsoft-onedrive",
+      "package_version": "0.6.1",
+      "runtime_status": "candidate_only",
+      "slug": "microsoft-onedrive",
+      "trigger_count": 1
+    },
+    {
+      "action_count": 16,
+      "artifact_path": "catalog/activepieces/generated/pilot/pieces/microsoft-sharepoint.json",
+      "auth_types": [
+        "oauth2"
+      ],
+      "display_name": "Microsoft SharePoint",
+      "nango_provider_key_candidates": [
+        "sharepoint-online",
+        "sharepoint-online-dev"
+      ],
+      "package_name": "@activepieces/piece-microsoft-sharepoint",
+      "package_version": "0.4.2",
+      "runtime_status": "candidate_only",
+      "slug": "microsoft-sharepoint",
+      "trigger_count": 8
     }
   ],
   "runtime_status": "candidate_only",
   "schema_version": "activepieces-catalog-candidate.v1",
-  "trigger_candidate_count": 76,
+  "trigger_candidate_count": 96,
   "trigger_candidates_artifact_path": "catalog/activepieces/generated/pilot/trigger_candidates.json",
   "upstream_commit": "59c94f454ef3afed9974b41650e3d78067918328"
 }

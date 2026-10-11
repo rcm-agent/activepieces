@@ -749,5 +749,1105 @@
         "description": "Also include shared drives, not only My Drive."
       }
     }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-outlook",
+    "version": "0.7.2",
+    "action": "outlook_send_email",
+    "id": "outlook_send_email",
+    "display_name": "Send Email",
+    "description": "Composes and sends a new email.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "recipients": {
+        "type": "ARRAY",
+        "required": true,
+        "description": "Email addresses of the primary recipients."
+      },
+      "ccRecipients": {
+        "type": "ARRAY",
+        "required": false,
+        "description": ""
+      },
+      "bccRecipients": {
+        "type": "ARRAY",
+        "required": false,
+        "description": ""
+      },
+      "subject": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": ""
+      },
+      "bodyFormat": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "body": {
+        "type": "LONG_TEXT",
+        "required": true,
+        "description": ""
+      },
+      "attachments": {
+        "type": "ARRAY",
+        "required": false,
+        "description": "Files to attach. Total message size must stay under 3 MB.",
+        "properties": {
+          "file": {
+            "type": "FILE",
+            "required": true,
+            "description": ""
+          },
+          "fileName": {
+            "type": "SHORT_TEXT",
+            "required": false,
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-outlook",
+    "version": "0.7.2",
+    "action": "outlook_reply_to_message",
+    "id": "outlook_reply_to_message",
+    "display_name": "Reply to Message",
+    "description": "Replies to the sender of a message.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "messageId": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Outlook message ID. Resolve one with List Messages, Search Messages or Get Message."
+      },
+      "comment": {
+        "type": "LONG_TEXT",
+        "required": true,
+        "description": "Text added above the quoted original message."
+      },
+      "ccRecipients": {
+        "type": "ARRAY",
+        "required": false,
+        "description": ""
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-outlook",
+    "version": "0.7.2",
+    "action": "outlook_forward_message",
+    "id": "outlook_forward_message",
+    "display_name": "Forward Message",
+    "description": "Forwards a message to new recipients.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "messageId": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Outlook message ID. Resolve one with List Messages, Search Messages or Get Message."
+      },
+      "recipients": {
+        "type": "ARRAY",
+        "required": true,
+        "description": "Email addresses to forward the message to."
+      },
+      "comment": {
+        "type": "LONG_TEXT",
+        "required": false,
+        "description": "Optional text added above the forwarded message."
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-outlook",
+    "version": "0.7.2",
+    "action": "outlook_search_messages",
+    "id": "outlook_search_messages",
+    "display_name": "Search Messages",
+    "description": "Searches messages with a full-text query.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "searchQuery": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Keywords or KQL terms to match, for example: from:john@example.com, subject:urgent, hasAttachments:true."
+      },
+      "folderId": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Search inside one folder only. Accepts a mail folder ID or a well-known name such as inbox, drafts, sentitems, deleteditems, archive or junkemail. Leave empty to search the whole mailbox."
+      },
+      "maxResults": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Maximum number of results to return (1-1000)."
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-outlook",
+    "version": "0.7.2",
+    "action": "outlook_list_messages",
+    "id": "outlook_list_messages",
+    "display_name": "List Messages",
+    "description": "Lists messages from the mailbox or a single mail folder.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "folderId": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Limit the listing to one folder. Accepts a mail folder ID or a well-known name such as inbox, drafts, sentitems, deleteditems, archive or junkemail. Leave empty to list the whole mailbox."
+      },
+      "filter": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Optional OData $filter expression, for example: isRead eq false, or receivedDateTime ge 2024-01-01T00:00:00Z."
+      },
+      "maxResults": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Maximum number of messages to return (1-100)."
+      },
+      "skip": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Number of messages to skip before returning results, for paging."
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-outlook",
+    "version": "0.7.2",
+    "action": "outlook_get_message",
+    "id": "outlook_get_message",
+    "display_name": "Get Message",
+    "description": "Retrieves a single message by its ID.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "messageId": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Outlook message ID. Resolve one with List Messages, Search Messages or Get Message."
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-outlook-calendar",
+    "version": "0.3.1",
+    "action": "list_events",
+    "id": "list_events",
+    "display_name": "List events in a calendar",
+    "description": "List events in a calendar",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "calendarId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "filter": {
+        "type": "LONG_TEXT",
+        "required": false,
+        "description": "Search query filter, see: https://learn.microsoft.com/en-us/graph/filter-query-parameter"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-outlook-calendar",
+    "version": "0.3.1",
+    "action": "create_event",
+    "id": "create_event",
+    "display_name": "Create a new event in a calendar",
+    "description": "Create a new event in a calendar",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "calendarId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "title": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": ""
+      },
+      "start": {
+        "type": "DATE_TIME",
+        "required": true,
+        "description": ""
+      },
+      "end": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": "By default it'll be 30 min post start time"
+      },
+      "timezone": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "location": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": ""
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-teams",
+    "version": "0.7.2",
+    "action": "microsoft_teams_send_channel_message",
+    "id": "microsoft_teams_send_channel_message",
+    "display_name": "Send Channel Message",
+    "description": "Sends a message to a teams's channel.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "teamId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "channelId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "contentType": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "content": {
+        "type": "LONG_TEXT",
+        "required": true,
+        "description": "Use @username to mention team members in the message."
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-teams",
+    "version": "0.7.2",
+    "action": "microsoft_teams_reply_to_channel_message",
+    "id": "microsoft_teams_reply_to_channel_message",
+    "display_name": "Reply to Channel Message",
+    "description": "Post a reply to an existing channel message.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "teamId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "channelId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "messageId": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "ID of the parent message to reply to."
+      },
+      "contentType": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "content": {
+        "type": "LONG_TEXT",
+        "required": true,
+        "description": ""
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-teams",
+    "version": "0.7.2",
+    "action": "microsoft_teams_send_chat_message",
+    "id": "microsoft_teams_send_chat_message",
+    "display_name": "Send Chat Message",
+    "description": "Sends a message in an existing chat.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "chatId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "contentType": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "content": {
+        "type": "LONG_TEXT",
+        "required": true,
+        "description": ""
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-teams",
+    "version": "0.7.2",
+    "action": "microsoft_teams_find_channel",
+    "id": "microsoft_teams_find_channel",
+    "display_name": "Find Channel",
+    "description": "Finds channels by name.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "teamId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "channelName": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": ""
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-teams",
+    "version": "0.7.2",
+    "action": "microsoft_teams_get_channel_message",
+    "id": "microsoft_teams_get_channel_message",
+    "display_name": "Get Channel Message",
+    "description": "Fetch a specific channel message by team, channel, and message ID (optionally a reply).",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "teamId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "channelId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "messageId": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The ID of the channel message to retrieve."
+      },
+      "replyId": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Provide to fetch a specific reply under the message."
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-excel-365",
+    "version": "0.8.2",
+    "action": "get_workbooks",
+    "id": "get_workbooks",
+    "display_name": "Get Workbooks",
+    "description": "Retrieve a list of workbooks",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "storageSource": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "siteId": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": ""
+      },
+      "documentId": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": ""
+      },
+      "limit": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Limits the number of workbooks returned, returns all workbooks if empty"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-excel-365",
+    "version": "0.8.2",
+    "action": "get_worksheets",
+    "id": "get_worksheets",
+    "display_name": "Get Worksheets",
+    "description": "Retrieve worksheets from a workbook",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "storageSource": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "siteId": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": ""
+      },
+      "documentId": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": ""
+      },
+      "workbookId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "returnAll": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "If checked, all worksheets will be returned"
+      },
+      "limit": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Limit the number of worksheets returned"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-excel-365",
+    "version": "0.8.2",
+    "action": "get_worksheet_rows",
+    "id": "get_worksheet_rows",
+    "display_name": "Get Worksheet Rows",
+    "description": "Retrieve rows from a worksheet",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "storageSource": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "siteId": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": ""
+      },
+      "documentId": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": ""
+      },
+      "workbookId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "worksheetId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "range": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Range of the rows to retrieve (e.g., A2:B2)"
+      },
+      "headerRow": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Row number of the header"
+      },
+      "firstDataRow": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Row number of the first data row"
+      },
+      "useFilter": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Enables the column wise filter."
+      },
+      "filterList": {
+        "type": "DYNAMIC",
+        "required": false,
+        "description": ""
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-excel-365",
+    "version": "0.8.2",
+    "action": "append_row",
+    "id": "append_row",
+    "display_name": "Append Row to Worksheet",
+    "description": "Append row of values to a worksheet",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "storageSource": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "siteId": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": ""
+      },
+      "documentId": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": ""
+      },
+      "workbookId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "worksheetId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "isFirstRowHeaders": {
+        "type": "CHECKBOX",
+        "required": true,
+        "description": "If the first row is headers"
+      },
+      "values": {
+        "type": "DYNAMIC",
+        "required": true,
+        "description": "The values to insert"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-excel-365",
+    "version": "0.8.2",
+    "action": "append_multiple_rows",
+    "id": "append_multiple_rows",
+    "display_name": "Append Multiple Rows",
+    "description": "Appends multiple row of values to a worksheet.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "storageSource": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "siteId": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": ""
+      },
+      "documentId": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": ""
+      },
+      "workbookId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "worksheetId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "values": {
+        "type": "DYNAMIC",
+        "required": true,
+        "description": "The values to insert"
+      },
+      "filterMarkdown": {
+        "type": "MARKDOWN",
+        "required": false,
+        "description": "Use below Filter properties to insert only the rows that meet your conditions."
+      },
+      "filterColumn": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": ""
+      },
+      "filterType": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": ""
+      },
+      "filterValue": {
+        "type": "DYNAMIC",
+        "required": false,
+        "description": ""
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-excel-365",
+    "version": "0.8.2",
+    "action": "update_row",
+    "id": "update_row",
+    "display_name": "Update Worksheet Rows",
+    "description": "Update a row in a worksheet",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "storageSource": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "siteId": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": ""
+      },
+      "documentId": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": ""
+      },
+      "workbookId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "worksheetId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "row_number": {
+        "type": "NUMBER",
+        "required": true,
+        "description": "The row number to update"
+      },
+      "isFirstRowHeaders": {
+        "type": "CHECKBOX",
+        "required": true,
+        "description": "If the first row is headers"
+      },
+      "values": {
+        "type": "DYNAMIC",
+        "required": true,
+        "description": "The values to insert"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-onedrive",
+    "version": "0.6.1",
+    "action": "onedrive_search_items",
+    "id": "onedrive_search_items",
+    "display_name": "Search Files and Folders",
+    "description": "Search OneDrive for files and folders by name, metadata or content.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "query": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The text to search for in file names, metadata and content."
+      },
+      "scope": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": ""
+      },
+      "pageSize": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "How many results to request per page (1-999). Defaults to 50."
+      },
+      "pageToken": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "nextPageToken from the previous call. Empty for the first page."
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-onedrive",
+    "version": "0.6.1",
+    "action": "onedrive_list_folder_children",
+    "id": "onedrive_list_folder_children",
+    "display_name": "List Folder Contents",
+    "description": "List the files and folders inside a folder, one page at a time.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "folderId": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Folder ID. Leave this and Folder Path empty for the drive root."
+      },
+      "folderPath": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Folder path from the drive root. Used when Folder ID is empty."
+      },
+      "itemType": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": ""
+      },
+      "pageSize": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "How many items to request per page (1-999). Defaults to 100."
+      },
+      "pageToken": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "nextPageToken from the previous call. Empty for the first page."
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-onedrive",
+    "version": "0.6.1",
+    "action": "onedrive_get_item",
+    "id": "onedrive_get_item",
+    "display_name": "Get File or Folder",
+    "description": "Get the metadata of a file or folder by its ID or path.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "itemId": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Item ID from Search or List Folder Contents, or \"root\". Or use Path."
+      },
+      "path": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Path from the drive root. Used when Item ID is empty."
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-onedrive",
+    "version": "0.6.1",
+    "action": "onedrive_create_folder",
+    "id": "onedrive_create_folder",
+    "display_name": "Create Folder",
+    "description": "Create a folder in OneDrive, or return it if a folder with that name already exists.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "parentFolderId": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Parent folder ID. Leave empty for the drive root."
+      },
+      "name": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Folder name (a single name, not a path)."
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-onedrive",
+    "version": "0.6.1",
+    "action": "onedrive_create_text_file",
+    "id": "onedrive_create_text_file",
+    "display_name": "Create Text File",
+    "description": "Create a plain-text file in a OneDrive folder from text you provide.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "folderId": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Destination folder ID. Leave empty for the drive root."
+      },
+      "fileName": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "File name including its extension."
+      },
+      "content": {
+        "type": "LONG_TEXT",
+        "required": true,
+        "description": "The text to write into the file (up to 4 MiB)."
+      },
+      "conflictBehavior": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "What to do when the folder already has an item with this name."
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-onedrive",
+    "version": "0.6.1",
+    "action": "onedrive_move_item",
+    "id": "onedrive_move_item",
+    "display_name": "Move File or Folder",
+    "description": "Move a OneDrive file or folder to another folder, optionally renaming it.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "itemId": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "ID of the item to move, from Search or List Folder Contents."
+      },
+      "path": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Path from the drive root. Use this or Item ID."
+      },
+      "destinationFolderId": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Folder to move into. Leave empty for the drive root."
+      },
+      "newName": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Optional new name for the item. Leave empty to keep its current name."
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-sharepoint",
+    "version": "0.4.2",
+    "action": "microsoft_sharepoint_find_site",
+    "id": "microsoft_sharepoint_find_site",
+    "display_name": "Find Site",
+    "description": "Search for SharePoint sites by name and return matching results.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "searchTerm": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The name or keyword to search for."
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-sharepoint",
+    "version": "0.4.2",
+    "action": "microsoft_sharepoint_get_folder_contents",
+    "id": "microsoft_sharepoint_get_folder_contents",
+    "display_name": "Get Folder Contents",
+    "description": "List all files and subfolders in a specified folder, optionally with detailed metadata.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "siteId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "driveId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "folderId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "The folder whose contents you want to list. Select \"Root Folder\" for the top-level folder."
+      },
+      "includeCustomFields": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Check this to include SharePoint-specific metadata (custom columns). This may slow down the request."
+      },
+      "top": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "The maximum number of items to return. The API default is 200. If more items exist, the output will contain a field `@odata.nextLink` that you can use in a custom API call to get the next page."
+      },
+      "select": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "A comma-separated list of properties to return. Example: `id,name,size,webUrl`"
+      },
+      "orderby": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Specifies how to sort the returned items. Example: `name asc` or `lastModifiedDateTime desc`"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-sharepoint",
+    "version": "0.4.2",
+    "action": "microsoft_sharepoint_find_file",
+    "id": "microsoft_sharepoint_find_file",
+    "display_name": "Find File",
+    "description": "Look up a file by its name or path.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "siteId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "driveId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "findMethod": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "Choose how to find the file."
+      },
+      "filePath": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "The exact path to the file from the drive's root. **Required if finding by path.** Example: `Documents/Reports/Q1-Report.docx`"
+      },
+      "searchQuery": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "The file name or keyword to search for. **Required if searching by name.** Example: `Q1-Report.docx`"
+      },
+      "searchFolderId": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "The folder to search within. If not specified, the entire drive will be searched. **Only applies when searching by name.**"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-sharepoint",
+    "version": "0.4.2",
+    "action": "microsoft_sharepoint_search_list_item",
+    "id": "microsoft_sharepoint_search_list_item",
+    "display_name": "Find List Item",
+    "description": "Finds a item in a list based on name.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "siteId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "listId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "searchValue": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Item title to search"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-sharepoint",
+    "version": "0.4.2",
+    "action": "microsoft_sharepoint_create_folder",
+    "id": "microsoft_sharepoint_create_folder",
+    "display_name": "Create Folder",
+    "description": "Creates a new folder at path you specify.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "siteId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "driveId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "parentFolder": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Parent folder,like \"/demo/\" or \"/docs/assignment/\".Leave it default if you want to create folder at the root (**/**) level."
+      },
+      "folderName": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": ""
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-sharepoint",
+    "version": "0.4.2",
+    "action": "microsoft_sharepoint_create_list_item",
+    "id": "microsoft_sharepoint_create_list_item",
+    "display_name": "Create List Item",
+    "description": "Creates a new item in a list.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "props": {
+      "siteId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "listId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "listColumns": {
+        "type": "DYNAMIC",
+        "required": true,
+        "description": ""
+      }
+    }
   }
 ]

@@ -14,7 +14,7 @@ const SCHEMA_VERSION = 'activepieces-catalog-candidate.v1';
 const RUNTIME_STATUS = 'candidate_only';
 const UPSTREAM_REPO = 'activepieces/activepieces';
 const UPSTREAM_COMMIT = '59c94f454ef3afed9974b41650e3d78067918328';
-const PILOT_PIECES = ['slack', 'discord', 'gmail', 'google-sheets', 'google-calendar', 'google-drive', 'hubspot', 'github', 'notion'];
+const PILOT_PIECES = ['slack', 'discord', 'gmail', 'google-sheets', 'google-calendar', 'google-drive', 'hubspot', 'github', 'notion', 'microsoft-outlook', 'microsoft-outlook-calendar', 'microsoft-teams', 'microsoft-excel-365', 'microsoft-onedrive', 'microsoft-sharepoint'];
 const WEBHOOK_TRIGGER_STRATEGIES = new Set(['WEBHOOK', 'APP_WEBHOOK']);
 const POLLING_TRIGGER_STRATEGIES = new Set(['POLLING']);
 
@@ -31,6 +31,12 @@ const NANGO_PROVIDER_HINTS = {
   'google-sheets': ['google', 'google-sheets', 'google-sheet', 'google-sheet-dev'],
   'google-calendar': ['google-calendar', 'google-calendar-dev'],
   'google-drive': ['google-drive', 'google-drive-dev'],
+  'microsoft-outlook': ['outlook', 'outlook-dev'],
+  'microsoft-outlook-calendar': ['outlook', 'outlook-dev'],
+  'microsoft-teams': ['microsoft-teams', 'microsoft-teams-dev'],
+  'microsoft-excel-365': ['microsoft-excel', 'microsoft-excel-dev'],
+  'microsoft-onedrive': ['one-drive', 'one-drive-dev'],
+  'microsoft-sharepoint': ['sharepoint-online', 'sharepoint-online-dev'],
   hubspot: ['hubspot'],
   github: ['github'],
   notion: ['notion-dev', 'notion'],
@@ -85,6 +91,7 @@ function buildPieceArtifact({ slug, upstreamCommit }) {
   const pieceMetadata = parsePieceMetadata({ slug, object: pieceObject.objectCode });
   const auth = extractAuth({
     authSymbol: pieceMetadata.auth_symbol,
+    indexCode,
     indexImports,
     indexPath,
   });
@@ -207,7 +214,7 @@ function buildTriggerCandidateRecord({ artifact, trigger }) {
 
 function parsePieceMetadata({ slug, object }) {
   const displayName = readStringField({ object, fieldName: 'displayName' });
-  const description = readStringField({ object, fieldName: 'description' });
+  const description = readStringField({ object, fieldName: 'description', required: false });
   const logoUrl = readStringField({ object, fieldName: 'logoUrl' });
   const minimumSupportedRelease = readStringField({
     object,
@@ -238,12 +245,21 @@ function readPieceExportName({ slug }) {
   return match[1];
 }
 
-function extractAuth({ authSymbol, indexImports, indexPath }) {
+function extractAuth({ authSymbol, indexCode, indexImports, indexPath }) {
   const importedFile = indexImports.get(authSymbol);
-  if (!importedFile) {
+  const localDeclaration = findModuleDeclaration({
+    code: indexCode,
+    pattern: new RegExp(
+      `^\\s*(?:export\\s+)?(?:const|let|var)\\s+${escapeRegExp(authSymbol)}\\s*=`,
+      'gm',
+    ),
+  });
+  if (!importedFile && !localDeclaration) {
     throw new Error(`Unable to resolve auth symbol "${authSymbol}" from ${toRepoPath(indexPath)}.`);
   }
-  const sourceFile = followReExport({ symbol: authSymbol, sourceFile: importedFile });
+  const sourceFile = importedFile
+    ? followReExport({ symbol: authSymbol, sourceFile: importedFile })
+    : indexPath;
   const code = readText(sourceFile);
   const types = [];
   if (code.includes('PieceAuth.OAuth2(')) {
@@ -386,7 +402,13 @@ function extractOperationsFromSource({ sourceFile, callName, symbol, kind }) {
   return calls.map((call) => {
     const contextLabel = `${kind} ${symbol} in ${toRepoPath(sourceFile)}:${call.sourceLine}`;
     const base = {
-      name: readStringField({ object: call.objectCode, fieldName: 'name', contextLabel }),
+      name: readStringOrEnumField({
+        object: call.objectCode,
+        fieldName: 'name',
+        enumValues: new Map(),
+        sourceCode: code,
+        contextLabel,
+      }),
       display_name: readStringField({ object: call.objectCode, fieldName: 'displayName', contextLabel }),
       description: readStringField({
         object: call.objectCode,
@@ -498,7 +520,9 @@ function validateArtifact(artifact) {
   requiredString(artifact.package?.name, `${artifact.piece.slug} package.name`);
   requiredString(artifact.package?.version, `${artifact.piece.slug} package.version`);
   requiredString(artifact.piece?.display_name, `${artifact.piece.slug} piece.display_name`);
-  requiredString(artifact.piece?.description, `${artifact.piece.slug} piece.description`);
+  if (artifact.piece?.description !== null) {
+    requiredString(artifact.piece?.description, `${artifact.piece.slug} piece.description`);
+  }
   requiredString(artifact.piece?.logo_url, `${artifact.piece.slug} piece.logo_url`);
   if (!Array.isArray(artifact.auth?.types) || artifact.auth.types.length === 0) {
     throw new Error(`${artifact.piece.slug} must include at least one auth type.`);
@@ -511,7 +535,7 @@ function validateArtifact(artifact) {
 }
 
 function validateOperations({ operations, kind, slug }) {
-  if (!Array.isArray(operations) || operations.length === 0) {
+  if (!Array.isArray(operations) || (kind === 'action' && operations.length === 0)) {
     throw new Error(`${slug} must include at least one ${kind}.`);
   }
   const names = new Set();
@@ -958,7 +982,18 @@ function findMatchingPair({ code, start, open, close }) {
       index += 1;
       continue;
     }
-    if (char === '\'' || char === '"' || char === '`') {
+    if (char === '`') {
+      index = findTemplateEnd({ code, start: index });
+      continue;
+    }
+    if (char === '/') {
+      const regexEnd = findRegexEnd({ code, start: index });
+      if (regexEnd !== index) {
+        index = regexEnd;
+        continue;
+      }
+    }
+    if (char === '\'' || char === '"') {
       quote = char;
       continue;
     }
@@ -974,6 +1009,89 @@ function findMatchingPair({ code, start, open, close }) {
     }
   }
   throw new Error(`Unable to find matching "${close}" for "${open}" at index ${start}.`);
+}
+
+function findTemplateEnd({ code, start }) {
+  for (let index = start + 1; index < code.length; index += 1) {
+    if (code[index] === '\\') {
+      index += 1;
+    } else if (code[index] === '`') {
+      return index;
+    } else if (code[index] === '$' && code[index + 1] === '{') {
+      index = findMatchingPair({ code, start: index + 1, open: '{', close: '}' });
+    }
+  }
+  throw new Error(`Unterminated template literal at index ${start}.`);
+}
+
+function findRegexEnd({ code, start }) {
+  const previous = code.slice(0, start).trimEnd().at(-1);
+  if (!previous || !/[([=:,!?&|;{}]/.test(previous)) {
+    return start;
+  }
+  let characterClass = false;
+  for (let index = start + 1; index < code.length; index += 1) {
+    const char = code[index];
+    if (char === '\\') {
+      index += 1;
+    } else if (char === '\n' || char === '\r') {
+      break;
+    } else if (char === '[') {
+      characterClass = true;
+    } else if (char === ']') {
+      characterClass = false;
+    } else if (char === '/' && !characterClass) {
+      return index;
+    }
+  }
+  throw new Error(`Unterminated regular expression at index ${start}.`);
+}
+
+function findModuleDeclaration({ code, pattern }) {
+  return [...code.matchAll(pattern)].find((match) => isModuleCodeAt({ code, targetIndex: match.index }));
+}
+
+function isModuleCodeAt({ code, targetIndex }) {
+  let depth = 0;
+  let quote = null;
+  let escaped = false;
+  for (let index = 0; index <= targetIndex; index += 1) {
+    if (index === targetIndex) {
+      return depth === 0 && quote === null;
+    }
+    const char = code[index];
+    if (quote) {
+      if (escaped) {
+        escaped = false;
+      } else if (char === '\\') {
+        escaped = true;
+      } else if (char === quote) {
+        quote = null;
+      }
+      continue;
+    }
+    if (char === '/' && code[index + 1] === '/') {
+      const end = code.indexOf('\n', index + 2);
+      index = end === -1 ? code.length : end - 1;
+    } else if (char === '/' && code[index + 1] === '*') {
+      const end = code.indexOf('*/', index + 2);
+      index = end === -1 ? code.length : end + 1;
+    } else if (char === '`') {
+      index = findTemplateEnd({ code, start: index });
+    } else if (char === '/') {
+      index = findRegexEnd({ code, start: index });
+    } else if (char === '\'' || char === '"') {
+      quote = char;
+    } else if ('([{'.includes(char)) {
+      depth += 1;
+    } else if (')]}'.includes(char)) {
+      depth -= 1;
+      if (depth < 0) {
+        return false;
+      }
+    }
+  }
+  return false;
 }
 
 function readStringField({ object, fieldName, required = true, contextLabel = 'object' }) {
@@ -1056,7 +1174,7 @@ function readIdentifierField({ object, fieldName }) {
   return match[1];
 }
 
-function readStringOrEnumField({ object, fieldName, enumValues, contextLabel }) {
+function readStringOrEnumField({ object, fieldName, enumValues, sourceCode, contextLabel }) {
   const fieldIndex = findFieldIndex({ object, fieldName, contextLabel });
   const colonIndex = object.indexOf(':', fieldIndex);
   let valueIndex = colonIndex + 1;
@@ -1067,6 +1185,20 @@ function readStringOrEnumField({ object, fieldName, enumValues, contextLabel }) 
   if (['\'', '"', '`'].includes(quote)) {
     return readQuotedString({ code: object, start: valueIndex });
   }
+  const identifier = object.slice(valueIndex).match(/^([A-Za-z_$][\w$]*)(?=\s*[,}])/);
+  if (identifier && sourceCode) {
+    const declaration = findModuleDeclaration({
+      code: sourceCode,
+      pattern: new RegExp(
+        `^\\s*(?:export\\s+)?const\\s+${escapeRegExp(identifier[1])}\\s*=\\s*(['"])(?:\\\\.|(?!\\1)[^\\r\\n])*\\1\\s*;?\\s*$`,
+        'gm',
+      ),
+    });
+    if (declaration) {
+      const literalStart = declaration.index + declaration[0].indexOf(declaration[1], declaration[0].indexOf('=') + 1);
+      return readQuotedString({ code: sourceCode, start: literalStart });
+    }
+  }
   const enumMatch = object.slice(valueIndex).match(/^([A-Za-z_$][\w$]*)\.([A-Za-z_$][\w$]*)/);
   if (enumMatch) {
     const enumKey = `${enumMatch[1]}.${enumMatch[2]}`;
@@ -1075,7 +1207,7 @@ function readStringOrEnumField({ object, fieldName, enumValues, contextLabel }) 
       return enumValue;
     }
   }
-  throw new Error(`Field "${fieldName}" must be a string literal or known enum in ${contextLabel}.`);
+  throw new Error(`Field "${fieldName}" must be a string literal, local string constant, or known enum in ${contextLabel}.`);
 }
 
 function readEnumStringValues({ code, enumName }) {

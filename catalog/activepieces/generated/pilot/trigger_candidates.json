@@ -3,7 +3,7 @@
   "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
   "runtime_status": "candidate_only",
   "schema_version": "activepieces-catalog-candidate.v1",
-  "trigger_count": 76,
+  "trigger_count": 96,
   "triggers": [
     {
       "auth_types": [
@@ -2818,6 +2818,746 @@
       "trigger_name": "updated_page",
       "trigger_strategy": "POLLING",
       "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.microsoft-outlook.newAttachment",
+      "description": "Triggers once for each attachment on a new email.",
+      "display_name": "New Attachment",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-outlook",
+          "provider_key": "outlook"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-outlook",
+          "provider_key": "outlook-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-microsoft-outlook",
+      "package_version": "0.7.2",
+      "piece_display_name": "Microsoft Outlook",
+      "piece_slug": "microsoft-outlook",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 26,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/triggers/new-attachment.ts",
+      "trigger_name": "newAttachment",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.microsoft-outlook.newEmail",
+      "description": "Triggers when a new email arrives in your Inbox.",
+      "display_name": "New Email",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-outlook",
+          "provider_key": "outlook"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-outlook",
+          "provider_key": "outlook-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-microsoft-outlook",
+      "package_version": "0.7.2",
+      "piece_display_name": "Microsoft Outlook",
+      "piece_slug": "microsoft-outlook",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 85,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/triggers/new-email.ts",
+      "trigger_name": "newEmail",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.microsoft-outlook.newEmailInFolder",
+      "description": "Triggers when a new email lands in the folder you pick.",
+      "display_name": "New Email in Folder",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-outlook",
+          "provider_key": "outlook"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-outlook",
+          "provider_key": "outlook-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-microsoft-outlook",
+      "package_version": "0.7.2",
+      "piece_display_name": "Microsoft Outlook",
+      "piece_slug": "microsoft-outlook",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 58,
+      "source_path": "packages/pieces/community/microsoft-outlook/src/lib/triggers/new-email-in-folder.ts",
+      "trigger_name": "newEmailInFolder",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.microsoft-teams.new-channel",
+      "description": "Triggers when a new channel is created in a team.",
+      "display_name": "New Channel",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-teams",
+          "provider_key": "microsoft-teams"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-teams",
+          "provider_key": "microsoft-teams-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-microsoft-teams",
+      "package_version": "0.7.2",
+      "piece_display_name": "Microsoft Teams",
+      "piece_slug": "microsoft-teams",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 20,
+      "source_path": "packages/pieces/community/microsoft-teams/src/lib/triggers/new-channel.ts",
+      "trigger_name": "new-channel",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.microsoft-teams.new-channel-message",
+      "description": "Triggers when a new message is posted in a channel.",
+      "display_name": "New Channel Message",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-teams",
+          "provider_key": "microsoft-teams"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-teams",
+          "provider_key": "microsoft-teams-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-microsoft-teams",
+      "package_version": "0.7.2",
+      "piece_display_name": "Microsoft Teams",
+      "piece_slug": "microsoft-teams",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 20,
+      "source_path": "packages/pieces/community/microsoft-teams/src/lib/triggers/new-channel-message.ts",
+      "trigger_name": "new-channel-message",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.microsoft-teams.new-chat",
+      "description": "Triggers when a new chat is created.",
+      "display_name": "New Chat",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-teams",
+          "provider_key": "microsoft-teams"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-teams",
+          "provider_key": "microsoft-teams-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-microsoft-teams",
+      "package_version": "0.7.2",
+      "piece_display_name": "Microsoft Teams",
+      "piece_slug": "microsoft-teams",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 18,
+      "source_path": "packages/pieces/community/microsoft-teams/src/lib/triggers/new-chat.ts",
+      "trigger_name": "new-chat",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.microsoft-teams.new-chat-message",
+      "description": "Triggers when a new message is received in a chat.",
+      "display_name": "New Chat Message",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-teams",
+          "provider_key": "microsoft-teams"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-teams",
+          "provider_key": "microsoft-teams-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-microsoft-teams",
+      "package_version": "0.7.2",
+      "piece_display_name": "Microsoft Teams",
+      "piece_slug": "microsoft-teams",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 20,
+      "source_path": "packages/pieces/community/microsoft-teams/src/lib/triggers/new-chat-message.ts",
+      "trigger_name": "new-chat-message",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.microsoft-excel-365.new_row",
+      "description": "Trigger when a new row is added, and it can include existing rows as well.",
+      "display_name": "New Row",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-excel-365",
+          "provider_key": "microsoft-excel"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-excel-365",
+          "provider_key": "microsoft-excel-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-microsoft-excel-365",
+      "package_version": "0.8.2",
+      "piece_display_name": "Microsoft Excel 365",
+      "piece_slug": "microsoft-excel-365",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 68,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/trigger/new-row-added.ts",
+      "trigger_name": "new_row",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.microsoft-excel-365.new_row_in_table",
+      "description": "Fires when a new row is added to a table within a worksheet.",
+      "display_name": "New Row in Table",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-excel-365",
+          "provider_key": "microsoft-excel"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-excel-365",
+          "provider_key": "microsoft-excel-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-microsoft-excel-365",
+      "package_version": "0.8.2",
+      "piece_display_name": "Microsoft Excel 365",
+      "piece_slug": "microsoft-excel-365",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 113,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/trigger/new-row-in-table.ts",
+      "trigger_name": "new_row_in_table",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.microsoft-excel-365.new_worksheet",
+      "description": "Fires when a new worksheet is created in a workbook.",
+      "display_name": "New Worksheet",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-excel-365",
+          "provider_key": "microsoft-excel"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-excel-365",
+          "provider_key": "microsoft-excel-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-microsoft-excel-365",
+      "package_version": "0.8.2",
+      "piece_display_name": "Microsoft Excel 365",
+      "piece_slug": "microsoft-excel-365",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 66,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/trigger/new-worksheet.ts",
+      "trigger_name": "new_worksheet",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.microsoft-excel-365.updated_row",
+      "description": "Fires when a row (in a worksheet) is added or updated.",
+      "display_name": "Updated Row",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-excel-365",
+          "provider_key": "microsoft-excel"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-excel-365",
+          "provider_key": "microsoft-excel-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-microsoft-excel-365",
+      "package_version": "0.8.2",
+      "piece_display_name": "Microsoft Excel 365",
+      "piece_slug": "microsoft-excel-365",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 106,
+      "source_path": "packages/pieces/community/microsoft-excel-365/src/lib/trigger/updated-row.ts",
+      "trigger_name": "updated_row",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.microsoft-onedrive.new_file",
+      "description": "Trigger when a new file is uploaded.",
+      "display_name": "New File",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-onedrive",
+          "provider_key": "one-drive"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-onedrive",
+          "provider_key": "one-drive-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-microsoft-onedrive",
+      "package_version": "0.6.1",
+      "piece_display_name": "Microsoft OneDrive",
+      "piece_slug": "microsoft-onedrive",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/triggers/new-file.ts",
+      "trigger_name": "new_file",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.microsoft-sharepoint.new_file_in_folder",
+      "description": "Fires when a new file is created or added in a specific folder.",
+      "display_name": "New File in Folder",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
+          "provider_key": "sharepoint-online"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
+          "provider_key": "sharepoint-online-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-microsoft-sharepoint",
+      "package_version": "0.4.2",
+      "piece_display_name": "Microsoft SharePoint",
+      "piece_slug": "microsoft-sharepoint",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 17,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/triggers/new-file-in-folder.ts",
+      "trigger_name": "new_file_in_folder",
+      "trigger_strategy": "WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.microsoft-sharepoint.new_file_in_subfolders",
+      "description": "Fires when a new file is added anywhere in the first-level subfolders of a folder. Note: This trigger will not monitor subfolders created after the flow is activated.",
+      "display_name": "New File in Subfolders",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
+          "provider_key": "sharepoint-online"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
+          "provider_key": "sharepoint-online-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-microsoft-sharepoint",
+      "package_version": "0.4.2",
+      "piece_display_name": "Microsoft SharePoint",
+      "piece_slug": "microsoft-sharepoint",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 17,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/triggers/new-file-in-subfolders.ts",
+      "trigger_name": "new_file_in_subfolders",
+      "trigger_strategy": "WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.microsoft-sharepoint.new_list",
+      "description": "Triggers when a new list is created in a site.",
+      "display_name": "New List",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
+          "provider_key": "sharepoint-online"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
+          "provider_key": "sharepoint-online-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-microsoft-sharepoint",
+      "package_version": "0.4.2",
+      "piece_display_name": "Microsoft SharePoint",
+      "piece_slug": "microsoft-sharepoint",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 67,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/triggers/new-list.ts",
+      "trigger_name": "new_list",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.microsoft-sharepoint.new_list_item",
+      "description": "Triggers when a new item is created in a SharePoint list.",
+      "display_name": "New List Item",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
+          "provider_key": "sharepoint-online"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
+          "provider_key": "sharepoint-online-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-microsoft-sharepoint",
+      "package_version": "0.4.2",
+      "piece_display_name": "Microsoft SharePoint",
+      "piece_slug": "microsoft-sharepoint",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 75,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/triggers/new-list-item.ts",
+      "trigger_name": "new_list_item",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.microsoft-sharepoint.new_or_updated_file",
+      "description": "Triggers when a file is created or updated in a given folder.",
+      "display_name": "New or Updated File",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
+          "provider_key": "sharepoint-online"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
+          "provider_key": "sharepoint-online-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-microsoft-sharepoint",
+      "package_version": "0.4.2",
+      "piece_display_name": "Microsoft SharePoint",
+      "piece_slug": "microsoft-sharepoint",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 90,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/triggers/new-or-updated-file.ts",
+      "trigger_name": "new_or_updated_file",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.microsoft-sharepoint.new_or_updated_folder",
+      "description": "Triggers when a folder is created or updated (e.g., name change).",
+      "display_name": "New or Updated Folder",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
+          "provider_key": "sharepoint-online"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
+          "provider_key": "sharepoint-online-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-microsoft-sharepoint",
+      "package_version": "0.4.2",
+      "piece_display_name": "Microsoft SharePoint",
+      "piece_slug": "microsoft-sharepoint",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 90,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/triggers/new-or-updated-folder.ts",
+      "trigger_name": "new_or_updated_folder",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.microsoft-sharepoint.new_or_updated_list",
+      "description": "Triggers when a list is created or updated in a site.",
+      "display_name": "New or Updated List",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
+          "provider_key": "sharepoint-online"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
+          "provider_key": "sharepoint-online-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-microsoft-sharepoint",
+      "package_version": "0.4.2",
+      "piece_display_name": "Microsoft SharePoint",
+      "piece_slug": "microsoft-sharepoint",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 78,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/triggers/new-or-updated-list.ts",
+      "trigger_name": "new_or_updated_list",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.microsoft-sharepoint.updated_list_item",
+      "description": "Fires when an existing item in a SharePoint list is updated.",
+      "display_name": "Updated List Item",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
+          "provider_key": "sharepoint-online"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
+          "provider_key": "sharepoint-online-dev"
+        }
+      ],
+      "package_name": "@activepieces/piece-microsoft-sharepoint",
+      "package_version": "0.4.2",
+      "piece_display_name": "Microsoft SharePoint",
+      "piece_slug": "microsoft-sharepoint",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 13,
+      "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/triggers/updated-list-item.ts",
+      "trigger_name": "updated_list_item",
+      "trigger_strategy": "WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
     }
   ],
   "upstream_commit": "59c94f454ef3afed9974b41650e3d78067918328"

@@ -2,7 +2,7 @@
   "artifact_root": "catalog/activepieces/generated/pilot",
   "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
   "frontend_generated_path": "src/generated/activepieces-nango-provider-map/index.ts",
-  "provider_config_count": 9,
+  "provider_config_count": 15,
   "provider_configs": [
     {
       "auth_types": [
@@ -354,6 +354,216 @@
       },
       "runtime_status": "candidate_only",
       "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/notion.json"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "display_name": "Microsoft Outlook",
+      "logo_url": "https://cdn.activepieces.com/pieces/microsoft-outlook.png",
+      "package_name": "@activepieces/piece-microsoft-outlook",
+      "package_version": "0.7.2",
+      "piece_slug": "microsoft-outlook",
+      "provider_config_key": "outlook",
+      "provider_config_key_candidate_records": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-outlook",
+          "provider_key": "outlook"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-outlook",
+          "provider_key": "outlook-dev"
+        }
+      ],
+      "provider_config_key_candidates": [
+        "outlook",
+        "outlook-dev"
+      ],
+      "provider_config_key_selection": {
+        "confidence": "high",
+        "policy": "first_high_confidence_else_first_candidate"
+      },
+      "runtime_status": "candidate_only",
+      "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/microsoft-outlook.json"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "display_name": "Microsoft Outlook Calendar",
+      "logo_url": "https://cdn.activepieces.com/pieces/microsoft-outlook.png",
+      "package_name": "@activepieces/piece-microsoft-outlook-calendar",
+      "package_version": "0.3.1",
+      "piece_slug": "microsoft-outlook-calendar",
+      "provider_config_key": "outlook",
+      "provider_config_key_candidate_records": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-outlook-calendar",
+          "provider_key": "outlook"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-outlook-calendar",
+          "provider_key": "outlook-dev"
+        }
+      ],
+      "provider_config_key_candidates": [
+        "outlook",
+        "outlook-dev"
+      ],
+      "provider_config_key_selection": {
+        "confidence": "high",
+        "policy": "first_high_confidence_else_first_candidate"
+      },
+      "runtime_status": "candidate_only",
+      "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/microsoft-outlook-calendar.json"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "display_name": "Microsoft Teams",
+      "logo_url": "https://cdn.activepieces.com/pieces/microsoft-teams.png",
+      "package_name": "@activepieces/piece-microsoft-teams",
+      "package_version": "0.7.2",
+      "piece_slug": "microsoft-teams",
+      "provider_config_key": "microsoft-teams",
+      "provider_config_key_candidate_records": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-teams",
+          "provider_key": "microsoft-teams"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-teams",
+          "provider_key": "microsoft-teams-dev"
+        }
+      ],
+      "provider_config_key_candidates": [
+        "microsoft-teams",
+        "microsoft-teams-dev"
+      ],
+      "provider_config_key_selection": {
+        "confidence": "high",
+        "policy": "first_high_confidence_else_first_candidate"
+      },
+      "runtime_status": "candidate_only",
+      "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/microsoft-teams.json"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "display_name": "Microsoft Excel 365",
+      "logo_url": "https://cdn.activepieces.com/pieces/microsoft-excel-365.png",
+      "package_name": "@activepieces/piece-microsoft-excel-365",
+      "package_version": "0.8.2",
+      "piece_slug": "microsoft-excel-365",
+      "provider_config_key": "microsoft-excel",
+      "provider_config_key_candidate_records": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-excel-365",
+          "provider_key": "microsoft-excel"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-excel-365",
+          "provider_key": "microsoft-excel-dev"
+        }
+      ],
+      "provider_config_key_candidates": [
+        "microsoft-excel",
+        "microsoft-excel-dev"
+      ],
+      "provider_config_key_selection": {
+        "confidence": "high",
+        "policy": "first_high_confidence_else_first_candidate"
+      },
+      "runtime_status": "candidate_only",
+      "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/microsoft-excel-365.json"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "display_name": "Microsoft OneDrive",
+      "logo_url": "https://cdn.activepieces.com/pieces/oneDrive.png",
+      "package_name": "@activepieces/piece-microsoft-onedrive",
+      "package_version": "0.6.1",
+      "piece_slug": "microsoft-onedrive",
+      "provider_config_key": "one-drive",
+      "provider_config_key_candidate_records": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-onedrive",
+          "provider_key": "one-drive"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-onedrive",
+          "provider_key": "one-drive-dev"
+        }
+      ],
+      "provider_config_key_candidates": [
+        "one-drive",
+        "one-drive-dev"
+      ],
+      "provider_config_key_selection": {
+        "confidence": "high",
+        "policy": "first_high_confidence_else_first_candidate"
+      },
+      "runtime_status": "candidate_only",
+      "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/microsoft-onedrive.json"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "display_name": "Microsoft SharePoint",
+      "logo_url": "https://cdn.activepieces.com/pieces/microsoft-sharepoint.png",
+      "package_name": "@activepieces/piece-microsoft-sharepoint",
+      "package_version": "0.4.2",
+      "piece_slug": "microsoft-sharepoint",
+      "provider_config_key": "sharepoint-online",
+      "provider_config_key_candidate_records": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
+          "provider_key": "sharepoint-online"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
+          "provider_key": "sharepoint-online-dev"
+        }
+      ],
+      "provider_config_key_candidates": [
+        "sharepoint-online",
+        "sharepoint-online-dev"
+      ],
+      "provider_config_key_selection": {
+        "confidence": "high",
+        "policy": "first_high_confidence_else_first_candidate"
+      },
+      "runtime_status": "candidate_only",
+      "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/microsoft-sharepoint.json"
     }
   ],
   "runtime_status": "candidate_only",
