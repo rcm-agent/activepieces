@@ -14,7 +14,6 @@ function requestTuple({ piece, action }) {
 const discord = { ...requestTuple({ piece: '@activepieces/piece-discord', action: 'sendMessageWithBot' }), auth_type: 'API_KEY', auth: { type: 'API_KEY', apiKey: 'discord-contract-token' }, props: { channel_id: 'C123', message: 'contract message' }, timeout_ms: 15000 };
 const slack = { ...requestTuple({ piece: '@activepieces/piece-slack', action: 'send_channel_message' }), auth_type: 'OAUTH2', auth: { type: 'OAUTH2', access_token: 'slack-contract-token', raw: { team: { id: 'contract-team' } } }, props: { channel: 'C123', sendAsBot: true, text: 'contract message' }, timeout_ms: 15000 };
 const output = { id: 'message-123', content: 'contract message', nested: { untouched: true } };
-const defaultMemoryMb = { '@activepieces/piece-slack': 512, '@activepieces/piece-google-calendar': 512, '@activepieces/piece-google-drive': 512 };
 const originalSpawn = childProcess.spawn;
 let fixture;
 childProcess.spawn = (command, args, options) => {
@@ -22,7 +21,7 @@ childProcess.spawn = (command, args, options) => {
   return originalSpawn(command, ['--require', fileURLToPath(new URL('./http-intercept.cjs', import.meta.url)), ...args, JSON.stringify(fixture)], options);
 };
 syncBuiltinESMExports(); after(() => { childProcess.spawn = originalSpawn; syncBuiltinESMExports(); });
-function run({ request = discord, body = output, status = 200, mode, url, method = 'POST', requests, memoryMb = request.memory_mb ?? defaultMemoryMb[request.piece] ?? 256 } = {}) {
+function run({ request = discord, body = output, status = 200, mode, url, method = 'POST', requests, memoryMb = request.memory_mb ?? 256 } = {}) {
   const authorization = request.piece === slack.piece ? `Bearer ${request.props.sendAsBot ? request.auth.access_token : (request.auth.raw ?? request.auth.data)?.authed_user?.access_token}` : request.piece === discord.piece ? `Bot ${request.auth.apiKey ?? request.auth.secret_text}` : `Bearer ${request.auth.access_token}`;
   fixture = { body, status, mode, method, requests, memoryMb, url: url ?? (request.piece === slack.piece ? 'https://slack.com/api/chat.postMessage' : 'https://discord.com/api/v10/channels/C123/messages'), authorization };
   return pieceRunner.invoke(request);
@@ -47,10 +46,10 @@ test('Google Calendar passes the OAuth token through its nested HTTP client', as
   const body = { id: 'contract-event', summary: 'Contract event' };
   assert.deepEqual(await run({ request, body, method: 'GET', url: 'https://www.googleapis.com/calendar/v3/calendars/primary/events/contract-event' }), { status: 'completed', output: body });
 });
-test('Google Drive passes the OAuth token, defaults to its entry memory and refuses requests above 512 MiB', async () => {
+test('Google Drive passes the OAuth token, defaults to 256 MiB, honors a request limit and refuses requests above 512 MiB', async () => {
   const request = { ...requestTuple({ piece: '@activepieces/piece-google-drive', action: 'create_new_gdrive_folder' }), auth_type: 'OAUTH2', auth: { access_token: 'drive-contract-token', data: {} }, props: { folderName: 'Contract folder' }, timeout_ms: 15000 };
   const body = { id: 'contract-folder', name: 'Contract folder' };
-  assert.deepEqual(await run({ request, body, url: 'https://www.googleapis.com/drive/v3/files', memoryMb: 512 }), { status: 'completed', output: body });
+  assert.deepEqual(await run({ request, body, url: 'https://www.googleapis.com/drive/v3/files', memoryMb: 256 }), { status: 'completed', output: body });
   assert.deepEqual(await run({ request: { ...request, memory_mb: 384 }, body, url: 'https://www.googleapis.com/drive/v3/files' }), { status: 'completed', output: body });
   const result = await run({ request: { ...request, memory_mb: 513 } });
   assert.deepEqual([result.status, result.refusal?.code], ['refused', 'INVALID_LIMIT']);

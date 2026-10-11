@@ -166,7 +166,7 @@ function dependencyVersion({ manifest, name }) {
 const runnerRoot = dirname(fileURLToPath(import.meta.url));
 const runnerManifest = readJson({ path: join(runnerRoot, 'package.json') });
 const entries = Object.freeze([
-  { piece: '@activepieces/piece-slack', action: 'send_channel_message', exportName: 'slack', forkDirectory: 'slack', memoryMb: 512 },
+  { piece: '@activepieces/piece-slack', action: 'send_channel_message', exportName: 'slack', forkDirectory: 'slack' },
   { piece: '@activepieces/piece-discord', action: 'sendMessageWithBot', exportName: 'discord', forkDirectory: 'discord' },
   { piece: '@activepieces/piece-google-sheets', action: 'get-many-rows', exportName: 'googleSheets', forkDirectory: 'google-sheets' },
   { piece: '@activepieces/piece-google-sheets', action: 'find_rows', exportName: 'googleSheets', forkDirectory: 'google-sheets' },
@@ -174,13 +174,13 @@ const entries = Object.freeze([
   { piece: '@activepieces/piece-google-sheets', action: 'insert_row', exportName: 'googleSheets', forkDirectory: 'google-sheets' },
   { piece: '@activepieces/piece-google-sheets', action: 'google-sheets-insert-multiple-rows', exportName: 'googleSheets', forkDirectory: 'google-sheets' },
   { piece: '@activepieces/piece-google-sheets', action: 'update_row', exportName: 'googleSheets', forkDirectory: 'google-sheets' },
-  { piece: '@activepieces/piece-google-calendar', action: 'google_calendar_find_busy_free_periods', exportName: 'googleCalendar', forkDirectory: 'google-calendar', memoryMb: 512 },
-  { piece: '@activepieces/piece-google-calendar', action: 'google_calendar_get_events', exportName: 'googleCalendar', forkDirectory: 'google-calendar', memoryMb: 512 },
-  { piece: '@activepieces/piece-google-calendar', action: 'google_calendar_get_event_by_id', exportName: 'googleCalendar', forkDirectory: 'google-calendar', memoryMb: 512 },
-  { piece: '@activepieces/piece-google-calendar', action: 'create_google_calendar_event', exportName: 'googleCalendar', forkDirectory: 'google-calendar', memoryMb: 512 },
-  { piece: '@activepieces/piece-google-calendar', action: 'update_event', exportName: 'googleCalendar', forkDirectory: 'google-calendar', memoryMb: 512 },
-  { piece: '@activepieces/piece-google-drive', action: 'search-folder', exportName: 'googleDrive', forkDirectory: 'google-drive', memoryMb: 512 },
-  { piece: '@activepieces/piece-google-drive', action: 'create_new_gdrive_folder', exportName: 'googleDrive', forkDirectory: 'google-drive', memoryMb: 512 },
+  { piece: '@activepieces/piece-google-calendar', action: 'google_calendar_find_busy_free_periods', exportName: 'googleCalendar', forkDirectory: 'google-calendar' },
+  { piece: '@activepieces/piece-google-calendar', action: 'google_calendar_get_events', exportName: 'googleCalendar', forkDirectory: 'google-calendar' },
+  { piece: '@activepieces/piece-google-calendar', action: 'google_calendar_get_event_by_id', exportName: 'googleCalendar', forkDirectory: 'google-calendar' },
+  { piece: '@activepieces/piece-google-calendar', action: 'create_google_calendar_event', exportName: 'googleCalendar', forkDirectory: 'google-calendar' },
+  { piece: '@activepieces/piece-google-calendar', action: 'update_event', exportName: 'googleCalendar', forkDirectory: 'google-calendar' },
+  { piece: '@activepieces/piece-google-drive', action: 'search-folder', exportName: 'googleDrive', forkDirectory: 'google-drive' },
+  { piece: '@activepieces/piece-google-drive', action: 'create_new_gdrive_folder', exportName: 'googleDrive', forkDirectory: 'google-drive' },
 ].map((entry) => Object.freeze({ ...entry, version: dependencyVersion({ manifest: runnerManifest, name: entry.piece }) })));
 
 export const pieceCatalog = { entries, validateTuple, loadAction, prepare, exportActions, verifyVersions, camelToSnake };
