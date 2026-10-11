@@ -1,0 +1,479 @@
+{
+  "actions": [
+    {
+      "description": "Create a text, CSV or XML file from text you enter.",
+      "display_name": "Create File from Text",
+      "name": "create_new_gdrive_file",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/create-new-text-file.ts"
+    },
+    {
+      "description": "Create an empty folder in Google Drive.",
+      "display_name": "Create Folder",
+      "name": "create_new_gdrive_folder",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/create-new-folder.ts"
+    },
+    {
+      "description": "Make a custom API call to a specific endpoint",
+      "display_name": "Custom API Call",
+      "name": "custom_api_call",
+      "source_line": 143,
+      "source_path": "packages/pieces/community/google-drive/src/index.ts"
+    },
+    {
+      "description": "Permanently delete a file, skipping the bin.",
+      "display_name": "Delete File",
+      "name": "delete_gdrive_file",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/delete-file.ts"
+    },
+    {
+      "description": "Remove a person's role from a file or folder.",
+      "display_name": "Remove Access",
+      "name": "delete_permissions",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/delete-permission.action.ts"
+    },
+    {
+      "description": "Duplicate a file from Google Drive. Returns the new file ID.",
+      "display_name": "Copy File",
+      "name": "drive_copy_file",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-copy-file.ts"
+    },
+    {
+      "description": "Add a new comment to a Drive file.",
+      "display_name": "Create Comment",
+      "name": "drive_create_comment",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-create-comment.ts"
+    },
+    {
+      "description": "Create a new text file in your Google Drive from text",
+      "display_name": "Create File from Text",
+      "name": "drive_create_file_from_text",
+      "source_line": 11,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-create-file-from-text.ts"
+    },
+    {
+      "description": "Create a new empty folder in your Google Drive",
+      "display_name": "Create Folder",
+      "name": "drive_create_folder",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-create-folder.ts"
+    },
+    {
+      "description": "Add a reply to an existing comment on a Drive file.",
+      "display_name": "Reply to Comment",
+      "name": "drive_create_reply",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-create-reply.ts"
+    },
+    {
+      "description": "Create a new shared drive (Team Drive).",
+      "display_name": "Create Shared Drive",
+      "name": "drive_create_shared_drive",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-create-shared-drive.ts"
+    },
+    {
+      "description": "Permanently delete a Drive file by ID, bypassing the trash.",
+      "display_name": "Delete File Permanently",
+      "name": "drive_delete_file",
+      "source_line": 5,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-delete-file.ts"
+    },
+    {
+      "description": "Permanently delete a reply on a Drive comment by ID.",
+      "display_name": "Delete Reply",
+      "name": "drive_delete_reply",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-delete-reply.ts"
+    },
+    {
+      "description": "Permanently delete a shared drive by ID.",
+      "display_name": "Delete Shared Drive",
+      "name": "drive_delete_shared_drive",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-delete-shared-drive.ts"
+    },
+    {
+      "description": "Read a selected file from google drive file",
+      "display_name": "Download File Content",
+      "name": "drive_download_file",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-download-file.ts"
+    },
+    {
+      "description": "Permanently delete ALL files in the trash (irreversible, account-wide).",
+      "display_name": "Empty Trash",
+      "name": "drive_empty_trash",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-empty-trash.ts"
+    },
+    {
+      "description": "Download a folder and all its subfolders as one zip file.",
+      "display_name": "Export Folder as Zip",
+      "name": "drive_export_folder_as_zip",
+      "source_line": 449,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-export-folder-as-zip.ts"
+    },
+    {
+      "description": "Export a native Google Workspace file (Doc/Sheet/Slides) to a chosen format.",
+      "display_name": "Export Google Doc/Sheet/Slides",
+      "name": "drive_export_workspace_file",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-export-workspace-file.ts"
+    },
+    {
+      "description": "Get the authenticated Drive account, storage quota, and supported formats.",
+      "display_name": "Get Account & Storage Info",
+      "name": "drive_get_about",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-get-about.ts"
+    },
+    {
+      "description": "Get a file folder for files/sub-folders",
+      "display_name": "Get File or Folder",
+      "name": "drive_get_file",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-get-file.ts"
+    },
+    {
+      "description": "Fetch a single reply on a Drive comment by ID.",
+      "display_name": "Get Reply",
+      "name": "drive_get_reply",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-get-reply.ts"
+    },
+    {
+      "description": "Fetch metadata for one shared drive by ID.",
+      "display_name": "Get Shared Drive",
+      "name": "drive_get_shared_drive",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-get-shared-drive.ts"
+    },
+    {
+      "description": "List the comments on a Drive file.",
+      "display_name": "List Comments",
+      "name": "drive_list_comments",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-list-comments.ts"
+    },
+    {
+      "description": "List files from a Google Drive folder",
+      "display_name": "List Folder Contents",
+      "name": "drive_list_files",
+      "source_line": 15,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-list-files.ts"
+    },
+    {
+      "description": "List every permission on a Drive file or folder.",
+      "display_name": "List Permissions",
+      "name": "drive_list_permissions",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-list-permissions.ts"
+    },
+    {
+      "description": "List the replies under a Drive comment.",
+      "display_name": "List Replies",
+      "name": "drive_list_replies",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-list-replies.ts"
+    },
+    {
+      "description": "List the shared drives the account can access.",
+      "display_name": "List Shared Drives",
+      "name": "drive_list_shared_drives",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-list-shared-drives.ts"
+    },
+    {
+      "description": "Move a Drive file from its current folder(s) to a target folder.",
+      "display_name": "Move File",
+      "name": "drive_move_file",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-move-file.ts"
+    },
+    {
+      "description": "Revoke a role from a user on a Drive file or folder.",
+      "display_name": "Remove Permission",
+      "name": "drive_remove_permission",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-remove-permission.ts"
+    },
+    {
+      "description": "Replace an existing Drive file's bytes, keeping its ID and name.",
+      "display_name": "Replace File Content",
+      "name": "drive_replace_file_content",
+      "source_line": 11,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-replace-file-content.ts"
+    },
+    {
+      "description": "Save a document as PDF in a Google Drive folder",
+      "display_name": "Save File as PDF",
+      "name": "drive_save_file_as_pdf",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-save-file-as-pdf.ts"
+    },
+    {
+      "description": "Search a Google Drive folder for files/sub-folders",
+      "display_name": "Search Files and Folders",
+      "name": "drive_search_files",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-search-files.ts"
+    },
+    {
+      "description": "Make a Drive file or folder accessible to anyone with the link.",
+      "display_name": "Set Public Access",
+      "name": "drive_set_public_access",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-set-public-access.ts"
+    },
+    {
+      "description": "Grant a role on a Drive file or folder to a user by email.",
+      "display_name": "Share File with User",
+      "name": "drive_share_file",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-share-file.ts"
+    },
+    {
+      "description": "Move a Drive file to the trash by ID (reversible deletion).",
+      "display_name": "Trash File",
+      "name": "drive_trash_file",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-trash-file.ts"
+    },
+    {
+      "description": "Restore a trashed Drive file by ID back to its original location.",
+      "display_name": "Restore File from Trash",
+      "name": "drive_untrash_file",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-untrash-file.ts"
+    },
+    {
+      "description": "Rename a Drive file/folder or update its description or starred flag (metadata only).",
+      "display_name": "Update File Metadata (Rename)",
+      "name": "drive_update_file_metadata",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-update-file-metadata.ts"
+    },
+    {
+      "description": "Change an existing collaborator's role on a Drive file or folder.",
+      "display_name": "Update Permission Role",
+      "name": "drive_update_permission",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-update-permission.ts"
+    },
+    {
+      "description": "Edit the text of an existing reply on a Drive comment.",
+      "display_name": "Update Reply",
+      "name": "drive_update_reply",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-update-reply.ts"
+    },
+    {
+      "description": "Rename or update a shared drive by ID.",
+      "display_name": "Update Shared Drive",
+      "name": "drive_update_shared_drive",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-update-shared-drive.ts"
+    },
+    {
+      "description": "Upload a file in your Google Drive",
+      "display_name": "Upload File",
+      "name": "drive_upload_file",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-upload-file.ts"
+    },
+    {
+      "description": "Fetch a file from a public URL and upload it into Google Drive.",
+      "display_name": "Upload File from URL",
+      "name": "drive_upload_from_url",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/drive-upload-from-url.ts"
+    },
+    {
+      "description": "Copy a file into a folder, optionally as a Google Doc or Sheet.",
+      "display_name": "Duplicate File",
+      "name": "duplicate_file",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/duplicate-file.action.ts"
+    },
+    {
+      "description": "Get the details of a file or folder by its ID.",
+      "display_name": "Get File Information",
+      "name": "get-file-or-folder-by-id",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/get-file-by-id.ts"
+    },
+    {
+      "description": "Move a file into another folder.",
+      "display_name": "Move File",
+      "name": "google-drive-move-file",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/move-file.ts"
+    },
+    {
+      "description": "List the files and folders inside a folder.",
+      "display_name": "List Files",
+      "name": "list-files",
+      "source_line": 16,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/list-files.action.ts"
+    },
+    {
+      "description": "Download a file. Google Docs, Sheets and Slides become Office files.",
+      "display_name": "Download File",
+      "name": "read-file",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/read-file.ts"
+    },
+    {
+      "description": "Export a Google Doc, Sheet or Slides as a PDF into a folder.",
+      "display_name": "Save Document as PDF",
+      "name": "save_file_as_pdf",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/save-file-as-pdf.action.ts"
+    },
+    {
+      "description": "Find files or folders by name, content or type.",
+      "display_name": "Find File or Folder",
+      "name": "search-folder",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/search-folder-or-file.action.ts"
+    },
+    {
+      "description": "Let anyone with the link open a file or folder.",
+      "display_name": "Set Public Access",
+      "name": "set_public_access",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/set-public-access.ts"
+    },
+    {
+      "description": "Move a file to the bin, where it can be restored.",
+      "display_name": "Move File to Trash",
+      "name": "trash_gdrive_file",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/send-to-trash.ts"
+    },
+    {
+      "description": "Give a person a role on a file or folder by email.",
+      "display_name": "Share File or Folder",
+      "name": "update_permissions",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/add-permission.action.ts"
+    },
+    {
+      "description": "Upload a file to Google Drive.",
+      "display_name": "Upload File",
+      "name": "upload_gdrive_file",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/google-drive/src/lib/action/upload-file.ts"
+    }
+  ],
+  "auth": {
+    "auth_url_candidates": [
+      "https://accounts.google.com/o/oauth2/auth"
+    ],
+    "declared_symbol": "googleDriveAuth",
+    "source_path": "packages/pieces/community/google-drive/src/lib/auth.ts",
+    "token_url_candidates": [
+      "https://oauth2.googleapis.com/token"
+    ],
+    "types": [
+      "oauth2",
+      "custom_auth"
+    ]
+  },
+  "nango_provider_key_candidates": [
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for google-drive",
+      "provider_key": "google-drive"
+    },
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for google-drive",
+      "provider_key": "google-drive-dev"
+    },
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for google-drive",
+      "provider_key": "google"
+    }
+  ],
+  "package": {
+    "name": "@activepieces/piece-google-drive",
+    "version": "0.11.3"
+  },
+  "piece": {
+    "auth_symbol": "googleDriveAuth",
+    "authors": [
+      "BastienMe",
+      "ArmanGiau3",
+      "Vitalini",
+      "pfernandez98",
+      "kanarelo",
+      "Salem-Alaa",
+      "kishanprmr",
+      "MoShizzle",
+      "AbdulTheActivePiecer",
+      "khaledmashaly",
+      "abuaboud",
+      "geekyme"
+    ],
+    "categories": [
+      "CONTENT_AND_FILES"
+    ],
+    "description": "Cloud storage and file backup",
+    "display_name": "Google Drive",
+    "export_name": "googleDrive",
+    "logo_url": "https://cdn.activepieces.com/pieces/google-drive.png",
+    "minimum_supported_release": "0.88.2",
+    "slug": "google-drive"
+  },
+  "provenance": {
+    "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
+    "index_path": "packages/pieces/community/google-drive/src/index.ts",
+    "piece_path": "packages/pieces/community/google-drive",
+    "upstream_commit": "59c94f454ef3afed9974b41650e3d78067918328",
+    "upstream_repo": "activepieces/activepieces"
+  },
+  "runtime_execution": {
+    "note": "Generated catalog candidate only; Activepieces runtime execution is out of scope.",
+    "status": "candidate_only",
+    "supported": false
+  },
+  "runtime_status": "candidate_only",
+  "schema_version": "activepieces-catalog-candidate.v1",
+  "triggers": [
+    {
+      "description": "Triggers when a new file is added to Drive or the chosen folder.",
+      "display_name": "New File",
+      "name": "new_file",
+      "source_line": 39,
+      "source_path": "packages/pieces/community/google-drive/src/lib/triggers/new-file.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a new folder is created in Drive or the chosen folder.",
+      "display_name": "New Folder",
+      "name": "new_folder",
+      "source_line": 37,
+      "source_path": "packages/pieces/community/google-drive/src/lib/triggers/new-folder.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a file is created or edited. A rename counts; trashing or moving does not.",
+      "display_name": "New or Updated File",
+      "name": "new_or_updated_file",
+      "source_line": 54,
+      "source_path": "packages/pieces/community/google-drive/src/lib/triggers/new-or-updated-file.ts",
+      "trigger_strategy": "POLLING"
+    }
+  ]
+}

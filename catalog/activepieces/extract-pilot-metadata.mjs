@@ -14,7 +14,7 @@ const SCHEMA_VERSION = 'activepieces-catalog-candidate.v1';
 const RUNTIME_STATUS = 'candidate_only';
 const UPSTREAM_REPO = 'activepieces/activepieces';
 const UPSTREAM_COMMIT = '59c94f454ef3afed9974b41650e3d78067918328';
-const PILOT_PIECES = ['slack', 'discord', 'gmail', 'google-sheets', 'hubspot', 'github', 'notion'];
+const PILOT_PIECES = ['slack', 'discord', 'gmail', 'google-sheets', 'google-calendar', 'google-drive', 'hubspot', 'github', 'notion'];
 const WEBHOOK_TRIGGER_STRATEGIES = new Set(['WEBHOOK', 'APP_WEBHOOK']);
 const POLLING_TRIGGER_STRATEGIES = new Set(['POLLING']);
 
@@ -28,7 +28,9 @@ const NANGO_PROVIDER_HINTS = {
   slack: ['slack', 'slack-dev'],
   discord: ['discord-dev', 'discord'],
   gmail: ['google', 'gmail', 'google-mail', 'google-mail-dev'],
-  'google-sheets': ['google', 'google-sheets'],
+  'google-sheets': ['google', 'google-sheets', 'google-sheet', 'google-sheet-dev'],
+  'google-calendar': ['google-calendar', 'google-calendar-dev'],
+  'google-drive': ['google-drive', 'google-drive-dev'],
   hubspot: ['hubspot'],
   github: ['github'],
   notion: ['notion-dev', 'notion'],
@@ -237,10 +239,11 @@ function readPieceExportName({ slug }) {
 }
 
 function extractAuth({ authSymbol, indexImports, indexPath }) {
-  const sourceFile = indexImports.get(authSymbol);
-  if (!sourceFile) {
+  const importedFile = indexImports.get(authSymbol);
+  if (!importedFile) {
     throw new Error(`Unable to resolve auth symbol "${authSymbol}" from ${toRepoPath(indexPath)}.`);
   }
+  const sourceFile = followReExport({ symbol: authSymbol, sourceFile: importedFile });
   const code = readText(sourceFile);
   const types = [];
   if (code.includes('PieceAuth.OAuth2(')) {
@@ -698,6 +701,16 @@ function parseImports({ code, fromFile }) {
     }
   }
   return imports;
+}
+
+function followReExport({ symbol, sourceFile }) {
+  const reExport = parseReExports({ code: readText(sourceFile), fromFile: sourceFile }).get(symbol);
+  return reExport ? followReExport({ symbol, sourceFile: reExport }) : sourceFile;
+}
+
+function parseReExports({ code, fromFile }) {
+  const statements = [...code.matchAll(/\bexport(\s*\{[^}]*\}\s*from\s*['"][^'"]+['"])/g)].map((match) => `import${match[1]}`);
+  return parseImports({ code: statements.join('\n'), fromFile });
 }
 
 function resolveImport({ fromFile, specifier }) {

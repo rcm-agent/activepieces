@@ -2,7 +2,7 @@
   "artifact_root": "catalog/activepieces/generated/pilot",
   "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
   "frontend_generated_path": "src/generated/activepieces-nango-provider-map/index.ts",
-  "provider_config_count": 7,
+  "provider_config_count": 9,
   "provider_configs": [
     {
       "auth_types": [
@@ -12,7 +12,7 @@
       "display_name": "Slack",
       "logo_url": "https://cdn.activepieces.com/pieces/slack.png",
       "package_name": "@activepieces/piece-slack",
-      "package_version": "0.17.0",
+      "package_version": "0.21.1",
       "piece_slug": "slack",
       "provider_config_key": "slack",
       "provider_config_key_candidate_records": [
@@ -47,7 +47,7 @@
       "display_name": "Discord",
       "logo_url": "https://cdn.activepieces.com/pieces/discord.png",
       "package_name": "@activepieces/piece-discord",
-      "package_version": "0.5.0",
+      "package_version": "0.7.2",
       "piece_slug": "discord",
       "provider_config_key": "discord-dev",
       "provider_config_key_candidate_records": [
@@ -83,7 +83,7 @@
       "display_name": "Gmail",
       "logo_url": "https://cdn.activepieces.com/pieces/gmail.png",
       "package_name": "@activepieces/piece-gmail",
-      "package_version": "0.12.3",
+      "package_version": "0.17.5",
       "piece_slug": "gmail",
       "provider_config_key": "google",
       "provider_config_key_candidate_records": [
@@ -133,7 +133,7 @@
       "display_name": "Google Sheets",
       "logo_url": "https://cdn.activepieces.com/pieces/google-sheets.png",
       "package_name": "@activepieces/piece-google-sheets",
-      "package_version": "0.14.6",
+      "package_version": "0.17.2",
       "piece_slug": "google-sheets",
       "provider_config_key": "google",
       "provider_config_key_candidate_records": [
@@ -148,11 +148,25 @@
           "confidence": "possible",
           "evidence": "inferred from package/auth metadata for google-sheets",
           "provider_key": "google-sheets"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-sheets",
+          "provider_key": "google-sheet"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-sheets",
+          "provider_key": "google-sheet-dev"
         }
       ],
       "provider_config_key_candidates": [
         "google",
-        "google-sheets"
+        "google-sheets",
+        "google-sheet",
+        "google-sheet-dev"
       ],
       "provider_config_key_selection": {
         "confidence": "high",
@@ -163,12 +177,99 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
+      ],
+      "display_name": "Google Calendar",
+      "logo_url": "https://cdn.activepieces.com/pieces/google-calendar.png",
+      "package_name": "@activepieces/piece-google-calendar",
+      "package_version": "0.12.3",
+      "piece_slug": "google-calendar",
+      "provider_config_key": "google-calendar",
+      "provider_config_key_candidate_records": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-calendar",
+          "provider_key": "google-calendar"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-calendar",
+          "provider_key": "google-calendar-dev"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-calendar",
+          "provider_key": "google"
+        }
+      ],
+      "provider_config_key_candidates": [
+        "google-calendar",
+        "google-calendar-dev",
+        "google"
+      ],
+      "provider_config_key_selection": {
+        "confidence": "high",
+        "policy": "first_high_confidence_else_first_candidate"
+      },
+      "runtime_status": "candidate_only",
+      "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/google-calendar.json"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "display_name": "Google Drive",
+      "logo_url": "https://cdn.activepieces.com/pieces/google-drive.png",
+      "package_name": "@activepieces/piece-google-drive",
+      "package_version": "0.11.3",
+      "piece_slug": "google-drive",
+      "provider_config_key": "google-drive",
+      "provider_config_key_candidate_records": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-drive",
+          "provider_key": "google-drive"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-drive",
+          "provider_key": "google-drive-dev"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-drive",
+          "provider_key": "google"
+        }
+      ],
+      "provider_config_key_candidates": [
+        "google-drive",
+        "google-drive-dev",
+        "google"
+      ],
+      "provider_config_key_selection": {
+        "confidence": "high",
+        "policy": "first_high_confidence_else_first_candidate"
+      },
+      "runtime_status": "candidate_only",
+      "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/google-drive.json"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
       ],
       "display_name": "HubSpot",
       "logo_url": "https://cdn.activepieces.com/pieces/hubspot.png",
       "package_name": "@activepieces/piece-hubspot",
-      "package_version": "0.8.4",
+      "package_version": "0.12.1",
       "piece_slug": "hubspot",
       "provider_config_key": "hubspot",
       "provider_config_key_candidate_records": [
@@ -191,12 +292,13 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "display_name": "GitHub",
       "logo_url": "https://cdn.activepieces.com/pieces/github.png",
       "package_name": "@activepieces/piece-github",
-      "package_version": "0.7.3",
+      "package_version": "0.9.3",
       "piece_slug": "github",
       "provider_config_key": "github",
       "provider_config_key_candidate_records": [
@@ -225,7 +327,7 @@
       "display_name": "Notion",
       "logo_url": "https://cdn.activepieces.com/pieces/notion.png",
       "package_name": "@activepieces/piece-notion",
-      "package_version": "0.6.1",
+      "package_version": "0.7.5",
       "piece_slug": "notion",
       "provider_config_key": "notion-dev",
       "provider_config_key_candidate_records": [
@@ -257,5 +359,5 @@
   "runtime_status": "candidate_only",
   "schema_version": "activepieces-nango-provider-map.v1",
   "source_index_path": "catalog/activepieces/generated/pilot/index.json",
-  "upstream_commit": "4e381ffae90afc7bc79ef22c4c9486d051419e00"
+  "upstream_commit": "59c94f454ef3afed9974b41650e3d78067918328"
 }

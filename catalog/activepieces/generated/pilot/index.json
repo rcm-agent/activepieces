@@ -67,13 +67,53 @@
       "display_name": "Google Sheets",
       "nango_provider_key_candidates": [
         "google",
-        "google-sheets"
+        "google-sheets",
+        "google-sheet",
+        "google-sheet-dev"
       ],
       "package_name": "@activepieces/piece-google-sheets",
       "package_version": "0.17.2",
       "runtime_status": "candidate_only",
       "slug": "google-sheets",
       "trigger_count": 4
+    },
+    {
+      "action_count": 25,
+      "artifact_path": "catalog/activepieces/generated/pilot/pieces/google-calendar.json",
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "display_name": "Google Calendar",
+      "nango_provider_key_candidates": [
+        "google-calendar",
+        "google-calendar-dev",
+        "google"
+      ],
+      "package_name": "@activepieces/piece-google-calendar",
+      "package_version": "0.12.3",
+      "runtime_status": "candidate_only",
+      "slug": "google-calendar",
+      "trigger_count": 7
+    },
+    {
+      "action_count": 53,
+      "artifact_path": "catalog/activepieces/generated/pilot/pieces/google-drive.json",
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "display_name": "Google Drive",
+      "nango_provider_key_candidates": [
+        "google-drive",
+        "google-drive-dev",
+        "google"
+      ],
+      "package_name": "@activepieces/piece-google-drive",
+      "package_version": "0.11.3",
+      "runtime_status": "candidate_only",
+      "slug": "google-drive",
+      "trigger_count": 3
     },
     {
       "action_count": 54,
@@ -130,7 +170,7 @@
   ],
   "runtime_status": "candidate_only",
   "schema_version": "activepieces-catalog-candidate.v1",
-  "trigger_candidate_count": 66,
+  "trigger_candidate_count": 76,
   "trigger_candidates_artifact_path": "catalog/activepieces/generated/pilot/trigger_candidates.json",
   "upstream_commit": "59c94f454ef3afed9974b41650e3d78067918328"
 }

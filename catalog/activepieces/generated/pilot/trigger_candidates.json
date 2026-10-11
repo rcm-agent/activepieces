@@ -3,7 +3,7 @@
   "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
   "runtime_status": "candidate_only",
   "schema_version": "activepieces-catalog-candidate.v1",
-  "trigger_count": 66,
+  "trigger_count": 76,
   "triggers": [
     {
       "auth_types": [
@@ -831,6 +831,18 @@
           "confidence": "possible",
           "evidence": "inferred from package/auth metadata for google-sheets",
           "provider_key": "google-sheets"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-sheets",
+          "provider_key": "google-sheet"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-sheets",
+          "provider_key": "google-sheet-dev"
         }
       ],
       "package_name": "@activepieces/piece-google-sheets",
@@ -869,6 +881,18 @@
           "confidence": "possible",
           "evidence": "inferred from package/auth metadata for google-sheets",
           "provider_key": "google-sheets"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-sheets",
+          "provider_key": "google-sheet"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-sheets",
+          "provider_key": "google-sheet-dev"
         }
       ],
       "package_name": "@activepieces/piece-google-sheets",
@@ -907,6 +931,18 @@
           "confidence": "possible",
           "evidence": "inferred from package/auth metadata for google-sheets",
           "provider_key": "google-sheets"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-sheets",
+          "provider_key": "google-sheet"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-sheets",
+          "provider_key": "google-sheet-dev"
         }
       ],
       "package_name": "@activepieces/piece-google-sheets",
@@ -945,6 +981,18 @@
           "confidence": "possible",
           "evidence": "inferred from package/auth metadata for google-sheets",
           "provider_key": "google-sheets"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-sheets",
+          "provider_key": "google-sheet"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-sheets",
+          "provider_key": "google-sheet-dev"
         }
       ],
       "package_name": "@activepieces/piece-google-sheets",
@@ -960,6 +1008,446 @@
       "source_line": 9,
       "source_path": "packages/pieces/community/google-sheets/src/lib/triggers/new-worksheet.ts",
       "trigger_name": "new-worksheet",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.google-calendar.event_cancelled",
+      "description": "Fires when an event is canceled or deleted.",
+      "display_name": "Event Cancelled",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-calendar",
+          "provider_key": "google-calendar"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-calendar",
+          "provider_key": "google-calendar-dev"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-calendar",
+          "provider_key": "google"
+        }
+      ],
+      "package_name": "@activepieces/piece-google-calendar",
+      "package_version": "0.12.3",
+      "piece_display_name": "Google Calendar",
+      "piece_slug": "google-calendar",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 127,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/triggers/event-cancelled.ts",
+      "trigger_name": "event_cancelled",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.google-calendar.event_ends",
+      "description": "Fires when an event ends.",
+      "display_name": "Event Ends",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-calendar",
+          "provider_key": "google-calendar"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-calendar",
+          "provider_key": "google-calendar-dev"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-calendar",
+          "provider_key": "google"
+        }
+      ],
+      "package_name": "@activepieces/piece-google-calendar",
+      "package_version": "0.12.3",
+      "piece_display_name": "Google Calendar",
+      "piece_slug": "google-calendar",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 123,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/triggers/event-ends.ts",
+      "trigger_name": "event_ends",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.google-calendar.event_starts_in",
+      "description": "Fires at a specified amount of time before an event starts (e.g., a reminder).",
+      "display_name": "Event Start (Time Before)",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-calendar",
+          "provider_key": "google-calendar"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-calendar",
+          "provider_key": "google-calendar-dev"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-calendar",
+          "provider_key": "google"
+        }
+      ],
+      "package_name": "@activepieces/piece-google-calendar",
+      "package_version": "0.12.3",
+      "piece_display_name": "Google Calendar",
+      "piece_slug": "google-calendar",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 131,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/triggers/event-start-time-before.ts",
+      "trigger_name": "event_starts_in",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.google-calendar.new_calendar",
+      "description": "Fires when a new calendar is created or becomes accessible.",
+      "display_name": "New Calendar",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-calendar",
+          "provider_key": "google-calendar"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-calendar",
+          "provider_key": "google-calendar-dev"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-calendar",
+          "provider_key": "google"
+        }
+      ],
+      "package_name": "@activepieces/piece-google-calendar",
+      "package_version": "0.12.3",
+      "piece_display_name": "Google Calendar",
+      "piece_slug": "google-calendar",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 82,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/triggers/new-calendar.ts",
+      "trigger_name": "new_calendar",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.google-calendar.new_event",
+      "description": "Fires when a new event is created in a calendar.",
+      "display_name": "New Event",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-calendar",
+          "provider_key": "google-calendar"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-calendar",
+          "provider_key": "google-calendar-dev"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-calendar",
+          "provider_key": "google"
+        }
+      ],
+      "package_name": "@activepieces/piece-google-calendar",
+      "package_version": "0.12.3",
+      "piece_display_name": "Google Calendar",
+      "piece_slug": "google-calendar",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 71,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/triggers/new-event.ts",
+      "trigger_name": "new_event",
+      "trigger_strategy": "WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.google-calendar.new_event_matching_search",
+      "description": "Fires when a new event is created that matches a specified search term.",
+      "display_name": "New Event Matching Search",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-calendar",
+          "provider_key": "google-calendar"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-calendar",
+          "provider_key": "google-calendar-dev"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-calendar",
+          "provider_key": "google"
+        }
+      ],
+      "package_name": "@activepieces/piece-google-calendar",
+      "package_version": "0.12.3",
+      "piece_display_name": "Google Calendar",
+      "piece_slug": "google-calendar",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 133,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/triggers/new-event-matching-search.ts",
+      "trigger_name": "new_event_matching_search",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.google-calendar.new_or_updated_event",
+      "description": "Triggers when an event is added or updated",
+      "display_name": "New or Updated Event",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-calendar",
+          "provider_key": "google-calendar"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-calendar",
+          "provider_key": "google-calendar-dev"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-calendar",
+          "provider_key": "google"
+        }
+      ],
+      "package_name": "@activepieces/piece-google-calendar",
+      "package_version": "0.12.3",
+      "piece_display_name": "Google Calendar",
+      "piece_slug": "google-calendar",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 36,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/triggers/calendar-event.ts",
+      "trigger_name": "new_or_updated_event",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.google-drive.new_file",
+      "description": "Triggers when a new file is added to Drive or the chosen folder.",
+      "display_name": "New File",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-drive",
+          "provider_key": "google-drive"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-drive",
+          "provider_key": "google-drive-dev"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-drive",
+          "provider_key": "google"
+        }
+      ],
+      "package_name": "@activepieces/piece-google-drive",
+      "package_version": "0.11.3",
+      "piece_display_name": "Google Drive",
+      "piece_slug": "google-drive",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 39,
+      "source_path": "packages/pieces/community/google-drive/src/lib/triggers/new-file.ts",
+      "trigger_name": "new_file",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.google-drive.new_folder",
+      "description": "Triggers when a new folder is created in Drive or the chosen folder.",
+      "display_name": "New Folder",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-drive",
+          "provider_key": "google-drive"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-drive",
+          "provider_key": "google-drive-dev"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-drive",
+          "provider_key": "google"
+        }
+      ],
+      "package_name": "@activepieces/piece-google-drive",
+      "package_version": "0.11.3",
+      "piece_display_name": "Google Drive",
+      "piece_slug": "google-drive",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 37,
+      "source_path": "packages/pieces/community/google-drive/src/lib/triggers/new-folder.ts",
+      "trigger_name": "new_folder",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2",
+        "custom_auth"
+      ],
+      "candidate_id": "activepieces_candidate.google-drive.new_or_updated_file",
+      "description": "Triggers when a file is created or edited. A rename counts; trashing or moving does not.",
+      "display_name": "New or Updated File",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-drive",
+          "provider_key": "google-drive"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-drive",
+          "provider_key": "google-drive-dev"
+        },
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for google-drive",
+          "provider_key": "google"
+        }
+      ],
+      "package_name": "@activepieces/piece-google-drive",
+      "package_version": "0.11.3",
+      "piece_display_name": "Google Drive",
+      "piece_slug": "google-drive",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 54,
+      "source_path": "packages/pieces/community/google-drive/src/lib/triggers/new-or-updated-file.ts",
+      "trigger_name": "new_or_updated_file",
       "trigger_strategy": "POLLING",
       "trigger_strategy_family": "POLLING"
     },

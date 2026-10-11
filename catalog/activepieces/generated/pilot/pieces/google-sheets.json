@@ -454,6 +454,18 @@
       "confidence": "possible",
       "evidence": "inferred from package/auth metadata for google-sheets",
       "provider_key": "google-sheets"
+    },
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for google-sheets",
+      "provider_key": "google-sheet"
+    },
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for google-sheets",
+      "provider_key": "google-sheet-dev"
     }
   ],
   "package": {

@@ -1,0 +1,315 @@
+{
+  "actions": [
+    {
+      "description": "Creates an event with a title, time, guests and options.",
+      "display_name": "Create Event",
+      "name": "create_google_calendar_event",
+      "source_line": 167,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/actions/create-event.ts"
+    },
+    {
+      "description": "Creates an event from a plain-language phrase.",
+      "display_name": "Create Quick Event",
+      "name": "create_quick_event",
+      "source_line": 11,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/actions/create-quick-event.ts"
+    },
+    {
+      "description": "Make a custom API call to a specific endpoint",
+      "display_name": "Custom API Call",
+      "name": "custom_api_call",
+      "source_line": 90,
+      "source_path": "packages/pieces/community/google-calendar/src/index.ts"
+    },
+    {
+      "description": "Deletes an event from Google Calendar.",
+      "display_name": "Delete Event",
+      "name": "delete_event",
+      "source_line": 32,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/actions/delete-event.action.ts"
+    },
+    {
+      "description": "Create a new event on a Google Calendar with structured fields (title, start/end, location, description, attendees, color) and an optional Google Meet link.",
+      "display_name": "Create Event",
+      "name": "google_calendar_create_event",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/actions/ai-create-event.ts"
+    },
+    {
+      "description": "Permanently delete an event from a Google Calendar by its event ID.",
+      "display_name": "Delete Event",
+      "name": "google_calendar_delete_event",
+      "source_line": 15,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/actions/ai-delete-event.ts"
+    },
+    {
+      "description": "Finds busy periods across calendars in a time range.",
+      "display_name": "Find Busy/Free Periods in Calendar",
+      "name": "google_calendar_find_busy_free_periods",
+      "source_line": 94,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/actions/find-busy-free-periods.ts"
+    },
+    {
+      "description": "Return the raw busy time blocks of one or more calendars within a window, via the freebusy query.",
+      "display_name": "Find Busy Periods",
+      "name": "google_calendar_find_busy_periods",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/actions/ai-find-busy-periods.ts"
+    },
+    {
+      "description": "Computes open time slots shared across one or more calendars within a window, by inverting their busy blocks.",
+      "display_name": "Find Free Time Slots",
+      "name": "google_calendar_find_free_slots",
+      "source_line": 104,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/actions/find-free-slots.ts"
+    },
+    {
+      "description": "Fetch one calendar's metadata (summary, time zone, description, location) by its calendar ID.",
+      "display_name": "Get Calendar",
+      "name": "google_calendar_get_calendar",
+      "source_line": 24,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/actions/ai-get-calendar.ts"
+    },
+    {
+      "description": "Fetch the Google Calendar color palette mapping colorId values to their hex background/foreground colors.",
+      "display_name": "Get Colors",
+      "name": "google_calendar_get_colors",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/actions/ai-get-colors.ts"
+    },
+    {
+      "description": "Fetch the full details of a single Google Calendar event by its event ID.",
+      "display_name": "Get Event",
+      "name": "google_calendar_get_event",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/actions/ai-get-event.ts"
+    },
+    {
+      "description": "Fetch event details by its unique ID from Google Calendar.",
+      "display_name": "Get Event by ID",
+      "name": "google_calendar_get_event_by_id",
+      "source_line": 122,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/actions/get-event-by-id.ts"
+    },
+    {
+      "description": "Lists events in a calendar, with optional filters.",
+      "display_name": "Get Events",
+      "name": "google_calendar_get_events",
+      "source_line": 114,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/actions/get-events.ts"
+    },
+    {
+      "description": "Import an existing event (by iCalUID) into a Google Calendar as a private copy, using events.import.",
+      "display_name": "Import Event",
+      "name": "google_calendar_import_event",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/actions/ai-import-event.ts"
+    },
+    {
+      "description": "List every calendar in the user's calendar list, returning each calendar's id, summary, access role, time zone, and whether it is primary.",
+      "display_name": "List Calendars",
+      "name": "google_calendar_list_calendars",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/actions/ai-list-calendars.ts"
+    },
+    {
+      "description": "List events from one Google Calendar, optionally filtered by date range, free-text search, and event types.",
+      "display_name": "List Events",
+      "name": "google_calendar_list_events",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/actions/ai-list-events.ts"
+    },
+    {
+      "description": "Lists the individual occurrences of one recurring event series, each with its own instance event ID.",
+      "display_name": "List Recurring Event Instances",
+      "name": "google_calendar_list_recurring_event_instances",
+      "source_line": 11,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/actions/list-recurring-event-instances.ts"
+    },
+    {
+      "description": "List the user's Google Calendar account settings (time zone, week start, date/time format, and more).",
+      "display_name": "List Settings",
+      "name": "google_calendar_list_settings",
+      "source_line": 26,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/actions/ai-list-settings.ts"
+    },
+    {
+      "description": "Moves an existing event from one calendar to another, preserving its event ID and metadata.",
+      "display_name": "Move Event to Another Calendar",
+      "name": "google_calendar_move_event",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/actions/move-event.ts"
+    },
+    {
+      "description": "Remove one attendee (by email) from an existing Google Calendar event, preserving the rest of the guest list.",
+      "display_name": "Remove Attendee",
+      "name": "google_calendar_remove_attendee",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/actions/ai-remove-attendee.ts"
+    },
+    {
+      "description": "Searches every calendar the account can access for events matching a keyword within a required time window.",
+      "display_name": "Search Events Across Calendars",
+      "name": "google_calendar_search_events_all_calendars",
+      "source_line": 14,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/actions/search-events-all-calendars.ts"
+    },
+    {
+      "description": "Update fields of an existing Google Calendar event by ID using a safe get-then-merge; fields you leave unset keep their current values.",
+      "display_name": "Update Event",
+      "name": "google_calendar_update_event",
+      "source_line": 50,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/actions/ai-update-event.ts"
+    },
+    {
+      "description": "Adds guests to an existing event.",
+      "display_name": "Add Attendees to Event",
+      "name": "google-calendar-add-attendees",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/actions/add-attendees.action.ts"
+    },
+    {
+      "description": "Updates an existing event; empty fields keep their value.",
+      "display_name": "Update Event",
+      "name": "update_event",
+      "source_line": 118,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/actions/update-event.action.ts"
+    }
+  ],
+  "auth": {
+    "auth_url_candidates": [
+      "https://accounts.google.com/o/oauth2/auth"
+    ],
+    "declared_symbol": "googleCalendarAuth",
+    "source_path": "packages/pieces/community/google-calendar/src/lib/auth.ts",
+    "token_url_candidates": [
+      "https://oauth2.googleapis.com/token"
+    ],
+    "types": [
+      "oauth2",
+      "custom_auth"
+    ]
+  },
+  "nango_provider_key_candidates": [
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for google-calendar",
+      "provider_key": "google-calendar"
+    },
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for google-calendar",
+      "provider_key": "google-calendar-dev"
+    },
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for google-calendar",
+      "provider_key": "google"
+    }
+  ],
+  "package": {
+    "name": "@activepieces/piece-google-calendar",
+    "version": "0.12.3"
+  },
+  "piece": {
+    "auth_symbol": "googleCalendarAuth",
+    "authors": [
+      "OsamaHaikal",
+      "bibhuty-did-this",
+      "Vitalini",
+      "pfernandez98",
+      "kishanprmr",
+      "MoShizzle",
+      "khaledmashaly",
+      "abuaboud",
+      "ikus060",
+      "Cloudieunnie",
+      "sanket-a11y",
+      "geekyme"
+    ],
+    "categories": [
+      "PRODUCTIVITY"
+    ],
+    "description": "Get organized and stay on schedule",
+    "display_name": "Google Calendar",
+    "export_name": "googleCalendar",
+    "logo_url": "https://cdn.activepieces.com/pieces/google-calendar.png",
+    "minimum_supported_release": "0.88.2",
+    "slug": "google-calendar"
+  },
+  "provenance": {
+    "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
+    "index_path": "packages/pieces/community/google-calendar/src/index.ts",
+    "piece_path": "packages/pieces/community/google-calendar",
+    "upstream_commit": "59c94f454ef3afed9974b41650e3d78067918328",
+    "upstream_repo": "activepieces/activepieces"
+  },
+  "runtime_execution": {
+    "note": "Generated catalog candidate only; Activepieces runtime execution is out of scope.",
+    "status": "candidate_only",
+    "supported": false
+  },
+  "runtime_status": "candidate_only",
+  "schema_version": "activepieces-catalog-candidate.v1",
+  "triggers": [
+    {
+      "description": "Fires when an event is canceled or deleted.",
+      "display_name": "Event Cancelled",
+      "name": "event_cancelled",
+      "source_line": 127,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/triggers/event-cancelled.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Fires when an event ends.",
+      "display_name": "Event Ends",
+      "name": "event_ends",
+      "source_line": 123,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/triggers/event-ends.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Fires at a specified amount of time before an event starts (e.g., a reminder).",
+      "display_name": "Event Start (Time Before)",
+      "name": "event_starts_in",
+      "source_line": 131,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/triggers/event-start-time-before.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Fires when a new calendar is created or becomes accessible.",
+      "display_name": "New Calendar",
+      "name": "new_calendar",
+      "source_line": 82,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/triggers/new-calendar.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Fires when a new event is created in a calendar.",
+      "display_name": "New Event",
+      "name": "new_event",
+      "source_line": 71,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/triggers/new-event.ts",
+      "trigger_strategy": "WEBHOOK"
+    },
+    {
+      "description": "Fires when a new event is created that matches a specified search term.",
+      "display_name": "New Event Matching Search",
+      "name": "new_event_matching_search",
+      "source_line": 133,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/triggers/new-event-matching-search.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when an event is added or updated",
+      "display_name": "New or Updated Event",
+      "name": "new_or_updated_event",
+      "source_line": 36,
+      "source_path": "packages/pieces/community/google-calendar/src/lib/triggers/calendar-event.ts",
+      "trigger_strategy": "POLLING"
+    }
+  ]
+}
