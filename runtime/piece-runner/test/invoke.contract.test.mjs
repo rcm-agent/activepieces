@@ -22,7 +22,7 @@ childProcess.spawn = (command, args, options) => {
 };
 syncBuiltinESMExports(); after(() => { childProcess.spawn = originalSpawn; syncBuiltinESMExports(); });
 function run({ request = discord, body = output, status = 200, mode, url, method = 'POST', requests, memoryMb = request.memory_mb ?? 256 } = {}) {
-  const authorization = request.piece === slack.piece ? `Bearer ${request.props.sendAsBot ? request.auth.access_token : (request.auth.raw ?? request.auth.data)?.authed_user?.access_token}` : request.piece === discord.piece ? `Bot ${request.auth.apiKey ?? request.auth.secret_text}` : `Bearer ${request.auth.access_token}`;
+  const authorization = request.piece === slack.piece ? `Bearer ${request.props.sendAsBot ?? true ? request.auth.access_token : (request.auth.raw ?? request.auth.data)?.authed_user?.access_token}` : request.piece === discord.piece ? `Bot ${request.auth.apiKey ?? request.auth.secret_text}` : `Bearer ${request.auth.access_token}`;
   fixture = { body, status, mode, method, requests, memoryMb, url: url ?? (request.piece === slack.piece ? 'https://slack.com/api/chat.postMessage' : 'https://discord.com/api/v10/channels/C123/messages'), authorization };
   return pieceRunner.invoke(request);
 }
@@ -31,6 +31,8 @@ test('runs installed Discord and Slack actions in an empty child environment and
   assert.deepEqual(await run({ request: { ...discord, auth: { secret_text: discord.auth.apiKey } } }), { status: 'completed', output });
   const slackOutput = { ok: true, channel: 'C123', ts: '123.456', message: { text: 'contract message' }, response_metadata: {} };
   assert.deepEqual(await run({ request: slack, body: slackOutput }), { status: 'completed', output: slackOutput });
+  const { sendAsBot, ...withoutSender } = slack.props;
+  assert.deepEqual(await run({ request: { ...slack, auth: { ...slack.auth, raw: { authed_user: { access_token: 'slack-user-contract-token' } } }, props: withoutSender }, body: slackOutput }), { status: 'completed', output: slackOutput });
   assert.deepEqual(await run({ request: { ...slack, auth: { access_token: slack.auth.access_token, data: slack.auth.raw } }, body: slackOutput }), { status: 'completed', output: slackOutput });
   const userAuth = { ...slack.auth, raw: { authed_user: { access_token: 'slack-user-contract-token' } } };
   assert.deepEqual(await run({ request: { ...slack, auth: userAuth, props: { ...slack.props, sendAsBot: false } }, body: slackOutput }), { status: 'completed', output: slackOutput });
@@ -49,8 +51,8 @@ test('Google Calendar passes the OAuth token through its nested HTTP client', as
 test('Google Drive passes the OAuth token, defaults to 256 MiB, honors a request limit and refuses requests above 512 MiB', async () => {
   const request = { ...requestTuple({ piece: '@activepieces/piece-google-drive', action: 'create_new_gdrive_folder' }), auth_type: 'OAUTH2', auth: { access_token: 'drive-contract-token', data: {} }, props: { folderName: 'Contract folder' }, timeout_ms: 15000 };
   const body = { id: 'contract-folder', name: 'Contract folder' };
-  assert.deepEqual(await run({ request, body, url: 'https://www.googleapis.com/drive/v3/files', memoryMb: 256 }), { status: 'completed', output: body });
-  assert.deepEqual(await run({ request: { ...request, memory_mb: 384 }, body, url: 'https://www.googleapis.com/drive/v3/files' }), { status: 'completed', output: body });
+  assert.deepEqual(await run({ request, body, url: 'https://www.googleapis.com/drive/v3/files?supportsAllDrives=false', memoryMb: 256 }), { status: 'completed', output: body });
+  assert.deepEqual(await run({ request: { ...request, memory_mb: 384 }, body, url: 'https://www.googleapis.com/drive/v3/files?supportsAllDrives=false' }), { status: 'completed', output: body });
   const result = await run({ request: { ...request, memory_mb: 513 } });
   assert.deepEqual([result.status, result.refusal?.code], ['refused', 'INVALID_LIMIT']);
 });

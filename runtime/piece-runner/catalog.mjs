@@ -29,7 +29,15 @@ function prepare({ request, packageRoot = runnerRoot }) {
   const auth = buildAuth({ authType: request.auth_type, auth: request.auth, piece: loaded.piece });
   const props = request.props ?? {};
   validateProps({ declarations: loaded.action.props, props });
-  return { ...loaded, auth, props };
+  return { ...loaded, auth, props: withDefaults({ declarations: loaded.action.props, props }) };
+}
+
+function withDefaults({ declarations, props }) {
+  const filled = { ...props };
+  for (const [name, declaration] of Object.entries(declarations)) {
+    if (!Object.hasOwn(filled, name) && declaration.type !== 'FILE' && declaration.defaultValue !== undefined) filled[name] = declaration.defaultValue;
+  }
+  return filled;
 }
 
 function exportActions({ packageRoot = runnerRoot, repositoryRoot = resolve(runnerRoot, '../..') } = {}) {
