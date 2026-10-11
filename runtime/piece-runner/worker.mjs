@@ -1,7 +1,7 @@
 import https from 'node:https';
 import { createRequire } from 'node:module';
-import { runnerContext } from './context.mjs';
 import { runnerErrors } from './errors.mjs';
+import { runnerExecution } from './execution.mjs';
 
 const writeResult = process.stdout.write.bind(process.stdout);
 process.stdout.write = () => true;
@@ -22,9 +22,8 @@ process.stdin.on('end', async () => {
     request = JSON.parse(input);
     const { pieceCatalog } = await import('./catalog.mjs');
     pieceCatalog.verifyVersions({});
-    const { action, auth, props } = pieceCatalog.prepare({ request });
     const { tryCatch } = createRequire(import.meta.url)('@activepieces/shared');
-    const execution = await tryCatch(async () => ({ output: await action.run(runnerContext.create({ auth, props })) }));
+    const execution = await tryCatch(async () => ({ output: await runnerExecution.execute({ request, pieceCatalog }) }));
     result = execution.data === null
       ? runnerErrors.failure({ error: execution.error, auth: request.auth })
       : { status: 'completed', output: execution.data.output ?? null };

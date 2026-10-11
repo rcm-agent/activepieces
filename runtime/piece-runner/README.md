@@ -40,6 +40,25 @@ const result = await pieceRunner.invoke({
 
 The result is `{ status: 'completed', output }`, `{ status: 'refused', refusal }` or `{ status: 'failed', error }`. Successful action output is unchanged. Error responses contain only the class, optional HTTP status and message, with every string in `auth` scrubbed. The runner never logs the request or credentials.
 
+`mode` is optional and defaults to `"run"`. Use `"options"` to load a `DROPDOWN` or `MULTI_SELECT_DROPDOWN`, or `"props"` to load a `DYNAMIC` field set. Both loader modes require `property`, the key in the action's own props, and use the same `auth_type`, `auth` and sibling `props` as a run. Missing required props are allowed while loading; supplied File props and undeclared props remain refused. Defaults still apply. Loader modes call only the selected property's loader.
+
+`search_value` is an optional string of at most 200 characters, accepted only in options mode. It reaches the loader as `ctx.searchValue`. Static dropdown choices come from the exported catalog and cannot be loaded. Property admission happens before spawning a worker.
+
+For example, a Teams channel picker uses `mode: "options"`, `property: "channelId"` and `props: { teamId: "TEAM_ID" }` on `microsoft_teams_send_channel_message`. The completed loader responses are:
+
+```js
+{ status: 'completed', output: { disabled: false, placeholder: null, options: [{ label: 'General', value: 'CHANNEL_ID' }] } }
+{ status: 'completed', output: { props: { column_1: { type: 'SHORT_TEXT', required: false, description: '', display_name: 'Name' } } } }
+```
+
+Options retain only `label` and `value`; missing `disabled` and `placeholder` become `false` and `null`. Dynamic fields use the same metadata export as action props. The property context exposes search text; its server, project, flows and connections services refuse access.
+
+| Refusal code | Cause |
+| --- | --- |
+| `INVALID_MODE` | Mode is not `run`, `options` or `props`. |
+| `PROPERTY_NOT_LOADABLE` | Property is missing for a loader, supplied in run mode, undeclared, excluded, or lacks the requested loader type and function. |
+| `INVALID_SEARCH_VALUE` | Search text is not a string, exceeds 200 characters, or is supplied outside options mode. |
+
 Auth input is selected exclusively by `auth_type`: Nango's `API_KEY` credential `{ apiKey }` becomes `{ type: 'SECRET_TEXT', secret_text }`, `BASIC` accepts `{ username, password }`, and `OAUTH2` accepts `{ access_token, raw }`, mapping the provider's raw OAuth response to AP's `data`. Normalized `{ secret_text }` and OAuth `{ access_token, data }` inputs also work; Nango fields take precedence when both are supplied. Discord declares `SECRET_TEXT`, so it accepts `API_KEY`. Slack declares `OAUTH2` and `CUSTOM_AUTH`; this runner accepts only `OAUTH2` for Slack. An undeclared auth kind is refused. Props must match the installed action's declarations: unknown names, missing required values and supplied File props are refused.
 
 Microsoft 365 actions accept `OAUTH2` and use `https://graph.microsoft.com`; Outlook defaults to the connected user's `/me` mailbox. Outlook email attachments remain unavailable because supplied File props are refused.
@@ -48,7 +67,7 @@ Each allowed invocation starts a fresh child with an empty environment. Defaults
 
 | Field | Default | Hard ceiling |
 | --- | ---: | ---: |
-| `timeout_ms` | 30,000 | 60,000 |
+| `timeout_ms` | 30,000 for run; 15,000 for options/props | 60,000 |
 | `memory_mb` | 256 | 512 |
 | `max_output_bytes` | 262,144 | 1,048,576 |
 
@@ -67,7 +86,7 @@ node --test test/export-actions.contract.test.mjs
 node export-actions.mjs actions.json
 ```
 
-The version check compares the lock and installed pieces with the fork's piece manifests using each entry's explicit `forkDirectory`. Pieces retain their own nested (older versions) or bundled (newer versions) framework, common and shared code, so the runner's root framework, common and shared pins are not compared with the fork. Export reads metadata from installed piece code, including props, required flags, descriptions, declared auth kinds and versions. Exported action IDs use deterministic snake case (`sendMessageWithBot` → `send_message_with_bot`).
+The version check compares the lock and installed pieces with the fork's piece manifests using each entry's explicit `forkDirectory`. Pieces retain their own nested (older versions) or bundled (newer versions) framework, common and shared code, so the runner's root framework, common and shared pins are not compared with the fork. Export reads metadata from installed piece code, including props, required flags, descriptions, declared auth kinds and versions. Exported action IDs use deterministic snake case (`sendMessageWithBot` → `send_message_with_bot`). Each prop includes `display_name` and a `default` when its value survives JSON serialization unchanged. Static dropdowns include ordered `options` with their original value types. Loaded dropdowns and dynamic fields include `refreshers` (default `[]`); loaded dropdowns also include `refresh_on_search` (default `false`). Nested `properties` use the same export. Placeholders, disabled states and loader code are not exported.
 
 ## Updating pieces
 

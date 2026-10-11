@@ -2,6 +2,8 @@ import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { isDeepStrictEqual } from 'node:util';
+import { runnerErrors } from './errors.mjs';
 
 function validateTuple({ piece, version, action }) {
   const entry = entries.find((candidate) => candidate.piece === piece
@@ -29,6 +31,27 @@ function prepare({ request, packageRoot = runnerRoot }) {
   const auth = buildAuth({ authType: request.auth_type, auth: request.auth, piece: loaded.piece });
   const props = request.props ?? {};
   validateProps({ declarations: loaded.action.props, props });
+  return { ...loaded, auth, props: withDefaults({ declarations: loaded.action.props, props }) };
+}
+
+function validateLoader({ request, packageRoot = runnerRoot }) {
+  const loaded = loadAction({ ...request, packageRoot });
+  const name = request.property;
+  const declaration = typeof name === 'string' && Object.hasOwn(loaded.action.props, name) ? loaded.action.props[name] : undefined;
+  const callback = request.mode === 'options' ? 'options' : 'props';
+  const types = request.mode === 'options' ? ['DROPDOWN', 'MULTI_SELECT_DROPDOWN'] : request.mode === 'props' ? ['DYNAMIC'] : [];
+  const excluded = loaded.entry.loaderRefused?.some((item) => item.piece === request.piece && item.action === request.action && item.property === name);
+  if (!declaration || !types.includes(declaration.type) || typeof declaration[callback] !== 'function' || excluded) {
+    throw runnerErrors.refusalError({ code: runnerErrors.codes.propertyNotLoadable, message: 'The property must have an admitted loader for the requested mode.' });
+  }
+  return { ...loaded, declaration };
+}
+
+function prepareLoader({ request, packageRoot = runnerRoot }) {
+  const loaded = validateLoader({ request, packageRoot });
+  const auth = buildAuth({ authType: request.auth_type, auth: request.auth, piece: loaded.piece });
+  const props = request.props ?? {};
+  validateProps({ declarations: loaded.action.props, props, requireRequired: false });
   return { ...loaded, auth, props: withDefaults({ declarations: loaded.action.props, props }) };
 }
 
@@ -104,7 +127,7 @@ function authKinds({ piece }) {
   return declarations.filter(Boolean).map((declaration) => declaration.type);
 }
 
-function validateProps({ declarations, props }) {
+function validateProps({ declarations, props, requireRequired = true }) {
   if (!isRecord(props)) throw refusal({ code: 'INVALID_PROPS', message: 'Props must be an object.' });
   for (const name of Object.keys(props)) {
     if (!Object.hasOwn(declarations, name)) {
@@ -117,13 +140,13 @@ function validateProps({ declarations, props }) {
       throw refusal({ code: 'FILE_PROP_REFUSED', message: 'File props are unavailable in this runner.' });
     }
     const value = props[name];
-    if (declaration.required && (!supplied || value === null || value === undefined || value === '')) {
+    if (requireRequired && declaration.required && (!supplied || value === null || value === undefined || value === '')) {
       throw refusal({ code: 'MISSING_REQUIRED_PROP', message: 'A required action prop is missing.' });
     }
     if (supplied && declaration.type === 'ARRAY' && value !== null && value !== undefined) {
       if (!Array.isArray(value)) throw refusal({ code: 'INVALID_PROPS', message: 'Array props must be arrays.' });
       if (declaration.properties) {
-        for (const item of value) validateProps({ declarations: declaration.properties, props: item });
+        for (const item of value) validateProps({ declarations: declaration.properties, props: item, requireRequired });
       }
     }
   }
@@ -134,8 +157,28 @@ function exportProps({ declarations }) {
     type: declaration.type,
     required: declaration.required,
     description: declaration.description ?? '',
+    display_name: declaration.displayName,
+    ...exportDefault({ value: declaration.defaultValue }),
+    ...(['STATIC_DROPDOWN', 'STATIC_MULTI_SELECT_DROPDOWN'].includes(declaration.type)
+      ? { options: declaration.options.options.map(({ label, value }) => ({ label, value })) } : {}),
+    ...(['DROPDOWN', 'MULTI_SELECT_DROPDOWN', 'DYNAMIC'].includes(declaration.type)
+      ? { refreshers: [...(declaration.refreshers ?? [])] } : {}),
+    ...(['DROPDOWN', 'MULTI_SELECT_DROPDOWN'].includes(declaration.type)
+      ? { refresh_on_search: declaration.refreshOnSearch ?? false } : {}),
     ...(declaration.properties ? { properties: exportProps({ declarations: declaration.properties }) } : {}),
   }]));
+}
+
+function exportDefault({ value }) {
+  if (value === undefined) return {};
+  try {
+    const encoded = JSON.stringify(value);
+    if (encoded === undefined) return {};
+    const decoded = JSON.parse(encoded);
+    return isDeepStrictEqual(value, decoded) ? { default: decoded } : {};
+  } catch {
+    return {};
+  }
 }
 
 function refusal({ code, message }) {
@@ -222,4 +265,4 @@ const entries = Object.freeze([
   { piece: '@activepieces/piece-microsoft-sharepoint', action: 'microsoft_sharepoint_create_list_item', exportName: 'microsoftSharePoint', forkDirectory: 'microsoft-sharepoint' },
 ].map((entry) => Object.freeze({ ...entry, version: dependencyVersion({ manifest: runnerManifest, name: entry.piece }) })));
 
-export const pieceCatalog = { entries, validateTuple, loadAction, prepare, exportActions, verifyVersions, camelToSnake };
+export const pieceCatalog = { entries, validateTuple, loadAction, prepare, validateLoader, prepareLoader, exportProps, exportActions, verifyVersions, camelToSnake };

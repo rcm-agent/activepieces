@@ -10,7 +10,16 @@ import { promisify } from 'node:util';
 import { pieceCatalog } from '../catalog.mjs';
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(join(packageRoot, 'package.json'));
-function propsMetadata(declarations) { return Object.fromEntries(Object.entries(declarations).map(([name, prop]) => [name, { type: prop.type, required: prop.required, description: prop.description ?? '', ...(prop.properties ? { properties: propsMetadata(prop.properties) } : {}) }])); }
+function propsMetadata(declarations) {
+  return Object.fromEntries(Object.entries(declarations).map(([name, prop]) => [name, {
+    type: prop.type, required: prop.required, description: prop.description ?? '', display_name: prop.displayName,
+    ...(prop.defaultValue !== undefined ? { default: prop.defaultValue } : {}),
+    ...(['STATIC_DROPDOWN', 'STATIC_MULTI_SELECT_DROPDOWN'].includes(prop.type) ? { options: prop.options.options.map(({ label, value }) => ({ label, value })) } : {}),
+    ...(['DROPDOWN', 'MULTI_SELECT_DROPDOWN', 'DYNAMIC'].includes(prop.type) ? { refreshers: prop.refreshers ?? [] } : {}),
+    ...(['DROPDOWN', 'MULTI_SELECT_DROPDOWN'].includes(prop.type) ? { refresh_on_search: prop.refreshOnSearch ?? false } : {}),
+    ...(prop.properties ? { properties: propsMetadata(prop.properties) } : {}),
+  }]));
+}
 test('exports installed action props, required flags, auth kinds and deterministic action ids', async () => {
   const exported = pieceCatalog.exportActions({});
   assert.deepEqual(JSON.parse(await readFile(resolve(packageRoot, '../../catalog/activepieces/generated/runner/actions.json'), 'utf8')), exported);
@@ -28,12 +37,28 @@ test('exports installed action props, required flags, auth kinds and determinist
     assert.deepEqual(metadata.props, propsMetadata(action.props));
     assert.deepEqual(metadata.auth_kinds, (Array.isArray(piece.auth) ? piece.auth : [piece.auth]).map((auth) => auth.type));
   }
+  const calendar = exported.find((item) => item.piece === '@activepieces/piece-google-calendar' && item.action === 'update_event');
+  assert.deepEqual(calendar.props.guests_can_modify.options, [{ label: 'Yes', value: true }, { label: 'No', value: false }]);
+  const teams = exported.find((item) => item.piece === '@activepieces/piece-microsoft-teams' && item.action === 'microsoft_teams_send_channel_message');
+  assert.deepEqual(teams.props.contentType.options, [{ label: 'Text', value: 'text' }, { label: 'HTML', value: 'html' }]);
+  assert.equal(teams.props.contentType.default, 'text');
+  assert.deepEqual(teams.props.channelId.refreshers, ['teamId']);
+  assert.equal(teams.props.channelId.refresh_on_search, false);
+  const excel = exported.find((item) => item.piece === '@activepieces/piece-microsoft-excel-365' && item.action === 'append_row');
+  assert.deepEqual(excel.props.values, { type: 'DYNAMIC', required: true, description: 'The values to insert', display_name: 'Values', refreshers: ['storageSource', 'siteId', 'documentId', 'workbookId', 'worksheetId', 'isFirstRowHeaders'] });
+  const drive = exported.find((item) => item.piece === '@activepieces/piece-google-drive' && item.action === 'create_new_gdrive_folder');
+  assert.equal(drive.props.parentFolder.refresh_on_search, true);
   const directory = await mkdtemp(join(tmpdir(), 'piece-runner-export-'));
   try {
     const output = join(directory, 'actions.json');
     await promisify(execFile)(process.execPath, [join(packageRoot, 'export-actions.mjs'), output], { env: {} });
     assert.deepEqual(JSON.parse(await readFile(output, 'utf8')), exported);
   } finally { await rm(directory, { recursive: true, force: true }); }
+});
+test('preserves JSON defaults including false, zero, empty strings and null', () => {
+  const values = [false, 0, '', null, undefined, () => true, NaN, Infinity, { omitted: undefined }];
+  const props = pieceCatalog.exportProps({ declarations: Object.fromEntries(values.map((defaultValue, name) => [name, { type: 'SHORT_TEXT', displayName: 'Value', required: false, defaultValue }])) });
+  assert.deepEqual(Object.values(props).map((prop) => Object.hasOwn(prop, 'default') ? prop.default : 'omitted'), [false, 0, '', null, 'omitted', 'omitted', 'omitted', 'omitted', 'omitted']);
 });
 test('fails closed when a pinned piece version differs from the fork', async () => {
   const repositoryRoot = await mkdtemp(join(tmpdir(), 'piece-runner-version-'));

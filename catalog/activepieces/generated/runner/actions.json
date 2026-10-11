@@ -14,72 +14,96 @@
       "info": {
         "type": "MARKDOWN",
         "required": false,
-        "description": "The list shows the first 2000 channels. Can't find yours? Invite the bot: type **/invite** in the channel, choose **Add apps** and pick the bot. Or click **ƒ** and paste the channel ID."
+        "description": "The list shows the first 2000 channels. Can't find yours? Invite the bot: type **/invite** in the channel, choose **Add apps** and pick the bot. Or click **ƒ** and paste the channel ID.",
+        "display_name": "Markdown"
       },
       "onlyBotChannels": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "Show only channels the bot is a member of."
+        "description": "Show only channels the bot is a member of.",
+        "display_name": "Only Channels the Bot Is In",
+        "default": true
       },
       "channel": {
         "type": "DROPDOWN",
         "required": true,
-        "description": "Private channels appear only after the bot is added to them."
+        "description": "Private channels appear only after the bot is added to them.",
+        "display_name": "Channel",
+        "refreshers": [
+          "onlyBotChannels"
+        ],
+        "refresh_on_search": false
       },
       "text": {
         "type": "LONG_TEXT",
         "required": false,
-        "description": "Slack mrkdwn is supported. Empty sends blocks only."
+        "description": "Slack mrkdwn is supported. Empty sends blocks only.",
+        "display_name": "Message"
       },
       "sendAsBot": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "Off posts as the connected user and needs a user token."
+        "description": "Off posts as the connected user and needs a user token.",
+        "display_name": "Send as Bot",
+        "default": true
       },
       "threadTs": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "Timestamp or link of the parent message to reply under."
+        "description": "Timestamp or link of the parent message to reply under.",
+        "display_name": "Reply to Thread"
       },
       "file": {
         "type": "FILE",
         "required": false,
-        "description": "Sent with the message as its comment. Other options are skipped."
+        "description": "Sent with the message as its comment. Other options are skipped.",
+        "display_name": "Attachment"
       },
       "username": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "Overrides the bot's display name for this message."
+        "description": "Overrides the bot's display name for this message.",
+        "display_name": "Username"
       },
       "profilePicture": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "Image URL used as the sender's avatar."
+        "description": "Image URL used as the sender's avatar.",
+        "display_name": "Profile Picture"
       },
       "iconEmoji": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "Emoji used as the sender's avatar."
+        "description": "Emoji used as the sender's avatar.",
+        "display_name": "Icon Emoji"
       },
       "replyBroadcast": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "When replying in a thread, also show the reply in the channel."
+        "description": "When replying in a thread, also show the reply in the channel.",
+        "display_name": "Also Post to Channel",
+        "default": false
       },
       "mentionOriginFlow": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "Append a link to this flow at the end of the message."
+        "description": "Append a link to this flow at the end of the message.",
+        "display_name": "Mention Origin Flow",
+        "default": false
       },
       "unfurlLinks": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "Show link previews in the message."
+        "description": "Show link previews in the message.",
+        "display_name": "Unfurl Links",
+        "default": true
       },
       "blocks": {
         "type": "JSON",
         "required": false,
-        "description": "JSON array of blocks from the Block Kit Builder."
+        "description": "JSON array of blocks from the Block Kit Builder.",
+        "display_name": "Block Kit Blocks",
+        "default": []
       }
     }
   },
@@ -97,22 +121,29 @@
       "channel_id": {
         "type": "DROPDOWN",
         "required": true,
-        "description": "Channels from every server the bot has joined."
+        "description": "Channels from every server the bot has joined.",
+        "display_name": "Channel",
+        "refreshers": [],
+        "refresh_on_search": false
       },
       "message": {
         "type": "LONG_TEXT",
         "required": false,
-        "description": "Text of the message. Leave empty to send only files."
+        "description": "Text of the message. Leave empty to send only files.",
+        "display_name": "Message"
       },
       "files": {
         "type": "ARRAY",
         "required": false,
         "description": "Files uploaded with the message.",
+        "display_name": "Attachments",
+        "default": [],
         "properties": {
           "file": {
             "type": "FILE",
             "required": false,
-            "description": ""
+            "description": "",
+            "display_name": "File"
           }
         }
       }
@@ -133,22 +164,36 @@
       "spreadsheetId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": "The spreadsheet to work in."
+        "description": "The spreadsheet to work in.",
+        "display_name": "Spreadsheet",
+        "refreshers": [
+          "includeTeamDrives"
+        ],
+        "refresh_on_search": false
       },
       "sheetId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": "The tab inside that spreadsheet."
+        "description": "The tab inside that spreadsheet.",
+        "display_name": "Worksheet",
+        "refreshers": [
+          "spreadsheetId"
+        ],
+        "refresh_on_search": false
       },
       "includeTeamDrives": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "Also include spreadsheets stored in shared drives."
+        "description": "Also include spreadsheets stored in shared drives.",
+        "display_name": "Include Shared Drives",
+        "default": false
       },
       "first_row_headers": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "Enter values by column name instead of left to right."
+        "description": "Enter values by column name instead of left to right.",
+        "display_name": "First Row Contains Headers",
+        "default": false
       }
     }
   },
@@ -167,52 +212,80 @@
       "spreadsheetId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": "The spreadsheet to work in."
+        "description": "The spreadsheet to work in.",
+        "display_name": "Spreadsheet",
+        "refreshers": [
+          "includeTeamDrives"
+        ],
+        "refresh_on_search": false
       },
       "sheetId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": "The tab inside that spreadsheet."
+        "description": "The tab inside that spreadsheet.",
+        "display_name": "Worksheet",
+        "refreshers": [
+          "spreadsheetId"
+        ],
+        "refresh_on_search": false
       },
       "includeTeamDrives": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "Also include spreadsheets stored in shared drives."
+        "description": "Also include spreadsheets stored in shared drives.",
+        "display_name": "Include Shared Drives",
+        "default": false
       },
       "columnName": {
         "type": "DROPDOWN",
         "required": true,
-        "description": "The name of the column to search in"
+        "description": "The name of the column to search in",
+        "display_name": "Column Name",
+        "refreshers": [
+          "sheetId",
+          "spreadsheetId"
+        ],
+        "refresh_on_search": false
       },
       "searchValue": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "The value to look for. Leave empty to return all rows."
+        "description": "The value to look for. Leave empty to return all rows.",
+        "display_name": "Search Value"
       },
       "matchCase": {
         "type": "CHECKBOX",
         "required": true,
-        "description": "Only return rows whose cell matches the value exactly."
+        "description": "Only return rows whose cell matches the value exactly.",
+        "display_name": "Exact Match",
+        "default": false
       },
       "startingRow": {
         "type": "NUMBER",
         "required": false,
-        "description": "Start searching from this row number."
+        "description": "Start searching from this row number.",
+        "display_name": "Starting Row"
       },
       "numberOfRows": {
         "type": "NUMBER",
         "required": false,
-        "description": "How many matching rows to return."
+        "description": "How many matching rows to return.",
+        "display_name": "Number of Rows",
+        "default": 1
       },
       "headerRow": {
         "type": "NUMBER",
         "required": true,
-        "description": "The row that contains the column names."
+        "description": "The row that contains the column names.",
+        "display_name": "Header Row",
+        "default": 1
       },
       "useHeaderNames": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "Key each row by column name instead of A, B, C."
+        "description": "Key each row by column name instead of A, B, C.",
+        "display_name": "Use Column Names",
+        "default": false
       }
     }
   },
@@ -231,32 +304,49 @@
       "spreadsheetId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": "The spreadsheet to work in."
+        "description": "The spreadsheet to work in.",
+        "display_name": "Spreadsheet",
+        "refreshers": [
+          "includeTeamDrives"
+        ],
+        "refresh_on_search": false
       },
       "sheetId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": "The tab inside that spreadsheet."
+        "description": "The tab inside that spreadsheet.",
+        "display_name": "Worksheet",
+        "refreshers": [
+          "spreadsheetId"
+        ],
+        "refresh_on_search": false
       },
       "includeTeamDrives": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "Also include spreadsheets stored in shared drives."
+        "description": "Also include spreadsheets stored in shared drives.",
+        "display_name": "Include Shared Drives",
+        "default": false
       },
       "rowNumber": {
         "type": "NUMBER",
         "required": true,
-        "description": "The row to retrieve, counting from 1."
+        "description": "The row to retrieve, counting from 1.",
+        "display_name": "Row Number"
       },
       "headerRow": {
         "type": "NUMBER",
         "required": true,
-        "description": "The row that contains the column names."
+        "description": "The row that contains the column names.",
+        "display_name": "Header Row",
+        "default": 1
       },
       "useHeaderNames": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "Key each row by column name instead of A, B, C."
+        "description": "Key each row by column name instead of A, B, C.",
+        "display_name": "Use Column Names",
+        "default": true
       }
     }
   },
@@ -275,32 +365,53 @@
       "spreadsheetId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": "The spreadsheet to work in."
+        "description": "The spreadsheet to work in.",
+        "display_name": "Spreadsheet",
+        "refreshers": [
+          "includeTeamDrives"
+        ],
+        "refresh_on_search": false
       },
       "sheetId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": "The tab inside that spreadsheet."
+        "description": "The tab inside that spreadsheet.",
+        "display_name": "Worksheet",
+        "refreshers": [
+          "spreadsheetId"
+        ],
+        "refresh_on_search": false
       },
       "includeTeamDrives": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "Also include spreadsheets stored in shared drives."
+        "description": "Also include spreadsheets stored in shared drives.",
+        "display_name": "Include Shared Drives",
+        "default": false
       },
       "first_row_headers": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "Enter values by column name instead of left to right."
+        "description": "Enter values by column name instead of left to right.",
+        "display_name": "First Row Contains Headers",
+        "default": false
       },
       "as_string": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "Store dates and formulas as plain text instead of evaluating them."
+        "description": "Store dates and formulas as plain text instead of evaluating them.",
+        "display_name": "As String"
       },
       "values": {
         "type": "DYNAMIC",
         "required": true,
-        "description": "The values to add"
+        "description": "The values to add",
+        "display_name": "Values",
+        "refreshers": [
+          "sheetId",
+          "spreadsheetId",
+          "first_row_headers"
+        ]
       }
     }
   },
@@ -319,52 +430,101 @@
       "spreadsheetId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": "The spreadsheet to work in."
+        "description": "The spreadsheet to work in.",
+        "display_name": "Spreadsheet",
+        "refreshers": [
+          "includeTeamDrives"
+        ],
+        "refresh_on_search": false
       },
       "sheetId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": "The tab inside that spreadsheet."
+        "description": "The tab inside that spreadsheet.",
+        "display_name": "Worksheet",
+        "refreshers": [
+          "spreadsheetId"
+        ],
+        "refresh_on_search": false
       },
       "includeTeamDrives": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "Also include spreadsheets stored in shared drives."
+        "description": "Also include spreadsheets stored in shared drives.",
+        "display_name": "Include Shared Drives",
+        "default": false
       },
       "input_type": {
         "type": "STATIC_DROPDOWN",
         "required": true,
-        "description": "Select the format of the input values to be added into the worksheet."
+        "description": "Select the format of the input values to be added into the worksheet.",
+        "display_name": "Rows Data Format",
+        "default": "column_names",
+        "options": [
+          {
+            "label": "CSV",
+            "value": "csv"
+          },
+          {
+            "label": "JSON",
+            "value": "json"
+          },
+          {
+            "label": "Column Names",
+            "value": "column_names"
+          }
+        ]
       },
       "values": {
         "type": "DYNAMIC",
         "required": true,
-        "description": "The values to add."
+        "description": "The values to add.",
+        "display_name": "Values",
+        "refreshers": [
+          "sheetId",
+          "spreadsheetId",
+          "input_type",
+          "headerRow"
+        ]
       },
       "overwrite": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "Replace every existing row with the new data. Extra rows are cleared."
+        "description": "Replace every existing row with the new data. Extra rows are cleared.",
+        "display_name": "Overwrite Existing Data",
+        "default": false
       },
       "check_for_duplicate": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "Skip rows whose value in the chosen column already exists."
+        "description": "Skip rows whose value in the chosen column already exists.",
+        "display_name": "Skip Duplicate Rows",
+        "default": false
       },
       "check_for_duplicate_column": {
         "type": "DYNAMIC",
         "required": false,
-        "description": "The column to check for duplicate values."
+        "description": "The column to check for duplicate values.",
+        "display_name": "Duplicate Value Column",
+        "refreshers": [
+          "spreadsheetId",
+          "sheetId",
+          "check_for_duplicate",
+          "headerRow"
+        ]
       },
       "as_string": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "Store dates and formulas as plain text instead of evaluating them."
+        "description": "Store dates and formulas as plain text instead of evaluating them.",
+        "display_name": "As String"
       },
       "headerRow": {
         "type": "NUMBER",
         "required": true,
-        "description": "The row that contains the column names."
+        "description": "The row that contains the column names.",
+        "display_name": "Header Row",
+        "default": 1
       }
     }
   },
@@ -383,32 +543,53 @@
       "spreadsheetId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": "The spreadsheet to work in."
+        "description": "The spreadsheet to work in.",
+        "display_name": "Spreadsheet",
+        "refreshers": [
+          "includeTeamDrives"
+        ],
+        "refresh_on_search": false
       },
       "sheetId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": "The tab inside that spreadsheet."
+        "description": "The tab inside that spreadsheet.",
+        "display_name": "Worksheet",
+        "refreshers": [
+          "spreadsheetId"
+        ],
+        "refresh_on_search": false
       },
       "includeTeamDrives": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "Also include spreadsheets stored in shared drives."
+        "description": "Also include spreadsheets stored in shared drives.",
+        "display_name": "Include Shared Drives",
+        "default": false
       },
       "row_id": {
         "type": "NUMBER",
         "required": true,
-        "description": "The row number to update"
+        "description": "The row number to update",
+        "display_name": "Row Number"
       },
       "first_row_headers": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "Enter values by column name instead of left to right."
+        "description": "Enter values by column name instead of left to right.",
+        "display_name": "First Row Contains Headers",
+        "default": false
       },
       "values": {
         "type": "DYNAMIC",
         "required": true,
-        "description": "The values to add"
+        "description": "The values to add",
+        "display_name": "Values",
+        "refreshers": [
+          "sheetId",
+          "spreadsheetId",
+          "first_row_headers"
+        ]
       }
     }
   },
@@ -427,17 +608,22 @@
       "calendar_ids": {
         "type": "MULTI_SELECT_DROPDOWN",
         "required": true,
-        "description": "Calendars to check."
+        "description": "Calendars to check.",
+        "display_name": "Calendars",
+        "refreshers": [],
+        "refresh_on_search": false
       },
       "start_date": {
         "type": "DATE_TIME",
         "required": true,
-        "description": "The start of the time range to check."
+        "description": "The start of the time range to check.",
+        "display_name": "Start Time"
       },
       "end_date": {
         "type": "DATE_TIME",
         "required": true,
-        "description": "The end of the time range to check."
+        "description": "The end of the time range to check.",
+        "display_name": "End Time"
       }
     }
   },
@@ -456,32 +642,64 @@
       "calendar_id": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Calendar",
+        "refreshers": [],
+        "refresh_on_search": false
       },
       "event_types": {
         "type": "STATIC_MULTI_SELECT_DROPDOWN",
         "required": true,
-        "description": "Only events of these types are returned."
+        "description": "Only events of these types are returned.",
+        "display_name": "Event Types",
+        "default": [
+          "default",
+          "focusTime",
+          "outOfOffice"
+        ],
+        "options": [
+          {
+            "label": "Default",
+            "value": "default"
+          },
+          {
+            "label": "Out of Office",
+            "value": "outOfOffice"
+          },
+          {
+            "label": "Focus Time",
+            "value": "focusTime"
+          },
+          {
+            "label": "Working Location",
+            "value": "workingLocation"
+          }
+        ]
       },
       "search": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "Exact phrase matched against title, description, location and guests."
+        "description": "Exact phrase matched against title, description, location and guests.",
+        "display_name": "Search Term"
       },
       "start_date": {
         "type": "DATE_TIME",
         "required": false,
-        "description": "Only events that end after this time."
+        "description": "Only events that end after this time.",
+        "display_name": "Start Time"
       },
       "end_date": {
         "type": "DATE_TIME",
         "required": false,
-        "description": "Only events starting before this. Requires Start Time."
+        "description": "Only events starting before this. Requires Start Time.",
+        "display_name": "End Time"
       },
       "singleEvents": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "Returns each occurrence of a recurring event separately."
+        "description": "Returns each occurrence of a recurring event separately.",
+        "display_name": "Expand Recurring Events",
+        "default": false
       }
     }
   },
@@ -500,22 +718,28 @@
       "calendar_id": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Calendar",
+        "refreshers": [],
+        "refresh_on_search": false
       },
       "event_id": {
         "type": "SHORT_TEXT",
         "required": true,
-        "description": "Paste the ID from the event URL or a previous step."
+        "description": "Paste the ID from the event URL or a previous step.",
+        "display_name": "Event ID"
       },
       "max_attendees": {
         "type": "NUMBER",
         "required": false,
-        "description": "Above this count, only you are returned."
+        "description": "Above this count, only you are returned.",
+        "display_name": "Max Attendees"
       },
       "time_zone": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "IANA name, e.g. America/New_York. Defaults to the calendar zone."
+        "description": "IANA name, e.g. America/New_York. Defaults to the calendar zone.",
+        "display_name": "Time Zone"
       }
     }
   },
@@ -534,67 +758,103 @@
       "calendar_id": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Calendar",
+        "refreshers": [],
+        "refresh_on_search": false
       },
       "title": {
         "type": "SHORT_TEXT",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Title"
       },
       "start_date_time": {
         "type": "DATE_TIME",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Start Time"
       },
       "end_date_time": {
         "type": "DATE_TIME",
         "required": false,
-        "description": "Defaults to 30 minutes after the start."
+        "description": "Defaults to 30 minutes after the start.",
+        "display_name": "End Time"
       },
       "location": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Location"
       },
       "description": {
         "type": "LONG_TEXT",
         "required": false,
-        "description": "HTML tags are allowed."
+        "description": "HTML tags are allowed.",
+        "display_name": "Description"
       },
       "colorId": {
         "type": "DROPDOWN",
         "required": false,
-        "description": "Leave empty for the calendar default."
+        "description": "Leave empty for the calendar default.",
+        "display_name": "Color",
+        "refreshers": [],
+        "refresh_on_search": false
       },
       "attendees": {
         "type": "ARRAY",
         "required": false,
-        "description": "One guest email per item."
+        "description": "One guest email per item.",
+        "display_name": "Attendees"
       },
       "guests_can_modify": {
         "type": "CHECKBOX",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Guests Can Modify",
+        "default": false
       },
       "guests_can_invite_others": {
         "type": "CHECKBOX",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Guests Can Invite Others",
+        "default": false
       },
       "guests_can_see_other_guests": {
         "type": "CHECKBOX",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Guests Can See Other Guests",
+        "default": false
       },
       "send_notifications": {
         "type": "STATIC_DROPDOWN",
         "required": true,
-        "description": "Who gets an email invitation for the new event."
+        "description": "Who gets an email invitation for the new event.",
+        "display_name": "Send Notifications",
+        "default": "all",
+        "options": [
+          {
+            "label": "All guests",
+            "value": "all"
+          },
+          {
+            "label": "External guests only",
+            "value": "externalOnly"
+          },
+          {
+            "label": "No one",
+            "value": "none"
+          }
+        ]
       },
       "create_meet_link": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "Adds a Google Meet link to the event."
+        "description": "Adds a Google Meet link to the event.",
+        "display_name": "Create Google Meet Link",
+        "default": false
       }
     }
   },
@@ -613,67 +873,114 @@
       "calendar_id": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Calendar",
+        "refreshers": [],
+        "refresh_on_search": false
       },
       "eventId": {
         "type": "SHORT_TEXT",
         "required": true,
-        "description": "Paste the ID from the event URL or a previous step."
+        "description": "Paste the ID from the event URL or a previous step.",
+        "display_name": "Event ID"
       },
       "hint": {
         "type": "MARKDOWN",
         "required": false,
-        "description": "Empty fields keep their current value."
+        "description": "Empty fields keep their current value.",
+        "display_name": "Markdown"
       },
       "title": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Title"
       },
       "start_date_time": {
         "type": "DATE_TIME",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Start Time"
       },
       "end_date_time": {
         "type": "DATE_TIME",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "End Time"
       },
       "location": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Location"
       },
       "description": {
         "type": "LONG_TEXT",
         "required": false,
-        "description": "HTML tags are allowed."
+        "description": "HTML tags are allowed.",
+        "display_name": "Description"
       },
       "colorId": {
         "type": "DROPDOWN",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Color",
+        "refreshers": [],
+        "refresh_on_search": false
       },
       "attendees": {
         "type": "ARRAY",
         "required": false,
-        "description": "Replaces the current guest list. One email per item."
+        "description": "Replaces the current guest list. One email per item.",
+        "display_name": "Attendees"
       },
       "guests_can_modify": {
         "type": "STATIC_DROPDOWN",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Guests Can Modify",
+        "options": [
+          {
+            "label": "Yes",
+            "value": true
+          },
+          {
+            "label": "No",
+            "value": false
+          }
+        ]
       },
       "guests_can_invite_others": {
         "type": "STATIC_DROPDOWN",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Guests Can Invite Others",
+        "options": [
+          {
+            "label": "Yes",
+            "value": true
+          },
+          {
+            "label": "No",
+            "value": false
+          }
+        ]
       },
       "guests_can_see_other_guests": {
         "type": "STATIC_DROPDOWN",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Guests Can See Other Guests",
+        "options": [
+          {
+            "label": "Yes",
+            "value": true
+          },
+          {
+            "label": "No",
+            "value": false
+          }
+        ]
       }
     }
   },
@@ -692,32 +999,84 @@
       "queryTerm": {
         "type": "STATIC_DROPDOWN",
         "required": true,
-        "description": "Match the file name, the text inside it, or its type."
+        "description": "Match the file name, the text inside it, or its type.",
+        "display_name": "Search By",
+        "default": "name",
+        "options": [
+          {
+            "label": "File Name",
+            "value": "name"
+          },
+          {
+            "label": "Text Inside the File",
+            "value": "fullText"
+          },
+          {
+            "label": "File Type",
+            "value": "mimeType"
+          }
+        ]
       },
       "operator": {
         "type": "STATIC_DROPDOWN",
         "required": true,
-        "description": "Contains finds partial matches; Equals needs the exact value."
+        "description": "Contains finds partial matches; Equals needs the exact value.",
+        "display_name": "Match",
+        "default": "contains",
+        "options": [
+          {
+            "label": "Contains",
+            "value": "contains"
+          },
+          {
+            "label": "Equals",
+            "value": "="
+          }
+        ]
       },
       "query": {
         "type": "SHORT_TEXT",
         "required": true,
-        "description": "The name, text or type to look for."
+        "description": "The name, text or type to look for.",
+        "display_name": "Search Text"
       },
       "type": {
         "type": "STATIC_DROPDOWN",
         "required": false,
-        "description": "Return everything, only files or only folders."
+        "description": "Return everything, only files or only folders.",
+        "display_name": "Show",
+        "default": "all",
+        "options": [
+          {
+            "label": "Files and Folders",
+            "value": "all"
+          },
+          {
+            "label": "Files Only",
+            "value": "file"
+          },
+          {
+            "label": "Folders Only",
+            "value": "folder"
+          }
+        ]
       },
       "parentFolder": {
         "type": "DROPDOWN",
         "required": false,
-        "description": "Leave empty to search all of Drive. Type to search by folder name."
+        "description": "Leave empty to search all of Drive. Type to search by folder name.",
+        "display_name": "Search in Folder",
+        "refreshers": [
+          "include_team_drives"
+        ],
+        "refresh_on_search": true
       },
       "include_team_drives": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "Also include shared drives, not only My Drive."
+        "description": "Also include shared drives, not only My Drive.",
+        "display_name": "Include Team Drives",
+        "default": false
       }
     }
   },
@@ -736,17 +1095,25 @@
       "folderName": {
         "type": "SHORT_TEXT",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Folder Name"
       },
       "parentFolder": {
         "type": "DROPDOWN",
         "required": false,
-        "description": "Leave empty for the root of My Drive. Type to search by folder name."
+        "description": "Leave empty for the root of My Drive. Type to search by folder name.",
+        "display_name": "Parent Folder",
+        "refreshers": [
+          "include_team_drives"
+        ],
+        "refresh_on_search": true
       },
       "include_team_drives": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "Also include shared drives, not only My Drive."
+        "description": "Also include shared drives, not only My Drive.",
+        "display_name": "Include Team Drives",
+        "default": false
       }
     }
   },
@@ -764,47 +1131,67 @@
       "recipients": {
         "type": "ARRAY",
         "required": true,
-        "description": "Email addresses of the primary recipients."
+        "description": "Email addresses of the primary recipients.",
+        "display_name": "To Email(s)"
       },
       "ccRecipients": {
         "type": "ARRAY",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "CC Email(s)"
       },
       "bccRecipients": {
         "type": "ARRAY",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "BCC Email(s)"
       },
       "subject": {
         "type": "SHORT_TEXT",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Subject"
       },
       "bodyFormat": {
         "type": "STATIC_DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Body Format",
+        "default": "text",
+        "options": [
+          {
+            "label": "HTML",
+            "value": "html"
+          },
+          {
+            "label": "Text",
+            "value": "text"
+          }
+        ]
       },
       "body": {
         "type": "LONG_TEXT",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Body"
       },
       "attachments": {
         "type": "ARRAY",
         "required": false,
         "description": "Files to attach. Total message size must stay under 3 MB.",
+        "display_name": "Attachments",
         "properties": {
           "file": {
             "type": "FILE",
             "required": true,
-            "description": ""
+            "description": "",
+            "display_name": "File"
           },
           "fileName": {
             "type": "SHORT_TEXT",
             "required": false,
-            "description": ""
+            "description": "",
+            "display_name": "File Name"
           }
         }
       }
@@ -824,17 +1211,20 @@
       "messageId": {
         "type": "SHORT_TEXT",
         "required": true,
-        "description": "Outlook message ID. Resolve one with List Messages, Search Messages or Get Message."
+        "description": "Outlook message ID. Resolve one with List Messages, Search Messages or Get Message.",
+        "display_name": "Message ID"
       },
       "comment": {
         "type": "LONG_TEXT",
         "required": true,
-        "description": "Text added above the quoted original message."
+        "description": "Text added above the quoted original message.",
+        "display_name": "Reply Text"
       },
       "ccRecipients": {
         "type": "ARRAY",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Additional CC Email(s)"
       }
     }
   },
@@ -852,17 +1242,20 @@
       "messageId": {
         "type": "SHORT_TEXT",
         "required": true,
-        "description": "Outlook message ID. Resolve one with List Messages, Search Messages or Get Message."
+        "description": "Outlook message ID. Resolve one with List Messages, Search Messages or Get Message.",
+        "display_name": "Message ID"
       },
       "recipients": {
         "type": "ARRAY",
         "required": true,
-        "description": "Email addresses to forward the message to."
+        "description": "Email addresses to forward the message to.",
+        "display_name": "To Email(s)"
       },
       "comment": {
         "type": "LONG_TEXT",
         "required": false,
-        "description": "Optional text added above the forwarded message."
+        "description": "Optional text added above the forwarded message.",
+        "display_name": "Comment"
       }
     }
   },
@@ -880,17 +1273,21 @@
       "searchQuery": {
         "type": "SHORT_TEXT",
         "required": true,
-        "description": "Keywords or KQL terms to match, for example: from:john@example.com, subject:urgent, hasAttachments:true."
+        "description": "Keywords or KQL terms to match, for example: from:john@example.com, subject:urgent, hasAttachments:true.",
+        "display_name": "Search Query"
       },
       "folderId": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "Search inside one folder only. Accepts a mail folder ID or a well-known name such as inbox, drafts, sentitems, deleteditems, archive or junkemail. Leave empty to search the whole mailbox."
+        "description": "Search inside one folder only. Accepts a mail folder ID or a well-known name such as inbox, drafts, sentitems, deleteditems, archive or junkemail. Leave empty to search the whole mailbox.",
+        "display_name": "Folder ID"
       },
       "maxResults": {
         "type": "NUMBER",
         "required": false,
-        "description": "Maximum number of results to return (1-1000)."
+        "description": "Maximum number of results to return (1-1000).",
+        "display_name": "Max Results",
+        "default": 25
       }
     }
   },
@@ -908,22 +1305,27 @@
       "folderId": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "Limit the listing to one folder. Accepts a mail folder ID or a well-known name such as inbox, drafts, sentitems, deleteditems, archive or junkemail. Leave empty to list the whole mailbox."
+        "description": "Limit the listing to one folder. Accepts a mail folder ID or a well-known name such as inbox, drafts, sentitems, deleteditems, archive or junkemail. Leave empty to list the whole mailbox.",
+        "display_name": "Folder ID"
       },
       "filter": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "Optional OData $filter expression, for example: isRead eq false, or receivedDateTime ge 2024-01-01T00:00:00Z."
+        "description": "Optional OData $filter expression, for example: isRead eq false, or receivedDateTime ge 2024-01-01T00:00:00Z.",
+        "display_name": "Filter"
       },
       "maxResults": {
         "type": "NUMBER",
         "required": false,
-        "description": "Maximum number of messages to return (1-100)."
+        "description": "Maximum number of messages to return (1-100).",
+        "display_name": "Max Results",
+        "default": 25
       },
       "skip": {
         "type": "NUMBER",
         "required": false,
-        "description": "Number of messages to skip before returning results, for paging."
+        "description": "Number of messages to skip before returning results, for paging.",
+        "display_name": "Skip"
       }
     }
   },
@@ -941,7 +1343,8 @@
       "messageId": {
         "type": "SHORT_TEXT",
         "required": true,
-        "description": "Outlook message ID. Resolve one with List Messages, Search Messages or Get Message."
+        "description": "Outlook message ID. Resolve one with List Messages, Search Messages or Get Message.",
+        "display_name": "Message ID"
       }
     }
   },
@@ -959,12 +1362,16 @@
       "calendarId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Calendar",
+        "refreshers": [],
+        "refresh_on_search": false
       },
       "filter": {
         "type": "LONG_TEXT",
         "required": false,
-        "description": "Search query filter, see: https://learn.microsoft.com/en-us/graph/filter-query-parameter"
+        "description": "Search query filter, see: https://learn.microsoft.com/en-us/graph/filter-query-parameter",
+        "display_name": "Filter"
       }
     }
   },
@@ -982,32 +1389,42 @@
       "calendarId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Calendar",
+        "refreshers": [],
+        "refresh_on_search": false
       },
       "title": {
         "type": "SHORT_TEXT",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Title of the event"
       },
       "start": {
         "type": "DATE_TIME",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Start date time of the event"
       },
       "end": {
         "type": "DATE_TIME",
         "required": false,
-        "description": "By default it'll be 30 min post start time"
+        "description": "By default it'll be 30 min post start time",
+        "display_name": "End date time of the event"
       },
       "timezone": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Timezone",
+        "refreshers": [],
+        "refresh_on_search": false
       },
       "location": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Location"
       }
     }
   },
@@ -1025,22 +1442,43 @@
       "teamId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Team ID",
+        "refreshers": [],
+        "refresh_on_search": false
       },
       "channelId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Channel ID",
+        "refreshers": [
+          "teamId"
+        ],
+        "refresh_on_search": false
       },
       "contentType": {
         "type": "STATIC_DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Content Type",
+        "default": "text",
+        "options": [
+          {
+            "label": "Text",
+            "value": "text"
+          },
+          {
+            "label": "HTML",
+            "value": "html"
+          }
+        ]
       },
       "content": {
         "type": "LONG_TEXT",
         "required": true,
-        "description": "Use @username to mention team members in the message."
+        "description": "Use @username to mention team members in the message.",
+        "display_name": "Message"
       }
     }
   },
@@ -1058,27 +1496,49 @@
       "teamId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Team ID",
+        "refreshers": [],
+        "refresh_on_search": false
       },
       "channelId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Channel ID",
+        "refreshers": [
+          "teamId"
+        ],
+        "refresh_on_search": false
       },
       "messageId": {
         "type": "SHORT_TEXT",
         "required": true,
-        "description": "ID of the parent message to reply to."
+        "description": "ID of the parent message to reply to.",
+        "display_name": "Message ID"
       },
       "contentType": {
         "type": "STATIC_DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Content Type",
+        "default": "text",
+        "options": [
+          {
+            "label": "Text",
+            "value": "text"
+          },
+          {
+            "label": "HTML",
+            "value": "html"
+          }
+        ]
       },
       "content": {
         "type": "LONG_TEXT",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Message"
       }
     }
   },
@@ -1096,17 +1556,33 @@
       "chatId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Chat ID",
+        "refreshers": [],
+        "refresh_on_search": false
       },
       "contentType": {
         "type": "STATIC_DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Content Type",
+        "default": "text",
+        "options": [
+          {
+            "label": "Text",
+            "value": "text"
+          },
+          {
+            "label": "HTML",
+            "value": "html"
+          }
+        ]
       },
       "content": {
         "type": "LONG_TEXT",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Message"
       }
     }
   },
@@ -1124,12 +1600,16 @@
       "teamId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Team ID",
+        "refreshers": [],
+        "refresh_on_search": false
       },
       "channelName": {
         "type": "SHORT_TEXT",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Channel Name"
       }
     }
   },
@@ -1147,22 +1627,32 @@
       "teamId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Team ID",
+        "refreshers": [],
+        "refresh_on_search": false
       },
       "channelId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Channel ID",
+        "refreshers": [
+          "teamId"
+        ],
+        "refresh_on_search": false
       },
       "messageId": {
         "type": "SHORT_TEXT",
         "required": true,
-        "description": "The ID of the channel message to retrieve."
+        "description": "The ID of the channel message to retrieve.",
+        "display_name": "Message ID"
       },
       "replyId": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "Provide to fetch a specific reply under the message."
+        "description": "Provide to fetch a specific reply under the message.",
+        "display_name": "Reply ID (optional)"
       }
     }
   },
@@ -1180,22 +1670,46 @@
       "storageSource": {
         "type": "STATIC_DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Excel File Source",
+        "default": "onedrive",
+        "options": [
+          {
+            "label": "OneDrive",
+            "value": "onedrive"
+          },
+          {
+            "label": "SharePoint",
+            "value": "sharepoint"
+          }
+        ]
       },
       "siteId": {
         "type": "DROPDOWN",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Sharepoint Site",
+        "refreshers": [
+          "storageSource"
+        ],
+        "refresh_on_search": false
       },
       "documentId": {
         "type": "DROPDOWN",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Sharepoint Document Library",
+        "refreshers": [
+          "storageSource",
+          "siteId"
+        ],
+        "refresh_on_search": false
       },
       "limit": {
         "type": "NUMBER",
         "required": false,
-        "description": "Limits the number of workbooks returned, returns all workbooks if empty"
+        "description": "Limits the number of workbooks returned, returns all workbooks if empty",
+        "display_name": "Limit"
       }
     }
   },
@@ -1213,32 +1727,66 @@
       "storageSource": {
         "type": "STATIC_DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Excel File Source",
+        "default": "onedrive",
+        "options": [
+          {
+            "label": "OneDrive",
+            "value": "onedrive"
+          },
+          {
+            "label": "SharePoint",
+            "value": "sharepoint"
+          }
+        ]
       },
       "siteId": {
         "type": "DROPDOWN",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Sharepoint Site",
+        "refreshers": [
+          "storageSource"
+        ],
+        "refresh_on_search": false
       },
       "documentId": {
         "type": "DROPDOWN",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Sharepoint Document Library",
+        "refreshers": [
+          "storageSource",
+          "siteId"
+        ],
+        "refresh_on_search": false
       },
       "workbookId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Workbook",
+        "refreshers": [
+          "storageSource",
+          "siteId",
+          "documentId"
+        ],
+        "refresh_on_search": false
       },
       "returnAll": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "If checked, all worksheets will be returned"
+        "description": "If checked, all worksheets will be returned",
+        "display_name": "Return All",
+        "default": false
       },
       "limit": {
         "type": "NUMBER",
         "required": false,
-        "description": "Limit the number of worksheets returned"
+        "description": "Limit the number of worksheets returned",
+        "display_name": "Limit",
+        "default": 10
       }
     }
   },
@@ -1256,52 +1804,104 @@
       "storageSource": {
         "type": "STATIC_DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Excel File Source",
+        "default": "onedrive",
+        "options": [
+          {
+            "label": "OneDrive",
+            "value": "onedrive"
+          },
+          {
+            "label": "SharePoint",
+            "value": "sharepoint"
+          }
+        ]
       },
       "siteId": {
         "type": "DROPDOWN",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Sharepoint Site",
+        "refreshers": [
+          "storageSource"
+        ],
+        "refresh_on_search": false
       },
       "documentId": {
         "type": "DROPDOWN",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Sharepoint Document Library",
+        "refreshers": [
+          "storageSource",
+          "siteId"
+        ],
+        "refresh_on_search": false
       },
       "workbookId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Workbook",
+        "refreshers": [
+          "storageSource",
+          "siteId",
+          "documentId"
+        ],
+        "refresh_on_search": false
       },
       "worksheetId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Worksheet",
+        "refreshers": [
+          "storageSource",
+          "siteId",
+          "documentId",
+          "workbookId"
+        ],
+        "refresh_on_search": false
       },
       "range": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "Range of the rows to retrieve (e.g., A2:B2)"
+        "description": "Range of the rows to retrieve (e.g., A2:B2)",
+        "display_name": "Range"
       },
       "headerRow": {
         "type": "NUMBER",
         "required": false,
-        "description": "Row number of the header"
+        "description": "Row number of the header",
+        "display_name": "Header Row"
       },
       "firstDataRow": {
         "type": "NUMBER",
         "required": false,
-        "description": "Row number of the first data row"
+        "description": "Row number of the first data row",
+        "display_name": "First Data Row"
       },
       "useFilter": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "Enables the column wise filter."
+        "description": "Enables the column wise filter.",
+        "display_name": "Use Filters ?",
+        "default": false
       },
       "filterList": {
         "type": "DYNAMIC",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Filter",
+        "refreshers": [
+          "workbookId",
+          "worksheetId",
+          "useFilter",
+          "storageSource",
+          "siteId",
+          "documentId"
+        ]
       }
     }
   },
@@ -1319,37 +1919,86 @@
       "storageSource": {
         "type": "STATIC_DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Excel File Source",
+        "default": "onedrive",
+        "options": [
+          {
+            "label": "OneDrive",
+            "value": "onedrive"
+          },
+          {
+            "label": "SharePoint",
+            "value": "sharepoint"
+          }
+        ]
       },
       "siteId": {
         "type": "DROPDOWN",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Sharepoint Site",
+        "refreshers": [
+          "storageSource"
+        ],
+        "refresh_on_search": false
       },
       "documentId": {
         "type": "DROPDOWN",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Sharepoint Document Library",
+        "refreshers": [
+          "storageSource",
+          "siteId"
+        ],
+        "refresh_on_search": false
       },
       "workbookId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Workbook",
+        "refreshers": [
+          "storageSource",
+          "siteId",
+          "documentId"
+        ],
+        "refresh_on_search": false
       },
       "worksheetId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Worksheet",
+        "refreshers": [
+          "storageSource",
+          "siteId",
+          "documentId",
+          "workbookId"
+        ],
+        "refresh_on_search": false
       },
       "isFirstRowHeaders": {
         "type": "CHECKBOX",
         "required": true,
-        "description": "If the first row is headers"
+        "description": "If the first row is headers",
+        "display_name": "Does the first row contain headers?",
+        "default": false
       },
       "values": {
         "type": "DYNAMIC",
         "required": true,
-        "description": "The values to insert"
+        "description": "The values to insert",
+        "display_name": "Values",
+        "refreshers": [
+          "storageSource",
+          "siteId",
+          "documentId",
+          "workbookId",
+          "worksheetId",
+          "isFirstRowHeaders"
+        ]
       }
     }
   },
@@ -1367,52 +2016,131 @@
       "storageSource": {
         "type": "STATIC_DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Excel File Source",
+        "default": "onedrive",
+        "options": [
+          {
+            "label": "OneDrive",
+            "value": "onedrive"
+          },
+          {
+            "label": "SharePoint",
+            "value": "sharepoint"
+          }
+        ]
       },
       "siteId": {
         "type": "DROPDOWN",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Sharepoint Site",
+        "refreshers": [
+          "storageSource"
+        ],
+        "refresh_on_search": false
       },
       "documentId": {
         "type": "DROPDOWN",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Sharepoint Document Library",
+        "refreshers": [
+          "storageSource",
+          "siteId"
+        ],
+        "refresh_on_search": false
       },
       "workbookId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Workbook",
+        "refreshers": [
+          "storageSource",
+          "siteId",
+          "documentId"
+        ],
+        "refresh_on_search": false
       },
       "worksheetId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Worksheet",
+        "refreshers": [
+          "storageSource",
+          "siteId",
+          "documentId",
+          "workbookId"
+        ],
+        "refresh_on_search": false
       },
       "values": {
         "type": "DYNAMIC",
         "required": true,
-        "description": "The values to insert"
+        "description": "The values to insert",
+        "display_name": "Values",
+        "refreshers": [
+          "storageSource",
+          "siteId",
+          "documentId",
+          "workbookId",
+          "worksheetId"
+        ]
       },
       "filterMarkdown": {
         "type": "MARKDOWN",
         "required": false,
-        "description": "Use below Filter properties to insert only the rows that meet your conditions."
+        "description": "Use below Filter properties to insert only the rows that meet your conditions.",
+        "display_name": "Markdown"
       },
       "filterColumn": {
         "type": "DROPDOWN",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Filter Column",
+        "refreshers": [
+          "storageSource",
+          "siteId",
+          "documentId",
+          "workbookId",
+          "worksheetId"
+        ],
+        "refresh_on_search": false
       },
       "filterType": {
         "type": "STATIC_DROPDOWN",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Filter Type",
+        "options": [
+          {
+            "label": "(Text) Exactly matches",
+            "value": "TEXT_EXACTLY_MATCHES"
+          },
+          {
+            "label": "(Text) Does not exactly match",
+            "value": "TEXT_DOES_NOT_EXACTLY_MATCH"
+          },
+          {
+            "label": "(Text) Matches any of",
+            "value": "TEXT_MATCHES_ANY_OF"
+          },
+          {
+            "label": "(Text) Matches none of",
+            "value": "TEXT_MATCHES_NONE_OF"
+          }
+        ]
       },
       "filterValue": {
         "type": "DYNAMIC",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Filter Value",
+        "refreshers": [
+          "filterType"
+        ]
       }
     }
   },
@@ -1430,42 +2158,92 @@
       "storageSource": {
         "type": "STATIC_DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Excel File Source",
+        "default": "onedrive",
+        "options": [
+          {
+            "label": "OneDrive",
+            "value": "onedrive"
+          },
+          {
+            "label": "SharePoint",
+            "value": "sharepoint"
+          }
+        ]
       },
       "siteId": {
         "type": "DROPDOWN",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Sharepoint Site",
+        "refreshers": [
+          "storageSource"
+        ],
+        "refresh_on_search": false
       },
       "documentId": {
         "type": "DROPDOWN",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Sharepoint Document Library",
+        "refreshers": [
+          "storageSource",
+          "siteId"
+        ],
+        "refresh_on_search": false
       },
       "workbookId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Workbook",
+        "refreshers": [
+          "storageSource",
+          "siteId",
+          "documentId"
+        ],
+        "refresh_on_search": false
       },
       "worksheetId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Worksheet",
+        "refreshers": [
+          "storageSource",
+          "siteId",
+          "documentId",
+          "workbookId"
+        ],
+        "refresh_on_search": false
       },
       "row_number": {
         "type": "NUMBER",
         "required": true,
-        "description": "The row number to update"
+        "description": "The row number to update",
+        "display_name": "Row number"
       },
       "isFirstRowHeaders": {
         "type": "CHECKBOX",
         "required": true,
-        "description": "If the first row is headers"
+        "description": "If the first row is headers",
+        "display_name": "Does the first row contain headers?",
+        "default": false
       },
       "values": {
         "type": "DYNAMIC",
         "required": true,
-        "description": "The values to insert"
+        "description": "The values to insert",
+        "display_name": "Values",
+        "refreshers": [
+          "storageSource",
+          "siteId",
+          "documentId",
+          "workbookId",
+          "worksheetId",
+          "isFirstRowHeaders"
+        ]
       }
     }
   },
@@ -1483,22 +2261,37 @@
       "query": {
         "type": "SHORT_TEXT",
         "required": true,
-        "description": "The text to search for in file names, metadata and content."
+        "description": "The text to search for in file names, metadata and content.",
+        "display_name": "Search Text"
       },
       "scope": {
         "type": "STATIC_DROPDOWN",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Scope",
+        "default": "my_files",
+        "options": [
+          {
+            "label": "My files only",
+            "value": "my_files"
+          },
+          {
+            "label": "Include items shared with me",
+            "value": "include_shared"
+          }
+        ]
       },
       "pageSize": {
         "type": "NUMBER",
         "required": false,
-        "description": "How many results to request per page (1-999). Defaults to 50."
+        "description": "How many results to request per page (1-999). Defaults to 50.",
+        "display_name": "Page Size"
       },
       "pageToken": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "nextPageToken from the previous call. Empty for the first page."
+        "description": "nextPageToken from the previous call. Empty for the first page.",
+        "display_name": "Page Token"
       }
     }
   },
@@ -1516,27 +2309,47 @@
       "folderId": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "Folder ID. Leave this and Folder Path empty for the drive root."
+        "description": "Folder ID. Leave this and Folder Path empty for the drive root.",
+        "display_name": "Folder ID"
       },
       "folderPath": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "Folder path from the drive root. Used when Folder ID is empty."
+        "description": "Folder path from the drive root. Used when Folder ID is empty.",
+        "display_name": "Folder Path"
       },
       "itemType": {
         "type": "STATIC_DROPDOWN",
         "required": false,
-        "description": ""
+        "description": "",
+        "display_name": "Item Type",
+        "default": "all",
+        "options": [
+          {
+            "label": "Files and folders",
+            "value": "all"
+          },
+          {
+            "label": "Files only",
+            "value": "files"
+          },
+          {
+            "label": "Folders only",
+            "value": "folders"
+          }
+        ]
       },
       "pageSize": {
         "type": "NUMBER",
         "required": false,
-        "description": "How many items to request per page (1-999). Defaults to 100."
+        "description": "How many items to request per page (1-999). Defaults to 100.",
+        "display_name": "Page Size"
       },
       "pageToken": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "nextPageToken from the previous call. Empty for the first page."
+        "description": "nextPageToken from the previous call. Empty for the first page.",
+        "display_name": "Page Token"
       }
     }
   },
@@ -1554,12 +2367,14 @@
       "itemId": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "Item ID from Search or List Folder Contents, or \"root\". Or use Path."
+        "description": "Item ID from Search or List Folder Contents, or \"root\". Or use Path.",
+        "display_name": "Item ID"
       },
       "path": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "Path from the drive root. Used when Item ID is empty."
+        "description": "Path from the drive root. Used when Item ID is empty.",
+        "display_name": "Path"
       }
     }
   },
@@ -1577,12 +2392,14 @@
       "parentFolderId": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "Parent folder ID. Leave empty for the drive root."
+        "description": "Parent folder ID. Leave empty for the drive root.",
+        "display_name": "Parent Folder ID"
       },
       "name": {
         "type": "SHORT_TEXT",
         "required": true,
-        "description": "Folder name (a single name, not a path)."
+        "description": "Folder name (a single name, not a path).",
+        "display_name": "Folder Name"
       }
     }
   },
@@ -1600,22 +2417,41 @@
       "folderId": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "Destination folder ID. Leave empty for the drive root."
+        "description": "Destination folder ID. Leave empty for the drive root.",
+        "display_name": "Folder ID"
       },
       "fileName": {
         "type": "SHORT_TEXT",
         "required": true,
-        "description": "File name including its extension."
+        "description": "File name including its extension.",
+        "display_name": "File Name"
       },
       "content": {
         "type": "LONG_TEXT",
         "required": true,
-        "description": "The text to write into the file (up to 4 MiB)."
+        "description": "The text to write into the file (up to 4 MiB).",
+        "display_name": "Content"
       },
       "conflictBehavior": {
         "type": "STATIC_DROPDOWN",
         "required": true,
-        "description": "What to do when the folder already has an item with this name."
+        "description": "What to do when the folder already has an item with this name.",
+        "display_name": "If the Name Exists",
+        "default": "fail",
+        "options": [
+          {
+            "label": "Fail",
+            "value": "fail"
+          },
+          {
+            "label": "Rename the new file",
+            "value": "rename"
+          },
+          {
+            "label": "Replace the existing file",
+            "value": "replace"
+          }
+        ]
       }
     }
   },
@@ -1633,22 +2469,26 @@
       "itemId": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "ID of the item to move, from Search or List Folder Contents."
+        "description": "ID of the item to move, from Search or List Folder Contents.",
+        "display_name": "Item ID"
       },
       "path": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "Path from the drive root. Use this or Item ID."
+        "description": "Path from the drive root. Use this or Item ID.",
+        "display_name": "Path"
       },
       "destinationFolderId": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "Folder to move into. Leave empty for the drive root."
+        "description": "Folder to move into. Leave empty for the drive root.",
+        "display_name": "Destination Folder ID"
       },
       "newName": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "Optional new name for the item. Leave empty to keep its current name."
+        "description": "Optional new name for the item. Leave empty to keep its current name.",
+        "display_name": "New Name"
       }
     }
   },
@@ -1666,7 +2506,8 @@
       "searchTerm": {
         "type": "SHORT_TEXT",
         "required": true,
-        "description": "The name or keyword to search for."
+        "description": "The name or keyword to search for.",
+        "display_name": "Site Name"
       }
     }
   },
@@ -1684,37 +2525,56 @@
       "siteId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Site",
+        "refreshers": [],
+        "refresh_on_search": false
       },
       "driveId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Drive",
+        "refreshers": [
+          "siteId"
+        ],
+        "refresh_on_search": false
       },
       "folderId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": "The folder whose contents you want to list. Select \"Root Folder\" for the top-level folder."
+        "description": "The folder whose contents you want to list. Select \"Root Folder\" for the top-level folder.",
+        "display_name": "Folder",
+        "refreshers": [
+          "siteId",
+          "driveId"
+        ],
+        "refresh_on_search": false
       },
       "includeCustomFields": {
         "type": "CHECKBOX",
         "required": false,
-        "description": "Check this to include SharePoint-specific metadata (custom columns). This may slow down the request."
+        "description": "Check this to include SharePoint-specific metadata (custom columns). This may slow down the request.",
+        "display_name": "Include Custom Metadata",
+        "default": false
       },
       "top": {
         "type": "NUMBER",
         "required": false,
-        "description": "The maximum number of items to return. The API default is 200. If more items exist, the output will contain a field `@odata.nextLink` that you can use in a custom API call to get the next page."
+        "description": "The maximum number of items to return. The API default is 200. If more items exist, the output will contain a field `@odata.nextLink` that you can use in a custom API call to get the next page.",
+        "display_name": "Page Size"
       },
       "select": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "A comma-separated list of properties to return. Example: `id,name,size,webUrl`"
+        "description": "A comma-separated list of properties to return. Example: `id,name,size,webUrl`",
+        "display_name": "Select Fields (Optional)"
       },
       "orderby": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "Specifies how to sort the returned items. Example: `name asc` or `lastModifiedDateTime desc`"
+        "description": "Specifies how to sort the returned items. Example: `name asc` or `lastModifiedDateTime desc`",
+        "display_name": "Order By (Optional)"
       }
     }
   },
@@ -1732,32 +2592,60 @@
       "siteId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Site",
+        "refreshers": [],
+        "refresh_on_search": false
       },
       "driveId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Drive",
+        "refreshers": [
+          "siteId"
+        ],
+        "refresh_on_search": false
       },
       "findMethod": {
         "type": "STATIC_DROPDOWN",
         "required": true,
-        "description": "Choose how to find the file."
+        "description": "Choose how to find the file.",
+        "display_name": "Find Method",
+        "default": "search",
+        "options": [
+          {
+            "label": "Find by Exact Path",
+            "value": "path"
+          },
+          {
+            "label": "Search by Name",
+            "value": "search"
+          }
+        ]
       },
       "filePath": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "The exact path to the file from the drive's root. **Required if finding by path.** Example: `Documents/Reports/Q1-Report.docx`"
+        "description": "The exact path to the file from the drive's root. **Required if finding by path.** Example: `Documents/Reports/Q1-Report.docx`",
+        "display_name": "File Path"
       },
       "searchQuery": {
         "type": "SHORT_TEXT",
         "required": false,
-        "description": "The file name or keyword to search for. **Required if searching by name.** Example: `Q1-Report.docx`"
+        "description": "The file name or keyword to search for. **Required if searching by name.** Example: `Q1-Report.docx`",
+        "display_name": "Search Query"
       },
       "searchFolderId": {
         "type": "DROPDOWN",
         "required": false,
-        "description": "The folder to search within. If not specified, the entire drive will be searched. **Only applies when searching by name.**"
+        "description": "The folder to search within. If not specified, the entire drive will be searched. **Only applies when searching by name.**",
+        "display_name": "Folder to Search In (Optional)",
+        "refreshers": [
+          "siteId",
+          "driveId"
+        ],
+        "refresh_on_search": false
       }
     }
   },
@@ -1775,17 +2663,26 @@
       "siteId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Site",
+        "refreshers": [],
+        "refresh_on_search": false
       },
       "listId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "List",
+        "refreshers": [
+          "siteId"
+        ],
+        "refresh_on_search": false
       },
       "searchValue": {
         "type": "SHORT_TEXT",
         "required": true,
-        "description": "Item title to search"
+        "description": "Item title to search",
+        "display_name": "Title"
       }
     }
   },
@@ -1803,22 +2700,33 @@
       "siteId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Site",
+        "refreshers": [],
+        "refresh_on_search": false
       },
       "driveId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Drive",
+        "refreshers": [
+          "siteId"
+        ],
+        "refresh_on_search": false
       },
       "parentFolder": {
         "type": "SHORT_TEXT",
         "required": true,
-        "description": "Parent folder,like \"/demo/\" or \"/docs/assignment/\".Leave it default if you want to create folder at the root (**/**) level."
+        "description": "Parent folder,like \"/demo/\" or \"/docs/assignment/\".Leave it default if you want to create folder at the root (**/**) level.",
+        "display_name": "Parent Folder",
+        "default": "/"
       },
       "folderName": {
         "type": "SHORT_TEXT",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Folder Name"
       }
     }
   },
@@ -1836,17 +2744,30 @@
       "siteId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "Site",
+        "refreshers": [],
+        "refresh_on_search": false
       },
       "listId": {
         "type": "DROPDOWN",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "List",
+        "refreshers": [
+          "siteId"
+        ],
+        "refresh_on_search": false
       },
       "listColumns": {
         "type": "DYNAMIC",
         "required": true,
-        "description": ""
+        "description": "",
+        "display_name": "List Columns",
+        "refreshers": [
+          "siteId",
+          "listId"
+        ]
       }
     }
   }

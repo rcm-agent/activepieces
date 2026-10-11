@@ -2,6 +2,13 @@ function refusal({ code, message = code }) {
   return { status: 'refused', refusal: { code, message } };
 }
 
+function refusalError({ code, message = code }) {
+  const error = new Error(message);
+  error.name = 'RunnerRefusal';
+  error.code = code;
+  return error;
+}
+
 function failure({ error, auth }) {
   const scrub = redactor({ auth });
   if (error?.name === 'RunnerRefusal') {
@@ -55,4 +62,10 @@ function collectStrings({ value, strings }) {
   }
 }
 
-export const runnerErrors = { refusal, failure, redactor };
+const codes = Object.freeze({
+  invalidMode: 'INVALID_MODE',
+  propertyNotLoadable: 'PROPERTY_NOT_LOADABLE',
+  invalidSearchValue: 'INVALID_SEARCH_VALUE',
+});
+
+export const runnerErrors = { refusal, refusalError, failure, redactor, codes };
