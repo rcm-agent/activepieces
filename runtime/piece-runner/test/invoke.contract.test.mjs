@@ -97,7 +97,7 @@ test('refuses invalid loader requests before spawning a worker', async () => {
     [{ ...teams, mode: 'unknown' }, 'INVALID_MODE'],
     [{ ...teams, mode: 'options' }, 'PROPERTY_NOT_LOADABLE'],
     [{ ...teams, mode: 'run', property: 'channelId' }, 'PROPERTY_NOT_LOADABLE'],
-    [{ ...discord, mode: 'options', property: 'channel_id' }, 'PROPERTY_NOT_LOADABLE'],
+    [{ ...discord, mode: 'options', property: 'message' }, 'PROPERTY_NOT_LOADABLE'],
     [{ ...teams, mode: 'options', property: 'contentType' }, 'PROPERTY_NOT_LOADABLE'],
     [{ ...teams, mode: 'options', property: 'undeclared' }, 'PROPERTY_NOT_LOADABLE'],
     [{ ...teams, mode: 'props', property: 'channelId' }, 'PROPERTY_NOT_LOADABLE'],
