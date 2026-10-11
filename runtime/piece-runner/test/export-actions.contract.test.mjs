@@ -32,7 +32,7 @@ test('exports installed action props, required flags, auth kinds and determinist
 test('fails closed when a pinned piece version differs from the fork', async () => {
   const repositoryRoot = await mkdtemp(join(tmpdir(), 'piece-runner-version-'));
   try {
-    for (const path of [...new Set(pieceCatalog.entries.map((entry) => `packages/pieces/community/${entry.forkDirectory}/package.json`)), 'packages/pieces/framework/package.json']) {
+    for (const path of [...new Set(pieceCatalog.entries.map((entry) => `packages/pieces/community/${entry.forkDirectory}/package.json`))]) {
       const target = join(repositoryRoot, path); await mkdir(dirname(target), { recursive: true }); await writeFile(target, await readFile(resolve(packageRoot, '../..', path), 'utf8'));
     }
     for (const forkDirectory of ['slack', 'google-sheets', 'google-calendar', 'google-drive']) {

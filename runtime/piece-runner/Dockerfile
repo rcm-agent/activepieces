@@ -9,7 +9,6 @@ COPY packages/pieces/community/discord/package.json ${LAMBDA_TASK_ROOT}/packages
 COPY packages/pieces/community/google-sheets/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/google-sheets/package.json
 COPY packages/pieces/community/google-calendar/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/google-calendar/package.json
 COPY packages/pieces/community/google-drive/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/google-drive/package.json
-COPY packages/pieces/framework/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/framework/package.json
 RUN npm run check-versions
 
 CMD ["runtime/piece-runner/lambda.handler"]

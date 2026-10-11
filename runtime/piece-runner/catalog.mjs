@@ -52,10 +52,7 @@ function exportActions({ packageRoot = runnerRoot, repositoryRoot = resolve(runn
 function verifyVersions({ packageRoot = runnerRoot, repositoryRoot = resolve(runnerRoot, '../..') } = {}) {
   const manifest = readJson({ path: join(packageRoot, 'package.json') });
   const lock = readJson({ path: join(packageRoot, 'package-lock.json') });
-  const pins = [
-    ...entries.map((entry) => ({ name: entry.piece, version: entry.version, source: `packages/pieces/community/${entry.forkDirectory}/package.json` })),
-    { name: '@activepieces/pieces-framework', version: dependencyVersion({ manifest, name: '@activepieces/pieces-framework' }), source: 'packages/pieces/framework/package.json' },
-  ];
+  const pins = entries.map((entry) => ({ name: entry.piece, version: entry.version, source: `packages/pieces/community/${entry.forkDirectory}/package.json` }));
   for (const pin of pins) {
     const fork = readJson({ path: join(repositoryRoot, pin.source) });
     if (fork.version !== pin.version || manifest.dependencies?.[pin.name] !== pin.version

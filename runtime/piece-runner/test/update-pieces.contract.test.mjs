@@ -42,7 +42,7 @@ function fixture({ context, staged = false, unmerged = false, conflict = false, 
   const [manifestPath, lockPath, pilotPath] = ['runtime/piece-runner/package.json', 'runtime/piece-runner/package-lock.json', 'catalog/activepieces/extract-pilot-metadata.mjs'];
   const manifest = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')); write({ path: join(repositoryRoot, manifestPath), data: `${JSON.stringify(manifest)}\n` });
   for (const [path, data] of [[lockPath, '{"lockfileVersion":3,"packages":{}}\n'], [pilotPath, `const UPSTREAM_COMMIT = '${head}';\n`]]) write({ path: join(repositoryRoot, path), data });
-  const sources = [...new Set(pieceCatalog.entries.map((entry) => `packages/pieces/community/${entry.forkDirectory}/package.json`)), 'packages/pieces/framework/package.json', 'packages/pieces/common/package.json', 'packages/shared/package.json'];
+  const sources = [...new Set(pieceCatalog.entries.map((entry) => `packages/pieces/community/${entry.forkDirectory}/package.json`))];
   const forks = {}; for (const source of sources) { const data = readFileSync(new URL(`../../../${source}`, import.meta.url), 'utf8'), fork = JSON.parse(data); forks[fork.name] = fork.version; write({ path: join(repositoryRoot, source), data }); }
   const calls = [], logs = [], containers = [];
   async function exec({ command, args, cwd }) {
@@ -74,7 +74,7 @@ test('lock failure names its package and stops before container or review', asyn
 });
 test('a missing exported action stops with its piece and action names', async (context) => { const value = fixture({ context, missing: true }); await assert.rejects(refresh(value), /review.*@activepieces\/piece-slack.*send_channel_message/i);
 });
-test('outdated marks only newer versions behind, once per piece plus framework', async (context) => { const value = fixture({ context }), rows = await outdated({ ...value, npmView: async ({ name }) => name.endsWith('slack') ? `${BigInt(value.pins[name].split('.')[0]) + 1n}.0.0` : name.endsWith('discord') ? '0.0.0' : name.endsWith('calendar') ? `${value.pins[name]}-rc.1` : value.pins[name] });
-  assert.equal(rows.length, new Set(pieceCatalog.entries.map((entry) => entry.piece)).size + 1); assert.deepEqual(rows.filter((row) => row.behind).map((row) => row.name), ['@activepieces/piece-slack']);
+test('outdated marks only newer versions behind, once per piece', async (context) => { const value = fixture({ context }), rows = await outdated({ ...value, npmView: async ({ name }) => name.endsWith('slack') ? `${BigInt(value.pins[name].split('.')[0]) + 1n}.0.0` : name.endsWith('discord') ? '0.0.0' : name.endsWith('calendar') ? `${value.pins[name]}-rc.1` : value.pins[name] });
+  assert.equal(rows.length, new Set(pieceCatalog.entries.map((entry) => entry.piece)).size); assert.deepEqual(rows.filter((row) => row.behind).map((row) => row.name), ['@activepieces/piece-slack']);
   assert.ok(rows.every((row) => row.fork_version === value.forks[row.name] && row.runner_pin === value.pins[row.name]));
 });

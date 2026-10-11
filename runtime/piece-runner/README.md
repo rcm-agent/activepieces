@@ -59,7 +59,7 @@ node --test test/export-actions.contract.test.mjs
 node export-actions.mjs actions.json
 ```
 
-The version check compares the lock and installed pieces with the fork's piece manifests using each entry's explicit `forkDirectory`, and checks the pinned root framework. Pieces retain their own nested framework, common and shared dependencies. Export reads metadata from installed piece code, including props, required flags, descriptions, declared auth kinds and versions. Exported action IDs use deterministic snake case (`sendMessageWithBot` → `send_message_with_bot`).
+The version check compares the lock and installed pieces with the fork's piece manifests using each entry's explicit `forkDirectory`. Pieces retain their own nested (older versions) or bundled (newer versions) framework, common and shared code, so the runner's root framework, common and shared pins are not compared with the fork. Export reads metadata from installed piece code, including props, required flags, descriptions, declared auth kinds and versions. Exported action IDs use deterministic snake case (`sendMessageWithBot` → `send_message_with_bot`).
 
 ## Updating pieces
 
@@ -70,9 +70,9 @@ node runtime/piece-runner/update-pieces.mjs outdated
 node runtime/piece-runner/update-pieces.mjs refresh --upstream <commit>
 ```
 
-`outdated` reports each runner piece and the framework's runner pin, fork version, npm latest and whether npm is newer. Add `--json` for machine-readable output. It changes no files.
+`outdated` reports each runner piece's runner pin, fork version, npm latest and whether npm is newer. Add `--json` for machine-readable output. It changes no files.
 
-`refresh` requires an empty Git index and no unmerged paths, fetches `upstream/main`, and accepts only a commit on that branch that HEAD does not already contain. It merges with `--no-ff`; conflicts stop immediately and remain for the owner to resolve. It then re-pins dependencies to fork versions, rewrites the lock, updates pilot provenance, and regenerates and checks pilot and directory artifacts. A Linux Node 20 Docker check installs locked packages, verifies versions, runs contract tests and replaces the runner action export. Docker honors `DOCKER_HOST`.
+`refresh` requires an empty Git index and no unmerged paths, fetches `upstream/main`, and accepts only a commit on that branch that HEAD does not already contain. It merges with `--no-ff`; conflicts stop immediately and remain for the owner to resolve. It then re-pins each runner piece to its fork version, rewrites the lock, updates pilot provenance, and regenerates and checks pilot and directory artifacts. A Linux Node 20 Docker check installs locked packages, verifies versions, runs contract tests and replaces the runner action export. Docker honors `DOCKER_HOST`.
 
 Review the printed per-action version, added or removed props, prop type/required flags and auth-kind changes before committing the generated updates. A missing allowlisted action stops the refresh and names the piece and action to resolve. Only Git's merge creates a commit; the remaining updates stay uncommitted. The command prints Git status and downstream sync commands for the owner to run after review; it does not run those cross-repository syncs.
 

@@ -7,7 +7,7 @@ import { pieceCatalog } from './catalog.mjs';
 async function outdated({ repositoryRoot = defaultRoot, npmView = viewVersion } = {}) {
   const manifest = await readJson(join(repositoryRoot, 'runtime/piece-runner/package.json'));
   const rows = [];
-  for (const { name, source } of packageSources({ includeSupport: false })) {
+  for (const { name, source } of packageSources()) {
     const runnerPin = manifest.dependencies[name];
     const fork = await readJson(join(repositoryRoot, source));
     const latest = await step({ name: `npm latest ${name}`, run: () => npmView({ name }) });
@@ -43,7 +43,7 @@ async function refresh({ repositoryRoot = defaultRoot, upstream, exec = execute,
       throw error;
     }
   } });
-  const sources = packageSources({ includeSupport: true });
+  const sources = packageSources();
   const runnerRoot = join(repositoryRoot, 'runtime/piece-runner');
   const manifest = await step({ name: 're-pin', run: async () => {
     const updated = await readJson(join(runnerRoot, 'package.json'));
@@ -118,14 +118,11 @@ async function main({ argv = process.argv.slice(2) } = {}) {
   throw new Error('Usage: node runtime/piece-runner/update-pieces.mjs outdated [--json] | refresh --upstream <commit>');
 }
 
-function packageSources({ includeSupport }) {
+// Pieces only: published pieces bundle their own framework, so the fork's framework, common and shared versions say
+// nothing about what runs (upstream's are unpublished since mid-2026), and the runner's own pins stay where they are.
+function packageSources() {
   const pieces = new Map(pieceCatalog.entries.map((entry) => [entry.piece,
     { name: entry.piece, source: `packages/pieces/community/${entry.forkDirectory}/package.json` }]));
-  pieces.set('@activepieces/pieces-framework', { name: '@activepieces/pieces-framework', source: 'packages/pieces/framework/package.json' });
-  if (includeSupport) {
-    pieces.set('@activepieces/pieces-common', { name: '@activepieces/pieces-common', source: 'packages/pieces/common/package.json' });
-    pieces.set('@activepieces/shared', { name: '@activepieces/shared', source: 'packages/shared/package.json' });
-  }
   return [...pieces.values()];
 }
 
