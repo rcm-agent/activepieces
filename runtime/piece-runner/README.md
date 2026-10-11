@@ -1,6 +1,14 @@
 # Piece runner
 
-Standalone Node 20 package outside the repository's Bun workspaces. It executes only Slack `@activepieces/piece-slack@0.17.0` / `send_channel_message` and Discord `@activepieces/piece-discord@0.5.0` / `sendMessageWithBot`. RCM's orchestrator connector runtime supplies a Nango credential; Nango remains the connection owner.
+Standalone Node 20 package outside the repository's Bun workspaces. It executes the Slack, Discord and Google actions listed below. RCM's orchestrator connector runtime supplies a Nango credential; Nango remains the connection owner.
+
+| Piece | Version | Allowed actions |
+| --- | --- | --- |
+| Slack | 0.17.0 | `send_channel_message` |
+| Discord | 0.5.0 | `sendMessageWithBot` |
+| Google Sheets | 0.14.6 | `get-many-rows`, `find_rows`, `find_row_by_num`, `insert_row`, `google-sheets-insert-multiple-rows`, `update_row` |
+| Google Calendar | 0.9.1 | `google_calendar_find_busy_free_periods`, `google_calendar_get_events`, `google_calendar_get_event_by_id`, `create_google_calendar_event`, `update_event` |
+| Google Drive | 0.7.5 | `search-folder`, `create_new_gdrive_folder` |
 
 ```js
 import { pieceRunner } from './index.mjs';
@@ -30,6 +38,8 @@ Each allowed invocation starts a fresh child with an empty environment. Defaults
 | `memory_mb` | 256 | 512 |
 | `max_output_bytes` | 262,144 | 1,048,576 |
 
+Google Calendar and Google Drive entries set `memoryMb: 512` as a per-call floor. The effective memory limit is the larger of the requested value (256 MiB by default) and the entry's floor. Requested limits are validated before applying the floor, so requests above 512 MiB are still refused.
+
 Limits must be integers; timeout and output limits must be positive, and memory must be at least 64 MiB. Memory enforcement combines a V8 heap limit with a Linux RSS monitor. The serialized request is capped at 1 MiB; the output limit counts serialized response bytes. Expiry kills the child and returns `TIMEOUT`. Invalid limits, excessive memory and excessive output return named refusals. Store, files, server, pause, connections, agent and flows services throw `CONTEXT_SERVICE_UNAVAILABLE` when used.
 
 Install exact locked npm packages during a build, with scripts disabled. No runtime installation occurs. From this directory:
@@ -42,7 +52,7 @@ node --test test/export-actions.contract.test.mjs
 node export-actions.mjs actions.json
 ```
 
-The version check compares the lock and installed pieces with the fork's piece manifests, and checks the pinned framework. Export reads metadata from installed piece code, including props, required flags, descriptions, declared auth kinds and versions. Exported action IDs use deterministic snake case (`sendMessageWithBot` → `send_message_with_bot`).
+The version check compares the lock and installed pieces with the fork's piece manifests using each entry's explicit `forkDirectory`, and checks the pinned root framework. Pieces retain their own nested framework, common and shared dependencies. Export reads metadata from installed piece code, including props, required flags, descriptions, declared auth kinds and versions. Exported action IDs use deterministic snake case (`sendMessageWithBot` → `send_message_with_bot`).
 
 Build the Lambda container from the repository root:
 

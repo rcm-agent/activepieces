@@ -13,10 +13,11 @@ const require = createRequire(join(packageRoot, 'package.json'));
 function propsMetadata(declarations) { return Object.fromEntries(Object.entries(declarations).map(([name, prop]) => [name, { type: prop.type, required: prop.required, description: prop.description ?? '', ...(prop.properties ? { properties: propsMetadata(prop.properties) } : {}) }])); }
 test('exports installed action props, required flags, auth kinds and deterministic action ids', async () => {
   const exported = pieceCatalog.exportActions({});
-  assert.deepEqual(exported.map((item) => item.id), ['send_channel_message', 'send_message_with_bot']);
+  assert.deepEqual(JSON.parse(await readFile(resolve(packageRoot, '../../catalog/activepieces/generated/runner/actions.json'), 'utf8')), exported);
+  assert.deepEqual(exported.map((item) => item.id), ['send_channel_message', 'send_message_with_bot', 'get-many-rows', 'find_rows', 'find_row_by_num', 'insert_row', 'google-sheets-insert-multiple-rows', 'update_row', 'google_calendar_find_busy_free_periods', 'google_calendar_get_events', 'google_calendar_get_event_by_id', 'create_google_calendar_event', 'update_event', 'search-folder', 'create_new_gdrive_folder']);
   for (const entry of pieceCatalog.entries) {
     const piece = require(entry.piece)[entry.exportName], action = piece.getAction(entry.action);
-    const metadata = exported.find((item) => item.piece === entry.piece);
+    const metadata = exported.find((item) => item.piece === entry.piece && item.action === entry.action);
     assert.deepEqual([metadata.version, metadata.description], [require(`${entry.piece}/package.json`).version, action.description]);
     assert.deepEqual(metadata.props, propsMetadata(action.props));
     assert.deepEqual(metadata.auth_kinds, (Array.isArray(piece.auth) ? piece.auth : [piece.auth]).map((auth) => auth.type));
@@ -31,10 +32,14 @@ test('exports installed action props, required flags, auth kinds and determinist
 test('fails closed when a pinned piece version differs from the fork', async () => {
   const repositoryRoot = await mkdtemp(join(tmpdir(), 'piece-runner-version-'));
   try {
-    for (const path of ['packages/pieces/community/slack/package.json', 'packages/pieces/community/discord/package.json', 'packages/pieces/framework/package.json']) {
+    for (const path of [...new Set(pieceCatalog.entries.map((entry) => `packages/pieces/community/${entry.forkDirectory}/package.json`)), 'packages/pieces/framework/package.json']) {
       const target = join(repositoryRoot, path); await mkdir(dirname(target), { recursive: true }); await writeFile(target, await readFile(resolve(packageRoot, '../..', path), 'utf8'));
     }
-    await writeFile(join(repositoryRoot, 'packages/pieces/community/slack/package.json'), JSON.stringify({ version: '0.17.1' }));
-    assert.throws(() => pieceCatalog.verifyVersions({ repositoryRoot }), { name: 'RunnerRefusal', code: 'VERSION_MISMATCH' });
+    for (const forkDirectory of ['slack', 'google-sheets', 'google-calendar', 'google-drive']) {
+      const target = join(repositoryRoot, `packages/pieces/community/${forkDirectory}/package.json`), original = await readFile(target, 'utf8');
+      await writeFile(target, JSON.stringify({ version: '0.0.0' }));
+      assert.throws(() => pieceCatalog.verifyVersions({ repositoryRoot }), { name: 'RunnerRefusal', code: 'VERSION_MISMATCH' });
+      await writeFile(target, original);
+    }
   } finally { await rm(repositoryRoot, { recursive: true, force: true }); }
 });

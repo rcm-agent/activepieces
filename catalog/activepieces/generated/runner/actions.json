@@ -112,5 +112,627 @@
         }
       }
     }
+  },
+  {
+    "piece": "@activepieces/piece-google-sheets",
+    "version": "0.14.6",
+    "action": "get-many-rows",
+    "id": "get-many-rows",
+    "display_name": "Get All Rows",
+    "description": "Get all the rows from a specific sheet.",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "props": {
+      "includeTeamDrives": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Turn this on to also see spreadsheets from Shared Drives."
+      },
+      "spreadsheetId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "The ID of the spreadsheet to use."
+      },
+      "sheetId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "The ID of the worksheet to use."
+      },
+      "first_row_headers": {
+        "type": "CHECKBOX",
+        "required": true,
+        "description": ""
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-google-sheets",
+    "version": "0.14.6",
+    "action": "find_rows",
+    "id": "find_rows",
+    "display_name": "Find Rows",
+    "description": "Look up rows in a worksheet based on a column value.",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "props": {
+      "includeTeamDrives": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Turn this on to also see spreadsheets from Shared Drives."
+      },
+      "spreadsheetId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "The ID of the spreadsheet to use."
+      },
+      "sheetId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "The ID of the worksheet to use."
+      },
+      "columnName": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "The name of the column to search in"
+      },
+      "searchValue": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "The value to look for in the selected column. Leave empty to return all rows."
+      },
+      "matchCase": {
+        "type": "CHECKBOX",
+        "required": true,
+        "description": "Only return rows where the cell value exactly matches the search value."
+      },
+      "startingRow": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Start searching from this row number."
+      },
+      "numberOfRows": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "How many rows to return. Defaults to 1 if not specified."
+      },
+      "headerRow": {
+        "type": "NUMBER",
+        "required": true,
+        "description": "The row number that contains the column names."
+      },
+      "useHeaderNames": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Use column names as keys instead of A, B, C."
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-google-sheets",
+    "version": "0.14.6",
+    "action": "find_row_by_num",
+    "id": "find_row_by_num",
+    "display_name": "Get Single Row by ID",
+    "description": "Retrieve a specific row using its unique ID.",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "props": {
+      "includeTeamDrives": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Turn this on to also see spreadsheets from Shared Drives."
+      },
+      "spreadsheetId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "The ID of the spreadsheet to use."
+      },
+      "sheetId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "The ID of the worksheet to use."
+      },
+      "rowNumber": {
+        "type": "NUMBER",
+        "required": true,
+        "description": "Enter the row number you want to retrieve"
+      },
+      "headerRow": {
+        "type": "NUMBER",
+        "required": true,
+        "description": "Enter the row number where your column headers are located (usually row 1)."
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-google-sheets",
+    "version": "0.14.6",
+    "action": "insert_row",
+    "id": "insert_row",
+    "display_name": "Add Row",
+    "description": "Add a new row of data to a specific spreadsheet.",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "props": {
+      "includeTeamDrives": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Turn this on to also see spreadsheets from Shared Drives."
+      },
+      "spreadsheetId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "The ID of the spreadsheet to use."
+      },
+      "sheetId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "The ID of the worksheet to use."
+      },
+      "first_row_headers": {
+        "type": "CHECKBOX",
+        "required": true,
+        "description": ""
+      },
+      "as_string": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Inserted values that are dates and formulas will be entered strings and have no effect"
+      },
+      "values": {
+        "type": "DYNAMIC",
+        "required": true,
+        "description": "The values to add"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-google-sheets",
+    "version": "0.14.6",
+    "action": "google-sheets-insert-multiple-rows",
+    "id": "google-sheets-insert-multiple-rows",
+    "display_name": "Add Multiple Rows",
+    "description": "Add multiple rows of data at once to a specific spreadsheet.",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "props": {
+      "includeTeamDrives": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Turn this on to also see spreadsheets from Shared Drives."
+      },
+      "spreadsheetId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "The ID of the spreadsheet to use."
+      },
+      "sheetId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "The ID of the worksheet to use."
+      },
+      "input_type": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "Select the format of the input values to be added into the worksheet."
+      },
+      "values": {
+        "type": "DYNAMIC",
+        "required": true,
+        "description": "The values to add."
+      },
+      "overwrite": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Enable this option to replace all existing data in the sheet with new data from your input. This will clear any extra rows beyond the updated range."
+      },
+      "check_for_duplicate": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Enable this option to check for duplicate values before inserting data into the sheet. Only unique rows will be added based on the selected column."
+      },
+      "check_for_duplicate_column": {
+        "type": "DYNAMIC",
+        "required": false,
+        "description": "The column to check for duplicate values."
+      },
+      "as_string": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Inserted values that are dates and formulas will be entered as strings and have no effect"
+      },
+      "headerRow": {
+        "type": "NUMBER",
+        "required": true,
+        "description": "Enter the row number where your column headers are located (usually row 1)."
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-google-sheets",
+    "version": "0.14.6",
+    "action": "update_row",
+    "id": "update_row",
+    "display_name": "Update Row",
+    "description": "Update the data in an existing row.",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "props": {
+      "includeTeamDrives": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Turn this on to also see spreadsheets from Shared Drives."
+      },
+      "spreadsheetId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "The ID of the spreadsheet to use."
+      },
+      "sheetId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "The ID of the worksheet to use."
+      },
+      "row_id": {
+        "type": "NUMBER",
+        "required": true,
+        "description": "The row number to update"
+      },
+      "first_row_headers": {
+        "type": "CHECKBOX",
+        "required": true,
+        "description": ""
+      },
+      "values": {
+        "type": "DYNAMIC",
+        "required": true,
+        "description": "The values to add"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-google-calendar",
+    "version": "0.9.1",
+    "action": "google_calendar_find_busy_free_periods",
+    "id": "google_calendar_find_busy_free_periods",
+    "display_name": "Find Busy/Free Periods in Calendar",
+    "description": "Finds free/busy calendar details from Google Calendar.",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "props": {
+      "calendar_ids": {
+        "type": "MULTI_SELECT_DROPDOWN",
+        "required": true,
+        "description": "Select the calendars to check for busy periods."
+      },
+      "start_date": {
+        "type": "DATE_TIME",
+        "required": true,
+        "description": "The start of the time range to check."
+      },
+      "end_date": {
+        "type": "DATE_TIME",
+        "required": true,
+        "description": "The end of the time range to check."
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-google-calendar",
+    "version": "0.9.1",
+    "action": "google_calendar_get_events",
+    "id": "google_calendar_get_events",
+    "display_name": "Get all Events",
+    "description": "Get Events",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "props": {
+      "calendar_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "event_types": {
+        "type": "STATIC_MULTI_SELECT_DROPDOWN",
+        "required": true,
+        "description": "Select event types"
+      },
+      "search": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": ""
+      },
+      "start_date": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": ""
+      },
+      "end_date": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": ""
+      },
+      "singleEvents": {
+        "type": "CHECKBOX",
+        "required": true,
+        "description": "Whether to expand recurring events into instances and only return single one-off events and instances of recurring events, but not the underlying recurring events themselves."
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-google-calendar",
+    "version": "0.9.1",
+    "action": "google_calendar_get_event_by_id",
+    "id": "google_calendar_get_event_by_id",
+    "display_name": "Get Event by ID",
+    "description": "Fetch event details by its unique ID from Google Calendar.",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "props": {
+      "calendar_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "event_id": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The unique ID of the event (e.g., \"abc123def456\"). You can find this in the event URL or from other calendar actions."
+      },
+      "max_attendees": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Maximum number of attendees to include in the response. If there are more attendees, only the participant is returned."
+      },
+      "time_zone": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Time zone for the response (e.g., \"America/New_York\", \"Europe/London\"). Defaults to the calendar's time zone if not specified."
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-google-calendar",
+    "version": "0.9.1",
+    "action": "create_google_calendar_event",
+    "id": "create_google_calendar_event",
+    "display_name": "Create Event",
+    "description": "Add Event",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "props": {
+      "calendar_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "title": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": ""
+      },
+      "start_date_time": {
+        "type": "DATE_TIME",
+        "required": true,
+        "description": ""
+      },
+      "end_date_time": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": "By default it'll be 30 min post start time"
+      },
+      "location": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": ""
+      },
+      "description": {
+        "type": "LONG_TEXT",
+        "required": false,
+        "description": "Description of the event. You can use HTML tags here."
+      },
+      "colorId": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": ""
+      },
+      "attendees": {
+        "type": "ARRAY",
+        "required": false,
+        "description": "Emails of the attendees (guests)"
+      },
+      "guests_can_modify": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": ""
+      },
+      "guests_can_invite_others": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": ""
+      },
+      "guests_can_see_other_guests": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": ""
+      },
+      "send_notifications": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "create_meet_link": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Automatically create a Google Meet video conference link for this event"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-google-calendar",
+    "version": "0.9.1",
+    "action": "update_event",
+    "id": "update_event",
+    "display_name": "Update Event",
+    "description": "Updates an event in Google Calendar.",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "props": {
+      "calendar_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": ""
+      },
+      "eventId": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": ""
+      },
+      "title": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": ""
+      },
+      "start_date_time": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": ""
+      },
+      "end_date_time": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": ""
+      },
+      "location": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": ""
+      },
+      "description": {
+        "type": "LONG_TEXT",
+        "required": false,
+        "description": "Description of the event. You can use HTML tags here."
+      },
+      "colorId": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": ""
+      },
+      "attendees": {
+        "type": "ARRAY",
+        "required": false,
+        "description": "Emails of the attendees (guests)"
+      },
+      "guests_can_modify": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": ""
+      },
+      "guests_can_invite_others": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": ""
+      },
+      "guests_can_see_other_guests": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": ""
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-google-drive",
+    "version": "0.7.5",
+    "action": "search-folder",
+    "id": "search-folder",
+    "display_name": "Search",
+    "description": "Search a Google Drive folder for files/sub-folders",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "props": {
+      "queryTerm": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "The Query term or field of file/folder to search upon."
+      },
+      "operator": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "The operator to create criteria."
+      },
+      "query": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Value of the field of file/folder to search for."
+      },
+      "type": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "(Optional) Choose between files and folders."
+      },
+      "parentFolder": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "The Drive folder to target. Leave empty to use the root of My Drive. Type in the box to search your Drive by folder name. If the folder still isn't listed, switch this field to 'Dynamic value' (the toggle next to the field) and paste the folder ID — you can copy it from the folder's URL in Drive, after /folders/ (e.g. https://drive.google.com/drive/folders/<FOLDER_ID>)."
+      },
+      "include_team_drives": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Determines if folders from Team Drives should be included in the results."
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-google-drive",
+    "version": "0.7.5",
+    "action": "create_new_gdrive_folder",
+    "id": "create_new_gdrive_folder",
+    "display_name": "Create new folder",
+    "description": "Create a new empty folder in your Google Drive",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "props": {
+      "folderName": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The name of the new folder"
+      },
+      "parentFolder": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "The Drive folder to target. Leave empty to use the root of My Drive. Type in the box to search your Drive by folder name. If the folder still isn't listed, switch this field to 'Dynamic value' (the toggle next to the field) and paste the folder ID — you can copy it from the folder's URL in Drive, after /folders/ (e.g. https://drive.google.com/drive/folders/<FOLDER_ID>)."
+      },
+      "include_team_drives": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Determines if folders from Team Drives should be included in the results."
+      }
+    }
   }
 ]

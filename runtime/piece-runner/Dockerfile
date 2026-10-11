@@ -6,6 +6,9 @@ RUN npm ci --ignore-scripts --omit=dev
 COPY runtime/piece-runner/*.mjs ./
 COPY packages/pieces/community/slack/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/slack/package.json
 COPY packages/pieces/community/discord/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/discord/package.json
+COPY packages/pieces/community/google-sheets/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/google-sheets/package.json
+COPY packages/pieces/community/google-calendar/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/google-calendar/package.json
+COPY packages/pieces/community/google-drive/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/google-drive/package.json
 COPY packages/pieces/framework/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/framework/package.json
 RUN npm run check-versions
 
