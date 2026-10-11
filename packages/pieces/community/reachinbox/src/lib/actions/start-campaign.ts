@@ -6,8 +6,15 @@ import { HttpMethod, httpClient } from '@activepieces/pieces-common';
 export const startCampaign = createAction({
   auth: ReachinboxAuth,
   name: 'startCampaign',
+  classification: 'WRITE',
   displayName: 'Start Campaign',
   description: 'Starts a Campaign',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Starts (launches or resumes) a ReachInbox campaign, identified by its campaign id, so it begins sending. Use to activate outreach for a campaign. Idempotent: starting an already-running campaign leaves it running.',
+    idempotent: true,
+  },
   props: {
     campaignId: Property.Dropdown({
   auth: ReachinboxAuth,

@@ -5,9 +5,14 @@ import { wedofCommon } from '../../common/wedof';
 export const registrationFolderAccepted = createTrigger({
   auth: wedofAuth,
   name: 'registrationFolderAccepted',
+  classification: 'READ',
   displayName: 'Dossier de formation accepté',
   description:
     "Se déclenche lorsqu'un dossier de formation passe à l'état accepté",
+  aiMetadata: {
+    description:
+      "Fires when a Wedof training registration folder (dossier de formation) transitions to the 'accepted' (accepté) state, meaning the enrollment has been approved. Emits the full folder record.",
+  },
   props: {},
   sampleData: {
     withPoleEmploi: false,

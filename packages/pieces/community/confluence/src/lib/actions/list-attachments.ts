@@ -7,8 +7,11 @@ import { pageIdProp, spaceIdProp } from '../common/props';
 export const listAttachmentsAction = createAction({
 	auth: confluenceAuth,
 	name: 'list-attachments',
+	classification: 'SEARCH',
 	displayName: 'List Attachments',
 	description: 'Lists all attachments on a page.',
+	audience: 'both',
+	aiMetadata: { description: 'Lists the attachments on a Confluence page, returning their metadata including IDs. Use to enumerate a page\'s files or to find an attachment ID to feed into Download Attachment. Requires the page ID. Read-only and idempotent.', idempotent: true },
 	props: {
 		spaceId: spaceIdProp,
 		pageId: pageIdProp,

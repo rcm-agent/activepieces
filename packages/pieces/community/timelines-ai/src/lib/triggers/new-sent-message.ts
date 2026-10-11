@@ -5,8 +5,12 @@ import { WebhookInformation } from '../common/types';
 export const newSentMessage = createTrigger({
   auth: timelinesAiAuth,
   name: 'newSentMessage',
+  classification: 'READ',
   displayName: 'New Sent Message',
   description: 'Fires when a message is sent (outgoing).',
+  aiMetadata: {
+    description: 'Fires when an outgoing WhatsApp message is sent from TimelinesAI. Represents a single outbound message with its text, sender/recipient, any attachments, and the parent chat context.',
+  },
   props: {},
   sampleData: {
     event_type: 'message:new',

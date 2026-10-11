@@ -5,8 +5,11 @@ import { trueLayerCommon } from '../../common';
 export const getPaymentLink = createAction({
   auth: trueLayerCommon.auth,
   name: 'get-payment-link',
+  classification: 'READ',
   displayName: 'Get Payment Link',
   description: 'Retrieves payment link details. This API must be called using a backend bearer token.',
+  audience: 'both',
+  aiMetadata: { description: 'Retrieve the configuration and status of a single payment link by its ID. Use to inspect a link you created; read-only and safe to repeat. To list the payments collected through it instead, use Get Payments.', idempotent: true },
   props: {
     id: Property.ShortText({
       displayName: 'Payment Link ID',

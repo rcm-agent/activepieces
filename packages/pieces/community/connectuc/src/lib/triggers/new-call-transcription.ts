@@ -6,8 +6,12 @@ import { domainProp, usersProp } from '../common/props';
 export const newCallTranscription = createTrigger({
     auth: connectucAuth,
     name: 'newCallTranscription',
+    classification: 'READ',
     displayName: 'New Call Transcription',
     description: 'Triggers when a new call transcription is created',
+    aiMetadata: {
+        description: 'Fires when a new call transcription is created for the selected ConnectUC domain and users. Represents a finished speech-to-text transcript of a call, including per-speaker timestamped comments and the linked call/CDR IDs.',
+    },
     props: {
         domain: domainProp(),
         users: usersProp(),

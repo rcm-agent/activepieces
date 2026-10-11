@@ -1,5 +1,5 @@
 import { createPiece, PieceAuth } from '@activepieces/pieces-framework';
-import { PieceCategory } from '@activepieces/shared';
+import { PieceCategory } from '@activepieces/pieces-framework';
 import { addSubtractDateAction } from './lib/actions/add-subtract-date';
 import { dateDifferenceAction } from './lib/actions/date-difference';
 import { extractDateParts } from './lib/actions/extract-date-parts';
@@ -15,7 +15,7 @@ const description = `Manipulate, format, and extract time units for all your dat
 export const utilityDate = createPiece({
   displayName: 'Date Helper',
   auth: PieceAuth.None(),
-  minimumSupportedRelease: '0.36.1',
+  minimumSupportedRelease: '0.88.2',
   categories: [PieceCategory.CORE],
   logoUrl: 'https://cdn.activepieces.com/pieces/new-core/date-helper.svg',
   authors: [

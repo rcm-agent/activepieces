@@ -5,9 +5,14 @@ import { HttpMethod } from '@activepieces/pieces-common';
 export const conversationStarted = createTrigger({
   auth: oncehubAuth,
   name: 'conversationStarted',
+  classification: 'READ',
   displayName: 'Conversation Started',
   description:
     'Triggered when website visitor starts interacting with a chatbot.',
+  aiMetadata: {
+    description:
+      'Fires when a website visitor begins interacting with a OnceHub chatbot, starting a new conversation. The event carries the conversation with its contact and owner details.',
+  },
   props: {},
   sampleData: {
     id: 'EVNT-KN56U3YL7C',

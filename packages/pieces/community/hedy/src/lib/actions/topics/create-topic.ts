@@ -7,8 +7,14 @@ import { Topic } from '../../common/types';
 export const createTopic = createAction({
   auth: hedyAuth,
   name: 'create-topic',
+  classification: 'WRITE',
   displayName: 'Create Topic',
   description: 'Create a new topic for organizing sessions.',
+  audience: 'both',
+  aiMetadata: {
+    description: 'Create a new Hedy topic for organizing sessions, with a required name plus optional description, color, icon, and AI processing instructions. Not idempotent: each call creates a separate topic even with identical input.',
+    idempotent: false,
+  },
   props: {
     name: Property.ShortText({
       displayName: 'Name',

@@ -15,8 +15,12 @@ const triggerNameInStore = 'event_on_data_updated_trigger';
 export const eventOnDataUpdated = createTrigger({
   auth: kizeoFormsAuth,
   name: 'event_on_data_updated',
+  classification: 'READ',
   displayName: 'Event On Data Updated',
   description: 'Handle EventOnData update event via webhooks',
+  aiMetadata: {
+    description: 'Fires when an existing data record is updated on the chosen Kizeo Forms form. Represents a modification to a previously submitted record.',
+  },
   props: {
     format: Property.StaticDropdown({
       displayName: 'Output Format',

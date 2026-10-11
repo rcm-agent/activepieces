@@ -6,8 +6,12 @@ import { CreateWebhookResponse } from '../common/types';
 export const contactStatusUpdatedTrigger = createTrigger({
   auth: tarventAuth,
   name: 'tarvent_contact_status_updated',
+  classification: 'READ',
   displayName: 'Contact Status Changed',
   description: 'Triggers when a contact\'s status changes.',
+  aiMetadata: {
+    description: 'Fires when a contact\'s subscription status changes, with a selectable status filter (any change, or specifically subscribe vs. unsubscribe). Represents a consent or lifecycle state transition.',
+  },
   type: TriggerStrategy.WEBHOOK,
   props: {
     include: tarventCommon.include,

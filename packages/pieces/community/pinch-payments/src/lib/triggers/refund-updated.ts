@@ -5,8 +5,12 @@ import { createWebhook, deleteWebhook, WebhookResponse } from '../common/client'
 export const refundUpdatedTrigger = createTrigger({
   auth: pinchPaymentsAuth,
   name: 'refund_updated',
+  classification: 'READ',
   displayName: 'Refund Updated',
   description: 'Triggers when a refund is updated (e.g., status change)',
+  aiMetadata: {
+    description: 'Fires when an existing refund changes in Pinch Payments, most commonly a status change (e.g., from pending to completed). Use to track a refund through to settlement.',
+  },
   type: TriggerStrategy.WEBHOOK,
   props: {},
   async onEnable(context) {

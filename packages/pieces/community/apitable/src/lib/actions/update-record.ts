@@ -1,27 +1,39 @@
 import {
 	DynamicPropsValue,
-	PiecePropValueSchema,
 	Property,
 	createAction,
 } from '@activepieces/pieces-framework';
 import { APITableCommon, createNewFields, makeClient } from '../common';
 import { APITableAuth } from '../auth';
+import { updateRecordActionOutputSchema } from '../output-schemas';
 
 export const updateRecordAction = createAction({
 	auth: APITableAuth,
 	name: 'apitable_update_record',
+	classification: 'WRITE',
 	displayName: 'Update Record',
-	description: 'Updates an existing record in datasheet.',
+	description: 'Updates an existing record in a datasheet.',
+	audience: 'both',
+	aiMetadata: {
+		description:
+			'Updates the field values of an existing record in an AITable datasheet, identified by its record ID. Use when an agent needs to modify a row it can already locate. Idempotent: re-applying the same field values to the same record ID yields the same result with no extra side effect.',
+		idempotent: true,
+	},
 	props: {
 		space_id: APITableCommon.space_id,
 		datasheet_id: APITableCommon.datasheet_id,
 		recordId: Property.ShortText({
 			displayName: 'Record ID',
-			description: 'The ID of the record to update.',
+			description: 'Map it from a trigger or a Find Records step.',
+			placeholder: 'rec2T5ppW1Mal',
 			required: true,
 		}),
-		fields: APITableCommon.fields,
+		fields: APITableCommon.fields({
+			description:
+				'Blank fields keep their value; unticked checkboxes are cleared.',
+		}),
 	},
+	outputSchema: updateRecordActionOutputSchema,
 	async run(context) {
 		const auth = context.auth;
 		const datasheetId = context.propsValue.datasheet_id;

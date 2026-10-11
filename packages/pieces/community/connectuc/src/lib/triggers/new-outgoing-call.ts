@@ -6,8 +6,12 @@ import { domainProp, usersProp } from '../common/props';
 export const newOutgoingCall = createTrigger({
     auth: connectucAuth,
     name: 'newOutgoingCall',
+    classification: 'READ',
     displayName: 'New Outgoing Call',
     description: 'Triggers when a new outgoing call is initiated',
+    aiMetadata: {
+        description: 'Fires when a new outbound call is initiated for the selected ConnectUC domain and users. Represents a live outgoing call event with the originating extension/device, destination number, and call IDs.',
+    },
     props: {
         domain: domainProp(),
         users: usersProp(),

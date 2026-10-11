@@ -6,8 +6,11 @@ import { ninjapipeApiCall, flattenCustomFields, getAuth, ninjapipeCommon } from 
 export const getProject = createAction({
   auth: ninjapipeAuth,
   name: 'get_project',
+  classification: 'READ',
   displayName: 'Get Project',
   description: 'Retrieves a project by ID.',
+  audience: 'both',
+  aiMetadata: { description: 'Fetch a single project by its ID. Read-only lookup for inspecting one project; to enumerate or search projects use the list-projects action instead.', idempotent: true },
   props: {
     projectId: ninjapipeCommon.projectDropdownRequired,
   },

@@ -6,8 +6,11 @@ import { HttpMethod } from '@activepieces/pieces-common';
 export const findContactAction = createAction({
   auth: kommoAuth,
   name: 'find_contact',
+  classification: 'SEARCH',
   displayName: 'Find Contact',
   description: 'Finds an existing contact.',
+  audience: 'both',
+  aiMetadata: { description: 'Searches contacts in a Kommo CRM account by a free-text query matched against the contacts\' filled fields, returning all matching contacts. Use to resolve a contact (e.g. by name, email, or phone) before referencing or updating it; the query is required. Read-only and idempotent.', idempotent: true },
   props: {
     query: Property.ShortText({
       displayName: 'Query',

@@ -5,8 +5,11 @@ import { HttpMethod } from '@activepieces/pieces-common';
 
 export const addPeopleToProject = createAction({
 	name: 'add_people_to_project',
+	classification: 'WRITE',
 	displayName: 'Add People to Project',
 	description: 'Add existing users to a project.',
+	audience: 'both',
+	aiMetadata: { description: 'Adds existing Teamwork users to a project as members. Use to grant people access to a project after both the project and the users exist. Requires the target project and a list of user IDs. Idempotent — re-adding users already on the project leaves the membership unchanged.', idempotent: true },
 	auth: teamworkAuth,
 	props: {
 		projectId: Property.Dropdown({

@@ -6,8 +6,12 @@ import { domainProp, usersProp } from '../common/props';
 export const newCallSummary = createTrigger({
     auth: connectucAuth,
     name: 'newCallSummary',
+    classification: 'READ',
     displayName: 'New Call Summary',
     description: 'Triggers when a new call summary is created',
+    aiMetadata: {
+        description: 'Fires when a new call summary is created for the selected ConnectUC domain and users. Represents an AI/auto-generated text summary of a completed call, keyed to its call ID.',
+    },
     props: {
         domain: domainProp(),
         users: usersProp(),

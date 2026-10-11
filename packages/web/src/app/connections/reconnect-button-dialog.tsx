@@ -3,7 +3,7 @@ import {
   AppConnectionWithoutSensitiveData,
 } from '@activepieces/shared';
 import { t } from 'i18next';
-import { RefreshCw } from 'lucide-react';
+import { Cable } from 'lucide-react';
 import { useState } from 'react';
 
 import { CreateOrEditConnectionDialog } from '@/app/connections/create-edit-connection-dialog';
@@ -14,6 +14,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { piecesHooks } from '@/features/pieces';
+import { AdminControl, adminControl } from '@/lib/admin-control';
 
 type ReconnectButtonDialogProps = {
   connection: AppConnectionWithoutSensitiveData;
@@ -30,19 +31,25 @@ const ReconnectButtonDialog = ({
   const { pieceModel, isLoading } = piecesHooks.usePiece({
     name: connection.pieceName,
     version: connection.pieceVersion,
+    enabled: open,
   });
 
   return (
     <>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button
-            onClick={() => setOpen(true)}
-            disabled={!hasPermission}
-            variant={'ghost'}
-          >
-            <RefreshCw className="h-4 w-4" />
-          </Button>
+          <span className="inline-flex">
+            <Button
+              onClick={() => setOpen(true)}
+              disabled={!hasPermission}
+              variant={'ghost'}
+              {...adminControl(
+                AdminControl.CONNECTIONS_CONNECTION_RECONNECT_OPEN,
+              )}
+            >
+              <Cable className="h-4 w-4" />
+            </Button>
+          </span>
         </TooltipTrigger>
         <TooltipContent>
           {!hasPermission ? (

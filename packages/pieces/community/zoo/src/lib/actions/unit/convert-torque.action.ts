@@ -4,8 +4,11 @@ import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 
 export const convertTorqueAction = createAction({
   name: 'convert_torque',
+  classification: 'READ',
   displayName: 'Convert Torque',
   description: 'Convert torque measurements between different units',
+  audience: 'both',
+  aiMetadata: { description: 'Convert a single torque value between newton-meter, pound-foot, and kilogram-force-meter. Use only for torque; other quantities have their own dedicated convert actions. Read-only calculation that returns the same result for the same inputs.', idempotent: true },
   auth: zooAuth,
   // category: 'Unit Conversion',
   props: {

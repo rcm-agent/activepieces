@@ -6,8 +6,11 @@ import { ninjapipeApiCall, flattenCustomFields, getAuth, ninjapipeCommon } from 
 export const getTask = createAction({
   auth: ninjapipeAuth,
   name: 'get_task',
+  classification: 'READ',
   displayName: 'Get Task',
   description: 'Retrieves a single task within a project.',
+  audience: 'both',
+  aiMetadata: { description: 'Fetch a single task by its ID within a specific project to read its current details; requires both the project ID and the task ID. Use when you already have both IDs. Read-only and idempotent.', idempotent: true },
   props: {
     projectId: ninjapipeCommon.projectDropdownRequired,
     taskId: ninjapipeCommon.taskDropdown,

@@ -5,8 +5,11 @@ import { ContextualAI } from 'contextual-client';
 export const inviteUsersAction = createAction({
   auth: contextualAiAuth,
   name: 'invite_users',
+  classification: 'WRITE',
   displayName: 'Invite Users',
   description: 'Invite new users to the Contextual AI workspace',
+  audience: 'both',
+  aiMetadata: { description: 'Sends workspace invitations to one or more email addresses for a Contextual AI tenant, returning which invites succeeded and which errored. Use for onboarding/admin automation. Requires the list of user emails and the tenant short name; invitees are granted agent-level user access. Not idempotent — each call dispatches new invitations.', idempotent: false },
   props: {
     users: Property.Array({
       displayName: 'Users to Invite',

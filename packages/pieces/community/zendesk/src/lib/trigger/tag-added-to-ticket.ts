@@ -4,19 +4,13 @@ import {
   TriggerStrategy,
 } from '@activepieces/pieces-framework';
 import {
-  AuthenticationType,
   HttpMethod,
   httpClient,
 } from '@activepieces/pieces-common';
-import { zendeskAuth } from '../..';
+import { zendeskAuth } from '../auth';
+import { getZendeskAuthentication, getZendeskBaseUrl } from '../common/client';
 
 const WEBHOOK_TRIGGER_KEY = 'zendesk_tag_added_webhook';
-
-type AuthProps = {
-  email: string;
-  token: string;
-  subdomain: string;
-};
 
 interface ZendeskTicket {
   id: number;
@@ -34,8 +28,12 @@ interface ZendeskTicket {
 
 export const tagAddedToTicket = createTrigger({
   name: 'tag_added_to_ticket',
+  classification: 'READ',
   displayName: 'Tag Added to Ticket',
   description: 'Fires when a ticket update includes the specified tag. Requires a Zendesk Trigger with Notify active webhook.',
+  aiMetadata: {
+    description: 'Fires when a ticket update carries a tag, delivered via a registered webhook. If a specific tag is configured, fires only when that tag is present on the updated ticket; if left empty, fires on any ticket update that has at least one tag. Requires a Zendesk Trigger configured to notify the active webhook.',
+  },
   auth: zendeskAuth,
   props: {
     specific_tag: Property.ShortText({
@@ -114,16 +112,12 @@ export const tagAddedToTicket = createTrigger({
       const response = await httpClient.sendRequest<{
         webhook: { id: string };
       }>({
-        url: `https://${authentication.props.subdomain}.zendesk.com/api/v2/webhooks`,
+        url: `${getZendeskBaseUrl(authentication)}/webhooks`,
         method: HttpMethod.POST,
         headers: {
           'Content-Type': 'application/json',
         },
-        authentication: {
-          type: AuthenticationType.BASIC,
-          username: authentication.props.email + '/token',
-          password: authentication.props.token,
-        },
+        authentication: getZendeskAuthentication(authentication),
         body: {
           webhook: {
             name: `Activepieces Tag Added Webhook - ${Date.now()}`,
@@ -149,13 +143,9 @@ export const tagAddedToTicket = createTrigger({
     if (webhookId) {
       try {
         await httpClient.sendRequest({
-          url: `https://${authentication.props.subdomain}.zendesk.com/api/v2/webhooks/${webhookId}`,
+          url: `${getZendeskBaseUrl(authentication)}/webhooks/${webhookId}`,
           method: HttpMethod.DELETE,
-          authentication: {
-            type: AuthenticationType.BASIC,
-            username: authentication.props.email + '/token',
-            password: authentication.props.token,
-          },
+          authentication: getZendeskAuthentication(authentication),
         });
       } catch (error) {
         console.warn(`Warning: Failed to delete webhook ${webhookId}:`, (error as Error).message);

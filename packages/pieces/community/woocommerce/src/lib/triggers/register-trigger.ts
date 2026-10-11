@@ -2,10 +2,13 @@ import {
   PiecePropValueSchema,
   TriggerStrategy,
   createTrigger,
+  tryCatch,
+  OutputSchema,
 } from '@activepieces/pieces-framework';
 import { wooAuth } from '../auth';
 import { WebhookInformation, wooCommon } from '../common';
-import { isEmpty, WebhookHandshakeStrategy } from '@activepieces/shared';
+import { isEmpty } from '@activepieces/pieces-framework';
+import { WebhookHandshakeStrategy } from '@activepieces/pieces-framework';
 import {
   AuthenticationType,
   httpClient,
@@ -17,23 +20,30 @@ export const woocommerceRegisterTrigger = ({
   topic,
   displayName,
   description,
+  aiMetadata,
   sampleData,
+  outputSchema,
   testDataEndpoint,
 }: {
   name: string;
   topic: string;
   displayName: string;
   description: string;
+  aiMetadata: { description: string };
   sampleData: unknown;
+  outputSchema: OutputSchema;
   testDataEndpoint: string;
 }) =>
   createTrigger({
     auth: wooAuth,
     name: `$woocommerce_trigger_${name}`,
+    classification: 'READ',
     displayName,
     description,
+    aiMetadata,
     props: {},
     sampleData,
+    outputSchema,
     type: TriggerStrategy.WEBHOOK,
     async onEnable(context) {
       const res = await wooCommon.createWebhook(
@@ -100,19 +110,24 @@ export const woocommerceRegisterTrigger = ({
       if (payload['webhook_id']) return [];
 
       if (topic.includes('deleted')) {
-        const response = await httpClient.sendRequest({
-          url: `${trimmedBaseUrl}${testDataEndpoint}/${payload['id']}`,
-          method: HttpMethod.GET,
-          authentication: {
-            type: AuthenticationType.BASIC,
-            username: context.auth.props.consumerKey,
-            password: context.auth.props.consumerSecret,
-          },
-          queryParams: {
-            per_page: '10',
-          },
-        });
-        return [response.body];
+        const { data, error } = await tryCatch(() =>
+          httpClient.sendRequest({
+            url: `${trimmedBaseUrl}${testDataEndpoint}/${payload['id']}`,
+            method: HttpMethod.GET,
+            authentication: {
+              type: AuthenticationType.BASIC,
+              username: context.auth.props.consumerKey,
+              password: context.auth.props.consumerSecret,
+            },
+            queryParams: {
+              per_page: '10',
+            },
+          }),
+        );
+        if (error !== null) {
+          return [payload];
+        }
+        return [data.body];
       }
 
       return [payload];

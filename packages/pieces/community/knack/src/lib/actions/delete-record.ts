@@ -7,8 +7,14 @@ import { objectDropdown } from '../common/props';
 export const deleteRecordAction = createAction({
   auth: knackAuth,
   name: 'delete_record',
+  classification: 'DESTRUCTIVE',
   displayName: 'Delete Record',
   description: 'Deletes an existing record from a table.',
+  audience: 'both',
+  aiMetadata: {
+    description: 'Permanently deletes a single record from a chosen Knack object (table), identified by its record ID. Use when removing a known row. Requires a valid record ID; a missing ID returns a not-found error. Not idempotent: the record is removed on the first successful call and repeating it fails.',
+    idempotent: false,
+  },
   props: {
     object: objectDropdown,
     recordId:  Property.ShortText({

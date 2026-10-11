@@ -7,8 +7,11 @@ import { formFields, formIdDropdown } from '../common/props';
 export const createEntryAction = createAction({
   auth: cognitoFormsAuth,
   name: 'create_entry',
+  classification: 'WRITE',
   displayName: 'Create Entry',
   description: 'Creates a new entry.',
+  audience: 'both',
+  aiMetadata: { description: 'Creates a new entry (form submission) in a specified Cognito Forms form. Choose this to submit data into a form programmatically; the entry field values must match the target form\'s schema. Not idempotent: each call creates a separate entry.', idempotent: false },
   props: {
     formId: formIdDropdown,
     entryData: formFields,

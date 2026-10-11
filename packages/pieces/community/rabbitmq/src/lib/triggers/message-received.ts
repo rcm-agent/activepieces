@@ -50,8 +50,12 @@ const polling: Polling<AppConnectionValueForAuthProperty<typeof rabbitmqAuth>, {
 export const messageReceived = createTrigger({
   auth: rabbitmqAuth,
   name: 'messageReceived',
+  classification: 'READ',
   displayName: 'Message Received',
   description: 'Triggers when a message is received on a RabbitMQ queue',
+  aiMetadata: {
+    description: 'Fires when one or more messages are available on a configured RabbitMQ queue, emitting each consumed message. Polls the queue on a schedule, pulling up to a configurable maximum number of messages per poll and acknowledging (removing) them from the queue as it reads.',
+  },
   props: {
     queue: Property.ShortText({
       displayName: 'Queue',

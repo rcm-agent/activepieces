@@ -5,9 +5,13 @@ import { folkClient } from '../common/client';
 export const personCustomFieldUpdated = createTrigger({
   auth: folkAuth,
   name: 'person_custom_field_updated',
+  classification: 'READ',
   displayName: 'Person Groups Updated',
   description:
     "Fires when a person's group assignments are updated in your Folk workspace.",
+  aiMetadata: {
+    description: "Fires when a person's group memberships change in the connected Folk workspace (added to or removed from groups). The event payload carries the person ID and the list of group additions and removals.",
+  },
   props: {},
   sampleData: {
     id: 'evt_6004f2ef-dcc3-4c56-a704-9326730ad100',

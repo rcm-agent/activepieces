@@ -1,26 +1,31 @@
-import { setupTestEnvironment, teardownTestEnvironment } from '../../../../helpers/test-setup'
 import {
     FlowActionType,
+    flowOperations,
     FlowOperationType,
     FlowStatus,
     FlowTriggerType,
+    FlowVersion,
     FlowVersionState,
+    LATEST_FLOW_SCHEMA_VERSION,
     PackageType,
     PieceType,
     PopulatedFlow,
     StepLocationRelativeToParent,
+    UncategorizedFolderId,
 } from '@activepieces/shared'
 import { FastifyInstance } from 'fastify'
 import { StatusCodes } from 'http-status-codes'
 import { db } from '../../../../helpers/db'
+import { describeWithAuth } from '../../../../helpers/describe-with-auth'
 import {
     createMockFlow,
     createMockFlowVersion,
     createMockFolder,
     createMockPieceMetadata,
+    createMockProject,
 } from '../../../../helpers/mocks'
 import { createTestContext } from '../../../../helpers/test-context'
-import { describeWithAuth } from '../../../../helpers/describe-with-auth'
+import { setupTestEnvironment, teardownTestEnvironment } from '../../../../helpers/test-setup'
 
 let app: FastifyInstance | null = null
 
@@ -217,6 +222,89 @@ describe('Flow Operations API', () => {
             expect(response?.statusCode).toBe(StatusCodes.OK)
             const body = response?.json()
             expect(body.folderId).toBeNull()
+        })
+
+        it('should move flow to null when the Uncategorized sentinel is sent', async () => {
+            const ctx = await createTestContext(app!)
+
+            const mockFolder = createMockFolder({ projectId: ctx.project.id })
+            await db.save('folder', mockFolder)
+
+            const createResponse = await ctx.post('/v1/flows', {
+                displayName: 'test flow',
+                projectId: ctx.project.id,
+                folderId: mockFolder.id,
+            }, { query: { projectId: ctx.project.id } })
+
+            const flow: PopulatedFlow = createResponse?.json()
+
+            const response = await ctx.post(`/v1/flows/${flow.id}`, {
+                type: FlowOperationType.CHANGE_FOLDER,
+                request: { folderId: UncategorizedFolderId },
+            })
+
+            expect(response?.statusCode).toBe(StatusCodes.OK)
+            expect(response?.json().folderId).toBeNull()
+        })
+
+        it('should reject moving flow to a folder from another project', async () => {
+            const ctx = await createTestContext(app!)
+
+            const otherProject = createMockProject({ platformId: ctx.platform.id, ownerId: ctx.user.id })
+            await db.save('project', otherProject)
+            const foreignFolder = createMockFolder({ projectId: otherProject.id })
+            await db.save('folder', foreignFolder)
+
+            const createResponse = await ctx.post('/v1/flows', {
+                displayName: 'test flow',
+                projectId: ctx.project.id,
+            }, { query: { projectId: ctx.project.id } })
+
+            const flow: PopulatedFlow = createResponse?.json()
+
+            const response = await ctx.post(`/v1/flows/${flow.id}`, {
+                type: FlowOperationType.CHANGE_FOLDER,
+                request: { folderId: foreignFolder.id },
+            })
+
+            expect(response?.statusCode).toBe(StatusCodes.NOT_FOUND)
+            const flowAfter = await ctx.get(`/v1/flows/${flow.id}`)
+            expect(flowAfter?.json().folderId).toBeNull()
+        })
+    })
+
+    describe('POST /v1/flows create with folderId', () => {
+        it('should reject creating a flow in a folder from another project', async () => {
+            const ctx = await createTestContext(app!)
+
+            const otherProject = createMockProject({ platformId: ctx.platform.id, ownerId: ctx.user.id })
+            await db.save('project', otherProject)
+            const foreignFolder = createMockFolder({ projectId: otherProject.id })
+            await db.save('folder', foreignFolder)
+
+            const response = await ctx.post('/v1/flows', {
+                displayName: 'test flow',
+                projectId: ctx.project.id,
+                folderId: foreignFolder.id,
+            }, { query: { projectId: ctx.project.id } })
+
+            expect(response?.statusCode).toBe(StatusCodes.NOT_FOUND)
+        })
+
+        it('should create a flow in a folder from the same project', async () => {
+            const ctx = await createTestContext(app!)
+
+            const mockFolder = createMockFolder({ projectId: ctx.project.id })
+            await db.save('folder', mockFolder)
+
+            const response = await ctx.post('/v1/flows', {
+                displayName: 'test flow',
+                projectId: ctx.project.id,
+                folderId: mockFolder.id,
+            }, { query: { projectId: ctx.project.id } })
+
+            expect(response?.statusCode).toBe(StatusCodes.CREATED)
+            expect(response?.json().folderId).toBe(mockFolder.id)
         })
     })
 
@@ -656,6 +744,191 @@ describe('Flow Operations API', () => {
             const body = response?.json()
             expect(body.version.displayName).toBe('Imported Flow')
             expect(body.version.state).toBe(FlowVersionState.DRAFT)
+        })
+
+        it('rejects an imported flow whose nested step name is a path traversal', async () => {
+            const ctx = await createTestContext(app!)
+
+            const createResponse = await ctx.post('/v1/flows', {
+                displayName: 'test flow',
+                projectId: ctx.project.id,
+            }, { query: { projectId: ctx.project.id } })
+            const flow: PopulatedFlow = createResponse?.json()
+
+            const response = await ctx.post(`/v1/flows/${flow.id}`, {
+                type: FlowOperationType.IMPORT_FLOW,
+                request: {
+                    displayName: 'Malicious Flow',
+                    trigger: {
+                        type: FlowTriggerType.EMPTY,
+                        name: 'trigger',
+                        displayName: 'Select Trigger',
+                        settings: {},
+                        valid: false,
+                        nextAction: {
+                            type: FlowActionType.CODE,
+                            displayName: 'Code Step',
+                            name: '../../common/node_modules/bufferutil',
+                            settings: {
+                                input: {},
+                                sourceCode: {
+                                    code: 'export const code = async () => { return true; }',
+                                    packageJson: '{}',
+                                },
+                            },
+                            valid: true,
+                            skip: false,
+                        },
+                    },
+                    schemaVersion: null,
+                    notes: null,
+                },
+            })
+
+            // ErrorCode.VALIDATION maps to 409 in the API error handler (the convention for
+            // rejected-invalid-input across the codebase); the point is the import is rejected
+            // and the traversal name is never persisted.
+            expect(response?.statusCode).toBe(StatusCodes.CONFLICT)
+
+            // The traversal step must never reach the flow version.
+            const afterImport = await ctx.get(`/v1/flows/${flow.id}`)
+            const persisted: PopulatedFlow = afterImport?.json()
+            expect(persisted.version.trigger.nextAction).toBeUndefined()
+        })
+
+        it('imports an old template whose piece version the upgrade register moves forward', async () => {
+            const ctx = await createTestContext(app!)
+
+            const createResponse = await ctx.post('/v1/flows', {
+                displayName: 'test flow',
+                projectId: ctx.project.id,
+            }, { query: { projectId: ctx.project.id } })
+            const flow: PopulatedFlow = createResponse?.json()
+
+            const response = await ctx.post(`/v1/flows/${flow.id}`, {
+                type: FlowOperationType.IMPORT_FLOW,
+                request: {
+                    displayName: 'Event handler',
+                    trigger: {
+                        type: FlowTriggerType.PIECE,
+                        name: 'trigger',
+                        displayName: 'Catch Webhook',
+                        valid: true,
+                        lastUpdatedDate: new Date().toISOString(),
+                        settings: {
+                            pieceName: '@activepieces/piece-webhook',
+                            pieceVersion: '0.1.33',
+                            triggerName: 'catch_webhook',
+                            input: { authType: 'none', authFields: {} },
+                            propertySettings: {},
+                        },
+                    },
+                    schemaVersion: '20',
+                    notes: [],
+                },
+            })
+
+            expect(response?.statusCode).toBe(StatusCodes.OK)
+            const body: PopulatedFlow = response?.json()
+            expect(body.version.schemaVersion).toBe(LATEST_FLOW_SCHEMA_VERSION)
+            expect(body.version.trigger.type).toBe(FlowTriggerType.PIECE)
+            expect(body.version.trigger.settings.pieceVersion).not.toBe('0.1.33')
+        })
+    })
+
+    describe('POST /v1/flows/:id draft creation rollback', () => {
+        it('should not leave an orphaned empty draft when importing into the new draft fails', async () => {
+            const ctx = await createTestContext(app!)
+
+            const mockFlow = createMockFlow({
+                projectId: ctx.project.id,
+                status: FlowStatus.DISABLED,
+            })
+            await db.save('flow', mockFlow)
+
+            const lockedVersion = createMockFlowVersion({
+                flowId: mockFlow.id,
+                state: FlowVersionState.LOCKED,
+                valid: true,
+            })
+            await db.save('flow_version', lockedVersion)
+
+            const applySpy = vi.spyOn(flowOperations, 'apply').mockImplementationOnce(() => {
+                throw new RangeError('Maximum call stack size exceeded')
+            })
+
+            try {
+                const response = await ctx.post(`/v1/flows/${mockFlow.id}`, {
+                    type: FlowOperationType.CHANGE_NAME,
+                    request: { displayName: 'New Name' },
+                })
+
+                expect(response?.statusCode).toBe(StatusCodes.INTERNAL_SERVER_ERROR)
+
+                const orphanedDraft = await db.findOneBy('flow_version', {
+                    flowId: mockFlow.id,
+                    state: FlowVersionState.DRAFT,
+                })
+                expect(orphanedDraft).toBeNull()
+
+                const remainingVersion = await db.findOneByOrFail<FlowVersion>('flow_version', {
+                    flowId: mockFlow.id,
+                })
+                expect(remainingVersion.id).toBe(lockedVersion.id)
+                expect(remainingVersion.state).toBe(FlowVersionState.LOCKED)
+            }
+            finally {
+                applySpy.mockRestore()
+            }
+        })
+
+        it('should delete the newly created draft when the user operation fails after a successful import', async () => {
+            const ctx = await createTestContext(app!)
+
+            const mockFlow = createMockFlow({
+                projectId: ctx.project.id,
+                status: FlowStatus.DISABLED,
+            })
+            await db.save('flow', mockFlow)
+
+            const lockedVersion = createMockFlowVersion({
+                flowId: mockFlow.id,
+                state: FlowVersionState.LOCKED,
+                valid: true,
+            })
+            await db.save('flow_version', lockedVersion)
+
+            const originalApply = flowOperations.apply
+            const applySpy = vi.spyOn(flowOperations, 'apply').mockImplementation((flowVersion, operation) => {
+                if (operation.type === FlowOperationType.CHANGE_NAME && operation.request.displayName === 'Renamed by user') {
+                    throw new Error('user operation failed')
+                }
+                return originalApply(flowVersion, operation)
+            })
+
+            try {
+                const response = await ctx.post(`/v1/flows/${mockFlow.id}`, {
+                    type: FlowOperationType.CHANGE_NAME,
+                    request: { displayName: 'Renamed by user' },
+                })
+
+                expect(response?.statusCode).toBe(StatusCodes.INTERNAL_SERVER_ERROR)
+
+                const leftoverDraft = await db.findOneBy('flow_version', {
+                    flowId: mockFlow.id,
+                    state: FlowVersionState.DRAFT,
+                })
+                expect(leftoverDraft).toBeNull()
+
+                const remainingVersion = await db.findOneByOrFail<FlowVersion>('flow_version', {
+                    flowId: mockFlow.id,
+                })
+                expect(remainingVersion.id).toBe(lockedVersion.id)
+                expect(remainingVersion.state).toBe(FlowVersionState.LOCKED)
+            }
+            finally {
+                applySpy.mockRestore()
+            }
         })
     })
 

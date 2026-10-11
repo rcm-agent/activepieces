@@ -7,8 +7,11 @@ import { API_ENDPOINTS, FORMALITY_LEVELS, LANGUAGES } from '../common/common';
 export const createTranslation = createAction({
   auth: textcortexAuth,
   name: 'create_translation',
+  classification: 'READ',
   displayName: 'Create Translation',
   description: 'Translate input text into a target language.',
+  audience: 'both',
+  aiMetadata: { description: 'Translate text into a chosen target language using TextCortex AI. Requires the source text and a target language; source language can be auto-detected, and formality can be controlled. Not idempotent: each call invokes the model fresh and consumes account credits.', idempotent: false },
   props: {
     text: Property.LongText({
       displayName: 'Text to Translate',

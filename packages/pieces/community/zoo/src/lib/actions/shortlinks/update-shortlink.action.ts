@@ -4,8 +4,11 @@ import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 
 export const updateShortlinkAction = createAction({
   name: 'update_shortlink',
+  classification: 'WRITE',
   displayName: 'Update Shortlink',
   description: 'Update an existing shortlink',
+  audience: 'both',
+  aiMetadata: { description: 'Change the destination URL of an existing Zoo shortlink, identified by its key. Idempotent: re-applying the same key and URL leaves the shortlink unchanged. Use the create shortlink action to make a new one instead.', idempotent: true },
   auth: zooAuth,
   // category: 'Shortlinks',
   props: {

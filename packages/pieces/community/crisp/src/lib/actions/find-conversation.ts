@@ -7,8 +7,11 @@ import { crispApiCall } from '../common/client';
 export const findConversationAction = createAction({
 	auth: crispAuth,
 	name: 'find_conversation',
+	classification: 'SEARCH',
 	displayName: 'Find Conversation',
 	description: 'Searches for conversations matching the specified criteria.',
+	audience: 'both',
+	aiMetadata: { description: 'Text-searches conversations in a Crisp website and returns the first page of matches. Use to locate an existing thread (and its session ID) before acting on it. Requires both the website ID and a non-empty search query. Idempotent: a read-only search with no side effects.', idempotent: true },
 	props: {
 		websiteId: websiteIdProp,
 		searchQuery: Property.ShortText({

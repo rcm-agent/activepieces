@@ -2,12 +2,17 @@ import { createAction, Property } from '@activepieces/pieces-framework';
 import { cloudinaryAuth } from '../common/auth';
 import { resourceTypeDropdown, publicIdsDropdown } from '../common/props';
 import { httpClient, HttpMethod } from '@activepieces/pieces-common';
+import { transformresourceOutputSchema } from '../output-schemas';
 
 export const transformResource = createAction({
   auth: cloudinaryAuth,
   name: 'transformResource',
+  outputSchema: transformresourceOutputSchema,
+  classification: 'READ',
   displayName: 'Transform Resource',
   description: 'Apply transformations (resize, crop, watermark, etc.) to an asset and generate a new URL.',
+  audience: 'both',
+  aiMetadata: { description: 'Builds a Cloudinary delivery URL for an existing asset with the requested transformations (resize, crop, format, quality, border, rotation, raw string, etc.), and optionally pre-warms the rendered derivative with a HEAD request. Use to produce a transformed image/video link for a known public ID. Idempotent: the same inputs always yield the same URL and no asset is mutated.', idempotent: true },
   props: {
     resource_type: resourceTypeDropdown,
     public_ids_dropdown: publicIdsDropdown,

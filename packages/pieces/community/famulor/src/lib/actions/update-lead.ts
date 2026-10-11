@@ -6,8 +6,15 @@ import { famulorCommon } from '../common';
 export const updateLead = createAction({
   auth: famulorAuth,
   name: 'updateLead',
+  classification: 'WRITE',
   displayName: 'Update Lead',
   description: 'Update an existing lead\'s details.',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Update fields on an existing lead identified by lead ID — campaign assignment, phone number, status, and/or custom variables. At least one field must be supplied or the action errors. Idempotent: re-sending the same values leaves the lead in the same state.',
+    idempotent: true,
+  },
   props: famulorCommon.updateLeadProperties(),
   async run({ auth, propsValue }) {
     await propsValidation.validateZod(propsValue, famulorCommon.updateLeadSchema);

@@ -7,8 +7,11 @@ import { HttpMethod } from '@activepieces/pieces-common';
 export const initiateCallAction = createAction({
     auth: connectucAuth,
     name: 'initiate-call',
+    classification: 'WRITE',
     displayName: 'Initiate Call',
     description: 'Initiate an outbound call from a ConnectUC extension',
+    audience: 'both',
+    aiMetadata: { description: 'Places an outbound (click-to-call) phone call from a specific ConnectUC device/extension to a destination number, under the given domain and subscriber. Use when an agent needs to ring a user\'s device and connect it to a phone number. Not idempotent: each call starts a new outbound call.', idempotent: false },
     props: {
         domain: domainProp(),
         user: subscriberUuidProp(),

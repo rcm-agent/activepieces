@@ -8,8 +8,9 @@ import {
 	pipedriveTransformCustomFields,
 } from '../common';
 import { GetField } from '../common/types';
-import { isNil } from '@activepieces/shared';
+import { isNil } from '@activepieces/pieces-framework';
 import { ORGANIZATION_OPTIONAL_FIELDS } from '../common/constants';
+import { newOrganizationTriggerOutputSchema } from '../output-schemas';
 
 interface PipedriveOrganizationV2 {
 	id: number;
@@ -78,8 +79,14 @@ interface GetOrganizationResponseV2 {
 export const newOrganizationTrigger = createTrigger({
 	auth: pipedriveAuth,
 	name: 'new-organization',
+	outputSchema: newOrganizationTriggerOutputSchema,
+	classification: 'READ',
 	displayName: 'New Organization',
 	description: 'Triggers when a new organization is created.',
+	aiMetadata: {
+		description:
+			'Fires the moment a new organization (company) record is created in Pipedrive, with its name, owner, address, labels, and custom fields. Use to start automations whenever a company is added to the CRM.',
+	},
 	props: {},
 	type: TriggerStrategy.WEBHOOK,
 	async onEnable(context) {

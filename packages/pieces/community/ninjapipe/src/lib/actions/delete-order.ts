@@ -6,8 +6,11 @@ import { ninjapipeApiCall, getAuth, ninjapipeCommon } from '../common';
 export const deleteOrder = createAction({
   auth: ninjapipeAuth,
   name: 'delete_order',
+  classification: 'DESTRUCTIVE',
   displayName: 'Delete Order',
   description: 'Deletes an order by ID.',
+  audience: 'both',
+  aiMetadata: { description: 'Permanently delete an order identified by its ID. Destructive and not reversible; re-running after the order is gone will fail since the ID no longer exists.', idempotent: false },
   props: {
     orderId: ninjapipeCommon.orderDropdownRequired,
   },

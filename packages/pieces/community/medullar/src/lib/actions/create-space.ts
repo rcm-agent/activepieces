@@ -6,8 +6,11 @@ import { medullarCommon, getUser } from '../common';
 export const createSpace = createAction({
   auth: medullarAuth,
   name: 'createSpace',
+  classification: 'WRITE',
   displayName: 'Create new Space',
   description: 'Create a new Space.',
+  audience: 'both',
+  aiMetadata: { description: 'Creates a new Medullar Space (a knowledge container scoped to the authenticated user\'s company) with the given name. Use to set up a fresh Space before adding records or asking questions. Not idempotent: each call creates a separate Space even with the same name.', idempotent: false },
   props: {
     space_name: Property.ShortText({
       displayName: 'Space Name',

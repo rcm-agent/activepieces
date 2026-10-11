@@ -13,42 +13,28 @@ import {
 import { telegramCommons } from '../common';
 import { telegramBotAuth } from '../..';
 import FormData from 'form-data';
+import { sendMediaActionOutputSchema } from '../output-schemas';
 
-const chatId = `
-
-**How to obtain Chat ID:**
-1. Search for the bot "@getmyid_bot" in Telegram.
-2. Start a conversation with the bot.
-3. Send the command "/my_id" to the bot.
-4. The bot will reply with your chat ID.
-
-**Note: Remember to initiate the chat with the bot, or you'll get an error for "chat not found.**
-`;
-const format = `
-[Link example](https://core.telegram.org/bots/api#formatting-options)
-`;
 export const telegramSendMediaAction = createAction({
   auth: telegramBotAuth,
   name: 'send_media',
-  description: 'Send a media message through a Telegram bot',
+  classification: 'WRITE',
+  description: 'Send a photo, video, sticker or GIF to a chat.',
+  audience: 'human',
+  aiMetadata: { description: 'Sends a single photo, video, sticker, or animated GIF to a Telegram chat, supplied either as an uploaded file or a previously uploaded Telegram file_id. Use when delivering one rich-media item with an optional caption; for multiple items in one album use Send Media Group. Not idempotent: each call posts a new message.', idempotent: false },
   displayName: 'Send Media',
+  propertyGroups: [
+    { key: 'send_to', display: 'section', label: 'Send to', icon: 'send', props: ['instructions', 'chat_id'] },
+    { key: 'media_card', display: 'section', label: 'Media', icon: 'file', props: ['media_type', 'media'] },
+    { key: 'caption', display: 'section', label: 'Caption', icon: 'text', props: ['format', 'message', 'instructions_format'] },
+  ],
   props: {
-    instructions: Property.MarkDown({
-      value: chatId,
-    }),
-    chat_id: Property.ShortText({
-      displayName: 'Chat Id',
-      required: true,
-    }),
-    message_thread_id: Property.ShortText({
-      displayName: 'Message Thread Id',
-      description:
-        'Unique identifier for the target message thread of the forums; for forums supergroups only',
-      required: false,
-    }),
+    instructions: telegramCommons.form.chatIdInstructions(),
+    chat_id: telegramCommons.form.chatIdProp(),
     media_type: Property.StaticDropdown({
       displayName: 'Media Type',
-      required: false,
+      required: true,
+      display: 'cards',
       options: {
         disabled: false,
         placeholder: 'Select media type',
@@ -62,7 +48,7 @@ export const telegramSendMediaAction = createAction({
     }),
     media: Property.DynamicProperties({
       auth: telegramBotAuth,
-      displayName: 'Media Properties',
+      displayName: 'File',
       required: false,
       refreshers: ['media_type'],
       async props({ media_type }) {
@@ -70,167 +56,157 @@ export const telegramSendMediaAction = createAction({
           photo: () => ({
             photo: Property.File({
               displayName: 'Image',
-              description: 'The image to be uploaded as a file',
+              description: 'Upload an image, or use Image ID instead.',
               required: false,
             }),
             photoId: Property.ShortText({
-              displayName: 'Image Id',
-              description:
-                "The image id previously uploaded to Telegram's servers",
+              displayName: 'Image ID',
+              description: 'file_id of an image already on Telegram.',
               required: false,
             }),
           }),
           video: () => ({
             video: Property.File({
               displayName: 'Video',
-              description: 'The video to be uploaded as a file',
+              description: 'Upload a video, or use Video ID instead.',
               required: false,
             }),
             videoId: Property.ShortText({
-              displayName: 'Video Id',
-              description:
-                "The video id previously uploaded to Telegram's servers",
+              displayName: 'Video ID',
+              description: 'file_id of a video already on Telegram.',
               required: false,
             }),
           }),
           sticker: () => ({
             sticker: Property.File({
               displayName: 'Sticker',
-              description:
-                'The sticker to be uploaded as a file (supports .WEBP files for static and .TGS for animated)',
+              description: 'Upload a WEBP, TGS or WEBM sticker, or use Sticker ID.',
               required: false,
             }),
             emoji: Property.ShortText({
               displayName: 'Emoji',
-              description:
-                'Emoji associated with the sticker. Only for just uploaded stickers',
+              description: 'Emoji for an uploaded sticker.',
               required: false,
             }),
             stickerId: Property.ShortText({
-              displayName: 'Sticker Id',
-              description:
-                "The sticker id previously uploaded to Telegram's servers",
+              displayName: 'Sticker ID',
+              description: 'file_id of a sticker already on Telegram.',
               required: false,
             }),
           }),
           animation: () => ({
             animation: Property.File({
               displayName: 'GIF',
-              description:
-                'The GIF or MPEG-4 without sound file to be uploaded as a auto-playing animation',
+              description: 'Upload a GIF or silent MP4, or use GIF ID instead.',
               required: false,
             }),
             animationId: Property.ShortText({
-              displayName: 'GIF Id',
-              description:
-                "The GIF or MPEG-4 without sound id previously uploaded to Telegram's servers",
+              displayName: 'GIF ID',
+              description: 'file_id of a GIF already on Telegram.',
               required: false,
             }),
             duration: Property.Number({
               displayName: 'Duration',
-              description: 'Duration of sent video in seconds',
+              description: 'Length in seconds.',
               required: false,
             }),
           }),
         };
-        return propsBuilders[media_type as unknown as string]();
+        const builder = propsBuilders[media_type as unknown as string];
+        if (!builder) {
+          return {};
+        }
+        return builder();
       },
     }),
-    format: Property.StaticDropdown({
-      displayName: 'Format',
-      description: 'Choose format you want ',
-      required: false,
-      options: {
-        options: [
-          {
-            label: 'Markdown',
-            value: 'MarkdownV2',
-          },
-          {
-            label: 'HTML',
-            value: 'HTML',
-          },
-        ],
-      },
-      defaultValue: 'MarkdownV2',
-    }),
-    instructions_format: Property.MarkDown({
-      value: format,
-    }),
+    format: telegramCommons.form.parseModeProp(),
     message: Property.LongText({
-      displayName: 'Message',
-      description: 'The message to be sent',
-      required: true,
-    }),
-    reply_markup: Property.Json({
+      displayName: 'Caption',
+      description: 'Up to 1024 characters. Not shown on stickers.',
       required: false,
-      displayName: 'Reply Markup',
-      description:
-        'Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user. Use special actions such as Build Inline Keyboard to generate this JSON object.',
     }),
+    instructions_format: telegramCommons.form.formatLinkInstructions(),
+    message_thread_id: telegramCommons.form.messageThreadIdProp(),
+    disable_notification: telegramCommons.form.disableNotificationProp(),
+    protect_content: telegramCommons.form.protectContentProp(),
+    reply_markup: telegramCommons.form.replyMarkupProp(),
   },
+  outputSchema: sendMediaActionOutputSchema,
   async run(ctx) {
     const mediaType = ctx.propsValue['media_type'];
+    if (!mediaType) {
+      throw new Error('media_type is required');
+    }
+
+    const methods: Partial<Record<string, string>> = {
+      photo: 'sendPhoto',
+      video: 'sendVideo',
+      sticker: 'sendSticker',
+      animation: 'sendAnimation',
+    };
+
+    const method = methods[mediaType];
+    if (!method) {
+      throw new Error('Unknown media type method (' + mediaType + ')');
+    }
+
     const headers: Record<string, string> = {};
     const queryParams: QueryParams = {};
     let body: HttpMessageBody | undefined = undefined;
-    let method = 'sendMessage';
-    if (typeof mediaType !== 'undefined') {
-      // send media message
-      const file = ctx.propsValue.media?.[mediaType] as ApFile | undefined;
-      // const url = ctx.propsValue.media?.[mediaType + 'Url'] as string;
-      const id = ctx.propsValue.media?.[mediaType + 'Id'] as string;
 
-      const methods: Partial<Record<string, string>> = {
-        photo: 'sendPhoto',
-        video: 'sendVideo',
-        sticker: 'sendSticker',
-        animation: 'sendAnimation',
-      };
+    const file = ctx.propsValue.media?.[mediaType] as ApFile | undefined;
+    const id = ctx.propsValue.media?.[mediaType + 'Id'] as string | undefined;
+    const parseMode = telegramCommons.resolveParseMode(ctx.propsValue['format']);
+    const emoji = ctx.propsValue.media?.['emoji'];
+    const duration = ctx.propsValue.media?.['duration'];
+    const animationDuration =
+      mediaType === 'animation' && typeof duration === 'number' ? duration : undefined;
 
-      const mediaMethod = methods[mediaType];
-
-      if (!mediaMethod) {
-        throw new Error('Unknown media type method (' + mediaType + ')');
-      }
-      method = mediaMethod;
-
-      if (file && file.data && file.filename) {
-        // upload
-        const form = new FormData();
-        form.append(mediaType, file.data, file.filename);
-        form.append('chat_id', ctx.propsValue['chat_id']);
+    if (file && file.data && file.filename) {
+      const form = new FormData();
+      form.append(mediaType, file.data, file.filename);
+      form.append('chat_id', ctx.propsValue['chat_id']);
+      if (ctx.propsValue['message']) {
         form.append('caption', ctx.propsValue['message']);
-        if (ctx.propsValue['message_thread_id'])
-          form.append('message_thread_id', ctx.propsValue['message_thread_id']);
-        form.append('parse_mode', ctx.propsValue['format'] ?? 'MarkdownV2');
-        if (ctx.propsValue['reply_markup'])
-          form.append(
-            'reply_markup',
-            JSON.stringify(ctx.propsValue['reply_markup'])
-          );
-
-        body = form;
-        Object.assign(headers, form.getHeaders());
-      } else if (typeof id !== 'undefined') {
-        // download
-        body = body || {};
-        body[mediaType] = id;
-        body.chat_id = ctx.propsValue['chat_id'];
-        body.caption = ctx.propsValue['message'];
-        body.message_thread_id =
-          ctx.propsValue['message_thread_id'] ?? undefined;
-        body.parse_mode = ctx.propsValue['format'] ?? 'MarkdownV2';
-        body.reply_markup = ctx.propsValue['reply_markup'] ?? undefined;
-      } else {
-        throw new Error(
-          'No media defined. Ensure you have setup file, url or id'
-        );
       }
-    }
+      if (ctx.propsValue['message_thread_id']) {
+        form.append('message_thread_id', ctx.propsValue['message_thread_id']);
+      }
+      if (parseMode) {
+        form.append('parse_mode', parseMode);
+      }
+      if (ctx.propsValue['disable_notification']) {
+        form.append('disable_notification', 'true');
+      }
+      if (ctx.propsValue['protect_content']) {
+        form.append('protect_content', 'true');
+      }
+      if (ctx.propsValue['reply_markup']) {
+        form.append('reply_markup', JSON.stringify(ctx.propsValue['reply_markup']));
+      }
+      if (mediaType === 'sticker' && typeof emoji === 'string' && emoji !== '') {
+        form.append('emoji', emoji);
+      }
+      if (animationDuration !== undefined) {
+        form.append('duration', String(animationDuration));
+      }
 
-    if (typeof body === 'undefined') {
-      throw new Error('No body defined');
+      body = form;
+      Object.assign(headers, form.getHeaders());
+    } else if (typeof id !== 'undefined' && id !== '') {
+      body = {
+        [mediaType]: id,
+        chat_id: ctx.propsValue['chat_id'],
+        caption: ctx.propsValue['message'] ?? undefined,
+        message_thread_id: ctx.propsValue['message_thread_id'] ?? undefined,
+        parse_mode: parseMode,
+        disable_notification: ctx.propsValue['disable_notification'] ?? false,
+        protect_content: ctx.propsValue['protect_content'] ?? false,
+        reply_markup: ctx.propsValue['reply_markup'] ?? undefined,
+        duration: animationDuration,
+      };
+    } else {
+      throw new Error('No media defined. Provide either a file or an id.');
     }
 
     return await httpClient.sendRequest<never>({

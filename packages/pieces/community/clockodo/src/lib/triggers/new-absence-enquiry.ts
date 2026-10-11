@@ -31,8 +31,12 @@ const polling: Polling<AppConnectionValueForAuthProperty<typeof clockodoAuth>, u
 export default createTrigger({
   auth: clockodoAuth,
   name: 'new_absence_enquiry',
+  classification: 'READ',
   displayName: 'New Absence Enquiry',
   description: 'Triggers when a new absence enquiry is created',
+  aiMetadata: {
+    description: 'Fires when a new absence enquiry (such as a vacation, sick leave, or other time-off request) is created in Clockodo for the current year. Emits the newly created absence record, including its details such as the absence type, date range, and requesting employee.',
+  },
   type: TriggerStrategy.POLLING,
   props: {},
   sampleData: {},

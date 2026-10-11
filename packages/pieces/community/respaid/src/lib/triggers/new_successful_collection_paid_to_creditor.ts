@@ -17,8 +17,12 @@ interface NewPaidTriggerPayload {
 
 export const newSuccessfulCollectionPaidToCreditor = createTrigger({
     name: 'new_successful_collection_paid_to_creditor',
+    classification: 'READ',
     displayName: 'New Successful Collection Paid to Creditor',
     description: "Triggers when a debt is paid directly to the creditor.",
+    aiMetadata: {
+      description: 'Fires when a debt is paid in full directly to the creditor (outside Respaid), carrying the debtor/invoice details, amount, and payment timestamp. Use to react to a full settlement that bypassed Respaid.',
+    },
     auth: respaidAuth,
     props: {},
     sampleData: {

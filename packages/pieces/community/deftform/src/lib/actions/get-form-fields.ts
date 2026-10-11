@@ -6,8 +6,11 @@ import { deftformApiCall, DeftformCommon } from '../common';
 export const getFormFields = createAction({
     auth: deftformAuth,
     name: 'get_form_fields',
+    classification: 'READ',
     displayName: 'Get Form Fields',
     description: 'Retrieves only the fields of a specific form. Great for understanding the structure before building automations.',
+    audience: 'both',
+    aiMetadata: { description: 'Fetch the field definitions of one form (label, type, required flag, options, validation). Use it to learn a form schema before submitting a response with Add Form Response, since that action keys values by field UUID. Requires the form id. Read-only and idempotent.', idempotent: true },
     props: {
         formId: DeftformCommon.formDropdown,
     },

@@ -4,9 +4,16 @@ import { loopsAuth, LOOPS_BASE_URL } from '../auth';
 
 export const deleteContact = createAction({
   name: 'delete_contact',
+  classification: 'DESTRUCTIVE',
   displayName: 'Delete Contact',
   description:
     'Permanently deletes a contact from Loops by their email address or user ID.',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Permanently deletes a contact from Loops, identified by email or internal user ID (at least one is required). Use to remove someone from the Loops audience. Idempotent: repeating the call for an already-deleted contact converges on the same removed state.',
+    idempotent: true,
+  },
   auth: loopsAuth,
   props: {
     email: Property.ShortText({

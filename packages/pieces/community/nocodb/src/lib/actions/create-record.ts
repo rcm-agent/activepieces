@@ -1,12 +1,21 @@
 import { nocodbAuth } from '../auth';
 import { createAction, DynamicPropsValue } from '@activepieces/pieces-framework';
 import { makeClient, nocodbCommon } from '../common';
+import { nocodbCreateRecordOutputSchema } from '../output-schemas';
 
 export const createRecordAction = createAction({
 	auth: nocodbAuth,
 	name: 'nocodb-create-record',
+	classification: 'WRITE',
+	outputSchema: nocodbCreateRecordOutputSchema,
 	displayName: 'Create a Record',
 	description: 'Creates a new record in the given table.',
+	audience: 'both',
+	aiMetadata: {
+		description:
+			'Inserts a new row into a specific NocoDB table, with column values supplied as fields. Use when an agent needs to add data to a base; the target table is required and the create is determined by base/table plus the provided column values. Not idempotent: each call appends another record, so repeating it creates duplicates.',
+		idempotent: false,
+	},
 	props: {
 		workspaceId: nocodbCommon.workspaceId,
 		baseId: nocodbCommon.baseId,

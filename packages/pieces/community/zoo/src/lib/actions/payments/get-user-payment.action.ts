@@ -4,8 +4,11 @@ import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 
 export const getUserPaymentAction = createAction({
   name: 'get_user_payment',
+  classification: 'READ',
   displayName: 'Get User Payment Info',
   description: 'Retrieve payment information for your user account',
+  audience: 'both',
+  aiMetadata: { description: 'Read the stored billing/payment information for the authenticated user account. Use this for the single current record; to enumerate all saved cards use List User Payment Methods. Read-only and safe to repeat.', idempotent: true },
   auth: zooAuth,
   // category: 'Payments',
   props: {},

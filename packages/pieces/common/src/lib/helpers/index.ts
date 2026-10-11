@@ -1,4 +1,5 @@
 import {
+  ActionClassification,
   OAuth2PropertyValue,
   PieceAuthProperty,
   Property,
@@ -12,17 +13,75 @@ import {
   ApFile,
 } from '@activepieces/pieces-framework';
 import {
-  HttpError,
   HttpHeaders,
   HttpMethod,
   HttpRequest,
   QueryParams,
+  acceptsRequestBody,
   httpClient,
+  toFailsafeOutput,
 } from '../http';
-import { assertNotNullOrUndefined, isEmpty, isNil } from '@activepieces/shared';
+import { assertNotNullOrUndefined, isEmpty, isNil } from '@activepieces/core-utils';
 import fs from 'fs';
-import mime from 'mime-types';
-import FormData from 'form-data';
+// Self-contained content-type → file-extension lookup, replacing the heavy
+// `mime-types`/`mime-db` dependency (~134 KB inlined into every piece bundle).
+// Covers the common types returned for binary HTTP responses; unknown → ''.
+const CONTENT_TYPE_EXTENSIONS: Record<string, string> = {
+  'application/json': 'json',
+  'application/pdf': 'pdf',
+  'application/xml': 'xml',
+  'text/xml': 'xml',
+  'application/zip': 'zip',
+  'application/gzip': 'gz',
+  'application/x-tar': 'tar',
+  'application/octet-stream': 'bin',
+  'application/msword': 'doc',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'docx',
+  'application/vnd.ms-excel': 'xls',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'xlsx',
+  'application/vnd.ms-powerpoint': 'ppt',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation': 'pptx',
+  'application/rtf': 'rtf',
+  'application/javascript': 'js',
+  'application/x-www-form-urlencoded': 'bin',
+  'text/plain': 'txt',
+  'text/html': 'html',
+  'text/css': 'css',
+  'text/csv': 'csv',
+  'text/calendar': 'ics',
+  'text/markdown': 'md',
+  'image/png': 'png',
+  'image/jpeg': 'jpeg',
+  'image/jpg': 'jpg',
+  'image/gif': 'gif',
+  'image/webp': 'webp',
+  'image/svg+xml': 'svg',
+  'image/bmp': 'bmp',
+  'image/tiff': 'tiff',
+  'image/x-icon': 'ico',
+  'image/vnd.microsoft.icon': 'ico',
+  'image/heic': 'heic',
+  'audio/mpeg': 'mp3',
+  'audio/mp4': 'm4a',
+  'audio/wav': 'wav',
+  'audio/x-wav': 'wav',
+  'audio/ogg': 'ogg',
+  'audio/webm': 'weba',
+  'video/mp4': 'mp4',
+  'video/mpeg': 'mpeg',
+  'video/webm': 'webm',
+  'video/quicktime': 'mov',
+  'video/x-msvideo': 'avi',
+  'font/woff': 'woff',
+  'font/woff2': 'woff2',
+  'font/ttf': 'ttf',
+  'font/otf': 'otf',
+};
+
+function contentTypeToExtension(contentType: string): string {
+  const type = contentType.split(';')[0].trim().toLowerCase();
+  return CONTENT_TYPE_EXTENSIONS[type] ?? '';
+}
 
 export const getAccessTokenOrThrow = (
   auth: OAuth2PropertyValue | undefined
@@ -90,6 +149,7 @@ export function createCustomApiCallAction<
   props,
   extraProps,
   authLocation = 'headers',
+  classification = 'WRITE',
 }: {
   auth?: PieceAuth;
   baseUrl: BaseUrlGetter<PieceAuth>;
@@ -109,14 +169,20 @@ export function createCustomApiCallAction<
     headers?: Partial<ReturnType<typeof Property.Object>>;
     queryParams?: Partial<ReturnType<typeof Property.Object>>;
     body?: Partial<ReturnType<typeof Property.Json>>;
+    response_is_binary?: Partial<ReturnType<typeof Property.Checkbox>>;
     failsafe?: Partial<ReturnType<typeof Property.Checkbox>>;
     timeout?: Partial<ReturnType<typeof Property.Number>>;
+    followRedirects?: Partial<ReturnType<typeof Property.Checkbox>>;
   };
   extraProps?: InputPropertyMap;
   authLocation?: 'headers' | 'queryParams';
+  // The method is caller-supplied at runtime, so a single tag has to assume mutation.
+  classification?: ActionClassification;
 }) {
   return createAction({
+    audience: 'human',
     name: name ? name : 'custom_api_call',
+    classification,
     displayName: displayName ? displayName : 'Custom API Call',
     description: description
       ? description
@@ -133,9 +199,9 @@ export function createCustomApiCallAction<
           return {
             url: Property.ShortText({
               displayName: 'URL',
-              description: `You can either use the full URL or the relative path to the base URL
-i.e ${getBaseUrlForDescription(baseUrl, auth)}/resource or /resource`,
+              description: `Full URL, or a path relative to ${getBaseUrlForDescription(baseUrl, auth)}`,
               required: true,
+              placeholder: '/resource',
               defaultValue: auth ? baseUrl(auth) : '',
               ...(props?.url ?? {}),
             }),
@@ -145,6 +211,7 @@ i.e ${getBaseUrlForDescription(baseUrl, auth)}/resource or /resource`,
       method: Property.StaticDropdown({
         displayName: 'Method',
         required: true,
+        defaultValue: HttpMethod.GET,
         options: {
           options: Object.values(HttpMethod).map((v) => {
             return {
@@ -159,47 +226,47 @@ i.e ${getBaseUrlForDescription(baseUrl, auth)}/resource or /resource`,
         displayName: 'Headers',
         description:
           'Authorization headers are injected automatically from your connection.',
-        required: true,
+        required: false,
         ...(props?.headers ?? {}),
       }),
       queryParams: Property.Object({
         displayName: 'Query Parameters',
-        required: true,
+        description: 'Appended to the URL as ?key=value.',
+        required: false,
         ...(props?.queryParams ?? {}),
       }),
-      body_type: Property.StaticDropdown({
+      body_type: Property.Dropdown({
+        auth,
         displayName: 'Body Type',
         required: false,
         defaultValue: 'none',
-        options: {
-          disabled: false,
-          options: [
-            {
-              label: 'None',
-              value: 'none',
-            },
-            {
-              label: 'JSON',
-              value: 'json',
-            },
-            {
-              label: 'Form Data',
-              value: 'form_data',
-            },
-            {
-              label: 'Raw',
-              value: 'raw',
-            },
-          ],
+        refreshers: ['method'],
+        options: async ({ method }) => {
+          if (!acceptsRequestBody(method as HttpMethod)) {
+            return {
+              disabled: true,
+              placeholder: 'Not available for GET or HEAD requests',
+              options: [],
+            };
+          }
+          return {
+            disabled: false,
+            options: [
+              { label: 'None', value: 'none' },
+              { label: 'JSON', value: 'json' },
+              { label: 'Form Data', value: 'form_data' },
+              { label: 'Raw', value: 'raw' },
+            ],
+          };
         },
       }),
       body: Property.DynamicProperties({
         auth,
         displayName: 'Body',
-        refreshers: ['body_type'],
+        refreshers: ['body_type', 'method'],
         required: false,
-        props: async ({ body_type }) => {
-          if (!body_type) return {};
+        props: async ({ body_type, method }) => {
+          if (!body_type || !acceptsRequestBody(method as HttpMethod)) return {};
 
           const bodyTypeInput = body_type as unknown as string;
 
@@ -257,25 +324,36 @@ i.e ${getBaseUrlForDescription(baseUrl, auth)}/resource or /resource`,
         },
       }),
       response_is_binary: Property.Checkbox({
-        displayName: 'Response is Binary ?',
+        displayName: 'Response is Binary',
         description: 'Enable for files like PDFs, images, etc.',
         required: false,
         defaultValue: false,
+        advanced: true,
+        ...(props?.response_is_binary ?? {}),
       }),
       failsafe: Property.Checkbox({
-        displayName: 'No Error on Failure',
+        displayName: 'Return Error as Output',
+        description:
+          'On a failed request, output the error instead of failing the step.',
         required: false,
+        advanced: true,
         ...(props?.failsafe ?? {}),
       }),
       timeout: Property.Number({
-        displayName: 'Timeout (in seconds)',
+        displayName: 'Timeout',
+        description: 'Seconds to wait for a response. Empty: up to the flow limit (10 min).',
         required: false,
+        advanced: true,
         ...(props?.timeout ?? {}),
       }),
       followRedirects: Property.Checkbox({
         displayName: 'Follow redirects',
+        description:
+          'Follow 3xx redirects instead of returning them as the response.',
         required: false,
         defaultValue: false,
+        advanced: true,
+        ...(props?.followRedirects ?? {}),
       }),
       ...extraProps,
     },
@@ -341,6 +419,7 @@ i.e ${getBaseUrlForDescription(baseUrl, auth)}/resource or /resource`,
               fileFieldValue?: ApFile;
             }>;
 
+            const { default: FormData } = await import('form-data');
             const formData = new FormData();
 
             for (const {
@@ -378,7 +457,7 @@ i.e ${getBaseUrlForDescription(baseUrl, auth)}/resource or /resource`,
         );
       } catch (error) {
         if (failsafe) {
-          return (error as HttpError).errorMessage();
+          return toFailsafeOutput({ error, requestBody: request.body });
         }
         throw error;
       }
@@ -405,7 +484,7 @@ const handleBinaryResponse = async (
       ? headers['content-type'][0]
       : headers?.['content-type'];
     const fileExtension: string =
-      mime.extension(contentTypeValue ?? '') || 'txt';
+      contentTypeToExtension(contentTypeValue ?? '') || 'txt';
 
     let bufferData: Buffer;
     if (bodyContent instanceof ArrayBuffer) {

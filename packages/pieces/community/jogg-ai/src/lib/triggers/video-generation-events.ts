@@ -8,8 +8,13 @@ interface WebhookInfo {
 
 export const videoGeneratedSuccessfully = createTrigger({
   name: 'videoGeneratedSuccessfully',
+  classification: 'READ',
   displayName: 'Video Generated Successfully',
   description: 'Fires when a video is generated successfully',
+  aiMetadata: {
+    description:
+      'Fires when a JoggAI video generation job completes successfully, delivering the finished video’s project_id, video URL, and duration. Use to react to a completed avatar or template video without polling Get Generated Video.',
+  },
   auth: joggAiAuth,
   type: TriggerStrategy.WEBHOOK,
   props: {},

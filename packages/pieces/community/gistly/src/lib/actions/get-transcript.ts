@@ -5,8 +5,11 @@ import { gistlyConfig } from '../config';
 
 export const getTranscriptAction = createAction({
   name: 'get_transcript',
+  classification: 'READ',
   displayName: 'Get Transcript',
   description: 'Fetches transcript of a YouTube video.',
+  audience: 'both',
+  aiMetadata: { description: 'Retrieves the transcript/captions of a YouTube video from its URL via the Gistly API. Use this to get the spoken text of a video for summarizing, searching, or analysis. Set the Merge Text option to return one continuous text block, or leave it off to get timestamped chunks. Read-only and idempotent — fetching the same URL returns the same transcript.', idempotent: true },
   auth: gistlyAuth,
   props: {
     url: Property.ShortText({

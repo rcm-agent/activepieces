@@ -24,8 +24,14 @@ function toTodoArray(result: unknown): Todo[] {
 export const listSessionTodos = createAction({
   auth: hedyAuth,
   name: 'list-session-todos',
+  classification: 'SEARCH',
   displayName: 'List Session Todos',
   description: 'Retrieve todos generated for a specific session.',
+  audience: 'both',
+  aiMetadata: {
+    description: 'List the todos generated for one specific Hedy session, identified by a session ID (must be prefixed with "sess_"). Use when you have a session and want only its todos, rather than the account-wide list. Read-only and idempotent.',
+    idempotent: true,
+  },
   props: {
     sessionId: commonProps.sessionId,
     returnAll: commonProps.returnAll,

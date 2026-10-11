@@ -1,5 +1,5 @@
 import { createPiece, PieceAuth } from '@activepieces/pieces-framework';
-import { PieceCategory } from '@activepieces/shared';
+import { PieceCategory } from '@activepieces/pieces-framework';
 import { addedSubscriber } from './lib/triggers/added-subscriber';
 import { unsubscribedSubscriber } from './lib/triggers/unsubscribed-subscriber';
 import { taggedSubscriber } from './lib/triggers/tagged-subscriber';
@@ -16,6 +16,7 @@ export const zagomail = createPiece({
 	displayName: 'Zagomail',
 	description: 'All-in-one email marketing and automation platform',
 	logoUrl: 'https://cdn.activepieces.com/pieces/zagomail.png',
+	deprecated: true,
 	authors: ['gs03dev'],
 	auth: zagomailAuth,
 	actions: [

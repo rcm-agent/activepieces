@@ -5,8 +5,13 @@ import { HttpMethod } from '@activepieces/pieces-common';
 export const bookingCanceled = createTrigger({
   auth: oncehubAuth,
   name: 'bookingCanceled',
+  classification: 'READ',
   displayName: 'Booking Canceled',
   description: 'Triggered when User or Customer cancels a booking',
+  aiMetadata: {
+    description:
+      'Fires when a booking is canceled in OnceHub, by either the user (host) or the customer. The event carries the canceled booking with its contact, owner, and conversation details.',
+  },
   props: {},
   sampleData: {
     id: 'EVNT-KN56U3YL7C',

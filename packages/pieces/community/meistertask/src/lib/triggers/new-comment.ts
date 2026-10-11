@@ -43,8 +43,12 @@ const newCommentPolling: Polling<
 export const newComment = createTrigger({
   auth: meistertaskAuth,
   name: 'new_comment',
+  classification: 'READ',
   displayName: 'New Comment',
   description: 'Triggers when a new comment is created on a task.',
+  aiMetadata: {
+    description: 'Fires when a new comment is posted on the selected MeisterTask task. Represents a discussion message added to that specific task.',
+  },
   props: {
     task_id: meisterTaskCommon.task_id,
   },

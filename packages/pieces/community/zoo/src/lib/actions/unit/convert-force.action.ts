@@ -4,8 +4,11 @@ import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 
 export const convertForceAction = createAction({
   name: 'convert_force',
+  classification: 'READ',
   displayName: 'Convert Force',
   description: 'Convert force measurements between different units',
+  audience: 'both',
+  aiMetadata: { description: 'Convert a single force value between newtons, kilonewtons, pound-force, and dynes. Use only for force; other quantities have their own dedicated convert actions. Read-only calculation that returns the same result for the same inputs.', idempotent: true },
   auth: zooAuth,
   // category: 'Unit Conversion',
   props: {

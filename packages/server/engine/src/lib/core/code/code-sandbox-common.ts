@@ -12,11 +12,23 @@ export type CodeSandbox = {
      * Executes a script.
      */
     runScript(params: RunScriptParams): Promise<unknown>
+
+    /**
+     * Creates a reusable session that shares one script context across multiple script runs.
+     */
+    createScriptSession(params: CreateScriptSessionParams): Promise<ScriptSession>
+}
+
+export type ScriptSession = {
+    run(script: string): Promise<unknown>
+    setGlobal(key: string, value: unknown, noOverwrite?: boolean): Promise<void>
+    dispose(): void
 }
 
 type RunCodeModuleParams = {
     /**
-     * Path to the compiled index.js file to execute.
+     * Path to the step's TypeScript entry module (index.ts). Deno resolves its
+     * bare-specifier imports from the sibling node_modules directory.
      */
     codeFilePath: string
 
@@ -45,3 +57,5 @@ type RunScriptParams = {
     functions: Record<string, Function>
 
 }
+
+export type CreateScriptSessionParams = Omit<RunScriptParams, 'script'>

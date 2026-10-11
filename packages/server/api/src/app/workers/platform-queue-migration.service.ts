@@ -1,7 +1,7 @@
-import { isNil } from '@activepieces/shared'
-import { Queue } from 'bullmq'
+import { isNil } from '@activepieces/core-utils'
+import { Job, Queue } from 'bullmq'
 import { FastifyBaseLogger } from 'fastify'
-import { jobQueue } from './job-queue/job-queue'
+import { jobQueue, PROJECT_GROUP_ROUTABLE_JOB_TYPES } from './job-queue/job-queue'
 
 export const platformQueueMigrationService = (log: FastifyBaseLogger) => ({
     async migrateJobs({ fromQueueName, toQueueName, platformId, batchSize = 200 }: MigrateJobsParams): Promise<void> {
@@ -11,13 +11,22 @@ export const platformQueueMigrationService = (log: FastifyBaseLogger) => ({
         const sourceQueue = await jobQueue(log).getOrCreateQueue({ queueName: fromQueueName })
         const targetQueue = await jobQueue(log).getOrCreateQueue({ queueName: toQueueName })
 
-        await migrateRegularJobs({ sourceQueue, targetQueue, platformId, batchSize })
+        await migrateRegularJobs({ sourceQueue, targetQueue, batchSize, belongsTo: job => job.data?.platformId === platformId })
         await migrateSchedulers({ sourceQueue, targetQueue, platformId, batchSize, log })
+    },
+    async migrateProjectJobs({ fromQueueName, toQueueName, projectId, batchSize = 200 }: MigrateProjectJobsParams): Promise<void> {
+        if (fromQueueName === toQueueName) {
+            return
+        }
+        const sourceQueue = await jobQueue(log).getOrCreateQueue({ queueName: fromQueueName })
+        const targetQueue = await jobQueue(log).getOrCreateQueue({ queueName: toQueueName })
+
+        await migrateRegularJobs({ sourceQueue, targetQueue, batchSize, belongsTo: job => job.data?.projectId === projectId && PROJECT_GROUP_ROUTABLE_JOB_TYPES.has(job.data?.jobType) })
     },
 })
 
-async function migrateRegularJobs({ sourceQueue, targetQueue, platformId, batchSize }: MigrateQueueParams): Promise<void> {
-    for (const state of ['waiting', 'delayed', 'paused'] as const) {
+async function migrateRegularJobs({ sourceQueue, targetQueue, belongsTo, batchSize }: MigrateRegularJobsParams): Promise<void> {
+    for (const state of ['waiting', 'prioritized', 'delayed', 'paused'] as const) {
         let offset = 0
         while (true) {
             const jobs = await sourceQueue.getJobs([state], offset, offset + batchSize - 1)
@@ -25,10 +34,10 @@ async function migrateRegularJobs({ sourceQueue, targetQueue, platformId, batchS
                 break
             }
 
-            const platformJobs = jobs.filter(job => job.data?.platformId === platformId && !job.repeatJobKey)
-            const skipped = jobs.length - platformJobs.length
+            const matchedJobs = jobs.filter(job => belongsTo(job) && !job.repeatJobKey)
+            const skipped = jobs.length - matchedJobs.length
 
-            await Promise.all(platformJobs.map(async (job) => {
+            await Promise.all(matchedJobs.map(async (job) => {
                 if (isNil(job.id)) {
                     return
                 }
@@ -75,6 +84,7 @@ async function migrateSchedulers({ sourceQueue, targetQueue, platformId, batchSi
                     pattern: scheduler.pattern,
                     every: scheduler.every,
                     tz: scheduler.tz,
+                    ...isNil(scheduler.every) ? {} : { startDate: Date.now() + Number(scheduler.every) },
                 },
                 {
                     name: scheduler.name,
@@ -84,7 +94,7 @@ async function migrateSchedulers({ sourceQueue, targetQueue, platformId, batchSi
             ).then(async (data) => {
                 if (!isNil(data)) { // to make sure job is not removed unless it is upserted in target queue
                     log.info({
-                        platformId,
+                        platform: { id: platformId },
                         schedulerId,
                         batch: `${offset}-${offset + batchSize - 1}`,
                     }, '[platformQueueMigrationService#migrateSchedulers] Migrated scheduler to new queue')
@@ -93,7 +103,7 @@ async function migrateSchedulers({ sourceQueue, targetQueue, platformId, batchSi
                 }
                 else {
                     log.error({
-                        platformId,
+                        platform: { id: platformId },
                         schedulerId,
                         batch: `${offset}-${offset + batchSize - 1}`,
                     }, '[platformQueueMigrationService#migrateSchedulers] Failed to migrate scheduler to new queue')
@@ -112,14 +122,14 @@ async function migrateSchedulers({ sourceQueue, targetQueue, platformId, batchSi
     if (!migrationFailed) {
         await removeOrphanedDelayedJobs({ sourceQueue, schedulerIds: migratedSchedulerIds, batchSize })
         log.info({
-            platformId,
+            platform: { id: platformId },
             migratedSchedulers: migratedSchedulerIds.length,
         }, '[platformQueueMigrationService#migrateSchedulers] Migrated schedulers to new queue')
         return
     }
 
     log.error({
-        platformId,
+        platform: { id: platformId },
         migratedSchedulers: migratedSchedulerIds.length,
     }, '[platformQueueMigrationService#migrateSchedulers] Some batches failed to migrate schedulers, delayed orphaned jobs not deleted')
 }
@@ -158,6 +168,20 @@ type MigrateJobsParams = {
     toQueueName: string
     platformId: string
     batchSize?: number
+}
+
+type MigrateProjectJobsParams = {
+    fromQueueName: string
+    toQueueName: string
+    projectId: string
+    batchSize?: number
+}
+
+type MigrateRegularJobsParams = {
+    sourceQueue: Queue
+    targetQueue: Queue
+    belongsTo: (job: Job) => boolean
+    batchSize: number
 }
 
 type MigrateQueueParams = {

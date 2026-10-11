@@ -6,8 +6,11 @@ import { ninjapipeApiCall, flattenCustomFields, getAuth, ninjapipeCommon, toDate
 export const createOrder = createAction({
   auth: ninjapipeAuth,
   name: 'create_order',
+  classification: 'WRITE',
   displayName: 'Create Order',
   description: 'Creates a new order. Line items, currency, and custom fields go in Settings JSON.',
+  audience: 'both',
+  aiMetadata: { description: 'Creates a new order with customer details, amounts, status, payment status, dates, priority, and tracking; line items, currency, and custom fields go in Settings JSON. Only Customer Name is required, and Order Number defaults to ORD-<timestamp> if omitted. Not idempotent: each call creates another order.', idempotent: false },
   props: {
     customerName: Property.ShortText({
       displayName: 'Customer Name',

@@ -6,8 +6,12 @@ import { CreateWebhookResponse } from '../common/types';
 export const contactOpenedTrigger = createTrigger({
   auth: tarventAuth,
   name: 'tarvent_contact_opened',
+  classification: 'READ',
   displayName: 'Campaign Or Transactional Email Opened',
   description: 'Triggers when a campaign or transactional email is opened by a recipient.',
+  aiMetadata: {
+    description: 'Fires when a recipient opens a campaign or transactional email. Can be scoped by entity (campaign vs. transactional), by which campaign(s) qualify (any/all of the last 5, any within a recent window, or a specific campaign), and optionally by audience, group, or tag. Represents an open engagement event.',
+  },
   type: TriggerStrategy.WEBHOOK,
   props: {
     include: tarventCommon.include,

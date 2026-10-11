@@ -1,16 +1,7 @@
 import os from 'os'
 import path from 'path'
-import {
-    ActivepiecesError,
-    ApEdition,
-    DefaultProjectRole,
-    ErrorCode,
-    ExecutionMode,
-    FileLocation,
-    isNil,
-    NetworkMode,
-    PieceSyncMode,
-} from '@activepieces/shared'
+import { ActivepiecesError, ErrorCode, isNil } from '@activepieces/core-utils'
+import { ApEdition, DefaultProjectRole, ExecutionMode, FileLocation, NetworkMode, PieceSyncMode } from '@activepieces/shared'
 import { FastifyBaseLogger } from 'fastify'
 import { DatabaseType } from '../../database/database-type'
 import { RedisType } from '../../database/redis/types'
@@ -23,6 +14,7 @@ const systemPropDefaultValues: Partial<Record<SystemProp, string>> = {
     [AppSystemProp.API_RATE_LIMIT_AUTHN_ENABLED]: 'true',
     [AppSystemProp.API_RATE_LIMIT_AUTHN_MAX]: '50',
     [AppSystemProp.API_RATE_LIMIT_AUTHN_WINDOW]: '1 minute',
+    [AppSystemProp.API_RATE_LIMIT_EMAIL_CODE_MAX]: '5',
     [AppSystemProp.WORKERS]: '1',
     [AppSystemProp.CLIENT_REAL_IP_HEADER]: 'x-real-ip',
     [AppSystemProp.CLOUD_AUTH_ENABLED]: 'true',
@@ -30,12 +22,13 @@ const systemPropDefaultValues: Partial<Record<SystemProp, string>> = {
     [AppSystemProp.DB_TYPE]: DatabaseType.POSTGRES,
     [AppSystemProp.EDITION]: ApEdition.COMMUNITY,
     [AppSystemProp.APP_WEBHOOK_SECRETS]: '{}',
+    [AppSystemProp.AUTUMN_CONSOLE_URL]: 'https://console.activepieces.com',
     [AppSystemProp.CONTAINER_TYPE]: ContainerType.WORKER_AND_APP,
     [AppSystemProp.PORT]: '3000',
     [AppSystemProp.EXECUTION_DATA_RETENTION_DAYS]: '30',
     [AppSystemProp.PAUSED_FLOW_TIMEOUT_DAYS]: '30',
-    [AppSystemProp.PIECES_CACHE_MAX_ENTRIES]: '1000',
     [AppSystemProp.PIECES_SYNC_MODE]: PieceSyncMode.OFFICIAL_AUTO,
+    [AppSystemProp.USE_CDN_FOR_BUNDLES]: 'false',
     [AppSystemProp.ENVIRONMENT]: 'prod',
     [AppSystemProp.EXECUTION_MODE]: ExecutionMode.UNSANDBOXED,
     [AppSystemProp.WEBHOOK_TIMEOUT_SECONDS]: '30',
@@ -43,8 +36,12 @@ const systemPropDefaultValues: Partial<Record<SystemProp, string>> = {
     [AppSystemProp.LOG_LEVEL]: 'info',
     [AppSystemProp.LOG_PRETTY]: 'false',
     [AppSystemProp.S3_USE_SIGNED_URLS]: 'false',
+    [AppSystemProp.MAX_BARRIER_SIGNALS]: '10000',
     [AppSystemProp.MAX_FILE_SIZE_MB]: '25',
-    [AppSystemProp.MAX_FLOW_RUN_LOG_SIZE_MB]: '25',
+    [AppSystemProp.AI_CREDIT_USD_VALUE]: '0.0005',
+    [AppSystemProp.MAX_FLOW_RUN_LOG_SIZE_MB]: '50',
+    [AppSystemProp.FLOW_RUN_LOG_INPUT_TRUNCATE_THRESHOLD_KB]: '2',
+    [AppSystemProp.FLOW_RUN_LOG_SLICE_THRESHOLD_KB]: '32',
     [AppSystemProp.MAX_WEBHOOK_PAYLOAD_SIZE_MB]: '25',
     [AppSystemProp.WEBHOOK_PAYLOAD_INLINE_THRESHOLD_KB]: '512',
     [AppSystemProp.FILE_STORAGE_LOCATION]: FileLocation.DB,
@@ -64,10 +61,13 @@ const systemPropDefaultValues: Partial<Record<SystemProp, string>> = {
     [AppSystemProp.MAX_RECORDS_PER_TABLE]: '10000',
     [AppSystemProp.MAX_FIELDS_PER_TABLE]: '100',
     [AppSystemProp.ENABLE_FLOW_ON_PUBLISH]: 'true',
+    [AppSystemProp.ENFORCE_CONNECTION_PIECE_BINDING]: 'false',
     [AppSystemProp.ISSUE_ARCHIVE_DAYS]: '7',
     [AppSystemProp.POSTGRES_IDLE_TIMEOUT_MS]: '300000',
     [AppSystemProp.SCIM_DEFAULT_PROJECT_ROLE]: DefaultProjectRole.EDITOR,
     [AppSystemProp.NETWORK_MODE]: NetworkMode.UNRESTRICTED,
+    [AppSystemProp.LOG_SAMPLE_RATE_INFO]: '100',
+    [AppSystemProp.LOG_KEEP_SLOW_MS]: '2000',
 }
 
 let globalLogger: FastifyBaseLogger
@@ -98,6 +98,23 @@ export const system = {
         }
         return value
 
+    },
+    getDecimalOrThrow(prop: SystemProp): number {
+        const stringNumber = getEnvVarOrReturnDefaultValue(prop)
+        const parsedNumber = isNil(stringNumber) || stringNumber === '' ? Number.NaN : Number(stringNumber)
+
+        if (!Number.isFinite(parsedNumber)) {
+            throw new ActivepiecesError(
+                {
+                    code: ErrorCode.SYSTEM_PROP_NOT_DEFINED,
+                    params: {
+                        prop,
+                    },
+                },
+                `System property AP_${prop} is not a finite number, please check the documentation`,
+            )
+        }
+        return parsedNumber
     },
     getNumber(prop: SystemProp): number | null {
         const stringNumber = getEnvVarOrReturnDefaultValue(prop)

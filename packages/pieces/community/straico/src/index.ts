@@ -22,7 +22,7 @@ import { agentDelete } from './lib/actions/agent-delete';
 import { agentUpdate } from './lib/actions/agent-update';
 import { agentGet } from './lib/actions/agent-get';
 import { agentPromptCompletion } from './lib/actions/agent-prompt-completion';
-import { PieceCategory } from '@activepieces/shared';
+import { PieceCategory } from '@activepieces/pieces-framework';
 import { straicoAuth } from './lib/auth';
 
 const markdownDescription = `
@@ -37,6 +37,7 @@ export const straico = createPiece({
   auth: straicoAuth,
   minimumSupportedRelease: '0.30.0',
   logoUrl: 'https://cdn.activepieces.com/pieces/straico.png',
+  deprecated: true,
   categories: [PieceCategory.ARTIFICIAL_INTELLIGENCE],
   description: 'All-in-one generative AI platform',
   authors: ['dennisrongo'],

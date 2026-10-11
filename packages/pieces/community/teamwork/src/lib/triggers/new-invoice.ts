@@ -5,8 +5,12 @@ import { HttpMethod } from '@activepieces/pieces-common';
 
 export const newInvoice = createTrigger({
 	name: 'new_invoice',
+	classification: 'READ',
 	displayName: 'New Invoice',
 	description: 'Fires when a new invoice is created.',
+	aiMetadata: {
+		description: 'Fires when an invoice is created in Teamwork (INVOICE.CREATED webhook), optionally filtered to a single project. Each event represents one newly created invoice.',
+	},
 	auth: teamworkAuth,
 	props: {
 		projectId: Property.Dropdown({

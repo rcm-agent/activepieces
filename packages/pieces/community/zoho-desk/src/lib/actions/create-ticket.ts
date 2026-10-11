@@ -7,8 +7,11 @@ import { departmentId, organizationId } from '../common/props';
 export const createTicketAction = createAction({
 	auth: zohoDeskAuth,
 	name: 'create_ticket',
+	classification: 'WRITE',
 	displayName: 'Create Ticket',
 	description: 'Creates a new ticket.',
+	audience: 'both',
+	aiMetadata: { description: 'Creates a new support ticket in a Zoho Desk organization. Use when an agent needs to log a new issue or request; requires the organization ID, a department ID, a subject, and a description, with optional contact, status, priority, channel, assignee, and custom fields. Not idempotent — each call creates a separate ticket.', idempotent: false },
 	props: {
 		orgId: organizationId({ displayName: 'Organization', required: true }),
 		departmentId: departmentId({ displayName: 'Department', required: true }),

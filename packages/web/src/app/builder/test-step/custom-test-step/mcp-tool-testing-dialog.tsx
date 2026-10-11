@@ -53,6 +53,12 @@ function mapMcpTypeToPropertyType(mcpType: McpPropertyType): PropertyType {
   }
 }
 
+// toggling the dynamic (f(x)) input mode on the inputSchema array property
+// replaces its form value with `{}`, so this must not assume the raw value is still an array
+function toMcpFormFields(rawInputSchema: unknown): McpFormField[] {
+  return Array.isArray(rawInputSchema) ? rawInputSchema : [];
+}
+
 function McpToolTestingDialog({
   open,
   onOpenChange,
@@ -60,7 +66,7 @@ function McpToolTestingDialog({
 }: McpToolTestingDialogProps) {
   const form = useFormContext<FlowTrigger>();
   const formValues = form.getValues();
-  const formProps = formValues.settings.input.inputSchema as McpFormField[];
+  const formProps = toMcpFormFields(formValues.settings.input.inputSchema);
   const { mutate: saveMockAsSampleData, isPending: isSavingMockdata } =
     testStepHooks.useSaveMockData({
       onSuccess: () => {
@@ -166,7 +172,7 @@ function McpToolTestingDialog({
                             />
 
                             {fieldError && (
-                              <p className="text-xs text-destructive font-medium">
+                              <p className="text-xs text-danger-11 font-medium">
                                 {fieldError.message?.toString()}
                               </p>
                             )}
@@ -177,7 +183,7 @@ function McpToolTestingDialog({
                   </div>
                 ) : (
                   <div className="p-4 rounded-lg text-center">
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-gray-11">
                       {t('No input fields defined in the schema')}
                     </p>
                   </div>
@@ -204,4 +210,4 @@ function McpToolTestingDialog({
   );
 }
 
-export { McpToolTestingDialog };
+export { McpToolTestingDialog, toMcpFormFields };

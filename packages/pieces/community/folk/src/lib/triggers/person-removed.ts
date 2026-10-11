@@ -6,8 +6,12 @@ import { folkProps } from '../common/props';
 export const personRemoved = createTrigger({
   auth: folkAuth,
   name: 'person_removed',
+  classification: 'READ',
   displayName: 'Person Removed',
   description: 'Fires when a person is removed from your Folk workspace.',
+  aiMetadata: {
+    description: 'Fires when a person (contact) is deleted from the connected Folk workspace, optionally scoped to a single group. The event payload carries the deleted person ID along with a snapshot of their name and emails.',
+  },
   props: {
     groupId: folkProps.group_id(false, 'Group ID'),
   },

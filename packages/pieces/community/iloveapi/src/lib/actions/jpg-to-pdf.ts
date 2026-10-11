@@ -7,8 +7,15 @@ import { UploadInput } from '../common/client';
 export const jpgToPdfAction = createAction({
   auth: iloveapiAuth,
   name: 'jpg_to_pdf',
+  classification: 'READ',
   displayName: 'JPG to PDF',
   description: 'Convert one or more images (JPG/PNG) into a PDF document.',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Convert one or more JPG/PNG images into PDF, with control over orientation, page size, and margin. By default all images are merged into a single PDF; disable "Merge into single PDF" to instead get one PDF per image. Each run produces new output rather than reusing a prior result.',
+    idempotent: false,
+  },
   props: {
     images: Property.Array({
       displayName: 'Images',

@@ -7,8 +7,15 @@ import { getProjectIdDropdown, getIssueIdDropdown } from '../common/props';
 export const listIssueCommentsAction = createAction({
 	auth: jiraDataCenterAuth,
 	name: 'list_issue_comments',
+	classification: 'SEARCH',
 	displayName: 'List Issue Comments',
 	description: 'Returns all comments for an issue.',
+	audience: 'both',
+	aiMetadata: {
+		description:
+			'Returns the comments on a Jira Data Center/Server issue, ordered by creation date (ascending or descending) and capped by a limit. Use to read the discussion history of an issue. Read-only and idempotent.',
+		idempotent: true,
+	},
 	props: {
 		projectId: getProjectIdDropdown(),
 		issueId: getIssueIdDropdown({ refreshers: ['projectId'] }),

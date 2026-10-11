@@ -5,8 +5,11 @@ import { smartsheetCommon, updateRowInSmartsheet } from '../common';
 export const updateRow = createAction({
 	auth: smartsheetAuth,
 	name: 'update_row',
+	classification: 'WRITE',
 	displayName: 'Update Row',
 	description: 'Updates an existing row.',
+	audience: 'both',
+	aiMetadata: { description: 'Updates cell values on an existing row in a Smartsheet sheet, matched by sheet ID and row ID. Use to modify fields on a row you can already identify; only the provided cells are changed. Idempotent: re-applying the same cell values to the same row leaves it in the same state.', idempotent: true },
 	props: {
 		sheet_id: smartsheetCommon.sheet_id(),
 		row_id: smartsheetCommon.row_id,

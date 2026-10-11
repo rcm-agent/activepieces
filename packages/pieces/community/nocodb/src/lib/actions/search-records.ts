@@ -2,12 +2,21 @@ import { nocodbAuth } from '../auth';
 import { createAction, Property } from '@activepieces/pieces-framework';
 import { makeClient, nocodbCommon } from '../common';
 import { ListAPIResponse, ListAPIV3Response } from '../common/types';
+import { nocodbSearchRecordsOutputSchema } from '../output-schemas';
 
 export const searchRecordsAction = createAction({
   auth: nocodbAuth,
   name: 'nocodb-search-records',
+  classification: 'SEARCH',
+  outputSchema: nocodbSearchRecordsOutputSchema,
   displayName: 'Search Records',
   description: 'Returns a list of records matching the where condition.',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Lists rows from a NocoDB table within the chosen base, optionally narrowed by a Where filter expression and ordered by a Sort field list; leaving the Where condition empty returns all records up to the Limit. Use when an agent needs to find or browse records by criteria rather than by a known Record ID. Idempotent read-only query.',
+    idempotent: true,
+  },
   props: {
     workspaceId: nocodbCommon.workspaceId,
     baseId: nocodbCommon.baseId,

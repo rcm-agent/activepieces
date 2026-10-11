@@ -9,8 +9,12 @@ const polling = buildProjectTasksPolling('created_at');
 export const newTask = createTrigger({
   auth: ninjapipeAuth,
   name: 'new_task',
+  classification: 'READ',
   displayName: 'New Task',
   description: 'Triggers when a new task is created in the selected project.',
+  aiMetadata: {
+    description: 'Fires once for each task newly created in the selected NinjaPipe project, detected by polling on the task creation timestamp. The event payload is the created task, including its id, project_id, title, description, status, priority, assignee_id, due_date, parent_id, tags, and timestamps. Use it to react to brand-new work items; it does not fire for subsequent edits to an existing task.',
+  },
   type: TriggerStrategy.POLLING,
   sampleData: {
     id: 'a97381c8-75d3-4773-92d7-80ad97cf06f9',

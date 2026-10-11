@@ -5,6 +5,7 @@ import { sftpAuth } from '../auth';
 import dayjs from 'dayjs';
 import Client from 'ssh2-sftp-client';
 import { Client as FTPClient, FileInfo as FTPFileInfo } from 'basic-ftp';
+import { newOrModifiedFileTriggerOutputSchema } from '../output-schemas';
 
 function getModifyTime(file: Client.FileInfo | FTPFileInfo, protocol: string): number {
   return protocol === 'sftp' ? 
@@ -54,8 +55,12 @@ const polling: Polling<AppConnectionValueForAuthProperty<typeof sftpAuth>, { pat
 export const newOrModifiedFile = createTrigger({
   auth: sftpAuth,
   name: 'new_file',
+  classification: 'READ',
   displayName: 'New File',
   description: 'Trigger when a new file is created or modified.',
+  aiMetadata: {
+    description: 'Fires for each file in a watched directory on an FTP, FTPS or SFTP server whose modification time is newer than the previous poll, so it covers both newly added files and edits to existing ones. Each event represents one such file. Polls a single directory only, without recursing into subfolders, and can optionally skip hidden dotfiles.',
+  },
   props: {
     path: Property.ShortText({
       displayName: 'Path',
@@ -70,6 +75,7 @@ export const newOrModifiedFile = createTrigger({
       defaultValue: false,
     }),
   },
+  outputSchema: newOrModifiedFileTriggerOutputSchema,
   type: TriggerStrategy.POLLING,
   onEnable: async (context) => {
     await pollingHelper.onEnable(polling, context);

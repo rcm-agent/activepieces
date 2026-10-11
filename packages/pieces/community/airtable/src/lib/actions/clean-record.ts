@@ -4,13 +4,21 @@ import {
 
 import { airtableCommon } from '../common';
 import { airtableAuth } from '../auth';
+import { cleanRecordActionOutputSchema } from '../output-schemas';
 
 export const airtableCleanRecordAction = createAction({
   auth: airtableAuth,
   name: 'airtable_clean_record',
+  classification: 'DESTRUCTIVE',
   displayName: 'Clean Record',
-  description:
-    'Clears fields in a record. Empty values will clear the corresponding fields.',
+  description: 'Updates a record and empties every field you leave blank.',
+  audience: 'both',
+  outputSchema: cleanRecordActionOutputSchema,
+  aiMetadata: {
+    description:
+      'Clears (empties) the specified fields on an existing record identified by its record ID, leaving unspecified fields untouched. Use to blank out field values rather than set them. Idempotent: re-running with the same input leaves the same cleared state.',
+    idempotent: true,
+  },
   props: {
     base: airtableCommon.base,
     tableId: airtableCommon.tableId,
@@ -36,6 +44,7 @@ export const airtableCleanRecordAction = createAction({
       tableId: tableId as string,
       recordId: recordId as string,
       fields: updatedFields as Record<string, unknown>,
+      typecast: true,
     });
   },
 });

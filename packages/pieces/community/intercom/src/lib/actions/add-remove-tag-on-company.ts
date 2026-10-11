@@ -6,8 +6,11 @@ import { intercomClient } from '../common';
 export const addOrRemoveTagOnCompanyAction = createAction({
 	auth: intercomAuth,
 	name: 'add-or-remove-tag-on-company',
+	classification: 'WRITE',
 	displayName: 'Add/Remove Tag on Company',
 	description: 'Attach or remove a tag from a specific company.',
+	audience: 'both',
+	aiMetadata: { description: 'Attach or remove a tag (by tag name) on a company identified by its Intercom company ID; set the Untag flag to remove rather than add. Tags are created or reused by name, and the operation mutates the company, so it is not idempotent.', idempotent: false },
 	props: {
 		companyId: companyIdProp('Company ID', true),
 		tagName: Property.ShortText({

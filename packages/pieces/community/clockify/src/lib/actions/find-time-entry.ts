@@ -7,8 +7,15 @@ import { projectId, taskId, workspaceId } from '../common/props';
 export const findTimeEntryAction = createAction({
 	auth: clockifyAuth,
 	name: 'find-time-entry',
+	classification: 'SEARCH',
 	displayName: 'Find Time Entry',
 	description: 'Finds a time entry by description, start datetime or end datetime.',
+	audience: 'both',
+	aiMetadata: {
+		description:
+			"Searches the authenticated user's time entries on a workspace, optionally filtered by description, start/end datetime, project, or task. With no filters it returns recent entries; supplied filters narrow the results. Use to locate an existing entry or verify logged time. Read-only and idempotent.",
+		idempotent: true,
+	},
 	props: {
 		workspaceId: workspaceId({
 			displayName: 'Workspace',

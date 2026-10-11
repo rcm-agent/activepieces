@@ -4,8 +4,11 @@ import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 
 export const convertEnergyAction = createAction({
   name: 'convert_energy',
+  classification: 'READ',
   displayName: 'Convert Energy',
   description: 'Convert energy measurements between different units',
+  audience: 'both',
+  aiMetadata: { description: 'Convert a single energy value between units such as joules, kilojoules, calories, kilocalories, watt-hours, kilowatt-hours, and BTU. Use only for energy; other quantities have their own dedicated convert actions. Read-only calculation that returns the same result for the same inputs.', idempotent: true },
   auth: zooAuth,
   // category: 'Unit Conversion',
   props: {

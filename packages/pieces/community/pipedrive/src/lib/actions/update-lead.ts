@@ -9,12 +9,21 @@ import {
 import { HttpMethod } from '@activepieces/pieces-common';
 import { GetField, GetLeadResponse } from '../common/types';
 import dayjs from 'dayjs';
+import { updateLeadActionOutputSchema } from '../output-schemas';
 
 export const updateLeadAction = createAction({
 	auth: pipedriveAuth,
 	name: 'update-lead',
+	outputSchema: updateLeadActionOutputSchema,
+	classification: 'WRITE',
 	displayName: 'Update Lead',
 	description: 'Updates an existing lead.',
+	audience: 'both',
+	aiMetadata: {
+		description:
+			'Updates fields on an existing lead identified by its lead ID, such as title, owner, value, channel, or linked person/organization; only supplied fields change. Use to modify a lead you have the ID for (use Create Lead to add one, or Find Lead to locate it). Idempotent: repeating the same update converges to the same lead state.',
+		idempotent: true,
+	},
 	props: {
 		leadId: leadIdProp(true),
 		title: Property.ShortText({

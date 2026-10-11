@@ -6,8 +6,15 @@ import { runAndStoreResult } from '../common/runner';
 export const htmlToPdfAction = createAction({
   auth: iloveapiAuth,
   name: 'html_to_pdf',
+  classification: 'READ',
   displayName: 'HTML to PDF',
   description: 'Convert a publicly accessible web page URL into a PDF.',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Render a publicly reachable web page, given its http(s) URL, into a PDF. The URL must be publicly accessible (no auth-gated or private pages). Use Office to PDF or JPG to PDF instead when the source is a local file rather than a live web page. Each run produces a new output.',
+    idempotent: false,
+  },
   props: {
     url: Property.ShortText({
       displayName: 'Page URL',

@@ -66,8 +66,12 @@ const polling: Polling<
 export const newPost = createTrigger({
   auth: postizAuth,
   name: 'new_post',
+  classification: 'READ',
   displayName: 'New Published Post',
   description: 'Triggers when a post is published in Postiz',
+  aiMetadata: {
+    description: 'Fires when a post transitions to the published state in Postiz, emitting the published post with its id, content, publish date, release URL, and the channel it went out on. Use to react to content going live (e.g. to log, notify, or fetch post analytics). Polls recent posts and emits each newly published one.',
+  },
   props: {},
   sampleData: {
     id: 'abc123',

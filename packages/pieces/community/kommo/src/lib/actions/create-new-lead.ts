@@ -12,8 +12,11 @@ import {
 export const createLeadAction = createAction({
 	auth: kommoAuth,
 	name: 'create_lead',
+	classification: 'WRITE',
 	displayName: 'Create New Lead',
 	description: 'Creates a new lead.',
+	audience: 'both',
+	aiMetadata: { description: 'Creates a new lead (deal) in a Kommo CRM account with name, optional price, pipeline/status, responsible user, loss reason, and tags. Use when registering a new sales opportunity. Not idempotent — each call creates a separate lead even with identical input.', idempotent: false },
 	props: {
 		name: Property.ShortText({
 			displayName: 'Lead Name',

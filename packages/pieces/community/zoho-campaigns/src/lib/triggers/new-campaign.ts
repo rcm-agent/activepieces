@@ -33,8 +33,13 @@ const polling: Polling<
 export const newCampaign = createTrigger({
   auth: zohoCampaignsAuth,
   name: 'newCampaign',
+  classification: 'READ',
   displayName: 'New Campaign',
   description: 'Fires when a new campaign is created.',
+  aiMetadata: {
+    description:
+      'Fires when a new campaign is created in the Zoho Campaigns account, representing a newly added campaign (in any status, e.g. draft). Polls the account-wide recent campaigns list.',
+  },
   props: {},
   sampleData: {
     campaign_key: 'f70c4878c4a47169407e63917ad24497',

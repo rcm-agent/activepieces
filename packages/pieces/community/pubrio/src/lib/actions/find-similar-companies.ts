@@ -6,9 +6,16 @@ import { pubrioRequest } from '../common';
 export const findSimilarCompanies = createAction({
   auth: pubrioAuth,
   name: 'find_similar_companies',
+  classification: 'SEARCH',
   displayName: 'Find Similar Companies',
   description:
     'Find companies similar to a given company by domain or LinkedIn URL',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Return a paged list of companies that resemble one seed company, identified via lookup_type (domain or LinkedIn URL). Read-only and repeatable (per_page max 25). Use for lookalike prospecting from a known account; to enrich that one seed company instead use Lookup Company.',
+    idempotent: true,
+  },
   props: {
     lookup_type: Property.StaticDropdown({
       displayName: 'Lookup Type',

@@ -5,9 +5,16 @@ import { NetSuiteClient } from '../common/client';
 
 export const getCustomer = createAction({
   name: 'getCustomer',
+  classification: 'READ',
   auth: netsuiteAuth,
   displayName: 'Get Customer',
   description: 'Gets customer details from NetSuite.',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Fetches a single customer record from NetSuite by its internal record ID. Use when you already have the customer ID and need its full details; this is a read-only lookup that is safe to repeat.',
+    idempotent: true,
+  },
   props: {
     customerId: Property.ShortText({
       displayName: 'Customer ID',

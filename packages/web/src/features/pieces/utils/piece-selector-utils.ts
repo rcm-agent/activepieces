@@ -1,4 +1,9 @@
 import {
+  deepMergeAndCast,
+  isNil,
+  isManualPieceTrigger,
+} from '@activepieces/core-utils';
+import {
   PieceAuthProperty,
   PiecePropertyMap,
   piecePropertiesUtils,
@@ -11,19 +16,18 @@ import {
   PieceAction,
   PieceTrigger,
   FlowTrigger,
-  deepMergeAndCast,
   BranchExecutionType,
   RouterExecutionType,
-  isNil,
   flowStructureUtil,
   StepSettings,
   RouterActionSettingsWithValidation,
+  AiRouterActionSettingsWithValidation,
+  AiRouterMatchMode,
   FlowTriggerType,
   PropertyExecutionType,
   DEFAULT_SAMPLE_DATA_SETTINGS,
   FlowVersion,
   FlowOperationType,
-  isManualPieceTrigger,
   AUTHENTICATION_PROPERTY_NAME,
 } from '@activepieces/shared';
 import { useRef } from 'react';
@@ -75,6 +79,12 @@ const isPieceStepInputValid = ({
   return schema.safeParse(input).success && authValid;
 };
 
+const routerSettingsOverride = (settings: StepSettings | undefined) =>
+  !isNil(settings) && 'executionType' in settings ? settings : undefined;
+
+const aiRouterSettingsOverride = (settings: StepSettings | undefined) =>
+  !isNil(settings) && 'question' in settings ? settings : undefined;
+
 const isStepInitiallyValid = (
   pieceSelectorItem: PieceSelectorItem,
   overrideDefaultSettings?: StepSettings,
@@ -112,6 +122,14 @@ const isStepInitiallyValid = (
     case FlowActionType.ROUTER: {
       if (overrideDefaultSettings) {
         return RouterActionSettingsWithValidation.safeParse(
+          overrideDefaultSettings,
+        ).success;
+      }
+      return false;
+    }
+    case FlowActionType.AI_ROUTER: {
+      if (overrideDefaultSettings) {
+        return AiRouterActionSettingsWithValidation.safeParse(
           overrideDefaultSettings,
         ).success;
       }
@@ -182,6 +200,7 @@ const getDefaultStepValues = ({
             },
             input,
             errorHandlingOptions,
+            useDeno: true,
           },
         },
         common,
@@ -200,7 +219,7 @@ const getDefaultStepValues = ({
       return deepMergeAndCast<FlowAction>(
         {
           type: FlowActionType.ROUTER,
-          settings: overrideDefaultSettings ?? {
+          settings: routerSettingsOverride(overrideDefaultSettings) ?? {
             executionType: RouterExecutionType.EXECUTE_FIRST_MATCH,
             branches: [
               {
@@ -220,6 +239,31 @@ const getDefaultStepValues = ({
               {
                 branchType: BranchExecutionType.FALLBACK,
                 branchName: 'Otherwise',
+              },
+            ],
+          },
+          children: [null, null],
+        },
+        common,
+      );
+    case FlowActionType.AI_ROUTER:
+      return deepMergeAndCast<FlowAction>(
+        {
+          type: FlowActionType.AI_ROUTER,
+          settings: aiRouterSettingsOverride(overrideDefaultSettings) ?? {
+            text: '',
+            question: '',
+            matchMode: AiRouterMatchMode.BEST_MATCH,
+            branches: [
+              {
+                branchType: BranchExecutionType.CONDITION,
+                branchName: 'Route 1',
+                description: '',
+              },
+              {
+                branchType: BranchExecutionType.FALLBACK,
+                branchName: 'Otherwise',
+                description: 'Anything that fits none of the routes above',
               },
             ],
           },
@@ -332,7 +376,7 @@ const MAX_PIECE_SELECTOR_LIST_HEIGHT = 300 as const;
 const MIN_PIECE_SELECTOR_LIST_HEIGHT = 100 as const;
 const SEARCH_INPUT_DIV_HEIGHT = 113 as const;
 const PIECE_ITEM_HEIGHT = 48 as const;
-const ACTION_OR_TRIGGER_ITEM_HEIGHT = 41 as const;
+const ACTION_OR_TRIGGER_ITEM_HEIGHT = 54 as const;
 const CATEGORY_ITEM_HEIGHT = 28 as const;
 export const PIECE_SELECTOR_ELEMENTS_HEIGHTS = {
   MAX_PIECE_SELECTOR_LIST_HEIGHT,
@@ -376,4 +420,5 @@ export const pieceSelectorUtils = {
   removeHiddenActions,
   getStepNameFromOperationType,
   isManualTrigger: isManualPieceTrigger,
+  PIECE_SELECTOR_CLIPPING_THRESHOLD: 20 as const,
 };

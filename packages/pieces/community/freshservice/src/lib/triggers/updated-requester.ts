@@ -53,8 +53,12 @@ const polling: Polling<
 export const updatedRequester = createTrigger({
   auth: freshserviceAuth,
   name: 'updated_requester',
+  classification: 'READ',
   displayName: 'Updated Requester',
   description: 'Triggers when an existing requester is updated in Freshservice.',
+  aiMetadata: {
+    description: 'Fires when an existing requester (end-user) record is modified in Freshservice (e.g. profile, contact, or department change), representing the latest state of that requester. Polls newest-first by last-updated time across all requesters in the account.',
+  },
   props: {},
   sampleData: {
     id: 1,

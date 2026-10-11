@@ -1,21 +1,31 @@
 import { Property, TriggerStrategy, createTrigger } from '@activepieces/pieces-framework';
 import { slackAuth } from '../auth';
 import { getTeamId, SlackAuthValue } from '../common/auth-helpers';
+import { appWebhookSetupInfo } from '../common/props';
+import { newMessageTriggerOutputSchema } from '../output-schemas';
 
 export const newMessageTrigger = createTrigger({
 	auth: slackAuth,
 	name: 'new-message',
+	classification: 'READ',
 	displayName: 'New Public Message Posted Anywhere',
 	description: 'Triggers when a new message is posted to any channel.',
+	aiMetadata: {
+		description:
+			'Fires when a new message is posted in any public channel or group the app can access (direct messages are excluded). Bot messages can be optionally ignored. The event payload is the Slack message event, including its channel, text, and sender.',
+	},
 	props: {
+		info: appWebhookSetupInfo,
 		ignoreBots: Property.Checkbox({
-			displayName: 'Ignore Bot Messages ?',
-			required: true,
+			displayName: 'Ignore Bot Messages',
+			description: 'Skip messages posted by bots and apps.',
+			required: false,
 			defaultValue: false,
 		}),
 	},
 	type: TriggerStrategy.APP_WEBHOOK,
 	sampleData: undefined,
+	outputSchema: newMessageTriggerOutputSchema,
 	onEnable: async (context) => {
 		const teamId = await getTeamId(context.auth as SlackAuthValue);
 		context.app.createListeners({

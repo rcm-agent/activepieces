@@ -2,7 +2,7 @@ import { createAction, Property } from '@activepieces/pieces-framework';
 import { AuthenticationType, httpClient, HttpMethod, propsValidation } from '@activepieces/pieces-common';
 import { runwayAuth } from '../common';
 import RunwayML from '@runwayml/sdk';
-import { z } from 'zod';
+import * as z from 'zod/mini'
 
 // Helper function to get file extension from URL or Content-Type
 const getFileExtensionFromUrl = (url: string, contentType?: string): string => {
@@ -42,8 +42,11 @@ const getStatusDescription = (status: string): string => {
 export const getTaskDetails = createAction({
 	auth: runwayAuth,
 	name: 'get_task_details',
+	classification: 'READ',
 	displayName: 'Get Task Details',
 	description: 'Retrieve details of an existing Runway task by its ID',
+	audience: 'both',
+	aiMetadata: { description: 'Looks up a Runway generation task by its ID and returns its current status, progress, and output URLs; optionally downloads the generated files as attachments when the task has succeeded. Use to poll the result of an image or video generation started by the generate actions. Read-only and idempotent; requires a valid task UUID.', idempotent: true },
 	props: {
 		taskId: Property.ShortText({ 
 			displayName: 'Task ID', 
@@ -60,7 +63,7 @@ export const getTaskDetails = createAction({
 	async run({ auth, propsValue, files }) {
 		// Zod validation
 		await propsValidation.validateZod(propsValue, {
-			taskId: z.string().uuid('Task ID must be a valid UUID format'),
+			taskId: z.string().check(z.uuid('Task ID must be a valid UUID format')),
 		});
 
 		const apiKey = auth.secret_text;

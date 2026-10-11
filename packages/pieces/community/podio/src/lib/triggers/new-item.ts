@@ -6,8 +6,12 @@ import { podioApiCall, getAccessToken, dynamicAppProperty } from '../common';
 export const newItemTrigger = createTrigger({
   auth: podioAuth,
   name: 'new_item',
+  classification: 'READ',
   displayName: 'New Item',
   description: 'Fires when a new item (record/entry) is created in an app',
+  aiMetadata: {
+    description: 'Fires when a new item (record/entry) is created in the selected Podio app, via an item.create webhook on that app. Represents a newly added record.',
+  },
   props: {
     appId: dynamicAppProperty,
   },

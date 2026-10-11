@@ -8,8 +8,14 @@ import { assertIdPrefix } from '../../common/validation';
 export const deleteTopic = createAction({
   auth: hedyAuth,
   name: 'delete-topic',
+  classification: 'DESTRUCTIVE',
   displayName: 'Delete Topic',
   description: 'Delete a topic.',
+  audience: 'both',
+  aiMetadata: {
+    description: 'Permanently delete a Hedy topic identified by a topic ID (must be prefixed with "topic_"). Idempotent in effect: once deleted, repeating the call leaves the topic absent (a repeat may error if the topic no longer exists).',
+    idempotent: true,
+  },
   props: {
     topicId: commonProps.topicId,
   },

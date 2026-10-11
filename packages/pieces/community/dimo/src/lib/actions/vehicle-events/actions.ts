@@ -68,8 +68,11 @@ async function sendVehicleEventsRequest({ ctx, opKey }: { ctx: ActionContext<Cus
 const listWebhooksAction = createAction({
   auth: dimoAuth,
   name: "vehicle-events-list-webhooks-action",
+  classification: 'SEARCH',
   displayName: "Vehicle Events: List Webhooks",
   description: "List all webhooks.",
+  audience: 'both',
+  aiMetadata: { description: 'List all DIMO Vehicle Events webhooks configured under the developer account. Read-only and idempotent; pick this to discover existing webhook IDs and their configuration before creating, updating, subscribing, or deleting.', idempotent: true },
   props: {},
   async run(ctx) {
     return sendVehicleEventsRequest({ ctx, opKey: "listWebhooks" });
@@ -79,8 +82,11 @@ const listWebhooksAction = createAction({
 const upsertWebhookNumericAction = createAction({
   auth: dimoAuth,
   name: "vehicle-events-upsert-webhook-numeric-action",
+  classification: 'WRITE',
   displayName: "Vehicle Events: Create/Update Webhook (Numeric)",
   description: "Create a new webhook or update existing one for numeric vehicle signals. If Webhook ID is provided, it will update; otherwise, it will create a new webhook.",
+  audience: 'both',
+  aiMetadata: { description: 'Create or update a Vehicle Events webhook that fires when a numeric signal (speed, fuel level, battery state of charge, tire pressure, etc.) crosses a threshold via an operator and trigger value. Supplying a Webhook ID updates that webhook (idempotent); omitting it creates a new one each call (not idempotent). Use the Boolean variant for on/off signals and the Events variant for driving events like harsh braking.', idempotent: false },
   props: {
     webhookId: Property.ShortText({
       displayName: "Webhook ID (Optional)",
@@ -157,8 +163,11 @@ const upsertWebhookNumericAction = createAction({
 const upsertWebhookBooleanAction = createAction({
   auth: dimoAuth,
   name: "vehicle-events-upsert-webhook-boolean-action",
+  classification: 'WRITE',
   displayName: "Vehicle Events: Create/Update Webhook (Boolean)",
   description: "Create a new webhook or update existing one for boolean vehicle signals. If Webhook ID is provided, it will update; otherwise, it will create a new webhook.",
+  audience: 'both',
+  aiMetadata: { description: 'Create or update a Vehicle Events webhook that fires on a boolean signal state (battery charging on/off, ignition on/off). Supplying a Webhook ID updates that webhook (idempotent); omitting it creates a new one each call (not idempotent). Use the Numeric variant for threshold signals and the Events variant for driving events.', idempotent: false },
   props: {
     webhookId: Property.ShortText({
       displayName: "Webhook ID (Optional)",
@@ -237,8 +246,11 @@ const upsertWebhookBooleanAction = createAction({
 const upsertWebhookEventAction = createAction({
   auth: dimoAuth,
   name: "vehicle-events-upsert-webhook-event-action",
+  classification: 'WRITE',
   displayName: "Vehicle Events: Create/Update Webhook (Events)",
   description: "Create a new webhook or update existing one for vehicle events like harsh braking, acceleration, etc. If Webhook ID is provided, it will update; otherwise, it will create a new webhook.",
+  audience: 'both',
+  aiMetadata: { description: 'Create or update a Vehicle Events webhook that fires on discrete driving events (extreme/harsh braking, harsh acceleration, harsh cornering). Supplying a Webhook ID updates that webhook (idempotent); omitting it creates a new one each call (not idempotent). Use the Numeric or Boolean variants instead when monitoring signal values rather than driving events.', idempotent: false },
   props: {
     webhookId: Property.ShortText({
       displayName: "Webhook ID (Optional)",
@@ -338,8 +350,11 @@ const upsertWebhookEventAction = createAction({
 const deleteWebhookAction = createAction({
   auth: dimoAuth,
   name: "vehicle-events-delete-webhook-action",
+  classification: 'DESTRUCTIVE',
   displayName: "Vehicle Events: Delete Webhook",
   description: "Delete a webhook.",
+  audience: 'both',
+  aiMetadata: { description: 'Permanently delete a Vehicle Events webhook by its Webhook ID, removing it and its vehicle subscriptions. Destructive and not idempotent (deleting an already-removed webhook errors); pick this to tear down a webhook rather than disabling it via the Status field on a Create/Update action.', idempotent: false },
   props: {
     webhookId: Property.ShortText({
       displayName: "Webhook ID",
@@ -355,8 +370,11 @@ const deleteWebhookAction = createAction({
 const listSignalsAction = createAction({
   auth: dimoAuth,
   name: "vehicle-events-list-signals-action",
+  classification: 'SEARCH',
   displayName: "Vehicle Events: List Signals",
   description: "List all signals.",
+  audience: 'both',
+  aiMetadata: { description: 'List the signal names available for use in Vehicle Events webhook conditions. Read-only and idempotent; pick this to discover valid signals before creating or updating a numeric/boolean webhook.', idempotent: true },
   props: {},
   async run(ctx) {
     return sendVehicleEventsRequest({ ctx, opKey: "listSignals" });
@@ -366,8 +384,11 @@ const listSignalsAction = createAction({
 const listSubscribedVehiclesAction = createAction({
   auth: dimoAuth,
   name: "vehicle-events-list-subscribed-vehicles-action",
+  classification: 'SEARCH',
   displayName: "Vehicle Events: List Subscribed Vehicles",
   description: "List vehicles subscribed to a webhook.",
+  audience: 'both',
+  aiMetadata: { description: 'List the vehicles currently subscribed to a given webhook, taking the Webhook ID. Read-only and idempotent; pick this to see which vehicles a webhook covers, versus List Vehicle Subscriptions which goes the other direction (all webhooks a single vehicle is subscribed to).', idempotent: true },
   props: {
     webhookId: Property.ShortText({
       displayName: "Webhook ID",
@@ -383,8 +404,11 @@ const listSubscribedVehiclesAction = createAction({
 const listVehicleSubscriptionsAction = createAction({
   auth: dimoAuth,
   name: "vehicle-events-list-vehicle-subscriptions-action",
+  classification: 'SEARCH',
   displayName: "Vehicle Events: List Vehicle Subscriptions",
   description: "List all subscriptions for a vehicle.",
+  audience: 'both',
+  aiMetadata: { description: 'List all webhook subscriptions for a single vehicle, taking the vehicle Token ID. Read-only and idempotent; pick this to see which webhooks one vehicle is subscribed to, versus List Subscribed Vehicles which lists all vehicles on a given webhook.', idempotent: true },
   props: {
     tokenId: Property.Number({
       displayName: "Vehicle Token ID",
@@ -400,8 +424,11 @@ const listVehicleSubscriptionsAction = createAction({
 const subscribeVehicleAction = createAction({
   auth: dimoAuth,
   name: "vehicle-events-subscribe-vehicle-action",
+  classification: 'WRITE',
   displayName: "Vehicle Events: Subscribe Vehicle",
   description: "Subscribe a vehicle to a webhook.",
+  audience: 'both',
+  aiMetadata: { description: 'Subscribe one vehicle (by Token ID) to a specific webhook (by Webhook ID) so it begins firing for that vehicle. A targeted mutation; pick this for a single vehicle, versus Subscribe All Vehicles to enroll every eligible vehicle on the developer license at once.', idempotent: false },
   props: {
     webhookId: Property.ShortText({
       displayName: "Webhook ID",
@@ -433,8 +460,11 @@ const subscribeVehicleAction = createAction({
 const subscribeAllVehiclesAction = createAction({
   auth: dimoAuth,
   name: "vehicle-events-subscribe-all-vehicles-action",
+  classification: 'WRITE',
   displayName: "Vehicle Events: Subscribe All Vehicles",
   description: "Subscribe all vehicles to a webhook.",
+  audience: 'both',
+  aiMetadata: { description: 'Subscribe every eligible vehicle on the developer license to a given webhook (by Webhook ID) in one call. A bulk mutation that affects all vehicles; pick Subscribe Vehicle instead when you only need a single vehicle enrolled.', idempotent: false },
   props: {
     webhookId: Property.ShortText({
       displayName: "Webhook ID",
@@ -450,8 +480,11 @@ const subscribeAllVehiclesAction = createAction({
 const unsubscribeVehicleAction = createAction({
   auth: dimoAuth,
   name: "vehicle-events-unsubscribe-vehicle-action",
+  classification: 'DESTRUCTIVE',
   displayName: "Vehicle Events: Unsubscribe Vehicle",
   description: "Unsubscribe a vehicle from a webhook.",
+  audience: 'both',
+  aiMetadata: { description: 'Remove one vehicle (by Token ID) from a specific webhook (by Webhook ID) so it stops firing for that vehicle. A targeted mutation; pick this for a single vehicle, versus Unsubscribe All Vehicles to detach every vehicle from the webhook at once.', idempotent: false },
   props: {
     webhookId: Property.ShortText({
       displayName: "Webhook ID",
@@ -483,8 +516,11 @@ const unsubscribeVehicleAction = createAction({
 const unsubscribeAllVehiclesAction = createAction({
   auth: dimoAuth,
   name: "vehicle-events-unsubscribe-all-vehicles-action",
+  classification: 'DESTRUCTIVE',
   displayName: "Vehicle Events: Unsubscribe All Vehicles",
   description: "Unsubscribe all vehicles from a webhook.",
+  audience: 'both',
+  aiMetadata: { description: 'Remove every subscribed vehicle from a given webhook (by Webhook ID) in one call, leaving the webhook itself intact. A bulk mutation; pick Unsubscribe Vehicle instead when you only need to detach a single vehicle.', idempotent: false },
   props: {
     webhookId: Property.ShortText({
       displayName: "Webhook ID",

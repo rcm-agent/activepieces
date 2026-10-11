@@ -3,12 +3,18 @@ import { createTrigger, TriggerStrategy } from '@activepieces/pieces-framework';
 import { commonProps } from '../common/props';
 import { GristAPIClient } from '../common/helpers';
 import { GristWebhookPayload } from '../common/types';
+import { gristNewRecordOutputSchema } from '../output-schemas';
 
 export const gristNewRecordTrigger = createTrigger({
   auth: gristAuth,
   name: 'grist-new-record',
+  outputSchema: gristNewRecordOutputSchema,
+  classification: 'READ',
   displayName: 'New Record',
   description: 'Triggers when a new record is added to the table.',
+  aiMetadata: {
+    description: 'Fires when a new record is added to the configured Grist document and table, via a Grist webhook on the add event. Each fired event represents a newly created row in that table; an optional readiness column can gate when a row is considered ready.',
+  },
   props: {
     workspace_id: commonProps.workspace_id,
     document_id: commonProps.document_id,

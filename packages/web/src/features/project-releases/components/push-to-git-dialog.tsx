@@ -1,9 +1,9 @@
+import { assertNotNullOrUndefined } from '@activepieces/core-utils';
 import {
   GitPushOperationType,
   PushGitRepoRequest,
   PushFlowsGitRepoRequest,
   PushTablesGitRepoRequest,
-  assertNotNullOrUndefined,
   PopulatedFlow,
   Table,
 } from '@activepieces/shared';
@@ -131,7 +131,7 @@ const PushToGitDialog = (props: PushToGitDialogProps) => {
                 </FormItem>
               )}
             />
-            <div className="text-sm text-gray-500 mt-2">
+            <div className="text-sm text-gray-11 mt-2">
               {t(
                 'Enter a commit message to describe the changes you want to push.',
               )}

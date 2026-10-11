@@ -6,8 +6,11 @@ import { makeRequest } from '../common/client';
 export const getIncidentById = createAction({
   auth: coralogixAuth,
   name: 'getIncidentById',
+  classification: 'READ',
   displayName: 'Get Incident By ID',
   description: 'Retrieve a Coralogix incident by its incident ID.',
+  audience: 'both',
+  aiMetadata: { description: 'Fetches a single Coralogix incident by its incident ID. Use to inspect full details of a known incident (e.g. one surfaced by List Incidents or a trigger). Read-only and idempotent.', idempotent: true },
   requireAuth: true,
   props: {
     incidentId: Property.ShortText({

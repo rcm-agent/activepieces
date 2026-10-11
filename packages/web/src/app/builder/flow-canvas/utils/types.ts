@@ -16,12 +16,6 @@ export enum ApNodeType {
   LOOP_RETURN_NODE = 'LOOP_RETURN_NODE',
   NOTE = 'NOTE',
 }
-export type ApBoundingBox = {
-  width: number;
-  height: number;
-  left: number;
-  right: number;
-};
 
 export type ApStepNode = {
   id: string;
@@ -66,7 +60,9 @@ export type ApButtonData = {
       parentStepName: string;
       stepLocationRelativeToParent:
         | StepLocationRelativeToParent.AFTER
-        | StepLocationRelativeToParent.INSIDE_LOOP;
+        | StepLocationRelativeToParent.INSIDE_LOOP
+        | StepLocationRelativeToParent.INSIDE_ON_SUCCESS_BRANCH
+        | StepLocationRelativeToParent.INSIDE_ON_FAILURE_BRANCH;
     }
   | {
       parentStepName: string;
@@ -110,7 +106,6 @@ export type ApNode =
 export enum ApEdgeType {
   STRAIGHT_LINE = 'ApStraightLineEdge',
   LOOP_START_EDGE = 'ApLoopStartEdge',
-  LOOP_CLOSE_EDGE = 'ApLoopCloseEdge',
   LOOP_RETURN_EDGE = 'ApLoopReturnEdge',
   ROUTER_START_EDGE = 'ApRouterStartEdge',
   ROUTER_END_EDGE = 'ApRouterEndEdge',
@@ -132,10 +127,6 @@ export type ApLoopStartEdge = Edge & {
   };
 };
 
-export type ApLoopCloseEdge = Edge & {
-  type: ApEdgeType.LOOP_CLOSE_EDGE;
-};
-
 export type ApLoopReturnEdge = Edge & {
   type: ApEdgeType.LOOP_RETURN_EDGE;
   data: {
@@ -153,10 +144,17 @@ export type ApRouterStartEdge = Edge & {
     label: string;
     drawHorizontalLine: boolean;
     drawStartingVerticalLine: boolean;
-  } & {
-    stepLocationRelativeToParent: StepLocationRelativeToParent.INSIDE_BRANCH;
-    branchIndex: number;
-  };
+  } & (
+    | {
+        stepLocationRelativeToParent: StepLocationRelativeToParent.INSIDE_BRANCH;
+        branchIndex: number;
+      }
+    | {
+        stepLocationRelativeToParent:
+          | StepLocationRelativeToParent.INSIDE_ON_SUCCESS_BRANCH
+          | StepLocationRelativeToParent.INSIDE_ON_FAILURE_BRANCH;
+      }
+  );
 };
 
 export type ApRouterEndEdge = Edge & {
@@ -186,3 +184,5 @@ export type ApGraph = {
   nodes: ApNode[];
   edges: ApEdge[];
 };
+
+export type CanvasOrientation = 'vertical' | 'horizontal';

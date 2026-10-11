@@ -3,7 +3,7 @@ import {
   TriggerStrategy,
   Property,
 } from '@activepieces/pieces-framework';
-import { MarkdownVariant } from '@activepieces/shared';
+import { MarkdownVariant } from '@activepieces/pieces-framework';
 
 const webhookInstructions = `**Setup Instructions:**
 1. Copy the webhook URL below.
@@ -20,9 +20,13 @@ If you want to generate sample data without triggering the flow, append \`/test\
 
 export const callEventsTrigger = createTrigger({
   name: 'catch_webhook',
+  classification: 'READ',
   displayName: 'Call Events Webhook',
   description:
     'Receives webhook data when call events occur from Kallabot AI agents.',
+  aiMetadata: {
+    description: 'Fires when a Kallabot AI agent reports a call event via webhook, typically when a call ends, delivering the call details (status, duration, cost, recording, transcription, and transfer info) for that call. Requires the webhook URL to be configured in the Kallabot agent settings.',
+  },
   requireAuth: false,
   props: {
     webhookUrl: Property.MarkDown({

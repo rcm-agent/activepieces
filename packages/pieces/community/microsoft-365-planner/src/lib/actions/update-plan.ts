@@ -5,8 +5,14 @@ import { PlanDropdown } from '../common/properties';
 export const updatePlan = createAction({
   auth: microsoft365PlannerAuth,
   name: 'updatePlan',
+  classification: 'WRITE',
   displayName: 'Update Plan',
   description: 'modify metadata of a plan (e.g. title changes).',
+  audience: 'both',
+  aiMetadata: {
+    description: 'Updates an existing Planner plan\'s title, identified by plan ID. Use to rename a plan. Idempotent: setting the same title repeatedly leaves the plan in the same end state.',
+    idempotent: true,
+  },
   props: {
     id: PlanDropdown({ required: true }),
     title: Property.ShortText({

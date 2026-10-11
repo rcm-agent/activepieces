@@ -53,7 +53,7 @@ const pauseFlowWithLoopAndBranch = buildSimpleLoopAction({
         conditions: [
             {
                 operator: BranchOperator.BOOLEAN_IS_TRUE,
-                firstValue: '{{ loop.item }}',
+                firstValue: '{{ loop.output.item }}',
             },
             
         ],
@@ -168,8 +168,8 @@ describe('flow with pause', () => {
         expect(pauseResult.verdict).toStrictEqual({
             status: FlowRunStatus.PAUSED,
         })
-        const currentState = pauseResult.currentState()
-        expect(Object.keys(currentState).length).toBe(1)
+        expect(await pauseResult.getStepView('approval')).toBeDefined()
+        expect(await pauseResult.getStepView('echo_step')).toBeUndefined()
 
         const resumeResult = await flowExecutor.execute({
             action: simplePauseFlow,
@@ -187,11 +187,13 @@ describe('flow with pause', () => {
         expect(resumeResult.verdict).toStrictEqual({
             status: FlowRunStatus.RUNNING,
         })
-        expect(resumeResult.currentState()).toEqual({
-            'approval': {
-                approved: true,
-            },
-            echo_step: {},
+        expect(await resumeResult.getStepView('approval')).toEqual({
+            output: { approved: true },
+            error: undefined,
+        })
+        expect(await resumeResult.getStepView('echo_step')).toEqual({
+            output: {},
+            error: undefined,
         })
     })
 

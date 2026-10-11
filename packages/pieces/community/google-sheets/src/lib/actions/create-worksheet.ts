@@ -2,16 +2,24 @@ import { createAction, Property } from '@activepieces/pieces-framework';
 import { createGoogleClient } from '../common/common';
 import { googleSheetsAuth } from '../common/common';
 import { includeTeamDrivesProp, spreadsheetIdProp } from '../common/props';
-import { google } from 'googleapis';
+import { sheets as googleSheets } from '@googleapis/sheets';
+import { createWorksheetActionOutputSchema } from '../output-schemas';
 
 export const createWorksheetAction = createAction({
   auth: googleSheetsAuth,
   name: 'create-worksheet',
+  classification: 'WRITE',
   displayName: 'Create Worksheet',
   description:'Create a new blank worksheet with a title.',
+  audience: 'human',
+  aiMetadata: {
+    description:
+      'Adds a new worksheet (tab) to an existing spreadsheet, optionally seeding a header row. Use when an agent needs another tab within a spreadsheet. Not idempotent — each call adds a separate worksheet even if a tab with the same title already exists.',
+    idempotent: false,
+  },
   props: {
     includeTeamDrives: includeTeamDrivesProp(),
-    spreadsheetId: spreadsheetIdProp('Spreadsheet',''),
+    spreadsheetId: spreadsheetIdProp('Spreadsheet','The spreadsheet to add the worksheet to.'),
     title:Property.ShortText({
         displayName:'Title',
         description:'The title of the new worksheet.',
@@ -19,15 +27,17 @@ export const createWorksheetAction = createAction({
     }),
     headers:Property.Array({
         displayName:'Headers',
+        description:'Column names to write into the first row.',
         required:false
     })
    
   },
+  outputSchema: createWorksheetActionOutputSchema,
   async run(context){
     const {spreadsheetId,title} = context.propsValue;
     const headers = context.propsValue.headers as string[] ?? [];
 	const client = await createGoogleClient(context.auth);
-    const sheetsApi = google.sheets({ version: 'v4', auth: client });
+    const sheetsApi = googleSheets({ version: 'v4', auth: client });
     const sheet = await sheetsApi.spreadsheets.batchUpdate({
         spreadsheetId:spreadsheetId,
         requestBody:{

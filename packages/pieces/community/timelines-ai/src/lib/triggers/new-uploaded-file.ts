@@ -31,8 +31,12 @@ const polling: Polling<
 export const newUploadedFile = createTrigger({
   auth: timelinesAiAuth,
   name: 'newUploadedFile',
+  classification: 'READ',
   displayName: 'New Uploaded File',
   description: 'Fires when a new file is uploaded in a chat.',
+  aiMetadata: {
+    description: 'Fires when a new file is uploaded to TimelinesAI. Polls the uploaded-files list and emits each newly added file as it appears.',
+  },
   props: {},
   sampleData: {},
   type: TriggerStrategy.POLLING,

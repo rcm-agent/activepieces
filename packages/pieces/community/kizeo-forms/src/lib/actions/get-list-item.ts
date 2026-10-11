@@ -7,8 +7,11 @@ export const getListItem = createAction({
   auth: kizeoFormsAuth,
 
   name: 'get_list_item',
+  classification: 'READ',
   displayName: 'Get List Item',
   description: 'Get a specific item from a list',
+  audience: 'both',
+  aiMetadata: { description: 'Retrieve a single item from a Kizeo Forms external list by its list ID and item ID. Use when you already know the item ID and need that one record; to search or browse a list use Get All List Items instead. Read-only and idempotent.', idempotent: true },
   props: {
     listId: kizeoFormsCommon.listId,
     itemId: Property.ShortText({

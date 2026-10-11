@@ -1,10 +1,5 @@
-import {
-  ApEdition,
-  ApFlagId,
-  isNil,
-  Permission,
-  PlatformRole,
-} from '@activepieces/shared';
+import { isNil, Permission } from '@activepieces/core-utils';
+import { ApEdition, ApFlagId, PlatformRole } from '@activepieces/shared';
 import { useQuery } from '@tanstack/react-query';
 
 import { authenticationApi } from '@/api/authentication-api';
@@ -13,17 +8,18 @@ import { flagsHooks } from '@/hooks/flags-hooks';
 import { userHooks } from '@/hooks/user-hooks';
 import { authenticationSession } from '@/lib/authentication-session';
 
-export const useAuthorization = () => {
+export const useAuthorization = (projectId?: string) => {
   const { data: edition } = flagsHooks.useFlag(ApFlagId.EDITION);
 
   const platformId = authenticationSession.getPlatformId();
+  const scopedProjectId = projectId ?? authenticationSession.getProjectId();
   const { data: projectRole, isLoading } = useQuery({
-    queryKey: ['project-role', authenticationSession.getProjectId()],
+    queryKey: ['project-role', scopedProjectId],
     queryFn: async () => {
       const platform = await platformApi.getCurrentPlatform();
       if (platform.plan.projectRolesEnabled) {
         const projectRole = await authenticationApi.getCurrentProjectRole({
-          projectId: authenticationSession.getProjectId() ?? '',
+          projectId: scopedProjectId ?? '',
         });
         return projectRole;
       }
@@ -48,4 +44,12 @@ export const useAuthorization = () => {
 export const useIsPlatformAdmin = () => {
   const platformRole = userHooks.getCurrentUserPlatformRole();
   return platformRole === PlatformRole.ADMIN;
+};
+
+export const useIsPlatformPrivileged = () => {
+  const platformRole = userHooks.getCurrentUserPlatformRole();
+  return (
+    platformRole === PlatformRole.ADMIN ||
+    platformRole === PlatformRole.OPERATOR
+  );
 };

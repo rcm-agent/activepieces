@@ -24,8 +24,14 @@ function toContextArray(result: unknown): SessionContext[] {
 export const listContexts = createAction({
   auth: hedyAuth,
   name: 'list-contexts',
+  classification: 'SEARCH',
   displayName: 'List Session Contexts',
   description: 'Retrieve all session contexts.',
+  audience: 'both',
+  aiMetadata: {
+    description: 'List all Hedy session contexts in the account. Use to discover contexts or find a context ID before getting, updating, or deleting one. Set Return All to fetch everything, otherwise results are capped by the limit. Read-only and idempotent.',
+    idempotent: true,
+  },
   props: {
     returnAll: commonProps.returnAll,
     limit: commonProps.limit,

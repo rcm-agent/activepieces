@@ -4,8 +4,14 @@ import { humeAiAuth } from '../common/auth';
 
 export const createVoice = createAction({
   name: 'create_voice',
+  classification: 'WRITE',
   displayName: 'Create Voice',
   description: 'Save a custom voice to your account using a TTS generation ID',
+  audience: 'both',
+  aiMetadata: {
+    description: 'Save a reusable custom voice in your Hume AI account from a prior TTS generation ID, under a chosen name. Use after generating speech you want to persist and reuse in later synthesis calls. Requires a valid generation ID from an earlier Generate Text to Speech result; creates a new voice resource on each call (not idempotent).',
+    idempotent: false,
+  },
   auth: humeAiAuth,
   props: {
     generationId: Property.ShortText({

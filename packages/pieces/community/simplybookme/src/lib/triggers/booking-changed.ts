@@ -5,8 +5,12 @@ import { simplybookAuth } from '../common';
 export const bookingChanged = createTrigger({
   auth: simplybookAuth,
   name: 'booking_changed',
+  classification: 'READ',
   displayName: 'Booking Change',
   description: 'Triggers when a booking is changed in SimplyBook.me',
+  aiMetadata: {
+    description: 'Fires when an existing booking is modified in SimplyBook.me (the platform webhook with notification_type "change"), such as a rescheduled time, reassigned provider, or other edited appointment details.',
+  },
   type: TriggerStrategy.WEBHOOK,
   props: {},
   async onEnable(context) {

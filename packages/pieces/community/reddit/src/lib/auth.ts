@@ -1,5 +1,5 @@
 import { PieceAuth, OAuth2AuthorizationMethod } from '@activepieces/pieces-framework';
-import { OAuth2GrantType } from '@activepieces/shared';
+import { OAuth2GrantType } from '@activepieces/pieces-framework';
 
 const markdown = `
 To obtain your Reddit API credentials:
@@ -21,10 +21,11 @@ export const redditAuth = PieceAuth.OAuth2({
   authUrl: 'https://www.reddit.com/api/v1/authorize',
   tokenUrl: 'https://www.reddit.com/api/v1/access_token',
   required: true,
-  scope: ['identity', 'read', 'submit', 'edit', 'history', 'flair'],
+  scope: ['identity', 'read', 'submit', 'edit', 'history', 'flair', 'save', 'report', 'subscribe', 'privatemessages', 'mysubreddits', 'wikiread'],
   authorizationMethod: OAuth2AuthorizationMethod.HEADER,
   extra: {
     grantType: OAuth2GrantType.AUTHORIZATION_CODE,
-    responseType: 'code'
+    responseType: 'code',
+    duration: 'permanent'
   }
 });

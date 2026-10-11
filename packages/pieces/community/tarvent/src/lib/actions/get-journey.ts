@@ -5,8 +5,11 @@ import { makeClient } from '../common';
 export const getJourney = createAction({
   auth: tarventAuth,
   name: 'tarvent_get_journey',
+  classification: 'SEARCH',
   displayName: 'Find Journey',
   description: 'Finds a journey by name, status or tags.',
+  audience: 'both',
+  aiMetadata: { description: 'Searches Tarvent automation journeys, optionally filtered by name, comma-separated tags, and/or run status (running or not running); leaving the filters empty returns all journeys. Use to look up a journey or its ID before starting/stopping it or enrolling contacts. Idempotent read-only lookup.', idempotent: true },
   props: {
     name: Property.ShortText({
       displayName: 'Journey name',

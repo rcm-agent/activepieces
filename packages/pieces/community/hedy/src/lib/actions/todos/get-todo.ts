@@ -9,8 +9,14 @@ import { assertIdPrefix } from '../../common/validation';
 export const getTodo = createAction({
   auth: hedyAuth,
   name: 'get-todo',
+  classification: 'READ',
   displayName: 'Get Todo',
   description: 'Retrieve a specific todo by ID.',
+  audience: 'both',
+  aiMetadata: {
+    description: 'Fetch a single todo from a Hedy session by its ID. Requires both the owning session ID (prefixed "sess_") and the todo ID. Read-only and idempotent.',
+    idempotent: true,
+  },
   props: {
     sessionId: commonProps.sessionId,
     todoId: commonProps.todoId,

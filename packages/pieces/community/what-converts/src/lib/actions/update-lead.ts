@@ -6,8 +6,11 @@ import { whatConvertsProps } from '../common/props';
 export const updateLeadAction = createAction({
   auth: whatConvertsAuth,
   name: 'update_lead',
+  classification: 'WRITE',
   displayName: 'Update Lead',
   description: "Update an existing lead's attributes by its ID.",
+  audience: 'both',
+  aiMetadata: { description: "Updates an existing WhatConverts lead identified by its lead ID, changing fields such as lead type, quotable status, sales value, contact details, and attribution. Use when an agent needs to enrich or correct a known lead. Only provided fields are changed; requires the lead ID. Idempotent — re-sending the same field values leaves the lead in the same state.", idempotent: true },
   props: {
     account_id: whatConvertsProps.account_id(),
     profile_id: whatConvertsProps.profile_id(true),

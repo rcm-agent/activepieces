@@ -7,8 +7,15 @@ import { workspaceId } from '../common/props';
 export const stopTimerAction = createAction({
 	auth: clockifyAuth,
 	name: 'stop-timer',
+	classification: 'WRITE',
 	displayName: 'Stop Timer',
 	description: 'Stops currently running timer on specified workspace.',
+	audience: 'both',
+	aiMetadata: {
+		description:
+			"Stops the authenticated user's currently running timer on the given workspace by setting its end time to now. Use after Start Timer to finalize tracked work. Not idempotent in effect: if no timer is running there is nothing to stop, and the stopped time depends on when it is called.",
+		idempotent: false,
+	},
 	props: {
 		workspaceId: workspaceId({
 			displayName: 'Workspace',

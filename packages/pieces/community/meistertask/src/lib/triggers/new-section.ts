@@ -42,8 +42,12 @@ const newSectionPolling: Polling<
 export const newSection = createTrigger({
   auth: meistertaskAuth,
   name: 'new_section',
+  classification: 'READ',
   displayName: 'New Section',
   description: 'Triggers when a new section is created.',
+  aiMetadata: {
+    description: 'Fires when a new section (board column) is created in MeisterTask. Represents a newly added grouping that tasks can belong to.',
+  },
   props: {
   },
   sampleData: {

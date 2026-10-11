@@ -3,6 +3,7 @@ import { DedupeStrategy, Polling, pollingHelper } from '@activepieces/pieces-com
 import { microsoftToDoAuth } from '../auth';
 import { TodoTaskList } from '@microsoft/microsoft-graph-types';
 import { createTodoClient } from '../common';
+import { taskListOutputSchema } from '../output-schemas';
 
 const polling: Polling<AppConnectionValueForAuthProperty<typeof microsoftToDoAuth>, Record<string, never>> = {
     strategy: DedupeStrategy.LAST_ITEM,
@@ -22,8 +23,13 @@ const polling: Polling<AppConnectionValueForAuthProperty<typeof microsoftToDoAut
 export const newListCreatedTrigger = createTrigger({
     auth: microsoftToDoAuth,
     name: 'new_list_created',
+    outputSchema: taskListOutputSchema,
+    classification: 'READ',
     displayName: 'New List',
     description: 'Triggers when a new task list is created.',
+    aiMetadata: {
+        description: 'Fires when a new task list is created in the authenticated user\'s Microsoft To Do account. Each event represents one newly added task list; watches all of the user\'s lists rather than a single one.',
+    },
     props: {},
     type: TriggerStrategy.POLLING,
     sampleData: {

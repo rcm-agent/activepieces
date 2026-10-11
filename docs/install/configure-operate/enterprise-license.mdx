@@ -1,0 +1,56 @@
+---
+title: "Activate an Enterprise License Key"
+sidebarTitle: "License key"
+description: "Unlock paid features on your self-hosted instance"
+icon: "key"
+---
+
+Activepieces runs on the free plan by default. Every plan on the [pricing page](https://www.activepieces.com/pricing) is available self-hosted.
+
+<Note>
+**Upgrading to Plus or Team? You don't need this page.** Subscribe from inside the app and your plan applies automatically, with no key to enter.
+</Note>
+
+This page is for **custom and enterprise plans**. [Talk to us](https://www.activepieces.com/sales) and we'll send your license key once the agreement is in place.
+
+## Features on paid plans
+
+Your key activates whichever of these your plan includes.
+
+<CardGroup cols={2}>
+  <Card title="Teams and access" icon="users">
+    - Projects and multi-tenancy
+    - SSO
+    - Standard and custom roles
+    - SCIM user provisioning
+  </Card>
+  <Card title="Governance" icon="shield-check">
+    - Audit logs
+    - Secret managers
+    - Piece management
+  </Card>
+  <Card title="Operations" icon="screwdriver-wrench">
+    - Releases and Git Sync
+    - Worker groups
+    - Global connections
+  </Card>
+  <Card title="Branding and embedding" icon="frame">
+    - Embeddable builder and JavaScript SDK
+    - Custom branding and domains
+    - Template management
+  </Card>
+</CardGroup>
+
+## How to activate a license key
+
+Open **Platform Admin → Account → Billing & subscription**, scroll to **Have a custom plan?**, and click **Activate license key**. Paste your key and save. No restart needed, and your flows and data stay as they are.
+
+<Frame>
+  <img src="/resources/screenshots/activation-license-key-settings.webp" alt="Activating a license key from Billing and subscription" />
+</Frame>
+
+## Billing page not showing
+
+The page appears when your instance runs the Enterprise edition. [Self host (Docker)](/install/options/docker-compose) and [Kubernetes](/install/options/helm) set that up for you. If you installed another way, follow either guide to switch.
+
+Installs on an embedded database, including [Hobby (Docker)](/install/options/docker), cannot run Enterprise at all.

@@ -6,8 +6,14 @@ import { createGraphClient, withGraphRetry } from '../common/graph';
 export const createPrivateChannelAction = createAction({
 	auth: microsoftTeamsAuth,
 	name: 'microsoft_teams_create_private_channel',
+	classification: 'WRITE',
 	displayName: 'Create Private Channel',
 	description: 'Create a new private channel in a team.',
+	audience: 'both',
+	aiMetadata: {
+		description: 'Creates a new private (membership-restricted) channel inside a Microsoft Teams team, identified by team ID, with a display name and optional description. Use when access should be limited to specific members; for a standard open channel use Create Channel instead. Not idempotent — each call adds another channel.',
+		idempotent: false,
+	},
 	props: {
 		teamId: microsoftTeamsCommon.teamId,
 		channelDisplayName: Property.ShortText({

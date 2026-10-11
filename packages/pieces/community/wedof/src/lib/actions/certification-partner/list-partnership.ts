@@ -6,8 +6,15 @@ import { wedofCommon } from '../../common/wedof';
 export const listPartnerships = createAction({
   auth: wedofAuth,
   name: 'listPartnerships',
+  classification: 'SEARCH',
   displayName: "Lister les partenariats",
   description: "Récupère l'ensemble des partenariats d'une certification",
+  audience: 'both',
+  aiMetadata: {
+    description:
+      "List the training-organization partnerships of a Wedof certification, with filters for certifier SIRET, access state, compliance, connection issues, free-text query, plus sorting and pagination. Pick this to discover partners or find a partnership's SIRET for a certification. Read-only and idempotent. Requires the certification's certifInfo.",
+    idempotent: true,
+  },
   props: {
     certifInfo: Property.ShortText({
       displayName: 'N° certifInfo',

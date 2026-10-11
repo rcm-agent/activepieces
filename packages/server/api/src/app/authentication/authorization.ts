@@ -1,25 +1,7 @@
-import {
-    ActivepiecesError,
-    ErrorCode,
-    isNil,
-    isObject,
-    PrincipalType,
-} from '@activepieces/shared'
+import { ActivepiecesError, ErrorCode, isNil, isObject } from '@activepieces/core-utils'
+import { PrincipalType } from '@activepieces/shared'
 import { preSerializationHookHandler } from 'fastify'
 
-export function extractResourceName(url: string): string | undefined {
-    const urlPath = url.split('?')[0]
-    const resourceRegex = /\/v1\/(.+?)(\/|$)/
-    const resourceMatch = urlPath.match(resourceRegex)
-    const resource = resourceMatch ? resourceMatch[1] : undefined
-    return resource
-}
-
-/**
- * Throws an authz error if response entities contain a `projectId` property and
- * the `projectId` property value does not match the principal's `projectId`.
- * Otherwise, does nothing.
- */
 export const entitiesMustBeOwnedByCurrentProject: preSerializationHookHandler<Payload | null> = (request, _response, payload, done) => {
     request.log.trace(
         { payload, principal: request.principal, route: request.routeOptions.config },

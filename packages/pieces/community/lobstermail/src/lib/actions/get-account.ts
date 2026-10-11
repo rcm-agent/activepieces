@@ -10,8 +10,11 @@ import { lobstermailAuth } from '../..';
 export const getAccount = createAction({
   auth: lobstermailAuth,
   name: 'get_account',
+  classification: 'READ',
   displayName: 'Get Account',
   description: 'Get account details including subscription tier, usage, and sending limits.',
+  audience: 'both',
+  aiMetadata: { description: 'Returns the authenticated LobsterMail account profile: subscription tier, verification status, current usage, and sending/inbox limits. Use to check capabilities or remaining quota before creating inboxes or sending mail. Takes no input. Read-only and idempotent.', idempotent: true },
   props: {},
   async run(context) {
     const response = await httpClient.sendRequest<{

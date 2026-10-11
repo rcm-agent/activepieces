@@ -7,8 +7,11 @@ import { Client } from '@microsoft/microsoft-graph-client';
 export const createNoteInSection = createAction({
 	auth: oneNoteAuth,
 	name: 'create_note_in_section',
+	classification: 'WRITE',
 	displayName: 'Create Note in Section',
 	description: 'Create a new note in a specific section with title and content.',
+	audience: 'both',
+	aiMetadata: { description: 'Creates a new OneNote page (note) in a chosen notebook section with a title and optional HTML body content. Use when adding a fresh note; content accepts basic HTML tags. Not idempotent: each call creates a new page even with identical input.', idempotent: false },
 	props: {
 		notebook_id: Property.Dropdown({
 			auth: oneNoteAuth,

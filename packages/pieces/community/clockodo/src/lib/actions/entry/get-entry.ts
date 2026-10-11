@@ -5,8 +5,15 @@ import { clockodoAuth } from '../../auth';
 export default createAction({
   auth: clockodoAuth,
   name: 'get_entry',
+  classification: 'READ',
   displayName: 'Get Entry',
   description: 'Retrieves a single entry from clockodo',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Fetches one clockodo time-record entry by its numeric entry_id and returns that entry. Use to read the current details of a known entry before updating or deleting it; to find entries by date range or customer instead, use Get Entries. Read-only and idempotent.',
+    idempotent: true,
+  },
   props: {
     entry_id: Property.Number({
       displayName: 'Entry ID',

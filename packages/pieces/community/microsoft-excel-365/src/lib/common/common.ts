@@ -6,7 +6,7 @@ import {
 	HttpRequest,
 } from '@activepieces/pieces-common';
 import { getGraphBaseUrl } from './microsoft-cloud';
-import { isNil } from '@activepieces/shared';
+import { isNil } from '@activepieces/pieces-framework';
 import { excelAuth } from '../auth';
 import { getDrivePath } from './helpers';
 
@@ -337,9 +337,12 @@ export const excelCommon = {
 		worksheetId: string,
 		accessToken: string,
 		drivePath?: string,
-		cloud?: string | null
+		cloudProp?: unknown
 	): Promise<(string | number | boolean)[][]> {
-		const basePath = drivePath || excelCommon.getBaseUrl(cloud);
+		const cloud = typeof cloudProp === 'string' ? cloudProp : undefined;
+		const basePath = drivePath
+			? `${getGraphBaseUrl(cloud)}/v1.0${drivePath}`
+			: excelCommon.getBaseUrl(cloud);
 		const response = await httpClient.sendRequest<{
 			values: (string | number | boolean)[][];
 		}>({

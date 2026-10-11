@@ -6,9 +6,16 @@ import { pubrioRequest } from '../common';
 export const searchCompanies = createAction({
   auth: pubrioAuth,
   name: 'search_companies',
+  classification: 'SEARCH',
   displayName: 'Search Companies',
   description:
     'Search B2B companies by name, domain, location, industry, technology, or headcount',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Discover B2B companies matching many optional filters: name, domain, location, industry vertical, technology stack, headcount, revenue, founding year, hiring/job signals, news, and ad activity, with pagination (max 25 per page) and optional similarity search. Read-only and repeatable. Pick this for criteria-based prospecting; use Enrich Company when you already have one company identifier or Lookup Lookalike to find peers of a single seed company.',
+    idempotent: true,
+  },
   props: {
     company_name: Property.ShortText({
       displayName: 'Company Name',

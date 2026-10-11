@@ -1,7 +1,6 @@
 import {
   AppConnectionValueForAuthProperty,
   createTrigger,
-  PiecePropValueSchema,
   TriggerStrategy,
 } from '@activepieces/pieces-framework';
 import {
@@ -100,8 +99,12 @@ const polling: Polling<
 export const twilioNewPhoneNumber = createTrigger({
   auth: twilioAuth,
   name: 'new_phone_number',
+  classification: 'READ',
   displayName: 'New Phone Number',
   description: 'Triggers when you add a new phone number to your account.',
+  aiMetadata: {
+    description: 'Fires when a new phone number is provisioned on the Twilio account. Each event represents one newly added incoming phone number with its capabilities and configuration.',
+  },
   props: {},
   sampleData: {
     sid: 'PNXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
@@ -112,8 +115,8 @@ export const twilioNewPhoneNumber = createTrigger({
     voice_method: 'POST',
     sms_url: 'https://demo.twilio.com/welcome/sms/',
     sms_method: 'POST',
-    date_created: '2025-08-28T11:44:10+00:00',
-    date_updated: '2025-08-28T11:44:10+00:00',
+    date_created: 'Thu, 28 Aug 2025 11:44:10 +0000',
+    date_updated: 'Thu, 28 Aug 2025 11:44:10 +0000',
     capabilities: {
       voice: true,
       sms: true,

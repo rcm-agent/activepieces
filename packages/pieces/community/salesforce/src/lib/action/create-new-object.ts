@@ -6,8 +6,11 @@ import { salesforceAuth } from '../..';
 export const createNewObject = createAction({
   auth: salesforceAuth,
   name: 'create_new_object',
+  classification: 'WRITE',
   displayName: 'Create Object (Advanced)',
   description: 'Create new object',
+  audience: 'both',
+  aiMetadata: { description: 'Advanced variant of record creation: inserts a new Salesforce record for the given object API name from a JSON field map and returns the full raw HTTP response. Prefer Create Record for the common case where you only need the created record body; choose this when you need the complete API response envelope. Not idempotent: each call creates a new record, so re-running produces duplicates.', idempotent: false },
   props: {
     object: salesforcesCommon.object,
     data: Property.Json({

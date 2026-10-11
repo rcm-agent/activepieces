@@ -1,5 +1,11 @@
 import {
   ApErrorParams,
+  isNil,
+  ErrorCode,
+  RequiredActionsMissingErrorParams,
+  SeekPage,
+} from '@activepieces/core-utils';
+import {
   ApFlagId,
   FlowOperationType,
   FlowStatus,
@@ -10,14 +16,16 @@ import {
   PopulatedFlow,
   FlowTrigger,
   FlowTriggerType,
-  isNil,
-  ErrorCode,
-  SeekPage,
   Template,
   UncategorizedFolderId,
   UpdateRunProgressRequest,
 } from '@activepieces/shared';
-import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { t } from 'i18next';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -26,6 +34,7 @@ import { useApErrorDialogStore } from '@/components/custom/ap-error-dialog/ap-er
 import { useSocket } from '@/components/providers/socket-provider';
 import { internalErrorToast } from '@/components/ui/sonner';
 import { flowRunsApi } from '@/features/flow-runs/api/flow-runs-api';
+import { triggerStatusErrorUtils } from '@/features/flows/utils/trigger-status-error';
 import { foldersApi } from '@/features/folders/api/folders-api';
 import { piecesApi } from '@/features/pieces/api/pieces-api';
 import { pieceSelectorUtils } from '@/features/pieces/utils/piece-selector-utils';
@@ -40,7 +49,10 @@ import { NEW_FLOW_QUERY_PARAM } from '@/lib/route-utils';
 import { flowsApi } from '../api/flows-api';
 import { flowsUtils } from '../utils/flows-utils';
 
+import { sampleDataHooks } from './sample-data-hooks';
+
 const createFlowsQueryKey = (projectId: string) => ['flows', projectId];
+const createFlowQueryKeyPrefix = (flowId: string) => ['flow', flowId];
 export const flowHooks = {
   invalidateFlowsQuery: (queryClient: QueryClient) => {
     queryClient.invalidateQueries({
@@ -64,6 +76,7 @@ export const flowHooks = {
     change,
     onSuccess,
     setIsPublishing,
+    onRequiredActionsMissing,
   }: UseChangeFlowStatusParams) => {
     const { data: enableFlowOnPublish } = flagsHooks.useFlag<boolean>(
       ApFlagId.ENABLE_FLOW_ON_PUBLISH,
@@ -72,6 +85,7 @@ export const flowHooks = {
       ApFlagId.TRIGGER_TIMEOUT_SECONDS,
     );
     const { openDialog } = useApErrorDialogStore();
+    const queryClient = useQueryClient();
     return useMutation({
       mutationFn: async () => {
         if (change === 'publish') {
@@ -92,8 +106,11 @@ export const flowHooks = {
           },
         });
       },
-      onSuccess: (flow: PopulatedFlow) => {
+      onSuccess: async (flow: PopulatedFlow) => {
         if (change === 'publish') {
+          await queryClient.refetchQueries({
+            queryKey: ['flow-approval-requests'],
+          });
           setIsPublishing?.(false);
         }
         onSuccess?.(flow);
@@ -121,26 +138,73 @@ export const flowHooks = {
         }
         const apError = error.response.data as ApErrorParams;
         if (apError.code === ErrorCode.TRIGGER_UPDATE_STATUS) {
-          const params = apError.params as Record<string, string>;
+          const params = apError.params;
+          const reportedError = triggerStatusErrorUtils.describeStandardError(
+            params.standardError,
+          );
           openDialog({
             title:
               change === 'publish'
                 ? t('Publish failed')
                 : t('Status update failed'),
             description: (
-              <p>
-                {t(
-                  'An error occurred while changing the flow status. This may be due to an issue in the trigger piece or its settings.',
+              <div className="flex flex-col gap-2">
+                <p>
+                  {t(
+                    'An error occurred while changing the flow status. This may be due to an issue in the trigger piece or its settings.',
+                  )}
+                </p>
+                {reportedError && (
+                  <div className="flex flex-col gap-1 rounded-md bg-gray-3 p-3">
+                    <span className="text-xs font-medium text-gray-11">
+                      {t('The connected app reported')}
+                    </span>
+                    <span className="line-clamp-4 text-sm text-gray-12">
+                      {reportedError}
+                    </span>
+                  </div>
                 )}
-              </p>
+              </div>
             ),
-            error: {
+            error: triggerStatusErrorUtils.parseStandardError(
+              params.standardError,
+            ) ?? {
               standardError: params.standardError || '',
               standardOutput: params.standardOutput || '',
             },
+            technicalDetailsDefaultOpen: isNil(reportedError),
+          });
+        } else if (apError.code === ErrorCode.REQUIRED_ACTIONS_MISSING) {
+          if (onRequiredActionsMissing) {
+            onRequiredActionsMissing(apError.params);
+            return;
+          }
+          toast.error(t('Publish failed'), {
+            description: apError.params.message,
+            duration: 5000,
+          });
+        } else if (apError.code === ErrorCode.QUOTA_EXCEEDED) {
+          toast.error(t('Active flows limit reached'), {
+            description: t(
+              'You have reached the maximum number of active flows. Disable another flow or increase the limit.',
+            ),
+            duration: 5000,
           });
         } else {
-          internalErrorToast();
+          const serverMessage = api.serverErrorMessage(error);
+          if (isNil(serverMessage)) {
+            internalErrorToast();
+            return;
+          }
+          toast.error(
+            change === 'publish'
+              ? t('Publish failed')
+              : t('Status update failed'),
+            {
+              description: serverMessage,
+              duration: 8000,
+            },
+          );
         }
       },
     });
@@ -173,6 +237,9 @@ export const flowHooks = {
             },
           );
         }
+      },
+      onError: () => {
+        toast.error(t('Failed to export flows'));
       },
     });
   },
@@ -251,17 +318,29 @@ export const flowHooks = {
       },
     });
   },
-  useGetFlow: (flowId: string) => {
+  useGetFlow: ({
+    flowId,
+    versionId,
+    enabled = true,
+  }: {
+    flowId: string;
+    versionId?: string;
+    enabled?: boolean;
+  }) => {
     return useQuery({
-      queryKey: ['flow', flowId],
+      queryKey: flowHooks.createFlowQueryKeys({ flowId, versionId }),
       queryFn: async () => {
         try {
-          return await flowsApi.get(flowId);
+          return await flowsApi.get(
+            flowId,
+            versionId ? { versionId } : undefined,
+          );
         } catch (err) {
           console.error(err);
           return null;
         }
       },
+      enabled: enabled && !!flowId,
       staleTime: 0,
     });
   },
@@ -411,9 +490,10 @@ export const flowHooks = {
     return await flowsApi.update(flow.id, {
       type: FlowOperationType.IMPORT_FLOW,
       request: {
-        displayName: templateFlow.displayName,
+        displayName: flow.version.displayName,
         trigger: updatedTrigger,
         schemaVersion: templateFlow.schemaVersion,
+        notes: templateFlow.notes,
       },
     });
   },
@@ -515,6 +595,33 @@ export const flowHooks = {
       onError,
     });
   },
+  createFlowQueryKeys: ({
+    flowId,
+    versionId,
+  }: {
+    flowId: string;
+    versionId: string | undefined;
+  }) => [...createFlowQueryKeyPrefix(flowId), versionId],
+  removeFlowFromCache: ({
+    flowId,
+    queryClient,
+  }: {
+    flowId: string;
+    queryClient: QueryClient;
+  }) => {
+    const flowQueryKeyPrefix = createFlowQueryKeyPrefix(flowId);
+    queryClient
+      .getQueriesData<PopulatedFlow | null>({ queryKey: flowQueryKeyPrefix })
+      .forEach(([, flow]) => {
+        if (!isNil(flow)) {
+          sampleDataHooks.removeSampleData({
+            flowVersionId: flow.version.id,
+            queryClient,
+          });
+        }
+      });
+    queryClient.removeQueries({ queryKey: flowQueryKeyPrefix });
+  },
 };
 
 type UseChangeFlowStatusParams = {
@@ -522,4 +629,7 @@ type UseChangeFlowStatusParams = {
   change: 'publish' | FlowStatus;
   onSuccess: (flow: PopulatedFlow) => void;
   setIsPublishing?: (isPublishing: boolean) => void;
+  onRequiredActionsMissing?: (
+    params: RequiredActionsMissingErrorParams['params'],
+  ) => void;
 };

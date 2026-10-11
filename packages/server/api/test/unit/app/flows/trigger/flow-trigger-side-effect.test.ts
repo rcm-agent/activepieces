@@ -1,21 +1,19 @@
+import { ActivepiecesError, ErrorCode } from '@activepieces/core-utils'
 import { TriggerStrategy } from '@activepieces/pieces-framework'
-import {
-    ActivepiecesError,
-    ApEnvironment,
-    EngineResponseStatus,
-    ErrorCode,
-} from '@activepieces/shared'
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { ApEnvironment, EngineResponseStatus, TriggerSourceScheduleType } from '@activepieces/shared'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 const mockSubmitAndWaitForResponse = vi.fn()
 const mockGetPlatformId = vi.fn().mockResolvedValue('platform-1')
 const mockDeleteListeners = vi.fn()
 const mockRemoveRepeatingJob = vi.fn()
+const mockAddJob = vi.fn()
 
 vi.mock('../../../../../src/app/helper/system/system', () => ({
     system: {
         getOrThrow: vi.fn().mockReturnValue(ApEnvironment.PRODUCTION),
         getNumber: vi.fn().mockReturnValue(5),
+        getNumberOrThrow: vi.fn().mockReturnValue(5),
     },
 }))
 
@@ -34,6 +32,7 @@ vi.mock('../../../../../src/app/workers/user-interaction-watcher', () => ({
 vi.mock('../../../../../src/app/workers/job-queue/job-queue', () => ({
     jobQueue: vi.fn(() => ({
         removeRepeatingJob: mockRemoveRepeatingJob,
+        add: mockAddJob,
     })),
     JobType: { ONE_TIME: 'ONE_TIME', REPEATING: 'REPEATING' },
 }))
@@ -44,6 +43,7 @@ vi.mock('../../../../../src/app/trigger/app-event-routing/app-event-routing.serv
     },
 }))
 
+import { system } from '../../../../../src/app/helper/system/system'
 import { flowTriggerSideEffect } from '../../../../../src/app/trigger/trigger-source/flow-trigger-side-effect'
 
 const mockLog = {
@@ -108,6 +108,74 @@ describe('flowTriggerSideEffect', () => {
         mockGetPlatformId.mockResolvedValue('platform-1')
     })
 
+    describe('enable', () => {
+        it('should default polling schedule to a rolling interval', async () => {
+            mockSubmitAndWaitForResponse.mockResolvedValue(okEngineResponse())
+            const expectedSchedule = {
+                type: TriggerSourceScheduleType.INTERVAL,
+                intervalMs: 5 * 60_000,
+            }
+
+            const result = await flowTriggerSideEffect(mockLog).enable({
+                ...BASE_PARAMS,
+                pieceTrigger: makePollingTrigger(),
+            })
+
+            expect(result.scheduleOptions).toEqual(expectedSchedule)
+            expect(mockAddJob).toHaveBeenCalledWith(expect.objectContaining({
+                scheduleOptions: expectedSchedule,
+            }))
+        })
+
+        it('should honor poll interval overrides that do not divide 60', async () => {
+            mockSubmitAndWaitForResponse.mockResolvedValue(okEngineResponse())
+            vi.mocked(system.getNumberOrThrow).mockReturnValueOnce(45)
+
+            const result = await flowTriggerSideEffect(mockLog).enable({
+                ...BASE_PARAMS,
+                pieceTrigger: makePollingTrigger(),
+            })
+
+            expect(result.scheduleOptions).toEqual({
+                type: TriggerSourceScheduleType.INTERVAL,
+                intervalMs: 45 * 60_000,
+            })
+        })
+
+        it('should throw when the worker skipped the enable hook (OK with undefined response)', async () => {
+            mockSubmitAndWaitForResponse.mockResolvedValue({ ...okEngineResponse(), response: undefined })
+
+            await expect(
+                flowTriggerSideEffect(mockLog).enable({
+                    ...BASE_PARAMS,
+                    pieceTrigger: makePollingTrigger(),
+                }),
+            ).rejects.toThrow(ActivepiecesError)
+
+            expect(mockAddJob).not.toHaveBeenCalled()
+        })
+
+        it('should keep engine-provided schedule options untouched', async () => {
+            const engineSchedule = {
+                type: TriggerSourceScheduleType.CRON_EXPRESSION,
+                cronExpression: '0 12 * * *',
+                timezone: 'UTC',
+            }
+            mockSubmitAndWaitForResponse.mockResolvedValue({
+                status: EngineResponseStatus.OK,
+                response: { scheduleOptions: engineSchedule },
+                error: undefined,
+            })
+
+            const result = await flowTriggerSideEffect(mockLog).enable({
+                ...BASE_PARAMS,
+                pieceTrigger: makePollingTrigger(),
+            })
+
+            expect(result.scheduleOptions).toEqual(engineSchedule)
+        })
+    })
+
     describe('disable', () => {
         it('should complete successfully when engine responds OK', async () => {
             mockSubmitAndWaitForResponse.mockResolvedValue(okEngineResponse())
@@ -141,6 +209,46 @@ describe('flowTriggerSideEffect', () => {
                 pieceTrigger: makeManualTrigger(),
                 ignoreError: true,
             })
+
+            expect(mockLog.warn).toHaveBeenCalledWith(
+                expect.objectContaining({ flow: { id: 'flow-1' }, error: 'Engine failed' }),
+                expect.stringContaining('Ignored error'),
+            )
+        })
+
+        it('should log only the plain message when the ignored engine error carries http details', async () => {
+            const serializedPieceError = JSON.stringify({
+                __apErrorVersion: 1,
+                message: 'Authentication required, not authenticated - You need to authenticate to access this operation.',
+                errorName: '_',
+                status: 401,
+                responseHeaders: { 'set-cookie': 'session=super-secret-value' },
+                requestBody: { apiKey: 'lin_api_should_never_be_logged' },
+                raw: 'Error: Authentication required\n    at j (/usr/src/app/cache/v14/common/node_modules/...)',
+            })
+            mockSubmitAndWaitForResponse.mockResolvedValue({
+                status: EngineResponseStatus.ERROR,
+                response: undefined,
+                error: serializedPieceError,
+            })
+
+            await flowTriggerSideEffect(mockLog).disable({
+                ...BASE_PARAMS,
+                pieceTrigger: makeManualTrigger(),
+                ignoreError: true,
+            })
+
+            expect(mockLog.warn).toHaveBeenCalledWith(
+                {
+                    flow: { id: 'flow-1' },
+                    error: 'Authentication required, not authenticated - You need to authenticate to access this operation.',
+                },
+                expect.stringContaining('Ignored error'),
+            )
+            const logged = JSON.stringify(vi.mocked(mockLog.warn).mock.calls)
+            expect(logged).not.toContain('super-secret-value')
+            expect(logged).not.toContain('lin_api_should_never_be_logged')
+            expect(logged).not.toContain('set-cookie')
         })
 
         it('should throw when submitAndWaitForResponse throws and ignoreError is false', async () => {
@@ -175,7 +283,7 @@ describe('flowTriggerSideEffect', () => {
             })
 
             expect(mockLog.warn).toHaveBeenCalledWith(
-                expect.objectContaining({ flowId: 'flow-1' }),
+                expect.objectContaining({ flow: { id: 'flow-1' } }),
                 expect.stringContaining('Ignored error'),
             )
         })

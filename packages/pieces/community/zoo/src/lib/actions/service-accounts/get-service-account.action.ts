@@ -4,8 +4,11 @@ import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 
 export const getServiceAccountAction = createAction({
   name: 'get_service_account',
+  classification: 'READ',
   displayName: 'Get Service Account',
   description: 'Retrieve details of a specific service account',
+  audience: 'both',
+  aiMetadata: { description: 'Look up one organization service account by its token and return its details. Use when you already have the token; to discover tokens first use the list service accounts action. Read-only and idempotent.', idempotent: true },
   auth: zooAuth,
   // category: 'Service Accounts',
   props: {

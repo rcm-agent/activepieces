@@ -1,27 +1,28 @@
-import { hubspotAuth } from '../auth';
+import { getHubspotAccessToken, hubspotAuth } from '../auth';
 import {
 	createTrigger,
-	PiecePropValueSchema,
 	TriggerStrategy,
 } from '@activepieces/pieces-framework';
 import { standardObjectPropertiesDropdown } from '../common/props';
 import { OBJECT_TYPE, MAX_SEARCH_PAGE_SIZE, MAX_SEARCH_TOTAL_RESULTS } from '../common/constants';
 import { DedupeStrategy, Polling, pollingHelper } from '@activepieces/pieces-common';
-import { chunk, isNil } from '@activepieces/shared';
+import { isNil } from '@activepieces/pieces-framework';
+import { chunk } from '@activepieces/pieces-framework';
 
 import { Client } from '@hubspot/api-client';
 import dayjs from 'dayjs';
 import { FilterOperatorEnum } from '../common/types';
+import { AppConnectionValueForAuthProperty } from '@activepieces/pieces-framework';
 
 type Props = {
 	propertyName?: string | string[];
 };
 
-import { AppConnectionValueForAuthProperty } from '@activepieces/pieces-framework';
+import { crmObjectOutputSchema } from '../output-schemas';
 const polling: Polling<AppConnectionValueForAuthProperty<typeof hubspotAuth>, Props> = {
 	strategy: DedupeStrategy.TIMEBASED,
 	async items({ auth, propsValue, lastFetchEpochMS }) {
-		const client = new Client({ accessToken: auth.access_token, numberOfApiCallRetries: 3 });
+		const client = new Client({ accessToken: getHubspotAccessToken(auth), numberOfApiCallRetries: 3 });
 
 		const propertyToCheck = propsValue.propertyName as string;
 
@@ -125,33 +126,31 @@ const polling: Polling<AppConnectionValueForAuthProperty<typeof hubspotAuth>, Pr
 export const newDealPropertyChangeTrigger = createTrigger({
 	auth: hubspotAuth,
 	name: 'new-deal-property-change',
+	classification: 'READ',
 	displayName: 'New Deal Property Change',
 	description: 'Triggers when a specified property is updated on a deal.',
+	aiMetadata: {
+		description:
+			'Fires when the value of a chosen property changes on a HubSpot deal. Polls the CRM deals API for deals modified since the last check, then inspects each deal\'s property history to confirm the selected property was actually updated, emitting the deal record only when that property\'s most recent change is newer than the last poll. Represents a tracked field (e.g. deal stage, amount, close date) being modified on an existing deal.',
+	},
 	props: {
 		propertyName: standardObjectPropertiesDropdown(
 			{
 				objectType: OBJECT_TYPE.DEAL,
-				displayName: 'Property Name',
+				displayName: 'Property',
 				required: true,
 			},
 			true,
 			true,
 		),
 	},
+	outputSchema: crmObjectOutputSchema,
 	type: TriggerStrategy.POLLING,
 	async onEnable(context) {
-		await pollingHelper.onEnable(polling, {
-			auth: context.auth,
-			store: context.store,
-			propsValue: context.propsValue,
-		});
+		await pollingHelper.onEnable(polling, context);
 	},
 	async onDisable(context) {
-		await pollingHelper.onDisable(polling, {
-			auth: context.auth,
-			store: context.store,
-			propsValue: context.propsValue,
-		});
+		await pollingHelper.onDisable(polling, context);
 	},
 	async test(context) {
 		return await pollingHelper.test(polling, context);

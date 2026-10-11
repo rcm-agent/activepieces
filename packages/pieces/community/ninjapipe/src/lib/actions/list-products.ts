@@ -6,8 +6,11 @@ import { ninjapipeApiCall, extractItems, flattenArray, getAuth, ninjapipeCommon 
 export const listProducts = createAction({
   auth: ninjapipeAuth,
   name: 'list_products',
+  classification: 'SEARCH',
   displayName: 'List Products',
   description: 'Retrieves a list of products.',
+  audience: 'both',
+  aiMetadata: { description: 'List products with optional search text. Read-only; supports single-page paging or "Return All" to follow pagination across every page. Use to discover product IDs or look up a product by name.', idempotent: true },
   props: {
     limit: ninjapipeCommon.limitProperty,
     search: ninjapipeCommon.searchProperty,

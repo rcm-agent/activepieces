@@ -6,9 +6,16 @@ import { wedofCommon } from '../../common/wedof';
 export const createPartnership = createAction({
   auth: wedofAuth,
   name: 'createPartnership',
+  classification: 'WRITE',
   displayName: "Créer un partenariat",
   description: "Permet de créer un nouveau partenariat avec le SIRET fourni",
-  
+  audience: 'both',
+  aiMetadata: {
+    description:
+      "Create a new partnership between a Wedof certification and a training organization identified by its SIRET. Pick this to request/establish a partner relationship; use update-partnership to modify an existing one. Requires the certification's certifInfo and the partner's SIRET, and is not idempotent.",
+    idempotent: false,
+  },
+
   props: {
     certifInfo: Property.ShortText({
           displayName: 'N° certifInfo',

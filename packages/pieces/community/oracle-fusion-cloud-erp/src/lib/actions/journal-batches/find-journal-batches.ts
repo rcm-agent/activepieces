@@ -5,8 +5,11 @@ import { makeClient } from '../../common/client';
 export const findJournalBatches = createAction({
     auth: oracleFusionCloudErpAuth,
     name: 'find_journal_batches',
+    classification: 'SEARCH',
     displayName: 'Find Journal Batches',
     description: 'Search for journal batches with optional filters.',
+    audience: 'both',
+    aiMetadata: { description: 'List or search general-ledger journal batches, optionally filtering by batch name, status (unposted/posted/error), period, journal source, or creator, with limit/offset paging (default 25, max 500). Read-only and idempotent. Use to discover batches or resolve a JeBatchId before fetching or updating a specific batch.', idempotent: true },
     props: {
         batchName: Property.ShortText({
             displayName: 'Batch Name',

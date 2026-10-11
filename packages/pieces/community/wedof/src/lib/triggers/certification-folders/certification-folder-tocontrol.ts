@@ -5,9 +5,14 @@ import { wedofCommon } from '../../common/wedof';
 export const certificationFolderToControl = createTrigger({
   auth: wedofAuth,
   name: 'certificationFolderToControl',
+  classification: 'READ',
   displayName: 'Dossier de certification à contrôler',
   description:
     "Se déclenche lorsqu'un dossier de certification passe à controler",
+  aiMetadata: {
+    description:
+      "Fires when a Wedof certification folder (dossier de certification) transitions to the 'to control' (à contrôler) state, meaning it is awaiting review or verification. Emits the full certification-folder record.",
+  },
   props: {},
   sampleData: {
     attendeeLink: 'https://test.wedof.fr/candidat-1234-123456789',

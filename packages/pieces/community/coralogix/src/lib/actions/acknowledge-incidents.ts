@@ -6,8 +6,11 @@ import { makeRequest } from '../common/client';
 export const acknowledgeIncidents = createAction({
   auth: coralogixAuth,
   name: 'acknowledgeIncidents',
+  classification: 'WRITE',
   displayName: 'Acknowledge Incidents',
   description: 'Acknowledge one or more Coralogix incidents by incident ID.',
+  audience: 'both',
+  aiMetadata: { description: 'Marks one or more Coralogix incidents as acknowledged, given a list of incident IDs. Use when an operator has seen an incident and is taking ownership. Idempotent: re-acknowledging already-acknowledged incidents leaves them in the same state.', idempotent: true },
   requireAuth: true,
   props: {
     incidentIds: Property.Array({

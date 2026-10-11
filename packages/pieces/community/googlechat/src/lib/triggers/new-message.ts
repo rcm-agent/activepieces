@@ -7,8 +7,12 @@ import { googleChatAPIService } from '../common/requests';
 export const newMessage = createTrigger({
   auth: googleChatApiAuth,
   name: 'newMessage',
+  classification: 'READ',
   displayName: 'New Message',
   description: 'Triggers when a new message is received in Google Chat.',
+  aiMetadata: {
+    description: 'Fires when a new message is posted in Google Chat, delivered via a Pub/Sub webhook subscription. Scope it to a single space, or leave the space unset to listen across all spaces the app can access.',
+  },
   props: {
     projectId: projectsDropdown(['auth']),
     spaceId: spacesDropdown({ refreshers: ['auth'] }),

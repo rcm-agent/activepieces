@@ -5,8 +5,11 @@ import { matrixAuth } from '../..';
 export const sendMessage = createAction({
   auth: matrixAuth,
   name: 'send_message',
+  classification: 'WRITE',
   displayName: 'Send Message',
   description: 'Send a message to a room',
+  audience: 'both',
+  aiMetadata: { description: 'Posts a markdown message to a Matrix room, resolving the room alias to its internal room ID first. Use to deliver chat notifications or updates to a Matrix/Element channel. Requires the room alias (from room settings -> advanced -> room addresses -> main address); not idempotent, as each call posts a new message.', idempotent: false },
   props: {
     room_alias: Property.ShortText({
       displayName: 'Room Alias',

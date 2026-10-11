@@ -1,33 +1,35 @@
-import { isNil, McpToolDefinition } from '@activepieces/shared'
+import { isNil } from '@activepieces/core-utils'
+import { McpToolDefinition } from '@activepieces/shared'
 import { FastifyBaseLogger } from 'fastify'
 import { z } from 'zod'
-import { projectService } from '../../project/project-service'
-import { userService } from '../../user/user-service'
-import { mcpProjectSelection } from '../mcp-project-selection'
+import { mcpAccess } from '../mcp-access'
+import { mcpProjectSelection, ProjectSelectionScope } from '../mcp-project-selection'
 
-export const apSetProjectContextTool = ({ platformId, userId, log }: {
+export const apSetProjectContextTool = ({ platformId, userId, selectionScope, log }: {
     platformId: string
     userId: string
+    selectionScope: ProjectSelectionScope
     log: FastifyBaseLogger
 }): McpToolDefinition => ({
-    title: 'ap_set_project_context',
+    title: SET_PROJECT_CONTEXT_TOOL_NAME,
     description: 'Set or clear the active project context. All tools require a project context to operate. Call with a projectId to select a project, or without to clear the selection. Always returns the list of available projects.',
     inputSchema: {
         projectId: z.string().optional().describe('The project ID to select. Omit to clear the current selection and list available projects.'),
     },
     annotations: {
         readOnlyHint: false,
+        destructiveHint: false,
+        openWorldHint: false,
         idempotentHint: true,
     },
     execute: async (args: Record<string, unknown>) => {
         const projectId = args.projectId as string | undefined
 
-        const user = await userService(log).getOneOrFail({ id: userId })
-        const projects = await projectService(log).getAllForUser({
-            platformId,
-            userId,
-            isPrivileged: userService(log).isUserPrivileged(user),
-        })
+        const projects = await mcpAccess.listAccessibleProjects({ platformId, userId, log })
+
+        if (projects.length === 0) {
+            return mcpAccess.noMcpReachResult(SET_PROJECT_CONTEXT_TOOL_NAME)
+        }
 
         if (!isNil(projectId) && projectId !== '') {
             const targetProject = projects.find(p => p.id === projectId)
@@ -40,7 +42,7 @@ export const apSetProjectContextTool = ({ platformId, userId, log }: {
                     }],
                 }
             }
-            mcpProjectSelection.set({ platformId, userId, projectId })
+            await mcpProjectSelection.set({ scope: selectionScope, projectId })
             const projectList = projects.map(p => {
                 const marker = p.id === projectId ? '>' : ' '
                 return `${marker} ${p.displayName} (${p.id})`
@@ -53,7 +55,7 @@ export const apSetProjectContextTool = ({ platformId, userId, log }: {
             }
         }
 
-        mcpProjectSelection.clear({ platformId, userId })
+        await mcpProjectSelection.clear(selectionScope)
         const projectList = projects.map(p => `- ${p.displayName} (${p.id})`).join('\n')
         return {
             content: [{
@@ -63,3 +65,5 @@ export const apSetProjectContextTool = ({ platformId, userId, log }: {
         }
     },
 })
+
+export const SET_PROJECT_CONTEXT_TOOL_NAME = 'ap_set_project_context'

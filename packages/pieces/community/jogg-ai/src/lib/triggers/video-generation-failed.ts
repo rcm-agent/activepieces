@@ -8,8 +8,13 @@ interface WebhookInfo {
 
 export const videoGenerationFailed = createTrigger({
   name: 'videoGenerationFailed',
+  classification: 'READ',
   displayName: 'Video Generation Failed',
   description: 'Fires when video generation fails',
+  aiMetadata: {
+    description:
+      'Fires when a JoggAI video generation job fails, delivering the affected project_id and an error message. Use to detect and handle failed avatar or template video generations.',
+  },
   auth: joggAiAuth,
   type: TriggerStrategy.WEBHOOK,
   props: {},

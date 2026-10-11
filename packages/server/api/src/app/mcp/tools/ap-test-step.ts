@@ -1,4 +1,5 @@
-import { McpToolDefinition, Permission, ProjectScopedMcpServer } from '@activepieces/shared'
+import { Permission } from '@activepieces/core-utils'
+import { McpToolContext, McpToolDefinition } from '@activepieces/shared'
 import { FastifyBaseLogger } from 'fastify'
 import { z } from 'zod'
 import { executeFlowTest } from './flow-run-utils'
@@ -11,20 +12,20 @@ const testStepInput = z.object({
     triggerTestData: z.record(z.string(), z.unknown()).optional().describe('Mock trigger output data. Saved as sample data before running the test. Useful when the trigger has no prior test data.'),
 })
 
-export const apTestStepTool = (mcp: ProjectScopedMcpServer, log: FastifyBaseLogger): McpToolDefinition => {
+export const apTestStepTool = ({ mcp, userId }: McpToolContext, log: FastifyBaseLogger): McpToolDefinition => {
     return {
         title: 'ap_test_step',
         permission: Permission.WRITE_FLOW,
         description: 'Test a single step within a flow. Runs all steps up to and including the specified step. The flow must have a configured trigger. Pass triggerTestData when no sample data exists.',
         inputSchema: testStepInput.shape,
-        annotations: { destructiveHint: false, idempotentHint: false, openWorldHint: true },
+        annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: true },
         execute: async (args) => {
             try {
                 const { flowId, stepName, triggerTestData } = testStepInput.parse(args)
-                return await executeFlowTest({ flowId, projectId: mcp.projectId, stepName, triggerTestData, log })
+                return await executeFlowTest({ userId, flowId, projectId: mcp.projectId, stepName, triggerTestData, log })
             }
             catch (err) {
-                log.error({ err, projectId: mcp.projectId }, 'ap_test_step failed')
+                log.error({ error: err, project: { id: mcp.projectId } }, 'ap_test_step failed')
                 return mcpUtils.mcpToolError('Failed to test step', err)
             }
         },

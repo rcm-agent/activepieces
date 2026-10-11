@@ -26,8 +26,15 @@ function mapFieldNames(
 export const getIssueAction = createAction({
 	auth: jiraDataCenterAuth,
 	name: 'get_issue',
+	classification: 'READ',
 	displayName: 'Get Issue',
 	description: 'Get issue data.',
+	audience: 'both',
+	aiMetadata: {
+		description:
+			'Retrieves the full data for a single Jira Data Center/Server issue by ID or key. Use to read an issue\'s fields, status, comments, or changelog; optional expand selections (rendered fields, names, schema, transitions, edit-meta, changelog) and human-readable field/transition name mapping can enrich the result. Read-only and idempotent.',
+		idempotent: true,
+	},
 	props: {
 		projectId: getProjectIdDropdown(),
 		issueId: getIssueIdDropdown({ refreshers: ['projectId'] }),

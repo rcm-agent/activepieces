@@ -5,8 +5,14 @@ import { insightoAuth } from '../..';
 
 export const createCampaignAction = createAction({
   name: 'create_campaign',
+  classification: 'WRITE',
   displayName: 'Create Campaign',
   description: 'Create a new outbound call campaign',
+  audience: 'both',
+  aiMetadata: {
+    description: 'Creates a new scheduled outbound-call campaign in Insighto.ai, configured with a start time, repeat interval, and optional widget, weekday/time-window scheduling, status, and time zone. Use when an agent should set up an automated calling campaign. Not idempotent: each call creates a separate campaign.',
+    idempotent: false,
+  },
   auth: insightoAuth,
   props: {
     name: Property.ShortText({

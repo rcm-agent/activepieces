@@ -7,9 +7,12 @@ import { foreplayCoAuth } from '../..';
 
 export const getAdsByPage = createAction({
   name: 'getAdsByPage',
+  classification: 'SEARCH',
   displayName: 'Get Ads by Page',
   description:
     'Get all ads for a Facebook Page ID with filtering and pagination.',
+  audience: 'both',
+  aiMetadata: { description: 'List the ads run by a specific advertiser, keyed by their Facebook Page ID, with optional filters (date range, platform, format, niche, market, language, live-only) and cursor pagination. Use when you want every ad from one known page rather than a free-text search across all advertisers. Requires the Facebook Page ID; read-only, so repeating the call is safe.', idempotent: true },
   props: getAdsByPageProperties(),
   auth: foreplayCoAuth,
   async run({ auth, propsValue }) {

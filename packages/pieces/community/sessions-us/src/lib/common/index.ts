@@ -1,5 +1,6 @@
 import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 import {
+  AiMetadata,
   createTrigger,
   Property,
   Trigger,
@@ -130,8 +131,10 @@ export function createSessionsUsWebhookTrigger(
   return createTrigger({
     auth: sessionAuth,
     name: data.name,
+    classification: 'READ',
     displayName: data.displayName,
     description: data.description,
+    aiMetadata: data.aiMetadata,
     type: TriggerStrategy.WEBHOOK,
     sampleData: data.sampleData ?? {},
     props: {
@@ -168,6 +171,7 @@ export interface CreateWebhookTriggerDto {
   name: string;
   displayName: string;
   description: string;
+  aiMetadata?: AiMetadata;
   sampleData?: unknown;
   trigger: SessionsUsWebhookTrigger;
   storeKey: string;

@@ -8,8 +8,13 @@ import {
 export const newFormResult = createTrigger({
   auth: formsiteAuth,
   name: 'newFormResult',
+  classification: 'READ',
   displayName: 'New Form Result',
   description: 'Trigger when a new form result is submitted',
+  aiMetadata: {
+    description:
+      'Fires when a form submission is received via the configured Formsite Server Post webhook. Represents a single completed form result, including submission metadata (status, start/finish timestamps, user IP, browser, OS, device) and the answered form items.',
+  },
   props: {
     instruction: Property.MarkDown({
       value: `

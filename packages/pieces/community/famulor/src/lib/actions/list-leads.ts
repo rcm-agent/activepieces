@@ -6,8 +6,15 @@ import { famulorCommon } from '../common';
 export const listLeads = createAction({
   auth: famulorAuth,
   name: 'listLeads',
+  classification: 'SEARCH',
   displayName: 'List Leads',
   description: 'List all leads in your account.',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Retrieve all leads in the account. Use to enumerate leads or to find a lead\'s ID before updating or assigning it. Read-only and idempotent.',
+    idempotent: true,
+  },
   props: famulorCommon.listLeadsProperties(),
   async run({ auth, propsValue }) {
     await propsValidation.validateZod(propsValue, famulorCommon.listLeadsSchema);

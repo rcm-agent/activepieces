@@ -4,7 +4,8 @@ import {
   TriggerStrategy,
 } from '@activepieces/pieces-framework';
 import { HttpMethod, httpClient } from '@activepieces/pieces-common';
-import { togglTrackAuth } from '../..';
+import { togglTrackAuth } from '../auth';
+import { togglApi } from '../common/client';
 import { togglCommon } from '../common';
 import {
   generateTogglWebhookInstructions,
@@ -14,8 +15,12 @@ import {
 export const newTask = createTrigger({
   auth: togglTrackAuth,
   name: 'new_task',
+  classification: 'READ',
   displayName: 'New Task',
   description: 'Fires when a new task is created.',
+  aiMetadata: {
+    description: 'Fires when a task is created in the workspace, delivering the task; an optional filter narrows it to one project. Needs a webhook created manually in Toggl. Classic only.',
+  },
   props: {
     workspace_id: togglCommon.workspace_id,
     optional_project_id: togglCommon.optional_project_id,
@@ -50,11 +55,13 @@ export const newTask = createTrigger({
   type: TriggerStrategy.WEBHOOK,
 
   async onEnable(context) {
-    // Manual setup - no programmatic registration needed
+    if (togglApi.isTwo(context.auth)) {
+      throw togglApi.classicOnlyError(WEBHOOK_TRIGGER_NAME);
+    }
   },
 
-  async onDisable(context) {
-    // Manual setup - users manage webhooks in Toggl Track UI
+  async onDisable() {
+    return;
   },
 
   async run(context) {
@@ -92,3 +99,5 @@ export const newTask = createTrigger({
     return [payload];
   },
 });
+
+const WEBHOOK_TRIGGER_NAME = 'The New Task trigger';

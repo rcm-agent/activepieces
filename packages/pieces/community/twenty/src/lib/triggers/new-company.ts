@@ -39,8 +39,12 @@ const polling: Polling<
 export const newCompany = createTrigger({
   auth: twentyAuth,
   name: 'new_company',
+  classification: 'READ',
   displayName: 'New Company',
   description: 'Triggers when a new company is created in Twenty CRM.',
+  aiMetadata: {
+    description: 'Fires when a new company is created in the connected Twenty CRM workspace. Polls for recently created companies, emitting one event per newly added company.',
+  },
   props: {},
   type: TriggerStrategy.POLLING,
   sampleData: {

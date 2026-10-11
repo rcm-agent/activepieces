@@ -10,8 +10,11 @@ import { teamworkRequest } from '../common/client';
 
 export const createProject = createAction({
 	name: 'create_project',
+	classification: 'WRITE',
 	displayName: 'Create Project',
 	description: 'Create a new project (name, description, belongs to company, dates, etc.).',
+	audience: 'both',
+	aiMetadata: { description: 'Creates a new Teamwork project under a company. Use to spin up a project workspace before adding task lists, tasks, or milestones; requires a name and a company to associate it with, and accepts optional category, tags, dates, owner, and custom fields. Not idempotent — each call creates a separate project even with identical input.', idempotent: false },
 	auth: teamworkAuth,
 	props: {
 		name: Property.ShortText({

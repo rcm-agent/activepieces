@@ -7,8 +7,14 @@ import { vercelProjectDropdown } from '../common/props';
 export const listEnvironmentVariables = createAction({
   auth: vercelAuth,
   name: 'list_environment_variables',
+  classification: 'SEARCH',
   displayName: 'List Environment Variables',
   description: 'Retrieve environment variables for a Vercel project.',
+  audience: 'both',
+  aiMetadata: {
+    description: 'List the environment variables configured on a Vercel project, optionally filtered to a specific Git branch (preview-scoped vars only) and optionally requesting decrypted values where permitted. Use this to discover existing keys before reading or upserting a variable. Requires the target project. Read-only and idempotent.',
+    idempotent: true,
+  },
   props: {
     project: vercelProjectDropdown,
     decrypt: Property.Checkbox({

@@ -3,8 +3,9 @@ import { endClient, getClient, getProtocolBackwardCompatibility } from '../commo
 import { Property, createAction } from '@activepieces/pieces-framework';
 import Client from 'ssh2-sftp-client';
 import { Client as FTPClient, FTPError } from 'basic-ftp';
-import { MarkdownVariant } from '@activepieces/shared';
+import { MarkdownVariant } from '@activepieces/pieces-framework';
 import { getSftpError } from './common';
+import { renameFileOrFolderActionOutputSchema } from '../output-schemas';
 
 async function renameFTP(client: FTPClient, oldPath: string, newPath: string) {
   await client.rename(oldPath, newPath);
@@ -16,10 +17,13 @@ async function renameSFTP(client: Client, oldPath: string, newPath: string) {
 }
 
 export const renameFileOrFolderAction = createAction({
+  audience: 'both',
   auth: sftpAuth,
   name: 'renameFileOrFolder',
+  classification: 'WRITE',
   displayName: 'Rename File or Folder',
   description: 'Renames a file or folder at given path.',
+  aiMetadata: { description: 'Moves a file or folder on the connected FTP, FTPS or SFTP server from an old remote path to a new one, which covers both renaming in place and, on most servers, relocating the entry into a different directory. Prefer it over reading and re-uploading content, and over a delete-then-create pair, when the bytes do not change. The parent directory of the new path must already exist, so create it with Create Folder first; idempotent in that the entry ends up at the new path, though a repeat call errors because the old path is gone.', idempotent: true },
   props: {
     information: Property.MarkDown({
       value: 'Depending on the server you can also use this to move a file to another directory, as long as the directory exists.',
@@ -38,6 +42,7 @@ export const renameFileOrFolderAction = createAction({
         'The new path of the file or folder e.g. `./myfolder/new-name.mp3`',
     }),
   },
+  outputSchema: renameFileOrFolderActionOutputSchema,
   async run(context) {
     const client = await getClient(context.auth.props);
     const oldPath = context.propsValue.oldPath;

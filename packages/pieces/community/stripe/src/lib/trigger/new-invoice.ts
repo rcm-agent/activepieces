@@ -6,7 +6,7 @@ import {
 import { stripeCommon } from '../common';
 import { StripeWebhookInformation } from '../common/types';
 import { stripeAuth } from '../..';
-import { isEmpty } from '@activepieces/shared';
+import { isEmpty } from '@activepieces/pieces-framework';
 import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 
 type StripeWebhookPayload = {
@@ -17,16 +17,21 @@ type StripeWebhookPayload = {
   };
 };
 
+import { invoiceOutputSchema } from '../output-schemas';
 export const stripeNewInvoice = createTrigger({
   auth: stripeAuth,
   name: 'new_invoice',
+  classification: 'READ',
   displayName: 'New Invoice',
-  description:
-    'Fires when an invoice is created. Supports filters like status, customer, subscription.',
+  description: 'Fires when an invoice is created.',
+  aiMetadata: {
+    description:
+      'Fires when an invoice is created in Stripe (the invoice.created event), emitting the new invoice. Optional filters narrow firing to a specific status, customer ID, or subscription ID. Use to react to newly issued invoices, for example to record or forward them.',
+  },
   props: {
     status: Property.StaticDropdown({
       displayName: 'Status',
-      description: 'Only trigger for invoices with this status.',
+      description: 'Only invoices with this status. Empty: all.',
       required: false,
       options: {
         options: [
@@ -40,17 +45,18 @@ export const stripeNewInvoice = createTrigger({
     }),
     customer: Property.ShortText({
       displayName: 'Customer ID',
-      description:
-        'Only trigger for invoices belonging to this customer ID (e.g., `cus_...`).',
+      description: 'Only invoices for this customer. Empty: all.',
+      placeholder: 'cus_...',
       required: false,
     }),
     subscription: Property.ShortText({
       displayName: 'Subscription ID',
-      description:
-        'Only trigger for invoices belonging to this subscription ID (e.g., `sub_...`).',
+      description: 'Only invoices for this subscription. Empty: all.',
+      placeholder: 'sub_...',
       required: false,
     }),
   },
+  outputSchema: invoiceOutputSchema,
   sampleData: {
     id: 'in_1MtHbELkdIwHu7ixl4OzzPMv',
     object: 'invoice',

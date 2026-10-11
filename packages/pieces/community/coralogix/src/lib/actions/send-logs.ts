@@ -6,8 +6,11 @@ import { makeRequest } from '../common/client';
 export const sendLogs = createAction({
   auth: coralogixAuth,
   name: 'sendLogs',
+  classification: 'WRITE',
   displayName: 'Send Logs',
   description: 'Send a single log to Coralogix Log Ingestion API.',
+  audience: 'both',
+  aiMetadata: { description: 'Ingests a single log record into Coralogix via the log-ingestion API, tagged with an application and subsystem name and an optional severity. Use to emit a custom log or event from a flow. Not idempotent: each call appends a new log entry.', idempotent: false },
   requireAuth: true,
   props: {
     text: Property.LongText({

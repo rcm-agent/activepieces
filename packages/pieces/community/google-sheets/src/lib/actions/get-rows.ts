@@ -1,5 +1,4 @@
 import {
-  PiecePropValueSchema,
   Property,
   Store,
   StoreScope,
@@ -12,12 +11,13 @@ import {
   googleSheetsCommon,
   mapRowsToHeaderNames,
 } from '../common/common';
-import { isNil } from '@activepieces/shared';
+import { isNil } from '@activepieces/pieces-framework';
 import { HttpError } from '@activepieces/pieces-common';
-import { z } from 'zod';
+import * as z from 'zod/mini'
 import { propsValidation } from '@activepieces/pieces-common';
 import { getWorkSheetGridSize } from '../triggers/helpers';
 import { commonProps } from '../common/props';
+import { getNextRowsActionOutputSchema } from '../output-schemas';
 
 async function getRows(
   store: Store,
@@ -99,36 +99,44 @@ async function getRows(
 const notes = `
 **Notes:**
 
-- Memory key is used to remember where last row was processed and will be used in the following runs.
-- Republishing the flow **keeps** the memory key value, If you want to start over **change** the memory key.
+- The memory key remembers which row was processed last, and is reused on the following runs.
+- Republishing the flow **keeps** the memory key value. To start over, **change** the memory key.
 `
 export const getRowsAction = createAction({
   auth: googleSheetsAuth,
   name: 'get_next_rows',
-  description: 'Get next group of rows from a specifiec workheet',
-  displayName: 'Get next row(s)',
+  classification: 'READ',
+  description: 'Read the next batch of rows from a worksheet, continuing where the last run left off.',
+  audience: 'human',
+  aiMetadata: {
+    description:
+      'Reads the next batch of rows from a worksheet, advancing a cursor stored under a memory key so successive calls walk through the sheet without reprocessing rows. Use to iterate a sheet in chunks across runs. Not idempotent — each non-test call moves the stored cursor forward and returns a different batch.',
+    idempotent: false,
+  },
+  displayName: 'Get Next Rows',
   props: {
     ...commonProps,
     startRow: Property.Number({
       displayName: 'Start Row',
-      description: 'Which row to start from?',
+      description: 'The row to start reading from on the first run.',
       required: true,
       defaultValue: 1,
     }),
     headerRow: Property.Number({
       displayName: 'Header Row',
-      description: 'Which row contains the headers?',
+      description: 'The row that contains the column names.',
       required: true,
       defaultValue: 1,
     }),
     useHeaderNames: Property.Checkbox({
-    displayName: 'Use header names for keys',
-    description: 'Map A/B/C… to the actual column headers (row specified above).',
-    required: false,
-    defaultValue: false,
+      displayName: 'Use Column Names',
+      description: 'Key each row by column name instead of A, B, C.',
+      required: false,
+      defaultValue: false,
+      advanced: true,
     }),
     markdown: Property.MarkDown({
-      value: notes
+      value: notes,
     }),
     memKey: Property.ShortText({
       displayName: 'Memory Key',
@@ -143,6 +151,7 @@ export const getRowsAction = createAction({
       defaultValue: 1,
     }),
   },
+  outputSchema: getNextRowsActionOutputSchema,
   async run({ store, auth, propsValue }) {
     const { startRow, groupSize, memKey, headerRow, spreadsheetId, sheetId, useHeaderNames} = propsValue;
 
@@ -151,8 +160,8 @@ export const getRowsAction = createAction({
 		}
 
     await propsValidation.validateZod(propsValue, {
-      startRow: z.number().min(1),
-      groupSize: z.number().min(1),
+      startRow: z.number().check(z.minimum(1)),
+      groupSize: z.number().check(z.minimum(1)),
     });
 
     try {

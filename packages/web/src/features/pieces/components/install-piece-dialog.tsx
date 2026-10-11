@@ -1,3 +1,4 @@
+import { ApErrorParams, ErrorCode } from '@activepieces/core-utils';
 import {
   AddPieceRequestBody,
   ApFlagId,
@@ -43,6 +44,7 @@ import {
 } from '@/components/ui/select';
 import { flagsHooks } from '@/hooks/flags-hooks';
 import { platformHooks } from '@/hooks/platform-hooks';
+import { AdminControl, adminControl } from '@/lib/admin-control';
 import { api } from '@/lib/api';
 import { authenticationSession } from '@/lib/authentication-session';
 
@@ -143,20 +145,27 @@ const InstallPieceDialog = ({
     },
     onError: (error) => {
       if (api.isError(error)) {
-        switch (error.response?.status) {
-          case HttpStatusCode.Conflict:
-            form.setError('root.serverError', {
-              message: t(
-                'A piece with this name and version is already installed. Please update the version number in package.json and try again.',
-              ),
-            });
-            break;
-          default:
-            form.setError('root.serverError', {
-              message: t('Something went wrong, please try again later'),
-            });
-            break;
+        if (error.response?.status === HttpStatusCode.Conflict) {
+          form.setError('root.serverError', {
+            message: t(
+              'A piece with this name and version is already installed. Please update the version number in package.json and try again.',
+            ),
+          });
+          return;
         }
+        const responseData = error.response?.data as ApErrorParams | undefined;
+        if (
+          responseData?.code === ErrorCode.ENGINE_OPERATION_FAILURE &&
+          responseData.params.message
+        ) {
+          form.setError('root.serverError', {
+            message: responseData.params.message,
+          });
+          return;
+        }
+        form.setError('root.serverError', {
+          message: t('Something went wrong, please try again later'),
+        });
       }
     },
   });
@@ -164,7 +173,12 @@ const InstallPieceDialog = ({
   return (
     <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
       <DialogTrigger asChild>
-        <AnimatedIconButton icon={PlusIcon} iconSize={16} size="sm">
+        <AnimatedIconButton
+          {...adminControl(AdminControl.PIECES_INSTALL_OPEN)}
+          icon={PlusIcon}
+          iconSize={16}
+          size="sm"
+        >
           {t('Install Piece')}
         </AnimatedIconButton>
       </DialogTrigger>
@@ -174,7 +188,7 @@ const InstallPieceDialog = ({
           <DialogDescription>
             <ApMarkdown
               markdown={
-                'Use this to install a [custom piece]("https://www.activepieces.com/docs/build-pieces/building-pieces/create-action") that you (or someone else) created. Once the piece is installed, you can use it in the flow builder.\n\nWarning: Make sure you trust the author as the piece will have access to your flow data and it might not be compatible with the current version of Activepieces.'
+                'Use this to install a [custom piece](https://www.activepieces.com/docs/build-pieces/building-pieces/create-action) that you (or someone else) created. Once the piece is installed, you can use it in the flow builder.\n\nWarning: Make sure you trust the author as the piece will have access to your flow data and it might not be compatible with the current version of Activepieces.'
               }
             />
           </DialogDescription>
@@ -312,7 +326,11 @@ const InstallPieceDialog = ({
                 {form.formState.errors.root.serverError.message}
               </FormMessage>
             )}
-            <Button loading={isPending} type="submit">
+            <Button
+              {...adminControl(AdminControl.PIECES_INSTALL_SUBMIT)}
+              loading={isPending}
+              type="submit"
+            >
               {t('Install')}
             </Button>
           </form>

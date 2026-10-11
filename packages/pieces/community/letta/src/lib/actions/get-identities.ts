@@ -9,8 +9,11 @@ import type {
 export const getIdentities = createAction({
   auth: lettaAuth,
   name: 'getIdentities',
+  classification: 'SEARCH',
   displayName: 'Get Identities',
   description: 'Searches for identities in your Letta Project',
+  audience: 'both',
+  aiMetadata: { description: 'Lists identities in the Letta project, optionally filtering by identifier key, name, identity type, or project ID and capping the result count; with no filters it returns all identities (up to the limit). Use to look up identity IDs or check whether an identity already exists. Idempotent: read-only query with no side effects.', idempotent: true },
   props: {
     identifierKey: Property.ShortText({
       displayName: 'Identifier Key',

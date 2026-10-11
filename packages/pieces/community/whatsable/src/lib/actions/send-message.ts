@@ -6,8 +6,11 @@ import { whatsableAuth } from '../..';
 
 export const sendMessage = createAction({
   name: 'sendMessage',
+  classification: 'WRITE',
   displayName: 'Send Message',
   description: '',
+  audience: 'both',
+  aiMetadata: { description: 'Sends a WhatsApp text message to a single recipient through a connected Whatsable (WhatsApp Business) account. Use to deliver a one-off outbound message; requires the recipient phone number and the message text. Not idempotent: each call sends a new message, so repeating it delivers duplicates.', idempotent: false },
   auth: whatsableAuth,
   props: {
     to: Property.ShortText({

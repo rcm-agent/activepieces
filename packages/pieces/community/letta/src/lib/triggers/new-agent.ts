@@ -58,8 +58,12 @@ const polling: Polling<
 export const newAgent = createTrigger({
   auth: lettaAuth,
   name: 'newAgent',
+  classification: 'READ',
   displayName: 'New Agent',
   description: 'Triggers when a new agent is created',
+  aiMetadata: {
+    description: 'Fires when a new agent is created in the Letta project, emitting the newly created agent. Polls the agent list and detects agents whose creation timestamp is later than the last poll.',
+  },
   type: TriggerStrategy.POLLING,
   props: {},
   sampleData: {},

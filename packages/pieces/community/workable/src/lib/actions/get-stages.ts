@@ -6,8 +6,11 @@ import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 export const getStages = createAction({
   auth: workableAuth,
   name: 'getStages',
+  classification: 'SEARCH',
   displayName: 'Get Stages',
   description: 'Gets stages in your recruitment pipeline stages.',
+  audience: 'both',
+  aiMetadata: { description: 'Lists the recruitment pipeline stages for a specific Workable job, identified by its shortcode. Use to discover valid stage slugs before moving a candidate. Requires the exact job shortcode; read-only and idempotent.', idempotent: true },
   props: {
     shortcode: Property.ShortText({
       displayName: "Shortcode",

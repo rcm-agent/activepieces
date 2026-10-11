@@ -9,8 +9,14 @@ import { assertIdPrefix } from '../../common/validation';
 export const getContext = createAction({
   auth: hedyAuth,
   name: 'get-context',
+  classification: 'READ',
   displayName: 'Get Session Context',
   description: 'Retrieve a specific session context by ID.',
+  audience: 'both',
+  aiMetadata: {
+    description: 'Fetch a single Hedy session context by its ID (must be prefixed with "ctx_"). Use when you already have a context ID and need its details. Read-only and idempotent.',
+    idempotent: true,
+  },
   props: {
     contextId: commonProps.contextId,
   },

@@ -7,15 +7,19 @@ import {
 	verifyWebhookSignature,
 	getAttachmentFullDetails,
 } from '../common';
-import { WebhookHandshakeStrategy } from '@activepieces/shared';
+import { WebhookHandshakeStrategy } from '@activepieces/pieces-framework';
 
 const TRIGGER_KEY = 'smartsheet_new_attachment_trigger';
 
 export const newAttachmentTrigger = createTrigger({
 	auth: smartsheetAuth,
 	name: 'new_attachment_',
+	classification: 'READ',
 	displayName: 'New Attachment Added',
 	description: 'Triggers when a new attachment is added to a row or sheet.',
+	aiMetadata: {
+		description: 'Fires when a new attachment (file or link) is added within the configured Smartsheet sheet, delivering the attachment event with fetched full attachment details. The attachment may be parented to a row, comment, or the sheet itself.',
+	},
 	props: {
 		sheet_id: smartsheetCommon.sheet_id(),
 	},

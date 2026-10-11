@@ -7,8 +7,11 @@ export const CreateListItem = createAction({
   auth: kizeoFormsAuth,
 
   name: 'create_list_item',
+  classification: 'WRITE',
   displayName: 'Create List Item',
   description: 'Create a new list item in Kizeo Forms',
+  audience: 'both',
+  aiMetadata: { description: 'Create a new item in a Kizeo Forms external list, identified by list ID, with a label and a set of property values. Use to add a row to a list. Each call appends a new item, so it is not idempotent; to change an existing item use Edit List Item.', idempotent: false },
   props: {
     listId: kizeoFormsCommon.listId,
     itemLabel: Property.ShortText({

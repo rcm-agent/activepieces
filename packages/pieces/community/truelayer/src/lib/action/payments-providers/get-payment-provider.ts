@@ -5,8 +5,11 @@ import { trueLayerCommon } from '../../common';
 export const getPaymentProvider = createAction({
   auth: trueLayerCommon.auth,
   name: 'get-payment-provider',
+  classification: 'READ',
   displayName: 'Get Payment Provider',
   description: 'Returns payment provider details. This API can be called without the need for authentication.',
+  audience: 'both',
+  aiMetadata: { description: 'Retrieve full details for a single TrueLayer payment provider (bank) by its known provider ID, optionally selecting an icon variant. Use when you already have the provider ID; read-only and safe to repeat. To discover providers by criteria instead, use Search Payment Providers.', idempotent: true },
   props: {
     id: Property.ShortText({
       displayName: 'Payment Provider ID',

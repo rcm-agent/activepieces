@@ -7,10 +7,10 @@ import {
   PieceAuth,
   Property,
 } from '@activepieces/pieces-framework';
-import { AppConnectionType, PieceCategory } from '@activepieces/shared';
+import { AppConnectionType, PieceCategory } from '@activepieces/pieces-framework';
 import { kimaiCreateTimesheetAction } from './lib/actions/create-timesheet';
 import { makeClient } from './lib/common';
-import { z } from 'zod';
+import * as z from 'zod/mini'
 import { propsValidation } from '@activepieces/pieces-common';
 
 export const kimaiAuth = PieceAuth.CustomAuth({
@@ -19,7 +19,7 @@ export const kimaiAuth = PieceAuth.CustomAuth({
 
   1. Go to Kimai Web UI;
   2. Click on your user profile and then go to "API Access";
-  3. Configure an API password (different from user password).
+  3. Generate an API token.
   `,
   props: {
     base_url: Property.ShortText({
@@ -27,21 +27,16 @@ export const kimaiAuth = PieceAuth.CustomAuth({
       description: 'Kimai Instance URL (e.g. https://demo.kimai.org)',
       required: true,
     }),
-    user: Property.ShortText({
-      displayName: 'Username',
-      description: 'Kimai Username/Email',
-      required: true,
-    }),
-    api_password: PieceAuth.SecretText({
-      displayName: 'API Password',
-      description: 'Kimai API Password',
+    api_token: PieceAuth.SecretText({
+      displayName: 'API Token',
+      description: 'Kimai API Token',
       required: true,
     }),
   },
   validate: async ({ auth }) => {
     if (auth) {
       await propsValidation.validateZod(auth, {
-        base_url: z.string().url(),
+        base_url: z.string().check(z.url()),
       });
     }
 
@@ -103,8 +98,7 @@ export const kimai = createPiece({
      baseUrl: (auth) => (auth?.props.base_url ?? ''),
       auth: kimaiAuth,
       authMapping: async (auth) => ({
-        'X-AUTH-USER': auth.props.user,
-        'X-AUTH-TOKEN': auth.props.api_password,
+        Authorization: `Bearer ${auth.props.api_token}`,
       }),
     }),
   ],

@@ -6,8 +6,11 @@ import { ninjapipeApiCall, flattenCustomFields, getAuth, ninjapipeCommon, toDate
 export const updateOrder = createAction({
   auth: ninjapipeAuth,
   name: 'update_order',
+  classification: 'WRITE',
   displayName: 'Update Order',
   description: 'Updates an order by ID.',
+  audience: 'both',
+  aiMetadata: { description: 'Updates an existing order identified by Order ID, applying only the fields you supply (customer details, amounts, status, payment status, dates, priority, tracking, notes); line items, currency, and custom fields go in Settings JSON. Requires a valid order ID; repeating with the same values is safe.', idempotent: true },
   props: {
     orderId: ninjapipeCommon.orderDropdownRequired,
     customerName: Property.ShortText({ displayName: 'Customer Name', required: false }),

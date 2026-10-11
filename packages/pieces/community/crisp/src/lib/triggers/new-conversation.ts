@@ -57,8 +57,12 @@ const polling: Polling<AppConnectionValueForAuthProperty<typeof crispAuth>, { we
 export const newConversationTrigger = createTrigger({
 	auth: crispAuth,
 	name: 'new_conversation',
+	classification: 'READ',
 	displayName: 'New Conversation Created',
 	description: 'Triggers when a new conversation is started.',
+	aiMetadata: {
+		description: 'Fires when a new conversation is started in the selected Crisp website inbox. Polls the conversations list on a schedule and emits each newly created conversation.',
+	},
 	props: {
 		websiteId: websiteIdProp,
 	},

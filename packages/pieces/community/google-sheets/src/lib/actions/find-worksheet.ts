@@ -1,29 +1,39 @@
 import { googleSheetsAuth } from '../common/common';
 import { createAction, Property } from '@activepieces/pieces-framework';
-import { google } from 'googleapis';
+import { sheets as googleSheets } from '@googleapis/sheets';
 import { includeTeamDrivesProp, spreadsheetIdProp } from '../common/props';
 import { createGoogleClient } from '../common/common';
+import { findWorksheetActionOutputSchema } from '../output-schemas';
 
 export const findWorksheetAction = createAction({
 	auth: googleSheetsAuth,
 	name: 'find-worksheet',
+	classification: 'SEARCH',
 	displayName: 'Find Worksheet(s)',
-	description: 'Finds a worksheet(s) by title.',
+	description: 'Find worksheets in a spreadsheet by title.',
+	audience: 'human',
+	aiMetadata: {
+		description:
+			'Searches the worksheets (tabs) of a given spreadsheet for ones whose title matches a query (exact or contains). Use to resolve a worksheet/sheet id from its tab name before acting on it. Read-only and idempotent.',
+		idempotent: true,
+	},
 	props: {
 		includeTeamDrives: includeTeamDrivesProp(),
-		spreadsheetId: spreadsheetIdProp('Spreadsheet', ''),
+		spreadsheetId: spreadsheetIdProp('Spreadsheet', 'The spreadsheet to search in.'),
 		title: Property.ShortText({
 			displayName: 'Title',
+			description: 'The worksheet title to search for.',
 			required: true,
 		}),
 		exact_match: Property.Checkbox({
 			displayName: 'Exact Match',
 			description:
-				'If true, only return worksheets that exactly match the name. If false, return worksheets that contain the name.',
+				'Only return worksheets whose title matches exactly.',
 			required: false,
 			defaultValue: false,
 		}),
 	},
+	outputSchema: findWorksheetActionOutputSchema,
 	async run(context) {
 		const spreadsheetId = context.propsValue.spreadsheetId;
 		const title = context.propsValue.title;
@@ -31,7 +41,7 @@ export const findWorksheetAction = createAction({
 
 		const authClient = await createGoogleClient(context.auth);
 
-		const sheets = google.sheets({ version: 'v4', auth: authClient });
+		const sheets = googleSheets({ version: 'v4', auth: authClient });
 
 		const response = await sheets.spreadsheets.get({
 			spreadsheetId,

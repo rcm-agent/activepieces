@@ -9,8 +9,15 @@ import { workdaySoapRequest } from '../common';
 export const updateSupplierInvoice = createAction({
 	auth: workdayAuth,
 	name: 'update_supplier_invoice',
+	classification: 'WRITE',
 	displayName: 'Update Supplier Invoice',
 	description: 'Updates an existing supplier invoice in Workday.',
+	audience: 'both',
+	aiMetadata: {
+		description:
+			'Updates an existing supplier invoice (identified by its invoice WID) in Workday, setting any of invoice date, invoice number, and total amount. Use to amend an existing supplier invoice. Idempotent: keyed on the invoice ID, so re-sending the same field values converges to the same state.',
+		idempotent: true,
+	},
 	props: {
 		invoiceId: Property.ShortText({
 			displayName: 'Invoice ID',

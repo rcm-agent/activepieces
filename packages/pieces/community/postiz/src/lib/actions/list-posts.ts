@@ -6,8 +6,14 @@ import { postizApiCall } from '../common';
 export const listPosts = createAction({
   auth: postizAuth,
   name: 'list_posts',
+  classification: 'SEARCH',
   displayName: 'List Posts',
   description: 'Retrieve posts within a date range',
+  audience: 'both',
+  aiMetadata: {
+    description: 'Retrieves posts scheduled or published within a given date range across all connected channels. Use to inspect what is on the calendar or to obtain post IDs for analytics or deletion. Both start and end dates are required. Idempotent — a read-only lookup.',
+    idempotent: true,
+  },
   props: {
     startDate: Property.DateTime({
       displayName: 'Start Date',

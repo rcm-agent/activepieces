@@ -9,8 +9,14 @@ import { assertLimit } from '../../common/validation';
 export const listSessions = createAction({
   auth: hedyAuth,
   name: 'list-sessions',
+  classification: 'SEARCH',
   displayName: 'List Sessions',
   description: 'Retrieve multiple sessions with optional topic filtering and pagination.',
+  audience: 'both',
+  aiMetadata: {
+    description: 'List Hedy meeting sessions, optionally filtered to a single topic. Use to discover sessions or find a session ID when you do not already have one; leave the topic filter empty to fetch across all topics. Set Return All to page through every result, otherwise results are capped by the limit. Read-only and idempotent.',
+    idempotent: true,
+  },
   props: {
     returnAll: commonProps.returnAll,
     limit: commonProps.limit,

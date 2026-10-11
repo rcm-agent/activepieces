@@ -6,8 +6,15 @@ import { pubrioRequest } from '../common';
 export const testRunMonitor = createAction({
   auth: pubrioAuth,
   name: 'test_run_monitor',
+  classification: 'WRITE',
   displayName: 'Test Run Monitor',
   description: 'Perform a test run of a monitor',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Trigger a one-off test execution of an existing monitor (by monitor_id) to verify its configuration and preview matching signals without waiting for the schedule. Not idempotent: each call performs a fresh processing run and may dispatch to the monitor destination. Use for validating a monitor setup, not for routine data retrieval.',
+    idempotent: false,
+  },
   props: {
     monitor_id: Property.ShortText({
       displayName: 'Monitor ID',

@@ -1,29 +1,46 @@
+import { ApErrorParams, ErrorCode, isNil } from '@activepieces/core-utils';
 import {
   PieceMetadataModelSummary,
   PropertyType,
 } from '@activepieces/pieces-framework';
-import { isNil, OAuth2GrantType, PieceScope } from '@activepieces/shared';
+import { OAuth2GrantType, PieceScope, PieceType } from '@activepieces/shared';
 import { ColumnDef } from '@tanstack/react-table';
 import { t } from 'i18next';
-import { CheckIcon, Package, Hash, GitBranch, Puzzle } from 'lucide-react';
+import {
+  CheckIcon,
+  Package,
+  Hash,
+  GitBranch,
+  Puzzle,
+  Trash,
+} from 'lucide-react';
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { toast } from 'sonner';
 
 import { DashboardPageHeader } from '@/app/components/dashboard-page-header';
-import { RequestTrial } from '@/app/components/request-trial';
-import { ApplyTags } from '@/app/routes/platform/setup/pieces/apply-tags';
+import { CustomizeSelectorDialog } from '@/app/routes/platform/setup/pieces/customize-selector-dialog';
+import { DownloadPiecesReportButton } from '@/app/routes/platform/setup/pieces/download-pieces-report';
 import { PieceActions } from '@/app/routes/platform/setup/pieces/piece-actions';
+import { PiecesLockedBanner } from '@/app/routes/platform/setup/pieces/pieces-locked-banner';
 import { SyncPiecesButton } from '@/app/routes/platform/setup/pieces/sync-pieces';
 import { ConfigurePieceOAuth2Dialog } from '@/app/routes/platform/setup/pieces/update-oauth2-dialog';
 import { DataTable, RowDataWithActions } from '@/components/custom/data-table';
 import { DataTableColumnHeader } from '@/components/custom/data-table/data-table-column-header';
-import { LockedAlert } from '@/components/custom/locked-alert';
-import { Badge } from '@/components/ui/badge';
+import { ConfirmationDeleteDialog } from '@/components/custom/delete-dialog';
+import { Button } from '@/components/ui/button';
 import { oauthAppsQueries } from '@/features/connections';
-import { InstallPieceDialog, PieceIcon, piecesHooks } from '@/features/pieces';
+import {
+  InstallPieceDialog,
+  PieceIcon,
+  piecesApi,
+  piecesHooks,
+} from '@/features/pieces';
 import { platformHooks } from '@/hooks/platform-hooks';
+import { AdminControl, adminControl } from '@/lib/admin-control';
+import { api } from '@/lib/api';
 
-const PlatformPiecesPage = () => {
+export const PiecesListTab = () => {
   const { platform } = platformHooks.useCurrentPlatform();
   const isEnabled = platform.plan.managePiecesEnabled;
   const [searchParams] = useSearchParams();
@@ -32,9 +49,9 @@ const PlatformPiecesPage = () => {
     pieces,
     refetch: refetchPieces,
     isLoading,
+    isError,
   } = piecesHooks.usePieces({
     searchQuery,
-    includeTags: true,
     includeHidden: true,
     isTableQuery: true,
   });
@@ -67,19 +84,6 @@ const PlatformPiecesPage = () => {
                 />
                 <div className="flex flex-col gap-0.5">
                   <span>{row.original.displayName}</span>
-                  {row.original.tags && row.original.tags.length > 0 && (
-                    <div className="flex gap-1">
-                      {row.original.tags.map((tag) => (
-                        <Badge
-                          key={tag}
-                          variant="outline"
-                          className="text-xs py-0 px-1.5"
-                        >
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-                  )}
                 </div>
               </div>
             );
@@ -115,7 +119,7 @@ const PlatformPiecesPage = () => {
         },
         {
           id: 'actions',
-          size: 80,
+          size: 190,
           cell: ({ row }) => {
             return (
               <div className="flex justify-end">
@@ -133,85 +137,98 @@ const PlatformPiecesPage = () => {
                   pieceName={row.original.name}
                   isEnabled={isEnabled}
                 />
+                {row.original.pieceType === PieceType.CUSTOM && (
+                  <ConfirmationDeleteDialog
+                    title={t('Delete {name}', { name: row.original.name })}
+                    entityName={t('Piece')}
+                    controlId={AdminControl.PIECES_DELETE_CONFIRM}
+                    message={t(
+                      'This will permanently delete this piece, all steps using it will fail.',
+                    )}
+                    mutationFn={async () => {
+                      await piecesApi.delete(row.original.id!);
+                      await refetchPieces();
+                    }}
+                    onError={(error) => {
+                      if (api.isError(error)) {
+                        const apError = error.response?.data as ApErrorParams;
+                        if (apError?.code === ErrorCode.VALIDATION) {
+                          toast.error(apError.params.message);
+                          return;
+                        }
+                      }
+                      toast.error(t('Failed to delete piece'));
+                    }}
+                  >
+                    <Button
+                      {...adminControl(AdminControl.PIECES_DELETE_OPEN)}
+                      variant="ghost"
+                      size={'sm'}
+                      disabled={!isEnabled}
+                    >
+                      <Trash className="size-4 text-danger-11" />
+                    </Button>
+                  </ConfirmationDeleteDialog>
+                )}
               </div>
             );
           },
         },
       ],
-      [],
+      [isEnabled, refetchPieces, refetchPiecesOAuth2AppsMap],
     );
 
   return (
     <>
       <DashboardPageHeader
-        description={t('Manage the pieces that are available to your users')}
         title={t('Pieces')}
+        description={t('Manage the pieces that are available to your users')}
       />
-      <div className="mx-auto w-full flex flex-col flex-1 min-h-0">
-        {!isEnabled && (
-          <LockedAlert
-            title={t('Control Pieces')}
-            description={t(
-              "Show the pieces that matter most to your users and hide the ones you don't like.",
-            )}
-            button={
-              <RequestTrial
-                featureKey="ENTERPRISE_PIECES"
-                buttonVariant="basic"
-              />
-            }
-          />
+      <PiecesLockedBanner
+        message={t(
+          "Showing and hiding pieces needs a higher plan. You can browse the catalog, but changes won't stick.",
         )}
-        <DataTable
-          emptyStateTextTitle={t('No pieces found')}
-          emptyStateTextDescription={t(
-            'Start by installing pieces that you want to use in your automations',
-          )}
-          emptyStateIcon={<Package className="size-14" />}
-          columns={columns}
-          filters={[
-            {
-              type: 'input',
-              title: t('Piece Name'),
-              accessorKey: 'name',
-              icon: CheckIcon,
-            },
-          ]}
-          page={{
-            data: pieces ?? [],
-            next: null,
-            previous: null,
-          }}
-          isLoading={isLoading}
-          bulkActions={[
-            {
-              render: (selectedRows) => (
-                <ApplyTags
-                  selectedPieces={selectedRows}
-                  onApplyTags={() => refetchPieces()}
-                />
-              ),
-            },
-          ]}
-          toolbarButtons={[
-            <SyncPiecesButton key="sync" />,
-            <InstallPieceDialog
-              key="install"
-              onInstallPiece={() => refetchPieces()}
-              scope={PieceScope.PLATFORM}
-            />,
-          ]}
-          selectColumn={true}
-          virtualizeRows={true}
-          hidePagination={true}
-        />
-      </div>
+      />
+      <DataTable
+        emptyStateTextTitle={t('No pieces found')}
+        emptyStateTextDescription={t(
+          'Start by installing pieces that you want to use in your automations',
+        )}
+        emptyStateIcon={<Package className="size-14" />}
+        columns={columns}
+        filters={[
+          {
+            type: 'input',
+            title: t('Piece Name'),
+            accessorKey: 'name',
+            icon: CheckIcon,
+          },
+        ]}
+        page={{
+          data: pieces ?? [],
+          next: null,
+          previous: null,
+        }}
+        isLoading={isLoading}
+        isError={isError}
+        errorStateEntity={t('pieces')}
+        onRetry={refetchPieces}
+        toolbarButtons={[
+          <CustomizeSelectorDialog key="customize" isEnabled={isEnabled} />,
+          <DownloadPiecesReportButton key="download-report" />,
+          <SyncPiecesButton key="sync" />,
+          <InstallPieceDialog
+            key="install"
+            onInstallPiece={() => refetchPieces()}
+            scope={PieceScope.PLATFORM}
+          />,
+        ]}
+        virtualizeRows={true}
+        hidePagination={true}
+      />
     </>
   );
 };
-
-PlatformPiecesPage.displayName = 'PlatformPiecesPage';
-export { PlatformPiecesPage };
 
 function shouldShowOauth2SettingForPiece(piece: PieceMetadataModelSummary) {
   const pieceAuth = Array.isArray(piece.auth)

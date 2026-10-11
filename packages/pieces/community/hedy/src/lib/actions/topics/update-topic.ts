@@ -9,8 +9,14 @@ import { assertIdPrefix } from '../../common/validation';
 export const updateTopic = createAction({
   auth: hedyAuth,
   name: 'update-topic',
+  classification: 'WRITE',
   displayName: 'Update Topic',
   description: 'Update an existing topic.',
+  audience: 'both',
+  aiMetadata: {
+    description: 'Update fields on an existing Hedy topic identified by a topic ID (must be prefixed with "topic_"); only the fields you provide are changed, and at least one must be supplied. Idempotent: repeating the same update leaves the topic in the same state.',
+    idempotent: true,
+  },
   props: {
     topicId: commonProps.topicId,
     name: Property.ShortText({

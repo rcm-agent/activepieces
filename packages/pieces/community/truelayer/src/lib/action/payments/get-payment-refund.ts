@@ -5,8 +5,11 @@ import { trueLayerCommon } from '../../common';
 export const getPaymentRefund = createAction({
   auth: trueLayerCommon.auth,
   name: 'get-payment-refund',
+  classification: 'READ',
   displayName: 'Get Payment Refund',
   description: 'Returns refund details for a specific payment.',
+  audience: 'both',
+  aiMetadata: { description: 'Retrieve details and status of a single refund, identified by both its payment ID and refund ID. Use when you know the specific refund you want to inspect. Read-only and safe to repeat; to list every refund on a payment instead, use the get-all-refunds action.', idempotent: true },
   props: {
     payment_id: Property.ShortText({
       displayName: 'Payment ID',

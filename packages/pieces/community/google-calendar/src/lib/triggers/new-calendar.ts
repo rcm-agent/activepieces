@@ -12,6 +12,7 @@ import {
 } from '@activepieces/pieces-common';
 import { getCalendars } from '../common/helper';
 import { CalendarObject } from '../common/types';
+import { calendarOutputSchema } from '../output-schemas';
 
 const polling: Polling<
   AppConnectionValueForAuthProperty<typeof googleCalendarAuth>,
@@ -81,13 +82,16 @@ const polling: Polling<
 export const newCalendar = createTrigger({
   auth: googleCalendarAuth,
   name: 'new_calendar',
+  classification: 'READ',
   displayName: 'New Calendar',
   description: 'Fires when a new calendar is created or becomes accessible.',
+  aiMetadata: {
+    description: 'Fires when a calendar newly appears in the connected account\'s calendar list, whether created or shared in, detected by polling. Each fired item is the new calendar. Can be filtered by access role, a name/description text match, and an option to exclude shared calendars.',
+  },
   props: {
     access_role_filter: Property.StaticMultiSelectDropdown({
       displayName: 'Access Role Filter',
-      description:
-        'Only trigger for calendars with specific access roles (optional)',
+      description: 'Leave empty to fire for every access role.',
       required: false,
       options: {
         options: [
@@ -100,17 +104,17 @@ export const newCalendar = createTrigger({
     }),
     calendar_name_filter: Property.ShortText({
       displayName: 'Calendar Name Filter',
-      description:
-        'Only trigger for calendars containing this text in name or description (optional)',
+      description: 'Only calendars whose name or description contain this.',
       required: false,
     }),
     exclude_shared: Property.Checkbox({
       displayName: 'Exclude Shared Calendars',
-      description: 'Only trigger for calendars you own, not shared calendars',
+      description: 'Fires only for calendars you own.',
       required: false,
       defaultValue: false,
     }),
   },
+  outputSchema: calendarOutputSchema,
   type: TriggerStrategy.POLLING,
   sampleData: {
     id: 'sample_calendar_id@group.calendar.google.com',

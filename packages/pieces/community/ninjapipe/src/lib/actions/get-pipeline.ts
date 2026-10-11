@@ -6,8 +6,11 @@ import { ninjapipeApiCall, flattenCustomFields, getAuth, ninjapipeCommon } from 
 export const getPipeline = createAction({
   auth: ninjapipeAuth,
   name: 'get_pipeline',
+  classification: 'READ',
   displayName: 'Get Pipeline',
   description: 'Retrieves a pipeline by ID.',
+  audience: 'both',
+  aiMetadata: { description: 'Fetch a single NinjaPipe sales pipeline by its ID. Read-only lookup for inspecting one pipeline; to enumerate available pipelines use a list action instead.', idempotent: true },
   props: {
     pipelineId: ninjapipeCommon.pipelineDropdownRequired,
   },

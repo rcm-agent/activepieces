@@ -6,8 +6,14 @@ import { postizApiCall, postizCommon } from '../common';
 export const createPost = createAction({
   auth: postizAuth,
   name: 'create_post',
+  classification: 'WRITE',
   displayName: 'Create Post',
   description: 'Create or schedule a post on one or more connected channels',
+  audience: 'both',
+  aiMetadata: {
+    description: 'Publishes content to a connected social channel in one of three modes selectable via the post type: publish immediately, schedule for a future date, or save as a draft. Use to push a message out through Postiz; a publish date is required when scheduling, and media must be a path returned by the Upload File from URL action. Not idempotent — each call creates a new post.',
+    idempotent: false,
+  },
   props: {
     type: Property.StaticDropdown({
       displayName: 'Post Type',

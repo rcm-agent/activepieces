@@ -1,4 +1,8 @@
-import { PopulatedFlow, FlowTriggerType } from '@activepieces/shared';
+import {
+  PopulatedFlow,
+  FlowTriggerType,
+  TriggerSourceScheduleType,
+} from '@activepieces/shared';
 import cronstrue from 'cronstrue/i18n';
 import { t } from 'i18next';
 import JSZip from 'jszip';
@@ -36,12 +40,20 @@ export const flowsUtils = {
     const trigger = flow.version.trigger;
     switch (trigger?.type) {
       case FlowTriggerType.PIECE: {
-        const cronExpression = flow.triggerSource?.schedule?.cronExpression;
-        return cronExpression
-          ? `${t('Run')} ${cronstrue
-              .toString(cronExpression, { locale: 'en' })
-              .toLocaleLowerCase()}`
-          : t('Real time flow');
+        const schedule = flow.triggerSource?.schedule;
+        switch (schedule?.type) {
+          case TriggerSourceScheduleType.INTERVAL:
+            return t(
+              'Run every {minutes, plural, =1 {minute} other {# minutes}}',
+              { minutes: Math.round(schedule.intervalMs / 60_000) },
+            );
+          case TriggerSourceScheduleType.CRON_EXPRESSION:
+            return `${t('Run')} ${cronstrue
+              .toString(schedule.cronExpression, { locale: 'en' })
+              .toLocaleLowerCase()}`;
+          default:
+            return t('Real time flow');
+        }
       }
       case FlowTriggerType.EMPTY:
         console.error(
@@ -56,11 +68,10 @@ export const flowsUtils = {
     const trigger = flow.version.trigger;
     switch (trigger?.type) {
       case FlowTriggerType.PIECE: {
-        const cronExpression = flow.triggerSource?.schedule?.cronExpression;
-        if (cronExpression) {
-          return <TimerReset className="h-4 w-4 text-foreground" />;
+        if (flow.triggerSource?.schedule) {
+          return <TimerReset className="h-4 w-4 text-gray-12" />;
         } else {
-          return <Zap className="h-4 w-4 text-foreground fill-foreground" />;
+          return <Zap className="h-4 w-4 text-gray-12 fill-gray-12" />;
         }
       }
       case FlowTriggerType.EMPTY: {
@@ -69,7 +80,7 @@ export const flowsUtils = {
             name: flow.version.displayName,
           }),
         );
-        return <TriangleAlert className="h-4 w-4 text-destructive" />;
+        return <TriangleAlert className="h-4 w-4 text-danger-11" />;
       }
     }
   },

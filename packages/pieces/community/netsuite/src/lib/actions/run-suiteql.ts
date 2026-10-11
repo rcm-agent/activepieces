@@ -11,9 +11,16 @@ const mkdown = `
 
 export const runSuiteQL = createAction({
   name: 'runSuiteQL',
+  classification: 'SEARCH',
   auth: netsuiteAuth,
   displayName: 'Run SuiteQL Query',
   description: 'Run SuiteQL Query on NetSuite.',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Runs an arbitrary SuiteQL (Oracle SQL) query against NetSuite and returns all matching rows, auto-paginating across results. Use this for flexible read queries across any NetSuite record type when no dedicated action fits. Pass dynamic values via numbered placeholders (:1, :2, ...) and the Arguments list rather than interpolating into the query string. This is a read-only query and is safe to repeat.',
+    idempotent: true,
+  },
   props: {
     markdown: Property.MarkDown({
       value: mkdown,

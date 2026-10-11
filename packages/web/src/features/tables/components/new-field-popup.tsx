@@ -1,4 +1,5 @@
-import { FieldType, isNil } from '@activepieces/shared';
+import { isNil } from '@activepieces/core-utils';
+import { FieldType } from '@activepieces/shared';
 import { t } from 'i18next';
 import { nanoid } from 'nanoid';
 import { useState } from 'react';
@@ -34,7 +35,11 @@ type NewFieldFormData =
     }
   | {
       name: string;
-      type: FieldType.DATE | FieldType.NUMBER | FieldType.TEXT;
+      type:
+        | FieldType.DATE
+        | FieldType.DATETIME
+        | FieldType.NUMBER
+        | FieldType.TEXT;
       data: null;
     };
 
@@ -42,6 +47,7 @@ const FIELD_TYPE_FRIENDLY_NAME: Record<FieldType, string> = {
   [FieldType.TEXT]: 'Text',
   [FieldType.NUMBER]: 'Number',
   [FieldType.DATE]: 'Date',
+  [FieldType.DATETIME]: 'Date & Time',
   [FieldType.STATIC_DROPDOWN]: 'Dropdown',
 };
 
@@ -175,8 +181,9 @@ export function NewFieldPopup({ children }: NewFieldDialogProps) {
                               htmlFor={type}
                               className={cn(
                                 'flex items-center gap-2 w-full px-3 py-2 rounded-sm',
-                                'text-left text-accent-foreground cursor-pointer hover:bg-muted',
-                                field.value === type && 'bg-muted text-primary',
+                                'text-left text-gray-12 cursor-pointer hover:bg-gray-3',
+                                field.value === type &&
+                                  'bg-gray-3 text-accent-11',
                               )}
                             >
                               {tablesUtils.getColumnIcon(type)}

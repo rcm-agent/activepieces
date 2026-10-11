@@ -6,8 +6,11 @@ import { HttpMethod } from '@activepieces/pieces-common';
 export const createPptFromTopic = createAction({
   auth: MagicSlidesAuth,
   name: 'createPptFromTopic',
+  classification: 'WRITE',
   displayName: 'Create PPT from Topic',
   description: 'Generates a PPT presentation from a given topic.',
+  audience: 'both',
+  aiMetadata: { description: 'Generate a new PowerPoint presentation from a short topic string using AI, with optional control over slide count, language, template, AI model, and image sourcing. Choose this when the only input is a subject line and you want the AI to research and author the deck; use the summary or YouTube variants instead when starting from existing text or a video. Each call generates a fresh presentation, so it is not idempotent.', idempotent: false },
   props: {
     topic: Property.ShortText({
       displayName: 'Topic',

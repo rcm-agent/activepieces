@@ -7,8 +7,11 @@ import { HttpMethod } from '@activepieces/pieces-common';
 export const createContactAction = createAction({
     auth: connectucAuth,
     name: 'create-contact',
+    classification: 'WRITE',
     displayName: 'Create Contact',
     description: 'Create a new contact in ConnectUC',
+    audience: 'both',
+    aiMetadata: { description: 'Creates a new contact in a ConnectUC user\'s address book under the given domain and subscriber. Use when an agent needs to add a person (name, phone numbers, optional email, company, and tags) to a user\'s contacts. Not idempotent: each call adds another contact record, so calling it repeatedly with the same input creates duplicates.', idempotent: false },
     props: {
         domain: domainProp(),
         user: subscriberUuidProp(),

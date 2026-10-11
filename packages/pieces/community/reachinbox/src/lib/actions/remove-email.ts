@@ -12,8 +12,15 @@ interface EmailAccount {
 export const removeEmail = createAction({
   auth: ReachinboxAuth,
   name: 'removeEmail',
+  classification: 'DESTRUCTIVE',
   displayName: 'Remove Email',
   description: 'Remove an email account from the system.',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Deletes a connected email account from ReachInbox, identified by its account id. Use to permanently disconnect a mailbox. Idempotent on the id: once removed, repeating the call leaves the account absent.',
+    idempotent: true,
+  },
   props: {
     accountId: Property.Dropdown({
   auth: ReachinboxAuth,

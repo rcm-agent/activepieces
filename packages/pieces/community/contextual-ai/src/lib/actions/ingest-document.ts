@@ -6,8 +6,11 @@ import type { Datastore } from 'contextual-client/resources/datastores';
 export const ingestDocumentAction = createAction({
   auth: contextualAiAuth,
   name: 'ingest_document',
+  classification: 'WRITE',
   displayName: 'Ingest Document',
   description: 'Upload and ingest a document into a Contextual AI datastore',
+  audience: 'both',
+  aiMetadata: { description: 'Uploads a document file (PDF, HTML, DOC/DOCX, PPT/PPTX) into a target datastore and starts asynchronous ingestion, returning a document id to poll for status. Use to add knowledge to a datastore that agents query. Requires the datastore id and the file; optional custom metadata and per-document configuration. Not idempotent — re-running uploads another copy.', idempotent: false },
   props: {
     datastoreId: Property.Dropdown({
       auth: contextualAiAuth,

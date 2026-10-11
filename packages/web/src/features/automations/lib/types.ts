@@ -1,13 +1,18 @@
 import {
+  AgentSummary,
   FolderDto,
   PopulatedFlow,
-  SeekPage,
   Table,
 } from '@activepieces/shared';
 
-export type TreeItemType = 'folder' | 'flow' | 'table' | 'load-more-folder';
+export type TreeItemType =
+  | 'folder'
+  | 'flow'
+  | 'table'
+  | 'agent'
+  | 'load-more-folder';
 
-export type SelectableItemType = 'folder' | 'flow' | 'table';
+export type SelectableItemType = 'folder' | 'flow' | 'table' | 'agent';
 
 export type SelectedItemsMap = Map<string, SelectableItemType>;
 
@@ -15,7 +20,7 @@ export type TreeItem = {
   id: string;
   type: TreeItemType;
   name: string;
-  data: FolderDto | PopulatedFlow | Table | null;
+  data: FolderDto | PopulatedFlow | Table | AgentSummary | null;
   depth: number;
   folderId: string | null;
   childCount?: number;
@@ -34,11 +39,7 @@ export type AutomationsFilters = {
 export type FolderContent = {
   flows: PopulatedFlow[];
   tables: Table[];
-  flowsNextCursor: string | null;
-  tablesNextCursor: string | null;
+  agents: AgentSummary[];
 };
 
-export type RootPage = {
-  flows: SeekPage<PopulatedFlow>;
-  tables: SeekPage<Table>;
-};
+export type AutomationsSort = 'default' | 'name-asc' | 'name-desc';

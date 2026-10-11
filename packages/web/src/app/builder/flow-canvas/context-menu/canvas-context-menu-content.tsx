@@ -1,3 +1,4 @@
+import { isNil } from '@activepieces/core-utils';
 import {
   FlowAction,
   FlowActionType,
@@ -8,6 +9,7 @@ import {
 import { t } from 'i18next';
 import {
   ArrowLeftRight,
+  Braces,
   ClipboardPaste,
   ClipboardPlus,
   Copy,
@@ -16,6 +18,7 @@ import {
   RouteOff,
   Trash,
 } from 'lucide-react';
+import { toast } from 'sonner';
 
 import { Shortcut, ShortcutProps } from '@/components/custom/shortcut';
 import {
@@ -97,7 +100,16 @@ export const CanvasContextMenuContent = ({
     contextMenuType === ContextMenuType.STEP;
   const showPasteAsBranchChild =
     selectedNodes.length === 1 &&
-    firstSelectedStep?.type === FlowActionType.ROUTER &&
+    !isNil(firstSelectedStep) &&
+    flowStructureUtil.isBranchedAction(firstSelectedStep) &&
+    !readonly &&
+    contextMenuType === ContextMenuType.STEP;
+  const showPasteAsCofBranchChild =
+    selectedNodes.length === 1 &&
+    (firstSelectedStep?.type === FlowActionType.CODE ||
+      firstSelectedStep?.type === FlowActionType.PIECE) &&
+    firstSelectedStep.settings.errorHandlingOptions?.continueOnFailure
+      ?.value === true &&
     !readonly &&
     contextMenuType === ContextMenuType.STEP;
   const showPasteAfterCurrentStep =
@@ -111,6 +123,8 @@ export const CanvasContextMenuContent = ({
 
   const showCopy =
     !doSelectedNodesIncludeTrigger && contextMenuType === ContextMenuType.STEP;
+  const showCopyReference =
+    selectedNodes.length === 1 && contextMenuType === ContextMenuType.STEP;
   const showDuplicate =
     selectedNodes.length === 1 &&
     !doSelectedNodesIncludeTrigger &&
@@ -137,10 +151,12 @@ export const CanvasContextMenuContent = ({
   const showContextMenuContent =
     showReplace ||
     showCopy ||
+    showCopyReference ||
     showDuplicate ||
     showSkip ||
     showPasteAsFirstLoopAction ||
     showPasteAsBranchChild ||
+    showPasteAsCofBranchChild ||
     showPasteAfterCurrentStep ||
     showPasteAfterLastStep ||
     showDelete;
@@ -206,8 +222,23 @@ export const CanvasContextMenuContent = ({
             </ShortcutWrapper>
           </ContextMenuItem>
         )}
+
+        {showCopyReference && (
+          <ContextMenuItem
+            onClick={() => {
+              navigator.clipboard.writeText(
+                `{{${selectedNodes[0]}['output']}}`,
+              );
+              toast.success(t('Reference copied to clipboard'));
+            }}
+            className="flex items-center gap-2"
+          >
+            <Braces className="w-4 h-4"></Braces> {t('Copy reference')}
+          </ContextMenuItem>
+        )}
         {(showPasteAsFirstLoopAction ||
           showPasteAsBranchChild ||
+          showPasteAsCofBranchChild ||
           showPasteAfterCurrentStep) && (
           <ContextMenuSeparator></ContextMenuSeparator>
         )}
@@ -326,6 +357,47 @@ export const CanvasContextMenuContent = ({
           </ContextMenuSub>
         )}
 
+        {showPasteAsCofBranchChild && (
+          <ContextMenuSub>
+            <ContextMenuSubTrigger className="flex items-center gap-2">
+              <ClipboardPaste className="w-4 h-4"></ClipboardPaste>{' '}
+              {t('Paste Inside...')}
+            </ContextMenuSubTrigger>
+            <ContextMenuSubContent>
+              <ContextMenuItem
+                onClick={() => {
+                  pasteNodes(
+                    flowVersion,
+                    {
+                      parentStepName: selectedNodes[0],
+                      stepLocationRelativeToParent:
+                        StepLocationRelativeToParent.INSIDE_ON_SUCCESS_BRANCH,
+                    },
+                    applyOperation,
+                  );
+                }}
+              >
+                {t('Success')}
+              </ContextMenuItem>
+              <ContextMenuItem
+                onClick={() => {
+                  pasteNodes(
+                    flowVersion,
+                    {
+                      parentStepName: selectedNodes[0],
+                      stepLocationRelativeToParent:
+                        StepLocationRelativeToParent.INSIDE_ON_FAILURE_BRANCH,
+                    },
+                    applyOperation,
+                  );
+                }}
+              >
+                {t('Failure')}
+              </ContextMenuItem>
+            </ContextMenuSubContent>
+          </ContextMenuSub>
+        )}
+
         {showDelete && (
           <>
             <ContextMenuSeparator />
@@ -341,8 +413,8 @@ export const CanvasContextMenuContent = ({
               }}
             >
               <ShortcutWrapper shortcut={CanvasShortcuts['Delete']}>
-                <Trash className="w-4 stroke-destructive h-4"></Trash>{' '}
-                <div className="text-destructive">{t('Delete')}</div>
+                <Trash className="w-4 stroke-danger-11 h-4"></Trash>{' '}
+                <div className="text-danger-11">{t('Delete')}</div>
               </ShortcutWrapper>
             </ContextMenuItem>
           </>

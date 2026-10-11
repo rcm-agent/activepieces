@@ -6,8 +6,11 @@ import { ninjapipeApiCall, flattenCustomFields, getAuth, ninjapipeCommon } from 
 export const getBudget = createAction({
   auth: ninjapipeAuth,
   name: 'get_budget',
+  classification: 'READ',
   displayName: 'Get Budget',
   description: 'Retrieves a budget by ID.',
+  audience: 'both',
+  aiMetadata: { description: 'Fetch a single budget by its ID. Read-only lookup for inspecting one budget; to enumerate or search budgets use a list action instead.', idempotent: true },
   props: {
     budgetId: ninjapipeCommon.budgetDropdownRequired,
   },

@@ -2,25 +2,33 @@ import { createAction, Property } from '@activepieces/pieces-framework';
 import { areSheetIdsValid, createGoogleClient } from '../common/common';
 import { googleSheetsAuth } from '../common/common';
 import { commonProps } from '../common/props';
-import { google } from 'googleapis';
-import { isNil } from '@activepieces/shared';
+import { sheets as googleSheets } from '@googleapis/sheets';
+import { isNil } from '@activepieces/pieces-framework';
+import { formatRowActionOutputSchema } from '../output-schemas';
 
 export const formatRowAction = createAction({
 	auth: googleSheetsAuth,
 	name: 'format-row',
-	description: 'Format one or multiple rows in specific spreadsheet.',
+	classification: 'WRITE',
+	description: 'Apply colour and text styling to one or more rows.',
+	audience: 'human',
+	aiMetadata: {
+		description:
+			'Applies cell formatting (background color, text color, bold, italic, strikethrough) to a range of rows in a worksheet, leaving cell values untouched. Use when an agent needs to style rows rather than change data. Colors are given as HEX codes; idempotent — re-applying the same formatting produces the same appearance.',
+		idempotent: true,
+	},
 	displayName: 'Format Row(s)',
 	props: {
 		...commonProps,
 		startingRow: Property.Number({
-			displayName: 'Starting row',
+			displayName: 'Starting Row',
 			description: 'The first row number where formatting should begin.',
 			required: true,
 		}),
 		endingRow: Property.Number({
-			displayName: 'Ending row',
+			displayName: 'Ending Row',
 			description:
-				'The last row number where formatting should stop (leave empty to format only the starting row).',
+				'Last row to format. Leave empty to format only the starting row.',
 			required: false,
 		}),
 		bgColor: Property.ShortText({
@@ -34,18 +42,19 @@ export const formatRowAction = createAction({
 			required: false,
 		}),
 		bold: Property.Checkbox({
-			displayName: 'Make text bold',
+			displayName: 'Bold',
 			required: false,
 		}),
 		italic: Property.Checkbox({
-			displayName: 'Make text Italic',
+			displayName: 'Italic',
 			required: false,
 		}),
 		strikethrough: Property.Checkbox({
-			displayName: 'Make text Strikethrough',
+			displayName: 'Strikethrough',
 			required: false,
 		}),
 	},
+	outputSchema: formatRowActionOutputSchema,
 	async run(context) {
 		const { spreadsheetId, sheetId, startingRow,endingRow, bgColor, textColor, italic, bold, strikethrough } =
 			context.propsValue;
@@ -55,7 +64,7 @@ export const formatRowAction = createAction({
 		}
 
 		const authClient = await createGoogleClient(context.auth);
-		const sheets = google.sheets({ version: 'v4', auth: authClient });
+		const sheets = googleSheets({ version: 'v4', auth: authClient });
 
 		const response = await sheets.spreadsheets.batchUpdate({
 			spreadsheetId: context.propsValue.spreadsheetId,

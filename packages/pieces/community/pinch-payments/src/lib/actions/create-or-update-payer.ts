@@ -5,8 +5,11 @@ import { createOrUpdatePayer, listPayers } from '../common/client';
 export const createOrUpdatePayerAction = createAction({
   auth: pinchPaymentsAuth,
   name: 'create_or_update_payer',
+  classification: 'WRITE',
   displayName: 'Create or Update Payer',
   description: 'Create a new payer or update an existing one',
+  audience: 'both',
+  aiMetadata: { description: 'Creates or updates a Pinch Payments payer (a customer/contact who can be charged). Operates in two modes: pass an existing payer id to update that record, or omit it to create a new payer. Optionally attaches a payment source (bank account or credit card) via a capture-script token in the same call. First name and email are required. The update-by-id path is idempotent; omitting the id creates a new payer on each call.', idempotent: true },
   props: {
     payerId: Property.Dropdown({
       displayName: 'Payer',

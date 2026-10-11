@@ -5,8 +5,11 @@ import { chatDropdown } from '../common/properties';
 export const sendFileToExistingChat = createAction({
   auth: timelinesAiAuth,
   name: 'sendFileToExistingChat',
+  classification: 'WRITE',
   displayName: 'Send File to Existing Chat',
   description: 'Similar to above: send a file attachment to a chat using URL or file input and name.',
+  audience: 'both',
+  aiMetadata: { description: 'Uploads a file and sends it as an attachment into an existing TimelinesAI WhatsApp chat identified by its numeric chat_id. Use when you have raw file data to deliver into a known chat. Not idempotent: each call uploads the file and posts a new message.', idempotent: false },
   props: {
       chat_id: chatDropdown({ required: true }),
       file: Property.File({

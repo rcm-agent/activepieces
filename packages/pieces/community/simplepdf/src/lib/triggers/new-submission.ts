@@ -19,9 +19,14 @@ _[Read more about configuring webhooks](https://simplepdf.eu/help/how-to/configu
 
 export const simplePDFNewSubmission = createTrigger({
   name: 'new-submission',
+  classification: 'READ',
   displayName: 'New Submission',
   auth: PieceAuth.None(),
   description: 'Triggers when a form receives a new submission',
+  aiMetadata: {
+    description:
+      'Fires when an end user submits a SimplePDF form, delivering the completed PDF submission via webhook. The event represents a single form submission and includes the source document (id and name), the submission (id, submitted_at timestamp, and a URL to the filled PDF), and any context such as environment and customer_id.',
+  },
   props: {
     md: Property.MarkDown({
       value: markdown,

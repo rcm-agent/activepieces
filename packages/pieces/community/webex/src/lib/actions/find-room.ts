@@ -6,8 +6,15 @@ import { HttpMethod } from '@activepieces/pieces-common';
 export const findRoom = createAction({
   auth: webexAuth,
   name: 'findRoom',
+  classification: 'READ',
   displayName: 'Find room',
   description: 'Retrieve details for a specific room by room id',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Retrieves the details of a single Webex room (space) by its room ID. Use it to look up a known room\'s metadata. Read-only and idempotent; requires the exact room ID (this is not a search across rooms).',
+    idempotent: true,
+  },
   props: {
     roomId: Property.ShortText({
       displayName: 'Room Id',

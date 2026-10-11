@@ -7,8 +7,12 @@ import { greipAuth } from '../common/auth';
 
 export const spamEmailDetectedTrigger = createTrigger({
   name: 'spam_email_detected',
+  classification: 'READ',
   displayName: 'Spam Email Detected',
   description: 'Triggers when a new email is marked as SPAM by Greip',
+  aiMetadata: {
+    description: 'Fires when Greip marks an email address as spam/invalid, carrying the score and the reason it failed. Delivered via a Greip webhook (spam_email event) that must be configured manually in the Greip dashboard.',
+  },
   auth: greipAuth,
   props: {
     webhookInstructions: Property.MarkDown({

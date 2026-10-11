@@ -6,8 +6,11 @@ import { DocuMergeClient } from '../common/client';
 export const combineFiles = createAction({
   auth: documergeAuth,
   name: 'combine_files',
+  classification: 'READ',
   displayName: 'Combine Files',
   description: 'Combine multiple files into a single PDF or DOCX',
+  audience: 'both',
+  aiMetadata: { description: 'Merge several source files into one output document on DocuMerge, choosing PDF or DOCX as the combined format; accepts file identifiers plus optional remote URL and inline contents. Use to concatenate documents into a single deliverable. Requires at least one file identifier, and each call produces a new combined file (not idempotent).', idempotent: false },
   props: {
     output: Property.StaticDropdown({
       displayName: 'Output Format',

@@ -1,14 +1,25 @@
-import { ExecutionType } from '@activepieces/shared';
-import { ActionContext } from '../context';
+import { ExecutionType, ResumePayload, TriggerStrategy } from '@activepieces/core-piece-types';
+import {
+  ActionContext,
+  CreateWaitpointParams,
+  CreateWaitpointResult,
+  SetScheduleRequest,
+  TriggerHookContext,
+} from '../context';
 import { InputPropertyMap, StaticPropsValue } from '../property';
 
 export function createMockActionContext<
   Props extends InputPropertyMap
 >(params: {
   propsValue: StaticPropsValue<Props>;
+  resumePayload?: ResumePayload;
+  canPause?: boolean;
+  onCreateWaitpoint?: (waitpoint: CreateWaitpointParams) => void;
+  onWaitForWaitpoint?: (waitpointId: string) => void;
 }): ActionContext<undefined, Props> {
   return {
-    executionType: ExecutionType.BEGIN,
+    executionType: params.resumePayload ? ExecutionType.RESUME : ExecutionType.BEGIN,
+    resumePayload: params.resumePayload,
     auth: undefined,
     propsValue: params.propsValue,
     store: {
@@ -33,6 +44,7 @@ export function createMockActionContext<
     },
     files: {
       write: async () => 'test-file-url',
+      upload: async () => ({ id: 'test-file-id', url: 'test-file-url' }),
     },
     output: {
       update: async () => {
@@ -44,6 +56,7 @@ export function createMockActionContext<
     },
     run: {
       id: 'test-run-id' as string,
+      canPause: params.canPause ?? true,
       stop: () => {
         return;
       },
@@ -52,6 +65,17 @@ export function createMockActionContext<
       },
       respond: () => {
         return;
+      },
+      createWaitpoint: async (waitpoint: CreateWaitpointParams): Promise<CreateWaitpointResult> => {
+        params.onCreateWaitpoint?.(waitpoint);
+        return {
+          id: 'test-waitpoint-id',
+          resumeUrl: 'http://localhost:3000/resume',
+          buildResumeUrl: () => 'http://localhost:3000/resume',
+        };
+      },
+      waitForWaitpoint: (waitpointId: string) => {
+        params.onWaitForWaitpoint?.(waitpointId);
       },
     },
     project: {
@@ -72,4 +96,18 @@ export function createMockActionContext<
     },
     generateResumeUrl: () => 'http://localhost:3000/resume',
   } as unknown as ActionContext<undefined, Props>;
+}
+
+export function createMockPollingTriggerContext<
+  Props extends InputPropertyMap
+>(params: {
+  propsValue: StaticPropsValue<Props>;
+  onSetSchedule?: (schedule: SetScheduleRequest) => void;
+}): TriggerHookContext<undefined, Props, TriggerStrategy.POLLING> {
+  return {
+    ...createMockActionContext({ propsValue: params.propsValue }),
+    setSchedule: (schedule: SetScheduleRequest) => {
+      params.onSetSchedule?.(schedule);
+    },
+  } as unknown as TriggerHookContext<undefined, Props, TriggerStrategy.POLLING>;
 }

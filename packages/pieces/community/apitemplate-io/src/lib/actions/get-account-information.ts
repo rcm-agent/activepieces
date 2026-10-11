@@ -2,12 +2,17 @@ import { createAction } from '@activepieces/pieces-framework';
 import { ApitemplateAuth } from '../common/auth';
 import { ApitemplateRegion, makeRequest } from '../common/client';
 import { HttpMethod } from '@activepieces/pieces-common';
+import { getAccountInformationOutputSchema } from '../output-schemas';
 
 export const getAccountInformation = createAction({
   auth: ApitemplateAuth,
   name: 'getAccountInformation',
+  outputSchema: getAccountInformationOutputSchema,
+  classification: 'READ',
   displayName: 'Get Account Information',
   description: 'Retrieves account information including usage statistics and account details.',
+  audience: 'both',
+  aiMetadata: { description: 'Fetches the APITemplate.io account profile, including plan and generation usage/quota stats. Use to check remaining quota or account status before generating documents. Read-only and idempotent; takes no input.', idempotent: true },
   props: {},
   async run({ auth }) {
     const authConfig = auth.props;

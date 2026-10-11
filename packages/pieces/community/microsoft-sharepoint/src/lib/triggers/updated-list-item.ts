@@ -13,8 +13,12 @@ const clientState = 'activepieces_sharepoint_updated_list_item_trigger';
 export const updatedListItemTrigger = createTrigger({
   auth: microsoftSharePointAuth,
   name: 'updated_list_item',
+  classification: 'READ',
   displayName: 'Updated List Item',
   description: 'Fires when an existing item in a SharePoint list is updated.',
+  aiMetadata: {
+    description: 'Fires when an existing item in one specific SharePoint list on a given site is modified. Each event represents the updated list item with its current fields; newly created items are not the focus (use New List Item for creations).',
+  },
   props: {
     siteId: microsoftSharePointCommon.siteId,
     listId: microsoftSharePointCommon.listId,

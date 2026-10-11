@@ -6,12 +6,14 @@ import { toast } from 'sonner';
 
 import { useTheme } from '@/components/providers/theme-provider';
 import { Button } from '@/components/ui/button';
+import { syntaxTheme } from '@/lib/syntax-theme';
 
 interface SimpleJsonViewerProps {
   data: any;
   readOnly?: boolean;
   hideCopyButton?: boolean;
   maxHeight?: number;
+  fontSize?: string;
 }
 
 export const SimpleJsonViewer: React.FC<SimpleJsonViewerProps> = ({
@@ -19,9 +21,10 @@ export const SimpleJsonViewer: React.FC<SimpleJsonViewerProps> = ({
   readOnly = true,
   hideCopyButton = false,
   maxHeight = 400,
+  fontSize = '14px',
 }) => {
   const [copied, setCopied] = useState(false);
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
 
   const formattedJson =
     typeof data === 'string' ? data : JSON.stringify(data, null, 2);
@@ -38,11 +41,11 @@ export const SimpleJsonViewer: React.FC<SimpleJsonViewerProps> = ({
     }, 3000);
   };
 
-  const viewerTheme = theme === 'dark' ? 'bright' : 'rjv-default';
+  const viewerTheme = syntaxTheme.jsonView(resolvedTheme);
 
   return (
     <div
-      className="w-full relative text-foreground overflow-hidden"
+      className="w-full relative text-gray-12 overflow-hidden"
       style={{
         maxWidth: '100%',
       }}
@@ -56,13 +59,9 @@ export const SimpleJsonViewer: React.FC<SimpleJsonViewerProps> = ({
             className="p-0 "
           >
             {copied ? (
-              <Check className="w-4 h-4 text-success" />
+              <Check className="w-4 h-4 text-success-11" />
             ) : (
-              <Copy
-                className={`w-4 h-4 ${
-                  theme === 'dark' ? 'text-white' : 'text-black'
-                }`}
-              />
+              <Copy className="w-4 h-4 text-gray-12" />
             )}
           </Button>
         </div>
@@ -78,7 +77,10 @@ export const SimpleJsonViewer: React.FC<SimpleJsonViewerProps> = ({
         }}
       >
         {typeof data === 'string' ? (
-          <pre className="text-sm whitespace-pre-wrap break-all overflow-x-auto p-2">
+          <pre
+            className="whitespace-pre-wrap break-all overflow-x-auto p-2"
+            style={{ fontSize }}
+          >
             {data}
           </pre>
         ) : (
@@ -87,7 +89,7 @@ export const SimpleJsonViewer: React.FC<SimpleJsonViewerProps> = ({
               style={{
                 overflowX: 'auto',
                 padding: '0.5rem',
-                fontSize: '14px',
+                fontSize,
                 width: '100%',
                 minWidth: 0,
                 boxSizing: 'border-box',

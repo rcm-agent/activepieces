@@ -4,8 +4,11 @@ import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 
 export const listApiTokensAction = createAction({
   name: 'list_api_tokens',
+  classification: 'SEARCH',
   displayName: 'List API Tokens',
   description: 'List all API tokens for your user account',
+  audience: 'both',
+  aiMetadata: { description: 'List the API tokens on the authenticated user\'s account, with optional limit and offset paging. Use to enumerate tokens or find a token value to pass to the get or delete API token actions. Read-only and idempotent.', idempotent: true },
   auth: zooAuth,
   // category: 'API Tokens',
   props: {

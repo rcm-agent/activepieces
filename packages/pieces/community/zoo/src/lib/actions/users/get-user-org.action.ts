@@ -4,8 +4,11 @@ import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 
 export const getUserOrgAction = createAction({
   name: 'get_user_org',
+  classification: 'READ',
   displayName: 'Get User Organization',
   description: 'Get the organization associated with your user account',
+  audience: 'both',
+  aiMetadata: { description: 'Retrieve the organization that the authenticated Zoo user belongs to. Read-only and repeatable; takes no input.', idempotent: true },
   auth: zooAuth,
   // category: 'Users',
   props: {},

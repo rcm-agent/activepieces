@@ -6,8 +6,11 @@ import { getUser, medullarCommon, medullarPropsCommon } from '../common';
 export const addSpaceRecord = createAction({
   auth: medullarAuth,
   name: 'addSpaceRecord',
+  classification: 'WRITE',
   displayName: 'Add Space Record',
   description: 'Adds a Record into a Space',
+  audience: 'both',
+  aiMetadata: { description: 'Ingests a new content record into a Medullar Space identified by its UUID, so the content becomes part of that Space\'s knowledge base. The source type selects what kind of content is added (url, text, image, or file), with content and/or url supplied accordingly. Use to feed material into a Space before asking questions about it. Not idempotent: each call appends a new record.', idempotent: false },
   props: {
     spaceId: medullarPropsCommon.spaceId,
     sourceType: Property.StaticDropdown({

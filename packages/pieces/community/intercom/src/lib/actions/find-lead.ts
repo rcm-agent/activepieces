@@ -5,8 +5,11 @@ import { intercomClient } from '../common';
 export const findLeadAction = createAction({
     auth: intercomAuth,
     name: 'find-lead',
+    classification: 'READ',
     displayName: 'Find Lead',
     description: 'Finds an existing lead.',
+    audience: 'both',
+    aiMetadata: { description: 'Look up a single existing lead (prospect contact) by email, Intercom ID, or external user ID. Read-only and repeatable; returns the first match plus a found flag and only matches role=lead. To find a signed-up user instead, use Find User.', idempotent: true },
     props: {
         searchField: Property.StaticDropdown({
             displayName: 'Search Field',

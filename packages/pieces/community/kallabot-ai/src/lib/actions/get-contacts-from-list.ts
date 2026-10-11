@@ -4,8 +4,14 @@ import { kallabotAuth } from '../..';
 
 export const getContactsFromListAction = createAction({
     name: 'get-contacts-from-list',
+    classification: 'SEARCH',
     displayName: 'Get Contacts from List',
     description: 'Retrieve all contacts from a specific contact list.',
+    audience: 'both',
+    aiMetadata: {
+        description: 'List every contact stored in one Kallabot contact list, identified by its list ID. Use it to read or enumerate the members of a list before calling, editing, or campaigning. Read-only and idempotent.',
+        idempotent: true,
+    },
     auth: kallabotAuth,
 
     props: {

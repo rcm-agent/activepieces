@@ -40,6 +40,8 @@ type SearchableSelectProps<T> = {
   showRefresh?: boolean;
   onClose?: () => void;
   triggerClassName?: string;
+  /**Widens the popover past the trigger, for compact or inline triggers */
+  contentWidth?: string;
   valuesRendering?: (value: unknown) => React.ReactNode;
   openState?: {
     open: boolean;
@@ -79,6 +81,7 @@ export const SearchableSelect = <T,>({
   showRefresh,
   onClose,
   triggerClassName,
+  contentWidth,
   valuesRendering,
   openState: openStateInitializer,
   refreshOnSearch,
@@ -90,7 +93,7 @@ export const SearchableSelect = <T,>({
   const { open, setOpen } = useOpenState(openStateInitializer);
   const triggerWidth = `${triggerRef.current?.clientWidth ?? 0}px`;
   const selectedOption =
-    [...cachedOptions, ...options].find((option) =>
+    [...options, ...cachedOptions].find((option) =>
       deepEqual(option.value, value),
     ) ?? undefined;
   const filterOptionsIndices = options
@@ -126,21 +129,18 @@ export const SearchableSelect = <T,>({
     const option = options[optionIndex];
     onChange(option.value);
   };
+  const handleOpenChange = (nextOpen: boolean) => {
+    if (!nextOpen) {
+      onClose?.();
+    }
+    if (refreshOnSearch && searchTerm.length > 0) {
+      refreshOnSearch('');
+      setSearchTerm('');
+    }
+    setOpen(nextOpen);
+  };
   return (
-    <Popover
-      modal={true}
-      open={open}
-      onOpenChange={(open) => {
-        if (!open) {
-          onClose?.();
-        }
-        if (refreshOnSearch && searchTerm.length > 0) {
-          refreshOnSearch('');
-          setSearchTerm('');
-        }
-        setOpen(open);
-      }}
-    >
+    <Popover modal={true} open={open} onOpenChange={handleOpenChange}>
       <PopoverTrigger
         asChild
         className={cn({
@@ -163,7 +163,7 @@ export const SearchableSelect = <T,>({
             aria-expanded={open}
             className={cn('w-full justify-between', triggerClassName)}
             onClick={(e) => {
-              setOpen(!open);
+              handleOpenChange(!open);
               e.preventDefault();
             }}
           >
@@ -205,9 +205,15 @@ export const SearchableSelect = <T,>({
         </div>
       </PopoverTrigger>
       <PopoverContent
+        onPointerDownOutside={(e) => {
+          const target = e.detail.originalEvent.target;
+          if (target instanceof Node && triggerRef.current?.contains(target)) {
+            e.preventDefault();
+          }
+        }}
         style={{
-          maxWidth: triggerWidth,
-          minWidth: triggerWidth,
+          maxWidth: contentWidth ?? triggerWidth,
+          minWidth: contentWidth ?? triggerWidth,
         }}
         className="min-w-full w-full p-0"
       >
@@ -265,7 +271,7 @@ export const SearchableSelect = <T,>({
                               <button
                                 type="button"
                                 className={cn(
-                                  'absolute inset-0 flex items-center justify-center text-muted-foreground hover:text-destructive',
+                                  'absolute inset-0 flex items-center justify-center text-gray-11 hover:text-danger-11',
                                   'opacity-0 group-hover/option:opacity-100',
                                 )}
                                 onClick={(e) => {
@@ -292,7 +298,7 @@ export const SearchableSelect = <T,>({
                           </div>
                         </div>
                         {option.description && (
-                          <div className="text-sm text-muted-foreground">
+                          <div className="text-sm text-gray-11">
                             {option.description}
                           </div>
                         )}

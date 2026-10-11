@@ -6,6 +6,7 @@ export type SignatureTriggerSpec = {
   name: string;
   displayName: string;
   description: string;
+  aiMetadata?: { description: string };
   event: string;
   sampleData: unknown;
 };
@@ -14,8 +15,10 @@ export function buildSignatureTrigger(spec: SignatureTriggerSpec) {
   return createTrigger({
     auth: iloveapiAuth,
     name: spec.name,
+    classification: 'READ',
     displayName: spec.displayName,
     description: spec.description,
+    aiMetadata: spec.aiMetadata,
     type: TriggerStrategy.WEBHOOK,
     props: {
       instructions: Property.MarkDown({

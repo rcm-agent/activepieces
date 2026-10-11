@@ -2,13 +2,18 @@ import { createAction, Property } from '@activepieces/pieces-framework';
 import { ApitemplateAuth } from '../common/auth';
 import { ApitemplateRegion, makeRequest } from '../common/client';
 import { HttpMethod } from '@activepieces/pieces-common';
+import { listObjectsOutputSchema } from '../output-schemas';
 
 export const listObjects = createAction({
   auth: ApitemplateAuth,
   name: 'listObjects',
+  outputSchema: listObjectsOutputSchema,
+  classification: 'SEARCH',
   displayName: 'List Objects',
   description:
     'Retrieves a list of generated PDFs and images with optional filtering',
+  audience: 'both',
+  aiMetadata: { description: 'Lists previously generated PDFs and images for the account, optionally narrowed by template ID, transaction reference, date range, or external reference (meta); with no filters it returns the full recent set. Supports limit/offset pagination (max 300 per call). Read-only and idempotent.', idempotent: true },
   props: {
     limit: Property.Number({
       displayName: 'Limit',

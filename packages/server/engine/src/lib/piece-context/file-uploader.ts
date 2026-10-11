@@ -1,102 +1,80 @@
-import { FilesService } from '@activepieces/pieces-framework'
-import { FileLocation, FileSizeError, FileStoreError, isNil, StepFileUpsertResponse } from '@activepieces/shared'
-import fetchRetry from 'fetch-retry'
+import { Readable } from 'node:stream'
+import { apId } from '@activepieces/core-utils'
+import { FilesService, UploadedFile } from '@activepieces/pieces-framework'
+import { EngineGenericError, FileSizeError, FileType } from '@activepieces/shared'
+import { engineFileApi } from '../api/engine-file-api'
 
-const RETRY_CONFIG = {
-    retries: 3,
-    retryDelay: 3000,
-} as const
-
-export function createFileUploader({ stepName, flowId, engineToken, apiUrl }: CreateFileUploaderParams): FilesService {
-    const maxFileSizeMb = Number(process.env.AP_MAX_FILE_SIZE_MB)
-    const fileStorageLocation = process.env.AP_FILE_STORAGE_LOCATION as FileLocation
-    const useSignedUrl = (process.env.AP_S3_USE_SIGNED_URLS === 'true') && fileStorageLocation === FileLocation.S3
-
+export function createFileUploader({ engineToken, apiUrl }: CreateFileUploaderParams): FilesService {
+    const upload = async ({ fileName, data }: { fileName: string, data: Buffer | Readable }): Promise<UploadedFile> => {
+        if (!Buffer.isBuffer(data) && !(data instanceof Readable)) {
+            throw new Error(`Expected file data to be a Buffer or Readable stream, but received ${describeType(data)}`)
+        }
+        const maxBytes = resolveMaxFileSizeBytes()
+        const payload = Buffer.isBuffer(data) ? data : await drainToBuffer({ stream: data, maxBytes })
+        assertWithinLimit({ sizeInBytes: payload.length, maxBytes })
+        const { fileId, readUrl } = await engineFileApi.upload({
+            engineToken,
+            apiUrl,
+            fileId: apId(),
+            type: FileType.FLOW_STEP_FILE,
+            fileName,
+            data: payload,
+        })
+        return { id: fileId, url: readUrl }
+    }
     return {
-        write: async ({ fileName, data }: { fileName: string, data: Buffer }): Promise<string> => {
-            if (!Buffer.isBuffer(data)) {
-                throw new Error(
-                    `Expected file data to be a Buffer, but received ${typeof data === 'object' ? Object.prototype.toString.call(data) : typeof data}`,
-                )
-            }
-            validateFileSize(data, maxFileSizeMb)
-            const formData = createFormData({ fileName, data, stepName, flowId, useSignedUrl })
-            const result = await uploadFileMetadata({ formData, engineToken, apiUrl })
-            if (useSignedUrl) {
-                if (isNil(result.uploadUrl)) {
-                    throw new FileStoreError({
-                        status: 500,
-                        body: 'Upload URL is not available',
-                    })
-                }
-                await uploadFileContent({ url: result.uploadUrl, data })
-            }
-
-            return result.url
-        },
+        upload,
+        write: async (params: { fileName: string, data: Buffer | Readable }): Promise<string> => (await upload(params)).url,
     }
 }
 
-function validateFileSize(data: Buffer, maxFileSizeMb: number): void {
-    const maximumFileSizeInBytes = maxFileSizeMb * 1024 * 1024
-    if (data.length > maximumFileSizeInBytes) {
-        throw new FileSizeError(data.length / 1024 / 1024, maxFileSizeMb)
+async function drainToBuffer({ stream, maxBytes }: { stream: Readable, maxBytes: number }): Promise<Buffer> {
+    const chunks: Buffer[] = []
+    let totalBytes = 0
+    for await (const chunk of stream) {
+        const bytes = toBufferChunk(chunk)
+        totalBytes += bytes.length
+        assertWithinLimit({ sizeInBytes: totalBytes, maxBytes })
+        chunks.push(bytes)
+    }
+    return Buffer.concat(chunks)
+}
+
+function resolveMaxFileSizeBytes(): number {
+    const raw = process.env.AP_MAX_FILE_SIZE_MB
+    const parsed = Number(raw)
+    if (!Number.isFinite(parsed) || parsed <= 0) {
+        throw new EngineGenericError(
+            'FileUploaderMisconfiguredError',
+            `AP_MAX_FILE_SIZE_MB must be a positive number, received "${raw ?? ''}"`,
+        )
+    }
+    return parsed * BYTES_PER_MB
+}
+
+function assertWithinLimit({ sizeInBytes, maxBytes }: { sizeInBytes: number, maxBytes: number }): void {
+    if (sizeInBytes > maxBytes) {
+        throw new FileSizeError(Math.ceil(sizeInBytes / BYTES_PER_MB * 100) / 100, maxBytes / BYTES_PER_MB)
     }
 }
 
-function createFormData({ fileName, data, stepName, flowId, useSignedUrl }: { fileName: string, data: Buffer, stepName: string, flowId: string, useSignedUrl: boolean }): FormData {
-    const formData = new FormData()
-    formData.append('stepName', stepName)
-    formData.append('flowId', flowId)
-    formData.append('contentLength', data.length.toString())
-    formData.append('fileName', fileName)
-
-    if (!useSignedUrl) {
-        formData.append('file', new Blob([data], { type: 'application/octet-stream' }), fileName)
+function toBufferChunk(chunk: unknown): Buffer {
+    if (Buffer.isBuffer(chunk)) {
+        return chunk
     }
-
-    return formData
+    if (typeof chunk === 'string') {
+        return Buffer.from(chunk)
+    }
+    throw new Error(`Expected file stream to emit Buffer or string chunks, but received ${describeType(chunk)}`)
 }
 
-async function uploadFileMetadata({ formData, engineToken, apiUrl }: { formData: FormData, engineToken: string, apiUrl: string }): Promise<StepFileUpsertResponse> {
-    const fetchWithRetry = fetchRetry(global.fetch)
-    const response = await fetchWithRetry(apiUrl + 'v1/step-files', {
-        method: 'POST',
-        headers: {
-            Authorization: 'Bearer ' + engineToken,
-        },
-        ...RETRY_CONFIG,
-        body: formData,
-    })
-
-    if (!response.ok) {
-        const bodyText = await response.text()
-        throw new FileStoreError({
-            status: response.status,
-            body: bodyText,
-        })
-    }
-
-    return await response.json() as StepFileUpsertResponse
+function describeType(value: unknown): string {
+    return typeof value === 'object' ? Object.prototype.toString.call(value) : typeof value
 }
 
-async function uploadFileContent({ url, data }: { url: string, data: Buffer }): Promise<void> {
-    const fetchWithRetry = fetchRetry(global.fetch)
-    const uploadResponse = await fetchWithRetry(url, {
-        method: 'PUT',
-        body: data,
-        headers: {
-            'Content-Type': 'application/octet-stream',
-        },
-        ...RETRY_CONFIG,
-    })
+const BYTES_PER_MB = 1024 * 1024
 
-    if (!uploadResponse.ok) {
-        throw new FileStoreError({
-            status: uploadResponse.status,
-            body: await uploadResponse.text(),
-        })
-    }
+type CreateFileUploaderParams = {
+    apiUrl: string
+    engineToken: string
 }
-
-type CreateFileUploaderParams = { apiUrl: string, stepName: string, flowId: string, engineToken: string }

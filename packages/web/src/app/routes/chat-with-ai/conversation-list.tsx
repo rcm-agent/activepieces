@@ -1,37 +1,63 @@
-import { ChatConversation } from '@activepieces/shared';
+import { AgentConversation } from '@activepieces/shared';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { t } from 'i18next';
-import { ChevronDown, MessageSquare, Plus, Search, Trash2 } from 'lucide-react';
+import {
+  ArrowUpRight,
+  ChevronDown,
+  MessageSquare,
+  Plus,
+  Search,
+  Settings,
+  Trash2,
+} from 'lucide-react';
 import { useMemo, useState, useRef, useCallback, useEffect } from 'react';
 
+import { SettingsHubDialog } from '@/app/components/settings-hub/settings-hub-dialog';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
 import { TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { chatApi } from '@/features/chat/lib/chat-api';
+import { chatUtils } from '@/features/chat/lib/chat-utils';
+import { useConversationIndicators } from '@/features/chat/lib/use-conversation-indicators';
 import { cn } from '@/lib/utils';
 
+import { ConversationStatusDot } from './components/conversation-status-dot';
+import { ConversationsToggle } from './components/conversations-toggle';
 import { DelayedTooltip } from './components/delayed-tooltip';
 
 export function ConversationList({
   onSelect,
   onNewChat,
   selectedId,
+  className,
+  mobile = false,
+  agentId,
+  onCollapse,
 }: {
   onSelect?: (id: string) => void;
   onNewChat?: () => void;
   selectedId?: string | null;
+  className?: string;
+  mobile?: boolean;
+  agentId?: string;
+  onCollapse?: () => void;
 }) {
   const queryClient = useQueryClient();
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
   const [showTopFade, setShowTopFade] = useState(false);
   const [showBottomFade, setShowBottomFade] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
 
   const { data: conversationsPage, isLoading: isLoadingConversations } =
     useQuery({
-      queryKey: ['chat-conversations'],
-      queryFn: () => chatApi.listConversations({ limit: 100 }),
+      queryKey: ['chat-conversations', agentId ?? 'chat'],
+      queryFn: () =>
+        chatApi.listConversations({
+          limit: 100,
+          ...(agentId === undefined ? {} : { agentId }),
+        }),
     });
 
   const selectedIdRef = useRef(selectedId);
@@ -41,7 +67,7 @@ export function ConversationList({
     mutationFn: (id: string) => chatApi.deleteConversation(id),
     onSuccess: (_data, deletedId) => {
       void queryClient.invalidateQueries({
-        queryKey: ['chat-conversations'],
+        queryKey: ['chat-conversations', agentId ?? 'chat'],
       });
       if (selectedIdRef.current === deletedId) {
         onNewChat?.();
@@ -50,6 +76,11 @@ export function ConversationList({
   });
 
   const allConversations = conversationsPage?.data ?? [];
+
+  const { getIndicator, markRead } = useConversationIndicators({
+    conversations: allConversations,
+    activeId: selectedId ?? null,
+  });
 
   const conversations = useMemo(() => {
     if (!searchQuery.trim()) return allConversations;
@@ -77,9 +108,9 @@ export function ConversationList({
     const yesterdayStr = y.toDateString();
 
     const groups: {
-      today: ChatConversation[];
-      yesterday: ChatConversation[];
-      older: ChatConversation[];
+      today: AgentConversation[];
+      yesterday: AgentConversation[];
+      older: AgentConversation[];
     } = {
       today: [],
       yesterday: [],
@@ -94,7 +125,8 @@ export function ConversationList({
     return groups;
   }, [conversations]);
 
-  const handleClick = (conv: ChatConversation) => {
+  const handleClick = (conv: AgentConversation) => {
+    markRead(conv.id);
     onSelect?.(conv.id);
   };
 
@@ -107,14 +139,14 @@ export function ConversationList({
     setCollapsed((prev) => ({ ...prev, [label]: !prev[label] }));
   };
 
-  const renderGroup = (label: string, items: ChatConversation[]) => {
+  const renderGroup = (label: string, items: AgentConversation[]) => {
     if (items.length === 0) return null;
     const isCollapsed = collapsed[label];
     return (
       <div className="mb-2 flex flex-col gap-px">
         <button
           type="button"
-          className="flex items-center gap-0.5 rounded-md bg-transparent border-none cursor-pointer text-[11px] font-semibold px-2 py-1 uppercase tracking-wider text-muted-foreground transition-colors hover:text-foreground"
+          className="flex items-center gap-0.5 rounded-md bg-transparent border-none cursor-pointer text-[11px] font-semibold px-2 py-1 uppercase tracking-wider text-gray-11 transition-colors hover:text-gray-12"
           onClick={() => toggleGroup(label)}
         >
           {label}
@@ -127,88 +159,112 @@ export function ConversationList({
           />
         </button>
         {!isCollapsed &&
-          items.map((conv, index) => (
-            <button
-              type="button"
-              key={conv.id}
-              className={cn(
-                'group flex items-center w-full px-2 py-1.5 rounded-md bg-transparent border-none cursor-pointer text-left text-xs transition-all hover:bg-muted relative animate-in fade-in slide-in-from-top-1 duration-200',
-                selectedId === conv.id &&
-                  'bg-muted font-semibold border-l-2 border-l-primary',
-              )}
-              style={{ animationDelay: `${index * 30}ms` }}
-              onClick={() => handleClick(conv)}
-            >
-              <span className="overflow-hidden text-ellipsis whitespace-nowrap pr-5 flex-1">
-                {conv.title ?? t('New conversation')}
-              </span>
-              <DelayedTooltip>
-                <TooltipTrigger asChild>
-                  <span
-                    role="button"
-                    tabIndex={0}
-                    className="absolute right-1 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 p-1 rounded-md text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all"
-                    onClick={(e) => handleDelete(e, conv.id)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        e.stopPropagation();
-                        deleteConv(conv.id);
-                      }
-                    }}
-                  >
-                    <Trash2 size={12} />
+          items.map((conv) => {
+            const indicator = getIndicator(conv);
+            return (
+              <button
+                type="button"
+                key={conv.id}
+                className={cn(
+                  'group flex items-center w-full px-2 py-1.5 rounded-md bg-transparent border-none cursor-pointer text-left text-xs transition-colors hover:bg-gray-3 relative',
+                  mobile && 'px-3 py-2.5 text-sm',
+                  selectedId === conv.id &&
+                    'bg-gray-3 font-semibold border-l-2 border-l-accent-9',
+                )}
+                onClick={() => handleClick(conv)}
+              >
+                <span className="overflow-hidden text-ellipsis whitespace-nowrap pr-5 flex-1">
+                  {conv.title
+                    ? chatUtils.sanitizeTitle(conv.title)
+                    : t('New conversation')}
+                </span>
+                {indicator && (
+                  <span className="absolute right-2 top-1/2 -translate-y-1/2 transition-opacity group-hover:opacity-0">
+                    <ConversationStatusDot state={indicator} />
                   </span>
-                </TooltipTrigger>
-                <TooltipContent
-                  side="right"
-                  align="center"
-                  className="pointer-events-none"
-                >
-                  {t('Delete')}
-                </TooltipContent>
-              </DelayedTooltip>
-            </button>
-          ))}
+                )}
+                <DelayedTooltip>
+                  <TooltipTrigger asChild>
+                    <span
+                      role="button"
+                      tabIndex={0}
+                      className={cn(
+                        'absolute right-1 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 p-1 rounded-md text-gray-11 hover:text-danger-11 hover:bg-danger-3 transition-all',
+                        mobile && 'opacity-100 p-1.5',
+                      )}
+                      onClick={(e) => handleDelete(e, conv.id)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.stopPropagation();
+                          deleteConv(conv.id);
+                        }
+                      }}
+                    >
+                      <Trash2 size={12} />
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent
+                    side="right"
+                    align="center"
+                    className="pointer-events-none"
+                  >
+                    {t('Delete')}
+                  </TooltipContent>
+                </DelayedTooltip>
+              </button>
+            );
+          })}
       </div>
     );
   };
 
   return (
-    <div className="flex flex-col h-full shrink-0" style={{ width: '220px' }}>
+    <div className={cn('flex flex-col h-full shrink-0 w-[220px]', className)}>
       <div className="px-2 pt-3 pb-2 space-y-2">
-        <button
-          type="button"
-          className="flex items-center justify-between gap-1.5 w-full px-2 py-1.5 rounded-md border border-border bg-transparent cursor-pointer text-xs text-foreground transition-colors hover:bg-accent"
-          onClick={() => {
-            onNewChat?.();
-          }}
-        >
-          <span className="flex items-center gap-1.5">
-            <Plus size={14} />
-            {t('New chat')}
-          </span>
-          <span className="text-[11px] opacity-50">⇧⌘O</span>
-        </button>
+        <div className="flex items-center gap-1.5">
+          <button
+            type="button"
+            className={cn(
+              'flex grow items-center justify-between gap-1.5 px-2 py-1.5 rounded-md border border-gray-6 bg-transparent cursor-pointer text-xs text-gray-12 transition-colors hover:bg-gray-4',
+              mobile && 'px-3 py-2.5 text-sm',
+            )}
+            onClick={() => {
+              onNewChat?.();
+            }}
+          >
+            <span className="flex items-center gap-1.5">
+              <Plus size={mobile ? 16 : 14} />
+              {t('New chat')}
+            </span>
+            {!mobile && <span className="text-[11px] opacity-50">⇧⌘O</span>}
+          </button>
+          {onCollapse !== undefined && (
+            <ConversationsToggle open onClick={onCollapse} />
+          )}
+        </div>
         {allConversations.length > 5 && (
           <div className="relative">
-            <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
+            <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-gray-11" />
             <Input
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={t('Search...')}
-              className="h-7 pl-7 text-xs rounded-md"
+              className={cn(
+                'h-7 pl-7 text-xs rounded-md',
+                mobile && 'h-9 pl-8 text-base',
+              )}
             />
           </div>
         )}
       </div>
       <div className="flex-1 relative min-h-0">
         {showTopFade && (
-          <div className="absolute top-0 left-0 right-0 h-5 pointer-events-none z-[1] bg-gradient-to-b from-background to-transparent" />
+          <div className="absolute top-0 left-0 right-0 h-5 pointer-events-none z-[1] bg-gradient-to-b from-gray-1 to-transparent" />
         )}
         <div
           ref={listRef}
           onScroll={checkFades}
-          className="h-full overflow-y-auto px-2 pb-3 scrollbar-thin"
+          className="h-full overflow-y-auto px-2 pb-3"
         >
           {isLoadingConversations ? (
             <div className="space-y-2 px-2 pt-2">
@@ -218,8 +274,8 @@ export function ConversationList({
             </div>
           ) : conversations.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-8 px-4 text-center">
-              <MessageSquare className="h-8 w-8 text-muted-foreground/30 mb-2" />
-              <p className="text-xs text-muted-foreground">
+              <MessageSquare className="h-8 w-8 text-gray-9 mb-2" />
+              <p className="text-xs text-gray-11">
                 {searchQuery.trim()
                   ? t('No chats found')
                   : t('Start your first chat')}
@@ -234,9 +290,33 @@ export function ConversationList({
           )}
         </div>
         {showBottomFade && (
-          <div className="absolute bottom-0 left-0 right-0 h-[70px] pointer-events-none z-[1] bg-gradient-to-t from-background to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 h-[70px] pointer-events-none z-[1] bg-gradient-to-t from-gray-1 to-transparent" />
         )}
       </div>
+      {agentId === undefined && (
+        <div className="shrink-0 border-t px-2 py-2">
+          <button
+            type="button"
+            className={cn(
+              'flex items-center gap-1.5 w-full px-2 py-1.5 rounded-md bg-transparent cursor-pointer text-xs text-gray-12 transition-colors hover:bg-gray-4',
+              mobile && 'px-3 py-2.5 text-sm',
+            )}
+            onClick={() => setSettingsOpen(true)}
+          >
+            <Settings size={mobile ? 16 : 14} />
+            {t('Settings')}
+          </button>
+        </div>
+      )}
+      {mobile && (
+        <div className="shrink-0 border-t px-4 py-3">
+          <p className="flex items-start gap-1.5 text-xs leading-snug text-gray-11">
+            <ArrowUpRight size={14} className="mt-px shrink-0" />
+            {t('Open on desktop for the full Activepieces experience.')}
+          </p>
+        </div>
+      )}
+      <SettingsHubDialog open={settingsOpen} onOpenChange={setSettingsOpen} />
     </div>
   );
 }

@@ -1,27 +1,28 @@
-import { hubspotAuth } from '../auth';
+import { getHubspotAccessToken, hubspotAuth } from '../auth';
 import {
 	createTrigger,
-	PiecePropValueSchema,
 	TriggerStrategy,
 } from '@activepieces/pieces-framework';
 import { standardObjectPropertiesDropdown } from '../common/props';
 import { OBJECT_TYPE, MAX_SEARCH_PAGE_SIZE, MAX_SEARCH_TOTAL_RESULTS } from '../common/constants';
 import { DedupeStrategy, Polling, pollingHelper } from '@activepieces/pieces-common';
-import { chunk, isNil } from '@activepieces/shared';
+import { isNil } from '@activepieces/pieces-framework';
+import { chunk } from '@activepieces/pieces-framework';
 
 import { Client } from '@hubspot/api-client';
 import dayjs from 'dayjs';
 import { FilterOperatorEnum } from '../common/types';
+import { crmObjectOutputSchema } from '../output-schemas';
+import { AppConnectionValueForAuthProperty } from '@activepieces/pieces-framework';
 
 type Props = {
 	propertyName?: string | string[];
 };
 
-import { AppConnectionValueForAuthProperty } from '@activepieces/pieces-framework';
 const polling: Polling<AppConnectionValueForAuthProperty<typeof hubspotAuth>, Props> = {
 	strategy: DedupeStrategy.TIMEBASED,
 	async items({ auth, propsValue, lastFetchEpochMS }) {
-		const client = new Client({ accessToken: auth.access_token, numberOfApiCallRetries: 3 });
+		const client = new Client({ accessToken: getHubspotAccessToken(auth), numberOfApiCallRetries: 3 });
 
 		const propertyToCheck = propsValue.propertyName as string;
 
@@ -126,33 +127,31 @@ const polling: Polling<AppConnectionValueForAuthProperty<typeof hubspotAuth>, Pr
 export const newContactPropertyChangeTrigger = createTrigger({
 	auth: hubspotAuth,
 	name: 'new-contact-property-change',
+	classification: 'READ',
 	displayName: 'New Contact Property Change',
 	description: 'Triggers when a specified property is updated on a contact.',
+	aiMetadata: {
+		description:
+			'Fires when the chosen property changes on any HubSpot contact. Each event represents one contact whose selected property was modified since the last poll, returning the full contact record. Use to react to specific field updates (e.g. lifecycle stage, lead status) rather than every contact change.',
+	},
 	props: {
 		propertyName: standardObjectPropertiesDropdown(
 			{
 				objectType: OBJECT_TYPE.CONTACT,
-				displayName: 'Property Name',
+				displayName: 'Property',
 				required: true,
 			},
 			true,
 			true,
 		),
 	},
+	outputSchema: crmObjectOutputSchema,
 	type: TriggerStrategy.POLLING,
 	async onEnable(context) {
-		await pollingHelper.onEnable(polling, {
-			auth: context.auth,
-			store: context.store,
-			propsValue: context.propsValue,
-		});
+		await pollingHelper.onEnable(polling, context);
 	},
 	async onDisable(context) {
-		await pollingHelper.onDisable(polling, {
-			auth: context.auth,
-			store: context.store,
-			propsValue: context.propsValue,
-		});
+		await pollingHelper.onDisable(polling, context);
 	},
 	async test(context) {
 		return await pollingHelper.test(polling, context);

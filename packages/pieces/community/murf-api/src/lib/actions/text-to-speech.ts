@@ -7,8 +7,11 @@ import { murfCommon } from "../common/dropdown";
 export const textToSpeech = createAction({
   auth: murfAuth,
   name: "text_to_speech",
+  classification: 'READ',
   displayName: "Text to Speech",
   description: "Converts input text into speech using Murf AI.",
+  audience: 'both',
+  aiMetadata: { description: 'Synthesizes spoken audio from input text using a chosen Murf voice. Choose it to generate narration or voiceovers from text; requires the text and a valid voiceId (use List Voices to find one). Returns audio as a URL or, when Base64 encoding is enabled, inline. Each call generates fresh audio and is not idempotent.', idempotent: false },
   props: {
     language: murfCommon.language,
     voiceId: murfCommon.voiceId,

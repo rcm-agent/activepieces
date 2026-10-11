@@ -4,19 +4,13 @@ import {
   TriggerStrategy,
 } from '@activepieces/pieces-framework';
 import {
-  AuthenticationType,
   HttpMethod,
   httpClient,
 } from '@activepieces/pieces-common';
-import { zendeskAuth } from '../..';
+import { zendeskAuth } from '../auth';
+import { getZendeskAuthentication, getZendeskBaseUrl } from '../common/client';
 
 const WEBHOOK_TRIGGER_KEY = 'zendesk_ticket_action_webhook';
-
-type AuthProps = {
-  email: string;
-  token: string;
-  subdomain: string;
-};
 
 interface ZendeskTicket {
   id: number;
@@ -34,8 +28,12 @@ interface ZendeskTicket {
 
 export const newActionOnTicket = createTrigger({
   name: 'new_action_on_ticket',
+  classification: 'READ',
   displayName: 'New Action on Ticket',
   description: 'Fires when the specified ticket updates. Requires a Zendesk Trigger with Notify active webhook.',
+  aiMetadata: {
+    description: 'Fires when any update or activity (comment, field change, etc.) occurs on one specific ticket, delivered via a registered webhook. The target ticket ID to monitor is required; updates to all other tickets are ignored. Requires a Zendesk Trigger configured to notify the active webhook.',
+  },
   auth: zendeskAuth,
   props: {
     ticket_id: Property.Number({
@@ -123,16 +121,12 @@ export const newActionOnTicket = createTrigger({
       const response = await httpClient.sendRequest<{
         webhook: { id: string };
       }>({
-        url: `https://${authentication.props.subdomain}.zendesk.com/api/v2/webhooks`,
+        url: `${getZendeskBaseUrl(authentication)}/webhooks`,
         method: HttpMethod.POST,
         headers: {
           'Content-Type': 'application/json',
         },
-        authentication: {
-          type: AuthenticationType.BASIC,
-          username: authentication.props.email + '/token',
-          password: authentication.props.token,
-        },
+        authentication: getZendeskAuthentication(authentication),
         body: {
           webhook: {
             name: `Activepieces Ticket Action Webhook - ${Date.now()}`,
@@ -158,13 +152,9 @@ export const newActionOnTicket = createTrigger({
     if (webhookId) {
       try {
         await httpClient.sendRequest({
-          url: `https://${authentication.props.subdomain}.zendesk.com/api/v2/webhooks/${webhookId}`,
+          url: `${getZendeskBaseUrl(authentication)}/webhooks/${webhookId}`,
           method: HttpMethod.DELETE,
-          authentication: {
-            type: AuthenticationType.BASIC,
-            username: authentication.props.email + '/token',
-            password: authentication.props.token,
-          },
+          authentication: getZendeskAuthentication(authentication),
         });
       } catch (error) {
         console.warn(`Warning: Failed to delete webhook ${webhookId}:`, (error as Error).message);

@@ -1,7 +1,13 @@
-import { FolderDto, PopulatedFlow, Table } from '@activepieces/shared';
+import {
+  AgentSummary,
+  FolderDto,
+  PopulatedFlow,
+  Table,
+} from '@activepieces/shared';
 import { t } from 'i18next';
 import {
   ArrowDown,
+  Bot,
   ChevronDown,
   ChevronRight,
   Copy,
@@ -9,9 +15,9 @@ import {
   Download,
   Folder,
   Link,
-  Loader2,
   MoreHorizontal,
   Pencil,
+  Plus,
   Share2,
   Star,
   Table2,
@@ -27,6 +33,7 @@ import { FormattedDate } from '@/components/custom/formatted-date';
 import { LoadingSpinner } from '@/components/custom/spinner';
 import { TextWithTooltip } from '@/components/custom/text-with-tooltip';
 import { useEmbedding } from '@/components/providers/embed-provider';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -41,7 +48,10 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { AgentToolStack } from '@/features/agents/agent-tool-stack';
+import { DeleteAgentDialog } from '@/features/agents/delete-agent-dialog';
 import { MoveToFolderDialog } from '@/features/automations/components/move-to-folder-dialog';
+import { FlowCreatedByBadge } from '@/features/flows/components/flow-created-by-badge';
 import { FlowStatusToggle } from '@/features/flows/components/flow-status-toggle';
 import { ShareTemplateDialog } from '@/features/flows/components/share-template-dialog';
 import { PieceIconList } from '@/features/pieces/components/piece-icon-list';
@@ -49,12 +59,13 @@ import { cn } from '@/lib/utils';
 
 import { TreeItem } from '../lib/types';
 
+import { CreateNewMenu, CreateInFolderKind } from './create-new-menu';
+
 type AutomationsTableRowProps = {
   item: TreeItem;
   isSelected: boolean;
   isExpanded: boolean;
   isPinned: boolean;
-  isFolderLoading?: boolean;
   projectMembers: any;
   folders: FolderDto[];
   onRowClick: () => void;
@@ -66,6 +77,14 @@ type AutomationsTableRowProps = {
   onMoveTo: (item: TreeItem, folderId: string) => void;
   onExportFlow: (flow: PopulatedFlow) => void;
   onExportTable: (table: Table) => void;
+  onCreateInFolder?: (folderId: string, kind: CreateInFolderKind) => void;
+  userHasPermissionToWriteFlow?: boolean;
+  userHasPermissionToWriteTable?: boolean;
+  userHasPermissionToWriteAgent: boolean;
+  agentsVisible?: boolean;
+  isCreatingFlow?: boolean;
+  isCreatingTable?: boolean;
+  isCreatingAgent?: boolean;
   isMoving: boolean;
   isDuplicating: boolean;
   onLoadMore?: () => void;
@@ -76,7 +95,6 @@ export const AutomationsTableRow = ({
   isSelected,
   isExpanded,
   isPinned,
-  isFolderLoading,
   folders,
   onToggleSelection,
   onTogglePin,
@@ -86,6 +104,14 @@ export const AutomationsTableRow = ({
   onMoveTo,
   onExportFlow,
   onExportTable,
+  onCreateInFolder,
+  userHasPermissionToWriteFlow = true,
+  userHasPermissionToWriteTable = true,
+  userHasPermissionToWriteAgent,
+  agentsVisible = false,
+  isCreatingFlow,
+  isCreatingTable,
+  isCreatingAgent,
   isMoving,
   isDuplicating,
   onLoadMore,
@@ -93,10 +119,12 @@ export const AutomationsTableRow = ({
   const { embedState } = useEmbedding();
   const [isMoveOpen, setIsMoveOpen] = useState(false);
   const [moveFolderId, setMoveFolderId] = useState('');
+  const [isCreateTooltipOpen, setIsCreateTooltipOpen] = useState(false);
+  const [isDeleteAgentOpen, setIsDeleteAgentOpen] = useState(false);
 
   if (item.type === 'load-more-folder') {
     return (
-      <div className="flex-1 flex items-center justify-center gap-2 text-primary font-medium py-2">
+      <div className="flex-1 flex items-center justify-center gap-2 text-accent-11 font-medium py-2">
         <div
           className="flex items-center gap-2 cursor-pointer hover:underline"
           onClick={(e) => {
@@ -133,14 +161,14 @@ export const AutomationsTableRow = ({
             <TooltipTrigger asChild>
               <button
                 onClick={onTogglePin}
-                className="p-0.5 rounded hover:bg-muted transition-colors"
+                className="p-0.5 rounded hover:bg-gray-3 transition-colors"
               >
                 <Star
                   className={cn(
                     'h-4 w-4',
                     isPinned
                       ? 'text-yellow-500 fill-yellow-500'
-                      : 'text-muted-foreground/40 hover:text-muted-foreground',
+                      : 'text-gray-11 hover:text-gray-11',
                   )}
                 />
               </button>
@@ -158,12 +186,10 @@ export const AutomationsTableRow = ({
         >
           {item.type === 'folder' && (
             <span className="absolute -left-5 flex items-center justify-center w-5">
-              {isFolderLoading ? (
-                <Loader2 className="h-4 w-4 shrink-0 text-muted-foreground animate-spin" />
-              ) : isExpanded ? (
-                <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" />
+              {isExpanded ? (
+                <ChevronDown className="h-4 w-4 shrink-0 text-gray-11" />
               ) : (
-                <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+                <ChevronRight className="h-4 w-4 shrink-0 text-gray-11" />
               )}
             </span>
           )}
@@ -192,20 +218,78 @@ export const AutomationsTableRow = ({
         </div>
       )}
       <div
-        className="w-[120px] shrink-0 px-2 flex items-center"
+        className="w-[160px] shrink-0 px-2 flex items-center gap-2"
         onClick={(e) => e.stopPropagation()}
       >
-        {item.type === 'flow' && (
-          <FlowStatusToggle flow={item.data as PopulatedFlow} />
+        {isFlowItem(item) && (
+          <>
+            <FlowStatusToggle flow={item.data} />
+            <FlowCreatedByBadge createdBy={item.data.createdBy} />
+          </>
         )}
+        {isAgentItem(item) &&
+          (item.data.isPublished ? (
+            <Badge variant="success">{t('Live')}</Badge>
+          ) : (
+            <Badge variant="outline">{t('Draft')}</Badge>
+          ))}
       </div>
       <div
-        className="w-[50px] shrink-0 px-2 flex items-center"
+        className="w-[80px] shrink-0 px-2 flex items-center justify-end gap-1"
         onClick={(e) => e.stopPropagation()}
       >
+        {item.type === 'folder' && onCreateInFolder && (
+          <Tooltip
+            open={isCreateTooltipOpen}
+            onOpenChange={setIsCreateTooltipOpen}
+          >
+            <CreateNewMenu
+              scope="folder"
+              align="end"
+              userHasPermissionToWriteFlow={userHasPermissionToWriteFlow}
+              userHasPermissionToWriteTable={userHasPermissionToWriteTable}
+              userHasPermissionToWriteFolder={false}
+              userHasPermissionToWriteAgent={userHasPermissionToWriteAgent}
+              isCreatingFlow={isCreatingFlow}
+              isCreatingTable={isCreatingTable}
+              isCreatingAgent={isCreatingAgent}
+              onCreateFlow={() => onCreateInFolder(item.id, 'flow')}
+              onCreateTable={() => onCreateInFolder(item.id, 'table')}
+              onCreateAgent={
+                agentsVisible
+                  ? () => onCreateInFolder(item.id, 'agent')
+                  : undefined
+              }
+              onImportFlow={() => onCreateInFolder(item.id, 'import-flow')}
+              onImportTable={() => onCreateInFolder(item.id, 'import-table')}
+              onOpenChange={(open) => {
+                if (open) setIsCreateTooltipOpen(false);
+              }}
+            >
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 data-[state=open]:opacity-100 transition-opacity"
+                  aria-label={t('Create inside folder')}
+                >
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+            </CreateNewMenu>
+            <TooltipContent side="top">
+              {t('Create inside folder')}
+            </TooltipContent>
+          </Tooltip>
+        )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-8 w-8">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              disabled={isAgentItem(item) && !userHasPermissionToWriteAgent}
+            >
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
@@ -229,9 +313,9 @@ export const AutomationsTableRow = ({
               {t('Rename')}
             </DropdownMenuItem>
 
-            {item.type === 'flow' && !embedState.hideDuplicateFlow && (
+            {isFlowItem(item) && !embedState.hideDuplicateFlow && (
               <DropdownMenuItem
-                onClick={() => onDuplicate(item.data as PopulatedFlow)}
+                onClick={() => onDuplicate(item.data)}
                 disabled={isDuplicating}
               >
                 {isDuplicating ? (
@@ -243,41 +327,36 @@ export const AutomationsTableRow = ({
               </DropdownMenuItem>
             )}
 
-            {(item.type === 'flow' || item.type === 'table') &&
-              !embedState.hideFolders && (
-                <DropdownMenuItem
-                  onClick={() => {
-                    setMoveFolderId('');
-                    setIsMoveOpen(true);
-                  }}
-                >
-                  <CornerUpLeft className="h-4 w-4 mr-2" />
-                  {t('Move To')}
-                </DropdownMenuItem>
-              )}
-
-            {item.type === 'flow' && !embedState.hideExportAndImportFlow && (
+            {item.type !== 'folder' && !embedState.hideFolders && (
               <DropdownMenuItem
-                onClick={() => onExportFlow(item.data as PopulatedFlow)}
+                onClick={() => {
+                  setMoveFolderId('');
+                  setIsMoveOpen(true);
+                }}
               >
+                <CornerUpLeft className="h-4 w-4 mr-2" />
+                {t('Move To')}
+              </DropdownMenuItem>
+            )}
+
+            {isFlowItem(item) && !embedState.hideExportAndImportFlow && (
+              <DropdownMenuItem onClick={() => onExportFlow(item.data)}>
                 <Download className="h-4 w-4 mr-2" />
                 {t('Export')}
               </DropdownMenuItem>
             )}
 
-            {item.type === 'table' && (
-              <DropdownMenuItem
-                onClick={() => onExportTable(item.data as Table)}
-              >
+            {isTableItem(item) && (
+              <DropdownMenuItem onClick={() => onExportTable(item.data)}>
                 <Download className="h-4 w-4 mr-2" />
                 {t('Export')}
               </DropdownMenuItem>
             )}
 
-            {item.type === 'flow' && !embedState.isEmbedded && (
+            {isFlowItem(item) && !embedState.isEmbedded && (
               <ShareTemplateDialog
                 flowId={item.id}
-                flowVersionId={(item.data as PopulatedFlow).version.id}
+                flowVersionId={item.data.version.id}
               >
                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                   <Share2 className="h-4 w-4 mr-2" />
@@ -287,25 +366,43 @@ export const AutomationsTableRow = ({
             )}
 
             <DropdownMenuSeparator />
-            <ConfirmationDeleteDialog
-              title={t('Delete {type}', { type: item.type })}
-              message={t('Deleting "{name}" cannot be undone.', {
-                name: item.name,
-              })}
-              mutationFn={async () => onDelete()}
-              entityName={item.type}
-              buttonText={t('Delete')}
-            >
+            {isAgentItem(item) ? (
               <DropdownMenuItem
-                onSelect={(e) => e.preventDefault()}
-                className="text-destructive focus:text-destructive"
+                onSelect={() => setIsDeleteAgentOpen(true)}
+                className="text-danger-11 focus:text-danger-11"
               >
                 <Trash2 className="h-4 w-4 mr-2" />
                 {t('Delete')}
               </DropdownMenuItem>
-            </ConfirmationDeleteDialog>
+            ) : (
+              <ConfirmationDeleteDialog
+                title={t('Delete {type}', { type: item.type })}
+                message={t('Deleting "{name}" cannot be undone.', {
+                  name: item.name,
+                })}
+                mutationFn={async () => onDelete()}
+                entityName={item.type}
+                buttonText={t('Delete')}
+              >
+                <DropdownMenuItem
+                  onSelect={(e) => e.preventDefault()}
+                  className="text-danger-11 focus:text-danger-11"
+                >
+                  <Trash2 className="h-4 w-4 mr-2" />
+                  {t('Delete')}
+                </DropdownMenuItem>
+              </ConfirmationDeleteDialog>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
+
+        {isAgentItem(item) && (
+          <DeleteAgentDialog
+            agent={item.data}
+            open={isDeleteAgentOpen}
+            onOpenChange={setIsDeleteAgentOpen}
+          />
+        )}
 
         <MoveToFolderDialog
           open={isMoveOpen}
@@ -327,44 +424,51 @@ export const AutomationsTableRow = ({
 const RowItemIcon = ({ item }: { item: TreeItem }) => {
   switch (item.type) {
     case 'folder':
-      return <Folder className="h-4 w-4 text-gray-400 fill-gray-400" />;
+      return <Folder className="h-4 w-4 text-gray-11 fill-gray-11" />;
     case 'flow':
-      return <Workflow className="h-4 w-4 text-primary" />;
+      return <Workflow className="h-4 w-4 text-accent-11" />;
+    case 'agent':
+      return <Bot className="h-4 w-4 text-swatch-6-mark" />;
     default:
-      return <Table2 className="h-4 w-4 text-emerald-500" />;
+      return <Table2 className="h-4 w-4 text-swatch-8-mark" />;
   }
 };
 
 const RowItemDetails = ({ item }: { item: TreeItem }) => {
-  switch (item.type) {
-    case 'folder':
-      return (
-        <span className="text-muted-foreground">
-          {item.childCount} {item.childCount === 1 ? t('file') : t('files')}
-        </span>
-      );
-    case 'flow': {
-      const flow = item.data as PopulatedFlow;
-      return (
-        <PieceIconList
-          trigger={flow.version.trigger}
-          maxNumberOfIconsToShow={3}
-          size="xs"
-        />
-      );
-    }
-    default:
-      return <span className="text-muted-foreground">-</span>;
+  if (item.type === 'folder') {
+    return (
+      <span className="text-gray-11">
+        {item.childCount} {item.childCount === 1 ? t('file') : t('files')}
+      </span>
+    );
   }
+  if (isAgentItem(item)) {
+    return (
+      <AgentToolStack
+        toolCount={item.data.toolCount}
+        toolPieceNames={item.data.toolPieceNames}
+        toolTypes={item.data.toolTypes}
+      />
+    );
+  }
+  if (isFlowItem(item)) {
+    return (
+      <PieceIconList
+        trigger={item.data.version.trigger}
+        maxNumberOfIconsToShow={3}
+        size="xs"
+      />
+    );
+  }
+  return <span className="text-gray-11">-</span>;
 };
 
 const RowItemOwner = ({ item }: { item: TreeItem }) => {
-  if (item.type === 'flow') {
-    const flow = item.data as PopulatedFlow;
-    if (flow.ownerId) {
+  if (isFlowItem(item) || isAgentItem(item)) {
+    if (item.data.ownerId) {
       return (
         <ApAvatar
-          id={flow.ownerId}
+          id={item.data.ownerId}
           includeAvatar={true}
           includeName={true}
           size="small"
@@ -372,5 +476,23 @@ const RowItemOwner = ({ item }: { item: TreeItem }) => {
       );
     }
   }
-  return <span className="text-muted-foreground">-</span>;
+  return <span className="text-gray-11">-</span>;
 };
+
+function isFlowItem(
+  item: TreeItem,
+): item is Omit<TreeItem, 'data'> & { data: PopulatedFlow } {
+  return item.type === 'flow';
+}
+
+function isTableItem(
+  item: TreeItem,
+): item is Omit<TreeItem, 'data'> & { data: Table } {
+  return item.type === 'table';
+}
+
+function isAgentItem(
+  item: TreeItem,
+): item is Omit<TreeItem, 'data'> & { data: AgentSummary } {
+  return item.type === 'agent';
+}

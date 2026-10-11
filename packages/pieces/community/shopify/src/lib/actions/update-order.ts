@@ -4,14 +4,17 @@ import {
 } from '@activepieces/pieces-framework';
 import { shopifyAuth } from '../..';
 import { updateOrder } from '../common';
-import { z } from 'zod';
+import * as z from 'zod/mini'
 import { propsValidation } from '@activepieces/pieces-common';
 
 export const updateOrderAction = createAction({
   auth: shopifyAuth,
   name: 'update_order',
+  classification: 'WRITE',
   displayName: 'Update Order',
   description: 'Update an existing order.',
+  audience: 'both',
+  aiMetadata: { description: 'Update editable fields on an existing Shopify order by order ID (email, phone, tags, note). Use to amend order metadata; this does not change line items, fulfillment, or payment. Sets absolute field values, so re-running with the same input is idempotent.', idempotent: true },
   props: {
     id: Property.ShortText({
       displayName: 'Order',
@@ -38,7 +41,7 @@ export const updateOrderAction = createAction({
   },
   async run({ auth, propsValue }) {
     await propsValidation.validateZod(propsValue, {
-      email: z.string().email().optional(),
+      email: z.optional(z.string().check(z.email())),
     });
 
     const { id, email, phoneNumber, tags, note } = propsValue;

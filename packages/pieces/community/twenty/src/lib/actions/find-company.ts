@@ -6,8 +6,11 @@ import { twentyRequest, parseRecords } from '../common';
 export const findCompany = createAction({
   auth: twentyAuth,
   name: 'find_company',
+  classification: 'SEARCH',
   displayName: 'Find Company',
   description: 'Searches for company records in Twenty CRM.',
+  audience: 'both',
+  aiMetadata: { description: 'Looks up company records in Twenty CRM, optionally filtering by an exact-match company name and/or domain. Use to resolve a company to its record ID before updating or linking, or to check existence; leaving both filters empty returns all companies. Idempotent: a read-only query with no side effects.', idempotent: true },
   props: {
     name: Property.ShortText({
       displayName: 'Company Name',

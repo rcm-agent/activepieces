@@ -14,8 +14,11 @@ const MAX_LEAD_IDS = 50;
 export const addRecipientsAction = createAction({
     auth: hunterAuth,
     name: 'add-recipients',
+    classification: 'WRITE',
     displayName: 'Add Recipients',
     description: 'Add one or multiple recipients to a campaign.',
+    audience: 'both',
+    aiMetadata: { description: 'Adds one or more recipients to a Hunter campaign, identified either by raw email addresses, by existing lead IDs, or both. Use to enroll contacts into an outreach campaign once you have the campaign ID. Requires at least one valid email or lead ID (max 50 of each per call); not idempotent — each call appends recipients, though Hunter skips duplicates already in the campaign.', idempotent: false },
     props: {
         campaign_id: campaignIdProp,
         emails: emailsProp,

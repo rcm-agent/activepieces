@@ -6,8 +6,11 @@ import { ninjapipeApiCall, flattenCustomFields, getAuth, ninjapipeCommon } from 
 export const updateDeal = createAction({
   auth: ninjapipeAuth,
   name: 'update_deal',
+  classification: 'WRITE',
   displayName: 'Update Deal',
   description: 'Updates a deal by ID.',
+  audience: 'both',
+  aiMetadata: { description: 'Update an existing deal identified by its ID. Only supplied fields are changed (name, status, value, currency, owner, or associated pipeline/company/contact). Repeating the same update is idempotent.', idempotent: true },
   props: {
     dealId: ninjapipeCommon.dealDropdownRequired,
     name: Property.ShortText({ displayName: 'Name', required: false }),

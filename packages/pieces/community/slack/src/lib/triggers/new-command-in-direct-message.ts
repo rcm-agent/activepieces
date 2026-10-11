@@ -3,39 +3,48 @@ import {
   TriggerStrategy,
   createTrigger,
 } from '@activepieces/pieces-framework';
-import { userId } from '../common/props';
+import { appWebhookSetupInfo, userId } from '../common/props';
 import { slackAuth } from '../auth';
 import { parseCommand } from '../common/utils';
 import { getTeamId, getUserId, SlackAuthValue } from '../common/auth-helpers';
+import { newCommandInDirectMessageTriggerOutputSchema } from '../output-schemas';
 
 export const newCommandInDirectMessageTrigger = createTrigger({
   auth: slackAuth,
   name: 'new-command-in-direct-message',
+  classification: 'READ',
   displayName: 'New Command in Direct Message',
   description:
     'Triggers when a specific command is sent to the bot (e.g., @bot command arg1 arg2) via Direct Message.',
+  aiMetadata: {
+    description:
+      'Fires when a direct message (im channel) addressed to the bot contains one of the configured commands (e.g., "@bot help" or "@bot remind"). Only messages in DM channels matching the listed commands fire; bot messages and the user\'s own messages can be optionally ignored. The event payload includes the original message plus a parsed_command object with the recognized command and its arguments.',
+  },
   props: {
+    info: appWebhookSetupInfo,
     user: userId(true),
     commands: Property.Array({
       displayName: 'Commands',
-      description:
-        'List of valid commands that the bot should respond to (e.g., help, ocr, remind)',
+      description: 'Words the bot responds to, such as help or remind.',
       required: true,
       defaultValue: ['help'],
     }),
     ignoreBots: Property.Checkbox({
-      displayName: 'Ignore Bot Messages ?',
-      required: true,
+      displayName: 'Ignore Bot Messages',
+      description: 'Skip messages posted by bots and apps.',
+      required: false,
       defaultValue: true,
     }),
     ignoreSelfMessages: Property.Checkbox({
-        displayName: 'Ignore Message from Yourself ?',
-        required: true,
-        defaultValue: false,
+      displayName: 'Ignore My Own Messages',
+      description: 'Skip messages sent by the connected user. Needs a user token.',
+      required: false,
+      defaultValue: false,
     }),
   },
   type: TriggerStrategy.APP_WEBHOOK,
   sampleData: undefined,
+  outputSchema: newCommandInDirectMessageTriggerOutputSchema,
   onEnable: async (context) => {
     // Older OAuth2 has team_id, newer has team.id
     		const teamId = await getTeamId(context.auth as SlackAuthValue);
@@ -68,7 +77,6 @@ export const newCommandInDirectMessageTrigger = createTrigger({
 			return [];
 		}
 
-    // Check for mention and parse command
     if (user && payloadBody.event.text) {
       const parsedCommand = parseCommand(
         payloadBody.event.text,
@@ -76,8 +84,7 @@ export const newCommandInDirectMessageTrigger = createTrigger({
         commands
       );
 
-      if (parsedCommand && commands.includes(parsedCommand.command)) {
-        // Return event with parsed command
+      if (parsedCommand) {
         return [
           {
             ...payloadBody.event,

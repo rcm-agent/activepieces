@@ -50,9 +50,13 @@ const polling: Polling<
 export const newTaskAssignedToUser = createTrigger({
   auth: microsoft365PlannerAuth,
   name: 'newTaskAssignedToUser',
+  classification: 'READ',
   displayName: 'New Task Assigned to User',
   description:
     'Triggers when a Task is assigned to the authenticated user in Microsoft 365 Planner.',
+  aiMetadata: {
+    description: 'Fires when a task within a specified Planner plan is assigned to the authenticated (connected) user. Polls periodically and emits each new task in that plan where the current user is among the assignees.',
+  },
   props,
   sampleData: {},
   type: TriggerStrategy.POLLING,

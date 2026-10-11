@@ -22,8 +22,13 @@ const polling: Polling<AppConnectionValueForAuthProperty<typeof workdayAuth>, Re
 export const newSupplierInvoice = createTrigger({
 	auth: workdayAuth,
 	name: 'new_supplier_invoice',
+	classification: 'READ',
 	displayName: 'New Supplier Invoice',
 	description: 'Triggers when a new supplier invoice is created in Workday.',
+	aiMetadata: {
+		description:
+			'Fires when a new supplier invoice is created in Workday. Represents a supplier-invoice creation event. Use to route invoices into approval, accounting, or payment automation.',
+	},
 	props: {},
 	sampleData: { id: 'inv-001', descriptor: 'Invoice #12345 - Acme Corp', createdDate: '2026-04-01T12:00:00Z' },
 	type: TriggerStrategy.POLLING,

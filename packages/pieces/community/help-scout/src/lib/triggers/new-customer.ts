@@ -9,8 +9,13 @@ const WEBHOOK_KEY = 'helpscout_new_customer';
 export const newCustomer = createTrigger({
   auth: helpScoutAuth,
   name: 'new_customer',
+  classification: 'READ',
   displayName: 'New Customer',
   description: 'Triggers when a new customer is added.',
+  aiMetadata: {
+    description:
+      'Fires when a new customer record is created in Help Scout (customer.created webhook event), representing a newly registered contact across all mailboxes.',
+  },
   type: TriggerStrategy.WEBHOOK,
   props: {},
   sampleData: {},

@@ -6,9 +6,14 @@ export const certificationFolderSurveySixMonthExperienceAnswered =
   createTrigger({
     auth: wedofAuth,
     name: 'certificationFolderSurveySixMonthExperienceAnswered',
+    classification: 'READ',
     displayName: 'Enquête "Situation professionnelle de 6 mois" répondue',
     description:
       "Se déclenche lorsqu'un une enquête de 6 mois de cursus est répondue",
+    aiMetadata: {
+      description:
+        "Fires when the candidate answers the Wedof six-month professional-situation survey (enquête de situation professionnelle à 6 mois) on a certification folder. Emits the certification-folder survey record with the submitted six-month-experience answers.",
+    },
     type: TriggerStrategy.WEBHOOK,
     props: {},
     sampleData: {

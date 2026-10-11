@@ -7,8 +7,11 @@ import { mailingListDropdown } from '../common/props';
 export const unsubscribeUserAction = createAction({
   auth: sendpulseAuth,
   name: 'unsubscribe-user',
+  classification: 'DESTRUCTIVE',
   displayName: 'Unsubscribe User',
   description: 'Remove subscribers from mailing list',
+  audience: 'both',
+  aiMetadata: { description: 'Unsubscribes one or more email addresses (up to 100 per call) from a single specified SendPulse mailing list, leaving them in other lists. Use to opt contacts out of one list rather than purge them account-wide. Idempotent — repeating leaves the same contacts unsubscribed from that list.', idempotent: true },
   props: {
     mailingListId: mailingListDropdown,
     emails: Property.Array({

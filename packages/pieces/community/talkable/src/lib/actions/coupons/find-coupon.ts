@@ -1,12 +1,16 @@
 import { createAction, Property } from '@activepieces/pieces-framework';
 import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 import { talkableAuth } from '../../..';
+import { TALKABLE_API_URL } from '../../common/constants';
 
 export const findCoupon = createAction({
   name: 'find_coupon', // Must be a unique across the piece, this shouldn't be changed.
+  classification: 'READ',
   auth: talkableAuth,
   displayName: 'Find coupon',
   description: 'Find coupon code',
+  audience: 'both',
+  aiMetadata: { description: 'Look up a Talkable coupon by its code and return its details. Use to verify a coupon exists or inspect its status/value. Read-only; the coupon code is required.', idempotent: true },
   props: {
     code: Property.ShortText({
       displayName: 'Coupon code',
@@ -15,7 +19,6 @@ export const findCoupon = createAction({
     }),
   },
   async run(context) {
-    const TALKABLE_API_URL = 'https://www.talkable.com/api/v2';
     const { site, api_key } = context.auth.props;
     const couponInfoResponse = await httpClient
       .sendRequest<string[]>({
@@ -25,7 +28,7 @@ export const findCoupon = createAction({
           Authorization: `Bearer ${api_key}`,
           'Content-Type': 'application/json',
         },
-        body: {
+        queryParams: {
           site_slug: site,
         },
       });

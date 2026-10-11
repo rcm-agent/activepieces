@@ -85,8 +85,12 @@ const polling: Polling<AppConnectionValueForAuthProperty<typeof simplybookAuth>,
 export const newInvoice = createTrigger({
   auth: simplybookAuth,
   name: 'new_invoice',
+  classification: 'READ',
   displayName: 'New Invoice',
   description: 'Triggers when a new invoice is generated/paid in SimplyBook.me (requires Accept Payments feature)',
+  aiMetadata: {
+    description: 'Fires when a new invoice/order is generated in SimplyBook.me, representing a billing record for a booking. Polls invoices by creation date; requires the Accept Payments feature to be enabled.',
+  },
   type: TriggerStrategy.POLLING,
   props: {},
   async test(context) {

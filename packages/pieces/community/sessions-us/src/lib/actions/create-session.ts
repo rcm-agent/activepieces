@@ -10,8 +10,11 @@ import { Property, createAction } from '@activepieces/pieces-framework';
 export const createSession = createAction({
   auth: sessionAuth,
   name: 'create_session',
+  classification: 'WRITE',
   displayName: 'Create Session',
   description: 'Quickly create a session.',
+  audience: 'both',
+  aiMetadata: { description: 'Create a new session (a private video meeting) on Sessions.us with a name, start/end time, and timezone, returning the session id and join link. Use when an agent needs to schedule a meeting rather than a public registration-based event. Creates a new session each call, so it is not idempotent — repeating it produces duplicate sessions.', idempotent: false },
   props: {
     name: Property.ShortText({
       displayName: 'Session Name',

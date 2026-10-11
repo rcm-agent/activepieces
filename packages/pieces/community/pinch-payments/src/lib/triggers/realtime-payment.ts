@@ -5,8 +5,12 @@ import { createWebhook, deleteWebhook, WebhookResponse } from '../common/client'
 export const realtimePaymentTrigger = createTrigger({
   auth: pinchPaymentsAuth,
   name: 'realtime_payment',
+  classification: 'READ',
   displayName: 'Realtime Payment',
   description: 'Triggers when a realtime payment is executed',
+  aiMetadata: {
+    description: 'Fires when a real-time (immediate) payment is executed in Pinch Payments, representing the result of a one-off card or bank-account charge. Use to react to immediate payment outcomes such as a successful or failed charge.',
+  },
   type: TriggerStrategy.WEBHOOK,
   props: {},
   async onEnable(context) {

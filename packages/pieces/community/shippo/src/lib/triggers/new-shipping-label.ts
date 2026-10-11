@@ -48,8 +48,12 @@ const polling: Polling<
 
 export const newShippingLabel = createTrigger({
   name: 'new_shipping_label',
+  classification: 'READ',
   displayName: 'New Shipping Label',
   description: 'Trigger when a new shipping label is created',
+  aiMetadata: {
+    description: 'Fires when a new shipping label (transaction) is created in the connected Shippo account, polling for labels created since the last check. By default test-mode labels are excluded; enable the option to include them.',
+  },
   type: TriggerStrategy.POLLING,
   auth: shippoAuth,
   props: {

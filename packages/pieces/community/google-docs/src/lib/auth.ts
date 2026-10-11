@@ -1,12 +1,12 @@
 import { AppConnectionValueForAuthProperty, PieceAuth, Property } from '@activepieces/pieces-framework';
-import { AppConnectionType } from '@activepieces/shared';
-import { google } from 'googleapis';
-import { OAuth2Client } from 'googleapis-common';
+import { AppConnectionType } from '@activepieces/pieces-framework';
+import { JWT, OAuth2Client } from 'google-auth-library';
 
 export const googleDocsScopes = [
 	'https://www.googleapis.com/auth/documents',
 	'https://www.googleapis.com/auth/drive.readonly',
 	'https://www.googleapis.com/auth/drive',
+	'email',
 ];
 
 export const googleDocsAuth = [PieceAuth.OAuth2({
@@ -17,12 +17,19 @@ export const googleDocsAuth = [PieceAuth.OAuth2({
 	scope: googleDocsScopes,
 }), PieceAuth.CustomAuth({
 	displayName: 'Service Account (Advanced)',
-	description: 'Authenticate via service account from https://console.cloud.google.com/ > IAM & Admin > Service Accounts > Create Service Account > Keys > Add key.  <br> <br> You can optionally use domain-wide delegation (https://support.google.com/a/answer/162106?hl=en#zippy=%2Cset-up-domain-wide-delegation-for-a-client) to access documents without adding the service account to each one. <br> <br> **Note:** Without a user email, the service account only has access to files/folders you explicitly share with it.',
+	description: `Connect with a Google Cloud service account.
+
+**How to get the key:**
+1. Open the [Google Cloud console](https://console.cloud.google.com/iam-admin/serviceaccounts) → **IAM & Admin** → **Service Accounts**.
+2. Create a service account, or pick an existing one.
+3. Open **Keys** → **Add key** → **Create new key** → **JSON** and download the file.
+4. Share each document with the service account's email, or set up [domain-wide delegation](https://support.google.com/a/answer/162106) and fill in **User Email** below.`,
 	required: true,
 	props: {
 		serviceAccount: Property.LongText({
 			displayName: 'Service Account JSON Key',
 			required: true,
+			description: 'Paste the full contents of the downloaded key file.',
 		}),
 		userEmail: Property.ShortText({
 			displayName: 'User Email',
@@ -58,7 +65,7 @@ export async function createGoogleClient(auth: GoogleDocsAuthValue): Promise<OAu
 		} catch {
 			throw new Error('Invalid Service Account JSON Key. Please provide a valid JSON string.');
 		}
-		return new google.auth.JWT({
+		return new JWT({
 			email: serviceAccount.client_email,
 			key: serviceAccount.private_key,
 			scopes: googleDocsScopes,
@@ -66,7 +73,7 @@ export async function createGoogleClient(auth: GoogleDocsAuthValue): Promise<OAu
 		});
 	}
 	const authClient = new OAuth2Client();
-	authClient.setCredentials(auth);
+	authClient.setCredentials({ access_token: auth.access_token });
 	return authClient;
 }
 

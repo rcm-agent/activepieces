@@ -3,9 +3,12 @@ import { ContentfulAuth, PropertyKeys, makeClient } from '../../common';
 
 export const ContentfulGetRecordAction = createAction({
   name: 'contentful_record_get',
+  classification: 'READ',
   auth: ContentfulAuth,
   displayName: 'Get Record',
   description: 'Gets a Contentful record for a given Content Model',
+  audience: 'both',
+  aiMetadata: { description: 'Fetches a single Contentful entry by its entry ID. Use when you already know the exact record ID and need its full data; for finding records by criteria use Search Records instead. Read-only and idempotent.', idempotent: true },
   props: {
     [PropertyKeys.ENTITY_ID]: Property.ShortText({
       displayName: 'Entity ID',

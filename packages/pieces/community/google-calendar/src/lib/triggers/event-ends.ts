@@ -17,6 +17,7 @@ import {
   HttpMethod,
   HttpRequest,
 } from '@activepieces/pieces-common';
+import { eventOutputSchema } from '../output-schemas';
 
 interface GoogleCalendarEventList {
   items: GoogleCalendarEvent[];
@@ -122,19 +123,23 @@ const polling: Polling<
 export const eventEnds = createTrigger({
   auth: googleCalendarAuth,
   name: 'event_ends',
+  classification: 'READ',
   displayName: 'Event Ends',
   description: 'Fires when an event ends.',
+  aiMetadata: {
+    description: 'Fires once an event in the selected calendar reaches its end time, detected by polling. Each fired item is the event that just ended. Can watch all events in the calendar or be scoped to a single specific event.',
+  },
   props: {
     calendar_id: googleCalendarCommon.calendarDropdown('writer'),
     specific_event: Property.Checkbox({
       displayName: 'Target Specific Event',
-      description:
-        'Enable to monitor a specific event instead of all events in the calendar.',
+      description: 'Watch one event instead of the whole calendar.',
       required: false,
       defaultValue: false,
     }),
     event_id: googleCalendarCommon.eventDropdown(false),
   },
+  outputSchema: eventOutputSchema,
   type: TriggerStrategy.POLLING,
   sampleData: {
     kind: 'calendar#event',

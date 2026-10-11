@@ -4,8 +4,11 @@ import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 
 export const returnPongAction = createAction({
   name: 'return_pong',
+  classification: 'READ',
   displayName: 'Return Pong',
   description: 'Health check endpoint that returns "pong"',
+  audience: 'both',
+  aiMetadata: { description: 'Ping the Zoo API to verify connectivity and that credentials are valid. Read-only and repeatable; takes no input. Use as a lightweight health or auth check before running other actions.', idempotent: true },
   auth: zooAuth,
   // category: 'Meta',
   props: {},

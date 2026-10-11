@@ -7,8 +7,11 @@ import { HttpMethod } from '@activepieces/pieces-common';
 export const addOrUpdateSubscriber = createAction({
   auth: smooveAuth,
   name: 'addOrUpdateSubscriber',
+  classification: 'WRITE',
   displayName: 'Add or Update Subscriber',
   description: 'Create or update subscriber data, and subscribe/unsubscribe from lists',
+  audience: 'both',
+  aiMetadata: { description: 'Create or update a Smoove contact by email and optionally link it to lists, set profile/custom fields, and email/SMS consent. The Operation prop switches the upsert behavior: create-only, create-or-update-if-exists (default), restore-if-deleted, restore-if-unsubscribed, or override-nullable-values. Use to push a subscriber into Smoove. Email is required; not idempotent since it creates or mutates the contact on each call.', idempotent: false },
   props: {
     email: emailDropdown,
     

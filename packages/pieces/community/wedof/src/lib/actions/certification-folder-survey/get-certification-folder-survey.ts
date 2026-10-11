@@ -9,8 +9,15 @@ import { HttpMethod, httpClient } from '@activepieces/pieces-common';
   export const getCertificationFolderSurvey = createAction({
     auth: wedofAuth,
     name: 'getCertificationFolderSurvey',
+    classification: 'READ',
     displayName: "Récupération d'une enquête",
     description: "Permet de récupérer une enquête associée à un dossier de certification",
+    audience: 'both',
+    aiMetadata: {
+      description:
+        'Retrieves the survey associated with a single certification folder, identified by the certification folder number (externalId). Read-only and safe to repeat. Use when you know the folder; to list surveys by criteria use the list-surveys action instead.',
+      idempotent: true,
+    },
     props: {
       certificationFolderExternalId: Property.ShortText({
         displayName: 'N° de dossier de certification',

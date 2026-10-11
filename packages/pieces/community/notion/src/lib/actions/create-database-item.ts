@@ -7,22 +7,30 @@ import { Client } from '@notionhq/client';
 import { NotionFieldMapping } from '../common/models';
 import { notionAuth } from '../auth';
 import { getNotionToken, notionCommon } from '../common';
+import { createDatabaseItemActionOutputSchema } from '../output-schemas';
 
 export const createDatabaseItem = createAction({
   auth: notionAuth,
   name: 'create_database_item',
+  classification: 'WRITE',
   displayName: 'Create Database Item',
-  description:
-    'Add a new item to a Notion database with custom field values and optional content. Ideal for creating tasks, records, or entries in structured databases.',
+  description: 'Add an item to a database and set its fields.',
+  audience: 'human',
+  aiMetadata: {
+    description:
+      'Creates a new row (page) in a specific Notion database, setting its property fields and optionally appending body content. Use when an agent must add a structured record (task, contact, ticket) to a known database; requires the target database_id and field values matching that database schema. Not idempotent: each call creates a separate item, so guard against duplicates.',
+    idempotent: false,
+  },
   props: {
     database_id: notionCommon.database_id,
     databaseFields: notionCommon.databaseFields,
     content: Property.LongText({
       displayName: 'Content',
-      description: 'The content you want to append to your item.',
+      description: "Plain text added to the item's page body.",
       required: false,
     }),
   },
+  outputSchema: createDatabaseItemActionOutputSchema,
   async run(context) {
     const database_id = context.propsValue.database_id;
     const databaseFields = context.propsValue.databaseFields;

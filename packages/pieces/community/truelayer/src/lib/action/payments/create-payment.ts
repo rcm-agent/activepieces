@@ -5,8 +5,11 @@ import { trueLayerCommon } from '../../common';
 export const createPayment = createAction({
   auth: trueLayerCommon.auth,
   name: 'create-payment',
+  classification: 'WRITE',
   displayName: 'Create Payment',
   description: 'Create a new payment. This API must be called using a backend bearer token.',
+  audience: 'both',
+  aiMetadata: { description: 'Initiate a new TrueLayer single payment using a backend bearer token, returning the payment resource and token used to drive its authorization. Use as the first step of taking a payment from a user. This creates a new payment each call; the required idempotency key prevents duplicate charges when retrying.', idempotent: false },
   props: {
     IdempotencyKeyHeader: Property.ShortText({
       displayName: 'Idempotency Key',

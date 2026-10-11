@@ -1,10 +1,11 @@
 import { createAction } from '@activepieces/pieces-framework';
+import { HttpMethod, HttpRequest } from '@activepieces/pieces-common';
+import { convertkitAuth } from '../auth';
+import { kitHttp } from '../common/http';
 import {
-  httpClient,
-  HttpMethod,
-  HttpRequest,
-} from '@activepieces/pieces-common';
-import { convertkitAuth } from '../..';
+  kitPurchaseListOutputSchema,
+  kitPurchaseOutputSchema,
+} from '../output-schemas';
 import {
   purchaseId,
   purchasesPageNumber,
@@ -28,13 +29,21 @@ import { subscriberId } from '../common/subscribers';
 import { formId } from '../common/forms';
 import { sequenceId } from '../common/sequences';
 import { PURCHASES_API_ENDPOINT } from '../common/constants';
-import { fetchPurchases } from '../common/service';
+import { buildQueryParams, fetchPurchases } from '../common/service';
 
 export const listPurchases = createAction({
   auth: convertkitAuth,
   name: 'purchases_list_purchases',
+  classification: 'SEARCH',
+  outputSchema: kitPurchaseListOutputSchema,
   displayName: 'List Purchases',
   description: 'Returns a list of all purchases',
+  audience: 'human',
+  aiMetadata: {
+    description:
+      'Retrieves a paginated list of all purchase records in the account; pass a page number to go beyond the first page. For purchases scoped to one subscriber, product, form, or sequence, prefer the dedicated filtered list actions. Read-only and idempotent.',
+    idempotent: true,
+  },
   props: {
     page: purchasesPageNumber,
   },
@@ -47,8 +56,16 @@ export const listPurchases = createAction({
 export const getPurchaseById = createAction({
   auth: convertkitAuth,
   name: 'purchases_get_purchase_by_id',
+  classification: 'READ',
+  outputSchema: kitPurchaseOutputSchema,
   displayName: 'Get Purchase By Id',
   description: 'Returns data for a single purchase',
+  audience: 'human',
+  aiMetadata: {
+    description:
+      'Fetches one purchase record by its ConvertKit purchase ID (not the external transaction ID). Use List Purchases first if only the transaction details are known. Read-only and idempotent.',
+    idempotent: true,
+  },
   props: {
     purchaseId,
   },
@@ -56,19 +73,13 @@ export const getPurchaseById = createAction({
     const { purchaseId } = context.propsValue;
     const url = `${PURCHASES_API_ENDPOINT}/${purchaseId}`;
 
-    const body = {
-      api_secret: context.auth,
-    };
-
     const request: HttpRequest = {
       url,
       method: HttpMethod.GET,
-      body,
+      queryParams: buildQueryParams(context.auth.secret_text),
     };
 
-    const response = await httpClient.sendRequest<{
-      purchase: Purchase;
-    }>(request);
+    const response = await kitHttp.sendRequest<Purchase>(request);
 
     if (response.status !== 200) {
       throw new Error(`Error fetching purchase: ${response.status}`);
@@ -88,8 +99,16 @@ export const getPurchaseById = createAction({
 export const createSinglePurchase = createAction({
   auth: convertkitAuth,
   name: 'purchases_create_purchase',
+  classification: 'WRITE',
+  outputSchema: kitPurchaseOutputSchema,
   displayName: 'Create Purchase',
   description: 'Creates a new purchase',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Records a purchase with a single product line item against a subscriber email, including transaction ID, status, currency, and amounts. Use Create Multiple Purchases instead when an order contains several products. Not idempotent — repeat calls create duplicate purchase records.',
+    idempotent: false,
+  },
   props: {
     transactionId,
     transactionTime,
@@ -122,7 +141,7 @@ export const createSinglePurchase = createAction({
     const url = PURCHASES_API_ENDPOINT;
 
     const body = {
-      api_secret: context.auth,
+      api_secret: context.auth.secret_text,
       purchase: {
         transaction_id: transactionId,
         status,
@@ -145,9 +164,7 @@ export const createSinglePurchase = createAction({
       body,
     };
 
-    const response = await httpClient.sendRequest<{
-      purchase: Purchase;
-    }>(request);
+    const response = await kitHttp.sendRequest<Purchase>(request);
 
     if (response.status !== 201) {
       throw new Error(`Error creating purchase: ${response.status}`);
@@ -160,8 +177,16 @@ export const createSinglePurchase = createAction({
 export const createPurchases = createAction({
   auth: convertkitAuth,
   name: 'purchases_create_multiple_purchases',
+  classification: 'WRITE',
+  outputSchema: kitPurchaseOutputSchema,
   displayName: 'Create Multiple Purchases',
   description: 'Creates multiple purchases',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Records one purchase transaction containing multiple product line items for a subscriber email. Pick this over Create Purchase for multi-product orders. Not idempotent — repeat calls create duplicate purchase records.',
+    idempotent: false,
+  },
   props: {
     transactionId,
     transactionTime,
@@ -194,7 +219,7 @@ export const createPurchases = createAction({
     const url = PURCHASES_API_ENDPOINT;
 
     const body = {
-      api_secret: context.auth,
+      api_secret: context.auth.secret_text,
       purchase: {
         transaction_id: transactionId,
         status,
@@ -217,9 +242,7 @@ export const createPurchases = createAction({
       body,
     };
 
-    const response = await httpClient.sendRequest<{
-      purchase: Purchase;
-    }>(request);
+    const response = await kitHttp.sendRequest<Purchase>(request);
 
     if (response.status !== 201) {
       throw new Error(`Error creating purchase: ${response.status}`);
@@ -235,8 +258,15 @@ export const createPurchases = createAction({
 export const listPurchasesForSubscriber = createAction({
   auth: convertkitAuth,
   name: 'purchases_list_purchases_for_subscriber',
+  classification: 'SEARCH',
   displayName: 'List Purchases For Subscriber',
   description: 'Returns a list of all purchases for a subscriber',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Lists all purchases attributed to one subscriber by numeric subscriber ID. Use Get Subscriber By Email first if only an email address is known. Read-only and idempotent.',
+    idempotent: true,
+  },
   props: {
     subscriberId,
   },
@@ -244,18 +274,15 @@ export const listPurchasesForSubscriber = createAction({
     const { subscriberId } = context.propsValue;
     const url = PURCHASES_API_ENDPOINT;
 
-    const body = {
-      api_secret: context.auth,
-      subscriber_id: subscriberId,
-    };
-
     const request: HttpRequest = {
       url,
       method: HttpMethod.GET,
-      body,
+      queryParams: buildQueryParams(context.auth.secret_text, {
+        subscriber_id: subscriberId,
+      }),
     };
 
-    const response = await httpClient.sendRequest<{
+    const response = await kitHttp.sendRequest<{
       purchases: Purchase[];
     }>(request);
 
@@ -272,14 +299,21 @@ export const listPurchasesForSubscriber = createAction({
 export const listPurchasesForProduct = createAction({
   auth: convertkitAuth,
   name: 'purchases_list_purchases_for_product',
+  classification: 'SEARCH',
   displayName: 'List Purchases For Product',
   description: 'Returns a list of all purchases for a product',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Lists all purchases of a specific product by product ID. Read-only and idempotent.',
+    idempotent: true,
+  },
   props: {
     productId,
   },
   async run(context) {
     const { productId } = context.propsValue;
-    const url = `${PURCHASES_API_ENDPOINT}?api_secret=${context.auth}&product_id=${productId}`;
+    const url = `${PURCHASES_API_ENDPOINT}?api_secret=${context.auth.secret_text}&product_id=${productId}`;
 
     const response = await fetch(url);
 
@@ -298,14 +332,21 @@ export const listPurchasesForProduct = createAction({
 export const listPurchasesForForm = createAction({
   auth: convertkitAuth,
   name: 'purchases_list_purchases_for_form',
+  classification: 'SEARCH',
   displayName: 'List Purchases For Form',
   description: 'Returns a list of all purchases for a form',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Lists all purchases associated with a specific form by form ID. Read-only and idempotent.',
+    idempotent: true,
+  },
   props: {
     formId,
   },
   async run(context) {
     const { formId } = context.propsValue;
-    const url = `${PURCHASES_API_ENDPOINT}?api_secret=${context.auth}&form_id=${formId}`;
+    const url = `${PURCHASES_API_ENDPOINT}?api_secret=${context.auth.secret_text}&form_id=${formId}`;
 
     const response = await fetch(url);
 
@@ -324,14 +365,21 @@ export const listPurchasesForForm = createAction({
 export const listPurchasesForSequence = createAction({
   auth: convertkitAuth,
   name: 'purchases_list_purchases_for_sequence',
+  classification: 'SEARCH',
   displayName: 'List Purchases For Sequence',
   description: 'Returns a list of all purchases for a sequence',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Lists all purchases associated with a specific sequence by sequence ID. Read-only and idempotent.',
+    idempotent: true,
+  },
   props: {
     sequenceId,
   },
   async run(context) {
     const { sequenceId } = context.propsValue;
-    const url = `${PURCHASES_API_ENDPOINT}?api_secret=${context.auth}&sequence_id=${sequenceId}`;
+    const url = `${PURCHASES_API_ENDPOINT}?api_secret=${context.auth.secret_text}&sequence_id=${sequenceId}`;
 
     const response = await fetch(url);
 

@@ -6,8 +6,11 @@ import { makeRequest } from '../common/client';
 export const getIncidentEvents = createAction({
   auth: coralogixAuth,
   name: 'getIncidentEvents',
+  classification: 'READ',
   displayName: 'Get Incident Events',
   description: 'Get related events for a specific incident.',
+  audience: 'both',
+  aiMetadata: { description: 'Retrieves the timeline of related events for a single Coralogix incident, given its incident ID. Use to trace how an incident evolved before deciding how to act on it. Read-only and idempotent.', idempotent: true },
   requireAuth: true,
   props: {
     incidentId: Property.ShortText({

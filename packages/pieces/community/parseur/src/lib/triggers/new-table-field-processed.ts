@@ -6,9 +6,14 @@ import { WebhookInformation } from '../common/types';
 export const newTableFieldProcessed = createTrigger({
   auth: parseurAuth,
   name: 'newTableFieldProcessed',
+  classification: 'READ',
   displayName: 'New Table Field Processed',
   description:
     'Fires when a document with table fields is processed, and triggers for each row (table field) separately.',
+  aiMetadata: {
+    description:
+      'Fires once per table row when a document containing table fields is parsed in the selected Parseur mailbox, emitting each extracted row individually. Use to process line-item or tabular data row by row rather than as a whole document.',
+  },
   props: {
     mailboxId: parserDropdown({ required: true }),
   },

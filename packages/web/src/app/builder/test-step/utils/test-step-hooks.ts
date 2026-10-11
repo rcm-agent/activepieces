@@ -1,8 +1,12 @@
 import {
-  FlowAction,
   ApErrorParams,
   ErrorCode,
-  parseToJsonIfPossible,
+  formatPieceError,
+  isString,
+  tryParseFriendlyPieceError,
+} from '@activepieces/core-utils';
+import {
+  FlowAction,
   StepRunResponse,
   FlowTrigger,
   TriggerEventWithPayload,
@@ -78,7 +82,10 @@ export const testStepHooks = {
           await wait(2000);
           attempt++;
         }
-        return [];
+        if (abortSignal.aborted) {
+          return [];
+        }
+        throw new Error('No sample data received');
       },
       onSuccess: async (results) => {
         if (results.length > 0) {
@@ -153,20 +160,19 @@ export const testStepHooks = {
       onError: (error) => {
         if (api.isError(error)) {
           const apError = error.response?.data as ApErrorParams;
-          let message =
-            'Failed to run test step, please ensure settings are correct.';
           if (apError.code === ErrorCode.TEST_TRIGGER_FAILED) {
-            message = JSON.stringify(
-              {
-                message:
-                  'Failed to run test step, please ensure settings are correct.',
-                error: parseToJsonIfPossible(apError.params.message),
-              },
-              null,
-              2,
-            );
+            const rawMessage = apError.params.message;
+            const structured =
+              tryParseFriendlyPieceError(rawMessage) ??
+              formatPieceError(isString(rawMessage) ? rawMessage : apError);
+            setErrorMessage(JSON.stringify(structured));
+            return;
           }
-          setErrorMessage(message);
+          setErrorMessage(
+            testStepUtils.formatErrorMessage(
+              t('Failed to run test step, please ensure settings are correct.'),
+            ),
+          );
         } else {
           setErrorMessage(
             testStepUtils.formatErrorMessage(

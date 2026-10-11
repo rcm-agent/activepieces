@@ -5,8 +5,12 @@ import { WebhookInformation } from '../common/types';
 export const newReceivedMessage = createTrigger({
   auth: timelinesAiAuth,
   name: 'newReceivedMessage',
+  classification: 'READ',
   displayName: 'New Received Message',
   description: 'Fires when a message is received (incoming).',
+  aiMetadata: {
+    description: 'Fires when an incoming WhatsApp message is received in TimelinesAI. Represents a single inbound message with its text, sender/recipient, any attachments, and the parent chat context.',
+  },
   props: {},
   sampleData: {
     event_type: 'message:new',

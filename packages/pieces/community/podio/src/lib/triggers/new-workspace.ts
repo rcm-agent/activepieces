@@ -6,8 +6,12 @@ import { podioApiCall, getAccessToken, dynamicSpaceProperty, dynamicOrgProperty 
 export const newWorkspaceTrigger = createTrigger({
   auth: podioAuth,
   name: 'member_added',
+  classification: 'READ',
   displayName: 'Member Added',
   description: 'Fires when a new member is added to a workspace',
+  aiMetadata: {
+    description: 'Fires when a new member is added to the selected Podio workspace (space), via a member.add webhook on that space. Represents a user gaining access to the workspace.',
+  },
   props: {
     orgId: dynamicOrgProperty,
     spaceId: dynamicSpaceProperty,

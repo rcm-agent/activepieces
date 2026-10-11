@@ -5,7 +5,7 @@ import {
 } from '@activepieces/pieces-framework';
 import { emailOctopusAuth } from '../common/auth';
 import { emailOctopusProps } from '../common/props';
-import { MarkdownVariant } from '@activepieces/shared';
+import { MarkdownVariant } from '@activepieces/pieces-framework';
 
 interface EmailOctopusEvent {
   type: string;
@@ -21,8 +21,12 @@ interface EmailOctopusEvent {
 export const newContact = createTrigger({
   auth: emailOctopusAuth,
   name: 'newContact',
+  classification: 'READ',
   displayName: 'New Contact',
   description: 'Triggers when a new contact is added to a particular list.',
+  aiMetadata: {
+    description: 'Fires when a new contact is created in EmailOctopus (a contact.created webhook event), representing a new subscriber. Can be scoped to a single list id, or left unfiltered to catch new contacts across all lists.',
+  },
   props: {
     list_id: emailOctopusProps.listId(true),
     liveMarkdown: Property.MarkDown({

@@ -7,8 +7,15 @@ import { conversationIdDropdown, userIdDropdown } from '../common/props';
 export const addNote = createAction({
   auth: helpScoutAuth,
   name: 'add_note',
+  classification: 'WRITE',
   displayName: 'Add Note',
   description: 'Adds a note to a conversation.',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Adds an internal note (not visible to the customer) to an existing Help Scout conversation identified by conversation ID. Use for agent-only annotations rather than a customer-facing reply. Not idempotent — each call appends a new note.',
+    idempotent: false,
+  },
   props: {
     conversationId: conversationIdDropdown,
     text: Property.LongText({

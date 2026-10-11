@@ -10,8 +10,11 @@ import { lobstermailAuth } from '../..';
 export const deleteInbox = createAction({
   auth: lobstermailAuth,
   name: 'delete_inbox',
+  classification: 'DESTRUCTIVE',
   displayName: 'Delete Inbox',
   description: 'Permanently delete an inbox and release its address. This action cannot be undone.',
+  audience: 'both',
+  aiMetadata: { description: 'Permanently deletes a LobsterMail inbox by its id and frees its address; this is destructive and cannot be undone. Use only when an agent is certain the inbox and its mail are no longer needed. Requires a known inbox id. Not idempotent — a repeat call against an already-deleted inbox will fail rather than succeed silently.', idempotent: false },
   props: {
     inbox_id: inboxIdDropdown,
   },

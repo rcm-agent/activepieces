@@ -1,17 +1,5 @@
-import {
-    BranchCondition,
-    BranchExecutionType,
-    FlowActionType,
-    flowCanvasUtils,
-    flowStructureUtil,
-    FlowTriggerType,
-    isNil,
-    McpToolDefinition,
-    Note,
-    Permission,
-    ProjectScopedMcpServer,
-    StepLocationRelativeToParent,
-} from '@activepieces/shared'
+import { isNil, Permission } from '@activepieces/core-utils'
+import { BranchCondition, BranchExecutionType, FlowActionType, flowCanvasUtils, flowStructureUtil, FlowTrigger, FlowTriggerType, McpToolDefinition, Note, ProjectScopedMcpServer, StepLocationRelativeToParent } from '@activepieces/shared'
 import type { Step } from '@activepieces/shared'
 import { FastifyBaseLogger } from 'fastify'
 import { z } from 'zod'
@@ -23,7 +11,7 @@ type StepInfo = {
     type: string
     displayName: string
     parentName: string | null
-    relationship: 'trigger' | 'next' | 'first_loop_action' | 'branch'
+    relationship: 'trigger' | 'next' | 'first_loop_action' | 'branch' | 'on_success_branch' | 'on_failure_branch'
     branchIndex?: number
     branchName?: string
     valid: boolean
@@ -31,8 +19,8 @@ type StepInfo = {
     configStatus: string
 }
 
-function getConfigStatus(step: Step): string {
-    if ((step as { skip?: boolean }).skip) return 'skipped'
+function getConfigStatus({ step, skippedStepNames }: { step: Step, skippedStepNames: Set<string> }): string {
+    if (skippedStepNames.has(step.name)) return 'skipped'
     if (step.valid) return 'configured'
     const s = step.settings as { triggerName?: string, actionName?: string }
     switch (step.type) {
@@ -48,6 +36,8 @@ function getConfigStatus(step: Step): string {
             return 'invalid (loopItems expression missing or invalid)'
         case FlowActionType.ROUTER:
             return 'invalid (check branch conditions)'
+        case FlowActionType.AI_ROUTER:
+            return 'invalid (check the input, question and route descriptions)'
         default:
             return 'invalid'
     }
@@ -93,6 +83,23 @@ function formatStepSettings(step: Step): string[] {
     return lines
 }
 
+function formatRelationshipLabel(step: StepInfo): string {
+    switch (step.relationship) {
+        case 'trigger':
+            return 'trigger'
+        case 'next':
+            return 'after parent'
+        case 'first_loop_action':
+            return 'inside_loop'
+        case 'on_success_branch':
+            return 'on_success_branch'
+        case 'on_failure_branch':
+            return 'on_failure_branch'
+        case 'branch':
+            return `branch ${step.branchIndex}${step.branchName ? ` "${step.branchName}"` : ''}`
+    }
+}
+
 function formatBranchConditions(conditions: BranchCondition[][]): string {
     const groups = conditions.map((andGroup) => {
         const parts = andGroup.map((c) => {
@@ -107,8 +114,9 @@ function formatBranchConditions(conditions: BranchCondition[][]): string {
     return groups.join(' OR ')
 }
 
-function buildFlowStructure(trigger: Step): { structure: StepInfo[], stepByName: Map<string, Step> } {
+function buildFlowStructure(trigger: FlowTrigger): { structure: StepInfo[], stepByName: Map<string, Step> } {
     const allSteps = flowStructureUtil.getAllSteps(trigger)
+    const skippedStepNames = flowStructureUtil.getSkippedStepNames({ trigger })
     const stepByName = new Map(allSteps.map(s => [s.name, s]))
     const structure = allSteps.map((step): StepInfo => {
         if (flowStructureUtil.isTrigger(step.type)) {
@@ -119,8 +127,8 @@ function buildFlowStructure(trigger: Step): { structure: StepInfo[], stepByName:
                 parentName: null,
                 relationship: 'trigger',
                 valid: step.valid,
-                skip: (step as { skip?: boolean }).skip,
-                configStatus: getConfigStatus(step),
+                skip: skippedStepNames.has(step.name),
+                configStatus: getConfigStatus({ step, skippedStepNames }),
             }
         }
         let parentName: string | null = null
@@ -138,14 +146,26 @@ function buildFlowStructure(trigger: Step): { structure: StepInfo[], stepByName:
                 relationship = 'first_loop_action'
                 break
             }
-            if (parent.type === FlowActionType.ROUTER) {
-                const children = (parent as { children?: { name: string }[] }).children
-                const idx = children?.findIndex((c) => c?.name === step.name)
-                if (idx !== undefined && idx >= 0) {
+            if (flowStructureUtil.isBranchedAction(parent)) {
+                const idx = parent.children.findIndex((c) => c?.name === step.name)
+                if (idx >= 0) {
                     parentName = parent.name
                     relationship = 'branch'
                     branchIndex = idx
-                    branchName = (parent as { settings?: { branches?: { branchName?: string }[] } }).settings?.branches?.[idx]?.branchName
+                    branchName = parent.settings.branches[idx]?.branchName
+                    break
+                }
+            }
+            if (parent.type === FlowActionType.CODE || parent.type === FlowActionType.PIECE) {
+                const branches = parent.continueOnFailureBranches
+                if (branches?.onSuccess?.name === step.name) {
+                    parentName = parent.name
+                    relationship = 'on_success_branch'
+                    break
+                }
+                if (branches?.onFailure?.name === step.name) {
+                    parentName = parent.name
+                    relationship = 'on_failure_branch'
                     break
                 }
             }
@@ -158,8 +178,8 @@ function buildFlowStructure(trigger: Step): { structure: StepInfo[], stepByName:
             relationship,
             ...(relationship === 'branch' && { branchIndex, branchName }),
             valid: step.valid,
-            skip: (step as { skip?: boolean }).skip,
-            configStatus: getConfigStatus(step),
+            skip: skippedStepNames.has(step.name),
+            configStatus: getConfigStatus({ step, skippedStepNames }),
         }
     })
     return { structure, stepByName }
@@ -199,12 +219,7 @@ function formatFlowStructure(
             continue
         }
 
-        const rel =
-            step.relationship === 'next'
-                ? 'after parent'
-                : step.relationship === 'first_loop_action'
-                    ? 'inside_loop'
-                    : `branch ${step.branchIndex}${step.branchName ? ` "${step.branchName}"` : ''}`
+        const rel = formatRelationshipLabel(step)
 
         let stepDetail = ''
         if (step.type === FlowActionType.PIECE) {
@@ -231,6 +246,14 @@ function formatFlowStructure(
                 }
             })
         }
+        if (fullStep?.type === FlowActionType.AI_ROUTER) {
+            lines.push(`  question: "${fullStep.settings.question}"`)
+            fullStep.settings.branches.forEach((b, i) => {
+                const btype = b.branchType === BranchExecutionType.FALLBACK ? 'fallback' : 'route'
+                const when = isNil(b.description) || b.description.length === 0 ? '' : ` | when: ${b.description}`
+                lines.push(`  branch[${i}]: "${b.branchName}" (${btype})${when}`)
+            })
+        }
     }
 
     lines.push('')
@@ -249,12 +272,20 @@ function formatFlowStructure(
         if (step.type === FlowActionType.LOOP_ON_ITEMS) {
             lines.push(`  Inside loop of "${step.name}": parentStepName="${step.name}", stepLocationRelativeToParent="${StepLocationRelativeToParent.INSIDE_LOOP}"`)
         }
-        if (step.type === FlowActionType.ROUTER) {
-            const routerStep = stepByName.get(step.name)
-            const branches = (routerStep?.settings as { branches?: { branchName?: string }[] } | undefined)?.branches ?? []
-            branches.forEach((b, i) => {
+        const branchedStep = stepByName.get(step.name)
+        if (!isNil(branchedStep) && flowStructureUtil.isBranchedAction(branchedStep)) {
+            branchedStep.settings.branches.forEach((b, i) => {
                 lines.push(`  Branch ${i} of "${step.name}"${b.branchName ? ` ("${b.branchName}")` : ''}: parentStepName="${step.name}", stepLocationRelativeToParent="${StepLocationRelativeToParent.INSIDE_BRANCH}", branchIndex=${i}`)
             })
+        }
+        if (step.type === FlowActionType.CODE || step.type === FlowActionType.PIECE) {
+            const fullStep = stepByName.get(step.name)
+            const isFullStepCodeOrPiece = fullStep?.type === FlowActionType.CODE || fullStep?.type === FlowActionType.PIECE
+            const cofEnabled = isFullStepCodeOrPiece && fullStep?.settings.errorHandlingOptions?.continueOnFailure?.value
+            if (cofEnabled) {
+                lines.push(`  On success branch of "${step.name}": parentStepName="${step.name}", stepLocationRelativeToParent="${StepLocationRelativeToParent.INSIDE_ON_SUCCESS_BRANCH}"`)
+                lines.push(`  On failure branch of "${step.name}": parentStepName="${step.name}", stepLocationRelativeToParent="${StepLocationRelativeToParent.INSIDE_ON_FAILURE_BRANCH}"`)
+            }
         }
     }
 

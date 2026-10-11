@@ -1,6 +1,6 @@
 import { HttpMethod } from '@activepieces/pieces-common';
 import { createTrigger, TriggerStrategy } from '@activepieces/pieces-framework';
-import { isNil } from '@activepieces/shared';
+import { isNil } from '@activepieces/pieces-framework';
 import { clockifyAuth } from '../auth';
 import { clockifyApiCall } from '../common/client';
 import { workspaceId } from '../common/props';
@@ -10,8 +10,13 @@ const TRIGGER_KEY = 'new-timer-started-trigger';
 export const newTimerStartedTrigger = createTrigger({
 	auth: clockifyAuth,
 	name: 'new-timer-started',
+	classification: 'READ',
 	displayName: 'New Timer Started',
 	description: 'Triggers when a new entry is started and running.',
+	aiMetadata: {
+		description:
+			'Fires when a timer is started and begins running on the specified workspace, emitting the newly started time entry. Use to react to live timers as they begin.',
+	},
 	type: TriggerStrategy.WEBHOOK,
 	props: {
 		workspaceId: workspaceId({

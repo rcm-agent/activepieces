@@ -1,39 +1,39 @@
 import { createAction, Property } from '@activepieces/pieces-framework';
-import {
-  httpClient,
-  HttpMethod,
-  AuthenticationType,
-} from '@activepieces/pieces-common';
-import FormData from 'form-data';
-import { googleDriveAuth, getAccessToken } from '../auth';
+import { drive as googleDrive } from '@googleapis/drive';
+import { googleDriveAuth, createGoogleClient } from '../auth';
 import { common } from '../common';
+import { createNewGdriveFileActionOutputSchema } from '../output-schemas';
 
 export const googleDriveCreateNewTextFile = createAction({
   auth: googleDriveAuth,
   name: 'create_new_gdrive_file',
-  description: 'Create a new text file in your Google Drive from text',
-  displayName: 'Create new file',
+  classification: 'WRITE',
+  description: 'Create a text, CSV or XML file from text you enter.',
+  audience: 'human',
+  aiMetadata: { description: 'Creates a new file in Google Drive from inline text content as plain text, CSV, or XML, optionally inside a parent folder. Use when an agent has generated text it needs to persist as a Drive file. Not idempotent: each call creates a new file.', idempotent: false },
+  displayName: 'Create File from Text',
   props: {
     fileName: Property.ShortText({
-      displayName: 'File name',
-      description: 'The name of the new text file',
+      displayName: 'File Name',
+      description: 'Include the extension, for example report.csv.',
       required: true,
+      placeholder: 'report.txt',
     }),
     text: Property.LongText({
-      displayName: 'Text',
-      description: 'The text content to add to file',
+      displayName: 'Content',
+      description: 'The text written into the file.',
       required: true,
     }),
     fileType: Property.StaticDropdown({
-      displayName: 'Content type',
-      description: 'Select file type',
+      displayName: 'File Type',
+      description: 'Plain text, CSV or XML. Match the extension in the file name.',
       required: true,
-      defaultValue: 'plain/text',
+      defaultValue: 'text/plain',
       options: {
         options: [
           {
-            label: 'Text',
-            value: 'plain/text',
+            label: 'Plain Text (TXT)',
+            value: 'text/plain',
           },
           {
             label: 'CSV',
@@ -49,41 +49,34 @@ export const googleDriveCreateNewTextFile = createAction({
     parentFolder: common.properties.parentFolder,
     include_team_drives: common.properties.include_team_drives,
   },
+  outputSchema: createNewGdriveFileActionOutputSchema,
   async run(context) {
-    const meta = {
-      mimeType: context.propsValue.fileType,
-      name: context.propsValue.fileName,
-      ...(context.propsValue.parentFolder
-        ? { parents: [context.propsValue.parentFolder] }
-        : {}),
-    };
+    const authClient = await createGoogleClient(context.auth);
+    const drive = googleDrive({ version: 'v3', auth: authClient });
 
-    const metaBuffer = Buffer.from(JSON.stringify(meta), 'utf-8');
-    const textBuffer = Buffer.from(context.propsValue.text!, 'utf-8');
+    // Normalize the legacy 'plain/text' value saved by existing flows to the
+    // valid 'text/plain' MIME type Google Drive expects.
+    const mimeType =
+      context.propsValue.fileType === 'plain/text'
+        ? 'text/plain'
+        : context.propsValue.fileType;
 
-    const form = new FormData();
-    form.append('Metadata', metaBuffer, { contentType: 'application/json' });
-    form.append('Media', textBuffer, {
-      contentType: context.propsValue.fileType,
+    const response = await drive.files.create({
+      requestBody: {
+        name: context.propsValue.fileName,
+        mimeType,
+        ...(context.propsValue.parentFolder
+          ? { parents: [context.propsValue.parentFolder] }
+          : {}),
+      },
+      media: {
+        mimeType,
+        body: context.propsValue.text,
+      },
+      supportsAllDrives: context.propsValue.include_team_drives ?? false,
+      fields: 'id, name, mimeType, kind',
     });
 
-    const result = await httpClient.sendRequest({
-      method: HttpMethod.POST,
-      url: `https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart`,
-      body: form,
-      headers: {
-        ...form.getHeaders(),
-      },
-      queryParams: {
-        supportsAllDrives: String(context.propsValue.include_team_drives || false),
-      },
-      authentication: {
-        type: AuthenticationType.BEARER_TOKEN,
-        token: await getAccessToken(context.auth),
-      },
-    });
-
-    console.debug('File creation response', result);
-    return result.body;
+    return response.data;
   },
 });

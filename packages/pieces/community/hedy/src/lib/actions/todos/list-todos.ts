@@ -24,8 +24,14 @@ function extractTodos(result: unknown): Todo[] {
 export const listTodos = createAction({
   auth: hedyAuth,
   name: 'list-todos',
+  classification: 'SEARCH',
   displayName: 'List Todos',
   description: 'Retrieve todos assigned to you in Hedy.',
+  audience: 'both',
+  aiMetadata: {
+    description: 'List the todos assigned to the authenticated Hedy user across all sessions. Use for an account-wide todo view; use List Session Todos to scope to one session. Set Return All to fetch everything, otherwise results are capped by the limit. Read-only and idempotent.',
+    idempotent: true,
+  },
   props: {
     returnAll: commonProps.returnAll,
     limit: commonProps.limit,

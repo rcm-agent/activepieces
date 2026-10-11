@@ -9,8 +9,11 @@ import { fetchEntityTypesForReading } from '../common/drupal-entities';
 export const drupalDeleteEntityAction = createAction({
   auth: drupalAuth,
   name: 'drupal-delete-entity',
+  classification: 'DESTRUCTIVE',
   displayName: 'Delete Entity',
   description: 'Delete an entity from Drupal',
+  audience: 'both',
+  aiMetadata: { description: 'Permanently deletes a Drupal entity identified by its entity type, bundle, and UUID via JSON:API. Use to remove known content. Not idempotent: the first call deletes the entity and a repeat call for the same UUID fails because the resource no longer exists.', idempotent: false },
   props: {
     entity_type: Property.Dropdown({
       displayName: 'Entity Type',

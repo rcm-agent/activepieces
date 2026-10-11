@@ -10,9 +10,13 @@ import { lobstermailAuth } from '../..';
 export const emailSentTrigger = createTrigger({
   auth: lobstermailAuth,
   name: 'email_sent',
+  classification: 'READ',
   displayName: 'Email Sent',
   description:
     'Triggers when an outbound email is successfully delivered. Use for audit logs, CRM updates, or confirming delivery.',
+  aiMetadata: {
+    description: 'Fires via webhook when an outbound email is successfully delivered, optionally scoped to a single inbox. Each event represents one confirmed delivery with the message id, recipients, subject, and thread id. Use for delivery confirmation, audit logging, or downstream CRM updates.',
+  },
   type: TriggerStrategy.WEBHOOK,
   props: {
     inbox_id: inboxIdDropdownOptional,

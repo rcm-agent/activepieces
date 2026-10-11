@@ -18,6 +18,7 @@ import {
   HttpMethod,
   HttpRequest,
 } from '@activepieces/pieces-common';
+import { eventOutputSchema } from '../output-schemas';
 
 interface GoogleCalendarEventList {
   items: GoogleCalendarEvent[];
@@ -130,27 +131,31 @@ const polling: Polling<
 export const eventStartTimeBefore = createTrigger({
   auth: googleCalendarAuth,
   name: 'event_starts_in',
+  classification: 'READ',
   displayName: 'Event Start (Time Before)',
   description:
     'Fires at a specified amount of time before an event starts (e.g., a reminder).',
+  aiMetadata: {
+    description: 'Fires a configurable lead time (in minutes, hours, or days) before an event in the selected calendar begins, acting as a pre-event reminder. Each fired item is the upcoming event. Can watch all events or a single specific event.',
+  },
   props: {
     calendar_id: googleCalendarCommon.calendarDropdown('writer'),
     specific_event: Property.Checkbox({
       displayName: 'Target Specific Event',
-      description:
-        'Enable to monitor a specific event instead of all events in the calendar.',
+      description: 'Watch one event instead of the whole calendar.',
       required: false,
       defaultValue: false,
     }),
     event_id: googleCalendarCommon.eventDropdown(false),
     time_value: Property.Number({
       displayName: 'Time Before',
-      description: 'The amount of time before the event starts.',
+      description: 'How long before the event starts to fire.',
       required: true,
       defaultValue: 15,
     }),
     time_unit: Property.StaticDropdown({
       displayName: 'Time Unit',
+      description: 'Unit for Time Before.',
       required: true,
       options: {
         options: [
@@ -162,6 +167,7 @@ export const eventStartTimeBefore = createTrigger({
       defaultValue: 'minutes',
     }),
   },
+  outputSchema: eventOutputSchema,
   type: TriggerStrategy.POLLING,
   sampleData: {},
 

@@ -6,9 +6,12 @@ import { makeRequest } from '../common/client';
 export const setAlertActive = createAction({
   auth: coralogixAuth,
   name: 'setAlertActive',
+  classification: 'WRITE',
   displayName: 'Enable / Disable Alert',
   description:
     'Enable or disable a Coralogix alert definition. Use this to mute alerts during maintenance windows.',
+  audience: 'both',
+  aiMetadata: { description: 'Enables or disables a Coralogix alert definition by alert ID, controlled by an enable/disable flag. Use to mute an alert during a maintenance window and re-enable it afterward. Idempotent: setting the alert to a state it is already in has no further effect.', idempotent: true },
   requireAuth: true,
   props: {
     alertId: Property.ShortText({

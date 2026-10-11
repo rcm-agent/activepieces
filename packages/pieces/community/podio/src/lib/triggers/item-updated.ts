@@ -6,8 +6,12 @@ import { podioApiCall, getAccessToken, dynamicAppProperty } from '../common';
 export const itemUpdatedTrigger = createTrigger({
   auth: podioAuth,
   name: 'item_updated',
+  classification: 'READ',
   displayName: 'Item Updated',
   description: 'Fires when an existing item is updated (excluding comments)',
+  aiMetadata: {
+    description: 'Fires when an existing item in the selected Podio app is updated (field changes, not comments), via an item.update webhook on that app. Represents a modified record.',
+  },
   props: {
     appId: dynamicAppProperty,
   },

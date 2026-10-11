@@ -11,9 +11,12 @@ import {
 export const createBooking = createAction({
   auth: simplybookAuth,
   name: 'create_booking',
+  classification: 'WRITE',
   displayName: 'Create Booking',
   description:
     'Create a new booking using the book API method. Returns appointment info or throws exception if time not available.',
+  audience: 'both',
+  aiMetadata: { description: 'Books a new appointment in SimplyBook.me for a given service, provider, and client across a start/end date-time window. Use to schedule a single appointment, a group batch (via count), or to append to an existing batch (via batchId) — count and batchId are mutually exclusive. The requested slot must be available and aligned to the company timeframe or the call throws. Not idempotent: each call creates a new booking.', idempotent: false },
   props: {
     eventId: serviceDropdown,
     unitId: providerDropdown,

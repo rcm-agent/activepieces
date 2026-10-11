@@ -7,8 +7,14 @@ import { freshserviceCommon } from '../common/props';
 export const addNoteToTicket = createAction({
   auth: freshserviceAuth,
   name: 'add_note_to_ticket',
+  classification: 'WRITE',
   displayName: 'Add Note to Ticket',
   description: 'Adds a private or public note to an existing ticket.',
+  audience: 'both',
+  aiMetadata: {
+    description: 'Appends a note (conversation entry) to an existing Freshservice ticket identified by ticket id. The note can be private (agent-only, the default) or public (visible to the requester). Use to record an update or comment on a ticket. Not idempotent — each call appends another note.',
+    idempotent: false,
+  },
   props: {
     ticket_id: freshserviceCommon.ticket(true),
     body: Property.LongText({

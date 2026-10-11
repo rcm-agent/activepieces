@@ -1,23 +1,29 @@
 import { googleDocsAuth, createGoogleClient } from '../auth';
-import { Property, createAction } from '@activepieces/pieces-framework';
-import { google } from 'googleapis';
+import { createAction } from '@activepieces/pieces-framework';
+import { docs as googleDocs } from '@googleapis/docs';
+import { documentIdProp } from '../common/props';
+import { readDocumentActionOutputSchema } from '../output-schemas';
 
 export const readDocument = createAction({
   displayName: 'Read Document',
   auth: googleDocsAuth,
   name: 'read_document',
-  description: 'Read a document from Google Docs',
-  props: {
-    documentId: Property.ShortText({
-      displayName: 'Document ID',
-      description: 'The ID of the document to read',
-      required: true,
-    }),
+  classification: 'READ',
+  description: 'Read a document from Google Docs.',
+  audience: 'human',
+  aiMetadata: {
+    description:
+      'Fetches the full content and structure of a Google Docs document by its ID. Use when an agent needs to inspect, summarize, or extract text from a known document. Requires the document ID (not a name or URL); read-only and idempotent.',
+    idempotent: true,
   },
+  props: {
+    documentId: documentIdProp(),
+  },
+  outputSchema: readDocumentActionOutputSchema,
   async run(context) {
     const authClient = await createGoogleClient(context.auth);
 
-    const docs = google.docs({ version: 'v1', auth: authClient });
+    const docs = googleDocs({ version: 'v1', auth: authClient });
     const response = await docs.documents.get({
       documentId: context.propsValue.documentId,
     });

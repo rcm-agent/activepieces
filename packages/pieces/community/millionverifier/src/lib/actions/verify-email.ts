@@ -4,8 +4,11 @@ import { HttpMethod, httpClient } from '@activepieces/pieces-common';
 export const verifyEmail = createAction({
   auth: millionVerifierAuth,
   name: 'verifyEmail',
+  classification: 'READ',
   displayName: 'Verify Email',
   description: 'Verify email address using Million Verifier API',
+  audience: 'both',
+  aiMetadata: { description: 'Validates a single email address against the MillionVerifier real-time API, returning its deliverability status (e.g. deliverable, undeliverable, risky). Use to check whether an email is valid and safe to send to before adding it to a list or sending mail. Requires one email address; the call is read-only and idempotent.', idempotent: true },
   props: {
     email: Property.ShortText({
       displayName: 'Email Address',

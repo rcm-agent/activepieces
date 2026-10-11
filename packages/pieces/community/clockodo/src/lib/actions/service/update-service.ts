@@ -5,8 +5,11 @@ import { clockodoAuth } from '../../auth';
 export default createAction({
   auth: clockodoAuth,
   name: 'update_service',
+  classification: 'WRITE',
   displayName: 'Update Service',
   description: 'Updates a service in clockodo',
+  audience: 'both',
+  aiMetadata: { description: 'Update an existing clockodo service identified by its numeric service ID, changing only the fields you supply (name, number, active flag, note). Idempotent: re-sending the same values leaves the service unchanged. Requires a service ID; use Create Service to add a new one.', idempotent: true },
   props: {
     service_id: clockodoCommon.service_id(true, null),
     name: Property.ShortText({

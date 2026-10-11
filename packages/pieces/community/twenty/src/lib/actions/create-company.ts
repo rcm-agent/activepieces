@@ -6,8 +6,11 @@ import { twentyRequest } from '../common';
 export const createCompany = createAction({
   auth: twentyAuth,
   name: 'create_company',
+  classification: 'WRITE',
   displayName: 'Create Company',
   description: 'Creates a new company record in Twenty CRM.',
+  audience: 'both',
+  aiMetadata: { description: 'Creates a new company in Twenty CRM. Use when adding an organization to the CRM; company name is required, with optional domain, address, and employee count. Not idempotent: each call inserts a new record with no de-duplication, so repeated calls create duplicate companies.', idempotent: false },
   props: {
     name: Property.ShortText({
       displayName: 'Company Name',

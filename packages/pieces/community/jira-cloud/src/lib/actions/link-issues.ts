@@ -1,15 +1,24 @@
 import { createAction } from '@activepieces/pieces-framework';
 import { jiraCloudAuth } from '../../auth';
 import { issueIdOrKeyProp, issueLinkTypeIdProp } from '../common/props';
-import { isNil } from '@activepieces/shared';
-import { HttpError, HttpMethod } from '@activepieces/pieces-common';
+import { isNil } from '@activepieces/pieces-framework';
+import { HttpMethod } from '@activepieces/pieces-common';
 import { jiraApiCall } from '../common';
 
+import { legacyLinkIssuesOutputSchema } from '../output-schemas';
 export const linkIssuesAction = createAction({
   auth: jiraCloudAuth,
   name: 'link-issues',
+  classification: 'WRITE',
   displayName: 'Link Issues',
   description: 'Creates a link between two issues.',
+  audience: 'human',
+  aiMetadata: {
+    description:
+      'Create a directional link of a chosen type (e.g. blocks, relates to, duplicates) between two existing Jira issues, given both issue IDs/keys. Use to express dependencies or relationships; direction matters, with the first issue taking the outward role. Not idempotent: re-running can add a duplicate link.',
+    idempotent: false,
+  },
+  outputSchema: legacyLinkIssuesOutputSchema,
   props: {
     firstIssueId: issueIdOrKeyProp('First Issue', true),
     issueLinkTypeId: issueLinkTypeIdProp('Link Type', true),

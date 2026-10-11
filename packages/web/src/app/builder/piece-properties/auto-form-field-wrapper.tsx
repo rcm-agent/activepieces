@@ -9,7 +9,7 @@ import {
   PropertyExecutionType,
 } from '@activepieces/shared';
 import { t } from 'i18next';
-import { Calendar, SquareFunction, File } from 'lucide-react';
+import { Calendar, File } from 'lucide-react';
 import React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ControllerRenderProps, useFormContext } from 'react-hook-form';
@@ -19,7 +19,6 @@ import { ReadMoreDescription } from '@/components/custom/read-more-description';
 import { Button } from '@/components/ui/button';
 import { FormItem, FormLabel } from '@/components/ui/form';
 import { RequiredFieldAsterisk } from '@/components/ui/label';
-import { Toggle } from '@/components/ui/toggle';
 import {
   Tooltip,
   TooltipContent,
@@ -29,11 +28,13 @@ import { formUtils } from '@/features/pieces';
 import { cn } from '@/lib/utils';
 
 import { ArrayPiecePropertyInInlineItemMode } from './array-property-in-inline-item-mode';
-import { TextInputWithMentions } from './text-input-with-mentions';
+import { DynamicValueToggleButton } from './dynamic-value-toggle-button';
+import { FormFieldMentionInput } from './text-input-with-mentions';
 
 function AutoFormFieldWrapper({
   placeBeforeLabelText = false,
   hideLabel,
+  hideDescription,
   children,
   allowDynamicValues,
   propertyName,
@@ -58,7 +59,7 @@ function AutoFormFieldWrapper({
         {(!hideLabel || placeBeforeLabelText) && (
           <FormLabel className="flex items-center gap-1 h-7.5 max-h-7.5">
             {placeBeforeLabelText && !dynamicInputModeToggled && children}
-            <div className="pt-1">
+            <div className={cn(!placeBeforeLabelText && 'pt-1')}>
               <span>
                 {isAuthProperty ? t('Connection') : property.displayName}
               </span>{' '}
@@ -83,10 +84,11 @@ function AutoFormFieldWrapper({
           </FormLabel>
         )}
         {dynamicInputModeToggled && !isArrayProperty && (
-          <TextInputWithMentions
+          <FormFieldMentionInput
             disabled={disabled}
             onChange={field.onChange}
             initialValue={field.value ?? null}
+            ariaLabel={isAuthProperty ? t('Connection') : property.displayName}
           />
         )}
 
@@ -104,6 +106,7 @@ function AutoFormFieldWrapper({
           <div>{children}</div>
         )}
         {!isForConnectionSelect &&
+          !hideDescription &&
           !Array.isArray(property) &&
           property.description && (
             <ReadMoreDescription text={property.description} />
@@ -123,7 +126,7 @@ function AutoFormFielWrapperErrorBoundary({
     <ErrorBoundary
       fallbackRender={() => (
         <div className="text-sm  flex items-center justify-between">
-          <div className="text-destructive">
+          <div className="text-danger-11">
             {t('input value is invalid, please contact support')}
           </div>
           <Button
@@ -153,7 +156,7 @@ function AutoFormFielWrapperErrorBoundary({
   );
 }
 
-function getValueForInputOnDynamicToggleChange(
+export function getValueForInputOnDynamicToggleChange(
   property: PieceProperty | PieceAuthProperty[],
   newMode: PropertyExecutionType,
   currentValue: unknown,
@@ -174,16 +177,26 @@ function getValueForInputOnDynamicToggleChange(
       ) {
         return currentValue;
       }
+      if (currentValue === null) {
+        return '';
+      }
       return JSON.stringify(currentValue);
     }
-    case PropertyExecutionType.MANUAL:
+    case PropertyExecutionType.MANUAL: {
       if (isAuthProperty) {
         return '';
       }
-      return formUtils.getDefaultPropertyValue({
-        property,
-        dynamicInputModeToggled: false,
-      });
+      return (
+        formUtils.parseDynamicValue({
+          property,
+          value: currentValue,
+        }) ??
+        formUtils.getDefaultPropertyValue({
+          property,
+          dynamicInputModeToggled: false,
+        })
+      );
+    }
   }
 }
 
@@ -227,32 +240,17 @@ function DynamicValueToggle({
     }
   }
   return (
-    <div className="flex gap-2 items-center">
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Toggle
-            pressed={isToggled}
-            onPressedChange={(newIsToggled) =>
-              handleDynamicValueToggleChange(
-                newIsToggled
-                  ? PropertyExecutionType.DYNAMIC
-                  : PropertyExecutionType.MANUAL,
-              )
-            }
-            disabled={disabled}
-            size="sm"
-          >
-            <SquareFunction
-              className={cn('size-5', {
-                'text-foreground': isToggled,
-                'text-muted-foreground': !isToggled,
-              })}
-            />
-          </Toggle>
-        </TooltipTrigger>
-        <TooltipContent side="top">{t('Dynamic value')}</TooltipContent>
-      </Tooltip>
-    </div>
+    <DynamicValueToggleButton
+      pressed={isToggled}
+      onPressedChange={(newIsToggled) =>
+        handleDynamicValueToggleChange(
+          newIsToggled
+            ? PropertyExecutionType.DYNAMIC
+            : PropertyExecutionType.MANUAL,
+        )
+      }
+      disabled={disabled}
+    />
   );
 }
 function PropertyTypeTooltip({ property }: { property: PieceProperty }) {
@@ -267,10 +265,10 @@ function PropertyTypeTooltip({ property }: { property: PieceProperty }) {
     <Tooltip>
       <TooltipTrigger asChild>
         {property.type === PropertyType.FILE ? (
-          <File className="w-4 h-4 stroke-foreground/55"></File>
+          <File className="w-4 h-4 stroke-gray-12/55"></File>
         ) : (
           property.type === PropertyType.DATE_TIME && (
-            <Calendar className="w-4 h-4 stroke-foreground/55"></Calendar>
+            <Calendar className="w-4 h-4 stroke-gray-12/55"></Calendar>
           )
         )}
       </TooltipTrigger>
@@ -311,6 +309,7 @@ type DynamicValueToggleProps = {
 type AutoFormFieldWrapperProps = {
   children: React.ReactNode;
   hideLabel?: boolean;
+  hideDescription?: boolean;
   allowDynamicValues: boolean;
   propertyName: string;
   placeBeforeLabelText?: boolean;

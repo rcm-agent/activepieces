@@ -4,8 +4,10 @@ import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 import { getGraphBaseUrl, getMicrosoftCloudFromAuth } from '../common/microsoft-cloud';
 
 export const retrieveGroundingData = createAction({
+  audience: 'human',
   auth: microsoft365CopilotAuth,
   name: 'retrieveGroundingData',
+  classification: 'SEARCH',
   displayName: 'Retrieve Grounding Data',
   description:
     'Retrieve relevant text extracts from SharePoint, OneDrive, or Copilot connectors content for grounding AI solutions',

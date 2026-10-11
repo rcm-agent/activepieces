@@ -6,8 +6,11 @@ import { ninjapipeApiCall, flattenCustomFields, getAuth, ninjapipeCommon } from 
 export const createDeal = createAction({
   auth: ninjapipeAuth,
   name: 'create_deal',
+  classification: 'WRITE',
   displayName: 'Create Deal',
   description: 'Creates a new deal.',
+  audience: 'both',
+  aiMetadata: { description: 'Creates a new deal (sales opportunity) in NinjaPipe, optionally tied to a pipeline, company, and contact, with value/currency, status, owner, and custom fields. Only Name is required. Not idempotent: each call adds another deal, so guard against duplicates.', idempotent: false },
   props: {
     name: Property.ShortText({ displayName: 'Name', required: true }),
     title: Property.ShortText({ displayName: 'Title', required: false }),

@@ -1,8 +1,6 @@
+import { isNil, Permission, SeekPage } from '@activepieces/core-utils';
 import {
   InvitationType,
-  isNil,
-  Permission,
-  SeekPage,
   UpdateUserRequestBody,
   User,
   UserStatus,
@@ -54,7 +52,6 @@ export const platformUserHooks = {
       },
       queryKey: platformUserKeys.invitations,
       staleTime: 0,
-      meta: { showErrorDialog: true, loadSubsetOptions: {} },
     });
   },
 };
@@ -84,7 +81,13 @@ export const platformUserMutations = {
       },
     });
   },
-  useUpdateUserStatus: ({ onSuccess }: { onSuccess: () => void }) => {
+  useUpdateUserStatus: ({
+    onSuccess,
+    onError,
+  }: {
+    onSuccess: () => void;
+    onError?: (error: Error) => void;
+  }) => {
     return useMutation({
       mutationFn: async (data: { userId: string; status: UserStatus }) => {
         await platformUserApi.update(data.userId, { status: data.status });
@@ -99,6 +102,7 @@ export const platformUserMutations = {
           { duration: 3000 },
         );
       },
+      onError,
     });
   },
   useUpdateUser: ({

@@ -4,8 +4,11 @@ import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 
 export const getOrgMemberAction = createAction({
   name: 'get_org_member',
+  classification: 'READ',
   displayName: 'Get Organization Member',
   description: 'Get details of a specific organization member',
+  audience: 'both',
+  aiMetadata: { description: 'Fetch a single organization member by their user ID, including role and profile details. Use when you already have the user ID; to browse or discover members without an ID, use the list-org-members action instead. Read-only lookup with no side effects.', idempotent: true },
   auth: zooAuth,
   // category: 'Organizations',
   props: {

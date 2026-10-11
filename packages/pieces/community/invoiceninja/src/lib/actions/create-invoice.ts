@@ -2,7 +2,7 @@ import {
   createAction,
   Property,
 } from '@activepieces/pieces-framework';
-import { z } from 'zod';
+import * as z from 'zod/mini'
 import { propsValidation } from '@activepieces/pieces-common';
 
 import { invoiceninjaAuth } from '../..';
@@ -10,9 +10,12 @@ import { invoiceninjaAuth } from '../..';
 export const createInvoice = createAction({
   auth: invoiceninjaAuth,
   name: 'create_invoice',
+  classification: 'WRITE',
   displayName: 'Create Invoice',
   description: 'Creates an invoice in Invoice Ninja for billing purposes.',
-  
+  audience: 'both',
+  aiMetadata: { description: 'Creates an invoice for a client in Invoice Ninja from a JSON array of line items (each referencing an existing product_key, whose price and tax are looked up), with optional discount, notes, and due date. Can optionally email the invoice to the client and/or mark it as sent on creation. Requires a valid client id and at least one line item with a known product key. Not idempotent — each call creates a new invoice.', idempotent: false },
+
   props: {
     client_id: Property.LongText({
       displayName: 'Client ID (alphanumeric)',
@@ -84,7 +87,7 @@ export const createInvoice = createAction({
 
   async run(context) {
     await propsValidation.validateZod(context.propsValue, {
-      due_date: z.string().datetime().optional(),
+      due_date: z.optional(z.string().check(z.iso.datetime())),
     });
 
     const INapiToken = context.auth.props.access_token;

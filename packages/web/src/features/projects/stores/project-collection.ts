@@ -1,12 +1,11 @@
+import { isNil, SeekPage } from '@activepieces/core-utils';
 import {
   CreatePlatformProjectRequest,
   ListProjectRequestForPlatformQueryParams,
   UpdateProjectPlatformRequest,
-  isNil,
   ProjectType,
   ProjectWithLimits,
   ProjectWithLimitsWithPlatform,
-  SeekPage,
 } from '@activepieces/shared';
 import { queryCollectionOptions } from '@tanstack/query-db-collection';
 import {
@@ -46,16 +45,9 @@ export const projectCollection = createCollection<ProjectWithLimits, string>(
     onUpdate: async ({ transaction }) => {
       for (const { original, modified } of transaction.mutations) {
         const request: UpdateProjectPlatformRequest = {
-          displayName: modified.displayName,
+          ...modified,
           metadata: modified.metadata ?? undefined,
-          releasesEnabled: modified.releasesEnabled,
-          externalId:
-            !isNil(modified.externalId) && modified.externalId.trim() !== ''
-              ? modified.externalId
-              : undefined,
-          icon: modified.icon,
-          plan: modified.plan,
-          maxConcurrentJobs: modified.maxConcurrentJobs,
+          externalId: modified.externalId?.trim() || undefined,
         };
         await api.post<ProjectWithLimits>(
           `/v1/projects/${original.id}`,
@@ -76,6 +68,8 @@ export const projectCollection = createCollection<ProjectWithLimits, string>(
   }),
 );
 
+let authoritativeProjectsGeneration = 0;
+
 export const projectCollectionUtils = {
   useCreateProject: (
     onSuccess: (project: ProjectWithLimits) => void,
@@ -84,7 +78,8 @@ export const projectCollectionUtils = {
     return useMutation({
       mutationFn: (request: CreatePlatformProjectRequest) =>
         api.post<ProjectWithLimits>('/v1/projects', request),
-      onSuccess: (data) => {
+      onSuccess: async (data) => {
+        await projectCollection.preload();
         projectCollection.utils.writeInsert(data);
         onSuccess(data);
       },
@@ -105,7 +100,8 @@ export const projectCollectionUtils = {
         projectId: string;
         request: UpdateProjectPlatformRequest;
       }) => api.post<ProjectWithLimits>(`/v1/projects/${projectId}`, request),
-      onSuccess: (data) => {
+      onSuccess: async (data) => {
+        await projectCollection.preload();
         projectCollection.utils.writeUpdate(data);
         onSuccess();
       },
@@ -113,7 +109,7 @@ export const projectCollectionUtils = {
     });
   },
   update: (projectId: string, request: UpdateProjectPlatformRequest) => {
-    projectCollection.update(projectId, (draft) => {
+    return projectCollection.update(projectId, (draft) => {
       Object.assign(
         draft,
         Object.fromEntries(
@@ -124,6 +120,43 @@ export const projectCollectionUtils = {
   },
   delete: (projectIds: string[]) => {
     projectCollection.delete(projectIds);
+  },
+  refetchProjects: () => {
+    authoritativeProjectsGeneration += 1;
+    return projectCollection.utils.refetch();
+  },
+  markFlowActivity: ({
+    projectId,
+    lastFlowUpdated,
+  }: {
+    projectId: string;
+    lastFlowUpdated: string;
+  }) => {
+    const generation = authoritativeProjectsGeneration;
+    const write = () => {
+      if (generation !== authoritativeProjectsGeneration) {
+        return;
+      }
+      const project = projectCollection.get(projectId);
+      if (isNil(project)) {
+        return;
+      }
+      const current = project.analytics.lastFlowUpdated;
+      const isNewer =
+        isNil(current) ||
+        new Date(lastFlowUpdated).getTime() > new Date(current).getTime();
+      if (!isNewer) {
+        return;
+      }
+      projectCollection.utils.writeUpdate({
+        ...project,
+        analytics: {
+          ...project.analytics,
+          lastFlowUpdated,
+        },
+      });
+    };
+    requestAnimationFrame(() => requestAnimationFrame(write));
   },
   setCurrentProject: (projectId: string, pathName?: string) => {
     authenticationSession.switchToProject(projectId);
@@ -220,7 +253,9 @@ export const projectCollectionUtils = {
   },
 };
 
-export const getProjectName = (project: ProjectWithLimits): string => {
+export const getProjectName = (
+  project: Pick<ProjectWithLimits, 'type' | 'displayName'>,
+): string => {
   return project.type === ProjectType.PERSONAL
     ? 'Personal Project'
     : project.displayName;

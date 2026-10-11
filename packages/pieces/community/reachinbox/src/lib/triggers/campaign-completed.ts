@@ -21,8 +21,13 @@ const campaignCompletedMessage = `
 
 export const campaignCompleted = createTrigger({
   name: 'campaignCompleted',
+  classification: 'READ',
   displayName: 'Campaign Completed',
   description: 'Triggers when a campaign is completed.',
+  aiMetadata: {
+    description:
+      'Fires when a ReachInbox campaign finishes its full sending sequence (SEQUENCE_COMPLETED). Represents the end of outreach for a campaign, carrying campaign and lead details. Requires the webhook to be configured in ReachInbox.',
+  },
   props: {
     markdown: Property.MarkDown({
       value: campaignCompletedMessage,

@@ -8,15 +8,20 @@ import {
 } from '@activepieces/pieces-common';
 import { BASE_URL } from '../common/constants';
 import { CreateWebhookResponse } from '../common/types';
-import { isNil } from '@activepieces/shared';
+import { isNil } from '@activepieces/pieces-framework';
 
 const TRIGGER_KEY = 'youform-new-submission-trigger';
 
 export const newSubmissionTrigger = createTrigger({
   name: 'new-submission',
+  classification: 'READ',
   auth: youformAuth,
   displayName: 'New Submission',
   description: 'Triggers When a new submission is recieved.',
+  aiMetadata: {
+    description:
+      'Fires when a respondent submits the selected Youform form. The event represents a single completed form submission and emits its full payload, including the submitted answers and submission metadata.',
+  },
   type: TriggerStrategy.WEBHOOK,
   props: {
     formId: formIdDropdown,

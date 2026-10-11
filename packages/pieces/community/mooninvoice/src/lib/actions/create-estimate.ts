@@ -9,6 +9,12 @@ export const createEstimate = createAction({
   name: 'createEstimate',
   displayName: 'Create Estimate',
   description: 'Create a new estimate in MoonInvoice',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Creates a new estimate (quote) for a contact under a MoonInvoice company. Use when generating a price quote before invoicing. Requires the company, contact, an estimate number, and an entry date; line items (products and tasks) are supplied as JSON arrays. Not idempotent — each call creates a new estimate regardless of the estimate number.',
+    idempotent: false,
+  },
   props: {
     companyId: companyIdProp,
     contactId: contactIdProp,
@@ -274,12 +280,12 @@ export const createEstimate = createAction({
       context.auth.props.secret_text
     );
 
-    const response = await makeRequest(
+    const response = await makeRequest({
       accessToken,
-      HttpMethod.POST,
-      '/create_estimate',
-      body
-    );
+      method: HttpMethod.POST,
+      path: '/create_estimate',
+      body,
+    });
 
     return response;
   },

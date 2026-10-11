@@ -15,8 +15,12 @@ const triggerNameInStore = 'event_on_data_deleted_trigger';
 export const eventOnDataDeleted = createTrigger({
   auth: kizeoFormsAuth,
   name: 'event_on_data_deleted',
+  classification: 'READ',
   displayName: 'Event On Data Deleted',
   description: 'Handle EventOnData delete event via webhooks',
+  aiMetadata: {
+    description: 'Fires when a submitted data record is deleted on the chosen Kizeo Forms form. Represents the removal of a single submission from that form.',
+  },
   props: {
     format: Property.StaticDropdown({
       displayName: 'Output Format',

@@ -6,8 +6,11 @@ import { twentyRequest, parseSingleRecord } from '../common';
 export const updatePerson = createAction({
   auth: twentyAuth,
   name: 'update_person',
+  classification: 'WRITE',
   displayName: 'Update Person',
   description: 'Updates an existing person record in Twenty CRM.',
+  audience: 'both',
+  aiMetadata: { description: 'Updates an existing person in Twenty CRM, identified by the required person ID (resolve it first with Find Person). Patches only the supplied first name, last name, and/or email, merging name changes with the current record; if no fields are given it simply returns the current record. Idempotent: targets a fixed ID and re-applying the same field values leaves the record unchanged.', idempotent: true },
   props: {
     personId: Property.ShortText({
       displayName: 'Person ID',

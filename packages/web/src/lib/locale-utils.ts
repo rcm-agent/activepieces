@@ -1,4 +1,9 @@
-import { LocalesEnum } from '@activepieces/shared';
+import { LocalesEnum } from '@activepieces/core-utils';
+
+function toLocale(language: string): LocalesEnum {
+  const locale = Object.values(LocalesEnum).find((value) => value === language);
+  return locale ?? LocalesEnum.ENGLISH;
+}
 
 export const localesMap = {
   [LocalesEnum.CHINESE_SIMPLIFIED]: '简体中文',
@@ -11,3 +16,5 @@ export const localesMap = {
   [LocalesEnum.PORTUGUESE]: 'Português',
   [LocalesEnum.CHINESE_TRADITIONAL]: '繁體中文',
 };
+
+export const localeUtils = { toLocale };

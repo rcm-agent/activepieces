@@ -7,8 +7,12 @@ import { Lead } from '../common/types';
 export const newLeadTrigger = createTrigger({
     auth: hunterAuth,
     name: 'new-lead',
+    classification: 'READ',
     displayName: 'New Lead',
     description: 'Fires when a new lead is created.',
+    aiMetadata: {
+        description: 'Fires when a new lead is created in the connected Hunter account, emitting that lead record. Polls the account leads list and detects entries by creation time.',
+    },
     type: TriggerStrategy.POLLING,
     props: {},
     async onEnable(context) {

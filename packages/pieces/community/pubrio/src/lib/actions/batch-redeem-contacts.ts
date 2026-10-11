@@ -6,9 +6,16 @@ import { pubrioRequest } from '../common';
 export const batchRedeemContacts = createAction({
   auth: pubrioAuth,
   name: 'batch_redeem_contacts',
+  classification: 'WRITE',
   displayName: 'Batch Redeem Contacts',
   description:
     'Reveal email or phone numbers for multiple people at once (uses credits)',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Reveal contact details (work/personal email or phone) for a batch of people identified by their search IDs. Not idempotent: each call consumes account credits per reveal, so avoid retrying the same IDs unnecessarily.',
+    idempotent: false,
+  },
   props: {
     peoples: Property.Array({
       displayName: 'People Search IDs',

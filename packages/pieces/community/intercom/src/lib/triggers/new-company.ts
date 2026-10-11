@@ -5,8 +5,12 @@ import { intercomClient, TriggerPayload } from '../common';
 export const newCompanyTrigger = createTrigger({
 	auth: intercomAuth,
 	name: 'new-company',
+	classification: 'READ',
 	displayName: 'New Company',
 	description: 'Triggers when a new company is created.',
+	aiMetadata: {
+		description: 'Fires when a new company record is created in Intercom. Companies group related contacts under a single organization. Outputs the newly created company object with its attributes.',
+	},
 	props: {},
 	type: TriggerStrategy.APP_WEBHOOK,
 	async onEnable(context) {

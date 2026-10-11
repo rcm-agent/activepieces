@@ -6,8 +6,11 @@ import { HttpMethod } from '@activepieces/pieces-common';
 export const createTask = createAction({
   auth: meistertaskAuth,
   name: 'create_task',
+  classification: 'WRITE',
   displayName: 'Create Task',
   description: 'Creates a new task',
+  audience: 'both',
+  aiMetadata: { description: 'Create a new task within a section of a MeisterTask project, optionally setting notes, an assignee, and a due date. Use to add a to-do item to a board; requires the target section and a task name. Not idempotent — each call creates another task even if the name matches an existing one (use Find or Create Task to avoid duplicates).', idempotent: false },
   props: {
     project: meisterTaskCommon.project,
     section: meisterTaskCommon.section,

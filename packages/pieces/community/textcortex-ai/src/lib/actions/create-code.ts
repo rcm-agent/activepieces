@@ -7,8 +7,11 @@ import { PROGRAMMING_LANGUAGES, API_ENDPOINTS, AI_MODELS } from '../common/commo
 export const createCode = createAction({
   auth: textcortexAuth,
   name: 'create_code',
+  classification: 'READ',
   displayName: 'Create Code',
   description: 'Generate code in a specified programming language based on instructions.',
+  audience: 'both',
+  aiMetadata: { description: 'Generate a code snippet with TextCortex AI from a natural-language description of what the code should do. Requires the instructions and a target programming language; selectable model and number of outputs. Not idempotent: each call produces fresh, non-deterministic code and consumes account credits.', idempotent: false },
   props: {
     text: Property.LongText({
       displayName: 'Code Instructions',

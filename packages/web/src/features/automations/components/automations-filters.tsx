@@ -8,11 +8,8 @@ import { t } from 'i18next';
 import {
   Filter,
   FolderIcon,
-  FolderPlus,
   Link2,
-  Loader2,
   Search,
-  Sparkles,
   Table2,
   ToggleLeft,
   User,
@@ -23,6 +20,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { AnimatedIconButton } from '@/components/custom/animated-icon-button';
+import { LogoPlate } from '@/components/custom/logo-plate';
 import { PermissionNeededTooltip } from '@/components/custom/permission-needed-tooltip';
 import { DownloadIcon } from '@/components/icons/download';
 import { PlusIcon } from '@/components/icons/plus';
@@ -32,7 +30,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
@@ -41,6 +38,7 @@ import { TemplatesBrowseDialog } from '@/features/templates';
 import { formatUtils } from '@/lib/format-utils';
 import { cn, DASHBOARD_CONTENT_PADDING_X } from '@/lib/utils';
 
+import { CreateNewMenu } from './create-new-menu';
 import { MultiSelectFilter } from './multi-select-filter';
 
 type AutomationsFiltersProps = {
@@ -63,8 +61,11 @@ type AutomationsFiltersProps = {
   userHasPermissionToWriteFlow: boolean;
   userHasPermissionToWriteTable: boolean;
   userHasPermissionToWriteFolder: boolean;
+  userHasPermissionToWriteAgent: boolean;
+  agentsVisible: boolean;
   onCreateFlow: () => void;
   onCreateTable: () => void;
+  onCreateAgent: () => void;
   onCreateFolder: () => void;
   onImportFlow: () => void;
   onImportTable: () => void;
@@ -72,6 +73,7 @@ type AutomationsFiltersProps = {
   hasActiveFilters: boolean;
   isCreatingFlow?: boolean;
   isCreatingTable?: boolean;
+  isCreatingAgent?: boolean;
 };
 
 export const AutomationsFilters = ({
@@ -94,8 +96,11 @@ export const AutomationsFilters = ({
   userHasPermissionToWriteFlow,
   userHasPermissionToWriteTable,
   userHasPermissionToWriteFolder,
+  userHasPermissionToWriteAgent,
+  agentsVisible,
   onCreateFlow,
   onCreateTable,
+  onCreateAgent,
   onCreateFolder,
   onImportFlow,
   onImportTable,
@@ -103,6 +108,7 @@ export const AutomationsFilters = ({
   hasActiveFilters,
   isCreatingFlow = false,
   isCreatingTable = false,
+  isCreatingAgent = false,
 }: AutomationsFiltersProps) => {
   const navigate = useNavigate();
   const { embedState } = useEmbedding();
@@ -112,6 +118,7 @@ export const AutomationsFilters = ({
   const typeOptions = [
     { value: 'flow', label: t('Flows') },
     ...(embedState.hideTables ? [] : [{ value: 'table', label: t('Tables') }]),
+    ...(agentsVisible ? [{ value: 'agent', label: t('Agents') }] : []),
   ];
 
   const statusOptions = Object.values(FlowStatus).map((status) => ({
@@ -132,7 +139,7 @@ export const AutomationsFilters = ({
       value: connection.externalId,
       label: connection.displayName,
       icon: pieceIcon ? (
-        <img src={pieceIcon} alt="" className="h-4 w-4 object-contain" />
+        <LogoPlate src={pieceIcon} alt="" className="size-4 rounded-sm p-px" />
       ) : undefined,
     };
   });
@@ -145,13 +152,12 @@ export const AutomationsFilters = ({
         <div className="flex items-center justify-between gap-4 min-w-max">
           <div className="flex items-center gap-2">
             <div className="relative">
-              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-11" />
               <Input
-                placeholder={
-                  embedState.hideTables
-                    ? t('Search flows...')
-                    : t('Search flows and tables...')
-                }
+                placeholder={searchPlaceholder({
+                  hideTables: embedState.hideTables,
+                  agentsVisible,
+                })}
                 value={searchTerm}
                 onChange={(e) => {
                   onSearchChange(e.target.value);
@@ -165,7 +171,7 @@ export const AutomationsFilters = ({
                     onSearchChange('');
                     onFilterChange?.();
                   }}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center h-5 w-5 rounded-full bg-muted hover:bg-muted-foreground/20 text-muted-foreground hover:text-foreground transition-colors"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center h-5 w-5 rounded-full bg-gray-3 hover:bg-gray-4 text-gray-11 hover:text-gray-12 transition-colors"
                 >
                   <X className="h-3 w-3" />
                 </button>
@@ -238,7 +244,7 @@ export const AutomationsFilters = ({
               <Button
                 variant="link"
                 size="sm"
-                className="h-9 text-sm gap-1 text-muted-foreground hover:text-foreground"
+                className="h-9 text-sm gap-1 text-gray-11 hover:text-gray-12"
                 onClick={() => {
                   onClearAllFilters();
                   onFilterChange?.();
@@ -295,111 +301,39 @@ export const AutomationsFilters = ({
               </DropdownMenu>
             )}
 
-            <DropdownMenu open={isCreatingFlow || isCreatingTable || undefined}>
-              <DropdownMenuTrigger asChild>
-                <AnimatedIconButton
-                  icon={PlusIcon}
-                  iconSize={16}
-                  size="sm"
-                  className="h-9"
-                >
-                  {t('Create New')}
-                </AnimatedIconButton>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <PermissionNeededTooltip
-                  hasPermission={userHasPermissionToWriteFlow}
-                >
-                  <DropdownMenuItem
-                    disabled={
-                      !userHasPermissionToWriteFlow ||
-                      isCreatingFlow ||
-                      isCreatingTable
-                    }
-                    onSelect={(e) => {
-                      e.preventDefault();
-                      onCreateFlow();
-                    }}
-                    className="cursor-pointer"
-                  >
-                    {isCreatingFlow ? (
-                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    ) : (
-                      <Workflow className="h-4 w-4 mr-2" />
-                    )}
-                    {isCreatingFlow ? t('Creating...') : t('New Flow')}
-                  </DropdownMenuItem>
-                </PermissionNeededTooltip>
-                <PermissionNeededTooltip
-                  hasPermission={userHasPermissionToWriteFlow}
-                >
-                  <DropdownMenuItem
-                    disabled={
-                      !userHasPermissionToWriteFlow ||
-                      isCreatingFlow ||
-                      isCreatingTable
-                    }
-                    onSelect={() => {
-                      if (embedState.isEmbedded) {
-                        setIsTemplatesBrowseDialogOpen(true);
-                      } else {
-                        navigate('/templates');
-                      }
-                    }}
-                    className="cursor-pointer"
-                  >
-                    <Sparkles className="h-4 w-4 mr-2" />
-                    {t('Start from Template')}
-                  </DropdownMenuItem>
-                </PermissionNeededTooltip>
-                {!embedState.hideTables && (
-                  <PermissionNeededTooltip
-                    hasPermission={userHasPermissionToWriteTable}
-                  >
-                    <DropdownMenuItem
-                      disabled={
-                        !userHasPermissionToWriteTable ||
-                        isCreatingFlow ||
-                        isCreatingTable
-                      }
-                      onSelect={(e) => {
-                        e.preventDefault();
-                        onCreateTable();
-                      }}
-                      className="cursor-pointer"
-                    >
-                      {isCreatingTable ? (
-                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                      ) : (
-                        <Table2 className="h-4 w-4 mr-2" />
-                      )}
-                      {isCreatingTable ? t('Creating...') : t('New Table')}
-                    </DropdownMenuItem>
-                  </PermissionNeededTooltip>
-                )}
-                {!embedState.hideFolders && (
-                  <>
-                    <DropdownMenuSeparator />
-                    <PermissionNeededTooltip
-                      hasPermission={userHasPermissionToWriteFolder}
-                    >
-                      <DropdownMenuItem
-                        disabled={
-                          !userHasPermissionToWriteFolder ||
-                          isCreatingFlow ||
-                          isCreatingTable
-                        }
-                        onClick={onCreateFolder}
-                        className="cursor-pointer"
-                      >
-                        <FolderPlus className="h-4 w-4 mr-2" />
-                        {t('New Folder')}
-                      </DropdownMenuItem>
-                    </PermissionNeededTooltip>
-                  </>
-                )}
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <CreateNewMenu
+              scope="root"
+              align="end"
+              userHasPermissionToWriteFlow={userHasPermissionToWriteFlow}
+              userHasPermissionToWriteTable={userHasPermissionToWriteTable}
+              userHasPermissionToWriteFolder={userHasPermissionToWriteFolder}
+              isCreatingFlow={isCreatingFlow}
+              isCreatingTable={isCreatingTable}
+              isCreatingAgent={isCreatingAgent}
+              userHasPermissionToWriteAgent={userHasPermissionToWriteAgent}
+              onCreateFlow={onCreateFlow}
+              onCreateTable={onCreateTable}
+              onCreateAgent={agentsVisible ? onCreateAgent : undefined}
+              onCreateFolder={onCreateFolder}
+              onImportFlow={onImportFlow}
+              onImportTable={onImportTable}
+              onSelectTemplate={() => {
+                if (embedState.isEmbedded) {
+                  setIsTemplatesBrowseDialogOpen(true);
+                } else {
+                  navigate('/templates');
+                }
+              }}
+            >
+              <AnimatedIconButton
+                icon={PlusIcon}
+                iconSize={16}
+                size="sm"
+                className="h-9"
+              >
+                {t('Create New')}
+              </AnimatedIconButton>
+            </CreateNewMenu>
           </div>
         </div>
       </div>
@@ -410,3 +344,18 @@ export const AutomationsFilters = ({
     </>
   );
 };
+
+function searchPlaceholder({
+  hideTables,
+  agentsVisible,
+}: {
+  hideTables: boolean;
+  agentsVisible: boolean;
+}): string {
+  if (hideTables) {
+    return t('Search flows...');
+  }
+  return agentsVisible
+    ? t('Search flows, tables and agents...')
+    : t('Search flows and tables...');
+}

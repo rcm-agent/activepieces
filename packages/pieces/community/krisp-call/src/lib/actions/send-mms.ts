@@ -11,9 +11,16 @@ interface Item {
 
 export const sendMms = createAction({
   name: 'sendMms',
+  classification: 'WRITE',
   displayName: 'Send MMS',
   auth: krispcallAuth,
   description: 'Send mms in krispcall.',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Send an MMS message carrying one or more media URLs from a connected KrispCall account number to a destination phone number, with optional text content. Use when an agent needs to send media (images/files) rather than a plain SMS; the from number must be provisioned on the account and at least one media URL is required. Not idempotent — each call dispatches a new message.',
+    idempotent: false,
+  },
   props: {
     from_number: Property.Dropdown({
       auth: krispcallAuth,

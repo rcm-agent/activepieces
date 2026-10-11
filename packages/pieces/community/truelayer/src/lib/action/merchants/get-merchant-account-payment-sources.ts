@@ -5,8 +5,11 @@ import { trueLayerCommon } from '../../common';
 export const getMerchantAccountPaymentSources = createAction({
   auth: trueLayerCommon.auth,
   name: 'get-merchant-account-payment-sources',
+  classification: 'SEARCH',
   displayName: 'Get Payment Sources',
   description: 'Get the payment sources from which the merchant account has received payments.',
+  audience: 'both',
+  aiMetadata: { description: 'List the verified payment sources (payer bank details) from which a given user has previously paid into a merchant account. Use to obtain a payer source for refunds or returning payouts; read-only and safe to repeat. Requires both the merchant account ID and the user ID.', idempotent: true },
   props: {
     id: Property.ShortText({
       displayName: 'Merchant Account ID',

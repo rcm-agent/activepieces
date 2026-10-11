@@ -1,16 +1,5 @@
-import {
-    ActivepiecesError,
-    ApEdition,
-    ApId,
-    ErrorCode,
-    FlowOperationType,
-    isNil,
-    Permission,
-    Principal,
-    PrincipalType,
-    ProjectId,
-    ProjectRole,
-} from '@activepieces/shared'
+import { ActivepiecesError, ApId, ErrorCode, isNil, Permission, ProjectId, ProjectRole } from '@activepieces/core-utils'
+import { ApEdition, FlowOperationType, Principal, PrincipalType } from '@activepieces/shared'
 import { FastifyBaseLogger, FastifyRequest } from 'fastify'
 import { AuthorizationRouteSecurity, ProjectAuthorizationConfig } from '../../../core/security/authorization/authorization'
 import { AuthorizationType, RouteKind } from '../../../core/security/authorization/common'
@@ -19,7 +8,9 @@ import { system } from '../../../helper/system/system'
 import { projectMemberService } from '../../projects/project-members/project-member.service'
 import { projectRoleService } from '../../projects/project-role/project-role.service'
 
-const EDITION_IS_COMMUNITY = system.getEdition() === ApEdition.COMMUNITY
+export function editionRequiresRbac(): boolean {
+    return [ApEdition.CLOUD, ApEdition.ENTERPRISE].includes(system.getEdition())
+}
 
 export const rbacMiddleware = async (req: FastifyRequest): Promise<void> => {
     if (ignoreRequest(req)) {
@@ -39,8 +30,7 @@ export async function assertUserHasPermissionToFlow(
     operationType: FlowOperationType,
     log: FastifyBaseLogger,
 ): Promise<void> {
-    const edition = system.getEdition()
-    if (![ApEdition.CLOUD, ApEdition.ENTERPRISE].includes(edition)) {
+    if (!editionRequiresRbac()) {
         return
     }
 
@@ -96,7 +86,7 @@ export const assertRoleHasPermission = async (principal: Principal, projectId: P
 }
 
 const ignoreRequest = (req: FastifyRequest): boolean => {
-    if (EDITION_IS_COMMUNITY) {
+    if (!editionRequiresRbac()) {
         return true
     }
     const ignoredPrefixes = ['/redirect', '/ui', '/api/ui']

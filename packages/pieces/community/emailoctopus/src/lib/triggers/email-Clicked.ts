@@ -1,7 +1,7 @@
 import { Property, createTrigger, TriggerStrategy } from '@activepieces/pieces-framework';
 import { emailOctopusProps } from '../common/props';
 import { emailOctopusAuth } from '../common/auth';
-import { MarkdownVariant } from '@activepieces/shared';
+import { MarkdownVariant } from '@activepieces/pieces-framework';
 
 interface EmailOctopusEvent {
   type: string;
@@ -16,8 +16,12 @@ interface EmailOctopusEvent {
 export const emailClicked = createTrigger({
   auth: emailOctopusAuth,
   name: 'emailClicked',
+  classification: 'READ',
   displayName: 'Email Clicked',
   description: 'Triggers when a link inside a specific campaign email is clicked.',
+  aiMetadata: {
+    description: 'Fires when a recipient clicks a link inside an EmailOctopus campaign email (a contact.clicked webhook event), representing a click-through engagement. Can be scoped to a single campaign id, or left unfiltered to catch clicks across all campaigns.',
+  },
   props: {
     campaign_id: emailOctopusProps.campaignId(),
      liveMarkdown: Property.MarkDown({

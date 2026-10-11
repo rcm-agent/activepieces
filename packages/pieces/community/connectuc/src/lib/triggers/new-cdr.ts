@@ -6,8 +6,12 @@ import { domainProp, usersProp } from '../common/props';
 export const newCdr = createTrigger({
     auth: connectucAuth,
     name: 'newCdr',
+    classification: 'READ',
     displayName: 'New CDR',
     description: 'Triggers when a new Call Detail Record (CDR) is created',
+    aiMetadata: {
+        description: 'Fires when a new Call Detail Record (CDR) is created for the selected ConnectUC domain and users. Represents a logged call (incoming or outgoing) with its metadata such as direction, duration, from/to numbers, and disposition.',
+    },
     props: {
         domain: domainProp(),
         users: usersProp(),

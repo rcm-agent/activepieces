@@ -1,10 +1,10 @@
-import { apId, FlowTriggerType, FlowVersionState, isNil, MCP_TRIGGER_PIECE_NAME, McpServer as McpServerSchema, McpServerType, PopulatedFlow, PopulatedMcpServer, tryCatch } from '@activepieces/shared'
+import { apId, isNil, tryCatch } from '@activepieces/core-utils'
+import { FlowTriggerType, FlowVersionState, MCP_TRIGGER_PIECE_NAME, McpOAuthClientKey, McpServer as McpServerSchema, McpServerType, PopulatedFlow, PopulatedMcpServer } from '@activepieces/shared'
 import { FastifyBaseLogger } from 'fastify'
 import { repoFactory } from '../core/db/repo-factory'
 import { flowService } from '../flows/flow/flow.service'
 import { McpServerEntity } from './mcp-entity'
 import { buildMcpServer } from './mcp-server-builder'
-import { ALL_CONTROLLABLE_TOOL_NAMES } from './tools'
 
 export const mcpServerRepository = repoFactory(McpServerEntity)
 
@@ -29,6 +29,11 @@ export const mcpServerService = (log: FastifyBaseLogger) => ({
         return { ...mcp, flows }
     },
 
+    listPlatformDisabledTools: async ({ platformId }: { platformId: string }): Promise<string[]> => {
+        const platformMcp = await mcpServerRepository().findOneBy({ platformId })
+        return platformMcp?.disabledTools ?? []
+    },
+
     getPopulatedByPlatformId: async (platformId: string): Promise<PopulatedMcpServer> => {
         const mcp = await mcpServerService(log).getByPlatformId(platformId)
         return { ...mcp, flows: [] }
@@ -46,28 +51,35 @@ export const mcpServerService = (log: FastifyBaseLogger) => ({
         return mcpServerService(log).getByPlatformId(platformId)
     },
 
-    update: async ({ projectId, enabledTools }: UpdateParams): Promise<PopulatedMcpServer> => {
+    update: async ({ projectId, disabledTools }: UpdateParams): Promise<PopulatedMcpServer> => {
         const mcp = await mcpServerService(log).getByProjectId(projectId)
-        if (!isNil(enabledTools)) {
-            await mcpServerRepository().update(mcp.id, { enabledTools })
+        if (!isNil(disabledTools)) {
+            await mcpServerRepository().update(mcp.id, { disabledTools })
         }
         return mcpServerService(log).getPopulatedByProjectId(projectId)
     },
 
-    updatePlatform: async ({ platformId, enabledTools }: UpdatePlatformParams): Promise<McpServerSchema> => {
+    updatePlatform: async ({ platformId, disabledTools }: UpdatePlatformParams): Promise<McpServerSchema> => {
         const mcp = await mcpServerService(log).getByPlatformId(platformId)
-        if (!isNil(enabledTools)) {
-            await mcpServerRepository().update(mcp.id, { enabledTools })
+        if (!isNil(disabledTools)) {
+            await mcpServerRepository().update(mcp.id, { disabledTools })
         }
         return mcpServerService(log).getByPlatformId(platformId)
     },
 
-    buildServer: async ({ mcp, userId }: { mcp: PopulatedMcpServer, userId: string | null }) => {
+    buildServer: async ({ mcp, userId, platformId, clientKey, clientId, isInAppChat }: { mcp: PopulatedMcpServer, userId?: string, platformId?: string, clientKey?: McpOAuthClientKey | null, clientId: string, isInAppChat?: boolean }) => {
         return buildMcpServer({
             mcp,
             userId,
+            platformId,
+            platformDisabledTools: mcp.type === McpServerType.PROJECT && !isNil(platformId)
+                ? await mcpServerService(log).listPlatformDisabledTools({ platformId })
+                : [],
+            clientKey: clientKey ?? null,
+            clientId,
+            isInAppChat: isInAppChat ?? false,
             log,
-            resolveProjectMcp: (projectId: string) => mcpServerService(log).getPopulatedByProjectId(projectId),
+            resolveProjectMcp: (projectId: string) => mcpServerService(log).getByProjectId(projectId),
         })
     },
 })
@@ -83,7 +95,7 @@ async function getOrCreate({ where, defaults }: {
             id: apId(),
             ...defaults,
             token: apId(72),
-            enabledTools: ALL_CONTROLLABLE_TOOL_NAMES,
+            disabledTools: [],
         }),
     )
     if (error) {
@@ -100,7 +112,7 @@ async function listMcpFlows(projectId: string, logger: FastifyBaseLogger): Promi
         projectIds: [projectId],
         limit: 1000000,
         cursorRequest: null,
-        versionState: FlowVersionState.DRAFT,
+        versionState: FlowVersionState.LOCKED,
         includeTriggerSource: false,
     })
     return flows.data.filter((flow) => flow.version.trigger.type === FlowTriggerType.PIECE && flow.version.trigger.settings.pieceName === MCP_TRIGGER_PIECE_NAME)
@@ -108,10 +120,10 @@ async function listMcpFlows(projectId: string, logger: FastifyBaseLogger): Promi
 
 type UpdateParams = {
     projectId: string
-    enabledTools?: string[]
+    disabledTools?: string[]
 }
 
 type UpdatePlatformParams = {
     platformId: string
-    enabledTools?: string[]
+    disabledTools?: string[]
 }

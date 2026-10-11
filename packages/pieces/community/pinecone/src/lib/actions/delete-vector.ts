@@ -5,8 +5,11 @@ import { pineconeAuth } from '../auth';
 export const deleteVector = createAction({
   auth: pineconeAuth,
   name: 'delete_vector',
+  classification: 'DESTRUCTIVE',
   displayName: 'Delete a Vector',
   description: 'Delete vectors by ID from a namespace.',
+  audience: 'both',
+  aiMetadata: { description: 'Removes vectors from a namespace of a Pinecone index, with a delete mode selecting whether to delete a single ID, a list of IDs, all vectors in the namespace, or only vectors matching a metadata filter. Use to permanently remove embeddings; deleting all requires an explicit confirmation flag. Not idempotent: it mutates index contents, and filter/delete-all modes remove whatever currently matches on each call.', idempotent: false },
   props: {
     indexName: Property.ShortText({
       displayName: 'Index Name',

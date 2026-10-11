@@ -10,9 +10,12 @@ import { lobstermailAuth } from '../..';
 export const sendEmail = createAction({
   auth: lobstermailAuth,
   name: 'send_email',
+  classification: 'WRITE',
   displayName: 'Send Email',
   description:
     'Send an email from one of your LobsterMail inboxes. Requires a verified account (Tier 1+).',
+  audience: 'both',
+  aiMetadata: { description: 'Sends an email from one of the account inboxes to up to 50 recipients. Can start a fresh message or continue an existing conversation by passing a thread id and/or an In-Reply-To message id. Requires a verified account (Tier 1+), a sending inbox, recipients, a subject, and at least one of a plain-text or HTML body. Not idempotent — each call dispatches a new message.', idempotent: false },
   props: {
     from: fromAddressDropdown,
     to: Property.Array({

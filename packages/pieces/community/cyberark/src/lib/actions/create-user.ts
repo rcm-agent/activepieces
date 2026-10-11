@@ -6,8 +6,14 @@ import { getAuthToken, CyberArkAuth } from '../common/auth-helper';
 export const createUser = createAction({
   auth: cyberarkAuth,
   name: 'create_user',
+  classification: 'WRITE',
   displayName: 'Create User',
   description: 'Creates a new user in the CyberArk Vault',
+  audience: 'both',
+  aiMetadata: {
+    description: 'Provisions a new user account in the CyberArk Vault with the given username, user type, authentication method, vault authorizations, and optional profile details. Use to onboard a Vault user. Not idempotent: each call creates another user, and a duplicate username will fail.',
+    idempotent: false,
+  },
   props: {
     username: Property.ShortText({
       displayName: 'Username',

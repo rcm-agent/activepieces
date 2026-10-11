@@ -5,8 +5,12 @@ import { WebhookInformation } from '../common/types';
 export const newOutgoingChat = createTrigger({
   auth: timelinesAiAuth,
   name: 'newOutgoingChat',
+  classification: 'READ',
   displayName: 'New Outgoing Chat',
   description: 'Fires when a new outgoing chat is initiated.',
+  aiMetadata: {
+    description: 'Fires when a new outgoing TimelinesAI WhatsApp chat is initiated, i.e. the connected account starts a conversation with a contact. Represents the start of an outbound conversation, carrying the chat and WhatsApp account details.',
+  },
   props: {},
   sampleData: {
     event_type: 'chat:new',

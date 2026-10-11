@@ -4,9 +4,12 @@ import { deeplAuth } from '../..';
 
 export const translateText = createAction({
   name: 'translate_text',
+  classification: 'READ',
   auth: deeplAuth,
   displayName: 'Translate text',
   description: 'Translate a text to the target language',
+  audience: 'both',
+  aiMetadata: { description: 'Translates a block of plain text into a target language using DeepL\'s neural machine translation. Source language is auto-detected unless explicitly set, and an optional glossary, formality level, and XML/HTML tag handling can be supplied. Choose this to translate natural-language content; the target language is required. Idempotent: re-translating the same text with the same settings yields the same result and creates no resource.', idempotent: true },
   props: {
     text: Property.LongText({
       displayName: 'Text',

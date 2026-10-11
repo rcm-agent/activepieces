@@ -7,8 +7,11 @@ import { emailProp } from '../common/props';
 export const verifyEmailAction = createAction({
     auth: hunterAuth,
     name: 'verify-email',
+    classification: 'READ',
     displayName: 'Verify Email',
     description: 'Check email deliverability and validation status.',
+    audience: 'both',
+    aiMetadata: { description: 'Verifies a single email address against Hunter, returning deliverability status, a confidence score, and signals such as MX records, SMTP check, disposable/webmail flags, and accept-all. Use to validate an address before sending. Requires the email; read-only and idempotent, though verification may occasionally be reported as still in progress.', idempotent: true },
     props: {
         email: emailProp,
     },

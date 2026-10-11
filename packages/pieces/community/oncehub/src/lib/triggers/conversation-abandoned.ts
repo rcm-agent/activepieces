@@ -5,9 +5,14 @@ import { HttpMethod } from '@activepieces/pieces-common';
 export const conversationAbandoned = createTrigger({
   auth: oncehubAuth,
   name: 'conversationAbandoned',
+  classification: 'READ',
   displayName: 'Conversation Abandoned',
   description:
     'Triggered when website visitor stops interacting with a bot for more than 10 minutes.',
+  aiMetadata: {
+    description:
+      'Fires when a website visitor stops interacting with a OnceHub chatbot for more than 10 minutes, marking the conversation as abandoned. The event carries the conversation with its contact and owner details.',
+  },
   props: {},
   sampleData: {
     id: 'EVNT-KN56U3YL7C',

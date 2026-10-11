@@ -7,8 +7,15 @@ import { getIssueIdDropdown, getProjectIdDropdown, getUsersDropdown } from '../c
 export const assignIssueAction = createAction({
 	auth: jiraDataCenterAuth,
 	name: 'assign_issue',
+	classification: 'WRITE',
 	displayName: 'Assign Issue',
 	description: 'Assigns an issue to a user.',
+	audience: 'both',
+	aiMetadata: {
+		description:
+			'Sets the assignee of a Jira Data Center/Server issue to a chosen user. Use to (re)assign an issue to a specific person; the assignee is provided as a Jira username. Idempotent — assigning the same user repeatedly leaves the issue on that assignee.',
+		idempotent: true,
+	},
 	props: {
 		projectId: getProjectIdDropdown(),
 		issueId: getIssueIdDropdown({ refreshers: ['projectId'] }),

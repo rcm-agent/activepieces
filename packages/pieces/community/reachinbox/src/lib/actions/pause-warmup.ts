@@ -13,8 +13,15 @@ interface EmailAccount {
 export const pauseWarmup = createAction({
   auth: ReachinboxAuth,
   name: 'pauseWarmup',
+  classification: 'WRITE',
   displayName: 'Pause Warmup',
   description: 'Pause warmup for selected email accounts.',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Turns off inbox warmup for a connected ReachInbox email account, identified by its account id. Use to stop reputation-building activity for a mailbox. Idempotent: re-running for an account already paused leaves it disabled.',
+    idempotent: true,
+  },
   props: {
     accountId: Property.Dropdown({
   auth: ReachinboxAuth,

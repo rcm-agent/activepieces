@@ -6,9 +6,16 @@ import { pubrioRequest } from '../common';
 export const lookupPerson = createAction({
   auth: pubrioAuth,
   name: 'lookup_person',
+  classification: 'READ',
   displayName: 'Lookup Person',
   description:
     "Look up a person's professional profile by LinkedIn URL or Pubrio ID",
+  audience: 'both',
+  aiMetadata: {
+    description:
+      "Enrich a single known person and return their professional profile, identified via lookup_type: LinkedIn URL or people_search_id. Read-only and repeatable; the profile does not include revealed contact details. Use when you already have one person and want their details (use Reveal Contact for email/phone, which costs credits); to discover people from criteria use Search People.",
+    idempotent: true,
+  },
   props: {
     lookup_type: Property.StaticDropdown({
       displayName: 'Lookup Type',

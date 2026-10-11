@@ -6,8 +6,14 @@ import { createGraphClient, withGraphRetry } from '../common/graph';
 export const getChatMessageAction = createAction({
 	auth: microsoftTeamsAuth,
 	name: 'microsoft_teams_get_chat_message',
+	classification: 'READ',
 	displayName: 'Get Chat Message',
 	description: 'Fetch a specific chat message by chat and message ID.',
+	audience: 'both',
+	aiMetadata: {
+		description: 'Retrieves a single message from a Microsoft Teams chat by chat ID and message ID. Use to read the content or metadata of a known chat message. Idempotent read-only lookup.',
+		idempotent: true,
+	},
 	props: {
 		chatId: microsoftTeamsCommon.chatId,
 		messageId: Property.ShortText({

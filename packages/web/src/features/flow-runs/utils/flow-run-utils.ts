@@ -1,10 +1,10 @@
+import { isNil } from '@activepieces/core-utils';
 import {
   executionJournal,
   FlowActionType,
   FlowRun,
   FlowRunStatus,
   isFailedState,
-  isNil,
   StepOutput,
   StepOutputStatus,
 } from '@activepieces/shared';
@@ -19,6 +19,7 @@ import {
   Timer,
 } from 'lucide-react';
 
+import { StatusVariant } from '@/components/custom/status-icon-with-text';
 import { cn } from '@/lib/utils';
 
 export const flowRunUtils = {
@@ -72,30 +73,48 @@ export const flowRunUtils = {
     });
     return lastStepWithStatus;
   },
-  findLoopsState(
+  pinLoopsToIterationsWithFailedStep(
     run: FlowRun,
     //runs get updated if they aren't terminated yet, so we shouldn't reset the loops state on each update
     currentLoopsState: Record<string, number>,
+    options?: { liveFollowPaused?: boolean },
   ) {
     const loopsOutputs = executionJournal.getLoopSteps(run.steps);
-    const failedStep = run.steps
+    const latestStep = run.steps
       ? flowRunUtils.findLastStepWithStatus(run.status, run.steps)
       : null;
-    const result = currentLoopsState;
+    const result = { ...currentLoopsState };
 
     Object.entries(loopsOutputs).forEach(([loopName, loopOutput]) => {
-      const doesLoopIncludeFailedStep =
-        failedStep && executionJournal.isChildOf(loopOutput, failedStep);
+      const doesLoopIncludeLatestStep =
+        latestStep && executionJournal.isChildOf(loopOutput, latestStep);
 
       if (isNil(loopOutput.output)) {
         result[loopName] = 0;
         return;
       }
-      if (doesLoopIncludeFailedStep && loopOutput.output) {
+      if (
+        doesLoopIncludeLatestStep &&
+        loopOutput.output &&
+        !options?.liveFollowPaused
+      ) {
         result[loopName] = loopOutput.output.iterations.length - 1;
         return;
       }
       result[loopName] = currentLoopsState[loopName] ?? 0;
+    });
+    return result;
+  },
+  snapLoopsToLatestIteration(
+    run: FlowRun,
+    currentLoopsState: Record<string, number>,
+  ): Record<string, number> {
+    const loopsOutputs = executionJournal.getLoopSteps(run.steps);
+    const result = { ...currentLoopsState };
+    Object.entries(loopsOutputs).forEach(([loopName, loopOutput]) => {
+      if (!isNil(loopOutput.output)) {
+        result[loopName] = loopOutput.output.iterations.length - 1;
+      }
     });
     return result;
   },
@@ -120,7 +139,7 @@ export const flowRunUtils = {
   },
 
   getStatusIconForStep(stepOutput: StepOutputStatus): {
-    variant: 'default' | 'success' | 'error';
+    variant: StatusVariant;
     Icon: LucideIcon;
     text: string;
     extraClassName?: string;
@@ -131,13 +150,14 @@ export const flowRunUtils = {
           variant: 'default',
           Icon: Timer,
           text: t('Running'),
-          extraClassName: 'text-foreground',
+          extraClassName: 'text-gray-12 stroke-gray-12',
         };
       case StepOutputStatus.PAUSED:
         return {
-          variant: 'default',
+          variant: 'warning',
           Icon: PauseIcon,
           text: t('Paused'),
+          extraClassName: 'text-warning-11',
         };
       case StepOutputStatus.STOPPED:
       case StepOutputStatus.SUCCEEDED:
@@ -145,43 +165,45 @@ export const flowRunUtils = {
           variant: 'success',
           Icon: CircleCheck,
           text: t('Succeeded'),
-          extraClassName: 'text-success-700 dark:text-success-200',
+          extraClassName: 'text-success-11',
         };
       case StepOutputStatus.FAILED:
         return {
           variant: 'error',
           Icon: CircleAlert,
           text: t('Failed'),
-          extraClassName: 'text-destructive-700 dark:text-destructive-200',
+          extraClassName: 'text-danger-11',
         };
     }
   },
 
-  getStatusContainerClassName(
-    variant: 'default' | 'success' | 'error' | 'warning',
+  getStatusContainerClassName({
+    variant,
     withPaddingAndAnimation = false,
-  ) {
+  }: {
+    variant: StatusVariant;
+    withPaddingAndAnimation?: boolean;
+  }) {
     return cn('text-xs border rounded-md leading-tight', {
-      'text-success-800 bg-success-50 border-success-200 dark:text-success-200 dark:bg-success-900 dark:border-success-800':
-        variant === 'success',
-      'text-destructive-800 bg-destructive-50 border-destructive-200 dark:text-destructive-200 dark:bg-destructive-900 dark:border-destructive-800':
-        variant === 'error',
-      'text-amber-700 bg-amber-50 border-amber-200 dark:text-amber-600 dark:bg-amber-950 border-amber-500 dark:border-amber-900':
-        variant === 'warning',
-      'bg-background  border-border text-foreground': variant === 'default',
+      'text-success-11 bg-success-3 border-success-7': variant === 'success',
+      'text-danger-11 bg-danger-3 border-danger-7': variant === 'error',
+      'text-warning-11 bg-warning-3 border-warning-7': variant === 'warning',
+      'text-accent-11 bg-accent-3 border-accent-7': variant === 'primary',
+      'text-gray-11 bg-gray-3 border-gray-7': variant === 'neutral',
+      'bg-gray-1 border-gray-6 text-gray-12': variant === 'default',
       'flex gap-1 animate-in fade-in slide-in-from-bottom-2 duration-500 items-center  justify-center px-2 py-0.5':
         withPaddingAndAnimation,
     });
   },
 
   getStatusIcon(status: FlowRunStatus): {
-    variant: 'default' | 'success' | 'error';
+    variant: StatusVariant;
     Icon: LucideIcon;
   } {
     switch (status) {
       case FlowRunStatus.QUEUED:
         return {
-          variant: 'default',
+          variant: 'neutral',
           Icon: Timer,
         };
       case FlowRunStatus.RUNNING:
@@ -196,12 +218,12 @@ export const flowRunUtils = {
         };
       case FlowRunStatus.PAUSED:
         return {
-          variant: 'default',
+          variant: 'warning',
           Icon: PauseIcon,
         };
       case FlowRunStatus.CANCELED:
         return {
-          variant: 'default',
+          variant: 'neutral',
           Icon: CircleX,
         };
       case FlowRunStatus.SUCCEEDED:
@@ -219,5 +241,11 @@ export const flowRunUtils = {
           Icon: CircleAlert,
         };
     }
+  },
+  getStatusLabelOverride(status: FlowRunStatus): string | null {
+    if (status === FlowRunStatus.QUOTA_EXCEEDED) {
+      return t('Out of credits');
+    }
+    return null;
   },
 };

@@ -7,8 +7,14 @@ import { Client } from '@microsoft/microsoft-graph-client';
 export const updateListItemAction = createAction({
   auth: microsoftSharePointAuth,
   name: 'microsoft_sharepoint_update_list_item',
+  classification: 'WRITE',
   displayName: 'Update List Item',
   description: 'Updates an existing item in a list.',
+  audience: 'both',
+  aiMetadata: {
+    description: 'Updates the column field values of an existing item in a SharePoint list, identified by its list item ID on a given site. Use to edit a known row rather than create one. Requires a valid item ID; idempotent, since re-applying the same field values leaves the item in the same final state.',
+    idempotent: true,
+  },
   props: {
     siteId: microsoftSharePointCommon.siteId,
     listId: microsoftSharePointCommon.listId,

@@ -10,8 +10,12 @@ const TRIGGER_KEY = 'new-opportunity-trigger';
 export const newOpportunityAdded = createTrigger({
 	auth: closeAuth,
 	name: 'new_opportunity_added',
+	classification: 'READ',
 	displayName: 'New Opportunity Added',
 	description: 'Triggers when a new opportunity is created.',
+	aiMetadata: {
+		description: 'Fires when a new opportunity (sales deal) is created in Close CRM, via a registered webhook on the opportunity-created event. Emits the full opportunity record, including its lead ID, value, and status. Use to react whenever a deal is opened.',
+	},
 	type: TriggerStrategy.WEBHOOK,
 	props: {},
 	async onEnable(context) {

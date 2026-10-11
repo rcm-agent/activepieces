@@ -2,33 +2,40 @@
 
 import { googleDriveAuth, createGoogleClient } from '../auth';
 import { Property, createAction } from '@activepieces/pieces-framework';
-import { google } from 'googleapis';
+import { drive as googleDrive } from '@googleapis/drive';
 import { Stream } from 'stream';
 import { common } from '../common';
+import { saveFileAsPdfActionOutputSchema } from '../output-schemas';
 
 export const saveFileAsPdf = createAction({
   displayName: 'Save Document as PDF',
   auth: googleDriveAuth,
   name: 'save_file_as_pdf',
-  description: 'Save a document as PDF in a Google Drive folder',
+  classification: 'WRITE',
+  description: 'Export a Google Doc, Sheet or Slides as a PDF into a folder.',
+  audience: 'human',
+  aiMetadata: { description: 'Exports a Google document to PDF and saves it as a new file in a target Drive folder. Use to produce a PDF rendition of a Google Doc/Sheet/Slides for sharing or archival. Requires the source document ID and destination folder ID. Not idempotent: each call creates a new PDF file.', idempotent: false },
   props: {
     documentId: Property.ShortText({
       displayName: 'Document ID',
-      description: 'The ID of the document to export',
+      description: 'The ID of the Google Doc, Sheet or Slides to export.',
       required: true,
+      placeholder: '1dpv4-sKJfKRwI9qx1vWqQhEGEn3EpbI5',
     }),
     folderId: Property.ShortText({
-      displayName: 'Folder ID',
-      description: 'The ID of the folder where the file will be exported',
+      displayName: 'Destination Folder ID',
+      description: 'The ID of the folder that receives the PDF.',
       required: true,
     }),
     name: Property.ShortText({
-      displayName: 'Name',
-      description: 'The name of the new file (do not include the extension)',
+      displayName: 'File Name',
+      description: 'Without the extension; .pdf is added.',
       required: true,
+      placeholder: 'Quarterly report',
     }),
     include_team_drives: common.properties.include_team_drives,
   },
+  outputSchema: saveFileAsPdfActionOutputSchema,
   async run(context) {
     const authClient = await createGoogleClient(context.auth);
 
@@ -36,7 +43,7 @@ export const saveFileAsPdf = createAction({
     const folderId = context.propsValue.folderId;
     const nameForNewFile = context.propsValue.name;
 
-    const drive = google.drive({ version: 'v3', auth: authClient });
+    const drive = googleDrive({ version: 'v3', auth: authClient });
 
     const result = await drive.files.export(
       {

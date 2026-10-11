@@ -6,8 +6,15 @@ import { wedofCommon } from '../../common/wedof';
 export const resetPartnership = createAction({
   auth: wedofAuth,
   name: 'resetPartnership',
+  classification: 'WRITE',
   displayName: "Réinitialiser un partenariat",
   description: "Permet de réinitialiser les données du partenariat en état 'Demande en traitement'",
+  audience: 'both',
+  aiMetadata: {
+    description:
+      "Reset an existing certification partnership (identified by certification certifInfo and partner SIRET) back to the 'request being processed' state. This mutates the partnership's status, so do not use it merely to read the record (use the get action) or to remove it (use the delete action).",
+    idempotent: false,
+  },
 
   props: {
     certifInfo: Property.ShortText({

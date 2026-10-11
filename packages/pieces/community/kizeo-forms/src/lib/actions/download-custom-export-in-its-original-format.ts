@@ -1,13 +1,16 @@
 import { createAction, Property } from '@activepieces/pieces-framework';
 import { endpoint, kizeoFormsCommon } from '../common';
-import axios from 'axios';
+import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 import { kizeoFormsAuth } from '../..';
 
 export const downloadCustomExportInItsOriginalFormat = createAction({
   auth: kizeoFormsAuth,
   name: 'download_custom_export_in_its_original_format', // Must be a unique across the piece, this shouldn't be changed.
+  classification: 'READ',
   displayName: 'Download custom export in its original format',
   description: 'Download a custom export in its original format',
+  audience: 'both',
+  aiMetadata: { description: 'Download a generated export of one submitted Kizeo Forms data record (form ID plus data ID) as a base64 data URI, returning either the standard PDF or a configured custom export (e.g. Word) in its original format depending on the PDF toggle. Use to fetch a document for a submission; the custom-export mode requires an export ID. Read-only and idempotent.', idempotent: true },
   props: {
     formId: kizeoFormsCommon.formId,
     exportId: kizeoFormsCommon.exportId,
@@ -45,7 +48,9 @@ export const downloadCustomExportInItsOriginalFormat = createAction({
       };
     }
 
-    const response = await axios.get(uri, {
+    const response = await httpClient.sendRequest<Buffer>({
+      method: HttpMethod.GET,
+      url: uri,
       headers: headers,
       responseType: 'arraybuffer',
     });
@@ -53,7 +58,7 @@ export const downloadCustomExportInItsOriginalFormat = createAction({
     if (response.status === 200) {
       return (
         'data:application/octet-stream;base64,' +
-        Buffer.from(response.data).toString('base64')
+        Buffer.from(response.body).toString('base64')
       );
     }
 

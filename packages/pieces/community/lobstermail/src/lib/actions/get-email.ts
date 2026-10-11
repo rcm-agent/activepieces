@@ -10,8 +10,11 @@ import { lobstermailAuth } from '../..';
 export const getEmail = createAction({
   auth: lobstermailAuth,
   name: 'get_email',
+  classification: 'READ',
   displayName: 'Get Email',
   description: 'Get a single email with full body content.',
+  audience: 'both',
+  aiMetadata: { description: 'Retrieves one email by its id within an inbox, including the full plain-text and HTML body, authentication results (SPF/DKIM/DMARC), and prompt-injection risk signals. Use when an agent needs the complete message content rather than the preview returned by List Emails or Search Emails. Requires both the inbox id and the email id. Read-only and idempotent.', idempotent: true },
   props: {
     inbox_id: inboxIdDropdown,
     email_id: Property.ShortText({

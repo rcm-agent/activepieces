@@ -4,12 +4,16 @@ import {
 } from '@activepieces/pieces-framework';
 import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 import { talkableAuth } from '../../..';
+import { TALKABLE_API_URL } from '../../common/constants';
 
 export const createPurchase = createAction({
   name: 'create_purchase', // Must be a unique across the piece, this shouldn't be changed.
+  classification: 'WRITE',
   auth: talkableAuth,
   displayName: 'Create purchase',
   description: 'Create purchase in Talkable',
+  audience: 'both',
+  aiMetadata: { description: 'Record a single purchase origin in Talkable for a customer (by email), used to attribute referrals and trigger rewards. Use after a customer completes an order; requires email, order number, and subtotal. Not idempotent: each call posts a new purchase, so guard against duplicates (use Create batch of purchases for multiple at once).', idempotent: false },
   props: {
     email: Property.ShortText({
       displayName: 'Email',
@@ -122,7 +126,6 @@ export const createPurchase = createAction({
     }),
   },
   async run(context) {
-    const TALKABLE_API_URL = 'https://www.talkable.com/api/v2';
     const { site, api_key } = context.auth.props;
     const createPurchaseResponse = await httpClient
       .sendRequest<string[]>({

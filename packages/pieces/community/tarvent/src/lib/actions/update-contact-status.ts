@@ -6,8 +6,11 @@ import { ContactStatus } from '../common/types';
 export const updateContactStatus = createAction({
   auth: tarventAuth,
   name: 'tarvent_update_contact_status',
+  classification: 'DESTRUCTIVE',
   displayName: 'Subscribe/Unsubscribe Contact From Audience',
   description: 'Subscribes or unsubscribe a contact in an audience.',
+  audience: 'both',
+  aiMetadata: { description: 'Sets a Tarvent contact\'s subscription status to subscribed (active) or unsubscribed (opt-out), chosen by the action input. Use to manage consent or suppression for a contact. Idempotent: it sets an absolute status, so repeating with the same value yields the same state.', idempotent: true },
   props: {
     contactId: tarventCommon.contactId,
     action: Property.StaticDropdown({

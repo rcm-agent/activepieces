@@ -2,12 +2,17 @@ import { pipedriveAuth } from '../auth';
 import { createAction, Property } from '@activepieces/pieces-framework';
 import { pipedriveApiCall } from '../common';
 import { HttpMethod } from '@activepieces/pieces-common';
+import { findUserActionOutputSchema } from '../output-schemas';
 
 export const findUserAction = createAction({
 	auth: pipedriveAuth,
 	name: 'find-user',
+	outputSchema: findUserActionOutputSchema,
+	classification: 'SEARCH',
 	displayName: 'Find User',
 	description: 'Finds a user by name or email.',
+	audience: 'both',
+	aiMetadata: { description: 'Search Pipedrive account users (team members, not CRM persons) by name or by email address. Pick this to resolve an owner or assignee to a user ID; choose the search-by field to match either a name or an email term. Read-only and may return multiple matches.', idempotent: true },
 	props: {
 		field: Property.StaticDropdown({
 			displayName: 'Field to search by',

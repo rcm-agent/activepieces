@@ -1,8 +1,9 @@
 import { spawn } from 'node:child_process'
 import { copyFile, cp } from 'node:fs/promises'
 import { join } from 'path'
+import { isNil } from '@activepieces/core-utils'
 import { memoryLock } from '@activepieces/server-utils'
-import { isNil, WebsocketClientEvent } from '@activepieces/shared'
+import { WebsocketClientEvent } from '@activepieces/shared'
 import chokidar from 'chokidar'
 import { FastifyInstance } from 'fastify'
 import { system } from '../helper/system/system'
@@ -54,7 +55,7 @@ async function buildPieces(app: FastifyInstance, piecesInfo: PieceInfo[]): Promi
         app.log.info('Changes are ready! Please refresh the frontend to see the new updates.')
     }
     catch (error) {
-        app.log.error({ err: error }, 'Failed to run build process...')
+        app.log.error({ error }, 'Failed to run build process...')
     }
     finally {
         await lock.release()
@@ -90,18 +91,23 @@ export async function startDevPieceWatcher(app: FastifyInstance): Promise<void> 
         join(p.pieceDirectory, 'package.json'),
     ])
 
-    const triggerBuild = async (pieceInfo: PieceInfo) => {
-        rebuilding.add(pieceInfo.pieceName)
+    const triggerBuild = async (piecesToBuild: PieceInfo[]): Promise<void> => {
+        piecesToBuild.forEach(p => rebuilding.add(p.pieceName))
         try {
-            await buildPieces(app, [pieceInfo])
+            await buildPieces(app, piecesToBuild)
         }
         finally {
-            rebuilding.delete(pieceInfo.pieceName)
+            piecesToBuild.forEach(p => rebuilding.delete(p.pieceName))
         }
-        if (pendingRebuild.has(pieceInfo.pieceName)) {
-            pendingRebuild.delete(pieceInfo.pieceName)
-            void triggerBuild(pieceInfo)
+        const pending = piecesToBuild.filter(p => pendingRebuild.has(p.pieceName))
+        pending.forEach(p => pendingRebuild.delete(p.pieceName))
+        if (pending.length > 0) {
+            startBuild(pending)
         }
+    }
+
+    const startBuild = (piecesToBuild: PieceInfo[]): void => {
+        triggerBuild(piecesToBuild).catch((error) => app.log.error({ error }, 'Failed to build dev pieces'))
     }
 
     const watcher = chokidar.watch(watchPaths, { ignoreInitial: true })
@@ -117,12 +123,12 @@ export async function startDevPieceWatcher(app: FastifyInstance): Promise<void> 
                 pendingRebuild.add(pieceInfo.pieceName)
                 return
             }
-            void triggerBuild(pieceInfo)
+            startBuild([pieceInfo])
         }, 300))
     })
 
     watcher.on('error', (error) => {
-        app.log.error({ err: error }, 'File watcher error')
+        app.log.error({ error }, 'File watcher error')
     })
 
     for (const pieceInfo of pieceInfos) {

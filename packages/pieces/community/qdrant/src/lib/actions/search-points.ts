@@ -11,8 +11,15 @@ import { QdrantClient } from '@qdrant/js-client-rest';
 export const searchPoints = createAction({
   auth: qdrantAuth,
   name: 'search_points',
+  classification: 'SEARCH',
   displayName: 'Search Points',
   description: 'Search for points closest to your given vector (= embedding)',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Run a vector-similarity search against a Qdrant collection, returning the points nearest to a supplied query embedding, optionally narrowed by a payload filter and steered away from an optional negative vector. Use this for semantic / nearest-neighbor retrieval; use Get Points instead when selecting by id or metadata only. The query vector is passed as a file and must match the collection dimensionality. Read-only and idempotent.',
+    idempotent: true,
+  },
   props: {
     collectionName,
     vector: Property.File({

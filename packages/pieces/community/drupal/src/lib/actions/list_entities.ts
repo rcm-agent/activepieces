@@ -10,8 +10,11 @@ import { fetchEntityTypesForReading } from '../common/drupal-entities';
 export const drupalListEntitiesAction = createAction({
   auth: drupalAuth,
   name: 'drupal-list-entities',
+  classification: 'SEARCH',
   displayName: 'List Entities',
   description: 'List entities from Drupal using JSON:API',
+  audience: 'both',
+  aiMetadata: { description: 'Lists/retrieves entities of a chosen type and bundle from Drupal via JSON:API, with optional filtering by published status, sorting, and a result limit (limit 0 returns all entities, following pagination). Use to query or scan existing content rather than fetch one known item. Read-only and idempotent.', idempotent: true },
   props: {
     entity_type: Property.Dropdown({
       displayName: 'Entity Type',

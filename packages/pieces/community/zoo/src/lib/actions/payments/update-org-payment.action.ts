@@ -4,8 +4,11 @@ import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 
 export const updateOrgPaymentAction = createAction({
   name: 'update_org_payment',
+  classification: 'WRITE',
   displayName: 'Update Organization Payment Info',
   description: 'Update payment information for your organization',
+  audience: 'both',
+  aiMetadata: { description: 'Set the organization\'s active payment method to the supplied payment method ID. Use to change which card or method bills the org; the per-user equivalent is the user payment action. Not idempotent: it overwrites the stored payment method on each call.', idempotent: false },
   auth: zooAuth,
   // category: 'Payments',
   props: {

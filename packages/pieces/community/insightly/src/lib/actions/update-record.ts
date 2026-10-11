@@ -19,9 +19,12 @@ import {
 export const updateRecord = createAction({
     auth: insightlyAuth,
     name: 'update_record',
+    classification: 'WRITE',
     displayName: 'Update Record',
     description:
         "Update an existing record's fields in a specified Insightly object",
+    audience: 'both',
+    aiMetadata: { description: 'Updates field values on an existing record in a chosen Insightly CRM object (Contact, Lead, Opportunity, etc.), identified by its record ID. Use to modify an entity that already exists. Sending the same field values repeatedly leaves the record in the same state, but the call always overwrites the targeted fields. Requires the matching Insightly pod (e.g. "na1") and the record ID.', idempotent: false },
     props: {
         pod: Property.ShortText({
             displayName: 'Pod',

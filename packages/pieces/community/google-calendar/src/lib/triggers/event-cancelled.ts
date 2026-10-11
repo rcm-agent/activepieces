@@ -20,6 +20,7 @@ import {
   HttpRequest,
 } from '@activepieces/pieces-common';
 import { getEvents } from '../common/helper';
+import { eventOutputSchema } from '../output-schemas';
 
 
 const polling: Polling<
@@ -126,22 +127,26 @@ const polling: Polling<
 export const eventCancelled = createTrigger({
   auth: googleCalendarAuth,
   name: 'event_cancelled',
+  classification: 'READ',
   displayName: 'Event Cancelled',
   description: 'Fires when an event is canceled or deleted.',
+  aiMetadata: {
+    description: 'Fires when an event in the selected calendar transitions to a cancelled (or deleted) state, detected by polling. Each fired item is the cancelled event; can optionally be filtered by cancellation reason (deleted, attendee declined, rescheduled, other) and scoped to a single specific event.',
+  },
   props: {
     calendar_id: googleCalendarCommon.calendarDropdown('writer'),
     specific_event: Property.Checkbox({
       displayName: 'Target Specific Event',
-      description:
-        'Enable to monitor a specific event instead of all events in the calendar.',
+      description: 'Watch one event instead of the whole calendar.',
       required: false,
       defaultValue: false,
     }),
     event_id: googleCalendarCommon.eventDropdown(false),
     cancellation_reason: Property.StaticMultiSelectDropdown({
       displayName: 'Cancellation Reasons',
-      description: 'Filter by specific types of cancellations (optional)',
+      description: 'Leave empty to fire on every cancellation.',
       required: false,
+      advanced: true,
       options: {
         options: [
           { label: 'Event Deleted', value: 'deleted' },
@@ -152,6 +157,7 @@ export const eventCancelled = createTrigger({
       },
     }),
   },
+  outputSchema: eventOutputSchema,
   type: TriggerStrategy.POLLING,
   sampleData: {
     id: 'abc123def456_cancelled',

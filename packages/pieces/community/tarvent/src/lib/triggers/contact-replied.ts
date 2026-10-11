@@ -6,8 +6,12 @@ import { CreateWebhookResponse } from '../common/types';
 export const contactRepliedTrigger = createTrigger({
   auth: tarventAuth,
   name: 'tarvent_contact_replied',
+  classification: 'READ',
   displayName: 'Contact Replied',
   description: 'Triggers when a contact replies.',
+  aiMetadata: {
+    description: 'Fires when a contact replies to a campaign or transactional email. Represents an inbound reply from a recipient.',
+  },
   type: TriggerStrategy.WEBHOOK,
   props: {
     include: tarventCommon.include,

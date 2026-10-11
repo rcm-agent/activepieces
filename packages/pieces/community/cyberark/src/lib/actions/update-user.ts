@@ -7,9 +7,15 @@ import { getAuthToken, CyberArkAuth } from '../common/auth-helper';
 export const updateUser = createAction({
   auth: cyberarkAuth,
   name: 'update_user',
+  classification: 'WRITE',
   displayName: 'Update User',
   description:
     'Updates an existing Vault user (except Master and Batch built-in users)',
+  audience: 'both',
+  aiMetadata: {
+    description: 'Updates the properties of an existing Vault user identified by user ID — including username, user type, enabled/suspended state, authentication methods, vault authorizations, and profile details. Use to modify an already-provisioned user; cannot target the built-in Master or Batch users. Idempotent: re-sending the same field values leaves the user in the same state.',
+    idempotent: true,
+  },
   props: {
     userId: userIdDropdown,
     username: Property.ShortText({

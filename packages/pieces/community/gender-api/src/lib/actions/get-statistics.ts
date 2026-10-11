@@ -5,9 +5,16 @@ import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 export const getStatistics = createAction({
   auth: genderApiAuth,
   name: 'getStatistics',
+  classification: 'READ',
   displayName: 'Get Statistics',
   description:
     'Get account statistics including remaining credits and usage information',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Retrieves the Gender API account statistics, including remaining credits and usage information. Use to check quota before running batches of name lookups. Takes no input; read-only and safe to repeat.',
+    idempotent: true,
+  },
   props: {},
   async run(context) {
     const response = await httpClient.sendRequest({

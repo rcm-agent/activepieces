@@ -4,7 +4,7 @@ import {
 	AppConnectionValueForAuthProperty,
 } from '@activepieces/pieces-framework';
 import { DedupeStrategy, Polling, pollingHelper, HttpMethod } from '@activepieces/pieces-common';
-import { isNil } from '@activepieces/shared';
+import { isNil } from '@activepieces/pieces-framework';
 import { confluenceAuth, confluenceAuthValue } from '../auth';
 import { confluenceApiCall, PaginatedResponse } from '../common';
 import { spaceIdProp } from '../common/props';
@@ -59,8 +59,12 @@ const polling: Polling<
 
 export const updatedPageTrigger = createTrigger({
 	name: 'updated-page',
+	classification: 'READ',
 	displayName: 'Updated Page',
 	description: 'Triggers when an existing page is updated (version > 1).',
+	aiMetadata: {
+		description: 'Fires when an existing page in the selected Confluence space is updated (i.e. its version advances beyond the first). Each event represents one edited page with its latest version metadata; brand-new pages (version 1) do not fire this.',
+	},
 	auth: confluenceAuth,
 	type: TriggerStrategy.POLLING,
 	props,

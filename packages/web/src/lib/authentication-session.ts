@@ -1,6 +1,6 @@
+import { isNil } from '@activepieces/core-utils';
 import {
   AuthenticationResponse,
-  isNil,
   Principal,
   PrincipalType,
 } from '@activepieces/shared';
@@ -8,8 +8,11 @@ import dayjs from 'dayjs';
 import { jwtDecode } from 'jwt-decode';
 
 import { authenticationApi } from '@/api/authentication-api';
+import { queryClient } from '@/app/query-client';
 
 import { ApStorage } from './ap-browser-storage';
+import { telemetryUtils } from './telemetry-utils';
+
 const tokenKey = 'token';
 const projectIdKey = 'projectId';
 export const authenticationSession = {
@@ -24,6 +27,7 @@ export const authenticationSession = {
     if (!isNil(response.projectId)) {
       ApStorage.getInstance().setItem(projectIdKey, response.projectId);
     }
+    queryClient.invalidateQueries({ queryKey: ['flags'] });
     window.dispatchEvent(new Event('storage'));
   },
   isJwtExpired(token: string): boolean {
@@ -126,7 +130,11 @@ export const authenticationSession = {
     ApStorage.getInstance().removeItem(tokenKey);
   },
   logOut() {
+    const hadSession = !isNil(this.getToken());
     this.clearSession();
+    if (hadSession) {
+      telemetryUtils.resetIdentity();
+    }
     window.location.href = '/sign-in';
   },
 };

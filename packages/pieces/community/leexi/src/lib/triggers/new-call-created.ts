@@ -4,7 +4,7 @@ import { AuthenticationType, DedupeStrategy, httpClient, HttpMethod, Polling, po
 import dayjs from 'dayjs';
 import { BASE_URL } from "../common/constants";
 import { ListCallResponse } from "../common/types";
-import { isEmpty } from "@activepieces/shared";
+import { isEmpty } from '@activepieces/pieces-framework';
 
 const polling: Polling<AppConnectionValueForAuthProperty<typeof leexiAuth>, Record<string, never>> = {
     strategy: DedupeStrategy.TIMEBASED,
@@ -57,9 +57,13 @@ const polling: Polling<AppConnectionValueForAuthProperty<typeof leexiAuth>, Reco
 
 export const newCallCreatedTrigger = createTrigger({
     name: 'new-call-created',
+    classification: 'READ',
     auth: leexiAuth,
     displayName: 'New Call Created',
     description: 'Triggers when a new call is created.',
+    aiMetadata: {
+        description: 'Fires when a new call (recording/transcription session) appears in the Leexi account. Polls the calls list on an interval and emits one event per newly created call.',
+    },
     type: TriggerStrategy.POLLING,
     props: {},
     async onEnable(context) {

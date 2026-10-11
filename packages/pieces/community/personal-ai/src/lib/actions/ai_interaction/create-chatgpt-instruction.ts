@@ -6,8 +6,11 @@ import { BASE_URL } from '../../../index';
 export const createChatGPTInstruction = createAction({
   auth:personalAiAuth,
   name: 'create_chatgpt_instruction',
+  classification: 'READ',
   displayName: 'Send ChatGPT Instruction',
   description: 'Send an instruction to AI assistant using ChatGPT integration.',
+  audience: 'both',
+  aiMetadata: { description: 'Send an instruction or prompt to the Personal AI assistant routed through its ChatGPT integration and get the generated response, optionally continuing a session by reusing the same session ID. Use when you want a ChatGPT-backed answer rather than the standard message flow. Each call generates a fresh response, so it is not idempotent.', idempotent: false },
   // category: 'AI Interaction',
   props: {
     text: Property.LongText({

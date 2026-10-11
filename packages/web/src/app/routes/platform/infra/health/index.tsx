@@ -1,150 +1,119 @@
-import { ApFlagId } from '@activepieces/shared';
+import dayjs from 'dayjs';
 import { t } from 'i18next';
-import { Cpu, HardDrive, MemoryStick, Package } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 import React from 'react';
-import semver from 'semver';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { CenteredPage } from '@/app/components/centered-page';
-import { healthQueries } from '@/features/platform-admin';
-import { flagsHooks } from '@/hooks/flags-hooks';
+import { DashboardPageHeader } from '@/app/components/dashboard-page-header';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
-import { CheckItem } from './check-item';
+import { QueueTab } from './components/queue-tab';
+import { RunsTab } from './components/runs-tab';
+import { SystemHealthTab } from './components/system-health-tab';
+import { healthMetricsQueries } from './lib/health-metrics-hooks';
 
-export default function SettingsHealthPage() {
-  const { data: currentVersion } = flagsHooks.useFlag<string>(
-    ApFlagId.CURRENT_VERSION,
-  );
-  const { data: latestVersion } = flagsHooks.useFlag<string>(
-    ApFlagId.LATEST_VERSION,
-  );
-  const { data: systemHealth, isPending } = healthQueries.useSystemHealth();
+function buildMonthOptions(): MonthOption[] {
+  const now = dayjs();
+  return Array.from({ length: 6 }, (_unused, index) => {
+    const month = now.subtract(index, 'month');
+    return {
+      value: month.format('YYYY-MM'),
+      label: month.format('MMMM YYYY'),
+    };
+  });
+}
 
-  const isVersionUpToDate = React.useMemo(() => {
-    if (!currentVersion || !latestVersion) return false;
-    return semver.gte(currentVersion, latestVersion);
-  }, [currentVersion, latestVersion]);
+export default function SettingsHealthPage({
+  section,
+}: SettingsHealthPageProps) {
+  const monthOptions = React.useMemo(buildMonthOptions, []);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const selectedMonth = searchParams.get('month') || monthOptions[0].value;
 
-  const technicalChecks = [
-    {
-      id: 'version',
-      title: t('Version Check'),
-      icon: <Package />,
-      isChecked: isVersionUpToDate,
-      message: (
-        <div>
-          <div className="flex flex-row gap-4 items-center">
-            <span>
-              <b>{t('Current Version')}</b>: {currentVersion || t('Unknown')}
-            </span>
-            <span>
-              <b>{t('Latest Version')}</b>: {latestVersion || t('Unknown')}
-            </span>
-          </div>
-          <div className="mt-2 flex flex-col gap-1">
-            {!isVersionUpToDate ? (
-              <>
-                <span>
-                  {t(
-                    'A new version is available. Upgrade now to enjoy the latest features, improvements, and bug fixes.',
-                  )}
-                </span>
-                <span>
-                  {t('See the')}{' '}
-                  <a
-                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                    href="https://github.com/activepieces/activepieces/releases"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {t('release changelog')}
-                  </a>
-                  .
-                </span>
-              </>
-            ) : null}
-          </div>
-        </div>
-      ),
-      link: 'https://github.com/activepieces/activepieces/releases',
-    },
-    {
-      id: 'disk-size',
-      title: t('Disk Size'),
-      icon: <HardDrive />,
-      isChecked: systemHealth?.disk,
-      message: (
-        <span>
-          {systemHealth?.disk
-            ? t(
-                'The server has sufficient disk space. At least 30GB of disk space is required for optimal operation.',
-              )
-            : t(
-                'Insufficient disk space. A minimum of 30GB is required for Activepieces to function properly.',
-              )}
-        </span>
-      ),
-      loading: isPending,
-      link: 'https://www.activepieces.com/docs/install/configuration/hardware#technical-specifications',
-    },
-    {
-      id: 'ram',
-      title: t('RAM'),
-      icon: <MemoryStick />,
-      isChecked: systemHealth?.ram,
-      message: (
-        <span>
-          {systemHealth?.ram
-            ? t(
-                'The server meets the minimum RAM requirement. At least 4GB RAM is needed for stable performance.',
-              )
-            : t(
-                'Insufficient RAM. A minimum of 4GB RAM is required for optimal operation.',
-              )}
-        </span>
-      ),
-      link: 'https://www.activepieces.com/docs/install/configuration/hardware#technical-specifications',
-      loading: isPending,
-    },
-    {
-      id: 'cpu',
-      title: t('CPU Cores'),
-      icon: <Cpu />,
-      isChecked: systemHealth?.cpu,
-      message: (
-        <span>
-          {systemHealth?.cpu
-            ? t(
-                'The server has enough CPU resources. At least 1 CPU core is required to run Activepieces.',
-              )
-            : t(
-                'Not enough CPU resources. At least 1 CPU core is necessary to operate Activepieces.',
-              )}
-        </span>
-      ),
-      link: 'https://www.activepieces.com/docs/install/configuration/hardware#technical-specifications',
-      loading: isPending,
-    },
-  ];
+  const range = React.useMemo(() => {
+    const month = dayjs(`${selectedMonth}-01`);
+    return {
+      createdAfter: month.startOf('month').toISOString(),
+      createdBefore: month.endOf('month').toISOString(),
+    };
+  }, [selectedMonth]);
+
+  const {
+    data: report,
+    isLoading: isReportLoading,
+    isError: isReportError,
+    refetch: refetchReport,
+  } = healthMetricsQueries.useRunMetrics(range, section === 'runs');
+  const { data: live, isLoading: isLiveLoading } =
+    healthMetricsQueries.useQueueMetrics(range, section === 'queue');
+
+  const handleMonthChange = (month: string) => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set('month', month);
+    setSearchParams(newParams, { replace: true });
+  };
 
   return (
-    <CenteredPage
-      title={t('System Health Status')}
-      description={t('Check the status of your platform and its components')}
-    >
-      <div className="flex flex-col gap-4">
-        {technicalChecks.map((check) => (
-          <CheckItem
-            key={check.id}
-            id={check.id}
-            title={check.title}
-            isChecked={check.isChecked ?? false}
-            message={check.message}
-            loading={check.loading ?? false}
-            link={check.link}
-            icon={check.icon}
-          />
-        ))}
-      </div>
-    </CenteredPage>
+    <div className="flex flex-col w-full max-w-[40rem] mx-auto gap-4 px-4">
+      <DashboardPageHeader
+        title={t('Health')}
+        description={t('Check the status of your platform and its components')}
+      >
+        {(section === 'runs' || section === 'queue') && (
+          <Select value={selectedMonth} onValueChange={handleMonthChange}>
+            <SelectTrigger className="w-auto gap-2 h-8">
+              <Calendar className="h-4 w-4" />
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent side="bottom" align="end">
+              {monthOptions.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
+      </DashboardPageHeader>
+
+      {section === 'system' && (
+        <SystemHealthTab
+          onSeeRuns={() =>
+            navigate({
+              pathname: '/platform/health/runs',
+              search: searchParams.toString(),
+            })
+          }
+        />
+      )}
+
+      {section === 'runs' && (
+        <RunsTab
+          report={report}
+          isLoading={isReportLoading}
+          isError={isReportError}
+          onRetry={refetchReport}
+        />
+      )}
+
+      {section === 'queue' && (
+        <QueueTab live={live} isLoading={isLiveLoading} />
+      )}
+    </div>
   );
 }
+
+type HealthSection = 'system' | 'runs' | 'queue';
+
+type MonthOption = { value: string; label: string };
+
+type SettingsHealthPageProps = {
+  section: HealthSection;
+};

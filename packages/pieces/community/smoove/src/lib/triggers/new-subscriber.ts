@@ -163,8 +163,12 @@ const polling: Polling<AppConnectionValueForAuthProperty<typeof smooveAuth>, {
 export const newSubscriber = createTrigger({
     auth: smooveAuth,
     name: 'newSubscriber',
+    classification: 'READ',
     displayName: 'New Subscriber',
     description: 'Fires when a new subscriber is added to your Smoove account',
+    aiMetadata: {
+      description: 'Fires when a new contact signs up in the connected Smoove account, detected by polling contacts for recent signup timestamps; can be filtered to a specific join source (e.g. landing page, form, API, import).',
+    },
     props: {
         fields: Property.ShortText({
             displayName: 'Fields to Include',

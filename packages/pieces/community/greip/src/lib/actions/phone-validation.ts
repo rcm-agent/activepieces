@@ -6,8 +6,11 @@ import { greipApiCall } from '../common/client';
 export const phoneValidation = createAction({
   auth: greipAuth,
   name: 'phone_validation',
+  classification: 'READ',
   displayName: 'Phone Validation',
   description: 'Validate phone numbers by checking syntax and assessing validity and operational status',
+  audience: 'both',
+  aiMetadata: { description: 'Validate a phone number against its country, checking syntax and reporting validity and operational status. Requires both the phone number (any common format) and the ISO 3166-1 alpha-2 country code (e.g. US, GB, FR). Use to verify a phone before contact or fraud screening. Read-only scoring call; safe to repeat.', idempotent: true },
   props: {
     phone: Property.ShortText({
       displayName: 'Phone Number',

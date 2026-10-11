@@ -45,9 +45,14 @@ const polling: Polling<
 export const updatedNoteTrigger = createTrigger({
   auth: granolaAuth,
   name: 'updated_note',
+  classification: 'READ',
   displayName: 'Updated Note',
   description:
     'Triggers when an existing meeting note is updated in Granola (e.g. summary edited, attendees changed).',
+  aiMetadata: {
+    description:
+      'Fires when an already-existing Granola meeting note is modified (for example its summary is edited or attendees change), emitting the updated note. Detected by polling for notes whose updated time differs from their creation time, so brand-new notes do not fire this; use New Note for those.',
+  },
   props: {},
   sampleData: {
     id: 'not_1d3tmYTlCICgjy',

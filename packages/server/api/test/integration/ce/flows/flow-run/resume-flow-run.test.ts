@@ -1,17 +1,19 @@
-import { apId, ExecutionType, FlowRunStatus, FlowVersionState, StreamStepProgress, RunEnvironment } from '@activepieces/shared'
+import { apId } from '@activepieces/core-utils'
+import { ExecutionType, FlowRunStatus, FlowVersionState, RunEnvironment, StreamStepProgress } from '@activepieces/shared'
 import { FastifyInstance } from 'fastify'
 import { distributedStore } from '../../../../../src/app/database/redis-connections'
+import { batchDeleteByFlowId } from '../../../../../src/app/flows/flow/flow.jobs'
+import { flowRunSideEffects } from '../../../../../src/app/flows/flow-run/flow-run-side-effects'
+import { waitpointService } from '../../../../../src/app/waitpoints/waitpoint-service'
 import { pubsub } from '../../../../../src/app/helper/pubsub'
 import { engineResponseWatcher } from '../../../../../src/app/workers/engine-response-watcher'
 import { redisMetadataKey, RunsMetadataUpsertData } from '../../../../../src/app/workers/job'
-import { batchDeleteByFlowId } from '../../../../../src/app/flows/flow/flow.jobs'
-import { flowRunSideEffects } from '../../../../../src/app/flows/flow-run/flow-run-side-effects'
-import { waitpointService } from '../../../../../src/app/flows/flow-run/waitpoint/waitpoint-service'
 import { createHandlers } from '../../../../../src/app/workers/rpc/worker-rpc-service'
+import { distributedStore } from '../../../../../src/app/database/redis-connections'
+import { db } from '../../../../helpers/db'
+import { createMockFlow, createMockFlowRun, createMockFlowVersion } from '../../../../helpers/mocks'
 import { createTestContext, TestContext } from '../../../../helpers/test-context'
 import { setupTestEnvironment, teardownTestEnvironment } from '../../../../helpers/test-setup'
-import { createMockFlow, createMockFlowRun, createMockFlowVersion } from '../../../../helpers/mocks'
-import { db } from '../../../../helpers/db'
 
 async function waitForCondition(fn: () => Promise<boolean>, timeoutMs = 5000): Promise<void> {
     const start = Date.now()
@@ -128,7 +130,7 @@ describe('Resume flow run', () => {
         const runId = flowRun.id
         const requestId = apId()
 
-        await distributedStore.merge(redisMetadataKey(runId), {
+        await distributedStore.merge(redisMetadataKey({ projectId: ctx.project.id, runId }), {
             id: runId,
             projectId: ctx.project.id,
             flowId: flow.id,
@@ -255,7 +257,7 @@ describe('Resume flow run', () => {
             environment: RunEnvironment.PRODUCTION,
             status: FlowRunStatus.RUNNING,
         }
-        await distributedStore.merge(redisMetadataKey(runId), runMetadata)
+        await distributedStore.merge(redisMetadataKey({ projectId: ctx.project.id, runId }), runMetadata)
 
         await db.save('waitpoint', {
             id: apId(),
@@ -314,7 +316,7 @@ describe('Resume flow run', () => {
             environment: RunEnvironment.PRODUCTION,
             status: FlowRunStatus.RUNNING,
         }
-        await distributedStore.merge(redisMetadataKey(runId), runMetadata)
+        await distributedStore.merge(redisMetadataKey({ projectId: ctx.project.id, runId }), runMetadata)
 
         await db.save('waitpoint', {
             id: apId(),
@@ -357,7 +359,7 @@ describe('Resume flow run', () => {
 
         await db.update('flow_run', flowRun.id, { status: FlowRunStatus.SUCCEEDED })
         const updatedRun = await db.findOneByOrFail<{ id: string, status: string, projectId: string }>('flow_run', { id: flowRun.id })
-        await flowRunSideEffects(app.log).onFinish(updatedRun as any)
+        await flowRunSideEffects(app.log).onFinish({ flowRun: updatedRun as any, platformId: ctx.platform.id })
 
         const waitpointAfter = await db.findOneBy('waitpoint', { flowRunId: flowRun.id })
         expect(waitpointAfter).toBeNull()
@@ -396,7 +398,7 @@ describe('Resume flow run', () => {
         expect(waitpoint!.status).toBe('COMPLETED')
     })
 
-    it('markParentRunAsFailed should pre-complete when parent has NOT paused yet', async () => {
+    it('markParentRunAsFailed should drop the failure when parent has no PENDING waitpoint (regression: subflow retry must not hijack a future pause)', async () => {
         const flow = createMockFlow({ projectId: ctx.project.id })
         await db.save('flow', flow)
 
@@ -415,7 +417,7 @@ describe('Resume flow run', () => {
         })
         await db.save('flow_run', parentRun)
 
-        await waitpointService(app.log).complete({
+        const result = await waitpointService(app.log).complete({
             flowRunId: parentRun.id,
             projectId: ctx.project.id,
             waitpointId: apId(),
@@ -426,39 +428,14 @@ describe('Resume flow run', () => {
             },
         })
 
-        const waitpoint = await db.findOneBy<{ status: string }>('waitpoint', { flowRunId: parentRun.id })
-        expect(waitpoint).not.toBeNull()
-        expect(waitpoint!.status).toBe('COMPLETED')
+        expect(result.completedExisting).toBe(false)
+        expect(result.waitpoint).toBeNull()
 
-        await distributedStore.merge(redisMetadataKey(parentRun.id), {
-            id: parentRun.id,
-            projectId: ctx.project.id,
-            flowId: flow.id,
-            flowVersionId: flowVersion.id,
-            environment: RunEnvironment.PRODUCTION,
-            status: FlowRunStatus.RUNNING,
-        })
-
-        const preCompletedWaitpoint = await db.findOneBy<{ id: string }>('waitpoint', { flowRunId: parentRun.id })
-        expect(preCompletedWaitpoint).not.toBeNull()
-
-        const handlers = createHandlers(app.log)
-        await handlers.uploadRunLog({
-            runId: parentRun.id,
-            projectId: ctx.project.id,
-            status: FlowRunStatus.PAUSED,
-        })
-
-        await waitForCondition(async () => {
-            const wp = await db.findOneBy('waitpoint', { flowRunId: parentRun.id })
-            return wp === null
-        })
-
-        const waitpointAfter = await db.findOneBy('waitpoint', { flowRunId: parentRun.id })
-        expect(waitpointAfter).toBeNull()
+        const waitpoint = await db.findOneBy('waitpoint', { flowRunId: parentRun.id })
+        expect(waitpoint).toBeNull()
     })
 
-    it('should not create orphaned waitpoint when parent is already in terminal state', async () => {
+    it('should drop stale resume signal when parent is already in terminal state and not produce a buffered waitpoint', async () => {
         const flow = createMockFlow({ projectId: ctx.project.id })
         await db.save('flow', flow)
 
@@ -477,7 +454,7 @@ describe('Resume flow run', () => {
         })
         await db.save('flow_run', parentRun)
 
-        await waitpointService(app.log).complete({
+        const result = await waitpointService(app.log).complete({
             flowRunId: parentRun.id,
             projectId: ctx.project.id,
             waitpointId: apId(),
@@ -487,11 +464,8 @@ describe('Resume flow run', () => {
                 executionType: ExecutionType.RESUME,
             },
         })
-
-        const waitpoint = await db.findOneBy('waitpoint', { flowRunId: parentRun.id })
-        expect(waitpoint).not.toBeNull()
-
-        await waitpointService(app.log).deleteByFlowRunId(parentRun.id)
+        expect(result.completedExisting).toBe(false)
+        expect(result.waitpoint).toBeNull()
 
         await waitpointService(app.log).handleResumeSignal({
             flowRunId: parentRun.id,
@@ -544,6 +518,7 @@ describe('Resume flow run', () => {
         expect(firstResponse.statusCode).toBe(200)
         expect(firstResponse.json()).toEqual({
             message: 'Your response has been recorded. You can close this page now.',
+            discarded: false,
         })
 
         const secondResponse = await app.inject({
@@ -554,10 +529,111 @@ describe('Resume flow run', () => {
         expect(secondResponse.statusCode).toBe(200)
         expect(secondResponse.json()).toEqual({
             message: 'This link has expired. The action may have already been processed.',
+            discarded: false,
         })
 
         const waitpointAfter = await db.findOneBy('waitpoint', { flowRunId: flowRun.id })
         expect(waitpointAfter).toBeNull()
+    })
+
+    it.each([
+        FlowRunStatus.INTERNAL_ERROR,
+        FlowRunStatus.SUCCEEDED,
+        FlowRunStatus.FAILED,
+    ])('does not report a redelivered response as discarded when the caller has since reached %s', async (status) => {
+        const { flowRun } = await createPausedFlowRunWithWaitpoint({ projectId: ctx.project.id })
+        const waitpoint = await db.findOneBy<{ id: string }>('waitpoint', { flowRunId: flowRun.id })
+
+        const deliver = async () => app.inject({
+            method: 'POST',
+            url: `/api/v1/flow-runs/${flowRun.id}/waitpoints/${waitpoint!.id}`,
+            body: { status: 'success', data: { greeting: 'Hello' } },
+        })
+
+        await deliver()
+        await db.update('flow_run', flowRun.id, { status })
+        const redelivery = await deliver()
+
+        expect(redelivery.json().discarded).toBe(false)
+    })
+
+    it('falls back to the completed waitpoint row when no consumption marker exists', async () => {
+        const { flowRun } = await createPausedFlowRunWithWaitpoint({ projectId: ctx.project.id })
+        const waitpoint = await db.findOneBy<{ id: string }>('waitpoint', { flowRunId: flowRun.id })
+        // RUNNING takes the complete() branch: the waitpoint is marked COMPLETED and kept,
+        // and no Redis marker is written at all, so only the row can prove acceptance.
+        await db.update('flow_run', flowRun.id, { status: FlowRunStatus.RUNNING })
+
+        const accepted = await app.inject({
+            method: 'POST',
+            url: `/api/v1/flow-runs/${flowRun.id}/waitpoints/${waitpoint!.id}`,
+            body: { status: 'success', data: { greeting: 'Hello' } },
+        })
+        expect(accepted.json().discarded).toBe(false)
+
+        await db.update('flow_run', flowRun.id, { status: FlowRunStatus.FAILED })
+        const redelivery = await app.inject({
+            method: 'POST',
+            url: `/api/v1/flow-runs/${flowRun.id}/waitpoints/${waitpoint!.id}`,
+            body: { status: 'success', data: { greeting: 'Hello' } },
+        })
+
+        expect(redelivery.json().discarded).toBe(false)
+    })
+
+    it('keeps the evidence when the race path deletes the completed waitpoint row', async () => {
+        const { flowRun } = await createPausedFlowRunWithWaitpoint({ projectId: ctx.project.id })
+        const waitpoint = await db.findOneBy<{ id: string }>('waitpoint', { flowRunId: flowRun.id })
+        // RUNNING takes the complete() branch, then the PAUSED race block below it deletes the
+        // COMPLETED row — so the marker is the only evidence that can survive.
+        await db.update('flow_run', flowRun.id, { status: FlowRunStatus.RUNNING })
+
+        await app.inject({
+            method: 'POST',
+            url: `/api/v1/flow-runs/${flowRun.id}/waitpoints/${waitpoint!.id}`,
+            body: { status: 'success', data: { greeting: 'Hello' } },
+        })
+
+        await db.update('flow_run', flowRun.id, { status: FlowRunStatus.FAILED })
+        const redelivery = await app.inject({
+            method: 'POST',
+            url: `/api/v1/flow-runs/${flowRun.id}/waitpoints/${waitpoint!.id}`,
+            body: { status: 'success', data: { greeting: 'Hello' } },
+        })
+
+        expect(redelivery.json().discarded).toBe(false)
+    })
+
+    it('ignores a consumption marker while the waitpoint row is still pending', async () => {
+        const { flowRun } = await createPausedFlowRunWithWaitpoint({ projectId: ctx.project.id })
+        const waitpoint = await db.findOneBy<{ id: string }>('waitpoint', { flowRunId: flowRun.id })
+        // A rollback after the marker was written leaves the marker behind with the row intact.
+        // The row is the authority: still PENDING means nothing ever accepted the response.
+        await distributedStore.put(`waitpoint_consumed:${waitpoint!.id}`, true, 3600)
+        await db.update('flow_run', flowRun.id, { status: FlowRunStatus.FAILED })
+
+        const response = await app.inject({
+            method: 'POST',
+            url: `/api/v1/flow-runs/${flowRun.id}/waitpoints/${waitpoint!.id}`,
+            body: { status: 'success', data: { greeting: 'Hello' } },
+        })
+
+        expect(response.json().discarded).toBe(true)
+    })
+
+    it('reports a response as discarded when the waitpoint was never consumed', async () => {
+        const { flowRun } = await createPausedFlowRunWithWaitpoint({ projectId: ctx.project.id })
+        const waitpoint = await db.findOneBy<{ id: string }>('waitpoint', { flowRunId: flowRun.id })
+        await db.update('flow_run', flowRun.id, { status: FlowRunStatus.FAILED })
+
+        const response = await app.inject({
+            method: 'POST',
+            url: `/api/v1/flow-runs/${flowRun.id}/waitpoints/${waitpoint!.id}`,
+            body: { status: 'success', data: { greeting: 'Hello' } },
+        })
+
+        expect(response.statusCode).toBe(200)
+        expect(response.json().discarded).toBe(true)
     })
 
     it('should clean up waitpoints when flow is deleted via batchDeleteByFlowId', async () => {
@@ -594,6 +670,7 @@ describe('Resume flow run', () => {
         expect(response.statusCode).toBe(200)
         expect(response.json()).toEqual({
             message: 'Your response has been recorded. You can close this page now.',
+            discarded: false,
         })
 
         const waitpointAfter = await db.findOneBy('waitpoint', { flowRunId: flowRun.id })
@@ -647,6 +724,167 @@ describe('Resume flow run', () => {
         expect(waitpointAfter).not.toBeNull()
         expect(waitpointAfter!.id).toBe(waitpointId)
         expect(waitpointAfter!.version).toBe('V1')
+    })
+
+    it('confirm page: GET renders Approve/Disapprove and does NOT consume the waitpoint (scanner prefetch)', async () => {
+        const { flowRun } = await createPausedFlowRunWithWaitpoint({
+            projectId: ctx.project.id,
+        })
+        const waitpoint = await db.findOneBy<{ id: string }>('waitpoint', { flowRunId: flowRun.id })
+
+        const response = await app.inject({
+            method: 'GET',
+            url: `/api/v1/flow-runs/${flowRun.id}/waitpoints/${waitpoint!.id}/confirm`,
+            headers: { accept: 'text/html' },
+        })
+
+        expect(response.statusCode).toBe(200)
+        expect(response.headers['content-type']).toContain('text/html')
+        expect(response.body).toContain('Confirm your response')
+        expect(response.body).toContain('Approve')
+        expect(response.body).toContain('Disapprove')
+        const decodedBody = response.body.replace(/&#x3D;/g, '=').replace(/&#x2F;/g, '/')
+        expect(decodedBody).toContain('action=approve')
+        expect(decodedBody).toContain('action=disapprove')
+        expect(response.body).not.toContain('<script')
+
+        const waitpointAfter = await db.findOneBy('waitpoint', { flowRunId: flowRun.id })
+        expect(waitpointAfter).not.toBeNull()
+    })
+
+    it('confirm page: HEAD does NOT consume the waitpoint', async () => {
+        const { flowRun } = await createPausedFlowRunWithWaitpoint({
+            projectId: ctx.project.id,
+        })
+        const waitpoint = await db.findOneBy<{ id: string }>('waitpoint', { flowRunId: flowRun.id })
+
+        const response = await app.inject({
+            method: 'HEAD',
+            url: `/api/v1/flow-runs/${flowRun.id}/waitpoints/${waitpoint!.id}/confirm`,
+            headers: { accept: 'text/html' },
+        })
+
+        expect(response.statusCode).toBe(200)
+
+        const waitpointAfter = await db.findOneBy('waitpoint', { flowRunId: flowRun.id })
+        expect(waitpointAfter).not.toBeNull()
+    })
+
+    it('confirm page: an already-responded run shows the already-responded state', async () => {
+        const flow = createMockFlow({ projectId: ctx.project.id })
+        await db.save('flow', flow)
+
+        const flowVersion = createMockFlowVersion({
+            flowId: flow.id,
+            state: FlowVersionState.LOCKED,
+        })
+        await db.save('flow_version', flowVersion)
+
+        const flowRun = createMockFlowRun({
+            projectId: ctx.project.id,
+            flowId: flow.id,
+            flowVersionId: flowVersion.id,
+            status: FlowRunStatus.SUCCEEDED,
+            environment: RunEnvironment.PRODUCTION,
+        })
+        await db.save('flow_run', flowRun)
+
+        const response = await app.inject({
+            method: 'GET',
+            url: `/api/v1/flow-runs/${flowRun.id}/waitpoints/${apId()}/confirm`,
+            headers: { accept: 'text/html' },
+        })
+
+        expect(response.statusCode).toBe(200)
+        expect(response.headers['content-type']).toContain('text/html')
+        expect(response.body).toContain('Already responded')
+        expect(response.body).not.toContain('Disapprove')
+    })
+
+    it('confirm page: POST with Accept text/html records the response and consumes the waitpoint', async () => {
+        const { flowRun } = await createPausedFlowRunWithWaitpoint({
+            projectId: ctx.project.id,
+        })
+        const waitpoint = await db.findOneBy<{ id: string }>('waitpoint', { flowRunId: flowRun.id })
+
+        const response = await app.inject({
+            method: 'POST',
+            url: `/api/v1/flow-runs/${flowRun.id}/waitpoints/${waitpoint!.id}/confirm?action=approve`,
+            headers: { accept: 'text/html' },
+        })
+
+        expect(response.statusCode).toBe(200)
+        expect(response.headers['content-type']).toContain('text/html')
+        expect(response.body).toContain('You approved this request')
+
+        const waitpointAfter = await db.findOneBy('waitpoint', { flowRunId: flowRun.id })
+        expect(waitpointAfter).toBeNull()
+    })
+
+    it('confirm page: POST with JSON Accept keeps the JSON contract and consumes', async () => {
+        const { flowRun } = await createPausedFlowRunWithWaitpoint({
+            projectId: ctx.project.id,
+        })
+        const waitpoint = await db.findOneBy<{ id: string }>('waitpoint', { flowRunId: flowRun.id })
+
+        const response = await app.inject({
+            method: 'POST',
+            url: `/api/v1/flow-runs/${flowRun.id}/waitpoints/${waitpoint!.id}/confirm?action=approve`,
+            headers: { accept: 'application/json' },
+            body: { status: 'success' },
+        })
+
+        expect(response.statusCode).toBe(200)
+        expect(response.json()).toEqual({
+            message: 'Your response has been recorded. You can close this page now.',
+            discarded: false,
+        })
+
+        const waitpointAfter = await db.findOneBy('waitpoint', { flowRunId: flowRun.id })
+        expect(waitpointAfter).toBeNull()
+    })
+
+    it('confirm page: preserves extra query params (e.g. chat_id) in the Approve/Disapprove actions', async () => {
+        const { flowRun } = await createPausedFlowRunWithWaitpoint({
+            projectId: ctx.project.id,
+        })
+        const waitpoint = await db.findOneBy<{ id: string }>('waitpoint', { flowRunId: flowRun.id })
+
+        const response = await app.inject({
+            method: 'GET',
+            url: `/api/v1/flow-runs/${flowRun.id}/waitpoints/${waitpoint!.id}/confirm?chat_id=12345`,
+            headers: { accept: 'text/html' },
+        })
+
+        expect(response.statusCode).toBe(200)
+        const decodedBody = response.body.replace(/&#x3D;/g, '=').replace(/&#x2F;/g, '/').replace(/&amp;/g, '&')
+        expect(decodedBody).toContain('chat_id=12345')
+        expect(decodedBody).toContain('action=approve')
+        expect(decodedBody).toContain('action=disapprove')
+
+        const waitpointAfter = await db.findOneBy('waitpoint', { flowRunId: flowRun.id })
+        expect(waitpointAfter).not.toBeNull()
+    })
+
+    it('deprecated route: a bare GET still resumes and consumes the waitpoint (kept for old emails)', async () => {
+        const { flowRun } = await createPausedFlowRunWithWaitpoint({
+            projectId: ctx.project.id,
+        })
+        const waitpoint = await db.findOneBy<{ id: string }>('waitpoint', { flowRunId: flowRun.id })
+
+        const response = await app.inject({
+            method: 'GET',
+            url: `/api/v1/flow-runs/${flowRun.id}/waitpoints/${waitpoint!.id}?action=approve`,
+        })
+
+        expect(response.statusCode).toBe(200)
+        expect(response.json()).toEqual({
+            message: 'Your response has been recorded. You can close this page now.',
+            discarded: false,
+        })
+
+        const waitpointAfter = await db.findOneBy('waitpoint', { flowRunId: flowRun.id })
+        expect(waitpointAfter).toBeNull()
     })
 
     it('V0 sync: should return 409 when flow run is in terminal state', async () => {

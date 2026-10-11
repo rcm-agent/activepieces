@@ -6,8 +6,11 @@ import { instantlyAiAuth } from '../auth';
 export const createCampaignAction = createAction({
   auth: instantlyAiAuth,
   name: 'create_campaign',
+  classification: 'WRITE',
   displayName: 'Create Campaign',
   description: 'Create a new cold email campaign in Instantly',
+  audience: 'both',
+  aiMetadata: { description: 'Creates a new cold email outreach campaign in Instantly with a sending schedule (time window, weekday/weekend days, timezone) and optional delivery settings such as daily limits, tracking, and stop-on-reply rules. Use this to set up a fresh campaign before adding leads; requires a name and schedule start/end times and timezone. Not idempotent — each call creates a separate campaign.', idempotent: false },
   props: {
     name: Property.ShortText({
       displayName: 'Campaign Name',

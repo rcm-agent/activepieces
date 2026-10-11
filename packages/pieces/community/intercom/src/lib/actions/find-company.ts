@@ -5,8 +5,11 @@ import { intercomClient } from '../common';
 export const findCompanyAction = createAction({
     auth: intercomAuth,
     name: 'find-company',
+    classification: 'READ',
     displayName: 'Find Company',
     description: 'Finds an existing company.',
+    audience: 'both',
+    aiMetadata: { description: 'Look up a single existing company by either its name or its company ID (choose the search field). Read-only and repeatable; returns the first match plus a found flag. Use to resolve a company before tagging it or attaching it to a ticket.', idempotent: true },
     props: {
         searchField: Property.StaticDropdown({
             displayName: 'Search Field',

@@ -7,8 +7,15 @@ import dayjs from 'dayjs';
 export const createActivitie = createAction({
   auth: wedofAuth,
   name: 'createActivitie',
+  classification: 'WRITE',
   displayName: "Créer une activité",
   description: "Permet de créer une activité d'un dossier (Dossier de formation / Dossier de certification)",
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Create a new activity (task) on a Wedof file, identified by the file type (certification folder, registration/training folder, or commercial proposal) and its externalId. Each call appends a fresh activity, so it is not idempotent and repeated calls create duplicates. Requires a title, owner email, and start date.',
+    idempotent: false,
+  },
   props: {
     entityClass: Property.StaticDropdown({
       displayName: "Choisir le type de dossier",

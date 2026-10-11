@@ -8,8 +8,14 @@ import { closeApiCall } from '../common/client';
 export const createContact = createAction({
 	auth: closeAuth,
 	name: 'create_contact',
+	classification: 'WRITE',
 	displayName: 'Create Contact',
 	description: 'Creates a new contact.',
+	audience: 'both',
+	aiMetadata: {
+		description: 'Creates a new contact attached to an existing lead in Close CRM, with optional phones, emails, URL, and custom fields. Use to add a person to a known lead. Requires the target lead ID and a contact name. Not idempotent; each call creates a new contact and repeating produces duplicates.',
+		idempotent: false,
+	},
 	props: {
 		lead_id: leadId(),
 		name: Property.ShortText({

@@ -6,9 +6,14 @@ import { WebhookInformation } from '../common/types';
 export const newDocumentProcessed = createTrigger({
   auth: parseurAuth,
   name: 'newDocumentProcessed',
+  classification: 'READ',
   displayName: 'New Document Processed',
   description:
     'Fires when a new document is successfully processed and parsed by Parseur.',
+  aiMetadata: {
+    description:
+      'Fires when a document in the selected Parseur mailbox is successfully parsed, emitting the document with its extracted/structured fields. Use to react to newly available parsed data.',
+  },
   props: {
     mailboxId: parserDropdown({ required: true }),
   },

@@ -6,8 +6,11 @@ import { HttpMethod } from '@activepieces/pieces-common';
 export const findOrCreateTask = createAction({
   auth: meistertaskAuth,
   name: 'find_or_create_task',
+  classification: 'WRITE',
   displayName: 'Find or Create Task',
   description: 'Finds a task by searching, or creates one if it doesn\'t exist',
+  audience: 'both',
+  aiMetadata: { description: 'Ensure a task with a given name exists in a MeisterTask section: returns the existing task if one matches the name exactly (case-insensitive), otherwise creates it with the supplied notes, assignee, and due date. Use to add a task without duplicating it. Idempotent on the name — repeat calls return the existing task rather than creating another. Requires the project, section, and task name.', idempotent: true },
   props: {
     project: meisterTaskCommon.project,
     section: meisterTaskCommon.section,

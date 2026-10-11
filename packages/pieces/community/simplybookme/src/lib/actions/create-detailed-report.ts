@@ -5,8 +5,11 @@ import { simplybookAuth, getAccessToken, SimplybookAuth } from '../common';
 export const createDetailedReport = createAction({
   auth: simplybookAuth,
   name: 'create_detailed_report',
+  classification: 'SEARCH',
   displayName: 'Create Detailed Report',
   description: 'Generate a detailed report (metrics, bookings, revenue)',
+  audience: 'both',
+  aiMetadata: { description: 'Generates a detailed admin report of bookings, metrics, and revenue in SimplyBook.me over an optional date range, with filters for service, provider, client, booking code, and cancelled vs. non-cancelled bookings. Use to pull analytics or export selected columns; leaving filters empty returns the broadest result set. Idempotent: it only reads and aggregates existing data, so repeating the same query returns the same report without side effects.', idempotent: true },
   props: {
     createdDateFrom: Property.ShortText({
       displayName: 'Created Date From',

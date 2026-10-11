@@ -58,8 +58,12 @@ const newAttachmentPolling: Polling<
 export const newAttachment = createTrigger({
   auth: meistertaskAuth,
   name: 'new_attachment',
+  classification: 'READ',
   displayName: 'New Attachment',
   description: 'Triggers when an attachment is created.',
+  aiMetadata: {
+    description: 'Fires when a new attachment is added to any task within the selected MeisterTask project section. Represents a file newly uploaded to one of that section\'s tasks.',
+  },
   props: {
     project: meisterTaskCommon.project,
     section: meisterTaskCommon.section,

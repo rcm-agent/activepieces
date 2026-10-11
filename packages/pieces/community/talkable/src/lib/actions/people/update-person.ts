@@ -1,12 +1,16 @@
 import { createAction, Property } from '@activepieces/pieces-framework';
 import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 import { talkableAuth } from '../../..';
+import { TALKABLE_API_URL } from '../../common/constants';
 
 export const updatePerson = createAction({
   name: 'update_person', // Must be a unique across the piece, this shouldn't be changed.
+  classification: 'WRITE',
   auth: talkableAuth,
   displayName: 'Update person',
   description: 'Update person by email',
+  audience: 'both',
+  aiMetadata: { description: 'Update a Talkable person identified by email, setting profile fields such as name, phone, username, customer ID, custom properties, and opt-in/unsubscribe status. Use to keep an existing customer\'s details or subscription state current. Idempotent: it overwrites the same fields to the same values on repeat; the email is required.', idempotent: true },
   props: {
     email: Property.ShortText({
       displayName: 'Person email',
@@ -84,7 +88,6 @@ export const updatePerson = createAction({
     }),
   },
   async run(context) {
-    const TALKABLE_API_URL = 'https://www.talkable.com/api/v2';
     const { site, api_key } = context.auth.props;
     const {
       email,

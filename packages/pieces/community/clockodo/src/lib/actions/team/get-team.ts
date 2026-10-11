@@ -5,8 +5,11 @@ import { createAction } from '@activepieces/pieces-framework';
 export default createAction({
   auth: clockodoAuth,
   name: 'get_team',
+  classification: 'READ',
   displayName: 'Get Team',
   description: 'Retrieves a single team from clockodo',
+  audience: 'both',
+  aiMetadata: { description: 'Fetch one clockodo team by its numeric team ID. Read-only and repeatable. Use when you already have the team ID; to browse teams or resolve a team ID by name use Get Teams instead.', idempotent: true },
   props: {
     team_id: clockodoCommon.team_id(),
   },

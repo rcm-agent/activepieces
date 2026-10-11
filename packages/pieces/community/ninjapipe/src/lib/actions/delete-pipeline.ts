@@ -6,8 +6,11 @@ import { ninjapipeApiCall, getAuth, ninjapipeCommon } from '../common';
 export const deletePipeline = createAction({
   auth: ninjapipeAuth,
   name: 'delete_pipeline',
+  classification: 'DESTRUCTIVE',
   displayName: 'Delete Pipeline',
   description: 'Deletes a pipeline by ID.',
+  audience: 'both',
+  aiMetadata: { description: 'Permanently delete a NinjaPipe pipeline by its ID. Pick this only when the pipeline should be removed entirely; deletion is irreversible and cascades to the pipeline\'s stages. Safe to retry — deleting an already-deleted pipeline settles to the same removed state.', idempotent: true },
   props: {
     pipelineId: ninjapipeCommon.pipelineDropdownRequired,
   },

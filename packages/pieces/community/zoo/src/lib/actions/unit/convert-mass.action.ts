@@ -4,8 +4,11 @@ import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 
 export const convertMassAction = createAction({
   name: 'convert_mass',
+  classification: 'READ',
   displayName: 'Convert Mass',
   description: 'Convert mass measurements between different units',
+  audience: 'both',
+  aiMetadata: { description: 'Convert a single mass/weight value between units such as kilograms, grams, milligrams, pounds, ounces, and metric tons. Use only for mass; other quantities have their own dedicated convert actions. Read-only calculation that returns the same result for the same inputs.', idempotent: true },
   auth: zooAuth,
   // category: 'Unit Conversion',
   props: {

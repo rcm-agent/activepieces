@@ -19,8 +19,12 @@ interface NewPaidTriggerPayload {
 
 export const newSuccessfulPartialPaymentToCreditor = createTrigger({
     name: 'new_successful_partial_payment_to_creditor',
+    classification: 'READ',
     displayName: 'New Successful Partial Payment to Creditor',
     description: "Triggers when the debt is partially paid directly to the creditor.",
+    aiMetadata: {
+      description: 'Fires when a debt is partially paid directly to the creditor (outside Respaid), carrying the debtor/invoice details, the paid amount, and the remaining balance. Use to react to a partial settlement that bypassed Respaid.',
+    },
     auth: respaidAuth,
     props: {},
     sampleData: {

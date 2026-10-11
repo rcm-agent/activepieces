@@ -1,4 +1,4 @@
-import { isNil } from '@activepieces/shared';
+import { isNil } from '@activepieces/pieces-framework';
 import Client from 'ssh2-sftp-client';
 import { ServerHostKeyAlgorithm } from 'ssh2';
 import { Client as FTPClient } from 'basic-ftp';
@@ -86,7 +86,7 @@ export async function getClient<T extends Client | FTPClient>(auth: { protocol: 
 
     return sftp as T;
   } else {
-    const ftpClient = new FTPClient();
+    const ftpClient = new FTPClient(undefined, { allowSeparateTransferHost: true });
     await ftpClient.access({
       host,
       port,

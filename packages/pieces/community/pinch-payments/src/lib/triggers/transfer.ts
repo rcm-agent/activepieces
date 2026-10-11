@@ -5,8 +5,12 @@ import { createWebhook, deleteWebhook, WebhookResponse } from '../common/client'
 export const transferTrigger = createTrigger({
   auth: pinchPaymentsAuth,
   name: 'transfer',
+  classification: 'READ',
   displayName: 'Transfer Created',
   description: 'Triggers when a transfer is created to settle funds to a merchant',
+  aiMetadata: {
+    description: 'Fires when a transfer is created to settle collected funds out to a merchant bank account in Pinch Payments. Use to react to payout/settlement events, such as reconciling deposits.',
+  },
   type: TriggerStrategy.WEBHOOK,
   props: {},
   async onEnable(context) {

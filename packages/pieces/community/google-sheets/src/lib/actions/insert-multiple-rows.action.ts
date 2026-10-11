@@ -3,7 +3,6 @@ import {
 	createAction,
 	DropdownOption,
 	DynamicPropsValue,
-	OAuth2PropertyValue,
 	Property,
 } from '@activepieces/pieces-framework';
 import {
@@ -17,18 +16,26 @@ import {
 	createGoogleClient,
 } from '../common/common';
 import { getWorkSheetName, getWorkSheetGridSize } from '../triggers/helpers';
-import { google, sheets_v4 } from 'googleapis';
-import { MarkdownVariant } from '@activepieces/shared';
+import { sheets as googleSheets, sheets_v4 } from '@googleapis/sheets';
+import { MarkdownVariant } from '@activepieces/pieces-framework';
 import { parse } from 'csv-parse/sync';
 import { commonProps } from '../common/props';
+import { googleSheetsInsertMultipleRowsActionOutputSchema } from '../output-schemas';
 
 type RowValueType = Record<string, any>;
 
 export const insertMultipleRowsAction = createAction({
 	auth: googleSheetsAuth,
 	name: 'google-sheets-insert-multiple-rows',
+	classification: 'WRITE',
 	displayName: 'Add Multiple Rows',
 	description: 'Add multiple rows of data at once to a specific spreadsheet.',
+	audience: 'human',
+	aiMetadata: {
+		description:
+			'Bulk-appends many rows to a worksheet in one call, accepting input as CSV, JSON, or per-column values. Use for batch inserts instead of calling Add Row repeatedly. Optional flags can overwrite existing data or skip duplicates keyed on a chosen column; in default append mode it is not idempotent — repeating it adds the rows again.',
+		idempotent: false,
+	},
 	props: {
 		...commonProps,
 		input_type: Property.StaticDropdown({
@@ -121,7 +128,7 @@ export const insertMultipleRowsAction = createAction({
 						//check for empty headers
 						if (Object.keys(firstRow).length === 0) {
 							fields['markdown'] = Property.MarkDown({
-								value: `We couldn't find any headers in the selected spreadsheet or worksheet. Please add headers to the sheet and refresh the page to reflect the columns.`,
+								value: `No headers found in this worksheet. Add a header row, then reselect the worksheet to load its columns.`,
 								variant: MarkdownVariant.INFO,
 							});
 						} else {
@@ -149,16 +156,16 @@ export const insertMultipleRowsAction = createAction({
 			},
 		}),
 		overwrite: Property.Checkbox({
-			displayName: 'Overwrite Existing Data?',
+			displayName: 'Overwrite Existing Data',
 			description:
-				'Enable this option to replace all existing data in the sheet with new data from your input. This will clear any extra rows beyond the updated range.',
+				'Replace every existing row with the new data. Extra rows are cleared.',
 			required: false,
 			defaultValue: false,
 		}),
 		check_for_duplicate: Property.Checkbox({
-			displayName: 'Avoid Duplicates?',
+			displayName: 'Skip Duplicate Rows',
 			description:
-				'Enable this option to check for duplicate values before inserting data into the sheet. Only unique rows will be added based on the selected column.',
+				'Skip rows whose value in the chosen column already exists.',
 			required: false,
 			defaultValue: false,
 		}),
@@ -196,7 +203,7 @@ export const insertMultipleRowsAction = createAction({
 					//check for empty headers
 					if (Object.keys(firstRow).length === 0) {
 						fields['markdown'] = Property.MarkDown({
-							value: `No headers were found in the selected spreadsheet or worksheet. Please ensure that headers are added to the sheet and refresh the page to display the available columns.`,
+							value: `No headers found in this worksheet. Add a header row, then reselect the worksheet to load its columns.`,
 							variant: MarkdownVariant.INFO,
 						});
 					} else {
@@ -211,7 +218,7 @@ export const insertMultipleRowsAction = createAction({
 						fields['column_name'] = Property.StaticDropdown({
 							displayName: 'Column to Check for Duplicates',
 							description:
-								'Select the column to use for detecting duplicate values. Only rows with unique values in this column will be added to the sheet.',
+								'Rows with a repeated value in this column are skipped.',
 							required: true,
 							options: {
 								disabled: false,
@@ -227,16 +234,18 @@ export const insertMultipleRowsAction = createAction({
 		as_string: Property.Checkbox({
 			displayName: 'As String',
 			description:
-				'Inserted values that are dates and formulas will be entered as strings and have no effect',
+				'Store dates and formulas as plain text instead of evaluating them.',
 			required: false,
+			advanced: true,
 		}),
 		headerRow: Property.Number({
-			displayName: 'Header Row Number',
-			description: 'Enter the row number where your column headers are located (usually row 1).',
+			displayName: 'Header Row',
+			description: 'The row that contains the column names.',
 			required: true,
 			defaultValue: 1,
 		}),
 	},
+	outputSchema: googleSheetsInsertMultipleRowsActionOutputSchema,
 
 	async run(context) {
 		const {
@@ -272,7 +281,7 @@ export const insertMultipleRowsAction = createAction({
 		const sheetHeaders = rowHeaders[0]?.values ?? {};
 
 		const authClient = await createGoogleClient(context.auth);
-		const sheets = google.sheets({ version: 'v4', auth: authClient });
+		const sheets = googleSheets({ version: 'v4', auth: authClient });
 
 		const formattedValues = await formatInputRows(
 			sheets,

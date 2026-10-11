@@ -5,8 +5,12 @@ import { intercomClient, TriggerPayload } from '../common';
 export const newUserTrigger = createTrigger({
 	auth: intercomAuth,
 	name: 'new-user',
+	classification: 'READ',
 	displayName: 'New User',
 	description: 'Triggers when a new user is created.',
+	aiMetadata: {
+		description: 'Fires when a new user is created in Intercom. A user is an identified, signed-up contact (role "user"), as opposed to a lead. Outputs the newly created user contact object with its attributes.',
+	},
 	props: {},
 	type: TriggerStrategy.APP_WEBHOOK,
 	async onEnable(context) {

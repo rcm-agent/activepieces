@@ -45,6 +45,7 @@ type ImportTableDialogProps = {
   setIsOpen?: (open: boolean) => void;
   showTrigger?: boolean;
   tableId?: string;
+  folderId?: string;
   onImportSuccess?: () => void;
   allowedFileTypes?: SupportedFileType[];
 };
@@ -54,6 +55,7 @@ const ImportTableDialog = ({
   setIsOpen,
   showTrigger = true,
   tableId,
+  folderId,
   onImportSuccess,
   allowedFileTypes = ['json'],
 }: ImportTableDialogProps) => {
@@ -188,6 +190,7 @@ const ImportTableDialog = ({
         templates: [template],
         projectId,
         maxRecords: maxRecords ?? 1000,
+        folderId,
       });
       return tables[0];
     }
@@ -433,7 +436,7 @@ const ImportTableDialog = ({
 
             {serverError && (
               <div className=" flex items-center justify-between">
-                <div className="text-destructive">
+                <div className="text-danger-11">
                   {t(
                     'An unexpected error occurred while importing the file, please hit the copy error and send it to support',
                   )}

@@ -53,8 +53,12 @@ const polling: Polling<
 export const newRequester = createTrigger({
   auth: freshserviceAuth,
   name: 'new_requester',
+  classification: 'READ',
   displayName: 'New Requester',
   description: 'Triggers when a new requester (user) is created in Freshservice.',
+  aiMetadata: {
+    description: 'Fires when a new requester (end-user) record is created in Freshservice, representing a person newly onboarded into the help desk. Polls newest-first by creation time across all requesters in the account.',
+  },
   props: {},
   sampleData: {
     id: 1,

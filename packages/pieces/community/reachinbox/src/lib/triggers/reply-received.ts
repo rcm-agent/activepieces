@@ -22,8 +22,13 @@ const replyReceivedMessage = `
 
 export const replyReceived = createTrigger({
   name: 'replyReceived',
+  classification: 'READ',
   displayName: 'Reply Received',
   description: 'Triggers when a reply to an email is received.',
+  aiMetadata: {
+    description:
+      'Fires when a lead replies to an outreach email (REPLY_RECEIVED). Represents an inbound response; payload includes the lead, sending account, campaign, and the replied message body. Requires the webhook to be configured in ReachInbox.',
+  },
   props: {
     markdown: Property.MarkDown({
       value: replyReceivedMessage,

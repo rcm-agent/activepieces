@@ -1,4 +1,4 @@
-import { Permission } from '@activepieces/shared';
+import { Permission } from '@activepieces/core-utils';
 import { t } from 'i18next';
 import {
   ChevronDown,
@@ -18,6 +18,7 @@ import { ConfirmationDeleteDialog } from '@/components/custom/delete-dialog';
 import EditableText from '@/components/custom/editable-text';
 import { PageHeader } from '@/components/custom/page-header';
 import { PermissionNeededTooltip } from '@/components/custom/permission-needed-tooltip';
+import { useEmbedding } from '@/components/providers/embed-provider';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -46,7 +47,7 @@ import { downloadFile } from '@/lib/dom-utils';
 import { tablesApi } from '../api/tables-api';
 import { tablesUtils } from '../utils/utils';
 
-import { useTableState } from './ap-table-state-provider';
+import { useRefreshTableState, useTableState } from './ap-table-state-provider';
 import { ImportTableDialog } from './import-table-dialog';
 
 interface ApTableHeaderProps {
@@ -60,6 +61,7 @@ export function ApTableHeader({
   lockedBy,
   takeOver,
 }: ApTableHeaderProps) {
+  const { embedState } = useEmbedding();
   const [
     selectedRecords,
     setSelectedRecords,
@@ -78,6 +80,9 @@ export function ApTableHeader({
     state.deleteRecords,
   ]);
   const [isImportTableDialogOpen, setIsImportTableDialogOpen] = useState(false);
+  // refresh in place after an import; a full-page reload would break the
+  // embed SDK handshake inside an iframe
+  const refreshTableState = useRefreshTableState();
   const [isEditingTableName, setIsEditingTableName] = useState(false);
   const { project } = projectCollectionUtils.useCurrentProject();
   const lockedByOtherUser = useTableState((state) => state.lockedByOtherUser);
@@ -133,7 +138,7 @@ export function ApTableHeader({
                     variant="ghost"
                     className="size-6 flex items-center justify-center"
                   >
-                    <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                    <ChevronDown className="h-4 w-4 text-gray-11" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start" className="w-48">
@@ -200,7 +205,7 @@ export function ApTableHeader({
                         disabled={!canEdit}
                         onSelect={(e) => e.preventDefault()}
                         onClick={(e) => e.stopPropagation()}
-                        className="text-destructive focus:text-destructive"
+                        className="text-danger-11 focus:text-danger-11"
                       >
                         <Trash2 className="mr-2 h-4 w-4" />
                         {t('Delete')}
@@ -219,24 +224,26 @@ export function ApTableHeader({
   const rightContent = (
     <div className="flex items-center gap-2">
       {isSaving && (
-        <div className="flex items-center gap-2 text-muted-foreground animate-in fade-in">
+        <div className="flex items-center gap-2 text-gray-11 animate-in fade-in">
           <RefreshCw className="h-4 w-4 animate-spin" />
           <span className="text-sm">{t('Saving...')}</span>
         </div>
       )}
       {lockedBy && (
-        <div className="flex items-center gap-1.5 border border-warning/50 rounded-md px-2.5 py-1 text-sm text-warning-700 dark:text-warning-300">
+        <div className="flex items-center gap-1.5 border border-warning-7 rounded-md px-2.5 py-1 text-sm text-warning-11">
           <Lock className="size-3.5 shrink-0" />
           <span>
             {t('{name} is editing', { name: lockedBy.userDisplayName })}
           </span>
-          <span className="text-warning/40">|</span>
+          <span className="text-warning-11/40">|</span>
           <button className="hover:underline font-medium" onClick={takeOver}>
             {t('Take Over')}
           </button>
         </div>
       )}
-      <ActiveUsersWidget resourceId={table.id} />
+      {!embedState.hideActiveUsers && (
+        <ActiveUsersWidget resourceId={table.id} />
+      )}
       {selectedRecords.size > 0 && (
         <PermissionNeededTooltip hasPermission={canEdit}>
           <ConfirmationDeleteDialog
@@ -288,7 +295,7 @@ export function ApTableHeader({
           setIsOpen={setIsImportTableDialogOpen}
           tableId={table.id}
           allowedFileTypes={['json', 'csv']}
-          onImportSuccess={() => window.location.reload()}
+          onImportSuccess={refreshTableState}
         />
       </div>
     </>

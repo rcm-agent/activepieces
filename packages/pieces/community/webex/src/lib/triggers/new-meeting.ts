@@ -5,8 +5,13 @@ import { webexAuth } from '../common/auth';
 export const newMeeting = createTrigger({
   auth: webexAuth,
   name: 'newMeeting',
+  classification: 'READ',
   displayName: 'New meeting',
   description: 'Triggers when a new meeting is created. ',
+  aiMetadata: {
+    description:
+      'Fires when a new Webex meeting is created, delivering the meeting creation event via webhook.',
+  },
   props: {},
   sampleData: {},
   type: TriggerStrategy.WEBHOOK,

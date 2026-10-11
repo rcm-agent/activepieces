@@ -1,65 +1,75 @@
 import { httpClient, HttpMethod } from '@activepieces/pieces-common';
-import { createAction, Property } from '@activepieces/pieces-framework';
+import { createAction, MarkdownVariant, Property } from '@activepieces/pieces-framework';
 import { telegramBotAuth } from '../..';
 import { telegramCommons } from '../common';
+import { createInviteLinkActionOutputSchema } from '../output-schemas';
 
-const chatId = `
-**How to obtain Chat ID:**
-1. Search for the bot "@getmyid_bot" in Telegram.
-2. Start a conversation with the bot.
-3. Send the command "/my_id" to the bot.
-4. The bot will reply with your chat ID.
-
-**Note: Remember to initiate the chat with the bot, or you'll get an error for "chat not found.**
-`;
-const format = `
-[Link example](https://core.telegram.org/bots/api#formatting-options)
-`;
 export const telegramCreateInviteLinkAction = createAction({
   auth: telegramBotAuth,
   name: 'create_invite_link',
-  description: 'Create an invite link for a chat',
+  classification: 'WRITE',
+  description: 'Create an invite link for a group or channel.',
+  audience: 'human',
+  aiMetadata: { description: 'Creates a new invite link for a chat by chat_id, optionally with a name, expiry, member limit, or join-request approval. Use to generate a shareable join link; the bot must be an administrator with invite rights. Not idempotent: each call mints a distinct new invite link.', idempotent: false },
   displayName: 'Create Invite Link',
+  propertyGroups: [
+    { key: 'chat', display: 'section', label: 'Chat', icon: 'users', props: ['instructions', 'chat_id'] },
+    { key: 'link', display: 'section', label: 'Link Settings', icon: 'sliders', props: ['name', 'expire_date'] },
+    {
+      key: 'access',
+      display: 'section',
+      label: 'Who Can Join',
+      icon: 'user',
+      props: ['access_info', 'member_limit', 'creates_join_request'],
+    },
+  ],
   props: {
-    instructions: Property.MarkDown({
-      value: chatId,
-    }),
-    chat_id: Property.ShortText({
-      displayName: 'Chat Id',
-      required: true,
-    }),
+    instructions: telegramCommons.form.chatIdInstructions(),
+    chat_id: telegramCommons.form.chatIdProp(),
     name: Property.ShortText({
-      displayName: 'Name',
-      description: 'Name of the invite link (max 32 chars)',
+      displayName: 'Link Name',
+      description: 'Up to 32 characters, shown only to admins.',
       required: false,
+      width: 'half',
     }),
     expire_date: Property.DateTime({
-      displayName: 'Expire Date',
-      description: 'Point in time when the link will expire',
+      displayName: 'Expiry Date',
+      description: 'Empty means the link never expires.',
       required: false,
+      width: 'half',
+    }),
+    access_info: Property.MarkDown({
+      value: 'Use a member limit or admin approval, not both.',
+      variant: MarkdownVariant.INFO,
     }),
     member_limit: Property.Number({
       displayName: 'Member Limit',
-      description:
-        'Maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999',
+      description: 'How many people can join with this link, 1 to 99999.',
       required: false,
     }),
+    creates_join_request: Property.Checkbox({
+      displayName: 'Require Admin Approval',
+      description: 'Admins approve each person who joins with the link.',
+      required: false,
+      defaultValue: false,
+    }),
   },
+  outputSchema: createInviteLinkActionOutputSchema,
   async run(ctx) {
-    return await httpClient
-      .sendRequest<never>({
-        method: HttpMethod.POST,
-        url: telegramCommons.getApiUrl(ctx.auth, 'createChatInviteLink'),
-        headers: {},
-        body: {
-          chat_id: ctx.propsValue.chat_id,
-          name: ctx.propsValue.name ?? undefined,
-          expire_date: ctx.propsValue.expire_date
-            ? Math.floor(new Date(ctx.propsValue.expire_date).getTime() / 1000)
-            : undefined,
-          member_limit: ctx.propsValue.member_limit ?? undefined,
-        },
-      })
-      .then((res) => res.body);
+    const response = await httpClient.sendRequest<never>({
+      method: HttpMethod.POST,
+      url: telegramCommons.getApiUrl(ctx.auth, 'createChatInviteLink'),
+      headers: {},
+      body: {
+        chat_id: ctx.propsValue.chat_id,
+        name: ctx.propsValue.name ?? undefined,
+        expire_date: ctx.propsValue.expire_date
+          ? Math.floor(new Date(ctx.propsValue.expire_date).getTime() / 1000)
+          : undefined,
+        member_limit: ctx.propsValue.member_limit ?? undefined,
+        creates_join_request: ctx.propsValue.creates_join_request ?? false,
+      },
+    });
+    return response.body;
   },
 });

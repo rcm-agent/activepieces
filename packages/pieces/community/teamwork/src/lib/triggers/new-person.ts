@@ -5,8 +5,12 @@ import { HttpMethod } from '@activepieces/pieces-common';
 
 export const newPerson = createTrigger({
 	name: 'new_person',
+	classification: 'READ',
 	displayName: 'New Person',
 	description: 'Fires when a new person (user/contact) is added.',
+	aiMetadata: {
+		description: 'Fires when a new person — a user, collaborator, or contact — is added in Teamwork (USER.CREATED webhook). Each event represents one newly created person across the account.',
+	},
 	auth: teamworkAuth,
 	props: {},
 	type: TriggerStrategy.WEBHOOK,

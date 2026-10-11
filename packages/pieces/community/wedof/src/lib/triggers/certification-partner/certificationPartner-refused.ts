@@ -5,8 +5,13 @@ import { wedofCommon } from '../../common/wedof';
 export const certificationPartnerRefused = createTrigger({
   auth: wedofAuth,
   name: 'certificationPartnerRefused',
+  classification: 'READ',
   displayName: 'Demande de partenariat refusée',
   description: "Se déclenche Lorsqu'une demande de partenariat est refusée",
+  aiMetadata: {
+    description:
+      "Fires when a certification partnership request (demande de partenariat) is refused in Wedof, meaning the certifier has declined the partner organisation's application. The payload describes the partnership webhook event and links to the organisation involved.",
+  },
   props: {},
   sampleData: {
     id: 0,

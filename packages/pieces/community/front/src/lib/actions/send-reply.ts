@@ -1,6 +1,7 @@
 import { createAction, Property } from '@activepieces/pieces-framework';
 import { frontAuth } from '../common/auth';
-import { makeRequest } from '../common/client';
+import { makeMultipartRequest, makeRequest } from '../common/client';
+import { frontAttachments } from '../common/attachments';
 import { HttpMethod } from '@activepieces/pieces-common';
 import {
   channelIdDropdown,
@@ -13,6 +14,12 @@ export const sendReply = createAction({
   name: 'sendReply',
   displayName: 'Send Reply',
   description: 'Send a reply to a conversation in Front.',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Send a customer-facing reply within an existing Front conversation identified by conversation ID. Pick this to respond in an ongoing thread; use "Send Message" to start a new conversation and "Add Comment" for an internal note. Not idempotent: each call sends another reply.',
+    idempotent: false,
+  },
   props: {
     conversation_id: conversationIdDropdown,
     body: Property.LongText({
@@ -42,11 +49,7 @@ export const sendReply = createAction({
       required: false,
     }),
     channel_id: channelIdDropdown,
-    attachments: Property.Array({
-      displayName: 'Attachments',
-      description: 'List of attachment URLs.',
-      required: false,
-    }),
+    attachments: frontAttachments.property,
   },
   async run({ auth, propsValue }) {
     const {
@@ -69,7 +72,16 @@ export const sendReply = createAction({
     if (cc) requestBody['cc'] = cc;
     if (bcc) requestBody['bcc'] = bcc;
     if (channel_id) requestBody['channel_id'] = channel_id;
-    if (attachments) requestBody['attachments'] = attachments;
+
+    const files = frontAttachments.resolve(attachments);
+    if (files.length > 0) {
+      return await makeMultipartRequest({
+        auth,
+        method: HttpMethod.POST,
+        path: path,
+        form: frontAttachments.buildBody({ fields: requestBody, files }),
+      });
+    }
 
     return await makeRequest(auth, HttpMethod.POST, path, requestBody);
   },

@@ -6,8 +6,11 @@ import { ninjapipeApiCall, flattenCustomFields, getAuth, ninjapipeCommon } from 
 export const getProduct = createAction({
   auth: ninjapipeAuth,
   name: 'get_product',
+  classification: 'READ',
   displayName: 'Get Product',
   description: 'Retrieves a product by ID.',
+  audience: 'both',
+  aiMetadata: { description: 'Fetch a single product by its ID to read its current details. Use when you already have the product ID; to find a product by name or SKU, list/search products first. Read-only and idempotent.', idempotent: true },
   props: {
     productId: ninjapipeCommon.productDropdownRequired,
   },

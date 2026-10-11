@@ -8,12 +8,16 @@ import {
 import { trelloCommon } from '../../common';
 import { trelloAuth } from '../../..';
 import FormData from "form-data";
+import { addCardAttachmentActionOutputSchema } from '../../output-schemas';
 
 export const addCardAttachment = createAction({
   auth: trelloAuth,
   name: 'add_card_attachment',
+  classification: 'WRITE',
   displayName: 'Add Card Attachment',
   description: 'Adds an attachment to a card.',
+  audience: 'human',
+  outputSchema: addCardAttachmentActionOutputSchema,
   props: {
     card_id: Property.ShortText({
       description: 'The ID of the card to add attachment to',

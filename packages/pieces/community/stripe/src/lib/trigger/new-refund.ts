@@ -7,7 +7,7 @@ import { stripeCommon } from '../common';
 import { StripeWebhookInformation } from '../common/types';
 import { stripeAuth } from '../..';
 import { httpClient, HttpMethod } from '@activepieces/pieces-common';
-import { isEmpty } from '@activepieces/shared';
+import { isEmpty } from '@activepieces/pieces-framework';
 
 type StripeWebhookPayload = {
   data: {
@@ -17,25 +17,32 @@ type StripeWebhookPayload = {
   };
 };
 
+import { refundOutputSchema } from '../output-schemas';
 export const stripeNewRefund = createTrigger({
   auth: stripeAuth,
   name: 'new_refund',
+  classification: 'READ',
   displayName: 'New Refund',
-  description: 'Fires when a charge is refunded (full or partial).',
+  description: 'Fires when a refund is created, full or partial.',
+  aiMetadata: {
+    description:
+      'Fires when a refund is created in Stripe (the refund.created event), for a full or partial refund, emitting the refund record. Optional filters narrow firing to a specific charge ID or payment intent ID. Use to react to money returned to a customer, such as updating accounting or notifying them.',
+  },
   props: {
     charge: Property.ShortText({
       displayName: 'Charge ID',
-      description:
-        'Only trigger for refunds related to this Charge ID (e.g., `ch_...`).',
+      description: 'Only refunds for this charge. Empty: all.',
+      placeholder: 'ch_...',
       required: false,
     }),
     payment_intent: Property.ShortText({
       displayName: 'Payment Intent ID',
-      description:
-        'Only trigger for refunds related to this Payment Intent ID (e.g., `pi_...`).',
+      description: 'Only refunds for this payment. Empty: all.',
+      placeholder: 'pi_...',
       required: false,
     }),
   },
+  outputSchema: refundOutputSchema,
   sampleData: {
     id: 're_1Nispe2eZvKYlo2Cd31jOCgZ',
     object: 'refund',

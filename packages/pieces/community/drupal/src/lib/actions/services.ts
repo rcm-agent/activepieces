@@ -12,8 +12,11 @@ import { drupalAuth } from '../auth';
 export const drupalCallServiceAction = createAction({
   auth: drupalAuth,
   name: 'drupal-call-service',
+  classification: 'WRITE',
   displayName: 'Call Service',
   description: 'Call a service on the Drupal site',
+  audience: 'both',
+  aiMetadata: { description: 'Executes a named server-side service (e.g. an ECA/orchestration action) exposed by the Drupal site, passing a dynamic configuration object whose fields are defined by the chosen service. Use to invoke custom Drupal-side logic that has no dedicated action here. The service must be discoverable via the site\'s orchestration endpoint; because it runs arbitrary server logic, treat each call as potentially side-effecting and not idempotent.', idempotent: false },
   props: {
     service: Property.Dropdown({
       displayName: 'Service',
@@ -41,7 +44,6 @@ export const drupalCallServiceAction = createAction({
               'Accept': 'application/vnd.api+json',
             },
           });
-          console.debug('Service response', response);
           if (response.status === 200) {
             return {
               disabled: false,
@@ -70,7 +72,6 @@ export const drupalCallServiceAction = createAction({
       required: true,
       auth: drupalAuth,
       props: async ({ service }) => {
-        console.debug('Service config input', service);
         const fields: Record<string, any> = {};
         const items = (service as { config: DrupalServiceConfig[] }).config;
         items.forEach((config: any) => {
@@ -118,7 +119,6 @@ export const drupalCallServiceAction = createAction({
             });
           }
         });
-        console.debug('Field for this service', fields);
         return fields;
       },
     }),
@@ -139,7 +139,6 @@ export const drupalCallServiceAction = createAction({
     };
 
     const result = await httpClient.sendRequest<DrupalService>(request);
-    console.debug('Service call completed', result);
 
     if (result.status === 200 || result.status === 202) {
       return result.body;

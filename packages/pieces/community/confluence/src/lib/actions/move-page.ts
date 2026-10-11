@@ -7,8 +7,11 @@ import { pageIdProp, spaceIdProp } from '../common/props';
 export const movePageAction = createAction({
 	auth: confluenceAuth,
 	name: 'move-page',
+	classification: 'WRITE',
 	displayName: 'Move Page',
 	description: 'Moves a page to a new parent as a child, sibling, or to the top of the parent.',
+	audience: 'both',
+	aiMetadata: { description: 'Repositions a Confluence page in the content tree relative to a target page: append/insert it as a child of the target, or place it as a sibling after the target. Use to re-parent or reorder a page. Requires the page ID and the target page ID. Effectively idempotent — re-running with the same position and target leaves the page in the same place.', idempotent: true },
 	props: {
 		spaceId: spaceIdProp,
 		pageId: pageIdProp,

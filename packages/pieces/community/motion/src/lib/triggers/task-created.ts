@@ -65,8 +65,12 @@ const polling: Polling<
 export const taskCreated = createTrigger({
   auth: motionAuth,
   name: 'task-created',
+  classification: 'READ',
   displayName: 'Task Created',
   description: 'Triggers when a new task is created.',
+  aiMetadata: {
+    description: 'Fires when a new task is created in the specified Motion workspace, emitting one event per newly created task. Polls the workspace tasks and deduplicates by creation time.',
+  },
   type: TriggerStrategy.POLLING,
   props: {
     workspaceId: workspaceId('Workspace ID'),

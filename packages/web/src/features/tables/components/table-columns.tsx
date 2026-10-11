@@ -1,4 +1,5 @@
-import { ApFlagId, isNil, Permission } from '@activepieces/shared';
+import { isNil, Permission } from '@activepieces/core-utils';
+import { ApFlagId } from '@activepieces/shared';
 import { Plus } from 'lucide-react';
 import { ReactNode } from 'react';
 import { Column, RenderCellProps } from 'react-data-grid';
@@ -78,6 +79,7 @@ export function useTableColumns(createEmptyRecord: () => void) {
       width: 207,
       minHeight: 37,
       resizable: true,
+      draggable: canEdit,
       name: '',
       renderHeaderCell: () => <ApFieldHeader field={{ ...field, index }} />,
       renderCell: ({
@@ -142,7 +144,7 @@ type AddRecordButtonProps = {
 function AddRecordButton({ handleClick, icon }: AddRecordButtonProps) {
   return (
     <div
-      className="w-full h-full border-t border-border  flex items-center justify-start cursor-pointer pl-4"
+      className="w-full h-full border-t border-gray-6  flex items-center justify-start cursor-pointer pl-4"
       onClick={handleClick}
     >
       {icon}
@@ -153,7 +155,7 @@ function AddRecordButton({ handleClick, icon }: AddRecordButtonProps) {
 function AddFieldButton() {
   return (
     <NewFieldPopup>
-      <div className="w-full h-full flex items-center justify-center cursor-pointer new-field">
+      <div className="w-full h-full flex items-center justify-center cursor-pointer">
         <Plus className="h-4 w-4" />
       </div>
     </NewFieldPopup>

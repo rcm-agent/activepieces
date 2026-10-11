@@ -2,27 +2,37 @@ import { createAction, Property } from '@activepieces/pieces-framework';
 import { slackAuth } from '../auth';
 import { WebClient } from '@slack/web-api';
 import { getBotToken, requireUserToken, SlackAuthValue } from '../common/auth-helpers';
+import { updateGroupUsersActionOutputSchema } from '../output-schemas';
 
 export const updateGroupUsersAction = createAction({
   auth: slackAuth,
   name: 'update_group_users',
+  classification: 'WRITE',
   displayName: 'Update User Group Members',
   description: 'Add users to or overwrite the member list of a Slack user group.',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Set the membership of a Slack user group, found by its handle, to a given list of user IDs. Defaults to appending the IDs to current members; with "Append" off it replaces the entire member list (clearing it if no IDs are given), which is idempotent. Append mode is not idempotent. Requires a user token and errors if the handle is not found.',
+    idempotent: false,
+  },
+  outputSchema: updateGroupUsersActionOutputSchema,
   props: {
     handle: Property.ShortText({
       displayName: 'Group Handle',
-      description: 'Group handle without the leading @',
+      description: 'Handle without the leading @.',
+      placeholder: 'engineering',
       required: true,
     }),
     userIds: Property.Array({
       displayName: 'User IDs',
-      description: 'The list of Slack User IDs to update this group with. Leave empty to clear the group (if not appending).',
+      description: 'Slack user IDs to add. Empty with append off clears the group.',
       required: false,
     }),
     appendUsers: Property.Checkbox({
-      displayName: 'Append to existing members?',
-      description: 'If checked, these users will be added to the current group. If unchecked, the current group members will be completely replaced by these users.',
-      required: true,
+      displayName: 'Append to Existing Members',
+      description: 'Off replaces the member list with the users above.',
+      required: false,
       defaultValue: true,
     }),
   },

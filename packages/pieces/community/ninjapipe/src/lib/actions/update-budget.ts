@@ -6,8 +6,11 @@ import { ninjapipeApiCall, flattenCustomFields, getAuth, ninjapipeCommon, toDate
 export const updateBudget = createAction({
   auth: ninjapipeAuth,
   name: 'update_budget',
+  classification: 'WRITE',
   displayName: 'Update Budget',
   description: 'Updates a budget by ID.',
+  audience: 'both',
+  aiMetadata: { description: 'Update an existing budget identified by its ID. Only supplied fields change (name, allocated amount, category, period, currency, status, start/end dates); allocated must be greater than 0 if set. Repeating the same update is idempotent.', idempotent: true },
   props: {
     budgetId: ninjapipeCommon.budgetDropdownRequired,
     name: Property.ShortText({ displayName: 'Name', required: false }),

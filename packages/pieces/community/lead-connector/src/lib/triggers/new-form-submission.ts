@@ -1,4 +1,4 @@
-import { AppConnectionValueForAuthProperty, OAuth2PropertyValue, Property, createTrigger } from '@activepieces/pieces-framework';
+import { AppConnectionValueForAuthProperty, Property, createTrigger } from '@activepieces/pieces-framework';
 import { TriggerStrategy } from '@activepieces/pieces-framework';
 import {
   DedupeStrategy,
@@ -26,13 +26,17 @@ const polling: Polling<AppConnectionValueForAuthProperty<typeof leadConnectorAut
 export const newFormSubmission = createTrigger({
   auth: leadConnectorAuth,
   name: 'new_form_submission',
+  classification: 'READ',
   displayName: 'New Form Submission',
   description: 'Trigger when a form is submitted.',
+  aiMetadata: {
+    description: 'Fires when a new submission is received for a specific GoHighLevel/LeadConnector form (selected by form ID). Represents the submitted form entry with its field values.',
+  },
   props: {
     form: Property.Dropdown({
-  auth: leadConnectorAuth,
+      auth: leadConnectorAuth,
       displayName: 'Form',
-      description: 'The form you want to use.',
+      description: 'Runs for each new submission of this form.',
       required: true,
       refreshers: [],
       options: async ({ auth }) => {
@@ -40,9 +44,10 @@ export const newFormSubmission = createTrigger({
           return {
             disabled: true,
             options: [],
+            placeholder: 'Connect your account first',
           };
 
-        const forms = await getForms(auth as OAuth2PropertyValue);
+        const forms = await getForms(auth);
 
         return {
           options: forms.map((form) => {

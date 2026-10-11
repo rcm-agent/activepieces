@@ -6,8 +6,11 @@ import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 export const createEvent = createAction({
   auth: customerIOAuth,
   name: 'create_event',
+  classification: 'WRITE',
   displayName: 'Create Event',
   description: 'Create an event in Customer.io',
+  audience: 'both',
+  aiMetadata: { description: 'Sends a behavioral/tracking event for a specific person to Customer.io via the Track API, identified by id, email, or cio_id per the workspace setting. Use to record that a customer did something so it can drive campaigns or segments. Provide the event payload either as key-value pairs or a raw JSON object (body_type). Not idempotent: each call appends a new event, even with identical input.', idempotent: false },
   props: {
     customer_identifier: Property.ShortText({
       displayName: 'Customer identifier',

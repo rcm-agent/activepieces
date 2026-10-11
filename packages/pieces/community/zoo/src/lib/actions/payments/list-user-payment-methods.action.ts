@@ -4,8 +4,11 @@ import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 
 export const listUserPaymentMethodsAction = createAction({
   name: 'list_user_payment_methods',
+  classification: 'SEARCH',
   displayName: 'List User Payment Methods',
   description: 'List all payment methods for your user account',
+  audience: 'both',
+  aiMetadata: { description: 'List the saved payment methods on the authenticated user account, with optional limit/offset paging. Use this to enumerate or look up a payment method ID; for a single stored billing record use Get User Payment Info. Read-only and safe to repeat.', idempotent: true },
   auth: zooAuth,
   // category: 'Payments',
   props: {

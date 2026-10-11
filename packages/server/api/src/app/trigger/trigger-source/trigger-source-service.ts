@@ -1,4 +1,5 @@
-import { ActivepiecesError, apId, ErrorCode, FlowId, FlowVersion, isNil, PopulatedTriggerSource, TemplateTelemetryEventType, TriggerSource } from '@activepieces/shared'
+import { ActivepiecesError, apId, ErrorCode, FlowId, isNil, tryCatch } from '@activepieces/core-utils'
+import { FlowVersion, PopulatedTriggerSource, TemplateTelemetryEventType, TriggerSource } from '@activepieces/shared'
 import { FastifyBaseLogger } from 'fastify'
 import { In } from 'typeorm'
 import { repoFactory } from '../../core/db/repo-factory'
@@ -14,11 +15,11 @@ export const triggerSourceRepo = repoFactory(TriggerSourceEntity)
 export const triggerSourceService = (log: FastifyBaseLogger) => {
     return {
         async enable(params: EnableTriggerParams): Promise<TriggerSource> {
-            const { flowVersion, projectId, simulate, templateId } = params
+            const { flowVersion, projectId, simulate, templateId, isRepublish } = params
             log.info({
-                flowId: flowVersion.flowId,
-                flowVersionId: flowVersion.id,
-                projectId,
+                flow: { id: flowVersion.flowId },
+                flowVersion: { id: flowVersion.id },
+                project: { id: projectId },
                 simulate,
             }, '[triggerSourceService#enable] Enabling trigger source')
             const pieceTrigger = await triggerUtils(log).getPieceTriggerOrThrow({ flowVersion, projectId })
@@ -51,28 +52,49 @@ export const triggerSourceService = (log: FastifyBaseLogger) => {
                 simulate,
             }
             const triggerSource = await triggerSourceRepo().save(triggerSourceWithouSchedule)
-            const { scheduleOptions } = await flowTriggerSideEffect(log).enable({
-                flowId: flowVersion.flowId,
-                flowVersionId: flowVersion.id,
-                projectId,
-                pieceName: flowVersion.trigger.settings.pieceName,
-                pieceTrigger,
-                simulate,
+            const enableResult = await tryCatch(async () => {
+                const { scheduleOptions } = await flowTriggerSideEffect(log).enable({
+                    flowId: flowVersion.flowId,
+                    flowVersionId: flowVersion.id,
+                    projectId,
+                    pieceName: flowVersion.trigger.settings.pieceName,
+                    pieceTrigger,
+                    simulate,
+                    isRepublish,
+                })
+                return triggerSourceRepo().save({
+                    ...triggerSource,
+                    schedule: scheduleOptions,
+                })
             })
+            if (enableResult.error !== null) {
+                const { error: rollbackError } = await tryCatch(() => triggerSourceRepo().softDelete({
+                    id: triggerSource.id,
+                    projectId,
+                }))
+                log.warn({
+                    flow: { id: flowVersion.flowId },
+                    flowVersion: { id: flowVersion.id },
+                    project: { id: projectId },
+                    error: enableResult.error.message,
+                    ...(isNil(rollbackError) ? {} : { rollbackError: rollbackError.message }),
+                }, '[triggerSourceService#enable] Rolled back trigger source after enable failure')
+                throw enableResult.error
+            }
 
             if (templateId) {
                 templateTelemetryService(log).sendEvent({
-                    eventType: TemplateTelemetryEventType.ACTIVATE,
-                    templateId,
-                    flowId: flowVersion.flowId,
+                    event: {
+                        eventType: TemplateTelemetryEventType.ACTIVATE,
+                        templateId,
+                        flowId: flowVersion.flowId,
+                    },
+                    projectId,
                 })
             }
 
             log.info('[triggerSourceService#enable] Enabled flow trigger side effect')
-            return triggerSourceRepo().save({
-                ...triggerSource,
-                schedule: scheduleOptions,
-            })
+            return enableResult.data
         },
         async get(params: GetTriggerParams): Promise<TriggerSource | null> {
             const { projectId, id } = params
@@ -150,8 +172,8 @@ export const triggerSourceService = (log: FastifyBaseLogger) => {
         async disable(params: DisableTriggerParams): Promise<void> {
             const { projectId, flowId, simulate, templateId } = params
             log.info({
-                flowId,
-                projectId,
+                flow: { id: flowId },
+                project: { id: projectId },
                 simulate,
             }, '[triggerSourceService#disable] Disabling trigger source')
             const triggerSource = await triggerSourceRepo().findOneBy({
@@ -183,9 +205,12 @@ export const triggerSourceService = (log: FastifyBaseLogger) => {
             log.info('[triggerSourceService#disable] Soft deleted trigger source')
             if (templateId) {
                 templateTelemetryService(log).sendEvent({
-                    eventType: TemplateTelemetryEventType.DEACTIVATE,
-                    templateId,
-                    flowId,
+                    event: {
+                        eventType: TemplateTelemetryEventType.DEACTIVATE,
+                        templateId,
+                        flowId,
+                    },
+                    projectId,
                 })
             }
         },
@@ -232,4 +257,5 @@ type EnableTriggerParams = {
     projectId: string
     simulate: boolean
     templateId?: string
+    isRepublish?: boolean
 }

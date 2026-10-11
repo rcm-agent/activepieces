@@ -28,8 +28,11 @@ const { interval, ...telemetryApiDateInputPropsWithoutInterval } = telemetryApiD
 const telemetryApiCustomQueryAction = createAction({
 	auth: dimoAuth,
 	name: 'telemetry-custom-query',
+	classification: 'WRITE',
 	displayName: 'Telemetry : Custom Query',
 	description: 'Query DIMO Telemetry API using a custom GraphQL query.',
+	audience: 'both',
+	aiMetadata: { description: 'Run an arbitrary GraphQL query against the DIMO Telemetry API for one vehicle (by token ID), passing the raw query string and optional variables. Read-only escape hatch for telemetry data not covered by the purpose-built telemetry actions; pick a specific action (Signals, Daily Avg Speed, Max Speed, Events, VIN VC Latest) when one fits, and use this only for custom shapes.', idempotent: true },
 	props: {
 		customQuery: Property.LongText({
 			displayName: 'Custom GraphQL Query.',
@@ -77,8 +80,11 @@ const telemetryApiCustomQueryAction = createAction({
 const availableSignalsAction = createAction({
 	auth: dimoAuth,
 	name: 'telemetry-available-signals',
+	classification: 'READ',
 	displayName: 'Telemetry : Available Signals',
 	description: 'Get a list of available signals for a specific vehicle.',
+	audience: 'both',
+	aiMetadata: { description: 'List which telemetry signals are available for a specific vehicle (by token ID), so an agent can discover what data the vehicle reports before querying values. Read-only and idempotent; pick this to enumerate signal names, not to retrieve their time-series values (use Signals for that).', idempotent: true },
 	props: {
 		vehicleTokenId: Property.Number({
 			displayName: 'Vehicle Token ID',
@@ -119,8 +125,11 @@ const availableSignalsAction = createAction({
 const signalsAction = createAction({
 	auth: dimoAuth,
 	name: 'telemetry-signals',
+	classification: 'READ',
 	displayName: 'Telemetry : Signals',
 	description: 'Get a selection of available signals for a specific vehicle.',
+	audience: 'both',
+	aiMetadata: { description: 'Retrieve telemetry signal values for a specific vehicle (by token ID) over a UTC start/end window, aggregated at a given interval (e.g. 1s, 1m, 1h). Read-only historical read; pick this for the vehicle\'s actual signal data over time, and use Available Signals first if you need to know which signals exist.', idempotent: true },
 	props: {
 		vehicleTokenId: Property.Number({
 			displayName: 'Vehicle Token ID',
@@ -166,8 +175,11 @@ const signalsAction = createAction({
 const getDailyAvgSpeedOfVehicleAction = createAction({
 	auth: dimoAuth,
 	name: 'telemetry-daily-avg-speed',
+	classification: 'READ',
 	displayName: 'Telemetry : Daily Avg Speed',
 	description: 'Get the average speed of a vehicle over a specific time period.',
+	audience: 'both',
+	aiMetadata: { description: 'Get a vehicle\'s daily average speed over a UTC start/end window (by token ID). Read-only aggregate computed by DIMO, so it is idempotent; pick this for average-speed analytics, versus Max Speed for the peak value over the same period.', idempotent: true },
 	props: {
 		vehicleTokenId: Property.Number({
 			displayName: 'Vehicle Token ID',
@@ -212,8 +224,11 @@ const getDailyAvgSpeedOfVehicleAction = createAction({
 const getEvents = createAction({
 	auth: dimoAuth,
 	name: 'telemetry-event',
+	classification: 'SEARCH',
 	displayName: 'Telemetry: Events',
 	description: 'Get the vehicle events over a specific time period.',
+	audience: 'both',
+	aiMetadata: { description: 'Retrieve discrete vehicle events (e.g. trips, status changes) for a specific vehicle (by token ID) over a UTC start/end window. Read-only and idempotent; pick this for event records over a period rather than continuous signal samples (Signals) or speed aggregates (Daily Avg Speed / Max Speed).', idempotent: true },
 	props: {
 		vehicleTokenId: Property.Number({
 		displayName: 'Vehicle Token ID',
@@ -258,8 +273,11 @@ const getEvents = createAction({
 const getMaxSpeedOfVehicleAction = createAction({
 	auth: dimoAuth,
 	name: 'telemetry-max-speed',
+	classification: 'READ',
 	displayName: 'Telemetry : Max Speed',
 	description: 'Get the maximum speed of a vehicle over a specific time period.',
+	audience: 'both',
+	aiMetadata: { description: 'Get a vehicle\'s maximum speed over a UTC start/end window at a given sampling interval (by token ID). Read-only aggregate, so it is idempotent; pick this for the peak speed reached, versus Daily Avg Speed for the average over the same period.', idempotent: true },
 	props: {
 		vehicleTokenId: Property.Number({
 			displayName: 'Vehicle Token ID',
@@ -305,8 +323,11 @@ const getMaxSpeedOfVehicleAction = createAction({
 const getVinVcLatestAction = createAction({
 	auth: dimoAuth,
 	name: 'telemetry-vin-vc-latest',
+	classification: 'READ',
 	displayName: 'Telemetry : VIN VC Latest',
 	description: 'Get the latest VIN and Vehicle Configuration for a specific vehicle.',
+	audience: 'both',
+	aiMetadata: { description: 'Read the most recent VIN Verifiable Credential and vehicle configuration already on record for a specific vehicle (by token ID). Read-only and idempotent; pick this to fetch the existing latest VIN VC, versus the Attestation Create VIN VC action which mints a new credential.', idempotent: true },
 	props: {
 		vehicleTokenId: Property.Number({
 			displayName: 'Vehicle Token ID',

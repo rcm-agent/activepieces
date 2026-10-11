@@ -1,13 +1,5 @@
-import {
-    FlowOperationRequest,
-    FlowOperationType,
-    FlowStatus,
-    flowStructureUtil,
-    isNil,
-    McpToolDefinition,
-    Permission,
-    ProjectScopedMcpServer,
-} from '@activepieces/shared'
+import { isNil, Permission } from '@activepieces/core-utils'
+import { FlowOperationRequest, FlowOperationType, FlowStatus, flowStructureUtil, McpToolContext, McpToolDefinition } from '@activepieces/shared'
 import { FastifyBaseLogger } from 'fastify'
 import { z } from 'zod'
 import { flowService } from '../../flows/flow/flow.service'
@@ -18,7 +10,7 @@ const lockAndPublishInput = z.object({
     flowId: z.string(),
 })
 
-export const apLockAndPublishTool = (mcp: ProjectScopedMcpServer, log: FastifyBaseLogger): McpToolDefinition => {
+export const apLockAndPublishTool = ({ mcp, userId }: McpToolContext, log: FastifyBaseLogger): McpToolDefinition => {
     return {
         title: 'ap_lock_and_publish',
         permission: Permission.UPDATE_FLOW_STATUS,
@@ -26,7 +18,7 @@ export const apLockAndPublishTool = (mcp: ProjectScopedMcpServer, log: FastifyBa
         inputSchema: {
             flowId: z.string().describe('The id of the flow to publish'),
         },
-        annotations: { destructiveHint: false, idempotentHint: false, openWorldHint: false },
+        annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: true },
         execute: async (args) => {
             const { flowId } = lockAndPublishInput.parse(args)
 
@@ -39,7 +31,8 @@ export const apLockAndPublishTool = (mcp: ProjectScopedMcpServer, log: FastifyBa
             }
 
             const allSteps = flowStructureUtil.getAllSteps(flow.version.trigger)
-            const invalidSteps = allSteps.filter(s => !s.valid && !(s as { skip?: boolean }).skip)
+            const skippedStepNames = flowStructureUtil.getSkippedStepNames({ trigger: flow.version.trigger })
+            const invalidSteps = allSteps.filter(s => !s.valid && !skippedStepNames.has(s.name))
             if (invalidSteps.length > 0) {
                 const stepList = invalidSteps.map(s => `"${s.name}" (${s.displayName})`).join(', ')
                 return {
@@ -59,7 +52,8 @@ export const apLockAndPublishTool = (mcp: ProjectScopedMcpServer, log: FastifyBa
                 await flowService(log).update({
                     id: flow.id,
                     projectId: mcp.projectId,
-                    userId: null,
+                    userId,
+                    previousFlow: flow,
                     platformId: project.platformId,
                     operation,
                 })

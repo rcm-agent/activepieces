@@ -1,10 +1,10 @@
+import { isNil } from '@activepieces/core-utils';
 import {
   FlowActionType,
   FlowOperationRequest,
   FlowOperationType,
   flowStructureUtil,
   FlowVersion,
-  isNil,
   RouterAction,
   RouterExecutionType,
 } from '@activepieces/shared';
@@ -108,10 +108,10 @@ export const RouterSettings = memo(({ readonly }: { readonly: boolean }) => {
             });
           } else {
             insert(
-              updatedStep.settings.branches.length - 1,
+              operation.request.branchIndex,
               flowStructureUtil.createBranch(
-                `Branch ${updatedStep.settings.branches.length}`,
-                undefined,
+                operation.request.branchName,
+                operation.request.conditions,
               ),
             );
           }

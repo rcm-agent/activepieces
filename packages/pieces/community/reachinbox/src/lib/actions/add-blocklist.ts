@@ -6,8 +6,15 @@ import { reachinboxCommon } from '../common';
 export const addBlocklist = createAction({
   auth: ReachinboxAuth,
   name: 'addBlocklist',
+  classification: 'WRITE',
   displayName: 'Add Blocklist',
   description: 'Add email addresses, domains, and keywords to the blocklist.',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Adds email addresses, domains, and/or keywords to the ReachInbox blocklist so matching leads are excluded from outreach. Use to suppress contacts globally. At least one of emails, domains, or keywords must be provided; the call appends entries on each run.',
+    idempotent: false,
+  },
   props: {
     emails: Property.Array({
       displayName: 'Email Addresses',

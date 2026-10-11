@@ -8,12 +8,17 @@ import {
 } from '../common';
 import { GetField, GetPersonResponse } from '../common/types';
 import { HttpMethod } from '@activepieces/pieces-common';
+import { addLabelsToPersonActionOutputSchema } from '../output-schemas';
 
 export const addLabelToPersonAction = createAction({
 	auth: pipedriveAuth,
 	name: 'add-labels-to-person',
+	outputSchema: addLabelsToPersonActionOutputSchema,
+	classification: 'WRITE',
 	displayName: 'Add Labels to Person',
 	description: 'Adds existing labels to an existing person.',
+	audience: 'both',
+	aiMetadata: { description: 'Set the label(s) on an existing person by ID using pre-existing label definitions. Pick this to tag/categorize a known person; it replaces the person\'s label_ids with the supplied set rather than merging, so include all labels that should remain. Mutates the person record.', idempotent: false },
 	props: {
 		personId: personIdProp(true),
 		labelIds: labelIdsProp('person', 'label_ids', true),

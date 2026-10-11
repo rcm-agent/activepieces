@@ -24,9 +24,13 @@ import dayjs from 'dayjs';
 export const newOrUpdatedRecord = createTrigger({
   auth: vtigerAuth,
   name: 'new_or_updated_record',
+  classification: 'READ',
   displayName: 'New or Updated Record',
   description:
     'Triggers when a new record is introduced or a record is updated.',
+  aiMetadata: {
+    description: 'Fires when a record in the selected Vtiger module (element type) is created or modified, polling the sync API. Whether new records, updated records, or both fire is governed by the watched timestamp column (created time vs. modified time); the sync scope can be limited to the user, their groups, or the whole application.',
+  },
   props: {
     elementType: elementTypeProperty,
     watchBy: Property.StaticDropdown({

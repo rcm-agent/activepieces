@@ -4,19 +4,13 @@ import {
   TriggerStrategy,
 } from '@activepieces/pieces-framework';
 import {
-  AuthenticationType,
   HttpMethod,
   httpClient,
 } from '@activepieces/pieces-common';
-import { zendeskAuth } from '../..';
+import { zendeskAuth } from '../auth';
+import { getZendeskAuthentication, getZendeskBaseUrl } from '../common/client';
 
 const WEBHOOK_TRIGGER_KEY = 'zendesk_suspended_ticket_webhook';
-
-type AuthProps = {
-  email: string;
-  token: string;
-  subdomain: string;
-};
 
 interface ZendeskTicket {
   id: number;
@@ -34,8 +28,12 @@ interface ZendeskTicket {
 
 export const newSuspendedTicket = createTrigger({
   name: 'new_suspended_ticket',
+  classification: 'READ',
   displayName: 'New Suspended Ticket',
   description: 'Fires when a ticket is suspended. Requires a Zendesk Trigger with Notify active webhook. Suspended tickets auto-delete after 14 days.',
+  aiMetadata: {
+    description: 'Fires when a ticket transitions to suspended status in Zendesk, delivered via a registered webhook. Represents a ticket flagged as suspended (which auto-deletes after 14 days); can optionally be scoped to a single organization ID. Requires a Zendesk Trigger configured to notify the active webhook.',
+  },
   auth: zendeskAuth,
   props: {
     organization_filter: Property.ShortText({
@@ -114,16 +112,12 @@ export const newSuspendedTicket = createTrigger({
       const response = await httpClient.sendRequest<{
         webhook: { id: string };
       }>({
-        url: `https://${authentication.props.subdomain}.zendesk.com/api/v2/webhooks`,
+        url: `${getZendeskBaseUrl(authentication)}/webhooks`,
         method: HttpMethod.POST,
         headers: {
           'Content-Type': 'application/json',
         },
-        authentication: {
-          type: AuthenticationType.BASIC,
-          username: authentication.props.email + '/token',
-          password: authentication.props.token,
-        },
+        authentication: getZendeskAuthentication(authentication),
         body: {
           webhook: {
             name: `Activepieces Suspended Ticket Webhook - ${Date.now()}`,
@@ -149,13 +143,9 @@ export const newSuspendedTicket = createTrigger({
     if (webhookId) {
       try {
         await httpClient.sendRequest({
-          url: `https://${authentication.props.subdomain}.zendesk.com/api/v2/webhooks/${webhookId}`,
+          url: `${getZendeskBaseUrl(authentication)}/webhooks/${webhookId}`,
           method: HttpMethod.DELETE,
-          authentication: {
-            type: AuthenticationType.BASIC,
-            username: authentication.props.email + '/token',
-            password: authentication.props.token,
-          },
+          authentication: getZendeskAuthentication(authentication),
         });
       } catch (error) {
         console.warn(`Warning: Failed to delete webhook ${webhookId}:`, (error as Error).message);

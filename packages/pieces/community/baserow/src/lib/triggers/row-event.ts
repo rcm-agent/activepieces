@@ -2,6 +2,7 @@ import { createTrigger, TriggerStrategy } from '@activepieces/pieces-framework';
 import { baserowAuth } from '../auth';
 import { baserowCommon, makeClient } from '../common';
 import { createWebhookTriggerHooks, dynamicWebhookInstructions } from '../common/webhook-trigger';
+import { rowEventTriggerOutputSchema } from '../output-schemas';
 
 const triggerHooks = createWebhookTriggerHooks({
   events: ['rows.created', 'rows.updated', 'rows.deleted'],
@@ -10,10 +11,16 @@ const triggerHooks = createWebhookTriggerHooks({
 
 export const rowEventTrigger = createTrigger({
   name: 'baserow_row_event',
+  classification: 'READ',
+  outputSchema: rowEventTriggerOutputSchema,
   auth: baserowAuth,
   displayName: 'Any Row Change',
   description:
     'Triggers when a row is created, updated, or deleted in a Baserow table. To react to only one event type, use the dedicated New Row, Updated Row, or Deleted Row triggers.',
+  aiMetadata: {
+    description:
+      'Fires on any row change — create, update, or delete — in the selected Baserow table, tagging each event with its event_type. Use when one flow should handle all row lifecycle events; for a single event type use the dedicated New Row, Updated Row, or Deleted Row triggers.',
+  },
   type: TriggerStrategy.WEBHOOK,
   props: {
     table_id: baserowCommon.tableId(),

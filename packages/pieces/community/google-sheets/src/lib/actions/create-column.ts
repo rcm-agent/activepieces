@@ -7,28 +7,38 @@ import {
 	getHeaderRow,
 	ValueInputOption,
 } from '../common/common';
-import { google } from 'googleapis';
+import { sheets as googleSheets } from '@googleapis/sheets';
 import { getWorkSheetName } from '../triggers/helpers';
 import { commonProps } from '../common/props';
+import { createColumnActionOutputSchema } from '../output-schemas';
 
 export const createColumnAction = createAction({
 	auth: googleSheetsAuth,
 	name: 'create-column',
-	displayName: 'Create Spreadsheet Column',
-	description: 'Creates a new column in a specific spreadsheet.',
+	classification: 'WRITE',
+	displayName: 'Create Column',
+	description: 'Add a new column to a worksheet.',
+	audience: 'human',
+	aiMetadata: {
+		description:
+			'Inserts a new column into a worksheet and writes a header name into its first row, either at a given column index or after the last existing column. Use when an agent needs to add a field to a sheet. Not idempotent — each call inserts another column.',
+		idempotent: false,
+	},
 	props: {
 		...commonProps,
 		columnName: Property.ShortText({
 			displayName: 'Column Name',
+			description: 'The header text for the new column.',
 			required: true,
 		}),
 		columnIndex: Property.Number({
 			displayName: 'Column Index',
 			description:
-				'The column index starts from 1.For example, if you want to add a column to the third column, enter 3.Ff the input is less than 1 the column will be added after the last current column.',
+				'Position of the new column, counting from 1. Empty adds it last.',
 			required: false,
 		}),
 	},
+	outputSchema: createColumnActionOutputSchema,
 	async run(context) {
 		const { spreadsheetId, sheetId, columnName, columnIndex } = context.propsValue;
 
@@ -37,7 +47,7 @@ export const createColumnAction = createAction({
 		}
 
 		const authClient = await createGoogleClient(context.auth);
-		const sheets = google.sheets({ version: 'v4', auth: authClient });
+		const sheets = googleSheets({ version: 'v4', auth: authClient });
 
 		let columnLabel;
 

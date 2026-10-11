@@ -1,5 +1,6 @@
+import { AIProviderName, isNil } from '@activepieces/core-utils'
 import { PropertyType } from '@activepieces/pieces-framework'
-import { AIProviderName, isNil, McpToolDefinition, ProjectScopedMcpServer } from '@activepieces/shared'
+import { McpToolDefinition, ProjectScopedMcpServer } from '@activepieces/shared'
 import { FastifyBaseLogger } from 'fastify'
 import { z } from 'zod'
 import { aiProviderService } from '../../ai/ai-provider-service'
@@ -17,7 +18,7 @@ export const apSetupGuideTool = (mcp: ProjectScopedMcpServer, log: FastifyBaseLo
         title: 'ap_setup_guide',
         description: 'Get setup instructions for connections or AI providers. Returns steps for the user to follow in the UI.',
         inputSchema: setupGuideInput.shape,
-        annotations: { readOnlyHint: true, openWorldHint: false },
+        annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
         execute: async (args) => {
             try {
                 const { topic, pieceName } = setupGuideInput.parse(args)
@@ -28,7 +29,7 @@ export const apSetupGuideTool = (mcp: ProjectScopedMcpServer, log: FastifyBaseLo
                 return await aiProviderGuide(mcp, log)
             }
             catch (err) {
-                log.error({ err, projectId: mcp.projectId }, 'ap_setup_guide failed')
+                log.error({ error: err, project: { id: mcp.projectId } }, 'ap_setup_guide failed')
                 return mcpUtils.mcpToolError('Failed to generate setup guide', err)
             }
         },
@@ -68,7 +69,7 @@ async function connectionGuide(mcp: ProjectScopedMcpServer, log: FastifyBaseLogg
     })
 
     if (isNil(piece)) {
-        return { content: [{ type: 'text', text: `❌ Piece "${pieceName}" not found. Use ap_list_pieces to find valid piece names.` }] }
+        return { content: [{ type: 'text', text: `❌ Piece "${pieceName}" not found. Use ap_research_pieces to find valid piece names.` }] }
     }
 
     const rawAuth = piece.auth
@@ -189,7 +190,7 @@ function formatAuthSteps({ auth, displayName }: { auth: Record<string, unknown>,
 
 async function aiProviderGuide(mcp: ProjectScopedMcpServer, log: FastifyBaseLogger): Promise<{ content: [{ type: 'text', text: string }] }> {
     const project = await projectService(log).getOneOrThrow(mcp.projectId)
-    const providers = await aiProviderService(log).listProviders(project.platformId)
+    const providers = await aiProviderService(log).listForProject({ platformId: project.platformId, projectId: mcp.projectId })
 
     const lines: string[] = []
 

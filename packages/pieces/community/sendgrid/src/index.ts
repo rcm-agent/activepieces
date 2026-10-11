@@ -1,6 +1,11 @@
 import { createCustomApiCallAction } from '@activepieces/pieces-common';
 import { createPiece } from '@activepieces/pieces-framework';
-import { PieceCategory } from '@activepieces/shared';
+import { PieceCategory } from '@activepieces/pieces-framework';
+import { addToGlobalSuppression } from './lib/actions/add-to-global-suppression';
+import { checkGlobalSuppression } from './lib/actions/check-global-suppression';
+import { createOrUpdateContact } from './lib/actions/create-or-update-contact';
+import { findListByName } from './lib/actions/find-list-by-name';
+import { removeFromGlobalSuppression } from './lib/actions/remove-from-global-suppression';
 import { sendDynamicTemplate } from './lib/actions/send-dynamic-template';
 import { sendEmail } from './lib/actions/send-email';
 import { getApiKey, getBaseUrl, sendgridAuth, SendgridAuthValue } from './lib/common';
@@ -14,12 +19,17 @@ export const sendgrid = createPiece({
 
   minimumSupportedRelease: '0.30.0',
   logoUrl: 'https://cdn.activepieces.com/pieces/sendgrid.png',
-  authors: ['ashrafsamhouri', 'kishanprmr', 'MoShizzle', 'khaledmashaly', 'abuaboud', 'Thijs-Attenza'],
+  authors: ['ashrafsamhouri', 'kishanprmr', 'MoShizzle', 'khaledmashaly', 'abuaboud', 'Thijs-Attenza', 'sanket-a11y'],
   categories: [PieceCategory.COMMUNICATION, PieceCategory.MARKETING],
   auth: sendgridAuth,
   actions: [
     sendEmail,
     sendDynamicTemplate,
+    createOrUpdateContact,
+    findListByName,
+    addToGlobalSuppression,
+    removeFromGlobalSuppression,
+    checkGlobalSuppression,
     createCustomApiCallAction({
       baseUrl: (auth) => getBaseUrl(auth as SendgridAuthValue),
       auth: sendgridAuth,

@@ -7,8 +7,15 @@ import { leadIdDropdown, transactionIdDropdown } from '../common/props';
 export const updateTransaction = createAction({
   auth: loftyAuth,
   name: 'updateTransaction',
+  classification: 'WRITE',
   displayName: 'Update Transaction',
   description: 'Update a transaction for a Lofty lead',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Updates an existing transaction on a Lofty lead, identified by both the lead id and transaction id, sending only the provided fields (amount, property details, dates, agent, source, note). Use to amend a known deal rather than create one. Idempotent: applying the same field values repeatedly leaves the transaction in the same state.',
+    idempotent: true,
+  },
   props: {
     leadId: leadIdDropdown,
     transactionId: transactionIdDropdown,

@@ -36,8 +36,13 @@ const polling: Polling<
 
 export const newIssue = createTrigger({
 	name: 'new_issue',
+	classification: 'READ',
 	displayName: 'New Issue',
 	description: 'Triggers when a new issue is created',
+	aiMetadata: {
+		description:
+			'Fires when a new issue is created in Jira Data Center/Server (polls for issues by creation time). An optional JQL filter narrows which issues are watched (e.g. a specific project or type); each newly created matching issue emits one event.',
+	},
 	auth: jiraDataCenterAuth,
 	type: TriggerStrategy.POLLING,
 	props: {

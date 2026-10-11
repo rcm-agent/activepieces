@@ -6,8 +6,11 @@ import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 export const moveTask = createAction({
   auth: motionAuth,
   name: 'moveTask',
+  classification: 'WRITE',
   displayName: 'Move Task',
   description: 'Moves a task to a different workspace.',
+  audience: 'both',
+  aiMetadata: { description: 'Moves an existing Motion task to a different workspace. Use when an agent needs to relocate a known task between workspaces. Requires the task ID and the target workspace ID. Idempotent: moving a task to a workspace it already belongs to leaves it in the same state.', idempotent: true },
   props: {
     workspaceId:workspaceId('Current Workspace'),
     taskId:taskId,

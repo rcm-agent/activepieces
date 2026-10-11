@@ -1,10 +1,5 @@
-import {
-    AIProviderModel,
-    AIProviderModelType,
-    BedrockProviderAuthConfig,
-    BedrockProviderConfig,
-    isNil,
-} from '@activepieces/shared'
+import { isNil } from '@activepieces/core-utils'
+import { AIProviderModel, AIProviderModelType, BedrockProviderAuthConfig, BedrockProviderConfig } from '@activepieces/shared'
 
 import {
     BedrockClient,
@@ -39,6 +34,7 @@ BedrockProviderConfig
             credentials: {
                 accessKeyId: authConfig.accessKeyId,
                 secretAccessKey: authConfig.secretAccessKey,
+                sessionToken: authConfig.sessionToken,
             },
         })
 

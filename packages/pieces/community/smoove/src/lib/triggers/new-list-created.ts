@@ -72,8 +72,12 @@ const polling: Polling<AppConnectionValueForAuthProperty<typeof smooveAuth>, {
 export const newListCreated = createTrigger({
     auth: smooveAuth,
     name: 'newListCreated',
+    classification: 'READ',
     displayName: 'New List Created',
     description: 'Fires when a new mailing list is created in your Smoove account',
+    aiMetadata: {
+      description: 'Fires when a new mailing list is created in the connected Smoove account, polling the Lists endpoint to detect newly added lists.',
+    },
     props: {
         fields: Property.ShortText({
             displayName: 'Fields to Include',

@@ -6,8 +6,12 @@ import { CreateWebhookResponse } from '../common/types';
 export const contactNoteAddedTrigger = createTrigger({
   auth: tarventAuth,
   name: 'tarvent_contact_note_added',
+  classification: 'READ',
   displayName: 'Contact Note Added',
   description: 'Triggers when a note is added to a contact.',
+  aiMetadata: {
+    description: 'Fires when a note is added to a contact in Tarvent. Represents new annotation activity logged against a contact.',
+  },
   type: TriggerStrategy.WEBHOOK,
   props: {
     include: tarventCommon.include,

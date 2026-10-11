@@ -6,8 +6,13 @@ import { HttpMethod } from '@activepieces/pieces-common';
 export const newRoom = createTrigger({
   auth: webexAuth,
   name: 'newRoom',
+  classification: 'READ',
   displayName: 'New room',
   description: 'Triggers when a new room is created',
+  aiMetadata: {
+    description:
+      'Fires when a new Webex room (space) is created in the organization, delivering the room creation event via webhook.',
+  },
   props: {},
   sampleData: {
     id: 'Y2lzY29zcGFyazovL3VybjpURUFNOnVzLWVhc3QtMS9XRUJIT09LLzEyMzQ1Njc4LWFiYzEtNGRlZi1hYmNkLWU5ODc2NTQzMjEwMQ',

@@ -1,17 +1,5 @@
-import {
-    ActivepiecesError,
-    ApEdition,
-    apId,
-    ConfigureRepoRequest,
-    ErrorCode,
-
-    GitBranchType,
-    GitPushOperationType,
-    GitRepo,
-    isNil,
-    ProjectState,
-    PushGitRepoRequest,
-    SeekPage } from '@activepieces/shared'
+import { ActivepiecesError, apId, ErrorCode, isNil, SeekPage } from '@activepieces/core-utils'
+import { ApEdition, ConfigureRepoRequest, GitBranchType, GitPushOperationType, GitRepo, ProjectState, PushGitRepoRequest } from '@activepieces/shared'
 import { FastifyBaseLogger } from 'fastify'
 import { repoFactory } from '../../../../core/db/repo-factory'
 import { paginationHelper } from '../../../../helper/pagination/pagination-utils'
@@ -24,9 +12,9 @@ import { GitRepoEntity } from './git-sync.entity'
 
 const repo = repoFactory(GitRepoEntity)
 
-export const gitRepoService = (_log: FastifyBaseLogger) => ({
+export const gitRepoService = (log: FastifyBaseLogger) => ({
     async upsert(request: ConfigureRepoRequest): Promise<GitRepo> {
-        await gitHelper.validateConnection(request)
+        await gitHelper.validateConnection({ request, log })
 
         const existingRepo = await repo().findOneBy({ projectId: request.projectId })
         const id = existingRepo?.id ?? apId()

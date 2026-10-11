@@ -7,8 +7,11 @@ import { API_ENDPOINTS, AI_MODELS, FORMALITY_LEVELS, LANGUAGES } from '../common
 export const createEmail = createAction({
   auth: textcortexAuth,
   name: 'create_email',
+  classification: 'READ',
   displayName: 'Create Email',
   description: 'Compose an email using context, recipient ("To"), and sender ("From") metadata.',
+  audience: 'both',
+  aiMetadata: { description: 'Draft an email with TextCortex AI from supplied context plus optional sender/recipient. Pick an email mode (reply, general, customer support, cold, or from-bullets) which unlocks mode-specific inputs such as the received email and instructions for replies, purpose for cold outreach, or company details for support. Not idempotent: each call produces fresh, non-deterministic text and consumes account credits.', idempotent: false },
   props: {
     context: Property.LongText({
       displayName: 'Context',

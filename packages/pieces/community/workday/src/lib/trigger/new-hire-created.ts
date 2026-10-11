@@ -32,8 +32,13 @@ const polling: Polling<AppConnectionValueForAuthProperty<typeof workdayAuth>, Re
 export const newHireCreated = createTrigger({
 	auth: workdayAuth,
 	name: 'new_hire_created',
+	classification: 'READ',
 	displayName: 'New Hire Created',
 	description: 'Triggers when a new employee is hired in Workday.',
+	aiMetadata: {
+		description:
+			'Fires for each worker hired in Workday after the trigger was enabled, detected by polling workers by hire date. Represents an employee onboarding event. Use to drive onboarding workflows (account provisioning, welcome notifications).',
+	},
 	props: {},
 	sampleData: {
 		id: '3aa5550b7fe348b98d7b5741afc65534',

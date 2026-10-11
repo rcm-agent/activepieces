@@ -1,7 +1,7 @@
 import { createTrigger, TriggerStrategy, Property } from '@activepieces/pieces-framework';
 import { HttpError } from '@activepieces/pieces-common';
 import { dimoAuth } from '../../auth';
-import { WebhookHandshakeStrategy } from '@activepieces/shared';
+import { WebhookHandshakeStrategy } from '@activepieces/pieces-framework';
 import { DimoClient, getNumberExpression } from '../../common/helpers';
 import { CreateWebhookParams, WebhookInfo, WebhookPayload } from '../../common/types';
 import { TriggerField } from '../../common/constants';
@@ -12,8 +12,13 @@ const TRIGGER_KEY = 'dimo-speed-trigger';
 export const speedTrigger = createTrigger({
 	auth: dimoAuth,
 	name: 'speed-trigger',
+	classification: 'READ',
 	displayName: 'Speed Trigger',
 	description: 'Triggers when vehicle speed meets specified conditions.',
+	aiMetadata: {
+		description:
+			'Fires via DIMO webhook when a monitored vehicle reports a speed reading (km/h) that satisfies the configured comparison operator against the threshold. Each event represents a single speed telemetry signal and includes the vehicle token ID, timestamp, and the measured speed value. Use to detect speeding, movement, or a vehicle coming to a stop.',
+	},
 	type: TriggerStrategy.WEBHOOK,
 
 	props: {

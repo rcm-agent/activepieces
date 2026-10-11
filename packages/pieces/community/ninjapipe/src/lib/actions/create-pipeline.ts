@@ -6,8 +6,11 @@ import { ninjapipeApiCall, flattenCustomFields, getAuth } from '../common';
 export const createPipeline = createAction({
   auth: ninjapipeAuth,
   name: 'create_pipeline',
+  classification: 'WRITE',
   displayName: 'Create Pipeline',
   description: 'Creates a new pipeline.',
+  audience: 'both',
+  aiMetadata: { description: 'Creates a new pipeline of a given type (contacts, deals, or general) with at least one stage, each stage needing an id, name, and hex color. Requires name, pipeline type, and a non-empty stages array. Not idempotent: each call creates another pipeline.', idempotent: false },
   props: {
     name: Property.ShortText({ displayName: 'Name', required: true }),
     pipelineType: Property.StaticDropdown({

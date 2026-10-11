@@ -9,8 +9,15 @@ import { escapeWql, workdayWqlRequest } from '../common';
 export const findSupplierInvoice = createAction({
 	auth: workdayAuth,
 	name: 'find_supplier_invoice',
+	classification: 'READ',
 	displayName: 'Find Supplier Invoice',
 	description: 'Finds a supplier invoice by ID in Workday using WQL.',
+	audience: 'both',
+	aiMetadata: {
+		description:
+			'Looks up a single supplier invoice by its ID via a Workday Query Language (WQL) query against the supplierInvoices dataset. Use to resolve or verify a supplier invoice when you already have its ID. Read-only and idempotent.',
+		idempotent: true,
+	},
 	props: {
 		invoiceId: Property.ShortText({
 			displayName: 'Invoice ID',

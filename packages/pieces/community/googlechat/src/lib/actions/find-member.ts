@@ -7,8 +7,14 @@ import { googleChatAPIService } from '../common/requests';
 export const findMember = createAction({
   auth: googleChatApiAuth,
   name: 'findMember',
+  classification: 'READ',
   displayName: 'Find Member',
   description: 'Search space member by email',
+  audience: 'both',
+  aiMetadata: {
+    description: 'Looks up a member of a given Google Chat space by their email address, returning the matching membership or an error message if the email is not found or the person is not in that space. Use to resolve an email to a space member before acting on them. Read-only and idempotent.',
+    idempotent: true,
+  },
   props: {
     spaceId: spacesDropdown({ refreshers: ['auth'], required: true }),
     email: Property.ShortText({

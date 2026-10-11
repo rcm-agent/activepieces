@@ -1,9 +1,9 @@
+import { isNil } from '@activepieces/core-utils';
 import {
   FlowActionType,
   flowStructureUtil,
   FlowTriggerType,
   FlowVersion,
-  isNil,
   Note,
   Step,
 } from '@activepieces/shared';
@@ -53,6 +53,7 @@ export const FlowCanvas = React.memo(
       selectStepByName,
       rightSidebar,
       notes,
+      canvasOrientation,
     ] = useBuilderStateContext((state) => {
       return [
         state.flowVersion,
@@ -63,6 +64,7 @@ export const FlowCanvas = React.memo(
         state.selectStepByName,
         state.rightSidebar,
         state.flowVersion.notes,
+        state.canvasOrientation,
       ];
     });
     const containerRef = useRef<HTMLDivElement>(null);
@@ -83,9 +85,17 @@ export const FlowCanvas = React.memo(
       },
       [setSelectedNodes, selectedStep],
     );
-    const graphKey = createGraphKey(flowVersion, notes, selectedStep ?? '');
+    const graphKey = `${createGraphKey(
+      flowVersion,
+      notes,
+      selectedStep ?? '',
+    )}-${canvasOrientation}`;
     const graph = useMemo(() => {
-      return flowCanvasUtils.createFlowGraph(flowVersion, notes);
+      return flowCanvasUtils.createFlowGraph({
+        version: flowVersion,
+        notes,
+        orientation: canvasOrientation,
+      });
     }, [graphKey]);
     const [contextMenuType, setContextMenuType] = useState<ContextMenuType>(
       ContextMenuType.CANVAS,
@@ -150,7 +160,8 @@ export const FlowCanvas = React.memo(
       selectedSteps.forEach((step) => {
         if (
           step.type === FlowActionType.LOOP_ON_ITEMS ||
-          step.type === FlowActionType.ROUTER
+          flowStructureUtil.isBranchedAction(step) ||
+          flowStructureUtil.hasContinueOnFailureBranches(step)
         ) {
           const childrenNotSelected = flowStructureUtil
             .getAllChildSteps(step)
@@ -193,7 +204,7 @@ export const FlowCanvas = React.memo(
     return (
       <div
         ref={containerRef}
-        className="size-full relative overflow-hidden z-30 bg-builder-background"
+        className="size-full relative overflow-hidden z-30 bg-gray-2"
         onMouseMove={(event) => {
           const cursorPosition = { x: event.clientX, y: event.clientY };
           setCursorPosition(cursorPosition);
@@ -202,7 +213,8 @@ export const FlowCanvas = React.memo(
         <FlowDragLayer>
           <CanvasContextMenu contextMenuType={contextMenuType}>
             <ReactFlow
-              className="bg-builder-background"
+              key={`canvas-${canvasOrientation}`}
+              className="bg-gray-2"
               onContextMenu={onContextMenu}
               onPaneClick={() => {
                 reactFlowStore.getState().unselectNodesAndEdges();
@@ -239,8 +251,8 @@ export const FlowCanvas = React.memo(
                 gap={10}
                 size={1}
                 variant={BackgroundVariant.Dots}
-                bgColor={`var(--builder-background)`}
-                color={`var(--builder-background-pattern)`}
+                bgColor={`var(--gray-2)`}
+                color={`var(--gray-8)`}
               />
               <Minimap key={graphKey} />
             </ReactFlow>
@@ -257,6 +269,7 @@ const getChildrenKey = (step: Step) => {
     case FlowActionType.LOOP_ON_ITEMS:
       return step.firstLoopAction ? step.firstLoopAction.name : '';
     case FlowActionType.ROUTER:
+    case FlowActionType.AI_ROUTER:
       return step.children.reduce((routerKey, child) => {
         const childrenKey = child
           ? flowStructureUtil
@@ -269,8 +282,21 @@ const getChildrenKey = (step: Step) => {
         return `${routerKey}-${childrenKey}`;
       }, '');
     case FlowActionType.CODE:
-    case FlowActionType.PIECE:
-      return '';
+    case FlowActionType.PIECE: {
+      const cofEnabled = flowStructureUtil.hasContinueOnFailureBranches(step);
+      const branches = step.continueOnFailureBranches;
+      const onSuccessKey = branches?.onSuccess
+        ? flowStructureUtil
+            .getAllSteps(branches.onSuccess)
+            .reduce((acc, s) => `${acc}-${s.name}`, '')
+        : 'null';
+      const onFailureKey = branches?.onFailure
+        ? flowStructureUtil
+            .getAllSteps(branches.onFailure)
+            .reduce((acc, s) => `${acc}-${s.name}`, '')
+        : 'null';
+      return `cof:${cofEnabled}-success:${onSuccessKey}-failure:${onFailureKey}`;
+    }
   }
 };
 const createGraphKey = (
@@ -281,10 +307,9 @@ const createGraphKey = (
   const flowGraphKey = flowStructureUtil
     .getAllSteps(flowVersion.trigger)
     .reduce((acc, step) => {
-      const branchesNames =
-        step.type === FlowActionType.ROUTER
-          ? step.settings.branches.map((branch) => branch.branchName).join('-')
-          : '0';
+      const branchesNames = flowStructureUtil.isBranchedAction(step)
+        ? step.settings.branches.map((branch) => branch.branchName).join('-')
+        : '0';
       const childrenKey = getChildrenKey(step);
       return `${acc}-${step.displayName}-${step.type}-${
         step.nextAction ? step.nextAction.name : ''

@@ -4,8 +4,11 @@ import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 
 export const createOrgPaymentAction = createAction({
   name: 'create_org_payment',
+  classification: 'WRITE',
   displayName: 'Create Organization Payment Info',
   description: 'Create payment information for your organization',
+  audience: 'both',
+  aiMetadata: { description: 'Attach a payment method to the organization billing profile, given an existing payment method ID. Use for the org (the user has separate payment actions); this writes new billing data, so calling again may create duplicate or conflicting records.', idempotent: false },
   auth: zooAuth,
   // category: 'Payments',
   props: {

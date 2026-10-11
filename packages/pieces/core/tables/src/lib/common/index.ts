@@ -1,7 +1,7 @@
 import { AuthenticationType, httpClient, HttpMethod } from "@activepieces/pieces-common";
 import { DynamicPropsValue, PieceAuth, Property } from "@activepieces/pieces-framework";
-import { assertNotNullOrUndefined, CreateTableWebhookRequest, Field, FieldType, MarkdownVariant, PopulatedRecord, SeekPage, StaticDropdownEmptyOption, Table, TableWebhookEventType, ListTablesRequest } from "@activepieces/shared";
-import { z } from 'zod';
+import { assertNotNullOrUndefined, CreateTableWebhookRequest, Field, FieldType, MarkdownVariant, PopulatedRecord, SeekPage, StaticDropdownEmptyOption, Table, TableWebhookEventType, ListTablesRequest } from "@activepieces/pieces-framework";
+import * as z from 'zod/mini'
 import qs from 'qs';
 
 type FormattedRecord = {
@@ -21,6 +21,8 @@ const getFieldTypeText = (fieldType: FieldType) => {
       return 'Single Select';
     case FieldType.DATE:
       return 'Date';
+    case FieldType.DATETIME:
+      return 'Date & Time';
     case FieldType.NUMBER:
       return 'Number';
     case FieldType.TEXT:
@@ -30,10 +32,9 @@ const getFieldTypeText = (fieldType: FieldType) => {
 export const tablesCommon = {
   table_id: Property.Dropdown({
     auth: PieceAuth.None(),
-    displayName: 'Table Name',
+    displayName: 'Table',
     required: true,
     refreshers: [],
-    refreshOnSearch: true,
     options: async (_propsValue, context) => {
       try {
         const tables = await fetchAllTables(context);
@@ -60,7 +61,7 @@ export const tablesCommon = {
 
   record_id: Property.ShortText({
     displayName: 'Record ID',
-    description: 'The ID of the record to do the action on.',
+    description: 'Usually comes from a Find Records step or a table trigger.',
     required: true,
   }),
 
@@ -81,25 +82,26 @@ export const tablesCommon = {
   },
 
   createFieldValidations(tableFields: Field[]) {
-    const fieldValidations: Record<string, z.ZodType> = {};
+    const fieldValidations: Record<string, z.core.$ZodType> = {};
     tableFields.forEach(field => {
       switch (field.type) {
         case FieldType.NUMBER:
-          fieldValidations[field.externalId] = z.union([z.number(), z.string().transform(val => {
+          fieldValidations[field.externalId] = z.optional(z.union([z.number(), z.pipe(z.string(), z.transform(val => {
             const num = Number(val);
             if (isNaN(num)) throw new Error(`Invalid number for field "${field.name}"`);
             return num;
-          })]).optional();
+          }))]));
           break;
         case FieldType.DATE:
-          fieldValidations[field.externalId] = z.union([z.date(), z.string().transform(val => {
+        case FieldType.DATETIME:
+          fieldValidations[field.externalId] = z.optional(z.union([z.date(), z.pipe(z.string(), z.transform(val => {
             const date = new Date(val);
             if (isNaN(date.getTime())) throw new Error(`Invalid date for field "${field.name}"`);
             return date;
-          })]).optional();
+          }))]));
           break;
         default:
-          fieldValidations[field.externalId] = z.string().optional();
+          fieldValidations[field.externalId] = z.optional(z.string());
       }
     });
     return fieldValidations;
@@ -112,7 +114,7 @@ export const tablesCommon = {
       const tableFields = await this.getTableFields({ tableId, context });
       if (!Array.isArray(tableFields) || tableFields.length === 0) {
         fields['markdown'] = Property.MarkDown({
-          value: `We couldn't find any fields in the selected table. Please add fields to the table first.`,
+          value: `This table has no fields yet. Add fields to the table first.`,
           variant: MarkdownVariant.INFO,
         });
         return fields;
@@ -130,6 +132,7 @@ export const tablesCommon = {
             });
             break;
           case FieldType.DATE:
+          case FieldType.DATETIME:
             fields[field.externalId] = Property.DateTime({
               displayName: field.name,
               description,
@@ -162,7 +165,7 @@ export const tablesCommon = {
     } catch (e) {
       console.error('Error fetching fields:', e);
       fields['markdown'] = Property.MarkDown({
-        value: `We couldn't find any fields in the selected table. Please add fields to the table first.`,
+        value: `Couldn't load the fields of this table. Try again.`,
         variant: MarkdownVariant.INFO,
       });
 

@@ -12,8 +12,11 @@ import dayjs from 'dayjs';
 export const createTicketAction = createAction({
 	auth: intercomAuth,
 	name: 'create-ticket',
+	classification: 'WRITE',
 	displayName: 'Create Ticket',
 	description: 'Creates a new ticket.',
+	audience: 'both',
+	aiMetadata: { description: 'Create a new ticket of a given ticket type for a contact, optionally tied to a company, with type-specific ticket attributes (date-like strings are converted to timestamps). Always creates a new ticket, so it is not idempotent. To change an existing ticket instead, use Update Ticket.', idempotent: false },
 	props: {
 		ticketTypeId: ticketTypeIdProp('Ticket Type', true),
 		contactId: contactIdProp('Contact ID', null, true),

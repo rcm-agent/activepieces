@@ -7,8 +7,11 @@ import { formIdDropdown } from '../common/props';
 export const deleteEntryAction = createAction({
   auth: cognitoFormsAuth,
   name: 'delete_entry',
+  classification: 'DESTRUCTIVE',
   displayName: 'Delete Entry',
   description: 'Deletes a specified entry.',
+  audience: 'both',
+  aiMetadata: { description: 'Permanently deletes a single entry from a Cognito Forms form, identified by its entry ID. Choose this to remove a specific submission you can identify by ID. Idempotent: once the entry is gone, repeating the call converges to the same deleted state.', idempotent: true },
   props: {
     formId: formIdDropdown,
     entryId: Property.ShortText({

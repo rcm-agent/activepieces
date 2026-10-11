@@ -5,8 +5,11 @@ import { pocketbaseAuthenticate, normalizeHost } from '../common/client';
 
 export const createRecord = createAction({
   name: 'createRecord',
+  classification: 'WRITE',
   displayName: 'Create Record',
   description: 'Creates a new record in a collection',
+  audience: 'both',
+  aiMetadata: { description: 'Creates a new record in a PocketBase collection from a JSON object of field values. Use to insert data; this is not idempotent — each call creates a distinct record (PocketBase assigns a fresh ID), so repeating it produces duplicates. To change an existing record use Update Record instead.', idempotent: false },
   auth: pocketbaseAuth,
   props: {
     collection: Property.ShortText({

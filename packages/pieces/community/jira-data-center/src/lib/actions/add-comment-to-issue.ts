@@ -7,8 +7,15 @@ import { getIssueIdDropdown, getProjectIdDropdown } from '../common/props';
 export const addCommentToIssueAction = createAction({
 	auth: jiraDataCenterAuth,
 	name: 'add_issue_comment',
+	classification: 'WRITE',
 	displayName: 'Add Issue Comment',
 	description: 'Adds a comment to an issue.',
+	audience: 'both',
+	aiMetadata: {
+		description:
+			'Posts a new comment on a Jira Data Center/Server issue. Use to add a note, update, or reply to an existing issue. Not idempotent — each call appends another comment.',
+		idempotent: false,
+	},
 	props: {
 		projectId: getProjectIdDropdown(),
 		issueId: getIssueIdDropdown({ refreshers: ['projectId'] }),

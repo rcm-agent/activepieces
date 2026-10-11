@@ -9,6 +9,12 @@ export const createProduct = createAction({
   name: 'createProduct',
   displayName: 'Create Product',
   description: 'Create a new product in MoonInvoice',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Creates a new product (catalog item) under a MoonInvoice company that can later be added to invoices, estimates, or credit notes. Use when adding a sellable item with its costs, codes, and stock/serial/batch options. Requires the company and a product name; buy/sales tax IDs are supplied as JSON arrays. Not idempotent — each call creates a new product even with the same name.',
+    idempotent: false,
+  },
   props: {
     companyId: companyIdProp,
     productName: Property.ShortText({
@@ -179,12 +185,12 @@ export const createProduct = createAction({
       context.auth.props.secret_text
     );
 
-    const response = await makeRequest(
+    const response = await makeRequest({
       accessToken,
-      HttpMethod.POST,
-      '/add_product',
-      body
-    );
+      method: HttpMethod.POST,
+      path: '/add_product',
+      body,
+    });
 
     return response;
   },

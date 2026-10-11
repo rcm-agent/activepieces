@@ -1,4 +1,5 @@
-import { apId, FieldType, McpToolDefinition, Permission, ProjectScopedMcpServer } from '@activepieces/shared'
+import { apId, Permission } from '@activepieces/core-utils'
+import { FieldType, McpToolDefinition, ProjectScopedMcpServer } from '@activepieces/shared'
 import { FastifyBaseLogger } from 'fastify'
 import { z } from 'zod'
 import { fieldService } from '../../tables/field/field.service'
@@ -13,23 +14,29 @@ const createTableInput = z.object({
         type: fieldTypeSchema.describe('Field type'),
         options: z.array(z.string()).optional().describe('Dropdown options (required when type is STATIC_DROPDOWN)'),
     })).describe('Fields to create. Max 100 fields per table.'),
+    folderName: mcpUtils.FOLDER_NAME_SCHEMA,
 })
 
 export const apCreateTableTool = (mcp: ProjectScopedMcpServer, log: FastifyBaseLogger): McpToolDefinition => {
     return {
         title: 'ap_create_table',
         permission: Permission.WRITE_TABLE,
-        description: 'Create a new table with an initial set of fields. Types: TEXT, NUMBER, DATE, STATIC_DROPDOWN.',
+        description: 'Create a new table with an initial set of fields. Types: TEXT, NUMBER, DATE, DATETIME, STATIC_DROPDOWN. DATE and DATETIME both hold an ISO-8601 UTC timestamp; DATETIME additionally shows and edits the time of day.',
         inputSchema: createTableInput.shape,
-        annotations: { destructiveHint: false, idempotentHint: false, openWorldHint: false },
+        annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false },
         execute: async (args) => {
             try {
-                const { name, fields } = createTableInput.parse(args)
+                const { name, fields, folderName } = createTableInput.parse(args)
 
                 for (const field of fields) {
                     if (field.type === FieldType.STATIC_DROPDOWN && (!field.options || field.options.length === 0)) {
                         return { content: [{ type: 'text', text: `❌ Field "${field.name}" is STATIC_DROPDOWN but no options provided.` }] }
                     }
+                }
+
+                const folder = await mcpUtils.resolveFolder({ projectId: mcp.projectId, folderName, log })
+                if (folder.error) {
+                    return folder.error
                 }
 
                 const fieldStates = fields.map(f => ({
@@ -47,6 +54,7 @@ export const apCreateTableTool = (mcp: ProjectScopedMcpServer, log: FastifyBaseL
                         projectId: mcp.projectId,
                         name,
                         fields: fieldStates,
+                        folderId: folder.folderId,
                     },
                 })
 
@@ -59,12 +67,19 @@ export const apCreateTableTool = (mcp: ProjectScopedMcpServer, log: FastifyBaseL
                 return {
                     content: [{
                         type: 'text',
-                        text: `✅ Table "${name}" created (id: ${table.id})\nFields:\n${fieldLines}`,
+                        text: `✅ Table "${name}" created (id: ${table.id}, externalId: ${table.externalId})${mcpUtils.folderSuffix(folder.folderName)}\nFields:\n${fieldLines}\n\nℹ️ Use "id" with the record/field tools; use "externalId" as table_id when configuring a Tables piece step in a flow.`,
                     }],
+                    structuredContent: {
+                        id: table.id,
+                        externalId: table.externalId,
+                        name: table.name,
+                        folderName: folder.folderName ?? null,
+                        fields: createdFields.map(f => ({ id: f.id, externalId: f.externalId, name: f.name, type: f.type })),
+                    },
                 }
             }
             catch (err) {
-                log.error({ err, projectId: mcp.projectId }, 'ap_create_table failed')
+                log.error({ error: err, project: { id: mcp.projectId } }, 'ap_create_table failed')
                 return mcpUtils.mcpToolError('Failed to create table', err)
             }
         },

@@ -26,8 +26,11 @@ import {
 export const createLeadAction = createAction({
     auth: hunterAuth,
     name: 'create-lead',
+    classification: 'WRITE',
     displayName: 'Create Lead',
     description: 'Create and store a lead record.',
+    audience: 'both',
+    aiMetadata: { description: 'Creates a new lead record in the Hunter account with contact and company details, optionally assigning it to a leads list and setting custom attributes. Use to persist a prospect for later outreach or tracking. Not idempotent — each call creates a separate lead even with identical input.', idempotent: false },
     props: {
         email: emailProp,
         first_name: firstNameProp,

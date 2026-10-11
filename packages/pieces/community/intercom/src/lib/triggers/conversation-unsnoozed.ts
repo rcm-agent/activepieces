@@ -5,8 +5,12 @@ import { intercomClient } from '../common';
 export const conversationUnsnoozed = createTrigger({
 	// auth: check https://www.activepieces.com/docs/developers/piece-reference/authentication,
 	name: 'conversationUnsnoozed',
+	classification: 'READ',
 	displayName: 'Conversation unsnoozed',
 	description: 'Triggers when a conversation is unsnoozed',
+	aiMetadata: {
+		description: 'Fires when a previously snoozed conversation is unsnoozed in Intercom, either because its snooze period elapsed or an admin reopened it manually, returning it to an active state. Outputs the conversation object that was unsnoozed.',
+	},
 	props: {},
 	sampleData: undefined,
 	auth: intercomAuth,

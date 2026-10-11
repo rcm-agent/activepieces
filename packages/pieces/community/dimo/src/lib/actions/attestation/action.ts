@@ -6,8 +6,11 @@ import { HttpError } from '@activepieces/pieces-common';
 const createVinVcAction = createAction({
 	auth: dimoAuth,
 	name: 'attestation-create-vin-vc',
+	classification: 'WRITE',
 	displayName: 'Attestation : Create VIN VC',
 	description: 'Generates the VIN VC for a given vehicle.',
+	audience: 'both',
+	aiMetadata: { description: 'Generate a VIN Verifiable Credential (VIN VC) for a DIMO vehicle, identified by its numeric vehicle token ID. This is a minting/attestation call that produces a fresh signed credential each time, so it is not idempotent; use it when an agent needs an on-chain-verifiable attestation of a vehicle\'s VIN rather than just reading current VIN data.', idempotent: false },
 	props: {
 		vehicleTokenId: Property.Number({
 			displayName: 'Vehicle Token ID',

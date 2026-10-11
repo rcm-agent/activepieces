@@ -6,8 +6,12 @@ import { HttpMethod } from '@activepieces/pieces-common';
 export const newContactAddedTrigger = createTrigger({
   auth: kommoAuth,
   name: 'new_contact_added',
+  classification: 'READ',
   displayName: 'New Contact Added',
   description: 'Triggers when a new contact is added.',
+  aiMetadata: {
+    description: 'Fires when a new contact is created in the Kommo CRM account, emitting the full new contact record. Represents a person being added to the CRM, regardless of source.',
+  },
   type: TriggerStrategy.WEBHOOK,
   props: {},
   async onEnable(context) {

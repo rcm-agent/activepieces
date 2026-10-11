@@ -7,8 +7,11 @@ import { API_ENDPOINTS, AI_MODELS, FORMALITY_LEVELS, LANGUAGES } from '../common
 export const createParaphrase = createAction({
   auth: textcortexAuth,
   name: 'create_paraphrase',
+  classification: 'READ',
   displayName: 'Create Paraphrase',
   description: 'Rewrite text while preserving its meaning.',
+  audience: 'both',
+  aiMetadata: { description: 'Rewrite text via TextCortex AI to express the same meaning in different wording. Provide the content either as inline text or as a stored file ID (one is required); supports a default or embeddings rewrite mode plus model, formality, and language options. Not idempotent: each call produces fresh, non-deterministic output and consumes account credits.', idempotent: false },
   props: {
     text: Property.LongText({
       displayName: 'Text to Paraphrase',

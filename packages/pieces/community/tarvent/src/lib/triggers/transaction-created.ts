@@ -6,8 +6,12 @@ import { CreateWebhookResponse } from '../common/types';
 export const transactionCreatedTrigger = createTrigger({
   auth: tarventAuth,
   name: 'tarvent_transaction_created',
+  classification: 'READ',
   displayName: 'Transaction Created',
   description: 'Triggers when a transactional email is created for a known or unknown contact.',
+  aiMetadata: {
+    description: 'Fires when a transactional email is created (queued) for a known or unknown contact, before it is sent. Represents a newly initiated transactional message.',
+  },
   type: TriggerStrategy.WEBHOOK,
   props: {
     include: tarventCommon.include,

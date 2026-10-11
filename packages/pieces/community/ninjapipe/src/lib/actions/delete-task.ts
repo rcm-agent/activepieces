@@ -6,8 +6,11 @@ import { ninjapipeApiCall, getAuth, ninjapipeCommon } from '../common';
 export const deleteTask = createAction({
   auth: ninjapipeAuth,
   name: 'delete_task',
+  classification: 'DESTRUCTIVE',
   displayName: 'Delete Task',
   description: 'Deletes a task within a project. Subtasks may cascade.',
+  audience: 'both',
+  aiMetadata: { description: 'Permanently delete a task by ID within a given project; any subtasks may be cascade-deleted along with it. Requires both the project ID and the task ID. Use only when the task should be removed outright; the operation is irreversible and safe to retry since re-deleting settles to the same removed state.', idempotent: true },
   props: {
     projectId: ninjapipeCommon.projectDropdownRequired,
     taskId: ninjapipeCommon.taskDropdown,

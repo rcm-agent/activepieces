@@ -7,9 +7,16 @@ import dayjs from 'dayjs';
 export const declareCertificationFolderToTake = createAction({
   auth: wedofAuth,
   name: 'declareCertificationFolderToTake',
+  classification: 'WRITE',
   displayName: "Passer un dossier de certification à l'état : Prêt à passer",
   description:
     "Change l'état d'un dossier de certification vers : Prêt à passer",
+  audience: 'both',
+  aiMetadata: {
+    description:
+      "Transition a Wedof certification folder into the 'toTake' (ready-to-take) state, optionally recording enrollment/exam dates, exam type and place, and a third-time accommodation flag. Pick this when the candidate is cleared to sit the exam; it follows the certification-folder state machine (typically after 'registered') and is not idempotent — re-running re-posts the transition. Requires the folder's externalId.",
+    idempotent: false,
+  },
   props: {
     externalId: Property.ShortText({
       displayName: 'N° du dossier de certification',

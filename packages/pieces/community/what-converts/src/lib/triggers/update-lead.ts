@@ -4,8 +4,12 @@ import { whatConvertsAuth } from '../common/auth';
 export const updatedLeadTrigger = createTrigger({
   auth: whatConvertsAuth,
   name: 'updated_lead',
+  classification: 'READ',
   displayName: 'Updated Lead',
   description: 'Fires when an existing lead is updated in WhatConverts.',
+  aiMetadata: {
+    description: 'Fires when an existing WhatConverts lead is updated — for example when its quotable status, sales value, contact details, or attribution change. Delivers the updated lead record. Requires the WhatConverts webhook to be configured to send "update" lead events.',
+  },
   props: {},
   sampleData: {
     trigger: 'update',

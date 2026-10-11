@@ -1,5 +1,5 @@
+import { isNil } from '@activepieces/core-utils';
 import {
-  isNil,
   PopulatedFlow,
   TelemetryEventName,
   UncategorizedFolderId,
@@ -137,17 +137,19 @@ const ImportFlowDialog = (
         }),
       );
 
+      setIsDialogOpen(false);
+
+      if (props.insideBuilder) {
+        navigate(`/flow-import-redirect/${flows[0].id}`);
+        return;
+      }
+
       if (flows.length === 1) {
         navigate(`/flows/${flows[0].id}`);
         return;
       }
-      setIsDialogOpen(false);
-      if (flows.length === 1 || props.insideBuilder) {
-        navigate(`/flow-import-redirect/${flows[0].id}`);
-      }
-      if (!props.insideBuilder) {
-        props.onRefresh();
-      }
+
+      props.onRefresh();
     },
     onError: (err) => {
       if (
@@ -249,7 +251,7 @@ const ImportFlowDialog = (
             </Alert>
           )}
           <div className="w-full flex flex-col gap-2 justify-between items-start">
-            <span className="w-16 text-sm font-medium text-gray-700">
+            <span className="w-16 text-sm font-medium text-gray-11">
               {t('Flow')}
             </span>
             <Input
@@ -262,7 +264,7 @@ const ImportFlowDialog = (
           </div>
           {!props.insideBuilder && !embedState.hideFolders && (
             <div className="w-full flex flex-col gap-2 justify-between items-start">
-              <span className="w-16 text-sm font-medium text-gray-700">
+              <span className="w-16 text-sm font-medium text-gray-11">
                 {t('Folder')}
               </span>
               {isLoading ? (

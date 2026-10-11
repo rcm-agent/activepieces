@@ -6,8 +6,11 @@ import { trueLayerCommon } from '../../common';
 export const getPayout = createAction({
   auth: trueLayerCommon.auth,
   name: 'get-payout',
+  classification: 'READ',
   displayName: 'Get payout',
   description: 'Returns payout details. ',
+  audience: 'both',
+  aiMetadata: { description: 'Retrieve the details and current status of a single payout by its ID. Use to check the outcome or state of a payout you previously created; read-only and safe to repeat.', idempotent: true },
   props: {
     id: Property.ShortText({
       displayName: 'ID of the payout',

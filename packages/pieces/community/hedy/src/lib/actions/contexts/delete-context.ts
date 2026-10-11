@@ -8,8 +8,14 @@ import { assertIdPrefix } from '../../common/validation';
 export const deleteContext = createAction({
   auth: hedyAuth,
   name: 'delete-context',
+  classification: 'DESTRUCTIVE',
   displayName: 'Delete Session Context',
   description: 'Delete a session context.',
+  audience: 'both',
+  aiMetadata: {
+    description: 'Permanently delete a Hedy session context identified by a context ID (must be prefixed with "ctx_"). Idempotent in effect: once deleted, repeating the call leaves the context absent (a repeat may error if the context no longer exists).',
+    idempotent: true,
+  },
   props: {
     contextId: commonProps.contextId,
   },

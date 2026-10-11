@@ -4,8 +4,11 @@ import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 
 export const convertLengthAction = createAction({
   name: 'convert_length',
+  classification: 'READ',
   displayName: 'Convert Length',
   description: 'Convert length measurements between different units',
+  audience: 'both',
+  aiMetadata: { description: 'Convert a single length value between units such as meters, kilometers, centimeters, millimeters, inches, feet, yards, and miles. Use only for length/distance; other quantities have their own dedicated convert actions. Read-only calculation that returns the same result for the same inputs.', idempotent: true },
   auth: zooAuth,
   // category: 'Unit Conversion',
   props: {

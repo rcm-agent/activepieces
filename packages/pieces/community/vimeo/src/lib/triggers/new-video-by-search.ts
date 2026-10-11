@@ -52,8 +52,12 @@ const polling: Polling<AppConnectionValueForAuthProperty<typeof vimeoAuth>, Prop
 
 export const newVideoBySearch = createTrigger({
   name: 'new_video_by_search',
+  classification: 'READ',
   displayName: 'New Video by Search',
   description: 'Triggers when a new video is added that matches a search query',
+  aiMetadata: {
+    description: 'Fires when a newly published public video on Vimeo matches the configured search query. Polls Vimeo\'s global video search sorted by date and emits each new match, letting an agent monitor public content by keyword.',
+  },
   auth: vimeoAuth,
   props: {
     query: Property.ShortText({

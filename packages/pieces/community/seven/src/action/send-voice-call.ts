@@ -6,8 +6,14 @@ import { callSevenApi } from '../common';
 export const sendVoiceCallAction = createAction({
   auth: sevenAuth,
   name: 'send-voice-call',
+  classification: 'WRITE',
   displayName: 'Send Voice Call',
   description: 'Creates a new Text-To-Speech call to a number.',
+  audience: 'both',
+  aiMetadata: {
+    description: 'Places an automated Text-To-Speech voice call via the seven gateway to one or more recipient numbers, reading out the provided message text. Use to deliver a spoken notification rather than a text message; an optional custom sender can be set. Each call initiates a new outbound call, so it is not idempotent.',
+    idempotent: false,
+  },
   props: {
     to: Property.ShortText({
       description: 'Recipient number(s) of the voice calls.',

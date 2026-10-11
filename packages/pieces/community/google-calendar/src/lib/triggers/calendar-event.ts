@@ -5,10 +5,11 @@ import { getEvents } from '../common/helper';
 import { GoogleCalendarEvent } from '../common/types';
 import { googleCalendarAuth } from '../common';
 import { DedupeStrategy, Polling, pollingHelper } from '@activepieces/pieces-common';
+import { eventOutputSchema } from '../output-schemas';
 
 const polling: Polling<
     AppConnectionValueForAuthProperty<typeof googleCalendarAuth>,
-	{ calendarId?: string; expandRecurringEvent: boolean }
+	{ calendarId?: string; expandRecurringEvent?: boolean }
 > = {
 	strategy: DedupeStrategy.TIMEBASED,
 	items: async ({ auth, propsValue: { calendarId, expandRecurringEvent }, lastFetchEpochMS }) => {
@@ -23,7 +24,7 @@ const polling: Polling<
 		}
 
 		const currentValues: GoogleCalendarEvent[] =
-			(await getEvents(calendarId!, expandRecurringEvent, auth, minUpdated)) ?? [];
+			(await getEvents(calendarId!, expandRecurringEvent ?? false, auth, minUpdated)) ?? [];
 		const items = currentValues.map((item) => ({
 			epochMilliSeconds: new Date(item.updated).getTime(),
 			data: item,
@@ -36,14 +37,18 @@ export const calendarEventChanged = createTrigger({
 	// docs: https://developers.google.com/calendar/api/guides/push
 	auth: googleCalendarAuth,
 	name: 'new_or_updated_event',
+	classification: 'READ',
 	displayName: 'New or Updated Event',
 	description: 'Triggers when an event is added or updated',
+	aiMetadata: {
+		description: 'Fires when any event in the selected calendar is created or modified, polling by last-updated time. Each fired item is the affected event; can optionally expand recurring events so every occurrence fires separately.',
+	},
 	props: {
 		calendar_id: googleCalendarCommon.calendarDropdown(),
 		expandRecurringEvent: Property.Checkbox({
-			displayName: 'Expand Recurring Event?',
-			description: 'If true, the trigger will activate for every occurrence of a recurring event.',
-			required: true,
+			displayName: 'Expand Recurring Events',
+			description: 'Fires once per occurrence of a recurring event.',
+			required: false,
 			defaultValue: false,
 		}),
 	},
@@ -93,6 +98,7 @@ export const calendarEventChanged = createTrigger({
 		},
 		eventType: 'default',
 	},
+	outputSchema: eventOutputSchema,
 	type: TriggerStrategy.POLLING,
 	async test({ store, auth, propsValue, files }) {
 		return await pollingHelper.test(polling, {

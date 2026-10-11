@@ -4,9 +4,12 @@ import { sendyAuth } from '../auth';
 
 export const getListsAction = createAction({
   name: 'get_brand_lists',
+  classification: 'SEARCH',
   auth: sendyAuth,
   displayName: 'Get Lists for a Brand',
   description: 'Get the Lists for a Brand',
+  audience: 'both',
+  aiMetadata: { description: 'Retrieves the email lists belonging to the brand configured in the connection, optionally including hidden lists. Use to discover available list IDs before subscribing, unsubscribing, or sending a campaign. Read-only and idempotent.', idempotent: true },
   props: {
     includeHidden: Property.Checkbox({
       displayName: 'Include Hidden Lists',

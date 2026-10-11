@@ -6,8 +6,11 @@ import { confluencePaginatedApiCall } from '../common';
 export const listSpacesAction = createAction({
 	auth: confluenceAuth,
 	name: 'list-spaces',
+	classification: 'SEARCH',
 	displayName: 'List Spaces',
 	description: 'Lists all spaces the authenticated user can access.',
+	audience: 'both',
+	aiMetadata: { description: 'Lists the Confluence spaces the authenticated user can access (paginated through all results), optionally filtered by space type (global, personal, collaboration, knowledge base) and status (current or archived). Use to discover available spaces or resolve a space to its ID. Read-only and idempotent.', idempotent: true },
 	props: {
 		type: Property.StaticDropdown({
 			displayName: 'Type',

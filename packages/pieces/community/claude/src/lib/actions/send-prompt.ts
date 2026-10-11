@@ -7,71 +7,74 @@ import Anthropic from '@anthropic-ai/sdk';
 import mime from 'mime-types';
 import { claudeAuth } from '../auth';
 import { TextBlock } from '@anthropic-ai/sdk/resources';
-import { z } from 'zod';
+import * as z from 'zod/mini'
 import { propsValidation } from '@activepieces/pieces-common';
-import { billingIssueMessage, modelOptions, unauthorizedMessage } from '../common/common';
+import { isNil } from '@activepieces/pieces-framework';
+import { spreadIfDefined } from '@activepieces/pieces-framework';
+import { billingIssueMessage, modelDropdown, unauthorizedMessage } from '../common/common';
+import { askClaudeActionOutputSchema } from '../output-schemas';
 const DEFAULT_TOKENS_FOR_THINKING_MODE = 1024;
 export const askClaude = createAction({
+  audience: 'both',
   auth: claudeAuth,
   name: 'ask_claude',
+  classification: 'READ',
   displayName: 'Ask Claude',
-  description: 'Ask Claude anything you want!',
+  description: 'Send a question or instruction to Claude and get a text reply.',
+  aiMetadata: { description: 'Sends a free-form question or instruction to a chosen Anthropic Claude model and returns the reply as plain text, optionally with an image attached for vision and earlier user/assistant turns supplied as Roles for multi-turn context; enabling Extended Thinking Mode routes the call to Claude 3.7 Sonnet with a separate reasoning token budget. Prefer the sibling Extract Structured Data action when the answer must be constrained to defined fields rather than prose. Requires a model and a question, with temperature between 0 and 1; not idempotent, since each call is a fresh generation that can return different text.', idempotent: false },
   props: {
-    model: Property.StaticDropdown({
-      displayName: 'Model',
+    model: modelDropdown,
+    prompt: Property.LongText({
+      displayName: 'Question',
+      description: 'What you want Claude to answer or do.',
       required: true,
-      description:
-        'The model which will generate the completion. Some models are suitable for natural language tasks, others specialize in code.',
-      defaultValue: 'claude-3-haiku-20240307',
-      options: {
-        disabled: false,
-        options: modelOptions,
-      },
     }),
     systemPrompt: Property.LongText({
       displayName: 'System Prompt',
+      description:
+        'Standing instructions, such as a role or tone, for Claude to follow.',
       required: false,
       defaultValue: "You're a helpful assistant.",
     }),
-    temperature: Property.Number({
-      displayName: 'Temperature',
+    image: Property.File({
+      displayName: 'Image',
       required: false,
-      description:
-        'Controls randomness: Lowering results in less random completions. As the temperature approaches zero, the model will become deterministic and repetitive.',
+      description: 'An image for Claude to look at along with your question.',
     }),
     maxTokens: Property.Number({
       displayName: 'Maximum Tokens',
       required: false,
       description:
-        "The maximum number of tokens to generate. Requests can use up to 2,048 or 4,096 tokens shared between prompt and completion, don't set the value to maximum and leave some tokens for the input. The exact limit varies by model. (One token is roughly 4 characters for normal English text)",
+        'Longest reply in tokens, about 4 characters each. Empty: 1,000.',
     }),
-    prompt: Property.LongText({
-      displayName: 'Question',
-      required: true,
-    }),
-    image: Property.File({
-      displayName: 'Image (URL)',
+    temperature: Property.Number({
+      displayName: 'Temperature',
       required: false,
-      description: 'URL of image to be used as input for the model.',
+      advanced: true,
+      description: 'From 0 to 1. Lower is more focused, higher is more varied.',
     }),
     roles: Property.Json({
       displayName: 'Roles',
       required: false,
+      advanced: true,
       defaultValue: [],
-      description: `Array of roles to specify more accurate response.Please check [guide to Input Messages](https://docs.anthropic.com/en/api/messages-examples#vision).`,
+      description:
+        'Extra messages sent after the question, as user or assistant turns.',
     }),
     thinkingMode: Property.Checkbox({
       displayName: 'Extended Thinking Mode',
       required: false,
+      advanced: true,
       defaultValue: false,
       description:
-        'Uses claude 3.7 sonnet enhanced reasoning capabilities for complex tasks.',
+        'Lets Claude reason first. Uses Claude 3.7 Sonnet, regardless of Model.',
     }),
     thinkingModeParams: Property.DynamicProperties({
       auth: claudeAuth,
       displayName: '',
       refreshers: ['thinkingMode'],
       required: false,
+      advanced: true,
       props: async ({ auth, thinkingMode }) => {
         if (!auth || !thinkingMode) return {};
 
@@ -82,16 +85,17 @@ export const askClaude = createAction({
           required: true,
           defaultValue: DEFAULT_TOKENS_FOR_THINKING_MODE,
           description:
-            'This parameter determines the maximum number of tokens Claude is allowed to use for its internal reasoning process.Your budget tokens must always be less than the max tokens specified.',
+            'Tokens Claude may spend reasoning. Must be below Maximum Tokens.',
         });
 
         return props;
       },
     }),
   },
+  outputSchema: askClaudeActionOutputSchema,
   async run({ auth, propsValue }) {
     await propsValidation.validateZod(propsValue, {
-      temperature: z.number().min(0).max(1.0).optional(),
+      temperature: z.optional(z.number().check(z.minimum(0), z.maximum(1.0))),
     });
 
     const anthropic = new Anthropic({
@@ -104,10 +108,9 @@ export const askClaude = createAction({
     if (propsValue.model) {
       model = propsValue.model;
     }
-    let temperature = 0.5;
-    if (propsValue.temperature) {
-      temperature = Number(propsValue.temperature);
-    }
+    const temperature = isNil(propsValue.temperature)
+      ? undefined
+      : Number(propsValue.temperature);
     let maxTokens = 1000;
     if (propsValue.maxTokens) {
       maxTokens = Number(propsValue.maxTokens);
@@ -185,15 +188,16 @@ export const askClaude = createAction({
             .filter((block) => block.type === 'text')[0]
             .text.trim();
         } else {
-          const req = await anthropic?.messages.create({
+          const params: Anthropic.Messages.MessageCreateParamsNonStreaming = {
             model: model,
             max_tokens: maxTokens,
-            temperature: temperature,
             system: systemPrompt,
             messages: roles,
-          });
+            ...spreadIfDefined('temperature', temperature),
+          };
+          const req = await anthropic.messages.create(params);
 
-          response = (req?.content[0] as TextBlock).text?.trim();
+          response = (req.content[0] as TextBlock).text?.trim();
         }
 
         break; // Break out of the loop if the request is successful

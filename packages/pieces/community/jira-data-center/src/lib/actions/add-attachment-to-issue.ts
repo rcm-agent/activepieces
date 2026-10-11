@@ -8,8 +8,15 @@ import { getProjectIdDropdown, getIssueIdDropdown } from '../common/props';
 export const addAttachmentToIssueAction = createAction({
 	auth: jiraDataCenterAuth,
 	name: 'add_issue_attachment',
+	classification: 'WRITE',
 	displayName: 'Add Attachment to Issue',
 	description: 'Adds an attachment to an issue.',
+	audience: 'both',
+	aiMetadata: {
+		description:
+			'Uploads a file and attaches it to a Jira Data Center/Server issue. Use to add a document, image, or log to an existing issue. Not idempotent — each call adds another attachment, even if the same file was already attached.',
+		idempotent: false,
+	},
 	props: {
 		projectId: getProjectIdDropdown(),
 		issueId: getIssueIdDropdown({ refreshers: ['projectId'] }),

@@ -4,8 +4,11 @@ import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 
 export const createApiTokenAction = createAction({
   name: 'create_api_token',
+  classification: 'WRITE',
   displayName: 'Create API Token',
   description: 'Create a new API token for your user account',
+  audience: 'both',
+  aiMetadata: { description: 'Create a new API token on the authenticated user\'s account with the given name and return the token value. Use to provision programmatic access for the user. Not idempotent: each call mints a distinct token even if the name repeats.', idempotent: false },
   auth: zooAuth,
   // category: 'API Tokens',
   props: {

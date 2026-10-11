@@ -1,12 +1,16 @@
+import { apId, ApId } from '@activepieces/core-utils'
 import { apDayjsDuration } from '@activepieces/server-utils'
-import { apId, ApId, FlowRunStatus, RunEnvironment } from '@activepieces/shared'
+import { FailedStep, FlowRunStatus, RunEnvironment } from '@activepieces/shared'
 import { Queue } from 'bullmq'
-import { BullMQOtel } from 'bullmq-otel'
 import Redis from 'ioredis'
 import { DistributedStore } from '../../database/redis/distributed-store-factory'
 import { QueueName } from './index'
 
-export const redisMetadataKey = (runId: ApId): string => `runs_metadata:${runId}`
+export const redisMetadataKey = ({ projectId, runId }: RedisMetadataKeyParams): string => `runs_metadata:${projectId}:${runId}`
+
+export const legacyRedisMetadataKey = (runId: ApId): string => `runs_metadata:${runId}`
+
+export const runsMetadataDeduplicationId = ({ projectId, runId }: RedisMetadataKeyParams): string => `${projectId}-${runId}`
 
 export const runsMetadataQueueFactory = ({
     createRedisConnection,
@@ -18,7 +22,6 @@ export const runsMetadataQueueFactory = ({
         async init(config: RunsMetadataQueueConfig): Promise<void> {
             queueInstance = new Queue<RunsMetadataJobData>(QueueName.RUNS_METADATA, {
                 connection: await createRedisConnection(),
-                telemetry: config.isOtelEnabled ? new BullMQOtel(QueueName.RUNS_METADATA) : undefined,
                 defaultJobOptions: {
                     attempts: 5,
                     backoff: {
@@ -42,7 +45,7 @@ export const runsMetadataQueueFactory = ({
 
             const cleanedParams = stripToRunsMetadataUpsertData(params)
 
-            await distributedStore.merge(redisMetadataKey(cleanedParams.id), {
+            await distributedStore.merge(redisMetadataKey({ projectId: cleanedParams.projectId, runId: cleanedParams.id }), {
                 ...cleanedParams,
                 requestId: apId(),
             })
@@ -50,7 +53,7 @@ export const runsMetadataQueueFactory = ({
             await queueInstance.add(
                 'update-run-metadata',
                 { runId: cleanedParams.id, projectId: cleanedParams.projectId },
-                { deduplication: { id: cleanedParams.id } },
+                { deduplication: { id: runsMetadataDeduplicationId({ projectId: cleanedParams.projectId, runId: cleanedParams.id }) } },
             )
         },
 
@@ -72,6 +75,7 @@ const RUNS_METADATA_UPSERT_KEYS: (keyof RunsMetadataUpsertData)[] = [
     'triggeredBy', 'startTime', 'finishTime', 'status', 'tags',
     'failedStep', 'stepNameToTest', 'parentRunId', 'failParentOnFailure',
     'logsFileId', 'updated', 'stepsCount', 'requestId',
+    'provisionMs', 'bootMs', 'runMs', 'willRetry',
 ]
 
 function stripToRunsMetadataUpsertData(params: RunsMetadataUpsertData): RunsMetadataUpsertData {
@@ -82,6 +86,11 @@ function stripToRunsMetadataUpsertData(params: RunsMetadataUpsertData): RunsMeta
         }
     }
     return result as RunsMetadataUpsertData
+}
+
+type RedisMetadataKeyParams = {
+    projectId: ApId
+    runId: ApId
 }
 
 type RunsMetadataQueueFactoryParams = {
@@ -95,7 +104,6 @@ export type RunsMetadataJobData = {
 }
 
 export type RunsMetadataQueueConfig = {
-    isOtelEnabled: boolean
     redisFailedJobRetentionDays: number
     redisFailedJobRetentionMaxCount: number
 }
@@ -112,7 +120,7 @@ export type RunsMetadataUpsertData = {
     finishTime?: string | null
     status?: FlowRunStatus
     tags?: string[]
-    failedStep?: { name: string, displayName: string }
+    failedStep?: FailedStep
     stepNameToTest?: string
     parentRunId?: string
     failParentOnFailure?: boolean
@@ -120,4 +128,9 @@ export type RunsMetadataUpsertData = {
     updated?: string
     stepsCount?: number
     requestId?: string
+    // Transient worker-measured phase durations, merged then folded into the `timeline` column. Not persisted directly.
+    provisionMs?: number
+    bootMs?: number
+    runMs?: number
+    willRetry?: boolean
 }

@@ -6,8 +6,15 @@ import { pubrioRequest } from '../common';
 export const lookupCompany = createAction({
   auth: pubrioAuth,
   name: 'lookup_company',
+  classification: 'READ',
   displayName: 'Lookup Company',
   description: 'Look up detailed company information by domain or LinkedIn URL',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Enrich a single known company and return its firmographic profile, given one identifier selected via lookup_type: domain, LinkedIn URL, domain_search_id, or domain_id (integer). Read-only and repeatable. Use when you already have one company and want its details; to discover companies from criteria use a search action, and for live LinkedIn scraping use Company LinkedIn Lookup.',
+    idempotent: true,
+  },
   props: {
     lookup_type: Property.StaticDropdown({
       displayName: 'Lookup Type',

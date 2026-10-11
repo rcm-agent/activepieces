@@ -7,8 +7,11 @@ import { invoiceninjaAuth } from '../..';
 export const createTask = createAction({
   auth: invoiceninjaAuth,
   name: 'create_task',
+  classification: 'WRITE',
   displayName: 'Create Task',
   description: 'Creates a task instance in Invoice Ninja for billing purposes.',
+  audience: 'both',
+  aiMetadata: { description: 'Creates a billable task in Invoice Ninja, identified by a task/ticket number that must be unique (not previously used). Optionally associates the task with a client and project and applies a custom hourly rate. Not idempotent — each call creates a new task.', idempotent: false },
 
   props: {
     number: Property.LongText({

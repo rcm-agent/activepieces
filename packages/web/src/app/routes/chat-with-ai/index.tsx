@@ -1,9 +1,13 @@
+import { isNil, isObject, SeekPage } from '@activepieces/core-utils';
+import { AgentConversation } from '@activepieces/shared';
 import { useQueryClient } from '@tanstack/react-query';
 import { t } from 'i18next';
 import { Ellipsis, Pencil, Trash2 } from 'lucide-react';
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'sonner';
 
+import { PlusIcon } from '@/components/icons/plus';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -12,10 +16,23 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
+import { Skeleton } from '@/components/ui/skeleton';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { chatApi } from '@/features/chat/lib/chat-api';
+import { chatUtils } from '@/features/chat/lib/chat-utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 import { AIChatBox } from './ai-chat-box';
+import { ConversationSidebarToggle } from './components/conversation-sidebar-toggle';
+import { TypewriterText } from './components/typewriter-text';
 import { ConversationList } from './conversation-list';
+
+const SIDEBAR_PINNED_STORAGE_KEY = 'chat-sidebar-pinned';
 
 export function ChatWithAIPage() {
   const queryClient = useQueryClient();
@@ -23,6 +40,12 @@ export function ChatWithAIPage() {
   const { conversationId: urlConversationId } = useParams<{
     conversationId: string;
   }>();
+  const location = useLocation();
+  const handedOverPrompt =
+    isObject(location.state) && typeof location.state.prompt === 'string'
+      ? location.state.prompt
+      : undefined;
+  const [initialPrompt, setInitialPrompt] = useState(handedOverPrompt);
   const [resetKey, setResetKey] = useState(0);
   const [pendingConversationId, setPendingConversationId] = useState<
     string | null
@@ -30,16 +53,38 @@ export function ChatWithAIPage() {
   const [conversationTitle, setConversationTitle] = useState<string | null>(
     null,
   );
+  const [titleResolved, setTitleResolved] = useState(false);
   const [isRenaming, setIsRenaming] = useState(false);
   const [renameValue, setRenameValue] = useState('');
   const renameCancelledRef = useRef(false);
+  const [sidebarPinned, setSidebarPinned] = useState(
+    () => localStorage.getItem(SIDEBAR_PINNED_STORAGE_KEY) === 'true',
+  );
+  const isMobile = useIsMobile();
+
+  useEffect(() => {
+    if (isNil(handedOverPrompt)) {
+      return;
+    }
+    navigate(location.pathname, { replace: true, state: null });
+  }, [handedOverPrompt, location.pathname, navigate]);
+
+  const toggleSidebar = useCallback(() => {
+    setSidebarPinned((prev) => {
+      const next = !prev;
+      localStorage.setItem(SIDEBAR_PINNED_STORAGE_KEY, String(next));
+      return next;
+    });
+  }, []);
 
   const selectedConversationId = urlConversationId ?? null;
 
   const handleNewChat = useCallback(() => {
+    setInitialPrompt(undefined);
     setResetKey((k) => k + 1);
     setPendingConversationId(null);
     setConversationTitle(null);
+    setTitleResolved(false);
     navigate('/chat', { replace: true });
   }, [navigate]);
 
@@ -47,6 +92,7 @@ export function ChatWithAIPage() {
     (conversationId: string) => {
       setPendingConversationId(null);
       setConversationTitle(null);
+      setTitleResolved(false);
       navigate(`/chat/${conversationId}`, {
         replace: true,
       });
@@ -56,6 +102,7 @@ export function ChatWithAIPage() {
 
   const handleConversationCreated = useCallback(
     (conversationId: string) => {
+      setInitialPrompt(undefined);
       setPendingConversationId(conversationId);
       window.history.replaceState(null, '', `/chat/${conversationId}`);
       void queryClient.invalidateQueries({
@@ -66,19 +113,13 @@ export function ChatWithAIPage() {
   );
 
   const handleTitleUpdate = useCallback(
-    (title: string, conversationId?: string) => {
+    (title: string) => {
       setConversationTitle(title);
       void queryClient.invalidateQueries({
         queryKey: ['chat-conversations'],
       });
-      if (conversationId && !selectedConversationId) {
-        setPendingConversationId(null);
-        navigate(`/chat/${conversationId}`, {
-          replace: true,
-        });
-      }
     },
-    [queryClient, selectedConversationId, navigate],
+    [queryClient],
   );
 
   const handleRename = useCallback(async () => {
@@ -96,30 +137,35 @@ export function ChatWithAIPage() {
       await chatApi.updateConversation(convId, {
         title: renameValue.trim(),
       });
-      setConversationTitle(renameValue.trim());
+      const currentConvId = selectedConversationId ?? pendingConversationId;
+      if (currentConvId === convId) {
+        setConversationTitle(renameValue.trim());
+      }
       void queryClient.invalidateQueries({
         queryKey: ['chat-conversations'],
       });
     } catch {
-      // keep existing title on failure
+      toast.error(t('Failed to rename conversation'));
     } finally {
       renameCancelledRef.current = false;
       setIsRenaming(false);
     }
   }, [selectedConversationId, pendingConversationId, renameValue, queryClient]);
 
-  const handleDelete = useCallback(async () => {
+  const handleDelete = useCallback(() => {
     const convId = selectedConversationId ?? pendingConversationId;
     if (!convId) return;
-    try {
-      await chatApi.deleteConversation(convId);
-      void queryClient.invalidateQueries({
-        queryKey: ['chat-conversations'],
-      });
-      handleNewChat();
-    } catch {
-      // silently fail — conversation stays
-    }
+    handleNewChat();
+    chatApi.deleteConversation(convId).then(
+      () => {
+        void queryClient.invalidateQueries({
+          queryKey: ['chat-conversations'],
+        });
+      },
+      () => {
+        toast.error(t('Failed to delete conversation'));
+      },
+    );
   }, [
     selectedConversationId,
     pendingConversationId,
@@ -133,9 +179,13 @@ export function ChatWithAIPage() {
     chatApi
       .getConversation(selectedConversationId)
       .then((conv) => {
-        if (!cancelled && conv.title) setConversationTitle(conv.title);
+        if (cancelled) return;
+        if (conv.title) setConversationTitle(conv.title);
+        setTitleResolved(true);
       })
-      .catch(() => undefined);
+      .catch(() => {
+        if (!cancelled) setTitleResolved(true);
+      });
     return () => {
       cancelled = true;
     };
@@ -156,20 +206,71 @@ export function ChatWithAIPage() {
     return () => window.removeEventListener('keydown', handler);
   }, [handleNewChat]);
 
+  useEffect(() => {
+    const handler = () => handleNewChat();
+    window.addEventListener(chatUtils.newChatEvent, handler);
+    return () => window.removeEventListener(chatUtils.newChatEvent, handler);
+  }, [handleNewChat]);
+
   const activeConversationId = selectedConversationId ?? pendingConversationId;
-  const displayTitle = conversationTitle ?? t('New conversation');
+  const cachedTitle = useMemo(() => {
+    if (conversationTitle) return conversationTitle;
+    if (!selectedConversationId) return null;
+    const cached = queryClient.getQueryData<SeekPage<AgentConversation>>([
+      'chat-conversations',
+    ]);
+    return (
+      cached?.data?.find((c) => c.id === selectedConversationId)?.title ?? null
+    );
+  }, [conversationTitle, selectedConversationId, queryClient]);
+  const isTitleLoading =
+    !!selectedConversationId && !cachedTitle && !titleResolved;
+  const displayTitle = cachedTitle
+    ? chatUtils.sanitizeTitle(cachedTitle)
+    : t('New Chat');
+  const effectivePinned = !isMobile && sidebarPinned;
 
   return (
     <div className="flex h-full overflow-hidden">
-      <div className="shrink-0 overflow-hidden opacity-40 hover:opacity-100 transition-opacity duration-200">
-        <ConversationList
-          onNewChat={handleNewChat}
-          onSelect={handleSelectConversation}
-          selectedId={pendingConversationId ?? selectedConversationId}
-        />
-      </div>
+      {effectivePinned && (
+        <div className="shrink-0 overflow-hidden border-r animate-in slide-in-from-left-2 duration-200">
+          <ConversationList
+            onNewChat={handleNewChat}
+            onSelect={handleSelectConversation}
+            selectedId={pendingConversationId ?? selectedConversationId}
+          />
+        </div>
+      )}
       <div className="flex flex-col flex-1 min-w-0 min-h-0 overflow-hidden">
-        <div className="shrink-0 flex items-center gap-1.5 px-6 py-3 border-b">
+        <div className="shrink-0 flex items-center gap-1.5 px-3 sm:px-6 py-3 border-b">
+          <ConversationSidebarToggle
+            pinned={effectivePinned}
+            isMobile={isMobile}
+            onTogglePin={toggleSidebar}
+            onNewChat={handleNewChat}
+            onSelect={handleSelectConversation}
+            selectedId={pendingConversationId ?? selectedConversationId}
+          />
+          {!effectivePinned && (
+            <TooltipProvider delayDuration={400}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-9 w-9 sm:h-7 sm:w-7 shrink-0"
+                    onClick={handleNewChat}
+                  >
+                    <PlusIcon size={16} />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent className="flex items-center gap-2">
+                  {t('New chat')}
+                  <span className="text-[11px] opacity-50">⇧⌘O</span>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
           {isRenaming ? (
             <Input
               autoFocus
@@ -187,9 +288,14 @@ export function ChatWithAIPage() {
             />
           ) : (
             <>
-              <span className="text-sm font-semibold truncate max-w-[400px]">
-                {displayTitle}
-              </span>
+              {isTitleLoading ? (
+                <Skeleton className="h-4 w-32" />
+              ) : (
+                <TypewriterText
+                  text={displayTitle}
+                  className="text-sm font-semibold truncate max-w-[400px]"
+                />
+              )}
               {activeConversationId && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -204,7 +310,11 @@ export function ChatWithAIPage() {
                   <DropdownMenuContent align="start">
                     <DropdownMenuItem
                       onClick={() => {
-                        setRenameValue(conversationTitle ?? '');
+                        setRenameValue(
+                          conversationTitle
+                            ? chatUtils.sanitizeTitle(conversationTitle)
+                            : '',
+                        );
                         setIsRenaming(true);
                       }}
                     >
@@ -212,7 +322,7 @@ export function ChatWithAIPage() {
                       {t('Rename')}
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                      className="text-destructive focus:text-destructive"
+                      className="text-danger-11 focus:text-danger-11"
                       onClick={() => void handleDelete()}
                     >
                       <Trash2 className="h-4 w-4 mr-2" />
@@ -228,6 +338,7 @@ export function ChatWithAIPage() {
           <AIChatBox
             key={`${selectedConversationId ?? 'new'}-${resetKey}`}
             incognito={false}
+            initialPrompt={initialPrompt}
             conversationId={selectedConversationId}
             onTitleUpdate={handleTitleUpdate}
             onConversationCreated={handleConversationCreated}

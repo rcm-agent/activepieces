@@ -5,8 +5,11 @@ import { clockodoAuth } from '../../auth';
 export default createAction({
   auth: clockodoAuth,
   name: 'update_project',
+  classification: 'WRITE',
   displayName: 'Update Project',
   description: 'Updates a project in clockodo',
+  audience: 'both',
+  aiMetadata: { description: 'Update an existing clockodo project identified by its numeric project ID, changing only the fields you supply (name, customer, budget, billing, completed/billed status, note). Idempotent: re-sending the same values leaves the project unchanged. Requires a project ID; use Create Project to add a new one.', idempotent: true },
   props: {
     project_id: clockodoCommon.project_id(true, false, null),
     customer_id: clockodoCommon.customer_id(false),

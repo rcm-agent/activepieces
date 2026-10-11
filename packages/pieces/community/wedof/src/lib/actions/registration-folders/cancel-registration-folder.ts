@@ -6,8 +6,15 @@ import { wedofCommon } from '../../common/wedof';
 export const cancelRegistrationFolder = createAction({
   auth: wedofAuth,
   name: 'cancelRegistrationFolder',
+  classification: 'DESTRUCTIVE',
   displayName: 'Annuler le dossier de formation',
   description: 'Annuler le dossier de formation',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      "Cancels a training registration folder, recording a required cancellation reason code and an optional explanatory note. Not idempotent: it advances the folder's lifecycle to a canceled state and should be called once. Distinct from refusing a folder, which uses a separate action and reason set.",
+    idempotent: false,
+  },
   props: {
     externalId: Property.ShortText({
       displayName: 'N° du dossier de formation',

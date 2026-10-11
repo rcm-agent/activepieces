@@ -9,8 +9,14 @@ import { assertIdPrefix } from '../../common/validation';
 export const getHighlight = createAction({
   auth: hedyAuth,
   name: 'get-highlight',
+  classification: 'READ',
   displayName: 'Get Highlight',
   description: 'Retrieve a specific highlight by ID.',
+  audience: 'both',
+  aiMetadata: {
+    description: 'Fetch a single Hedy highlight by its ID (must be prefixed with "high_"). Use when you already have a highlight ID and need its content. Read-only and idempotent.',
+    idempotent: true,
+  },
   props: {
     highlightId: commonProps.highlightId,
   },

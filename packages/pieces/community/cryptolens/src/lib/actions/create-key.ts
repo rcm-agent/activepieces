@@ -2,12 +2,19 @@ import { createAction, Property } from '@activepieces/pieces-framework';
 import { makeRequest } from '../common/client';
 import { cryptolensAuth } from '../common/auth';
 import { HttpMethod } from '@activepieces/pieces-common';
+import { createKeyActionOutputSchema } from '../output-schemas';
 
 export const createKey = createAction({
   auth: cryptolensAuth,
   name: 'createKey',
   displayName: 'Create Key',
   description: 'Create a new license key for a product',
+  audience: 'both',
+  aiMetadata: {
+    description: 'Generates one or more new license keys for a Cryptolens product, with configurable validity period, feature flags (F1-F8), machine activation limits, trial activation, and optional association to a customer or reseller. Use to issue licenses for a product. Requires the product ID; not idempotent — each call mints new key(s), and Number of Keys can generate up to 1000 at once.',
+    idempotent: false,
+  },
+  outputSchema: createKeyActionOutputSchema,
   props: {
     productId: Property.Number({
       displayName: 'Product ID',

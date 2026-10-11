@@ -14,8 +14,9 @@ import {
 } from '../common';
 import { GetField, RequestParams, WebhookCreateResponse } from '../common/types';
 import { HttpMethod } from '@activepieces/pieces-common';
-import { isNil } from '@activepieces/shared';
+import { isNil } from '@activepieces/pieces-framework';
 import { DEAL_OPTIONAL_FIELDS } from '../common/constants';
+import { updatedDealStageTriggerOutputSchema } from '../output-schemas';
 
 interface PipedriveDealV2 {
 	id: number;
@@ -93,8 +94,14 @@ interface GetDealResponseV2 {
 export const updatedDealStageTrigger = createTrigger({
 	auth: pipedriveAuth,
 	name: 'updated-deal-stage',
+	outputSchema: updatedDealStageTriggerOutputSchema,
+	classification: 'READ',
 	displayName: 'Updated Deal Stage',
 	description: "Triggers when a deal's stage is updated.",
+	aiMetadata: {
+		description:
+			"Fires when an existing deal moves from one pipeline stage to another (its stage_id changes). Represents progress of a deal through the sales pipeline; can optionally be limited to a specific stage. Use to react when deals advance, regress, or reach a particular stage.",
+	},
 	type: TriggerStrategy.WEBHOOK,
 	props: {
 		stage_id: Property.Dropdown({

@@ -6,8 +6,11 @@ import { BASE_URL } from '../../../index';
 export const createMessage = createAction({
   auth:personalAiAuth,
   name: 'create_message',
+  classification: 'READ',
   displayName: 'Send Message',
   description: 'Send a message to the AI assistant for a response.',
+  audience: 'both',
+  aiMetadata: { description: 'Send a message to the Personal AI assistant and get its generated reply, optionally continuing an existing conversation by reusing the same session ID. Use when you want a conversational answer from the assistant; set the add-to-memory flag to also persist the message. Each call produces a fresh response, so it is not idempotent.', idempotent: false },
   // category: 'Messaging',
   props: {
     text: Property.LongText({

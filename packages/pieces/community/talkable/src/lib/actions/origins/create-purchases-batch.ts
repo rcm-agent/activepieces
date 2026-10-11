@@ -1,12 +1,16 @@
 import { createAction, Property } from '@activepieces/pieces-framework';
 import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 import { talkableAuth } from '../../..';
+import { TALKABLE_API_URL } from '../../common/constants';
 
 export const createPurchasesBatch = createAction({
   name: 'create_purchases_batch', // Must be a unique across the piece, this shouldn't be changed.
+  classification: 'WRITE',
   auth: talkableAuth,
   displayName: 'Create batch of purchases',
   description: 'Create batch of purchases in Talkable',
+  audience: 'both',
+  aiMetadata: { description: 'Record multiple purchase origins in Talkable in one call by passing an array of purchase objects (each keyed to a customer email). Use to ingest orders in bulk rather than one at a time; optionally create campaign offers for them. Not idempotent: each call posts the purchases again, so avoid resubmitting the same batch.', idempotent: false },
   props: {
     create_offers: Property.Checkbox({
       displayName: 'Create offers',
@@ -57,7 +61,6 @@ export const createPurchasesBatch = createAction({
     }),
   },
   async run(context) {
-    const TALKABLE_API_URL = 'https://www.talkable.com/api/v2';
     const { site, api_key } = context.auth.props;
     const createPurchasesBatch = await httpClient
       .sendRequest<string[]>({

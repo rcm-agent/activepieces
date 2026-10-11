@@ -18,9 +18,12 @@ import {
 
 export const searchRecords = createAction({
   name: 'search_records',
+  classification: 'SEARCH',
   auth: vtigerAuth,
   displayName: 'Search Records',
   description: 'Search for a record.',
+  audience: 'both',
+  aiMetadata: { description: 'Searches a Vtiger module (element type) by filtering its records against field-value criteria; string fields match case-insensitive substrings and other fields match exactly. Leaving the criteria empty returns all records (optionally capped by limit). Choose this for simple field-based lookups; use Query Records for custom SQL-style conditions. Read-only and idempotent.', idempotent: true },
   props: {
     elementType: elementTypeProperty,
     fields: Property.DynamicProperties({

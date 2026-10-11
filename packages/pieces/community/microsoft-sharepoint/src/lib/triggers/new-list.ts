@@ -67,8 +67,12 @@ const polling: Polling<AppConnectionValueForAuthProperty<typeof microsoftSharePo
 export const newListTrigger = createTrigger({
 	auth: microsoftSharePointAuth,
 	name: 'new_list',
+	classification: 'READ',
 	displayName: 'New List',
 	description: 'Triggers when a new list is created in a site.',
+	aiMetadata: {
+		description: 'Fires when a new list is created on one specific SharePoint site, based on list creation time (polling). Each event represents one newly created list; changes to existing lists do not trigger it (use New or Updated List for that).',
+	},
 	props: {
 		siteId: microsoftSharePointCommon.siteId,
 	},

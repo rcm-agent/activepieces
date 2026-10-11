@@ -40,8 +40,12 @@ const polling: Polling<AppConnectionValueForAuthProperty<typeof contextualAiAuth
 export const newAgentTrigger = createTrigger({
   auth: contextualAiAuth,
   name: 'new_agent',
+  classification: 'READ',
   displayName: 'New Agent',
   description: 'Triggers when a new Contextual AI agent is created',
+  aiMetadata: {
+    description: 'Fires when a new agent appears in the connected Contextual AI workspace, emitting the agent id, name, and description. Polls the agent list on a schedule, so newly created agents are picked up on the next poll rather than instantly.',
+  },
   props: {},
   type: TriggerStrategy.POLLING,
   sampleData: {

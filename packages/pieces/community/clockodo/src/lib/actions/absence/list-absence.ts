@@ -5,8 +5,15 @@ import { clockodoAuth } from '../../auth';
 export default createAction({
   auth: clockodoAuth,
   name: 'list_absences',
+  classification: 'SEARCH',
   displayName: 'Get Absences',
   description: 'Fetches absences from clockodo',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Fetches clockodo absence records for a required calendar year, optionally filtered to a single user. Use to list or report on time off within a year; to read one absence by id instead, use Get Absence. Read-only and idempotent.',
+    idempotent: true,
+  },
   props: {
     year: Property.Number({
       displayName: 'Year',

@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 const mockFindOneBy = vi.fn()
 const mockRepoDelete = vi.fn()
@@ -21,6 +21,7 @@ vi.mock('../../../../src/app/helper/system/system', () => ({
     system: {
         getOrThrow: vi.fn().mockReturnValue('DB'),
         getNumberOrThrow: vi.fn().mockReturnValue(30),
+        getNumber: vi.fn().mockReturnValue(undefined),
         get: vi.fn().mockReturnValue(undefined),
     },
 }))

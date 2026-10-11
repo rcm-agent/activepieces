@@ -1,24 +1,6 @@
+import { ActivepiecesError, apId, Cursor, ErrorCode, isNil, Metadata, PlatformId, ProjectId, SeekPage, spreadIfDefined, tryCatch, UserId } from '@activepieces/core-utils'
 import { apDayjs } from '@activepieces/server-utils'
-import {
-    ActivepiecesError,
-    apId,
-    AppConnectionScope,
-    Cursor,
-    ErrorCode,
-    isNil,
-    Metadata,
-    PiecesFilterType,
-    PlatformId,
-    PrincipalType,
-    Project,
-    ProjectId,
-    ProjectType,
-    ProjectWithLimits,
-    SeekPage,
-    spreadIfDefined,
-    TeamProjectsLimit,
-    UpdateProjectPlatformRequest,
-    UserId } from '@activepieces/shared'
+import { AppConnectionScope, PiecesFilterType, PrincipalType, Project, ProjectType, ProjectWithLimits, UpdateProjectPlatformRequest } from '@activepieces/shared'
 import { FastifyBaseLogger } from 'fastify'
 import { ArrayContains, Equal, ILike, In, IsNull } from 'typeorm'
 import { appConnectionsRepo } from '../../app-connection/app-connection-service/app-connection-service'
@@ -34,8 +16,11 @@ import { platformService } from '../../platform/platform.service'
 import { ProjectEntity } from '../../project/project-entity'
 import { applyProjectsAccessFilters, projectService } from '../../project/project-service'
 import { userService } from '../../user/user-service'
+import { getPlatformGroupQueueName, getProjectGroupQueueName, QueueName } from '../../workers/job'
+import { platformQueueMigrationService } from '../../workers/platform-queue-migration.service'
 import { concurrencyPoolService } from '../platform/concurrency-pool/concurrency-pool.service'
 import { platformPlanService } from '../platform/platform-plan/platform-plan.service'
+import { workerGroupService } from '../platform/platform-plan/worker-group.service'
 import { projectMemberService } from './project-members/project-member.service'
 import { ProjectPlanEntity } from './project-plan/project-plan.entity'
 import { projectLimitsService } from './project-plan/project-plan.service'
@@ -97,6 +82,7 @@ export const platformProjectService = (log: FastifyBaseLogger) => ({
                 externalId: params.externalId,
                 metadata: params.metadata,
                 maxConcurrentJobs: params.maxConcurrentJobs,
+                sensitive: params.sensitive,
                 type: ProjectType.TEAM,
                 callPostCreateHooks: false,
                 entityManager,
@@ -133,7 +119,9 @@ export const platformProjectService = (log: FastifyBaseLogger) => ({
             return savedProject
         })
 
-        await projectService(log).callProjectPostCreateHooks(project)
+        await projectService(log).callProjectPostCreateHooks(project, {
+            alertReceiverEmail: params.alertReceiverEmail,
+        })
 
         return this.getWithPlanAndUsageOrThrow(project.id)
     },
@@ -143,7 +131,7 @@ export const platformProjectService = (log: FastifyBaseLogger) => ({
     }: UpdateParams): Promise<ProjectWithLimits> {
         const project = await projectService(log).getOneOrThrow(projectId)
         const platformPlan = await platformPlanService(log).getOrCreateForPlatform(project.platformId)
-        const { globalConnectionExternalIds, maxConcurrentJobs, ...rest } = request
+        const { globalConnectionExternalIds, maxConcurrentJobs, workerGroupId, ...rest } = request
         let resolvedPoolId: string | null | undefined
         await transaction(async (entityManager) => {
             resolvedPoolId = await resolvePoolId({ platformId: project.platformId, projectId, maxConcurrentJobs, log })
@@ -152,6 +140,7 @@ export const platformProjectService = (log: FastifyBaseLogger) => ({
                 ...rest,
                 ...(resolvedPoolId !== undefined ? { poolId: resolvedPoolId } : {}),
                 ...(maxConcurrentJobs !== undefined ? { maxConcurrentJobs } : {}),
+                ...(platformPlan.workerGroupsEnabled && workerGroupId !== undefined ? { workerGroupId } : {}),
             }, entityManager)
             if (platformPlan.globalConnectionsEnabled && globalConnectionExternalIds) {
                 const projectGlobalConnections = await appConnectionsRepo(entityManager).find({
@@ -194,22 +183,29 @@ export const platformProjectService = (log: FastifyBaseLogger) => ({
                         .execute()
                 }
             }
-            if (!isNil(request.plan)) {
+            if (!isNil(request.plan) && request.plan.activeFlowsLimit !== undefined) {
                 const platform = await platformService(log).getOneWithPlanOrThrow(project.platformId)
-                if (platform.plan.teamProjectsLimit !== TeamProjectsLimit.NONE) {
-                    await projectLimitsService(log).upsert(
-                        {
-                            ...spreadIfDefined('pieces', request.plan.pieces),
-                            ...spreadIfDefined('piecesFilterType', request.plan.piecesFilterType),
-                        },
+                if (platform.plan.billedTeamProjectsLimit !== 0) {
+                    await projectLimitsService(log).updateActiveFlowsLimit({
                         projectId,
+                        activeFlowsLimit: request.plan.activeFlowsLimit,
                         entityManager,
-                    )
+                    })
                 }
             }
         })
         if (resolvedPoolId !== undefined) {
             await concurrencyPoolService(log).assignProject({ projectId, poolId: resolvedPoolId })
+        }
+        const previousGroupId = project.workerGroupId ?? null
+        if (platformPlan.workerGroupsEnabled && workerGroupId !== undefined && previousGroupId !== workerGroupId) {
+            await migrateJobsToNewGroupQueue({
+                projectId,
+                platformId: project.platformId,
+                fromGroupId: previousGroupId,
+                toGroupId: workerGroupId,
+                log,
+            })
         }
         return this.getWithPlanAndUsageOrThrow(projectId)
     },
@@ -227,37 +223,63 @@ export const platformProjectService = (log: FastifyBaseLogger) => ({
             ownerId: userId,
             type: ProjectType.PERSONAL,
         })
-        if (!isNil(personalProject)) {
-            await this.markForDeletion({ id: personalProject.id, platformId })
+        if (isNil(personalProject)) {
+            return
         }
+        
+        const platform = await platformService(log).getOneOrThrow(platformId)
+        await transaction(async (entityManager) => {
+            await projectRepo(entityManager).update({ id: personalProject.id, platformId }, { ownerId: platform.ownerId })
+            await projectRepo(entityManager).softDelete({ id: personalProject.id, platformId })
+        })
+        await scheduleHardDeleteProjectJob({ id: personalProject.id, platformId, log })
     },
 
     async markForDeletion({ id, platformId }: DeleteProjectParams): Promise<void> {
-        await projectRepo().softDelete({ id, platformId })
-        await systemJobsSchedule(log).upsertJob({
-            job: {
-                name: SystemJobName.HARD_DELETE_PROJECT,
-                data: {
-                    projectId: id,
-                    platformId,
-                    preDeletedFlowIds: [],
+        const result = await projectRepo()
+            .createQueryBuilder()
+            .softDelete()
+            .where('"id" = :id AND "platformId" = :platformId', { id, platformId })
+            .returning('id')
+            .execute()
+        const deletedRows: unknown[] = result.raw ?? []
+        if (deletedRows.length === 0) {
+            throw new ActivepiecesError({
+                code: ErrorCode.ENTITY_NOT_FOUND,
+                params: {
+                    entityType: 'project',
+                    entityId: id,
                 },
-                jobId: `hard-delete-project-${id}`,
-            },
-            schedule: {
-                type: 'one-time',
-                date: apDayjs(),
-            },
-            customConfig: {
-                attempts: 25,
-                backoff: {
-                    type: 'fixed',
-                    delay: 60000,
-                },
-            },
-        })
+            })
+        }
+        await scheduleHardDeleteProjectJob({ id, platformId, log })
     },
 })
+
+async function scheduleHardDeleteProjectJob({ id, platformId, log }: ScheduleHardDeleteProjectJobParams): Promise<void> {
+    await systemJobsSchedule(log).upsertJob({
+        job: {
+            name: SystemJobName.HARD_DELETE_PROJECT,
+            data: {
+                projectId: id,
+                platformId,
+                preDeletedFlowIds: [],
+            },
+            jobId: `hard-delete-project-${id}`,
+        },
+        schedule: {
+            type: 'one-time',
+            date: apDayjs(),
+        },
+        customConfig: {
+            attempts: 25,
+            backoff: {
+                type: 'fixed',
+                delay: 60000,
+            },
+        },
+    })
+}
 
 async function enrichProjects(
     projects: Project[],
@@ -267,11 +289,12 @@ async function enrichProjects(
     
     const projectIds = projects.map(p => p.id)
     
-    const [totalUsersMap, activeUsersMap, totalFlowsMap, activeFlowsMap, plansMap] = await Promise.all([
+    const [totalUsersMap, activeUsersMap, totalFlowsMap, activeFlowsMap, lastFlowUpdatedMap, plansMap] = await Promise.all([
         projectMemberService(log).countTotalUsersByProjects(projectIds),
         projectMemberService(log).countActiveUsersByProjects(projectIds),
         flowService(log).countFlowsByProjects(projectIds),
         flowService(log).countActiveFlowsByProjects(projectIds),
+        flowService(log).getLastFlowUpdatedByProjects(projectIds),
         projectLimitsService(log).getOrCreateDefaultPlansForProjects(projectIds),
     ])
 
@@ -284,6 +307,7 @@ async function enrichProjects(
                 totalFlows: totalFlowsMap.get(project.id) ?? 0,
                 totalUsers: totalUsersMap.get(project.id) ?? 0,
                 activeUsers: activeUsersMap.get(project.id) ?? 0,
+                lastFlowUpdated: lastFlowUpdatedMap.get(project.id) ?? null,
             },
         }
     })
@@ -319,6 +343,31 @@ async function resolvePoolId({ platformId, projectId, maxConcurrentJobs, log }: 
         return null
     }
     return undefined
+}
+
+async function migrateJobsToNewGroupQueue({ projectId, platformId, fromGroupId, toGroupId, log }: MigrateJobsToNewGroupQueueParams): Promise<void> {
+    const ungroupedQueueName = await resolveUngroupedQueueName({ platformId, log })
+    const { error } = await tryCatch(() => platformQueueMigrationService(log).migrateProjectJobs({
+        fromQueueName: isNil(fromGroupId) ? ungroupedQueueName : getProjectGroupQueueName(fromGroupId),
+        toQueueName: isNil(toGroupId) ? ungroupedQueueName : getProjectGroupQueueName(toGroupId),
+        projectId,
+    }))
+    if (error) {
+        log.error({ project: { id: projectId }, platform: { id: platformId }, error }, '[platformProjectService#update] Failed to migrate waiting jobs to the new worker group queue')
+    }
+}
+
+async function resolveUngroupedQueueName({ platformId, log }: { platformId: string, log: FastifyBaseLogger }): Promise<string> {
+    const platformGroupId = await workerGroupService(log).getWorkerGroupId({ platformId })
+    return isNil(platformGroupId) ? QueueName.WORKER_JOBS : getPlatformGroupQueueName(platformGroupId)
+}
+
+type MigrateJobsToNewGroupQueueParams = {
+    projectId: string
+    platformId: string
+    fromGroupId: string | null
+    toGroupId: string | null
+    log: FastifyBaseLogger
 }
 
 type ResolvePoolIdParams = {
@@ -373,9 +422,17 @@ type CreateProjectParams = {
     metadata?: Metadata
     maxConcurrentJobs?: number
     globalConnectionExternalIds?: string[]
+    alertReceiverEmail?: string | null
+    sensitive?: boolean
 }
 
 type DeleteProjectParams = {
     id: ProjectId
     platformId: PlatformId
+}
+
+type ScheduleHardDeleteProjectJobParams = {
+    id: ProjectId
+    platformId: PlatformId
+    log: FastifyBaseLogger
 }

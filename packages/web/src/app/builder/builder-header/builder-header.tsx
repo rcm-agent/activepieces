@@ -1,8 +1,8 @@
+import { Permission } from '@activepieces/core-utils';
 import {
   ApFlagId,
   FlowOperationType,
   FlowVersionState,
-  Permission,
   supportUrl,
   UncategorizedFolderId,
 } from '@activepieces/shared';
@@ -33,6 +33,7 @@ import {
 } from '@/components/ui/breadcrumb';
 import { Button } from '@/components/ui/button';
 import { flowHooks } from '@/features/flows';
+import { FlowCreatedByBadge } from '@/features/flows/components/flow-created-by-badge';
 import { foldersHooks } from '@/features/folders';
 import { getProjectName, projectCollectionUtils } from '@/features/projects';
 import { useAuthorization } from '@/hooks/authorization-hooks';
@@ -162,7 +163,7 @@ export const BuilderHeader = () => {
                       variant="ghost"
                       className="size-6 flex items-center justify-center"
                     >
-                      <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                      <ChevronDown className="h-4 w-4 text-gray-11" />
                     </Button>
                   </FlowActionMenu>
                 </div>
@@ -186,7 +187,9 @@ export const BuilderHeader = () => {
           {t('Support')}
         </Button>
       )}
-      <ActiveUsersWidget resourceId={flow.id} />
+      {!embedState.hideActiveUsers && (
+        <ActiveUsersWidget resourceId={flow.id} />
+      )}
       {hasPermissionToReadRuns && (
         <Button
           variant="ghost"
@@ -199,6 +202,7 @@ export const BuilderHeader = () => {
       )}
 
       <BuilderFlowStatusSection></BuilderFlowStatusSection>
+      <FlowCreatedByBadge createdBy={flow.createdBy} />
     </div>
   );
 

@@ -4,8 +4,11 @@ import { simplybookAuth, makeJsonRpcCall, SimplybookAuth, bookingDropdown } from
 export const cancelBooking = createAction({
   auth: simplybookAuth,
   name: 'cancel_booking',
+  classification: 'DESTRUCTIVE',
   displayName: 'Cancel Booking',
   description: 'Cancel an existing booking. Returns true on success.',
+  audience: 'both',
+  aiMetadata: { description: 'Cancels a single existing booking in SimplyBook.me, identified by its booking ID. Use to call off an appointment an agent or client no longer needs. Not idempotent: the underlying cancelBooking call changes booking state, and cancelling an already-cancelled or missing booking may fail.', idempotent: false },
   props: {
     bookingId: bookingDropdown
   },

@@ -5,8 +5,11 @@ import { trueLayerCommon } from '../../common';
 export const searchPaymentProviders = createAction({
   auth: trueLayerCommon.auth,
   name: 'search-payment-providers',
+  classification: 'SEARCH',
   displayName: 'Search Payment Providers',
   description: 'Returns a list of payment providers.',
+  audience: 'both',
+  aiMetadata: { description: 'Search and list available TrueLayer payment providers (banks) that can be offered to a payer. Use to discover provider options before initiating a payment; read-only and safe to repeat. To fetch one provider by its known ID instead, use Get Payment Provider.', idempotent: true },
   props: {},
   run: async (ctx) => {
     const response = await  httpClient.sendRequest({

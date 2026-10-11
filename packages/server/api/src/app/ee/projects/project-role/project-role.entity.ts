@@ -1,4 +1,5 @@
-import { PlatformId, ProjectMember, ProjectRole } from '@activepieces/shared'
+import { PlatformId, ProjectRole } from '@activepieces/core-utils'
+import { ProjectMember } from '@activepieces/shared'
 import { EntitySchema } from 'typeorm'
 import { BaseColumnSchemaPart } from '../../../database/database-common'
 
@@ -11,6 +12,15 @@ export type ProjectRoleSchema = ProjectRole & {
 
 export const ProjectRoleEntity = new EntitySchema<ProjectRoleSchema>({
     name: 'project_role',
+    indices: [
+        {
+            name: 'idx_project_role_platform_id_name',
+            columns: ['platformId', 'name'],
+            unique: true,
+            where: '"platformId" IS NOT NULL',
+            synchronize: false,
+        },
+    ],
     columns: {
         ...BaseColumnSchemaPart,
         name: {

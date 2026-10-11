@@ -9,9 +9,12 @@ import { elementTypeProperty } from '../common';
 
 export const getRecord = createAction({
   name: 'get_record',
+  classification: 'READ',
   auth: vtigerAuth,
   displayName: 'Get Record',
   description: 'Get a Record by value',
+  audience: 'both',
+  aiMetadata: { description: 'Retrieves a single Vtiger record by its id within a given module (element type). Choose this when you already have the record id and need its current field values. Read-only and idempotent.', idempotent: true },
   props: {
     elementType: elementTypeProperty,
     record: recordIdProperty(),

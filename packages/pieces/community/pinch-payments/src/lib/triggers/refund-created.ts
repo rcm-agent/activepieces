@@ -5,8 +5,12 @@ import { createWebhook, deleteWebhook, WebhookResponse } from '../common/client'
 export const refundCreatedTrigger = createTrigger({
   auth: pinchPaymentsAuth,
   name: 'refund_created',
+  classification: 'READ',
   displayName: 'Refund Created',
   description: 'Triggers when a refund is created',
+  aiMetadata: {
+    description: 'Fires when a refund is created against a payment in Pinch Payments. Use to react when money is being returned to a customer (typically before the refund settles).',
+  },
   type: TriggerStrategy.WEBHOOK,
   props: {},
   async onEnable(context) {

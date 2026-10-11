@@ -3,14 +3,16 @@ import {
   PieceAuth,
   Property,
 } from '@activepieces/pieces-framework';
-import { AppConnectionType } from '@activepieces/shared';
-import { google } from 'googleapis';
-import { OAuth2Client } from 'googleapis-common';
+import { AppConnectionType } from '@activepieces/pieces-framework';
+import { httpClient, HttpMethod } from '@activepieces/pieces-common';
+import { oauth2 as googleOauth2 } from '@googleapis/oauth2';
+import { JWT, OAuth2Client } from 'google-auth-library';
 
 const gmailServiceAccountScopes = [
   'https://www.googleapis.com/auth/gmail.send',
   'https://www.googleapis.com/auth/gmail.readonly',
   'https://www.googleapis.com/auth/gmail.compose',
+  'https://www.googleapis.com/auth/gmail.modify',
 ];
 
 export const gmailScopes = [...gmailServiceAccountScopes, 'email'];
@@ -22,6 +24,19 @@ export const gmailAuth = [
     tokenUrl: 'https://oauth2.googleapis.com/token',
     required: true,
     scope: gmailScopes,
+    getConnectionIdentifier: async ({ auth }) => {
+      try {
+        const response = await httpClient.sendRequest<GmailProfile>({
+          method: HttpMethod.GET,
+          url: 'https://gmail.googleapis.com/gmail/v1/users/me/profile',
+          headers: { Authorization: `Bearer ${auth.access_token}` },
+          timeout: 5000,
+        });
+        return response.body?.emailAddress || undefined;
+      } catch {
+        return undefined;
+      }
+    },
   }),
   PieceAuth.CustomAuth({
     displayName: 'Service Account (Advanced)',
@@ -75,7 +90,7 @@ export async function createGoogleClient(
         'Invalid Service Account JSON Key. Please provide a valid JSON string.'
       );
     }
-    return new google.auth.JWT({
+    return new JWT({
       email: serviceAccount.client_email,
       key: serviceAccount.private_key,
       scopes: gmailServiceAccountScopes,
@@ -83,7 +98,7 @@ export async function createGoogleClient(
     });
   }
   const authClient = new OAuth2Client();
-  authClient.setCredentials(auth);
+  authClient.setCredentials({ access_token: auth.access_token });
   return authClient;
 }
 
@@ -110,7 +125,9 @@ export async function getUserEmail(
     return auth.props.userEmail?.trim();
   }
   return (
-    (await google.oauth2({ version: 'v2', auth: authClient }).userinfo.get())
+    (await googleOauth2({ version: 'v2', auth: authClient }).userinfo.get())
       .data.email ?? undefined
   );
 }
+
+type GmailProfile = { emailAddress?: string };

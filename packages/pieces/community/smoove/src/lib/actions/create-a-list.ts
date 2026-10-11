@@ -6,8 +6,11 @@ import { HttpMethod } from '@activepieces/pieces-common';
 export const createAList = createAction({
   auth: smooveAuth, 
   name: 'createAList',
+  classification: 'WRITE',
   displayName: 'Create a List',
   description: 'Create a new mailing list with custom settings and descriptions',
+  audience: 'both',
+  aiMetadata: { description: 'Create a new mailing list in Smoove with names, descriptions, and subscribe/unsubscribe/portal/visibility permissions. Use when a new list must exist before linking subscribers to it. Requires a list name; not idempotent — each call creates a separate list even with identical input.', idempotent: false },
   props: {
     name: Property.ShortText({
       displayName: 'List Name',

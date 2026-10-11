@@ -8,8 +8,9 @@ import {
 	pipedriveTransformCustomFields,
 } from '../common';
 import { GetField } from '../common/types';
-import { isNil } from '@activepieces/shared';
+import { isNil } from '@activepieces/pieces-framework';
 import { PERSON_OPTIONAL_FIELDS } from '../common/constants';
+import { newPersonTriggerOutputSchema } from '../output-schemas';
 
 interface PipedrivePersonV2 {
 	id: number;
@@ -79,8 +80,14 @@ interface GetPersonResponseV2 {
 export const newPerson = createTrigger({
 	auth: pipedriveAuth,
 	name: 'new_person',
+	outputSchema: newPersonTriggerOutputSchema,
+	classification: 'READ',
 	displayName: 'New Person',
 	description: 'Triggers when a new person is created',
+	aiMetadata: {
+		description:
+			'Fires the moment a new person (contact) record is created in Pipedrive, with their name, emails, phones, owner, associated organization, labels, and custom fields. Use to start automations whenever a contact is added to the CRM.',
+	},
 	props: {},
 	type: TriggerStrategy.WEBHOOK,
 	async onEnable(context) {

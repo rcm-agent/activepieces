@@ -6,8 +6,15 @@ import { collectionName } from '../common';
 export const collectionInfos = createAction({
   auth: qdrantAuth,
   name: 'collection_infos',
+  classification: 'READ',
   displayName: 'Get Collection Infos',
   description: 'Get the all the infos of a specific collection',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Retrieve configuration and status details for a single Qdrant collection by name (vector params, point counts, indexing state, etc.). Use to inspect a collection before reading from or writing to it. Read-only and idempotent.',
+    idempotent: true,
+  },
   props: {
     collectionName,
   },

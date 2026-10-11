@@ -6,8 +6,15 @@ import { QdrantClient } from '@qdrant/js-client-rest';
 export const getPoints = createAction({
   auth: qdrantAuth,
   name: 'get_points',
+  classification: 'SEARCH',
   displayName: 'Get Points',
   description: 'Get the points of a specific collection',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Fetch points from a Qdrant collection, selecting them either by an explicit list of ids or by a payload filter (must / must_not conditions). Use to look up known points or scroll through points matching metadata, as opposed to vector-similarity search. Read-only and idempotent.',
+    idempotent: true,
+  },
   props: {
     collectionName,
     ...seclectPointsProps,

@@ -4,8 +4,11 @@ import { timelinesAiAuth, timelinesAiCommon } from '../common';
 export const findUploadedFile = createAction({
   auth: timelinesAiAuth,
   name: 'findUploadedFile',
+  classification: 'SEARCH',
   displayName: 'Find Uploaded File',
   description: 'Locate an uploaded file by filename or identifier.',
+  audience: 'both',
+  aiMetadata: { description: 'Lists files previously uploaded to TimelinesAI, optionally filtered by filename; with no filename it returns all uploaded files. Use to find a file and its uid before attaching it to a chat message. Read-only and idempotent.', idempotent: true },
   props: {
     filename: Property.ShortText({
       displayName: 'Filename',

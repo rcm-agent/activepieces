@@ -7,8 +7,14 @@ import { getAuthToken, CyberArkAuth } from '../common/auth-helper';
 export const activateUser = createAction({
   auth: cyberarkAuth,
   name: 'activate_user',
+  classification: 'WRITE',
   displayName: 'Activate User',
   description: 'Activates an existing user who was suspended after entering incorrect credentials multiple times',
+  audience: 'both',
+  aiMetadata: {
+    description: 'Reactivates a Vault user identified by user ID who was suspended after too many failed login attempts. Use to lift an automatic lockout. Idempotent: activating an already-active user leaves it active.',
+    idempotent: true,
+  },
   props: {
     userId: userIdDropdown,
   },

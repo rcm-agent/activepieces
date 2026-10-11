@@ -10,7 +10,7 @@ import {
 import { jiraApiCall, jiraPaginatedApiCall } from '../common';
 import { IssueFieldMetaData, VALID_CUSTOM_FIELD_TYPES } from '../common/types';
 import { HttpMethod } from '@activepieces/pieces-common';
-import { isNil } from '@activepieces/shared';
+import { isNil } from '@activepieces/pieces-framework';
 
 function normalizeFields(fields: any[]): IssueFieldMetaData[] {
 	return fields.map((field) => ({
@@ -37,8 +37,15 @@ async function getFields(auth: JiraDataCenterAuth, projectId: string, issueTypeI
 
 export const createIssueAction = createAction({
 	name: 'create_issue',
+	classification: 'WRITE',
 	displayName: 'Create Issue',
 	description: 'Creates a new issue in a project.',
+	audience: 'both',
+	aiMetadata: {
+		description:
+			'Creates a new issue (ticket) in a Jira Data Center/Server project. Use when an agent needs to file a bug, task, story, or other work item; the field set is driven by the chosen project and issue type, so both a project and an issue-type ID are required. Not idempotent — each call creates a separate issue.',
+		idempotent: false,
+	},
 	auth: jiraDataCenterAuth,
 	props: {
 		projectId: getProjectIdDropdown(),

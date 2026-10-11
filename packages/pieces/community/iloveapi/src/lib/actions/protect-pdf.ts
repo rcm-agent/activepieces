@@ -6,8 +6,15 @@ import { runAndStoreResult } from '../common/runner';
 export const protectPdfAction = createAction({
   auth: iloveapiAuth,
   name: 'protect_pdf',
+  classification: 'READ',
   displayName: 'Protect PDF',
   description: 'Add a password to a PDF document.',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Encrypt a PDF with a password so it cannot be opened without that password. Use Unlock PDF for the reverse operation of removing a known password. Each run produces a new protected file.',
+    idempotent: false,
+  },
   props: {
     file: Property.File({
       displayName: 'PDF File',

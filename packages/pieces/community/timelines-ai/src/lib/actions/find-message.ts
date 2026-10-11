@@ -4,8 +4,11 @@ import { timelinesAiAuth, timelinesAiCommon } from '../common';
 export const findMessage = createAction({
   auth: timelinesAiAuth,
   name: 'findMessage',
+  classification: 'READ',
   displayName: 'Find Message',
   description: 'Lookup a message by its WhatsApp message ID.',
+  audience: 'both',
+  aiMetadata: { description: 'Retrieves a single TimelinesAI WhatsApp message by its message UID. Use to fetch the full content and metadata of a known message. Requires the exact message_uid. Read-only and idempotent.', idempotent: true },
   props: {
     message_uid: Property.ShortText({
       displayName: 'Message UID',

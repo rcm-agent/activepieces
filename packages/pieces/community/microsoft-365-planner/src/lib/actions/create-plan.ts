@@ -6,8 +6,14 @@ import { groupDropdown } from '../common/properties';
 export const createPlan = createAction({
   auth: microsoft365PlannerAuth,
   name: 'createPlan',
+  classification: 'WRITE',
   displayName: 'Create Plan',
   description: 'Create a new planner plan',
+  audience: 'both',
+  aiMetadata: {
+    description: 'Creates a new Microsoft 365 Planner plan with the given title, owned by a specified Microsoft 365 group. Use to set up a fresh planning board before adding buckets or tasks. The group must already exist; each call creates a separate plan, so it is not idempotent.',
+    idempotent: false,
+  },
   props: {
     groupId: groupDropdown({ required: true }), 
     title: Property.ShortText({

@@ -4,12 +4,16 @@ import {
 } from '@activepieces/pieces-framework';
 import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 import { talkableAuth } from '../../..';
+import { TALKABLE_API_URL } from '../../common/constants';
 
 export const createEvent = createAction({
   name: 'create_event', // Must be a unique across the piece, this shouldn't be changed.
+  classification: 'WRITE',
   auth: talkableAuth,
   displayName: 'Create event',
   description: 'Create event in Talkable',
+  audience: 'both',
+  aiMetadata: { description: 'Record a single non-purchase event origin (e.g. a signup or newsletter subscription) in Talkable for a customer by email, used to attribute referrals and trigger rewards. Use for conversion events that are not purchases; requires email, event category, event number, and subtotal. Not idempotent: each call posts a new event (use Create batch of events for multiple at once).', idempotent: false },
   props: {
     email: Property.ShortText({
       displayName: 'Email',
@@ -127,7 +131,6 @@ export const createEvent = createAction({
     }),
   },
   async run(context) {
-    const TALKABLE_API_URL = 'https://www.talkable.com/api/v2';
     const { site, api_key } = context.auth.props;
     const createEventResponse = await httpClient
       .sendRequest<string[]>({

@@ -21,8 +21,15 @@ function calculateBillable(
 export default createAction({
   auth: clockodoAuth,
   name: 'list_entries',
+  classification: 'SEARCH',
   displayName: 'Get Entries',
   description: 'Fetches entries from clockodo',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Fetches clockodo time-record entries within a required start/end date range, optionally narrowed by user, customer, project, service, and billable/billed status. Use to find or report on entries by time period; supports two modes: leave page empty to retrieve all matching entries across pages, or set a page number to read just that single page. Read-only and idempotent.',
+    idempotent: true,
+  },
   props: {
     time_since: Property.DateTime({
       displayName: 'Start Date',

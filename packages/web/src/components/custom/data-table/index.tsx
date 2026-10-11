@@ -1,10 +1,11 @@
 'use client';
 
-import { apId, isNil, SeekPage } from '@activepieces/shared';
+import { apId, isNil, SeekPage } from '@activepieces/core-utils';
 import {
   ColumnDef as TanstackColumnDef,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   SortingState,
@@ -35,6 +36,8 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
+
+import { DataFetchErrorState } from '../data-fetch-error-state';
 
 import { DataTableBulkActions } from './data-table-bulk-actions';
 import { DataTableColumnHeader } from './data-table-column-header';
@@ -74,6 +77,9 @@ interface DataTableProps<
     e: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
   ) => void;
   isLoading: boolean;
+  isError: boolean;
+  errorStateEntity: string;
+  onRetry?: () => void;
   filters?: DataTableFilters<Keys>[];
   customFilters?: React.ReactNode[];
   onSelectedRowsChange?: (rows: RowDataWithActions<TData>[]) => void;
@@ -84,11 +90,16 @@ interface DataTableProps<
   emptyStateTextTitle: string;
   emptyStateTextDescription: string;
   emptyStateIcon: React.ReactNode;
+  emptyStateAction?: React.ReactNode;
   selectColumn?: boolean;
   initialSorting?: SortingState;
   clientPagination?: boolean;
+  clientFiltering?: boolean;
   getRowClassName?: (row: RowDataWithActions<TData>, index: number) => string;
+  getRowId?: (row: TData) => string;
+  isRowSelectionDisabled?: (row: RowDataWithActions<TData>) => boolean;
   virtualizeRows?: boolean;
+  bordered?: boolean;
 }
 
 export type DataTableFilters<Keys extends string> = DataTableFilterProps & {
@@ -110,9 +121,13 @@ export function DataTable<
   columns: columnsInitial,
   page,
   onRowClick,
+  getRowId,
   filters = [],
   actions = [],
   isLoading,
+  isError,
+  errorStateEntity,
+  onRetry,
   onSelectedRowsChange,
   hidePagination,
   bulkActions = [],
@@ -120,11 +135,15 @@ export function DataTable<
   emptyStateTextTitle,
   emptyStateTextDescription,
   emptyStateIcon,
+  emptyStateAction,
   customFilters,
   selectColumn = false,
   initialSorting = [],
   clientPagination = false,
+  clientFiltering = false,
+  bordered = false,
   getRowClassName,
+  isRowSelectionDisabled,
   virtualizeRows = false,
 }: DataTableProps<TData, TValue, Keys>) {
   const selectColumnDef: ColumnDef<RowDataWithActions<TData>, TValue> = {
@@ -146,6 +165,7 @@ export function DataTable<
       <div className="flex items-center h-full">
         <Checkbox
           checked={row.getIsSelected()}
+          disabled={!row.getCanSelect()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
         />
       </div>
@@ -197,6 +217,11 @@ export function DataTable<
   const [currentCursor, setCurrentCursor] = useState<string | undefined>(
     startingCursor,
   );
+  const [lastUrlCursor, setLastUrlCursor] = useState(startingCursor);
+  if (startingCursor !== lastUrlCursor) {
+    setLastUrlCursor(startingCursor);
+    setCurrentCursor(startingCursor);
+  }
   const [nextPageCursor, setNextPageCursor] = useState<string | undefined>(
     page?.next ?? undefined,
   );
@@ -234,13 +259,18 @@ export function DataTable<
   const table = useReactTable({
     data: tableData,
     columns,
+    enableRowSelection: isRowSelectionDisabled
+      ? (row) => !isRowSelectionDisabled(row.original)
+      : undefined,
     manualPagination: virtualizeRows ? false : !clientPagination,
+    manualFiltering: !clientFiltering,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    ...(clientFiltering && { getFilteredRowModel: getFilteredRowModel() }),
     ...((clientPagination || virtualizeRows) && {
       getPaginationRowModel: getPaginationRowModel(),
     }),
-    getRowId: () => apId(),
+    getRowId: getRowId ?? (() => apId()),
     initialState: {
       pagination: {
         pageSize: virtualizeRows
@@ -255,9 +285,13 @@ export function DataTable<
   useEffect(() => {
     filters?.forEach((filter) => {
       const column = table.getColumn(filter.accessorKey);
-      const values = searchParams.getAll(filter.accessorKey);
-      if (column && values) {
-        column.setFilterValue(values);
+      if (!column) return;
+      if (filter.type === 'input') {
+        const value = searchParams.get(filter.accessorKey);
+        if (value) column.setFilterValue(value);
+      } else {
+        const values = searchParams.getAll(filter.accessorKey);
+        if (values.length) column.setFilterValue(values);
       }
     });
   }, []);
@@ -308,6 +342,7 @@ export function DataTable<
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const rows = table.getRowModel().rows;
+  const visibleColumnCount = table.getVisibleLeafColumns().length;
   const virtualizer = useVirtualizer({
     count: rows.length,
     getScrollElement: () => scrollContainerRef.current,
@@ -325,7 +360,7 @@ export function DataTable<
       {((filters && filters.length > 0) ||
         (customFilters && customFilters.length > 0) ||
         (toolbarButtons && toolbarButtons.length > 0)) && (
-        <DataTableToolbar>
+        <DataTableToolbar className={bordered ? 'px-0' : undefined}>
           <div className="w-full flex items-center justify-between">
             <div className="flex items-center space-x-2">
               {filters &&
@@ -354,14 +389,22 @@ export function DataTable<
 
       <div
         ref={scrollContainerRef}
-        className={cn('mt-0', {
-          'overflow-hidden': !virtualizeRows,
-          'flex-1 min-h-0 overflow-auto': virtualizeRows,
-        })}
+        className={cn(
+          'mt-0',
+          {
+            'overflow-hidden': !virtualizeRows,
+            'flex-1 min-h-0 overflow-auto': virtualizeRows,
+          },
+          bordered &&
+            'rounded-lg border [&_thead]:border-t-0 [&_tbody>tr:last-child]:border-b-0',
+        )}
       >
-        <Table className="table-fixed">
+        <Table
+          className="table-fixed"
+          containerClassName={cn(virtualizeRows && 'overflow-visible')}
+        >
           <TableHeader
-            className={cn(virtualizeRows ? 'sticky top-0 z-10' : undefined)}
+            className={cn(virtualizeRows && STICKY_HEADER_CLASS_NAME)}
           >
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id} className="hover:bg-transparent">
@@ -390,9 +433,9 @@ export function DataTable<
           </TableHeader>
           <TableBody>
             {isLoading ? (
-              <TableRow className="hover:bg-background">
+              <TableRow className="hover:bg-gray-1">
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={visibleColumnCount}
                   className="h-24 text-center"
                 >
                   <DataTableSkeleton />
@@ -404,7 +447,7 @@ export function DataTable<
                   {virtualizer.getVirtualItems().length > 0 && (
                     <tr>
                       <td
-                        colSpan={columns.length}
+                        colSpan={visibleColumnCount}
                         style={{
                           height: virtualizer.getVirtualItems()[0].start,
                         }}
@@ -421,8 +464,7 @@ export function DataTable<
                         className={cn(
                           'cursor-pointer',
                           {
-                            'hover:bg-background cursor-default':
-                              isNil(onRowClick),
+                            'hover:bg-gray-1 cursor-default': isNil(onRowClick),
                           },
                           getRowClassName?.(row.original, rowIndex),
                         )}
@@ -436,7 +478,7 @@ export function DataTable<
                           ) {
                             return;
                           }
-                          onRowClick?.(row.original, e.ctrlKey, e);
+                          onRowClick?.(row.original, e.ctrlKey || e.metaKey, e);
                         }}
                         onAuxClick={(e) => {
                           const clickedCellIndex = (
@@ -498,7 +540,7 @@ export function DataTable<
                   {virtualizer.getVirtualItems().length > 0 && (
                     <tr>
                       <td
-                        colSpan={columns.length}
+                        colSpan={visibleColumnCount}
                         style={{
                           height:
                             virtualizer.getTotalSize() -
@@ -514,7 +556,7 @@ export function DataTable<
                     className={cn(
                       'cursor-pointer',
                       {
-                        'hover:bg-background cursor-default': isNil(onRowClick),
+                        'hover:bg-gray-1 cursor-default': isNil(onRowClick),
                       },
                       getRowClassName?.(row.original, rowIndex),
                     )}
@@ -528,7 +570,7 @@ export function DataTable<
                       ) {
                         return;
                       }
-                      onRowClick?.(row.original, e.ctrlKey, e);
+                      onRowClick?.(row.original, e.ctrlKey || e.metaKey, e);
                     }}
                     onAuxClick={(e) => {
                       const clickedCellIndex = (
@@ -588,10 +630,22 @@ export function DataTable<
                   </TableRow>
                 ))
               )
-            ) : (
-              <TableRow className="hover:bg-background">
+            ) : isError ? (
+              <TableRow className="hover:bg-transparent">
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={visibleColumnCount}
+                  className="h-[350px] text-center"
+                >
+                  <DataFetchErrorState
+                    entity={errorStateEntity}
+                    onRetry={onRetry}
+                  />
+                </TableCell>
+              </TableRow>
+            ) : (
+              <TableRow className="hover:bg-gray-1">
+                <TableCell
+                  colSpan={visibleColumnCount}
                   className="h-[350px] text-center"
                 >
                   <div className="flex flex-col items-center justify-center gap-2">
@@ -600,10 +654,11 @@ export function DataTable<
                       {emptyStateTextTitle}
                     </p>
                     {emptyStateTextDescription && (
-                      <p className="text-sm text-muted-foreground ">
+                      <p className="text-sm text-gray-11 ">
                         {emptyStateTextDescription}
                       </p>
                     )}
+                    {emptyStateAction}
                   </div>
                 </TableCell>
               </TableRow>
@@ -614,7 +669,7 @@ export function DataTable<
       {!hidePagination && !virtualizeRows && (
         <div className="flex items-center justify-end gap-4 px-2 py-4 text-sm">
           <div className="flex items-center gap-2">
-            <span className="text-muted-foreground">{t('Rows per page')}</span>
+            <span className="text-gray-11">{t('Rows per page')}</span>
             <Select
               value={`${table.getState().pagination.pageSize}`}
               onValueChange={(value) => {
@@ -688,3 +743,6 @@ export function DataTable<
     </div>
   );
 }
+
+const STICKY_HEADER_CLASS_NAME =
+  'sticky top-0 z-10 border-t-0 bg-[color-mix(in_srgb,var(--gray-3)_70%,var(--gray-1))] shadow-[inset_0_1px_0_var(--gray-6),inset_0_-1px_0_var(--gray-6)] [&>tr]:border-b-0';

@@ -1,6 +1,6 @@
 'use client';
 
-import { isNil } from '@activepieces/shared';
+import { isNil } from '@activepieces/core-utils';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import * as React from 'react';
 
@@ -19,16 +19,6 @@ interface VirtualizedScrollAreaProps<T> {
     index: number;
     clickAfterScroll: boolean;
   };
-}
-
-export interface VirtualizedScrollAreaRef {
-  scrollToIndex: (
-    index: number,
-    options?: {
-      align?: 'start' | 'center' | 'end';
-      behavior?: 'auto' | 'smooth';
-    },
-  ) => void;
 }
 
 const VirtualizedScrollArea = <T,>({

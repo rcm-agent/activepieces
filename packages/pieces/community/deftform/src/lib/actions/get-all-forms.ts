@@ -6,8 +6,11 @@ import { deftformApiCall } from '../common';
 export const getAllForms = createAction({
     auth: deftformAuth,
     name: 'get_all_forms',
+    classification: 'SEARCH',
     displayName: 'Get All Forms and Fields',
     description: 'Lists all forms in your workspace, including their fields.',
+    audience: 'both',
+    aiMetadata: { description: 'List every form in the workspace along with each form fields and metadata (id, name, slug, closed status, response limit). Use it to discover available forms and their ids before targeting a specific form. Read-only and idempotent; takes no input.', idempotent: true },
     props: {},
     async run(context) {
         const response = await deftformApiCall<{ data: unknown[] }>({

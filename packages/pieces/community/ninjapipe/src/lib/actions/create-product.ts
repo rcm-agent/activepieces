@@ -6,8 +6,11 @@ import { ninjapipeApiCall, flattenCustomFields, getAuth } from '../common';
 export const createProduct = createAction({
   auth: ninjapipeAuth,
   name: 'create_product',
+  classification: 'WRITE',
   displayName: 'Create Product',
   description: 'Creates a new product.',
+  audience: 'both',
+  aiMetadata: { description: 'Create a new product with a required name, SKU, and price; optionally set description, currency, status, and custom fields. The SKU must be unique within the workspace, so a duplicate SKU is rejected. Not idempotent — each successful call creates a distinct product.', idempotent: false },
   props: {
     name: Property.ShortText({ displayName: 'Name', description: 'Product name.', required: true }),
     sku: Property.ShortText({

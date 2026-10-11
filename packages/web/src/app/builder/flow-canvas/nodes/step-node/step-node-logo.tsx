@@ -1,4 +1,5 @@
-import { ImageWithColorBackground } from '@/components/custom/image-with-color-background';
+import { useBuilderStateContext } from '@/app/builder/builder-hooks';
+import { LogoPlate } from '@/components/custom/logo-plate';
 import { cn } from '@/lib/utils';
 
 const StepNodeLogo = ({
@@ -10,19 +11,25 @@ const StepNodeLogo = ({
   logoUrl: string;
   displayName: string;
 }) => {
+  const canvasOrientation = useBuilderStateContext(
+    (state) => state.canvasOrientation,
+  );
+  const isHorizontal = canvasOrientation === 'horizontal';
   return (
     <div
       className={cn('flex items-center justify-center rounded-sm shrink-0', {
         'opacity-80': isSkipped,
       })}
     >
-      <ImageWithColorBackground
+      <LogoPlate
         src={logoUrl}
         alt={displayName}
-        key={logoUrl + displayName}
-        border={true}
-        className="w-9 h-9 p-2"
-        roundedCorner={true}
+        className={cn('rounded-lg border-gray-6/50', {
+          'size-9 p-2': !isHorizontal,
+          'size-12 p-2.5': isHorizontal,
+        })}
+        border
+        tint
       />
     </div>
   );

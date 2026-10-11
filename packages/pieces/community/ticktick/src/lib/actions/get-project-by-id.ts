@@ -2,12 +2,21 @@ import { HttpMethod } from '@activepieces/pieces-common';
 import { createAction, Property } from '@activepieces/pieces-framework';
 import { ticktickAuth } from '../auth';
 import { tickTickApiCall } from '../common/client';
+import { getProjectOutputSchema } from '../output-schemas';
 
 export const getProjectAction = createAction({
 	auth: ticktickAuth,
 	name: 'get_project',
+	outputSchema: getProjectOutputSchema,
+	classification: 'READ',
 	displayName: 'Get Task List',
 	description: 'Retrieves the details of a specific task list by ID.',
+	audience: 'human',
+	aiMetadata: {
+		description:
+			'Fetches the details of a single TickTick task list (project) by its list ID. Use when you have a list ID and need its metadata. Read-only and idempotent.',
+		idempotent: true,
+	},
 	props: {
 		projectId: Property.ShortText({
 			displayName: 'List ID',

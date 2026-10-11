@@ -1,6 +1,7 @@
 import { createAction, Property } from '@activepieces/pieces-framework';
 import { frontAuth } from '../common/auth';
-import { makeRequest } from '../common/client';
+import { makeMultipartRequest, makeRequest } from '../common/client';
+import { frontAttachments } from '../common/attachments';
 import { HttpMethod } from '@activepieces/pieces-common';
 import { channelIdDropdown, tagIdsDropdown } from '../common/dropdown';
 
@@ -10,6 +11,12 @@ export const sendMessage = createAction({
   displayName: 'Send Message',
   description:
     'Send a new message (starts a conversation) with subject, recipients, body, attachments, tags, etc.',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Send an outbound message through a Front channel, creating a brand-new conversation. Pick this to initiate first contact with recipients (by handle) rather than answering an existing thread; use "Send Reply" to respond within an existing conversation. Not idempotent: each call sends a new message and starts a new conversation.',
+    idempotent: false,
+  },
   props: {
     channel_id: channelIdDropdown,
     to: Property.Array({
@@ -37,11 +44,7 @@ export const sendMessage = createAction({
       description: 'The body of the message.',
       required: true,
     }),
-    attachments: Property.Array({
-      displayName: 'Attachments',
-      description: 'List of attachment URLs.',
-      required: false,
-    }),
+    attachments: frontAttachments.property,
     tag_ids: tagIdsDropdown,
   },
   async run({ auth, propsValue }) {
@@ -55,8 +58,17 @@ export const sendMessage = createAction({
     if (cc) requestBody['cc'] = cc;
     if (bcc) requestBody['bcc'] = bcc;
     if (subject) requestBody['subject'] = subject;
-    if (attachments) requestBody['attachments'] = attachments;
     if (tag_ids) requestBody['tag_ids'] = tag_ids;
+
+    const files = frontAttachments.resolve(attachments);
+    if (files.length > 0) {
+      return await makeMultipartRequest({
+        auth,
+        method: HttpMethod.POST,
+        path: `/channels/${channel_id}/messages`,
+        form: frontAttachments.buildBody({ fields: requestBody, files }),
+      });
+    }
 
     return await makeRequest(
       auth,

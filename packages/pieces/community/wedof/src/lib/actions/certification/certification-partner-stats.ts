@@ -13,9 +13,15 @@ import { wedofCommon } from '../../common/wedof';
 export const listPartnerStats = createAction({
   auth: wedofAuth,
   name: 'listPartnerStats',
+  classification: 'SEARCH',
   displayName: 'Lister les statistiques des partenaires',
   description: 'Récupère les statistiques des partenaires de certification',
-
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Retrieves statistics for the partners of a given certification (identified by certifInfo), filterable by partnership state, sync state, compliance, and connection issues, with paging and sort order. Read-only and safe to repeat. Use to report on or analyze certification partners rather than to modify them.',
+    idempotent: true,
+  },
   props: {
     certifInfo: Property.ShortText({
       displayName: 'Identifiant de certification',

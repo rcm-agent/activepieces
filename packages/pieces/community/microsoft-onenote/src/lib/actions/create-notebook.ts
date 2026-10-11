@@ -6,8 +6,11 @@ import { Client } from '@microsoft/microsoft-graph-client';
 export const createNotebook = createAction({
 	auth: oneNoteAuth,
 	name: 'create_notebook',
+	classification: 'WRITE',
 	displayName: 'Create Notebook',
 	description: 'Creates a notebook.',
+	audience: 'both',
+	aiMetadata: { description: 'Creates a new OneNote notebook for the authenticated user, given a display name. Use as the top-level container before adding sections and pages; the name must be unique, under 128 characters, and avoid characters such as ?*/:<>|\'"%~. Not idempotent: each call attempts to create another notebook.', idempotent: false },
 	props: {
 		displayName: Property.ShortText({
 			displayName: 'Notebook Name',

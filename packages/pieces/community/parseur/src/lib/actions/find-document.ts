@@ -5,8 +5,15 @@ import { parserDropdown } from '../common/properties';
 export const findDocument = createAction({
   auth: parseurAuth,
   name: 'findDocument',
+  classification: 'SEARCH',
   displayName: 'Find Document',
   description: 'Finds a document based on search param.',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Lists documents within a given Parseur parser/mailbox, optionally filtered by a case-insensitive name search term; with an empty search it returns all documents in that mailbox. Use to look up a document ID before fetching or reprocessing it. Read-only and idempotent.',
+    idempotent: true,
+  },
   props: {
     parserId: parserDropdown({ required: true }),
     search: Property.ShortText({

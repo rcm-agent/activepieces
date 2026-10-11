@@ -4,8 +4,11 @@ import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 
 export const listOrgInvoicesAction = createAction({
   name: 'list_org_invoices',
+  classification: 'SEARCH',
   displayName: 'List Organization Invoices',
   description: 'List all invoices for your organization',
+  audience: 'both',
+  aiMetadata: { description: 'List billing invoices for the organization, with optional limit and offset paging. Use for org-level invoices; the per-user equivalent is the list user invoices action. Read-only and idempotent.', idempotent: true },
   auth: zooAuth,
   // category: 'Payments',
   props: {

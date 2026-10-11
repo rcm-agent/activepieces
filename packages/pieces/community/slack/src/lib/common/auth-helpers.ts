@@ -1,4 +1,4 @@
-import { AppConnectionType } from '@activepieces/shared';
+import { AppConnectionType } from '@activepieces/pieces-framework';
 import { AppConnectionValueForAuthProperty } from '@activepieces/pieces-framework';
 import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 import type { slackAuth } from '../auth';
@@ -100,7 +100,7 @@ export async function getUserId(auth: SlackAuthValue): Promise<string> {
     method: HttpMethod.GET,
     url: 'https://slack.com/api/auth.test',
     headers: {
-      Authorization: `Bearer ${a.props.botToken}`,
+      Authorization: `Bearer ${a.props.userToken || a.props.botToken}`,
     },
   });
   if (!response.body.ok) {

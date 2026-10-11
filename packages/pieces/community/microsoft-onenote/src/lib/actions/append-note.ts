@@ -7,8 +7,11 @@ import { Client } from '@microsoft/microsoft-graph-client';
 export const appendNote = createAction({
 	auth: oneNoteAuth,
 	name: 'append_note',
+	classification: 'WRITE',
 	displayName: 'Append Note',
 	description: 'Append content to the end of an existing note.',
+	audience: 'both',
+	aiMetadata: { description: 'Appends content to the body of an existing OneNote page (note), identified by notebook, section, and page. Use to add to a note rather than replace it; the content type can be a paragraph, list item, heading, or raw HTML. Not idempotent: each call appends again, so repeating duplicates the content.', idempotent: false },
 	props: {
 		notebook_id: Property.Dropdown({
 			auth: oneNoteAuth,

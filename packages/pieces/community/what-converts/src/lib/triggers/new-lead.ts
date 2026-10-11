@@ -8,8 +8,12 @@ import { whatConvertsAuth } from '../common/auth';
 export const newLeadTrigger = createTrigger({
   auth: whatConvertsAuth,
   name: 'new_lead',
+  classification: 'READ',
   displayName: 'New Lead',
   description: 'Fires when a new lead is received.',
+  aiMetadata: {
+    description: 'Fires when WhatConverts receives a new lead (a phone call, web form, chat, transaction, or other tracked conversion). Delivers the full lead record including contact details, attribution, and analysis. Requires the WhatConverts webhook to be configured to send "new" lead events.',
+  },
   props: {},
   sampleData: {
     trigger: 'new',

@@ -1,7 +1,8 @@
-import { PiecePropertyMap, StaticPropsValue, TriggerStrategy } from '@activepieces/pieces-framework'
-import { assertEqual, AUTHENTICATION_PROPERTY_NAME, EngineGenericError, EventPayload, ExecuteTriggerOperation, ExecuteTriggerResponse, FlowTrigger, InvalidCronExpressionError, isNil, PieceTrigger, PropertySettings, ScheduleOptions, TriggerHookType, TriggerSourceScheduleType } from '@activepieces/shared'
+import { assertEqual, isNil } from '@activepieces/core-utils'
+import { PiecePropertyMap, SetScheduleRequest, StaticPropsValue, TriggerStrategy } from '@activepieces/pieces-framework'
+import { AUTHENTICATION_PROPERTY_NAME, EngineGenericError, EventPayload, ExecuteTriggerResponse, FlowTrigger, InvalidCronExpressionError, InvalidScheduleIntervalError, PieceTrigger, PropertySettings, ScheduleOptions, TriggerHookType, TriggerSourceScheduleType } from '@activepieces/shared'
 import { isValidCron } from 'cron-validator'
-import { EngineConstants } from '../handler/context/engine-constants'
+import { EngineConstants, ResolvedExecuteTriggerOperation } from '../handler/context/engine-constants'
 import { FlowExecutorContext } from '../handler/context/flow-execution-context'
 import { createFileUploader } from '../piece-context/file-uploader'
 import { createFlowsContext } from '../piece-context/flows'
@@ -67,6 +68,7 @@ export const triggerHelper = {
                 engineToken: constants.engineToken,
                 target: 'triggers',
                 contextVersion: piece.getContextInfo?.().version,
+                pieceName,
             }),
         }
         await pieceTrigger.onStart(context)
@@ -110,7 +112,18 @@ export const triggerHelper = {
                     appListeners.push({ events, identifierValue, identifierKey })
                 },
             },
-            setSchedule(request: ScheduleOptions) {
+            setSchedule(request: SetScheduleRequest) {
+                if ('intervalMs' in request) {
+                    const parsed = ScheduleOptions.safeParse({
+                        type: TriggerSourceScheduleType.INTERVAL,
+                        intervalMs: request.intervalMs,
+                    })
+                    if (!parsed.success) {
+                        throw new InvalidScheduleIntervalError(request.intervalMs)
+                    }
+                    scheduleOptions = parsed.data
+                    return
+                }
                 if (!isValidCron(request.cronExpression)) {
                     throw new InvalidCronExpressionError(request.cronExpression)
                 }
@@ -127,6 +140,7 @@ export const triggerHelper = {
                 flowVersionId: params.flowVersion.id,
             }),
             webhookUrl: params.webhookUrl,
+            isRepublish: params.isRepublish,
             auth: processedInput[AUTHENTICATION_PROPERTY_NAME],
             propsValue: processedInput,
             payload: params.triggerPayload ?? {},
@@ -145,6 +159,7 @@ export const triggerHelper = {
                 engineToken: constants.engineToken,
                 target: 'triggers',
                 contextVersion: piece.getContextInfo?.().version,
+                pieceName,
             }),
         }
         switch (params.hookType) {
@@ -180,8 +195,6 @@ export const triggerHelper = {
                     files: createFileUploader({
                         apiUrl: constants.internalApiUrl,
                         engineToken: params.engineToken!,
-                        stepName: triggerName,
-                        flowId: params.flowVersion.flowId,
                     }),
                 }))
 
@@ -224,8 +237,6 @@ export const triggerHelper = {
                         files: createFileUploader({
                             apiUrl: constants.internalApiUrl,
                             engineToken: params.engineToken!,
-                            flowId: params.flowVersion.flowId,
-                            stepName: triggerName,
                         }),
                     })
                     return {
@@ -243,7 +254,7 @@ export const triggerHelper = {
 }
 
 type ExecuteTriggerParams = {
-    params: ExecuteTriggerOperation<TriggerHookType>
+    params: ResolvedExecuteTriggerOperation<TriggerHookType>
     constants: EngineConstants
 }
 
@@ -261,6 +272,7 @@ async function prepareTriggerExecution({ pieceName, pieceVersion, triggerName, i
         engineToken,
         contextVersion: piece.getContextInfo?.().version,
         stepNames,
+        pieceName,
     }).resolve<StaticPropsValue<PiecePropertyMap>>({
         unresolvedInput: input,
         executionState: FlowExecutorContext.empty(),

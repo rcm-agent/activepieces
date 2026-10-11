@@ -42,8 +42,12 @@ const polling: Polling<AppConnectionValueForAuthProperty<typeof humeAiAuth>, Rec
 export const newVoiceTrigger = createTrigger({
   auth: humeAiAuth,
   name: 'new_voice',
+  classification: 'READ',
   displayName: 'New Voice',
   description: 'Triggers when a new voice is created in Hume AI',
+  aiMetadata: {
+    description: 'Fires when a new custom voice appears in the connected Hume AI account, polling the custom voice list on an interval. Each emitted event represents one newly detected custom voice.',
+  },
   props: {},
   type: TriggerStrategy.POLLING,
   sampleData: {

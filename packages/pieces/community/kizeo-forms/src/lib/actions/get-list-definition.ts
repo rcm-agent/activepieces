@@ -7,8 +7,11 @@ export const getListDefinition = createAction({
   auth: kizeoFormsAuth,
 
   name: 'get_list_definition',
+  classification: 'READ',
   displayName: 'Get List Definition',
   description: 'Get the definition of a list',
+  audience: 'both',
+  aiMetadata: { description: 'Retrieve the definition (schema/structure) of a Kizeo Forms external list by its list ID, including its configured properties. Use to discover a list\'s columns before reading or writing items. Read-only and idempotent.', idempotent: true },
   props: {
     listId: kizeoFormsCommon.listId,
   },

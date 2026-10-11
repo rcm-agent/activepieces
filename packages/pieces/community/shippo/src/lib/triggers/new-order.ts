@@ -40,8 +40,12 @@ const polling: Polling<AppConnectionValueForAuthProperty<typeof shippoAuth>, Sta
 
 export const newOrder = createTrigger({
   name: 'new_order',
+  classification: 'READ',
   displayName: 'New Order',
   description: 'Trigger when a new order is created',
+  aiMetadata: {
+    description: 'Fires when a new order is created in the connected Shippo account, polling for orders placed since the last check (compared by order placed-at time).',
+  },
   type: TriggerStrategy.POLLING,
   auth: shippoAuth,
   props,

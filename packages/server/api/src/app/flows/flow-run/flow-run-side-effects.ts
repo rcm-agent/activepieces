@@ -1,48 +1,56 @@
 import { ApplicationEventName,
     FlowRun,
     isFlowRunStateTerminal,
+    PlatformId,
 } from '@activepieces/shared'
 import { FastifyBaseLogger } from 'fastify'
 import { applicationEvents } from '../../helper/application-events'
+import { waitpointService } from '../../waitpoints/waitpoint-service'
 import { flowRunHooks } from './flow-run-hooks'
-import { waitpointService } from './waitpoint/waitpoint-service'
 
 export const flowRunSideEffects = (log: FastifyBaseLogger) => ({
-    async onFinish(flowRun: FlowRun): Promise<void> {
+    async onFinish({ flowRun, platformId }: FlowRunSideEffectParams): Promise<void> {
         if (!isFlowRunStateTerminal({
             status: flowRun.status,
             ignoreInternalError: true,
         })) {
             return
         }
-        await waitpointService(log).deleteByFlowRunId(flowRun.id)
+        await waitpointService(log).deleteByFlowRunId({ flowRunId: flowRun.id, projectId: flowRun.projectId })
         await flowRunHooks(log).onFinish(flowRun)
-        applicationEvents(log).sendWorkerEvent(flowRun.projectId, {
+        applicationEvents(log).sendWorkerEvent({
+            projectId: flowRun.projectId,
+            platformId,
             action: ApplicationEventName.FLOW_RUN_FINISHED,
             data: {
                 flowRun,
             },
         })
     },
-    async onResume(flowRun: FlowRun): Promise<void> {
-        applicationEvents(log).sendWorkerEvent(flowRun.projectId, {
+    async onResume({ flowRun, platformId }: FlowRunSideEffectParams): Promise<void> {
+        applicationEvents(log).sendWorkerEvent({
+            projectId: flowRun.projectId,
+            platformId,
             action: ApplicationEventName.FLOW_RUN_RESUMED,
             data: {
                 flowRun,
             },
         })
     },
-    async onRetry(flowRun: FlowRun): Promise<void> {
-        applicationEvents(log).sendWorkerEvent(flowRun.projectId, {
+    async onRetry({ flowRun, platformId }: FlowRunSideEffectParams): Promise<void> {
+        applicationEvents(log).sendWorkerEvent({
+            projectId: flowRun.projectId,
+            platformId,
             action: ApplicationEventName.FLOW_RUN_RETRIED,
             data: {
                 flowRun,
             },
         })
     },
-    async onStart(flowRun: FlowRun): Promise<void> {
-       
-        applicationEvents(log).sendWorkerEvent(flowRun.projectId, {
+    async onStart({ flowRun, platformId }: FlowRunSideEffectParams): Promise<void> {
+        applicationEvents(log).sendWorkerEvent({
+            projectId: flowRun.projectId,
+            platformId,
             action: ApplicationEventName.FLOW_RUN_STARTED,
             data: {
                 flowRun,
@@ -51,3 +59,7 @@ export const flowRunSideEffects = (log: FastifyBaseLogger) => ({
     },
 })
 
+type FlowRunSideEffectParams = {
+    flowRun: FlowRun
+    platformId: PlatformId
+}

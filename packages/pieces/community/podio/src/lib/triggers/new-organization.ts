@@ -6,8 +6,12 @@ import { podioApiCall, getAccessToken, dynamicSpaceProperty, dynamicOrgProperty 
 export const newOrganizationTrigger = createTrigger({
   auth: podioAuth,
   name: 'new_app',
+  classification: 'READ',
   displayName: 'New App',
   description: 'Fires when a new app is created in a workspace',
+  aiMetadata: {
+    description: 'Fires when a new app is created in the selected Podio workspace (space), via an app.create webhook on that space. Represents a newly added app.',
+  },
   props: {
     orgId: dynamicOrgProperty,
     spaceId: dynamicSpaceProperty,

@@ -6,8 +6,15 @@ import { runAndStoreResult } from '../common/runner';
 export const repairPdfAction = createAction({
   auth: iloveapiAuth,
   name: 'repair_pdf',
+  classification: 'READ',
   displayName: 'Repair PDF',
   description: 'Attempt to fix a damaged or corrupted PDF file.',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Attempt to recover a damaged or corrupted PDF into a readable file. Best-effort: success depends on the extent of corruption and is not guaranteed. Each run produces a new output file.',
+    idempotent: false,
+  },
   props: {
     file: Property.File({
       displayName: 'PDF File',

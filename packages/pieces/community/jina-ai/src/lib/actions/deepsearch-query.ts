@@ -2,13 +2,22 @@ import { createAction, Property } from '@activepieces/pieces-framework';
 import { HttpMethod } from '@activepieces/pieces-common';
 import { JinaAICommon } from '../common';
 import { jinaAiAuth } from '../auth';
+import { deepsearchQueryOutputSchema } from '../output-schemas';
 
 export const deepSearchQueryAction = createAction({
   auth:jinaAiAuth,
   name: 'deepsearch_query',
+  outputSchema: deepsearchQueryOutputSchema,
+  classification: 'READ',
   displayName: 'DeepSearch Query',
   description:
     'Answer complex questions through iterative search, reading, and reasoning with the DeepSearch API.',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Answer a complex research question with Jina DeepSearch, which iteratively searches the web, reads pages, and reasons before responding; supports domain include/exclude lists, token budget, and an optional JSON schema for structured output. Pick this for multi-hop research questions rather than a plain keyword search (use Web Search Summarization for that); it is slower and more token-hungry than a single search. Read-only, so safe to retry, though answers may vary between runs.',
+    idempotent: true,
+  },
   props: {
     model: Property.StaticDropdown({
       displayName: 'Model',

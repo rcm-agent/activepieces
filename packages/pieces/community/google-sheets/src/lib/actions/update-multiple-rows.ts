@@ -13,16 +13,25 @@ import {
   objectToArray,
   ValueInputOption,
 } from '../common/common';
-import { isString, MarkdownVariant } from '@activepieces/shared';
+import { MarkdownVariant } from '@activepieces/pieces-framework';
+import { isString } from '@activepieces/pieces-framework';
 import { getWorkSheetName } from '../triggers/helpers';
-import { google, sheets_v4 } from 'googleapis';
+import { sheets as googleSheets, sheets_v4 } from '@googleapis/sheets';
 import { commonProps } from '../common/props';
+import { updateMultipleRowsActionOutputSchema } from '../output-schemas';
 
 export const updateMultipleRowsAction = createAction({
   auth: googleSheetsAuth,
   name: 'update-multiple-rows',
+  classification: 'WRITE',
   displayName: 'Update Multiple Rows',
   description: 'Updates multiple rows in a specific spreadsheet.',
+  audience: 'human',
+  aiMetadata: {
+    description:
+      'Overwrites several existing rows in one batch call, each targeted by its own row id. Use when an agent needs to apply edits to multiple known rows efficiently rather than calling Update Row repeatedly. Idempotent — re-running with the same row ids and values produces the same sheet state; rows without a row id are skipped.',
+    idempotent: true,
+  },
   props: {
     ...commonProps,
     values: Property.DynamicProperties({
@@ -59,7 +68,7 @@ export const updateMultipleRowsAction = createAction({
         //check for empty headers
         if (Object.keys(firstRow).length === 0) {
           fields['markdown'] = Property.MarkDown({
-            value: `We couldn't find any headers in the selected spreadsheet or worksheet. Please add headers to the sheet and refresh the page to reflect the columns.`,
+            value: `No headers found in this worksheet. Add a header row, then reselect the worksheet to load its columns.`,
             variant: MarkdownVariant.INFO,
           });
         } else {
@@ -67,8 +76,8 @@ export const updateMultipleRowsAction = createAction({
             [key: string]: any;
           } = {
             rowId: Property.Number({
-              displayName: 'Row Id',
-              description: 'The row id to update',
+              displayName: 'Row Number',
+              description: 'The row to update, counting from 1.',
               required: true,
             }),
           };
@@ -94,16 +103,18 @@ export const updateMultipleRowsAction = createAction({
     as_string: Property.Checkbox({
       displayName: 'As String',
       description:
-        'Inserted values that are dates and formulas will be entered as strings and have no effect',
+        'Store dates and formulas as plain text instead of evaluating them.',
       required: false,
+      advanced: true,
     }),
     headerRow: Property.Number({
       displayName: 'Header Row',
-      description: 'Which row contains the headers?',
+      description: 'The row that contains the column names.',
       required: true,
       defaultValue: 1,
     }),
   },
+  outputSchema: updateMultipleRowsActionOutputSchema,
   async run(context) {
     const {
       spreadsheetId: inputSpreadsheetId,
@@ -130,7 +141,7 @@ export const updateMultipleRowsAction = createAction({
       : ValueInputOption.USER_ENTERED;
 
     const authClient = await createGoogleClient(context.auth);
-    const sheets = google.sheets({ version: 'v4', auth: authClient });
+    const sheets = googleSheets({ version: 'v4', auth: authClient });
 
     const values: sheets_v4.Schema$ValueRange[] = [];
 

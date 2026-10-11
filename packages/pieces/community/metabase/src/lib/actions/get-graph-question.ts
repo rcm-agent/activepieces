@@ -5,10 +5,17 @@ import { chromium } from 'playwright';
 
 export const getGraphQuestion = createAction({
   name: 'getGraphQuestion',
+  classification: 'READ',
   auth: metabaseAuth,
   requireAuth: true,
   displayName: 'Get the graph of the question',
   description: 'Get the graph of a Metabase question and save it as a png',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      "Renders the chart/graph of a Metabase question (by ID) via a signed embed URL in a headless browser and saves a high-resolution PNG screenshot. Use when an agent needs the rendered visualization of a report rather than its data rows. Requires the connection's embedding key to be set and the question to be published for embedding; the question must already exist. Read-only and idempotent — it does not modify Metabase.",
+    idempotent: true,
+  },
   props: {
     questionId: Property.ShortText({
       displayName: 'Metabase question ID',

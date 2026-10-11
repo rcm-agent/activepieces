@@ -7,8 +7,15 @@ import { mailboxIdDropdown, userIdDropdown } from '../common/props';
 export const findConversation = createAction({
   auth: helpScoutAuth,
   name: 'find_conversation',
+  classification: 'SEARCH',
   displayName: 'Find Conversation',
   description: 'Finds an existing conversation using provided filter.',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Searches Help Scout conversations by filters (subject, mailbox, status, assigned user, customer email, tags, or a raw query string) and returns the first match. Use to locate a conversation ID before replying, adding a note, or routing. At least one filter is required; read-only and idempotent.',
+    idempotent: true,
+  },
   props: {
     subject: Property.ShortText({
       displayName: 'Subject',

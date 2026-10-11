@@ -6,8 +6,11 @@ import { getAccountSubdomain } from '../common/get-subdomain';
 export const getJob = createAction({
   auth: workableAuth,
   name: 'getJob',
+  classification: 'READ',
   displayName: 'Get Job',
   description: 'Gets specific job deatils.',
+  audience: 'both',
+  aiMetadata: { description: 'Fetch details of a single Workable job posting identified by its shortcode. Use when you have a job shortcode and need its full attributes. Requires the exact job shortcode; read-only and idempotent.', idempotent: true },
   props: {
     shortcode: Property.ShortText({
       displayName: "Shortcode",

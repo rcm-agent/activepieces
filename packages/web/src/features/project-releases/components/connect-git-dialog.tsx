@@ -1,9 +1,8 @@
+import { ApErrorParams, ErrorCode } from '@activepieces/core-utils';
 import {
   ConfigureRepoRequest,
   GitBranchType,
   GitRepo,
-  ApErrorParams,
-  ErrorCode,
 } from '@activepieces/shared';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
@@ -183,8 +182,8 @@ const ConnectGitDialog = ({ open, setOpen, showButton }: ConnectGitProps) => {
             </div>
 
             <DialogFooter>
-              <DialogClose>
-                <Button type="button" variant={'outline'} loading={isPending}>
+              <DialogClose asChild>
+                <Button type="button" variant={'outline'}>
                   {t('Cancel')}
                 </Button>
               </DialogClose>

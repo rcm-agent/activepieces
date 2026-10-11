@@ -6,8 +6,11 @@ import { ninjapipeApiCall, flattenCustomFields, getAuth, ninjapipeCommon, toDate
 export const updateTask = createAction({
   auth: ninjapipeAuth,
   name: 'update_task',
+  classification: 'WRITE',
   displayName: 'Update Task',
   description: 'Updates a task within a project.',
+  audience: 'both',
+  aiMetadata: { description: 'Update fields on an existing task, identified by its project ID and task ID. Only provided fields are changed; use this to set status, priority, assignee, due date, or to re-parent a subtask within the same project. Repeating the same update is idempotent.', idempotent: true },
   props: {
     projectId: ninjapipeCommon.projectDropdownRequired,
     taskId: ninjapipeCommon.taskDropdown,

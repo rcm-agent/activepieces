@@ -1,12 +1,16 @@
 import { createAction, Property } from '@activepieces/pieces-framework';
 import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 import { talkableAuth } from '../../..';
+import { TALKABLE_API_URL } from '../../common/constants';
 
 export const refund = createAction({
   name: 'refund', // Must be a unique across the piece, this shouldn't be changed.
+  classification: 'WRITE',
   auth: talkableAuth,
   displayName: 'Refund purchase/event',
   description: 'Mark origin as refund',
+  audience: 'both',
+  aiMetadata: { description: 'Mark an existing purchase or event origin in Talkable as refunded, identified by its order/event number (origin slug), optionally with a partial refund subtotal and refund date. Use when an order is returned or canceled so referral attribution is reversed. Not idempotent: each call records a refund against the origin.', idempotent: false },
   props: {
     origin_slug: Property.ShortText({
       displayName: 'Order or event number',
@@ -25,7 +29,6 @@ export const refund = createAction({
     }),
   },
   async run(context) {
-    const TALKABLE_API_URL = 'https://www.talkable.com/api/v2';
     const { site, api_key } = context.auth.props;
     const { origin_slug, refund_subtotal, refunded_at } = context.propsValue;
     const refundResponse = await httpClient

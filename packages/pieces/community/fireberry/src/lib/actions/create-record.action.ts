@@ -5,8 +5,11 @@ import { FireberryClient } from '../common/client';
 
 export const createRecordAction = createAction({
   name: 'create_record',
+  classification: 'WRITE',
   displayName: 'Create Record',
   description: 'Create a new record in Fireberry.',
+  audience: 'both',
+  aiMetadata: { description: 'Creates a new record of a given Fireberry object type (Account, Contact, etc.), with field values supplied as an object/JSON. Use when adding a new CRM record. Not idempotent: each call inserts another record, so repeating it produces duplicates.', idempotent: false },
   auth: fireberryAuth,
   props: {
     objectType: objectTypeDropdown,

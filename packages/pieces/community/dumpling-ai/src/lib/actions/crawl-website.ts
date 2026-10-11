@@ -4,9 +4,12 @@ import { dumplingAuth } from '../auth';
 
 export const crawlWebsite = createAction({
 	name: 'crawl_website',
+	classification: 'SEARCH',
 	auth: dumplingAuth,
 	displayName: 'Crawl Website',
 	description: 'Crawl a website and return structured content from multiple pages.',
+	audience: 'both',
+	aiMetadata: { description: 'Crawls a website starting from a given URL via Dumpling AI, following links up to a configurable page limit and depth, and returns each page as markdown, text, or raw content. Use when the agent needs content from many pages of a site at once; use Scrape Website for a single known URL. Not idempotent: each call is a fresh billed crawl reflecting live site state.', idempotent: false },
 	props: {
 		url: Property.ShortText({
 			displayName: 'URL',

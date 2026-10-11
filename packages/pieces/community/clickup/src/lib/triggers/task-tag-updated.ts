@@ -10,12 +10,18 @@ import {
 import { callClickupGetTask, clickupCommon } from '../common';
 import { ClickupEventType, ClickupWebhookPayload } from '../common/models';
 import { clickupAuth } from '../auth';
+import { taskEventTriggerOutputSchema } from '../output-schemas';
 
 export const triggerTaskTagUpdated = createTrigger({
   auth: clickupAuth,
   name: 'task_tag_updated',
-  displayName: 'Task Tag Updated',
+  classification: 'READ',
+  displayName: 'Task Tag Updated in Space',
   description: 'Triggered when a tag is added or removed or renamed on a task.',
+  aiMetadata: {
+    description:
+      'Fires when a tag on a ClickUp task changes — a tag is added to the task, removed from it, or renamed. The event represents the updated tag state for that task, useful for reacting to tag-based categorization or status labeling in the selected workspace and space.',
+  },
   sampleData: {
     "event": "taskTagUpdated",
     "history_items": [
@@ -55,16 +61,20 @@ export const triggerTaskTagUpdated = createTrigger({
     list_id: clickupCommon.list_id(false),
     task_id: clickupCommon.task_id(false),
   },
+  outputSchema: taskEventTriggerOutputSchema,
   type: TriggerStrategy.WEBHOOK,
   async onEnable(context) {
-    const { workspace_id } = context.propsValue
+    const { workspace_id, space_id, list_id, task_id } = context.propsValue
 
     const request: HttpRequest = {
       method: HttpMethod.POST,
       url: `https://api.clickup.com/api/v2/team/${workspace_id}/webhook`,
       body: {
         endpoint: context.webhookUrl,
-        events: [ClickupEventType.TASK_TAG_UPDATED]
+        events: [ClickupEventType.TASK_TAG_UPDATED],
+        space_id,
+        ...(list_id ? { list_id } : {}),
+        ...(task_id ? { task_id } : {}),
       },
       authentication: {
         type: AuthenticationType.BEARER_TOKEN,
@@ -74,7 +84,6 @@ export const triggerTaskTagUpdated = createTrigger({
     }
 
     const response = await httpClient.sendRequest<WebhookInformation>(request);
-    console.debug(`clickup.${ClickupEventType.TASK_TAG_UPDATED}.onEnable`, response)
 
     await context.store.put<WebhookInformation>(`clickup_task_tag_updated_trigger`, response.body);
   },
@@ -89,8 +98,7 @@ export const triggerTaskTagUpdated = createTrigger({
           token: context.auth['access_token'],
         },
       };
-      const response = await httpClient.sendRequest(request);
-      console.debug(`clickup.${ClickupEventType.TASK_TAG_UPDATED}.onDisable`, response)
+      await httpClient.sendRequest(request);
     }
   },
   async run(context) {

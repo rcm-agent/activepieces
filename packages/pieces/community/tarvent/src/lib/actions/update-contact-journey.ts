@@ -5,8 +5,11 @@ import { makeClient, tarventCommon } from '../common';
 export const updateContactJourney = createAction({
   auth: tarventAuth,
   name: 'tarvent_update_contact_journey',
+  classification: 'WRITE',
   displayName: 'Add/Remove A Contact From A Journey',
   description: 'Adds or removes the contact from a journey.',
+  audience: 'both',
+  aiMetadata: { description: 'Enrolls a Tarvent contact into an automation journey or removes them from it, with the direction (add vs. remove) chosen by the action input. Use to start or stop a contact in an automated flow. Not idempotent on add: re-adding can re-enter the contact and re-run journey steps.', idempotent: false },
   props: {
     contactId: tarventCommon.contactId,
     journeyId: tarventCommon.journeyId(true, 'Select which journey to start or stop.'),

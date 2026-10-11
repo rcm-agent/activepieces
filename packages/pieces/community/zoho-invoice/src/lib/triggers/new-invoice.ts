@@ -38,8 +38,13 @@ const polling: Polling<
 export const newInvoice = createTrigger({
   auth: zohoAuth,
   name: 'new_invoice',
+  classification: 'READ',
   displayName: 'New Invoice',
   description: 'Trigger when a new invoice is received.',
+  aiMetadata: {
+    description:
+      'Fires when a new invoice is created in Zoho Invoice. Polls periodically for invoices created since the last check and emits each newly created invoice, with the invoice record as the event payload.',
+  },
   props: {},
   type: TriggerStrategy.POLLING,
   onEnable: async (context) => {

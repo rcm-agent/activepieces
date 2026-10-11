@@ -6,14 +6,17 @@ import {
   HttpRequest,
 } from '@activepieces/pieces-common';
 import { getApiKey, getBaseUrl, sendgridAuth } from '../common';
-import { Attachment } from 'nodemailer/lib/mailer';
+import Mail from 'nodemailer/lib/mailer';
 import mime from 'mime-types';
 
 export const sendEmail = createAction({
   auth: sendgridAuth,
   name: 'send_email',
+  classification: 'WRITE',
   displayName: 'Send Email',
   description: 'Send a text or HTML email',
+  audience: 'both',
+  aiMetadata: { description: 'Sends a one-off email via SendGrid with subject and body supplied inline, choosing plain-text or HTML content. Use to send transactional or ad-hoc messages where you compose the body directly; for prebuilt designs with merge variables use Send Dynamic Template instead. Requires a verified sender address and at least one recipient; optional file attachments are supported. Not idempotent — each call dispatches a new email.', idempotent: false },
   props: {
     to: Property.Array({
       displayName: 'To',
@@ -81,7 +84,7 @@ export const sendEmail = createAction({
     const { to, from, from_name, reply_to, subject, content_type, content, attachments = [] } =
       context.propsValue;
 
-    const attachment_data: Attachment[] = (attachments as { file: ApFile; name?: string }[])
+    const attachment_data: Mail.Attachment[] = (attachments as { file: ApFile; name?: string }[])
       .map(({file, name}) => {
         const lookupResult = mime.lookup(
           file.extension ? file.extension : ''

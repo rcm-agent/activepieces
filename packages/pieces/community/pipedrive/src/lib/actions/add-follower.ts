@@ -3,12 +3,21 @@ import { createAction, Property } from '@activepieces/pieces-framework';
 import { ownerIdProp } from '../common/props';
 import { pipedriveApiCall } from '../common';
 import { HttpMethod } from '@activepieces/pieces-common';
+import { addFollowerActionOutputSchema } from '../output-schemas';
 
 export const addFollowerAction = createAction({
 	auth: pipedriveAuth,
 	name: 'add-follower',
+	outputSchema: addFollowerActionOutputSchema,
+	classification: 'WRITE',
 	displayName: 'Add Follower',
 	description: 'Adds a follower to a deal, person, organization or product.',
+	audience: 'both',
+	aiMetadata: {
+		description:
+			'Adds a user as a follower of a single record, with the Target Object dropdown selecting the type (deal, person, organization, or product) and the Target Object ID identifying it. Use to subscribe a user to updates on a record; requires the follower user ID. Not idempotent: each call creates a follower association.',
+		idempotent: false,
+	},
 	props: {
 		followerId: ownerIdProp('Follower', true),
 		entity: Property.StaticDropdown({

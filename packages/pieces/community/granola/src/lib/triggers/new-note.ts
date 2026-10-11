@@ -43,8 +43,13 @@ const polling: Polling<
 export const newNoteTrigger = createTrigger({
   auth: granolaAuth,
   name: 'new_note',
+  classification: 'READ',
   displayName: 'New Note',
   description: 'Triggers when a new meeting note is created in Granola.',
+  aiMetadata: {
+    description:
+      'Fires when a new meeting note is created in the authenticated user\'s Granola account, emitting the newly captured note with its summary and meeting metadata. Detected by polling notes ordered by creation time; use it to react to freshly recorded meetings.',
+  },
   props: {},
   sampleData: {
     id: 'not_1d3tmYTlCICgjy',

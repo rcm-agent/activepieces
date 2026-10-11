@@ -5,8 +5,11 @@ import { clockodoAuth } from '../../auth';
 export default createAction({
   auth: clockodoAuth,
   name: 'create_project',
+  classification: 'WRITE',
   displayName: 'Create Project',
   description: 'Creates a project in clockodo',
+  audience: 'both',
+  aiMetadata: { description: 'Create a new clockodo project under a customer, with optional number, budget, billing defaults, and note. Not idempotent: each call adds another project even with identical input, so guard against duplicates. To change an existing project use Update Project.', idempotent: false },
   props: {
     name: Property.ShortText({
       displayName: 'Name',

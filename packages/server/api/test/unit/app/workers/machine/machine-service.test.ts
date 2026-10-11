@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { ExecutionMode } from '@activepieces/shared'
+import { ApEdition, ExecutionMode } from '@activepieces/shared'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 vi.mock('../../../../../src/app/workers/machine/machine-cache', () => ({
     workerMachineCache: vi.fn(() => ({
@@ -12,11 +12,25 @@ vi.mock('../../../../../src/app/helper/system/system', () => ({
     system: {
         getOrThrow: vi.fn().mockReturnValue('test-value'),
         getNumberOrThrow: vi.fn().mockReturnValue(60),
+        globalLogger: vi.fn(() => ({ info: vi.fn(), warn: vi.fn(), error: vi.fn(), debug: vi.fn() })),
+        getEdition: vi.fn().mockReturnValue(ApEdition.COMMUNITY),
+        getBoolean: vi.fn().mockReturnValue(undefined),
         get: vi.fn().mockReturnValue(undefined),
     },
 }))
 
-vi.mock('../../../../../src/app/ee/custom-domains/domain-helper', () => ({
+vi.mock('../../../../../src/app/helper/pubsub', () => ({
+    pubsub: {
+        publish: vi.fn().mockResolvedValue(undefined),
+        subscribe: vi.fn().mockResolvedValue(undefined),
+    },
+}))
+
+vi.mock('../../../../../src/app/database/redis-connections', () => ({
+    redisConnections: { getRedisType: vi.fn().mockReturnValue('MEMORY') },
+}))
+
+vi.mock('../../../../../src/app/helper/domain-helper', () => ({
     domainHelper: {
         getPublicUrl: vi.fn().mockResolvedValue('https://example.com'),
     },

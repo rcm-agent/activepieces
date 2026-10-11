@@ -6,10 +6,15 @@ export const certificationFolderSurveyInitialExperienceAnswered = createTrigger(
   {
     auth: wedofAuth,
     name: 'certificationFolderSurveyInitialExperienceAnswered',
+    classification: 'READ',
     displayName:
       'Enquête "Situation professionnelle en début de cursus" répondue',
     description:
       "Se déclenche lorsqu'un une enquête de début de cursus est répondue",
+    aiMetadata: {
+      description:
+        "Fires when the candidate answers the Wedof start-of-program professional-situation survey (enquête de situation professionnelle en début de cursus) on a certification folder. Emits the certification-folder survey record with the submitted initial-experience answers.",
+    },
     type: TriggerStrategy.WEBHOOK,
     props: {},
     sampleData: {

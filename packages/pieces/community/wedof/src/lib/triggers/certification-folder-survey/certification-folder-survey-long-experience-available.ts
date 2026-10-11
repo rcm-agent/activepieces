@@ -6,10 +6,15 @@ export const certificationFolderSurveyLongTermExperienceAvailable =
   createTrigger({
     auth: wedofAuth,
     name: 'certificationFolderSurveyLongTermExperienceAvailable',
+    classification: 'READ',
     displayName:
       'Enquête "Situation professionnelle au moins un an" disponible',
     description:
       "Se déclenche lorsqu'un une enquête de au moins un an de cursus est disponible",
+    aiMetadata: {
+      description:
+        "Fires when the Wedof long-term professional-situation survey (enquête de situation professionnelle à au moins un an) becomes available for a certification folder, meaning it can now be sent to or answered by the candidate. Emits the certification-folder survey record.",
+    },
     type: TriggerStrategy.WEBHOOK,
     props: {},
     sampleData: {

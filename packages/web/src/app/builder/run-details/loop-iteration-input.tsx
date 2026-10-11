@@ -1,4 +1,10 @@
-import { FlowActionType, flowStructureUtil, isNil } from '@activepieces/shared';
+import { isNil } from '@activepieces/core-utils';
+import {
+  FlowActionType,
+  StepOutput,
+  StepOutputStatus,
+  flowStructureUtil,
+} from '@activepieces/shared';
 import { t } from 'i18next';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -11,6 +17,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { flowRunUtils } from '@/features/flow-runs';
+import { cn } from '@/lib/utils';
 
 import { useBuilderStateContext } from '../builder-hooks';
 
@@ -45,12 +52,17 @@ const LoopIterationInput = ({ stepName }: { stepName: string }) => {
     }
   }, [currentIndex]);
 
-  const totalIterations =
-    stepOutput &&
-    stepOutput.output &&
-    stepOutput.type === FlowActionType.LOOP_ON_ITEMS
-      ? stepOutput.output.iterations.length
-      : 0;
+  const iterationStatuses = useMemo<StepOutputStatus[]>(() => {
+    if (
+      !stepOutput ||
+      stepOutput.type !== FlowActionType.LOOP_ON_ITEMS ||
+      !stepOutput.output
+    ) {
+      return [];
+    }
+    return stepOutput.output.iterations.map(getIterationStatus);
+  }, [stepOutput]);
+  const totalIterations = iterationStatuses.length;
 
   function onChange(value: string) {
     const parsedValue = Math.max(
@@ -76,8 +88,10 @@ const LoopIterationInput = ({ stepName }: { stepName: string }) => {
           <TooltipTrigger>
             <Input
               ref={inputRef}
-              className={`py-2 w-[35px] px-0 h-[35px] animate-in fade-in bg-background border-solid rounded-md text-center !text-xs transition-all duration-300 ease-in-out ${
-                isAnimating ? 'border-2 border-primary' : 'border border-border'
+              className={`py-2 w-[35px] px-0 h-[35px] animate-in fade-in bg-gray-1 border-solid rounded-md text-center !text-xs transition-all duration-300 ${
+                isAnimating
+                  ? 'border-2 border-accent-9'
+                  : 'border border-gray-6'
               }`}
               type="number"
               value={currentIndex + 1}
@@ -112,6 +126,36 @@ const LoopIterationInput = ({ stepName }: { stepName: string }) => {
           isIncreasing={false}
           currentIndex={currentIndex}
         />
+        {totalIterations > 1 && (
+          <div className="mt-1 flex max-h-[120px] w-9 flex-wrap content-start justify-center gap-0.5 overflow-y-auto">
+            {iterationStatuses.map((status, index) => (
+              <Tooltip key={index}>
+                <TooltipTrigger asChild>
+                  <button
+                    type="button"
+                    aria-label={t('Iteration {index}', { index: index + 1 })}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setLoopIndex(stepName, index);
+                    }}
+                    className={cn(
+                      'size-2.5 shrink-0 rounded-full border border-gray-1 transition-transform hover:scale-125',
+                      getIterationDotClassName(status),
+                      index === currentIndex &&
+                        'ring-1 ring-accent-9 ring-offset-1',
+                    )}
+                  />
+                </TooltipTrigger>
+                <TooltipContent side="left">
+                  {`${t('Iteration {index}', {
+                    index: index + 1,
+                  })} · ${getIterationStatusLabel(status)}`}
+                </TooltipContent>
+              </Tooltip>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -119,6 +163,52 @@ const LoopIterationInput = ({ stepName }: { stepName: string }) => {
 
 LoopIterationInput.displayName = 'LoopIterationInput';
 export { LoopIterationInput };
+
+function getIterationStatus(
+  iteration: Record<string, StepOutput>,
+): StepOutputStatus {
+  const statuses = Object.values(iteration).map(
+    (stepOutput) => stepOutput.status,
+  );
+  if (statuses.includes(StepOutputStatus.FAILED)) {
+    return StepOutputStatus.FAILED;
+  }
+  if (statuses.includes(StepOutputStatus.RUNNING)) {
+    return StepOutputStatus.RUNNING;
+  }
+  if (statuses.includes(StepOutputStatus.PAUSED)) {
+    return StepOutputStatus.PAUSED;
+  }
+  return StepOutputStatus.SUCCEEDED;
+}
+
+function getIterationDotClassName(status: StepOutputStatus): string {
+  switch (status) {
+    case StepOutputStatus.FAILED:
+      return 'bg-danger-10';
+    case StepOutputStatus.RUNNING:
+      return 'bg-accent-10 animate-pulse';
+    case StepOutputStatus.PAUSED:
+      return 'bg-warning-10';
+    default:
+      return 'bg-success-10';
+  }
+}
+
+function getIterationStatusLabel(status: StepOutputStatus): string {
+  switch (status) {
+    case StepOutputStatus.FAILED:
+      return t('Failed');
+    case StepOutputStatus.RUNNING:
+      return t('Running');
+    case StepOutputStatus.PAUSED:
+      return t('Paused');
+    case StepOutputStatus.STOPPED:
+      return t('Stopped');
+    default:
+      return t('Succeeded');
+  }
+}
 
 const LoopIterationInputButton = ({
   onChange,
@@ -137,7 +227,7 @@ const LoopIterationInputButton = ({
         e.stopPropagation();
         onChange((currentIndex + (isIncreasing ? 2 : 0)).toString());
       }}
-      className="hover:bg-builder-background size-6"
+      className="hover:bg-gray-2 size-6"
       size="icon"
     >
       {isIncreasing ? (

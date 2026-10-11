@@ -1,5 +1,5 @@
-import { PieceAuth } from '@activepieces/pieces-framework';
-import { AppConnectionType } from '@activepieces/shared';
+import { AppConnectionValueForAuthProperty, PieceAuth } from '@activepieces/pieces-framework';
+import { AppConnectionType } from '@activepieces/pieces-framework';
 import { httpClient, HttpMethod, AuthenticationType } from '@activepieces/pieces-common';
 import { SAVVYCAL_BASE_URL } from './common';
 
@@ -10,6 +10,7 @@ export const savvyCalAuth = [
     tokenUrl: 'https://savvycal.com/oauth/token',
     required: true,
     scope: [],
+    getConnectionIdentifier: async ({ auth }) => fetchUserLabel(auth.access_token),
   }),
   PieceAuth.CustomAuth({
     displayName: 'Personal Access Token',
@@ -44,14 +45,38 @@ export const savvyCalAuth = [
         return { valid: false, error: 'Invalid token. Please check your Personal Access Token and try again.' };
       }
     },
+    getConnectionIdentifier: async ({ auth }) => fetchUserLabel(auth.token),
   }),
 ];
 
-export type SavvyCalAuthValue =
-  | { type: AppConnectionType.OAUTH2; access_token: string }
-  | { type: AppConnectionType.CUSTOM_AUTH; props: { token: string } };
+export type SavvyCalAuthValue = AppConnectionValueForAuthProperty<typeof savvyCalAuth>
 
 export function getToken(auth: SavvyCalAuthValue): string {
-  if (auth.type === AppConnectionType.OAUTH2) return auth.access_token;
-  return auth.props.token;
+  if (auth.type === AppConnectionType.CUSTOM_AUTH) {
+    return auth.props.token;
+  }
+  return auth.access_token;
 }
+
+async function fetchUserLabel(token: string): Promise<string | undefined> {
+  try {
+    const response = await httpClient.sendRequest<SavvyCalUser>({
+      method: HttpMethod.GET,
+      url: `${SAVVYCAL_BASE_URL}/me`,
+      headers: { Authorization: `Bearer ${token}` },
+      timeout: 5000,
+    });
+    const user = response.body;
+    const fullName = [user.first_name, user.last_name].filter(Boolean).join(' ');
+    return user.email || user.display_name || fullName || undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+type SavvyCalUser = {
+  email?: string;
+  display_name?: string;
+  first_name?: string;
+  last_name?: string;
+};

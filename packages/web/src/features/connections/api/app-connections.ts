@@ -1,3 +1,4 @@
+import { SeekPage } from '@activepieces/core-utils';
 import {
   AppConnectionOwners,
   AppConnectionWithoutSensitiveData,
@@ -6,7 +7,6 @@ import {
   ListAppConnectionOwnersRequestQuery,
   ListAppConnectionsRequestQuery,
   ReplaceAppConnectionsRequestBody,
-  SeekPage,
   UpdateConnectionValueRequestBody,
   UpsertAppConnectionRequestBody,
 } from '@activepieces/shared';
@@ -33,6 +33,12 @@ export const appConnectionsApi = {
   },
   delete(id: string): Promise<void> {
     return api.delete<void>(`/v1/app-connections/${id}`);
+  },
+  revalidate(id: string): Promise<AppConnectionWithoutSensitiveData> {
+    return api.post<AppConnectionWithoutSensitiveData>(
+      `/v1/app-connections/${id}/revalidate`,
+      {},
+    );
   },
   update(
     id: string,

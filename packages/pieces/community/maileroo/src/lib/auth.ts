@@ -1,7 +1,5 @@
 import { PieceAuth, Property } from '@activepieces/pieces-framework';
-import { HttpError } from '@activepieces/pieces-common';
-import FormData from 'form-data';
-import { checkEmail, sendFormData } from './common/send-utils';
+import { HttpError, HttpMethod, httpClient } from '@activepieces/pieces-common';
 
 const markdown = `
 For Sending API key, follow these steps:
@@ -10,6 +8,8 @@ For Sending API key, follow these steps:
 3. Click on the **Create sending key** under the API section.
 4. Click **New Sending Key**.
 5. Copy the key under the **Sending Key** column.
+
+For Account API key (used by the actions that manage domains, templates, suppressions, logs and statistics), create a key with the scopes you need in your Maileroo account settings.
 
 For Verification API key, follow these steps:
 1. Navigate to [Verification API](https://app.maileroo.com/verifications).
@@ -33,6 +33,10 @@ export const mailerooAuth = PieceAuth.CustomAuth({
             label: 'Verification Key',
             value: 'verification',
           },
+          {
+            label: 'Account Key',
+            value: 'account',
+          },
         ],
       },
       required: true,
@@ -48,13 +52,20 @@ export const mailerooAuth = PieceAuth.CustomAuth({
 
     if (auth.keyType === 'sending') {
       try {
-        const formData = new FormData();
-        formData.append('from', PLACEHOLDER_STRING);
-        formData.append('to', PLACEHOLDER_STRING);
-        formData.append('subject', PLACEHOLDER_STRING);
-        formData.append('plain', PLACEHOLDER_STRING);
-
-        await sendFormData('send', formData, auth.apiKey);
+        await httpClient.sendRequest({
+          method: HttpMethod.POST,
+          url: 'https://smtp.maileroo.com/api/v2/emails',
+          body: {
+            from: { address: PLACEHOLDER_STRING },
+            to: [{ address: PLACEHOLDER_STRING }],
+            subject: PLACEHOLDER_STRING,
+            plain: PLACEHOLDER_STRING,
+          },
+          headers: {
+            'X-API-Key': auth.apiKey,
+            'Content-Type': 'application/json',
+          },
+        });
       } catch (e) {
         const status = (e as HttpError).response.status;
 
@@ -75,9 +86,33 @@ export const mailerooAuth = PieceAuth.CustomAuth({
       return {
         valid: true,
       };
+    } else if (auth.keyType === 'account') {
+      try {
+        await httpClient.sendRequest({
+          method: HttpMethod.GET,
+          url: 'https://api.maileroo.com/v1/statistics/summary',
+          headers: { Authorization: `Bearer ${auth.apiKey}` },
+        });
+        return { valid: true };
+      } catch (e) {
+        if (e instanceof HttpError && e.response.status === 401) {
+          return { valid: false, error: 'Invalid Account API key' };
+        }
+        if (e instanceof HttpError && e.response.status === 403 && (JSON.stringify(e.response.body) ?? '').includes('scope')) {
+          return { valid: true };
+        }
+        return { valid: false, error: 'Could not validate the Account API key. Check the key and try again.' };
+      }
     } else {
-      // Need a different implementation because the response for verification key is different
-      const result = await checkEmail(PLACEHOLDER_STRING, auth.apiKey);
+      const result = await httpClient.sendRequest({
+        url: 'https://verify.maileroo.net/check',
+        method: HttpMethod.POST,
+        body: { email_address: PLACEHOLDER_STRING },
+        headers: {
+          'X-API-Key': auth.apiKey,
+          'Content-Type': 'application/json',
+        },
+      });
 
       if (result.status === 200 && result.body.error_code !== '0401') {
         return {

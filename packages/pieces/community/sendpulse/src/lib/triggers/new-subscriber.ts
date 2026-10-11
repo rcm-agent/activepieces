@@ -11,8 +11,12 @@ import { HttpMethod } from '@activepieces/pieces-common';
 export const newSubscriberTrigger = createTrigger({
   auth: sendpulseAuth,
   name: 'new_subscriber',
+  classification: 'READ',
   displayName: 'New Subscriber',
   description: 'Fires when new subscriber is added',
+  aiMetadata: {
+    description: 'Fires when a new email contact is added to the selected SendPulse mailing list (address book), via any source such as a subscription form or import. Each event represents one newly added subscriber and includes their email, source, and variables.',
+  },
   type: TriggerStrategy.WEBHOOK,
   props: {
     mailingListId: mailingListDropdown,

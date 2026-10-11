@@ -7,8 +7,14 @@ import { Client } from '@microsoft/microsoft-graph-client';
 export const createListItemAction = createAction({
   auth: microsoftSharePointAuth,
   name: 'microsoft_sharepoint_create_list_item',
+  classification: 'WRITE',
   displayName: 'Create List Item',
   description: 'Creates a new item in a list.',
+  audience: 'both',
+  aiMetadata: {
+    description: 'Adds a new item (row) to a SharePoint list on a given site, setting the list column field values you provide. Use to record a new entry in an existing list. Not idempotent: each call appends another item, so repeating it creates duplicates.',
+    idempotent: false,
+  },
   props: {
     siteId: microsoftSharePointCommon.siteId,
     listId: microsoftSharePointCommon.listId,

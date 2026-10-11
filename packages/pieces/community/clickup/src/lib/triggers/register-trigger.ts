@@ -1,4 +1,9 @@
-import { TriggerStrategy, createTrigger } from '@activepieces/pieces-framework';
+import {
+  MarkdownVariant,
+  Property,
+  TriggerStrategy,
+  createTrigger,
+} from '@activepieces/pieces-framework';
 import {
   httpClient,
   HttpRequest,
@@ -8,32 +13,59 @@ import {
 import { callClickupGetTask, clickupCommon } from '../common';
 import { ClickupEventType, ClickupWebhookPayload } from '../common/models';
 import { clickupAuth } from '../auth';
+import { clickupTriggerOutputSchemas } from '../output-schemas';
 
 export const clickupRegisterTrigger = ({
   name,
   displayName,
   eventType,
   description,
+  aiMetadata,
   sampleData,
 }: {
   name: string;
   displayName: string;
   eventType: ClickupEventType;
   description: string;
+  aiMetadata?: { description: string };
   sampleData: unknown;
 }) =>
   createTrigger({
     auth: clickupAuth,
     name: `clickup_trigger_${name}`,
+    classification: 'READ',
     displayName,
     description,
+    aiMetadata,
     props: {
       workspace_id: clickupCommon.workspace_id(true),
-      space_id: clickupCommon.space_id(false), // Optional, depends on workspace
-      folder_id: clickupCommon.folder_id(false), // Optional, depends on space
-      list_id: clickupCommon.list_id(false), // Optional, depends on folder or space
-      task_id: clickupCommon.task_id(false), // Optional, depends on list
+      scope_info: Property.MarkDown({
+        value:
+          'Leave space, folder, list and task empty to listen to the whole workspace.',
+        variant: MarkdownVariant.INFO,
+      }),
+      space_id: clickupCommon.space_id(false),
+      folder_id: clickupCommon.folder_id(false),
+      list_id: clickupCommon.list_id(false),
+      task_id: clickupCommon.task_id(false),
     },
+    propertyGroups: [
+      {
+        key: 'scope',
+        display: 'section',
+        label: 'Listen In',
+        icon: 'inbox',
+        props: [
+          'workspace_id',
+          'scope_info',
+          'space_id',
+          'folder_id',
+          'list_id',
+          'task_id',
+        ],
+      },
+    ],
+    outputSchema: clickupTriggerOutputSchemas[name],
     sampleData,
     type: TriggerStrategy.WEBHOOK,
     async onEnable(context) {
@@ -65,7 +97,6 @@ export const clickupRegisterTrigger = ({
       const response = await httpClient.sendRequest<WebhookInformation>(
         request
       );
-      console.debug(`clickup.${eventType}.onEnable`, response);
 
       await context.store.put<WebhookInformation>(
         `clickup_${name}_trigger`,
@@ -85,8 +116,7 @@ export const clickupRegisterTrigger = ({
             token: context.auth['access_token'],
           },
         };
-        const response = await httpClient.sendRequest(request);
-        console.debug(`clickup.${eventType}.onDisable`, response);
+        await httpClient.sendRequest(request);
       }
     },
     async run(context) {
@@ -110,7 +140,6 @@ export const clickupRegisterTrigger = ({
           },
         ];
 
-        console.debug('payload enriched', enriched);
         return enriched;
       }
 

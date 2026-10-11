@@ -25,7 +25,7 @@ function createRowHash(rowData: unknown[]): string {
 // Helper function to get all worksheet rows with error handling
 async function getWorksheetRows(auth: AppConnectionValueForAuthProperty<typeof excelAuth>, workbookId: string, worksheetId: string, drivePath: string): Promise<(string | number | boolean)[][]> {
     try {
-        return await excelCommon.getAllRows(workbookId, worksheetId, auth.access_token, drivePath);
+        return await excelCommon.getAllRows(workbookId, worksheetId, auth.access_token, drivePath, auth.props?.['cloud']);
     } catch (error) {
         throw new Error(`Failed to fetch worksheet rows: ${error}`);
     }
@@ -106,8 +106,12 @@ const polling: Polling<
 export const updatedRowTrigger = createTrigger({
     auth: excelAuth,
     name: triggerName,
+    classification: 'READ',
     displayName: 'Updated Row',
     description: 'Fires when a row (in a worksheet) is added or updated.',
+    aiMetadata: {
+        description: 'Fires when a row in the selected worksheet is added or its cell values change, detected by comparing row content hashes between polls. Each event represents one changed row and returns its 1-based row index, the cell values (keyed by header names when headers are enabled, otherwise by column letters), and a changeType of "added" or "updated". Use this to react to edits or new entries in worksheet rows.',
+    },
     props: {
         storageSource: commonProps.storageSource,
         siteId: commonProps.siteId,

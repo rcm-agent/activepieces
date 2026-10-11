@@ -7,8 +7,14 @@ import { Client } from '@microsoft/microsoft-graph-client';
 export const publishPageAction = createAction({
   auth: microsoftSharePointAuth,
   name: 'microsoft_sharepoint_publish_page',
+  classification: 'WRITE',
   displayName: 'Publish Page',
   description: 'Publishes a SharePoint page, making it available to all users. If the page is checked out, it will be automatically checked in. Note: Pages with active approval flows will not publish until approval is complete.',
+  audience: 'both',
+  aiMetadata: {
+    description: 'Publishes a SharePoint site page by its page ID on a given site, making the latest version visible to all users (auto-checking it in if needed). Use to make page edits live. Idempotent: re-publishing an already-published page leaves it published. A page awaiting an approval flow will not publish until approval completes.',
+    idempotent: true,
+  },
   props: {
     siteId: microsoftSharePointCommon.siteId,
     pageId: microsoftSharePointCommon.pageId,

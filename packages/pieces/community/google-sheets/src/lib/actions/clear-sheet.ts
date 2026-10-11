@@ -2,22 +2,31 @@ import { createAction, Property } from '@activepieces/pieces-framework';
 import { areSheetIdsValid, googleSheetsCommon } from '../common/common';
 import { googleSheetsAuth } from '../common/common';
 import { commonProps, isFirstRowHeaderProp } from '../common/props';
+import { clearSheetActionOutputSchema } from '../output-schemas';
 
 export const clearSheetAction = createAction({
 	auth: googleSheetsAuth,
 	name: 'clear_sheet',
-	description: 'Clears all rows on an existing sheet.',
+	classification: 'DESTRUCTIVE',
+	description: 'Clear every row on a worksheet, keeping the worksheet itself.',
+	audience: 'human',
+	aiMetadata: {
+		description:
+			'Deletes all data rows from a worksheet, optionally preserving the header row. Use when an agent needs to empty a sheet before repopulating it. Idempotent — clearing an already-empty sheet leaves it empty; this is destructive and removes all existing row content.',
+		idempotent: true,
+	},
 	displayName: 'Clear Sheet',
 	props: {
 		...commonProps,
 		is_first_row_headers: isFirstRowHeaderProp(),
 		headerRow: Property.Number({
-			displayName: 'Header Row Number',
-			description: 'Enter the row number where your column headers are located (usually row 1).',
+			displayName: 'Header Row',
+			description: 'The row that contains the column names.',
 			required: true,
 			defaultValue: 1,
 		}),
 	},
+	outputSchema: clearSheetActionOutputSchema,
 	async run({ propsValue, auth }) {
 		const {
 			spreadsheetId,

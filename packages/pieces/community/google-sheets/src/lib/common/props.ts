@@ -1,5 +1,6 @@
 import { DropdownOption, Property } from '@activepieces/pieces-framework';
-import { google, drive_v3 } from 'googleapis';
+import { sheets as googleSheets } from '@googleapis/sheets';
+import { drive as googleDrive, drive_v3 } from '@googleapis/drive';
 import {
 	columnToLabel,
 	createGoogleClient,
@@ -8,7 +9,7 @@ import {
 	GoogleSheetsAuthValue,
 	googleSheetsCommon,
 } from './common';
-import { isNil } from '@activepieces/shared';
+import { isNil } from '@activepieces/pieces-framework';
 
 const createEmptyOptionList = (message: string) => {
 	return {
@@ -18,12 +19,13 @@ const createEmptyOptionList = (message: string) => {
 	};
 };
 
-export const includeTeamDrivesProp = () =>
+export const includeTeamDrivesProp = ({ advanced = true }: { advanced?: boolean } = {}) =>
 	Property.Checkbox({
-		displayName: 'Include Shared Drive Sheets ?',
-		description: 'Turn this on to also see spreadsheets from Shared Drives.',
+		displayName: 'Include Shared Drives',
+		description: 'Also include spreadsheets stored in shared drives.',
 		defaultValue: false,
 		required: false,
+		advanced,
 	});
 
 export const spreadsheetIdProp = (displayName: string, description: string, required = true) =>
@@ -35,14 +37,14 @@ export const spreadsheetIdProp = (displayName: string, description: string, requ
 		refreshers: ['includeTeamDrives'],
 		options: async ({ auth, includeTeamDrives }, { searchValue }) => {
 			if (!auth) {
-				return createEmptyOptionList('please connect your account first.');
+				return createEmptyOptionList('Connect your account first');
 			}
 
 			const authValue = auth;
 
 			const authClient = await createGoogleClient(authValue);
 
-			const drive = google.drive({ version: 'v3', auth: authClient });
+			const drive = googleDrive({ version: 'v3', auth: authClient });
 
 			const q = ["mimeType='application/vnd.google-apps.spreadsheet'", 'trashed = false'];
 
@@ -60,6 +62,7 @@ export const spreadsheetIdProp = (displayName: string, description: string, requ
 					fields: 'nextPageToken, files(id, name)',
 					supportsAllDrives: true,
 					includeItemsFromAllDrives: includeTeamDrives ? true : false,
+					corpora: includeTeamDrives ? 'allDrives' : 'user',
 				});
 				const fileList: drive_v3.Schema$FileList = response.data;
 
@@ -90,18 +93,18 @@ export const sheetIdProp = (displayName: string, description: string, required =
 		refreshers: ['spreadsheetId'],
 		options: async ({ auth, spreadsheetId }) => {
 			if (!auth) {
-				return createEmptyOptionList('please connect your account first.');
+				return createEmptyOptionList('Connect your account first');
 			}
 
 			if ((spreadsheetId ?? '').toString().length === 0) {
-				return createEmptyOptionList('please select a spreadsheet first.');
+				return createEmptyOptionList('Select a spreadsheet first');
 			}
 
 			const authValue = auth as GoogleSheetsAuthValue;
 
 			const authClient = await createGoogleClient(authValue);
 
-			const sheets = google.sheets({ version: 'v4', auth: authClient });
+			const sheets = googleSheets({ version: 'v4', auth: authClient });
 
 			const response = await sheets.spreadsheets.get({
 				spreadsheetId: spreadsheetId as unknown as string,
@@ -131,9 +134,9 @@ export const sheetIdProp = (displayName: string, description: string, required =
 	});
 
 export const commonProps = {
+	spreadsheetId: spreadsheetIdProp('Spreadsheet', 'The spreadsheet to work in.'),
+	sheetId: sheetIdProp('Worksheet', 'The tab inside that spreadsheet.'),
 	includeTeamDrives: includeTeamDrivesProp(),
-	spreadsheetId: spreadsheetIdProp('Spreadsheet', 'The ID of the spreadsheet to use.'),
-	sheetId: sheetIdProp('Worksheet', 'The ID of the worksheet to use.'),
 };
 
 export const rowValuesProp = () =>
@@ -177,7 +180,6 @@ export const rowValuesProp = () =>
 				const label = columnToLabel(i);
 				properties[label] = Property.ShortText({
 					displayName: firstRow[i].toString(),
-					// description: firstRow[i].toString(),
 					required: false,
 					defaultValue: '',
 				});
@@ -204,7 +206,7 @@ export const columnNameProp = () =>
 				return {
 					disabled: true,
 					options: [],
-					placeholder: 'Please select a sheet first',
+					placeholder: 'Select a worksheet first',
 				};
 			}
 
@@ -244,7 +246,6 @@ export const columnNameProp = () =>
 				for (let i = 0; i < headers.length; i++) {
 					let value = 'A';
 					if (index >= alphabet.length) {
-						// if the index is greater than the length of the alphabet, we need to add another letter
 						const firstLetter = alphabet[Math.floor(index / alphabet.length) - 1];
 						const secondLetter = alphabet[index % alphabet.length];
 						value = firstLetter + secondLetter;
@@ -268,7 +269,9 @@ export const columnNameProp = () =>
 
 export const isFirstRowHeaderProp = () =>
 	Property.Checkbox({
-		displayName: 'First Row Contains Headers ?',
-		required: true,
+		displayName: 'First Row Contains Headers',
+		description:
+			'Enter values by column name instead of left to right.',
+		required: false,
 		defaultValue: false,
 	});

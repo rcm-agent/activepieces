@@ -5,9 +5,12 @@ import { whatsappAccountDropdown } from '../common/properties';
 export const findChat = createAction({
   auth: timelinesAiAuth,
   name: 'findChat',
+  classification: 'SEARCH',
   displayName: 'Find Chat',
   description:
     'Look up a chat by parameters such as chat_id, phone, name, etc.',
+  audience: 'both',
+  aiMetadata: { description: 'Searches TimelinesAI WhatsApp chats, optionally filtered by labels, WhatsApp account, name, group/read/closed/autoresponse flags, responsible user, and creation date range; with no filters supplied it returns all chats (paginated). Use to find a chat or its chat_id before sending or closing. Read-only and idempotent.', idempotent: true },
   props: {
     label: Property.Array({
       displayName: 'Labels',

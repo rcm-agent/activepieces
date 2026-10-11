@@ -6,8 +6,15 @@ import { OrderStatus } from '../../common/constants';
 export const updateOrderStatusAction = createAction({
   auth: quickzuAuth,
   name: 'quickzu_update_order_status',
+  classification: 'DESTRUCTIVE',
   displayName: 'Update Order Status',
   description: 'Updates status of order in store.',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Sets the status of an existing Quickzu order (identified by order ID) to one of the predefined status values. Use to advance or change an order in its fulfillment lifecycle. Idempotent: setting the same status repeatedly leaves the order in the same state.',
+    idempotent: true,
+  },
   props: {
     orderId: quickzuCommon.orderId(true),
     status: Property.StaticDropdown({

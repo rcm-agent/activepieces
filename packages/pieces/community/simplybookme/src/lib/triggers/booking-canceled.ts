@@ -4,8 +4,12 @@ import { simplybookAuth} from '../common';
 export const bookingCanceled = createTrigger({
   auth: simplybookAuth,
   name: 'booking_canceled',
+  classification: 'READ',
   displayName: 'Booking Cancellation',
   description: 'Triggers when a booking is canceled in SimplyBook.me',
+  aiMetadata: {
+    description: 'Fires when an existing booking is canceled in SimplyBook.me (the platform webhook with notification_type "cancel"). Represents an appointment that has been called off, by either the client or an admin.',
+  },
   type: TriggerStrategy.WEBHOOK,
   props: {},
   async onEnable(context) {

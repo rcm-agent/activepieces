@@ -4,9 +4,16 @@ import { loopsAuth, LOOPS_BASE_URL } from '../auth';
 
 export const sendTransactionalEmail = createAction({
   name: 'send_transactional_email',
+  classification: 'WRITE',
   displayName: 'Send Transactional Email',
   description:
     'Sends a transactional email to a contact using a pre-built template in Loops.',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Sends a transactional email to a single recipient using a pre-built Loops template, populating the template via data variables and optionally adding the recipient to the audience if they are not already a contact. Use for one-off, triggered emails like receipts or password resets. Requires the recipient email and the transactional template ID. Not idempotent: each call delivers another email.',
+    idempotent: false,
+  },
   auth: loopsAuth,
   props: {
     email: Property.ShortText({

@@ -7,8 +7,12 @@ import { cognitoFormsAuth } from '../auth';
 
 export const newEntryTrigger = createTrigger({
   name: 'new_entry',
+  classification: 'READ',
   displayName: 'New Entry',
   description: 'Triggers when a new form entry is submitted.',
+  aiMetadata: {
+    description: 'Fires when a new entry is submitted to a Cognito Forms form, delivering the submitted entry data. Requires the form to be configured to post JSON to the webhook URL on entry submission.',
+  },
   auth: cognitoFormsAuth,
   props: {
     webhookInstructions: Property.MarkDown({

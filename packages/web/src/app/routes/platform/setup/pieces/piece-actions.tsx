@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import { Eye, EyeOff, Pin, PinOff } from 'lucide-react';
+import { Pin, PinOff } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/tooltip';
 import { platformPiecesMutations } from '@/features/platform-admin';
 import { platformHooks } from '@/hooks/platform-hooks';
+import { AdminControl, adminControl } from '@/lib/admin-control';
 
 type PieceActionsProps = {
   pieceName: string;
@@ -18,12 +19,6 @@ type PieceActionsProps = {
 const PieceActions = ({ pieceName, isEnabled }: PieceActionsProps) => {
   const { platform, refetch } = platformHooks.useCurrentPlatform();
 
-  const { mutate: togglePiece, isPending: isTogglePending } =
-    platformPiecesMutations.useTogglePieceVisibility({
-      platformId: platform.id,
-      filteredPieceNames: platform.filteredPieceNames,
-      refetch,
-    });
   const { mutate: togglePin, isPending: isPinPending } =
     platformPiecesMutations.useTogglePiecePin({
       platformId: platform.id,
@@ -31,7 +26,6 @@ const PieceActions = ({ pieceName, isEnabled }: PieceActionsProps) => {
       refetch,
     });
 
-  const filtered = platform.filteredPieceNames.includes(pieceName);
   const pinned = platform.pinnedPieces.includes(pieceName);
 
   return (
@@ -39,35 +33,7 @@ const PieceActions = ({ pieceName, isEnabled }: PieceActionsProps) => {
       <Tooltip>
         <TooltipTrigger asChild>
           <Button
-            variant="ghost"
-            size={'sm'}
-            loading={isTogglePending}
-            disabled={!isEnabled}
-            onClick={(e) => {
-              if (!isEnabled) {
-                e.preventDefault();
-                return;
-              }
-              togglePiece(pieceName);
-            }}
-          >
-            {filtered ? (
-              <EyeOff className="size-4" />
-            ) : (
-              <Eye className="size-4" />
-            )}
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent>
-          {filtered
-            ? t('Hide this piece from all projects')
-            : t('Show this piece for all projects')}
-        </TooltipContent>
-      </Tooltip>
-
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
+            {...adminControl(AdminControl.PIECES_PIN_RUN)}
             variant="ghost"
             size={'sm'}
             loading={isPinPending}

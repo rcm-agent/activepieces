@@ -1,30 +1,36 @@
 import { createAction, Property } from '@activepieces/pieces-framework';
-import { google, calendar_v3 } from 'googleapis';
+import { calendar as googleCalendar, calendar_v3 } from '@googleapis/calendar';
 import { googleCalendarCommon, googleCalendarAuth, createGoogleClient } from '../common';
+import { eventOutputSchema } from '../output-schemas';
 
 export const addAttendeesToEventAction = createAction({
   auth: googleCalendarAuth,
   name: 'google-calendar-add-attendees',
+  classification: 'WRITE',
   displayName: 'Add Attendees to Event',
-  description: 'Add one or more person to existing event.',
+  description: 'Adds guests to an existing event.',
+  audience: 'both',
+  aiMetadata: { description: 'Adds one or more guests (by email) to an existing Google Calendar event, identified by calendar and event ID, preserving the current attendee list. Use to invite people to an event that already exists rather than recreating it. Not idempotent: re-running appends the same emails again, producing duplicate attendee entries.', idempotent: false },
   props: {
     calendar_id: googleCalendarCommon.calendarDropdown('writer'),
     eventId: Property.ShortText({
       displayName: 'Event ID',
+      description: 'Paste the ID from the event URL or a previous step.',
       required: true,
     }),
     attendees: Property.Array({
       displayName: 'Attendees',
-      description: 'Emails of the attendees (guests)',
+      description: 'One guest email per item.',
       required: true,
     }),
   },
+  outputSchema: eventOutputSchema,
   async run(context) {
     const { calendar_id, eventId } = context.propsValue;
     const attendeesInput = context.propsValue.attendees as string[];
 
     const authClient = await createGoogleClient(context.auth);
-    const calendar = google.calendar({ version: 'v3', auth: authClient });
+    const calendar = googleCalendar({ version: 'v3', auth: authClient });
 
     // Note that each patch request consumes three quota units;
     // prefer using a get followed by an update

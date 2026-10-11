@@ -7,8 +7,15 @@ import { projectId, workspaceId } from '../common/props';
 export const findTaskAction = createAction({
 	auth: clockifyAuth,
 	name: 'find-task',
+	classification: 'SEARCH',
 	displayName: 'Find Task',
 	description: 'Finds an existing task in a specific project.',
+	audience: 'both',
+	aiMetadata: {
+		description:
+			'Searches for tasks by name within a specific Clockify project and returns matches. Toggle Exact Match for strict name matching versus a looser substring search. Use to resolve a task id or confirm a task exists before creating time entries. Read-only and idempotent.',
+		idempotent: true,
+	},
 	props: {
 		workspaceId: workspaceId({
 			displayName: 'Workspace',

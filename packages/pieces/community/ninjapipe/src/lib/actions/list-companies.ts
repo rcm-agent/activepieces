@@ -6,8 +6,11 @@ import { ninjapipeApiCall, extractItems, flattenArray, getAuth, ninjapipeCommon 
 export const listCompanies = createAction({
   auth: ninjapipeAuth,
   name: 'list_companies',
+  classification: 'SEARCH',
   displayName: 'List Companies',
   description: 'Retrieves a list of companies.',
+  audience: 'both',
+  aiMetadata: { description: 'Read-only listing of companies (CRM accounts) in NinjaPipe, with optional search text, status/owner filters, and pagination. Pick this to browse or find companies; enable Return All to page through every match instead of a single page. Safe to repeat.', idempotent: true },
   props: {
     limit: ninjapipeCommon.limitProperty,
     search: ninjapipeCommon.searchProperty,

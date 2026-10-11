@@ -1,6 +1,6 @@
 
 import { createPiece, PieceAuth } from "@activepieces/pieces-framework";
-import { PieceCategory } from '@activepieces/shared';
+import { PieceCategory } from '@activepieces/pieces-framework';
 import { askAI } from './lib/actions/text/ask-ai';
 import { summarizeText } from './lib/actions/text/summarize-text';
 import { generateImageAction } from "./lib/actions/image/generate-image";
@@ -11,8 +11,9 @@ import { runAgent } from "./lib/actions/agents/run-agent";
 
 export const ai = createPiece({
   displayName: "AI",
+  description: 'Ask, summarize, classify, extract and create images with AI.',
   auth: PieceAuth.None(),
-  minimumSupportedRelease: '0.78.2',
+  minimumSupportedRelease: '0.93.0',
   categories: [
     PieceCategory.ARTIFICIAL_INTELLIGENCE,
     PieceCategory.UNIVERSAL_AI,
@@ -24,4 +25,3 @@ export const ai = createPiece({
 });
 
 export * from './lib/common/props';
-export * from './lib/common/ai-sdk';

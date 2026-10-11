@@ -4,8 +4,11 @@ import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 
 export const getExtendedUserAction = createAction({
   name: 'get_extended_user',
+  classification: 'READ',
   displayName: 'Get Extended User Info',
   description: 'Retrieve extended information about your user account',
+  audience: 'both',
+  aiMetadata: { description: 'Fetch extended account details for the authenticated Zoo user beyond the basic profile. Read-only and repeatable. Prefer the plain get user action when only the core profile is needed.', idempotent: true },
   auth: zooAuth,
   // category: 'Users',
   props: {},

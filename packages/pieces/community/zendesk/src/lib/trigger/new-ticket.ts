@@ -4,19 +4,13 @@ import {
   TriggerStrategy,
 } from '@activepieces/pieces-framework';
 import {
-  AuthenticationType,
   HttpMethod,
   httpClient,
 } from '@activepieces/pieces-common';
-import { zendeskAuth } from '../..';
+import { zendeskAuth } from '../auth';
+import { getZendeskAuthentication, getZendeskBaseUrl } from '../common/client';
 
 const WEBHOOK_TRIGGER_KEY = 'zendesk_new_ticket_webhook';
-
-type AuthProps = {
-  email: string;
-  token: string;
-  subdomain: string;
-};
 
 interface ZendeskOrganization {
   id: number;
@@ -30,8 +24,12 @@ interface ZendeskPayload {
 
 export const newTicket = createTrigger({
   name: 'new_ticket',
+  classification: 'READ',
   displayName: 'New Ticket',
   description: 'Fires when a new ticket is created (optionally filtered by organization). Requires a Zendesk Trigger with Notify active webhook.',
+  aiMetadata: {
+    description: 'Fires when a new ticket is created in Zendesk, delivered via a registered webhook. Represents a freshly opened support ticket; can optionally be scoped to a single organization, otherwise fires for all. Requires a Zendesk Trigger configured to notify the active webhook.',
+  },
   auth: zendeskAuth,
   props: {
     organization_id: Property.Dropdown({
@@ -53,13 +51,9 @@ export const newTicket = createTrigger({
         }
         try {
           const response = await httpClient.sendRequest<{ organizations: ZendeskOrganization[] }>({
-            url: `https://${authentication.props.subdomain}.zendesk.com/api/v2/organizations.json`,
+            url: `${getZendeskBaseUrl(auth)}/organizations.json`,
             method: HttpMethod.GET,
-            authentication: {
-              type: AuthenticationType.BASIC,
-              username: authentication.props.email + '/token',
-              password: authentication.props.token,
-            },
+            authentication: getZendeskAuthentication(auth),
           });
           return {
             placeholder: 'Select an organization (optional)',
@@ -136,16 +130,12 @@ export const newTicket = createTrigger({
       const response = await httpClient.sendRequest<{
         webhook: { id: string };
       }>({
-        url: `https://${authentication.props.subdomain}.zendesk.com/api/v2/webhooks`,
+        url: `${getZendeskBaseUrl(authentication)}/webhooks`,
         method: HttpMethod.POST,
         headers: {
           'Content-Type': 'application/json',
         },
-        authentication: {
-          type: AuthenticationType.BASIC,
-          username: authentication.props.email + '/token',
-          password: authentication.props.token,
-        },
+        authentication: getZendeskAuthentication(authentication),
         body: {
           webhook: {
             name: `Activepieces New Ticket Webhook - ${Date.now()}`,
@@ -171,13 +161,9 @@ export const newTicket = createTrigger({
     if (webhookId) {
       try {
         await httpClient.sendRequest({
-          url: `https://${authentication.props.subdomain}.zendesk.com/api/v2/webhooks/${webhookId}`,
+          url: `${getZendeskBaseUrl(authentication)}/webhooks/${webhookId}`,
           method: HttpMethod.DELETE,
-          authentication: {
-            type: AuthenticationType.BASIC,
-            username: authentication.props.email + '/token',
-            password: authentication.props.token,
-          },
+          authentication: getZendeskAuthentication(authentication),
         });
       } catch (error) {
         console.warn(`Warning: Failed to delete webhook ${webhookId}:`, (error as Error).message);

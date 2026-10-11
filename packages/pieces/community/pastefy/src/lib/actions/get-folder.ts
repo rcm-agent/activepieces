@@ -5,8 +5,11 @@ import { pastefyAuth } from '../..';
 export default createAction({
   auth: pastefyAuth,
   name: 'get_folder',
+  classification: 'READ',
   displayName: 'Get Folder',
   description: 'Retrieves information about a folder',
+  audience: 'both',
+  aiMetadata: { description: 'Fetches metadata for a single folder by its ID from a Pastefy instance. Use to read details of a known folder. Read-only and idempotent.', idempotent: true },
   props: {
     folder_id: pastefyCommon.folder_id(true),
   },

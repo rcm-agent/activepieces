@@ -8,15 +8,19 @@ import {
 	findOrCreateWebhook,
 	verifyWebhookSignature,
 } from '../common';
-import { WebhookHandshakeStrategy } from '@activepieces/shared';
+import { WebhookHandshakeStrategy } from '@activepieces/pieces-framework';
 
 const TRIGGER_KEY = 'smartsheet_new_row_trigger';
 
 export const newRowAddedTrigger = createTrigger({
 	auth: smartsheetAuth,
 	name: 'new_row_added',
+	classification: 'READ',
 	displayName: 'New Row Added',
 	description: 'Triggers when a new row is added.',
+	aiMetadata: {
+		description: 'Fires when a new row is created in the configured Smartsheet sheet, delivering the created row event along with the fetched full row details. Represents a row-level creation on that sheet.',
+	},
 	props: {
 		sheet_id: smartsheetCommon.sheet_id(),
 	},

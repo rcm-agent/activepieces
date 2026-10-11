@@ -7,9 +7,16 @@ import dayjs from 'dayjs';
 export const declareRegistrationFolderTerminated = createAction({
   auth: wedofAuth,
   name: 'declareRegistrationFolderTerminated',
+  classification: 'WRITE',
   displayName: "Passer un dossier de formation à l'état : sortie de formation",
   description:
     "Change l'état d'un dossier de formation vers : sortie de formation",
+  audience: 'both',
+  aiMetadata: {
+    description:
+      "Transitions a training registration folder into the 'terminated' (exited training) state, recording an exit date, a required exit reason code, and any absence duration. Not idempotent: it advances the folder's lifecycle and should be called once when training ends. To then declare the service done, use the service-done action instead.",
+    idempotent: false,
+  },
   props: {
     externalId: Property.ShortText({
       displayName: 'N° du dossier de formation',

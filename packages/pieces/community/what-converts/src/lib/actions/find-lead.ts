@@ -6,8 +6,11 @@ import { whatConvertsClient } from '../common/client';
 export const findLeadAction = createAction({
   auth: whatConvertsAuth,
   name: 'find_lead',
+  classification: 'SEARCH',
   displayName: 'Find Lead',
   description: 'Find a lead by various criteria.',
+  audience: 'both',
+  aiMetadata: { description: 'Searches WhatConverts leads filtered by email address, phone number, and/or lead type, returning matching leads. Use when an agent needs to look up leads matching specific contact or type criteria. Requires at least one of email, phone, or lead type. Read-only and idempotent.', idempotent: true },
   props: {
     account_id: whatConvertsProps.account_id(),
     profile_id: whatConvertsProps.profile_id(),

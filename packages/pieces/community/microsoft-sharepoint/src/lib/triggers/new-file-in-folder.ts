@@ -17,8 +17,12 @@ const clientState = 'activepieces_sharepoint_trigger';
 export const newFileInFolderTrigger = createTrigger({
   auth: microsoftSharePointAuth,
   name: 'new_file_in_folder',
+  classification: 'READ',
   displayName: 'New File in Folder',
   description: 'Fires when a new file is created or added in a specific folder.',
+  aiMetadata: {
+    description: 'Fires when a new file appears directly inside one specific monitored folder of a SharePoint drive (the folder itself, not its subfolders). Each event represents a single newly created or added file with its metadata.',
+  },
   props: {
     siteId: microsoftSharePointCommon.siteId,
     driveId: microsoftSharePointCommon.driveId,

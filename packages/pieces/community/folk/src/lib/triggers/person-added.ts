@@ -15,8 +15,12 @@ import { folkProps } from '../common/props';
 export const personAdded = createTrigger({
   auth: folkAuth,
   name: 'person_added',
+  classification: 'READ',
   displayName: 'Person Added',
   description: 'Fires when a new person is added to your Folk workspace.',
+  aiMetadata: {
+    description: 'Fires when a new person (contact) is created in the connected Folk workspace, optionally scoped to a single group. The event payload carries the new person ID and a URL to fetch their full details.',
+  },
   props: {
     groupId: folkProps.group_id(false, 'Group ID'),
   },

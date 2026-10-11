@@ -6,8 +6,13 @@ import { HttpMethod } from '@activepieces/pieces-common';
 export const bookingCompleted = createTrigger({
   auth: oncehubAuth,
   name: 'bookingCompleted',
+  classification: 'READ',
   displayName: 'Booking Completed',
   description: 'Triggered when booking end time has passed.',
+  aiMetadata: {
+    description:
+      'Fires when a booking has finished, i.e. its scheduled end time has passed in OnceHub. Use to run follow-up actions after a meeting concludes.',
+  },
   props: {},
   sampleData: {},
   type: TriggerStrategy.WEBHOOK,

@@ -1,4 +1,4 @@
-import { ErrorCode, isNil } from '@activepieces/shared';
+import { ErrorCode, isNil } from '@activepieces/core-utils';
 import { t } from 'i18next';
 import React, { useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import { authenticationApi } from '@/api/authentication-api';
 import { LoadingScreen } from '@/components/custom/loading-screen';
 import { internalErrorToast } from '@/components/ui/sonner';
+import { acquisitionUtils } from '@/lib/acquisition-utils';
 import { api } from '@/lib/api';
 import { authenticationSession } from '@/lib/authentication-session';
 import {
@@ -37,9 +38,10 @@ const RedirectPage: React.FC = React.memo(() => {
           const data = await authenticationApi.claimThirdPartyRequest({
             providerName,
             code,
+            attribution: acquisitionUtils.getAcquisitionParams(),
           });
           authenticationSession.saveResponse(data, false);
-          if (isNil(data.projectId)) {
+          if (isNil(data.platformId)) {
             navigate('/create-platform');
             return;
           }

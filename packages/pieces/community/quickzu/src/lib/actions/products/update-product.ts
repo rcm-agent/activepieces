@@ -6,8 +6,15 @@ import { ProductUnit } from '../../common/constants';
 export const updateProductAction = createAction({
   auth: quickzuAuth,
   name: 'quickzu_update_product',
+  classification: 'WRITE',
   displayName: 'Update Product',
   description: 'Updates an existing product in store.',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Updates an existing Quickzu product identified by its product ID; only the provided fields (name, price, category, availability, etc.) are changed. Use to edit a product already in the catalog. Idempotent: repeating with the same input leaves the product in the same state.',
+    idempotent: true,
+  },
   props: {
     productId: quickzuCommon.productId(true),
     name: Property.ShortText({

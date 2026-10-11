@@ -41,8 +41,12 @@ const polling: Polling<
 export const newTaskCreated = createTrigger({
   auth: microsoft365PlannerAuth,
   name: 'newTaskCreated',
+  classification: 'READ',
   displayName: 'New Task Created',
   description: 'Triggers when a new Task is created in Microsoft 365 Planner.',
+  aiMetadata: {
+    description: 'Fires when a new task is created within a specified Planner plan. Polls periodically and emits each newly created task for the configured plan.',
+  },
   props,
   sampleData: {
     '@odata.etag': 'W/"JzEtVGFzayAgQEBAffEBAQEBAQEBARCc="',

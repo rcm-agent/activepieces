@@ -1,68 +1,85 @@
+import { AIProviderName, isNil } from '@activepieces/core-utils';
 import {
-  ACTIVEPIECES_CHAT_TIERS,
-  AIProviderName,
-  DEFAULT_CHAT_TIER_ID,
+  aiProviderUtils,
+  CHAT_CREDITS_PER_TOOL_CALL,
 } from '@activepieces/shared';
 import { t } from 'i18next';
 import {
+  ArrowDown,
+  ArrowUp,
   Check,
   ChevronDown,
-  Crown,
-  Loader2,
+  CornerDownLeft,
+  Equal,
+  Lightbulb,
+  Rocket,
   Sparkles,
-  Zap,
 } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from '@/components/ui/command';
-import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { aiModelHooks } from '@/features/agents/ai-model/hooks';
+import { aiProviderQueries } from '@/features/platform-admin';
 import { cn } from '@/lib/utils';
 
-export function ChatModelSelector({
-  chatProviderName,
-  selectedModel,
-  onModelChange,
-}: ChatModelSelectorProps) {
-  if (chatProviderName === AIProviderName.ACTIVEPIECES) {
-    return (
-      <TierSelector
-        selectedModel={selectedModel}
-        onModelChange={onModelChange}
-      />
-    );
-  }
-
-  return (
-    <ModelDropdown
-      chatProviderName={chatProviderName}
-      selectedModel={selectedModel}
-      onModelChange={onModelChange}
-    />
-  );
-}
-
-const TIER_ICONS: Record<
-  string,
-  React.ComponentType<{ className?: string }>
+const TIER_CONFIG: Partial<
+  Record<
+    string,
+    {
+      icon: React.ComponentType<{ className?: string }>;
+      description: string;
+    }
+  >
 > = {
-  fast: Zap,
-  smart: Sparkles,
-  premium: Crown,
+  fast: {
+    icon: Equal,
+    description: 'Quick replies for simple tasks',
+  },
+  smart: {
+    icon: Lightbulb,
+    description: 'Best for everyday use',
+  },
+  premium: {
+    icon: Rocket,
+    description: 'Highest quality, a bit slower',
+  },
 };
 
-function TierSelector({
+function useModelOptions(): {
+  options: ModelOption[];
+  defaultOptionId: string;
+} {
+  const { data: chatProvider } = aiProviderQueries.useChatProvider();
+  const chatTiers = aiProviderQueries.useModelTiers('chat');
+  const curatedModels = isNil(chatProvider)
+    ? undefined
+    : aiProviderUtils.getCuratedChatModels({ provider: chatProvider.provider });
+  if (isNil(curatedModels)) {
+    return {
+      options: chatTiers.tiers.map((tier) => ({
+        id: tier.id,
+        ...(TIER_CONFIG[tier.id] ?? { icon: Sparkles, description: null }),
+        displayLabel: tier.label,
+      })),
+      defaultOptionId: chatTiers.defaultTierId,
+    };
+  }
+  return {
+    options: curatedModels.map((model) => ({
+      id: model.id,
+      icon: Sparkles,
+      displayLabel: model.label,
+      description: null,
+    })),
+    defaultOptionId: curatedModels[0].id,
+  };
+}
+
+export function ChatModelSelector({
   selectedModel,
   onModelChange,
 }: {
@@ -70,151 +87,149 @@ function TierSelector({
   onModelChange: (modelId: string) => void;
 }) {
   const [open, setOpen] = useState(false);
+  const [focusedIndex, setFocusedIndex] = useState(-1);
+  const listRef = useRef<HTMLDivElement>(null);
+  const { data: chatProvider } = aiProviderQueries.useChatProvider();
+  const showCredits = chatProvider?.provider === AIProviderName.ACTIVEPIECES;
 
-  const autoSelectedRef = useRef(false);
+  const { options, defaultOptionId } = useModelOptions();
+  const selectedOption =
+    options.find((option) => option.id === selectedModel) ??
+    options.find((option) => option.id === defaultOptionId) ??
+    options[0];
+
+  const focused =
+    focusedIndex === -1 ? options.indexOf(selectedOption) : focusedIndex;
+
   useEffect(() => {
-    if (!selectedModel && !autoSelectedRef.current) {
-      autoSelectedRef.current = true;
-      const defaultTier = ACTIVEPIECES_CHAT_TIERS.find(
-        (tier) => tier.id === DEFAULT_CHAT_TIER_ID,
-      );
-      if (defaultTier) {
-        onModelChange(defaultTier.modelId);
-      }
-    }
-  }, [selectedModel, onModelChange]);
+    if (!open) return;
+    const rafId = requestAnimationFrame(() => listRef.current?.focus());
+    return () => cancelAnimationFrame(rafId);
+  }, [open]);
 
-  const selectedTier = ACTIVEPIECES_CHAT_TIERS.find(
-    (tier) => tier.modelId === selectedModel,
-  );
-  const SelectedIcon = selectedTier
-    ? TIER_ICONS[selectedTier.id]
-    : TIER_ICONS.smart;
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setFocusedIndex(focused < options.length - 1 ? focused + 1 : 0);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setFocusedIndex(focused > 0 ? focused - 1 : options.length - 1);
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      onModelChange(options[focused].id);
+      setOpen(false);
+    }
+  };
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover
+      open={open}
+      onOpenChange={(next) => {
+        setOpen(next);
+        setFocusedIndex(-1);
+      }}
+    >
       <PopoverTrigger asChild>
         <Button
           variant="ghost"
           size="sm"
           role="combobox"
           aria-expanded={open}
-          className="h-7 gap-1 rounded-full px-2.5 text-xs text-muted-foreground hover:text-foreground"
+          className="h-7 gap-1 rounded-full px-2.5 text-xs text-gray-11 hover:text-gray-12"
         >
-          {SelectedIcon && <SelectedIcon className="size-3" />}
-          <span>{selectedTier ? t(selectedTier.label) : t('Smart')}</span>
+          <span>{t(selectedOption.displayLabel)}</span>
           <ChevronDown className="size-3 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="p-0 w-40" align="start">
-        <Command>
-          <CommandGroup>
-            {ACTIVEPIECES_CHAT_TIERS.map((tier) => {
-              const Icon = TIER_ICONS[tier.id];
+      <PopoverContent
+        className="w-[330px] p-0"
+        align="end"
+        side="top"
+        onOpenAutoFocus={(e) => e.preventDefault()}
+      >
+        <div
+          ref={listRef}
+          tabIndex={0}
+          onKeyDown={handleKeyDown}
+          className="outline-none"
+        >
+          <div className="py-1">
+            {options.map((option, index) => {
+              const Icon = option.icon;
+              const isSelected = selectedOption.id === option.id;
+              const isFocused = focused === index;
               return (
-                <CommandItem
-                  key={tier.id}
-                  value={tier.id}
-                  onSelect={() => {
-                    onModelChange(tier.modelId);
+                <div
+                  key={option.id}
+                  onClick={() => {
+                    onModelChange(option.id);
                     setOpen(false);
                   }}
-                  className="cursor-pointer"
+                  onMouseEnter={() => setFocusedIndex(index)}
+                  className={cn(
+                    'flex items-center gap-3 px-3 py-3.5 cursor-pointer transition-colors',
+                    isFocused && 'bg-gray-4',
+                  )}
                 >
-                  {Icon && <Icon className="size-3.5" />}
-                  <span className="flex-1">{t(tier.label)}</span>
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border bg-gray-1">
+                    <Icon className="size-4 text-gray-12" />
+                  </div>
+                  <div className="flex flex-1 flex-col gap-0.5">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium">
+                        {t(option.displayLabel)}
+                      </span>
+                    </div>
+                    {option.description && (
+                      <span className="text-xs text-gray-11">
+                        {t(option.description)}
+                      </span>
+                    )}
+                  </div>
                   <Check
                     className={cn(
-                      'ml-auto size-4',
-                      selectedModel === tier.modelId
-                        ? 'opacity-100'
-                        : 'opacity-0',
+                      'size-4 shrink-0',
+                      isSelected ? 'opacity-100' : 'opacity-0',
                     )}
                   />
-                </CommandItem>
+                </div>
               );
             })}
-          </CommandGroup>
-        </Command>
-      </PopoverContent>
-    </Popover>
-  );
-}
-
-function ModelDropdown({
-  chatProviderName,
-  selectedModel,
-  onModelChange,
-}: ChatModelSelectorProps) {
-  const [open, setOpen] = useState(false);
-  const { data: models = [], isLoading } =
-    aiModelHooks.useGetModelsForProvider(chatProviderName);
-
-  const autoSelectedRef = useRef(false);
-  useEffect(() => {
-    if (!selectedModel && models.length > 0 && !autoSelectedRef.current) {
-      autoSelectedRef.current = true;
-      onModelChange(models[0].id);
-    }
-  }, [selectedModel, models, onModelChange]);
-
-  const selectedModelName =
-    models.find((m) => m.id === selectedModel)?.name ?? selectedModel;
-
-  return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="ghost"
-          size="sm"
-          role="combobox"
-          aria-expanded={open}
-          className="h-7 gap-1 rounded-full px-2.5 text-xs text-muted-foreground hover:text-foreground"
-          disabled={isLoading || models.length === 0}
-        >
-          {isLoading ? (
-            <Loader2 className="size-3 animate-spin" />
-          ) : selectedModel ? (
-            <span className="max-w-[140px] truncate">{selectedModelName}</span>
-          ) : (
-            <span>{t('Model')}</span>
+          </div>
+          {showCredits && (
+            <div className="border-t px-3 py-2 text-xs text-gray-11">
+              {t(
+                'Credits are charged based on how much work the agent does, plus {count, plural, =1 {1 credit} other {# credits}} per tool call.',
+                { count: CHAT_CREDITS_PER_TOOL_CALL },
+              )}
+            </div>
           )}
-          <ChevronDown className="size-3 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="p-0 w-64" align="start">
-        <Command>
-          <CommandInput placeholder={t('Search models...')} />
-          <CommandEmpty>{t('No model found.')}</CommandEmpty>
-          <CommandGroup className="max-h-64 overflow-auto">
-            {models.map((model) => (
-              <CommandItem
-                key={model.id}
-                value={model.id}
-                onSelect={() => {
-                  onModelChange(model.id);
-                  setOpen(false);
-                }}
-                className="cursor-pointer"
-              >
-                <span className="flex-1 truncate">{model.name}</span>
-                <Check
-                  className={cn(
-                    'ml-auto size-4',
-                    selectedModel === model.id ? 'opacity-100' : 'opacity-0',
-                  )}
-                />
-              </CommandItem>
-            ))}
-          </CommandGroup>
-        </Command>
+          <div className="flex items-center gap-3 border-t px-3 py-2 text-xs text-gray-11">
+            <div className="flex items-center gap-1">
+              <kbd className="flex h-5 w-5 items-center justify-center rounded border bg-gray-3">
+                <ArrowUp className="size-3" />
+              </kbd>
+              <kbd className="flex h-5 w-5 items-center justify-center rounded border bg-gray-3">
+                <ArrowDown className="size-3" />
+              </kbd>
+              <span>{t('to navigate')}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <kbd className="flex h-5 w-5 items-center justify-center rounded border bg-gray-3">
+                <CornerDownLeft className="size-3" />
+              </kbd>
+              <span>{t('to select')}</span>
+            </div>
+          </div>
+        </div>
       </PopoverContent>
     </Popover>
   );
 }
 
-type ChatModelSelectorProps = {
-  chatProviderName?: AIProviderName;
-  selectedModel: string | null;
-  onModelChange: (modelId: string) => void;
+type ModelOption = {
+  id: string;
+  icon: React.ComponentType<{ className?: string }>;
+  displayLabel: string;
+  description: string | null;
 };

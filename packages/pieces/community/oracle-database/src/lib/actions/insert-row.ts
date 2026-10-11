@@ -6,8 +6,11 @@ import { oracleDbProps } from '../common/props';
 export const insertRowAction = createAction({
   auth: oracleDbAuth,
   name: 'insert_row',
+  classification: 'WRITE',
   displayName: 'Insert Row',
   description: 'Insert a row into an Oracle table',
+  audience: 'both',
+  aiMetadata: { description: 'Inserts a single row into an Oracle Database table, mapping column names to values. Use to add one record; for many records in one call prefer Insert Rows. Not idempotent — each call appends a new row.', idempotent: false },
   props: {
     tableName: oracleDbProps.tableName(),
     row: Property.Object({

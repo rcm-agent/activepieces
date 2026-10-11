@@ -6,8 +6,11 @@ import { BASE_URL, subscriberId, tagIdDropdown } from '../common/props';
 export const addTagToUserAction = createAction({
 	auth: manychatAuth,
 	name: 'addTagToUser',
+	classification: 'WRITE',
 	displayName: 'Add Tag to User',
 	description: 'Adds a tag to a user.',
+	audience: 'both',
+	aiMetadata: { description: 'Assigns an existing tag to a Manychat subscriber, identified by subscriber ID and tag ID, then returns the updated subscriber info. Use to label or segment a known contact (e.g. mark them as a lead). Idempotent: re-adding the same tag leaves the subscriber in the same state.', idempotent: true },
 	props: {
 		subscriberId: subscriberId,
 		tagId: tagIdDropdown,

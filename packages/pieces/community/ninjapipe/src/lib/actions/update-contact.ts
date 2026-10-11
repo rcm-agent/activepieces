@@ -6,8 +6,11 @@ import { ninjapipeApiCall, flattenCustomFields, getAuth, ninjapipeCommon } from 
 export const updateContact = createAction({
   auth: ninjapipeAuth,
   name: 'update_contact',
+  classification: 'WRITE',
   displayName: 'Update Contact',
   description: 'Updates an existing contact by ID.',
+  audience: 'both',
+  aiMetadata: { description: 'Update an existing contact identified by ID, setting only the fields you provide (name, email, phone, company, status, owner, address fields, notes, or custom fields); omitted fields are left unchanged. Use to edit a known contact, not to create one. Idempotent — re-sending the same values yields the same result.', idempotent: true },
   props: {
     contactId: ninjapipeCommon.contactDropdownRequired,
     firstName: Property.ShortText({ displayName: 'First Name', required: false }),

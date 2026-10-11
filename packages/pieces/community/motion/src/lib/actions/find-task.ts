@@ -16,8 +16,11 @@ import {
 export const findTask = createAction({
   auth: motionAuth,
   name: 'find-task',
+  classification: 'SEARCH',
   displayName: 'Find Task',
   description: 'Finds an existing task.',
+  audience: 'both',
+  aiMetadata: { description: 'Searches tasks in a Motion workspace by name, paging through all results, and optionally narrows by status, assignee, or project; set include-all-statuses to also match completed/resolved tasks. Use when an agent needs to locate a task ID before reading, updating, or moving it. Requires the workspace ID and a task name to match. Idempotent: a read-only search with no side effects.', idempotent: true },
   props: {
     workspaceId: workspaceId('Workspace ID'),
     includeAllStatuses: Property.Checkbox({

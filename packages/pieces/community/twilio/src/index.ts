@@ -1,6 +1,6 @@
 import { createCustomApiCallAction } from '@activepieces/pieces-common';
 import { PieceAuth, createPiece } from '@activepieces/pieces-framework';
-import { PieceCategory } from '@activepieces/shared';
+import { PieceCategory } from '@activepieces/pieces-framework';
 import { twilioSendSms } from './lib/action/send-sms';
 import { twilioNewIncomingSms } from './lib/trigger/new-incoming-sms';
 import { twilioPhoneNumberLookup } from './lib/action/phone-number-lookup';
@@ -13,16 +13,19 @@ import { twilioNewTranscription } from './lib/trigger/new-transcription';
 import { twilioNewCall } from './lib/trigger/new-call';
 
 export const twilioAuth = PieceAuth.BasicAuth({
-  description: 'The authentication to use to connect to Twilio',
+  description: `To find your credentials:
+1. Sign in to the [Twilio Console](https://console.twilio.com).
+2. On the home page, find **Account Info**.
+3. Copy the **Account SID** and the **Auth Token** (click **Show** to reveal it).`,
 
   required: true,
   username: {
     displayName: 'Account SID',
-    description: 'The account SID to use to connect to Twilio',
+    description: 'Starts with AC. Shown under Account Info in the Twilio Console.',
   },
   password: {
-    displayName: 'Auth token',
-    description: 'The auth token to use to connect to Twilio',
+    displayName: 'Auth Token',
+    description: 'Click Show under Account Info in the Twilio Console to reveal it.',
   },
 });
 
@@ -31,7 +34,7 @@ export const twilio = createPiece({
   description:
     'Cloud communications platform for building SMS, Voice & Messaging applications',
 
-  minimumSupportedRelease: '0.30.0',
+  minimumSupportedRelease: '0.88.2',
   logoUrl: 'https://cdn.activepieces.com/pieces/twilio.png',
   auth: twilioAuth,
   categories: [PieceCategory.COMMUNICATION],

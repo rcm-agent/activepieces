@@ -6,9 +6,12 @@ import { descriptCommon } from '../common';
 export const descriptPublishProjectAction = createAction({
   auth: descriptAuth,
   name: 'publish_project',
+  classification: 'WRITE',
   displayName: 'Publish Project',
   description:
     'Publishes a composition from a project to create a shareable link and a downloadable export file.',
+  audience: 'both',
+  aiMetadata: { description: 'Starts an asynchronous Descript publish/export job for a project composition, producing a shareable link and a downloadable file as video or audio at a chosen resolution and share access level. Use to render and distribute a finished project. Requesting a share access level the Drive disallows returns an error. Not idempotent: each call queues a new export job and returns a job_id to poll for the share_url and download_url.', idempotent: false },
   props: {
     project_id: descriptCommon.projectIdProp,
     composition_id: descriptCommon.compositionIdProp(false),

@@ -9,8 +9,11 @@ import { emailOctopusProps } from "../common/props";
 export const findContact = createAction({
     auth: emailOctopusAuth,
     name: 'find_contact',
+    classification: 'READ',
     displayName: 'Find Contact',
     description: 'Finds a contact by email address within a given list.',
+    audience: 'both',
+    aiMetadata: { description: 'Looks up a single contact by email address within a specific EmailOctopus list and reports whether it was found. Use to check existence or retrieve a contact before acting on it; a missing contact returns a found:false result rather than erroring. Requires the list id and the email. Read-only and idempotent.', idempotent: true },
     props: {
         list_id: emailOctopusProps.listId(),
         email_address: Property.ShortText({

@@ -6,8 +6,11 @@ import { BASE_URL } from '../common';
 export const findMeetingByQueryAction = createAction({
 	auth: firefliesAiAuth,
 	name: 'find_meeting_by_query',
+	classification: 'SEARCH',
 	displayName: 'Find Meeting by Call Deatils',
 	description: 'Searches meetings based on provided parameters.',
+	audience: 'both',
+	aiMetadata: { description: 'Searches Fireflies meeting transcripts, optionally filtered by title, host email, participant email, and/or date, paging through all matches. Use when locating meetings by attributes rather than a known ID; leaving all filters empty returns the full meeting history. Read-only and idempotent.', idempotent: true },
 	props: {
 		title: Property.ShortText({
 			displayName: 'Meeting Title',

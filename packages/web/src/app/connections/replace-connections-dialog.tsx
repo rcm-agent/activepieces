@@ -1,14 +1,22 @@
+import { isNil } from '@activepieces/core-utils';
 import { AppConnectionScope, PopulatedFlow } from '@activepieces/shared';
 import { useMutation } from '@tanstack/react-query';
 import { t } from 'i18next';
-import { GlobeIcon, WorkflowIcon } from 'lucide-react';
+import { ChevronDown, GlobeIcon, Info, WorkflowIcon } from 'lucide-react';
 import React, { useState, useMemo } from 'react';
 import { FieldErrors, useForm, useWatch } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
+import { LogoPlate } from '@/components/custom/logo-plate';
 import { SearchableSelect } from '@/components/custom/searchable-select';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible';
 import {
   Dialog,
   DialogClose,
@@ -23,12 +31,23 @@ import { Form, FormField, FormMessage } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import {
   appConnectionsMutations,
   appConnectionsQueries,
 } from '@/features/connections';
 import { flowsApi } from '@/features/flows';
 import { PieceIconWithPieceName, piecesHooks } from '@/features/pieces';
-import { cn } from '@/lib/utils';
 
 type ReplaceConnectionsDialogProps = {
   onConnectionMerged: () => void;
@@ -41,6 +60,9 @@ type FormData = {
   sourceConnections: { id: string; externalId: string };
   replacedWithConnection: { id: string; externalId: string };
 };
+
+type VersionScope = 'draft' | 'published';
+type OldConnectionAction = 'keep' | 'delete';
 
 enum STEP {
   SELECT = 'SELECT',
@@ -55,6 +77,9 @@ const ReplaceConnectionsDialog = ({
   const [dialogOpen, setDialogOpen] = useState(false);
   const [step, setStep] = useState<STEP>(STEP.SELECT);
   const [affectedFlows, setAffectedFlows] = useState<Array<PopulatedFlow>>([]);
+  const [versionScope, setVersionScope] = useState<VersionScope>('draft');
+  const [oldConnectionAction, setOldConnectionAction] =
+    useState<OldConnectionAction>('keep');
   const { pieces, isLoading: piecesLoading } = piecesHooks.usePieces({});
 
   const { data: connections, isLoading: connectionsLoading } =
@@ -160,6 +185,10 @@ const ReplaceConnectionsDialog = ({
     name: 'sourceConnections.id',
   });
 
+  const sourceIsGlobalConnection =
+    filteredConnections.find((conn) => conn.id === sourceConnectionId)
+      ?.scope === AppConnectionScope.PLATFORM;
+
   const replacedWithOptions = useMemo(() => {
     return filteredConnections
       .filter((conn) => conn.id !== sourceConnectionId)
@@ -169,9 +198,22 @@ const ReplaceConnectionsDialog = ({
       }));
   }, [filteredConnections, sourceConnectionId]);
 
+  const publishedAffectedCount = affectedFlows.filter(
+    (flow) => !isNil(flow.publishedVersionId),
+  ).length;
+  const applyToPublishedVersions = versionScope === 'published';
+  const deleteBlockedByPublishedFlows =
+    !applyToPublishedVersions && publishedAffectedCount > 0;
+  const effectiveDeleteSourceConnection =
+    oldConnectionAction === 'delete' &&
+    !deleteBlockedByPublishedFlows &&
+    !sourceIsGlobalConnection;
+
   const handleBack = () => {
     setStep(STEP.SELECT);
     setAffectedFlows([]);
+    setVersionScope('draft');
+    setOldConnectionAction('keep');
   };
 
   const handleConfirmedSubmit = async (values: FormData) => {
@@ -189,6 +231,8 @@ const ReplaceConnectionsDialog = ({
       sourceAppConnectionId: values.sourceConnections.id,
       targetAppConnectionId: values.replacedWithConnection.id,
       projectId: projectId,
+      deleteSourceConnection: effectiveDeleteSourceConnection,
+      applyToPublishedVersions,
     });
   };
 
@@ -197,6 +241,8 @@ const ReplaceConnectionsDialog = ({
     form.reset();
     setStep(STEP.SELECT);
     setAffectedFlows([]);
+    setVersionScope('draft');
+    setOldConnectionAction('keep');
   };
   const navigate = useNavigate();
 
@@ -207,21 +253,15 @@ const ReplaceConnectionsDialog = ({
         <DialogHeader>
           <DialogTitle>
             {step === STEP.SELECT
-              ? t('Replace Connections')
-              : t('Confirm Replacement')}
+              ? t('Replace connection')
+              : t('Review and confirm')}
           </DialogTitle>
           <DialogDescription>
-            {step === STEP.SELECT ? (
-              t(
-                'This will replace one connection with another connection, existing flows will be changed to use the new connection, and the old connection will be deleted.',
-              )
-            ) : (
-              <>
-                {t(
-                  'Existing MCP servers will not be changed automatically, you have to reconnect them manually.',
-                )}
-              </>
-            )}
+            {step === STEP.SELECT
+              ? t(
+                  'Switch flows from one connection to another. Choose the connection to replace and the one to use instead.',
+                )
+              : t('Review what changes, then replace.')}
           </DialogDescription>
         </DialogHeader>
 
@@ -259,10 +299,10 @@ const ReplaceConnectionsDialog = ({
                         const piece = pieces?.find((p) => p.name === value);
                         return (
                           <div className="flex gap-2 items-center">
-                            <img
+                            <LogoPlate
                               src={piece!.logoUrl}
                               alt={piece!.displayName}
-                              className="w-4 h-4 object-contain"
+                              size="xxs"
                             />
                             <span>{piece!.displayName}</span>
                           </div>
@@ -297,16 +337,12 @@ const ReplaceConnectionsDialog = ({
                               id: '',
                               externalId: '',
                             });
+                            setOldConnectionAction('keep');
                           }}
-                          options={filteredConnections
-                            .filter(
-                              (conn) =>
-                                conn.scope === AppConnectionScope.PROJECT,
-                            )
-                            .map((conn) => ({
-                              label: conn.displayName,
-                              value: conn.id,
-                            }))}
+                          options={filteredConnections.map((conn) => ({
+                            label: conn.displayName,
+                            value: conn.id,
+                          }))}
                           placeholder={t('Choose connection to replace')}
                           valuesRendering={(value) => {
                             const conn = filteredConnections.find(
@@ -319,6 +355,10 @@ const ReplaceConnectionsDialog = ({
                                   size="xs"
                                   border={false}
                                 />
+                                {conn?.scope ===
+                                  AppConnectionScope.PLATFORM && (
+                                  <GlobeIcon className="w-4 h-4" />
+                                )}
                                 <span>{conn!.displayName}</span>
                               </div>
                             );
@@ -392,42 +432,111 @@ const ReplaceConnectionsDialog = ({
           </Form>
         ) : (
           <div className="flex flex-col gap-4">
-            <ScrollArea
-              className={cn(
-                'h-[275px]',
-                affectedFlows.length === 0 && 'h-[80px]',
-              )}
-            >
-              <div className="flex flex-col gap-2">
-                {affectedFlows.length === 0 ? (
-                  <span className="text-center text-muted-foreground p-4">
-                    {t('No flows will be affected by this change')}
+            {affectedFlows.length === 0 ? (
+              <div className="flex items-center gap-2 rounded-md border border-dashed px-3 py-2.5 text-sm text-gray-11">
+                <WorkflowIcon className="w-4 h-4 shrink-0" />
+                {t('No flows use this connection yet')}
+              </div>
+            ) : (
+              <Collapsible defaultOpen className="rounded-md border">
+                <CollapsibleTrigger className="group flex w-full items-center justify-between gap-2 px-3 py-2.5 text-sm font-medium">
+                  <span>
+                    {t('flowsUsingConnection', { count: affectedFlows.length })}
                   </span>
-                ) : (
-                  affectedFlows.map((flow) => (
-                    <div
-                      className="flex items-center justify-between"
-                      key={flow.id}
-                    >
-                      <div className="flex items-center gap-2">
-                        <WorkflowIcon className="w-5 h-5" />
-                        <Button
-                          variant="link"
-                          className="p-0 h-auto font-medium text-foreground truncate text-base"
-                          onClick={() => {
+                  <ChevronDown className="w-4 h-4 shrink-0 text-gray-11 transition-transform group-data-[state=closed]:-rotate-90" />
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <ScrollArea className="max-h-[140px] px-3 pb-3">
+                    <div className="flex flex-wrap gap-1.5">
+                      {affectedFlows.map((flow) => (
+                        <Badge
+                          key={flow.id}
+                          variant="secondary"
+                          className="max-w-[200px] cursor-pointer hover:bg-gray-3/70"
+                          onClick={() =>
                             navigate(
                               `/projects/${flow.projectId}/flows/${flow.id}`,
-                            );
-                          }}
+                            )
+                          }
                         >
-                          {flow.version.displayName}
-                        </Button>
-                      </div>
+                          <WorkflowIcon className="w-3 h-3 shrink-0" />
+                          <span className="truncate">
+                            {flow.version.displayName}
+                          </span>
+                        </Badge>
+                      ))}
                     </div>
-                  ))
+                  </ScrollArea>
+                </CollapsibleContent>
+              </Collapsible>
+            )}
+
+            <div className="flex flex-col gap-1.5">
+              <LabelWithTooltip
+                label={t('Which versions to update')}
+                tooltip={t(
+                  'Draft only updates your working copy. Live flows keep using the old connection until you publish them again. Draft and published republishes affected flows now, which can interrupt running automations.',
                 )}
-              </div>
-            </ScrollArea>
+              />
+              <Select
+                value={versionScope}
+                onValueChange={(value) => {
+                  const scope = value as VersionScope;
+                  setVersionScope(scope);
+                  if (scope === 'draft' && publishedAffectedCount > 0) {
+                    setOldConnectionAction('keep');
+                  }
+                }}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="draft">{t('Draft only')}</SelectItem>
+                  <SelectItem value="published">
+                    {t('Draft and published')}
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <LabelWithTooltip
+                label={t('After replacing')}
+                tooltip={t(
+                  'Keep the old connection to reuse it later, or delete it for good. Deleting is unavailable while published flows still use it — switch the option above to Draft and published first. Global connections can only be deleted from the platform admin page.',
+                )}
+              />
+              <Select
+                value={oldConnectionAction}
+                onValueChange={(value) =>
+                  setOldConnectionAction(value as OldConnectionAction)
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="keep">
+                    {t('Keep the old connection')}
+                  </SelectItem>
+                  <SelectItem
+                    value="delete"
+                    disabled={
+                      deleteBlockedByPublishedFlows || sourceIsGlobalConnection
+                    }
+                  >
+                    {t('Delete the old connection')}
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <span className="text-xs text-gray-11">
+              {t(
+                'MCP servers are not updated automatically — reconnect them manually.',
+              )}
+            </span>
 
             <DialogFooter>
               <Button type="button" variant="accent" onClick={handleBack}>
@@ -447,6 +556,26 @@ const ReplaceConnectionsDialog = ({
     </Dialog>
   );
 };
+
+function LabelWithTooltip({
+  label,
+  tooltip,
+}: {
+  label: string;
+  tooltip: string;
+}) {
+  return (
+    <div className="flex items-center gap-1.5">
+      <Label>{label}</Label>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Info className="w-3.5 h-3.5 text-gray-11 cursor-help" />
+        </TooltipTrigger>
+        <TooltipContent className="max-w-xs">{tooltip}</TooltipContent>
+      </Tooltip>
+    </div>
+  );
+}
 
 ReplaceConnectionsDialog.displayName = 'ReplaceConnectionsDialog';
 export { ReplaceConnectionsDialog };

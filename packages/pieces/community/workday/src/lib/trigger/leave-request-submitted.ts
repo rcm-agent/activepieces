@@ -22,8 +22,13 @@ const polling: Polling<AppConnectionValueForAuthProperty<typeof workdayAuth>, Re
 export const leaveRequestSubmitted = createTrigger({
 	auth: workdayAuth,
 	name: 'leave_request_submitted',
+	classification: 'READ',
 	displayName: 'Leave Request Submitted',
 	description: 'Triggers when a leave request is submitted in Workday.',
+	aiMetadata: {
+		description:
+			'Fires when a new leave/time-off entry appears in Workday, detected by polling the allTimeOffs dataset. Represents a leave-request submission event. Use to start leave approval or coverage-planning automation.',
+	},
 	props: {},
 	sampleData: { id: 'lr-001', descriptor: 'Vacation Request - John Smith', createdDate: '2026-04-01T11:00:00Z' },
 	type: TriggerStrategy.POLLING,

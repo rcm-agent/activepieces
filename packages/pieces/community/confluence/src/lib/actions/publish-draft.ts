@@ -14,8 +14,11 @@ type DraftPage = {
 export const publishDraftAction = createAction({
 	auth: confluenceAuth,
 	name: 'publish-draft',
+	classification: 'WRITE',
 	displayName: 'Publish Draft',
 	description: 'Publishes a draft page (changes status from draft to current).',
+	audience: 'both',
+	aiMetadata: { description: 'Publishes an existing draft Confluence page by ID, flipping its status from draft to current while preserving its title and body. Use to make a previously created draft live. Requires the draft page ID. Effectively idempotent once published — re-running on an already-current page leaves it published.', idempotent: true },
 	props: {
 		pageId: Property.ShortText({
 			displayName: 'Draft Page ID',

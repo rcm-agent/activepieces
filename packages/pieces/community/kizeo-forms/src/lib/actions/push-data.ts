@@ -6,8 +6,11 @@ import { kizeoFormsAuth } from '../..';
 export const pushData = createAction({
   auth: kizeoFormsAuth,
   name: 'push_data', // Must be a unique across the piece, this shouldn't be changed.
+  classification: 'WRITE',
   displayName: 'Push Data',
   description: 'Push a data to a form',
+  audience: 'both',
+  aiMetadata: { description: 'Push a new prefilled data record into a Kizeo Forms form, optionally assigning it to a recipient user, so it appears in the mobile app. Use to send field values to be filled or completed on a device. Each call creates a separate record, so it is not idempotent.', idempotent: false },
   props: {
     formId: kizeoFormsCommon.formId,
     userId: kizeoFormsCommon.userId,

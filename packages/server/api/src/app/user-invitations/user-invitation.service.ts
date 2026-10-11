@@ -1,22 +1,27 @@
-import { ActivepiecesError, apId, assertEqual, assertNotNullOrUndefined, ErrorCode, InvitationStatus, InvitationType, isNil, PlatformRole, SeekPage, spreadIfDefined, UserInvitation, UserInvitationWithLink } from '@activepieces/shared'
+import { ActivepiecesError, apId, assertEqual, assertNotNullOrUndefined, ErrorCode, isNil, SeekPage, spreadIfDefined } from '@activepieces/core-utils'
+import { InvitationStatus, InvitationType, PlatformRole, TelemetryEventName, UserInvitation, UserInvitationWithLink } from '@activepieces/shared'
+import dayjs from 'dayjs'
 import { FastifyBaseLogger } from 'fastify'
-import { IsNull } from 'typeorm'
+import { EntityManager, IsNull, ObjectLiteral, SelectQueryBuilder } from 'typeorm'
 import { userIdentityService } from '../authentication/user-identity/user-identity-service'
 import { repoFactory } from '../core/db/repo-factory'
-import { domainHelper } from '../ee/custom-domains/domain-helper'
 import { smtpEmailSender } from '../ee/helper/email/email-sender/smtp-email-sender'
 import { emailService } from '../ee/helper/email/email-service'
 import { projectMemberService } from '../ee/projects/project-members/project-member.service'
 import { projectRoleService } from '../ee/projects/project-role/project-role.service'
+import { domainHelper } from '../helper/domain-helper'
 import { JwtAudience, jwtUtils } from '../helper/jwt-utils'
 import { buildPaginator } from '../helper/pagination/build-paginator'
 import { paginationHelper } from '../helper/pagination/pagination-utils'
+import { rejectedPromiseHandler } from '../helper/promise-handler'
+import { telemetry } from '../helper/telemetry.utils'
 import { platformService } from '../platform/platform.service'
 import { projectService } from '../project/project-service'
 import { userService } from '../user/user-service'
 import { UserInvitationEntity } from './user-invitation.entity'
 
-const repo = repoFactory(UserInvitationEntity)
+export const userInvitationRepo = repoFactory(UserInvitationEntity)
+const repo = userInvitationRepo
 
 export const userInvitationsService = (log: FastifyBaseLogger) => ({
     async getOneByInvitationTokenOrThrow(invitationToken: string): Promise<UserInvitation> {
@@ -55,7 +60,7 @@ export const userInvitationsService = (log: FastifyBaseLogger) => ({
         log.info({ count: invitations.length }, '[provisionUserInvitation] list invitations')
         for (const invitation of invitations) {
             log.info({ invitation }, '[provisionUserInvitation] provision')
-            const user = await userService(log).getOrCreateWithProject({
+            const { user } = await userService(log).getOrCreateWithProject({
                 identity,
                 platformId: invitation.platformId,
             })
@@ -99,18 +104,18 @@ export const userInvitationsService = (log: FastifyBaseLogger) => ({
             })
         }
     },
-    async create({
+    async createInvitationRecord({
         email,
         platformId,
         projectId,
         type,
         projectRoleId,
         platformRole,
-        invitationExpirySeconds,
         status,
-    }: CreateParams): Promise<UserInvitationWithLink> {
+        entityManager,
+    }: CreateInvitationRecordParams): Promise<UserInvitation> {
         const id = apId()
-        await repo().upsert({
+        await repo(entityManager).upsert({
             id,
             status,
             type,
@@ -121,14 +126,20 @@ export const userInvitationsService = (log: FastifyBaseLogger) => ({
             projectId: type === InvitationType.PLATFORM ? undefined : projectId!,
         }, ['email', 'platformId', 'projectId'])
 
-        const userInvitation = await this.getOneOrThrow({
+        return this.getOneOrThrow({
             id,
             platformId,
+            entityManager,
         })
-        if (status === InvitationStatus.ACCEPTED) {
+    },
+    async finalizeInvitation({
+        userInvitation,
+        invitationExpirySeconds,
+    }: FinalizeInvitationParams): Promise<UserInvitationWithLink> {
+        if (userInvitation.status === InvitationStatus.ACCEPTED) {
             await this.accept({
-                invitationId: id,
-                platformId,
+                invitationId: userInvitation.id,
+                platformId: userInvitation.platformId,
             })
             if (smtpEmailSender(log).isSmtpConfigured()) {
                 await emailService(log).sendProjectMemberAdded({
@@ -138,6 +149,37 @@ export const userInvitationsService = (log: FastifyBaseLogger) => ({
             return userInvitation
         }
         return enrichWithInvitationLink(userInvitation, invitationExpirySeconds, log)
+    },
+    async wouldAddNewUser({ email, platformId }: { email: string, platformId: string }): Promise<boolean> {
+        const identity = await userIdentityService(log).getIdentityByEmail(email)
+        if (isNil(identity)) {
+            return true
+        }
+        const existingUser = await userService(log).getOneByIdentityAndPlatform({ identityId: identity.id, platformId })
+        return isNil(existingUser)
+    },
+    async countReservedSeats({ platformId, entityManager }: CountReservedSeatsParams): Promise<number> {
+        const query = repo(entityManager)
+            .createQueryBuilder('invitation')
+            .select('COUNT(DISTINCT LOWER(invitation.email))', 'count')
+        const result = await withinReservationWindow(query, platformId)
+            .andWhere(EMAIL_IS_NOT_ALREADY_A_PLATFORM_USER)
+            .getRawOne<{ count: string }>()
+        return Number(result?.count ?? 0)
+    },
+    async countAdditionalSeatsNeeded({
+        email,
+        platformId,
+        entityManager,
+    }: CountAdditionalSeatsNeededParams): Promise<number> {
+        const addsNewUser = await this.wouldAddNewUser({ email, platformId })
+        if (!addsNewUser) {
+            return 0
+        }
+        const alreadyReserved = await withinReservationWindow(repo(entityManager).createQueryBuilder('invitation'), platformId)
+            .andWhere('LOWER(invitation.email) = :email', { email: email.toLowerCase().trim() })
+            .getExists()
+        return alreadyReserved ? 0 : 1
     },
     async list(params: ListUserParams): Promise<SeekPage<UserInvitation>> {
         const decodedCursor = paginationHelper.decodeCursor(params.cursor ?? null)
@@ -175,8 +217,8 @@ export const userInvitationsService = (log: FastifyBaseLogger) => ({
             platformId,
         })
     },
-    async getOneOrThrow({ id, platformId }: PlatformAndIdParams): Promise<UserInvitation> {
-        const invitation = await repo().findOne({
+    async getOneOrThrow({ id, platformId, entityManager }: PlatformAndIdParams): Promise<UserInvitation> {
+        const invitation = await repo(entityManager).findOne({
             where: {
                 id,
                 platformId,
@@ -193,18 +235,32 @@ export const userInvitationsService = (log: FastifyBaseLogger) => ({
         }
         return invitation
     },
-    async accept({ invitationId, platformId }: AcceptParams): Promise<void> {
+    async accept({ invitationId, platformId }: AcceptParams): Promise<AcceptResult> {
         const invitation = await this.getOneOrThrow({ id: invitationId, platformId })
+        const firstAcceptance = invitation.status !== InvitationStatus.ACCEPTED
         await repo().update(invitation.id, {
             status: InvitationStatus.ACCEPTED,
         })
+        if (firstAcceptance) {
+            rejectedPromiseHandler(telemetry(log).trackPlatform({
+                platformId,
+                event: {
+                    name: TelemetryEventName.INVITE_ACCEPTED,
+                    payload: {
+                        platformId,
+                        type: invitation.type === InvitationType.PLATFORM ? 'platform' : 'project',
+                    },
+                },
+            }), log)
+        }
         const identity = await userIdentityService(log).getIdentityByEmail(invitation.email)
         if (isNil(identity)) {
-            return
+            return { registered: false }
         }
         await this.provisionUserInvitation({
             email: invitation.email,
         })
+        return { registered: true }
     },
     async hasAnyAcceptedInvitationsForEmail({ email }: { email: string }): Promise<boolean> {
         const count = await repo().createQueryBuilder('user_invitation')
@@ -237,6 +293,27 @@ export const userInvitationsService = (log: FastifyBaseLogger) => ({
     },
 })
 
+export const INVITATION_EXPIRY_SECONDS = dayjs.duration(7, 'days').asSeconds()
+
+export function getInvitationExpiryCutoff(): string {
+    return dayjs().subtract(INVITATION_EXPIRY_SECONDS, 'seconds').toISOString()
+}
+
+function withinReservationWindow<T extends ObjectLiteral>(query: SelectQueryBuilder<T>, platformId: string): SelectQueryBuilder<T> {
+    return query
+        .where('invitation.platformId = :platformId', { platformId })
+        .andWhere('invitation.status IN (:...statuses)', { statuses: [InvitationStatus.PENDING, InvitationStatus.ACCEPTED] })
+        .andWhere('invitation.updated > :expiryCutoff', { expiryCutoff: getInvitationExpiryCutoff() })
+}
+
+const EMAIL_IS_NOT_ALREADY_A_PLATFORM_USER = `NOT EXISTS (
+    SELECT 1
+    FROM user_identity identity
+    INNER JOIN "user" existing_user
+        ON existing_user."identityId" = identity.id
+        AND existing_user."platformId" = invitation."platformId"
+    WHERE LOWER(identity.email) = LOWER(invitation.email)
+)`
 
 async function generateInvitationLink(userInvitation: UserInvitation, expireyInSeconds: number): Promise<string> {
     const token = await jwtUtils.sign({
@@ -249,7 +326,6 @@ async function generateInvitationLink(userInvitation: UserInvitation, expireyInS
     })
 
     return domainHelper.getPublicUrl({
-        platformId: userInvitation.platformId,
         path: `invitation?token=${token}&email=${encodeURIComponent(userInvitation.email)}`,
     })
 }
@@ -287,6 +363,7 @@ type ProvisionUserInvitationParams = {
 type PlatformAndIdParams = {
     id: string
     platformId: string
+    entityManager?: EntityManager
 }
 export type UserInvitationToken = {
     id: string
@@ -297,7 +374,11 @@ type AcceptParams = {
     platformId: string
 }
 
-type CreateParams = {
+type AcceptResult = {
+    registered: boolean
+}
+
+export type CreateInvitationRecordParams = {
     email: string
     platformId: string
     platformRole: PlatformRole | null
@@ -305,10 +386,24 @@ type CreateParams = {
     status: InvitationStatus
     type: InvitationType
     projectRoleId: string | null
+    entityManager?: EntityManager
+}
+
+export type FinalizeInvitationParams = {
+    userInvitation: UserInvitation
     invitationExpirySeconds: number
 }
 
+export type CountAdditionalSeatsNeededParams = {
+    email: string
+    platformId: string
+    entityManager?: EntityManager
+}
 
+export type CountReservedSeatsParams = {
+    platformId: string
+    entityManager?: EntityManager
+}
 
 type GetOneByPlatformIdAndEmailParams = {
     email: string

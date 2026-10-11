@@ -90,8 +90,12 @@ const polling: Polling<AppConnectionValueForAuthProperty<typeof microsoftSharePo
 export const newOrUpdatedFileTrigger = createTrigger({
 	auth: microsoftSharePointAuth,
 	name: 'new_or_updated_file',
+	classification: 'READ',
 	displayName: 'New or Updated File',
 	description: 'Triggers when a file is created or updated in a given folder.',
+	aiMetadata: {
+		description: 'Fires when a file is created or modified directly inside one monitored folder of a SharePoint drive, based on its last-modified time (polling). Each event represents a file that is new or whose contents/metadata changed; choose this over New File in Folder when edits to existing files should also trigger.',
+	},
 	props: {
 		siteId: microsoftSharePointCommon.siteId,
 		driveId: microsoftSharePointCommon.driveId,

@@ -9,8 +9,15 @@ import { workdaySoapRequest } from '../common';
 export const createWorkerTimeBlock = createAction({
 	auth: workdayAuth,
 	name: 'create_worker_time_block',
+	classification: 'WRITE',
 	displayName: 'Create Worker Time Block',
 	description: 'Creates a new worker time block in Workday.',
+	audience: 'both',
+	aiMetadata: {
+		description:
+			'Imports a reported time block for a worker (by WID) on a given date with a quantity of hours, optionally tagged with a time-entry-code WID and a comment. Use to log hours worked into Workday Time Tracking. Not idempotent: each call appends another reported time block.',
+		idempotent: false,
+	},
 	props: {
 		workerId: Property.ShortText({
 			displayName: 'Worker ID',

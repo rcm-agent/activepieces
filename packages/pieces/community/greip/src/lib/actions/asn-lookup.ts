@@ -6,8 +6,11 @@ import { greipApiCall } from '../common/client';
 export const asnLookup = createAction({
   auth: greipAuth,
   name: 'asn_lookup',
+  classification: 'READ',
   displayName: 'ASN Lookup',
   description: 'Look up details of an Autonomous System Number (ASN)',
+  audience: 'both',
+  aiMetadata: { description: 'Look up registration and network details for an Autonomous System Number (ASN), accepting the number with or without the "AS" prefix (e.g. AS6167 or 6167). Use to identify the organization, allocation, or routing info behind an ASN. Read-only lookup; safe to repeat.', idempotent: true },
   props: {
     asn: Property.ShortText({
       displayName: 'AS Number',

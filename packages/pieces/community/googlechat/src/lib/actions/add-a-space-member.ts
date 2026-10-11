@@ -7,8 +7,14 @@ import { googleChatAPIService } from '../common/requests';
 export const addASpaceMember = createAction({
   auth: googleChatApiAuth,
   name: 'addASpaceMember',
+  classification: 'WRITE',
   displayName: 'Add a Space Member',
   description: 'Add a user to a Google Chat space.',
+  audience: 'both',
+  aiMetadata: {
+    description: 'Adds a user as a member of a Google Chat space, identified by the space ID and the person to add. Use to grant someone access to a space. Not idempotent in effect—creating the membership again for an existing member fails or errors.',
+    idempotent: false,
+  },
   props: {
     spaceId: spacesDropdown({ refreshers: ['auth'], required: true }),
     personId: peoplesDropdown(['auth']),

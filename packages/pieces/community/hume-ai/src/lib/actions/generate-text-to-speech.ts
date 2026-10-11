@@ -4,8 +4,14 @@ import { humeAiAuth } from '../common/auth';
 
 export const generateTextToSpeech = createAction({
   name: 'generate_text_to_speech',
+  classification: 'READ',
   displayName: 'Generate Text to Speech',
   description: "Convert text to speech using Hume AI's expressive text-to-speech technology",
+  audience: 'both',
+  aiMetadata: {
+    description: 'Synthesize expressive speech audio from text via Hume AI and return it as an audio file (mp3/wav/pcm). Optionally steer the voice with a natural-language description (omit to generate a dynamic voice) and request multiple generations in one call. Use to produce spoken audio from a text string. Each call generates fresh audio, so it is not idempotent.',
+    idempotent: false,
+  },
   auth: humeAiAuth,
   props: {
     text: Property.LongText({

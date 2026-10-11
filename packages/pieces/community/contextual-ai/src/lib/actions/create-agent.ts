@@ -6,8 +6,11 @@ import type { Datastore } from 'contextual-client/resources/datastores';
 export const createAgentAction = createAction({
   auth: contextualAiAuth,
   name: 'create_agent',
+  classification: 'WRITE',
   displayName: 'Create Agent',
   description: 'Create a new Contextual AI agent with specified configuration',
+  audience: 'both',
+  aiMetadata: { description: 'Creates a new Contextual AI RAG agent and returns its id. Use during setup before querying an agent. Requires a name; optionally attach existing datastore ids (omit to provision a new datastore for the agent) and set system/filter prompts. Not idempotent — each call creates a separate agent even with identical input.', idempotent: false },
   props: {
     name: Property.ShortText({
       displayName: 'Agent Name',

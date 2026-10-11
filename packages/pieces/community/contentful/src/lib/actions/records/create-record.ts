@@ -17,9 +17,12 @@ function keyBy<T>(array: T[], key: keyof T): { [key: string]: T } {
 
 export const ContentfulCreateRecordAction = createAction({
   name: 'contentful_record_create',
+  classification: 'WRITE',
   auth: ContentfulAuth,
   displayName: 'Create Record',
   description: 'Creates a new Contentful record for a given Content Model',
+  audience: 'both',
+  aiMetadata: { description: 'Creates a new Contentful entry under a given content type, mapping field values to the specified locale, and optionally publishes it immediately after creation. Use to add a new record; not idempotent, since each call creates a distinct entry. Requires the content model (content type) ID and field values matching that model.', idempotent: false },
   props: {
     [PropertyKeys.LOCALE]: ContentfulProperty.Locale,
     [PropertyKeys.CONTENT_MODEL]: ContentfulProperty.ContentModel,
@@ -60,7 +63,6 @@ export const ContentfulCreateRecordAction = createAction({
         ),
       };
     }
-    console.debug('Creating record with values', values);
     const record = await client.entry.create(
       { contentTypeId: model.sys.id },
       { fields: values }

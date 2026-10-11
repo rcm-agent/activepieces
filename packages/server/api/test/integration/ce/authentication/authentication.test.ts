@@ -1,11 +1,13 @@
-import { setupTestEnvironment, teardownTestEnvironment } from '../../../helpers/test-setup'
+import { UserIdentityProvider } from '@activepieces/shared'
 import { FastifyInstance } from 'fastify'
 import { StatusCodes } from 'http-status-codes'
+import { userIdentityService } from '../../../../src/app/authentication/user-identity/user-identity-service'
 import { databaseConnection } from '../../../../src/app/database/database-connection'
 import {
     createMockSignInRequest,
     createMockSignUpRequest,
 } from '../../../helpers/mocks/authn'
+import { setupTestEnvironment, teardownTestEnvironment } from '../../../helpers/test-setup'
 
 let app: FastifyInstance | null = null
 
@@ -26,9 +28,9 @@ beforeEach(async () => {
 })
 describe('Authentication API', () => {
     describe('Sign up Endpoint', () => {
-        it('Adds new user with onboarding token', async () => {
+        it('Signs the new member in with a platform of their own', async () => {
             // arrange
-            const mockSignUpRequest = createMockSignUpRequest()
+            const mockSignUpRequest = createMockSignUpRequest({ email: 'ahmad.tash@activepieces.com' })
 
             // act
             const response = await app?.inject({
@@ -49,15 +51,15 @@ describe('Authentication API', () => {
             expect(responseBody?.trackEvents).toBe(mockSignUpRequest.trackEvents)
             expect(responseBody?.newsLetter).toBe(mockSignUpRequest.newsLetter)
             expect(responseBody?.status).toBe('ACTIVE')
-            expect(responseBody?.platformId).toBeNull()
             expect(responseBody?.externalId).toBe(null)
-            expect(responseBody?.projectId).toBeNull()
+            expect(responseBody?.platformId).not.toBeNull()
+            expect(responseBody?.projectId).not.toBeNull()
             expect(responseBody?.token).toBeDefined()
         })
 
-        it('Does not create project or platform on signup', async () => {
+        it('Creates the platform and project from the name given at sign up', async () => {
             // arrange
-            const mockSignUpRequest = createMockSignUpRequest()
+            const mockSignUpRequest = createMockSignUpRequest({ email: 'ahmad.tash@activepieces.com' })
 
             // act
             const response = await app?.inject({
@@ -69,45 +71,8 @@ describe('Authentication API', () => {
             // assert
             expect(response?.statusCode).toBe(StatusCodes.OK)
 
-            const platformCount = await databaseConnection().getRepository('platform').count()
-            const projectCount = await databaseConnection().getRepository('project').count()
-
-            expect(platformCount).toBe(0)
-            expect(projectCount).toBe(0)
-        })
-    })
-
-    describe('Create Platform Endpoint', () => {
-        it('Creates platform and project with onboarding token', async () => {
-            // arrange
-            const mockSignUpRequest = createMockSignUpRequest()
-            const signUpResponse = await app?.inject({
-                method: 'POST',
-                url: '/api/v1/authentication/sign-up',
-                body: mockSignUpRequest,
-            })
-            const signUpBody = signUpResponse?.json()
-
-            // act
-            const response = await app?.inject({
-                method: 'POST',
-                url: '/api/v1/platforms',
-                headers: {
-                    authorization: `Bearer ${signUpBody.token}`,
-                },
-                body: {
-                    name: 'My Platform',
-                },
-            })
-
-            // assert
-            const responseBody = response?.json()
-
-            expect(response?.statusCode).toBe(StatusCodes.OK)
-            expect(responseBody?.platformId).toHaveLength(21)
-            expect(responseBody?.projectId).toHaveLength(21)
-            expect(responseBody?.token).toBeDefined()
-            expect(responseBody?.id).toHaveLength(21)
+            const platform = await databaseConnection().getRepository('platform').findOneBy({ id: response?.json()?.platformId })
+            expect(platform?.name).toBe('Activepieces')
 
             const platformCount = await databaseConnection().getRepository('platform').count()
             const projectCount = await databaseConnection().getRepository('project').count()
@@ -115,37 +80,13 @@ describe('Authentication API', () => {
             expect(platformCount).toBe(1)
             expect(projectCount).toBe(1)
         })
-
-        it('Fails with missing name', async () => {
-            // arrange
-            const mockSignUpRequest = createMockSignUpRequest()
-            const signUpResponse = await app?.inject({
-                method: 'POST',
-                url: '/api/v1/authentication/sign-up',
-                body: mockSignUpRequest,
-            })
-            const signUpBody = signUpResponse?.json()
-
-            // act
-            const response = await app?.inject({
-                method: 'POST',
-                url: '/api/v1/platforms',
-                headers: {
-                    authorization: `Bearer ${signUpBody.token}`,
-                },
-                body: {},
-            })
-
-            // assert
-            expect(response?.statusCode).toBe(StatusCodes.BAD_REQUEST)
-        })
     })
 
     describe('Sign in Endpoint', () => {
-        it('Logs in with onboarding token when no platform exists', async () => {
+        it('Signs in to the platform created at sign up', async () => {
             // arrange
             const mockSignUpRequest = createMockSignUpRequest()
-            await app?.inject({
+            const signUpResponse = await app?.inject({
                 method: 'POST',
                 url: '/api/v1/authentication/sign-up',
                 body: mockSignUpRequest,
@@ -161,6 +102,67 @@ describe('Authentication API', () => {
                 method: 'POST',
                 url: '/api/v1/authentication/sign-in',
                 body: mockSignInRequest,
+            })
+
+            // assert
+            const responseBody = response?.json()
+
+            expect(response?.statusCode).toBe(StatusCodes.OK)
+            expect(responseBody?.platformId).toBe(signUpResponse?.json()?.platformId)
+            expect(responseBody?.projectId).toBe(signUpResponse?.json()?.projectId)
+            expect(await databaseConnection().getRepository('platform').count()).toBe(1)
+        })
+
+        it('Creates the platform for a member who verified their email before signing in', async () => {
+            // arrange
+            const password = 'password-that-verifies'
+            await userIdentityService(app!.log).create({
+                email: 'ahmad.tash@activepieces.com',
+                password,
+                firstName: 'Ahmad',
+                lastName: 'Tash',
+                trackEvents: false,
+                newsLetter: false,
+                provider: UserIdentityProvider.EMAIL,
+                verified: true,
+            })
+
+            // act
+            const response = await app?.inject({
+                method: 'POST',
+                url: '/api/v1/authentication/sign-in',
+                body: createMockSignInRequest({ email: 'ahmad.tash@activepieces.com', password }),
+            })
+
+            // assert
+            const responseBody = response?.json()
+
+            expect(response?.statusCode).toBe(StatusCodes.OK)
+            expect(responseBody?.platformId).not.toBeNull()
+            expect(responseBody?.projectId).not.toBeNull()
+            expect(responseBody?.firstName).toBe('Ahmad')
+            expect(responseBody?.lastName).toBe('Tash')
+        })
+
+        it('Hands a pre-platform session to a member whose name was only guessed from their address', async () => {
+            // arrange
+            const password = 'password-that-verifies'
+            await userIdentityService(app!.log).create({
+                email: 'ahmad.tash@activepieces.com',
+                password,
+                firstName: 'Ahmad',
+                lastName: '',
+                trackEvents: false,
+                newsLetter: false,
+                provider: UserIdentityProvider.EMAIL,
+                verified: true,
+            })
+
+            // act
+            const response = await app?.inject({
+                method: 'POST',
+                url: '/api/v1/authentication/sign-in',
+                body: createMockSignInRequest({ email: 'ahmad.tash@activepieces.com', password }),
             })
 
             // assert
@@ -169,56 +171,39 @@ describe('Authentication API', () => {
             expect(response?.statusCode).toBe(StatusCodes.OK)
             expect(responseBody?.platformId).toBeNull()
             expect(responseBody?.projectId).toBeNull()
-            expect(responseBody?.token).toBeDefined()
+            expect(await databaseConnection().getRepository('platform').count()).toBe(0)
         })
 
-        it('Logs in with user token after platform creation', async () => {
+        it('Tells an identity with no user on the resolved platform why it cannot sign in', async () => {
             // arrange
-            const mockSignUpRequest = createMockSignUpRequest()
-            const signUpResponse = await app?.inject({
+            await app?.inject({
                 method: 'POST',
                 url: '/api/v1/authentication/sign-up',
-                body: mockSignUpRequest,
+                body: createMockSignUpRequest({ email: 'ahmad.tash@activepieces.com' }),
             })
-            const signUpBody = signUpResponse?.json()
 
-            const createPlatformResponse = await app?.inject({
-                method: 'POST',
-                url: '/api/v1/platforms',
-                headers: {
-                    authorization: `Bearer ${signUpBody.token}`,
-                },
-                body: {
-                    name: 'My Platform',
-                },
-            })
-            const createPlatformBody = createPlatformResponse?.json()
-
-            const mockSignInRequest = createMockSignInRequest({
-                email: mockSignUpRequest.email,
-                password: mockSignUpRequest.password,
+            const password = 'password-that-verifies'
+            await userIdentityService(app!.log).create({
+                email: 'orphan.identity@activepieces.com',
+                password,
+                firstName: 'Orphan',
+                lastName: 'Identity',
+                trackEvents: false,
+                newsLetter: false,
+                provider: UserIdentityProvider.EMAIL,
+                verified: true,
             })
 
             // act
             const response = await app?.inject({
                 method: 'POST',
                 url: '/api/v1/authentication/sign-in',
-                body: mockSignInRequest,
+                body: createMockSignInRequest({ email: 'orphan.identity@activepieces.com', password }),
             })
 
             // assert
-            const responseBody = response?.json()
-
-            expect(response?.statusCode).toBe(StatusCodes.OK)
-            expect(responseBody?.email).toBe(mockSignUpRequest.email.toLowerCase().trim())
-            expect(responseBody?.firstName).toBe(mockSignUpRequest.firstName)
-            expect(responseBody?.lastName).toBe(mockSignUpRequest.lastName)
-            expect(responseBody?.password).toBeUndefined()
-            expect(responseBody?.status).toBe('ACTIVE')
-            expect(responseBody?.verified).toBe(true)
-            expect(responseBody?.platformId).toBe(createPlatformBody.platformId)
-            expect(responseBody?.projectId).toBe(createPlatformBody.projectId)
-            expect(responseBody?.token).toBeDefined()
+            expect(response?.statusCode).toBe(StatusCodes.FORBIDDEN)
+            expect(response?.json()?.code).toBe('USER_NOT_FOUND_ON_PLATFORM')
         })
 
         it('Fails if password doesn\'t match', async () => {

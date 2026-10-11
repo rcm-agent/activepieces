@@ -102,7 +102,7 @@ const EmbedPage = React.memo(() => {
       return data;
     },
   });
-  const { setTheme } = useTheme();
+  const { setPreferenceWithoutPersisting } = useTheme();
   const { i18n } = useTranslation();
   const { checkAccess } = useAuthorization();
   const initState = (event: MessageEvent<ActivepiecesVendorInit>) => {
@@ -111,9 +111,7 @@ const EmbedPage = React.memo(() => {
       event.data.type === ActivepiecesVendorEventName.VENDOR_INIT
     ) {
       if (event.data.data.jwtToken) {
-        if (event.data.data.mode) {
-          setTheme(event.data.data.mode);
-        }
+        setPreferenceWithoutPersisting(event.data.data.mode ?? 'light');
         mutateAsync(
           {
             externalAccessToken: event.data.data.jwtToken,
@@ -124,7 +122,9 @@ const EmbedPage = React.memo(() => {
               authenticationSession.saveResponse(data, true);
               const configuredRoute = event.data.data.initialRoute ?? '/';
 
-              const defaultRoute = determineDefaultRoute(checkAccess);
+              const defaultRoute = determineDefaultRoute({
+                checkAccess,
+              });
               const initialRoute =
                 configuredRoute === '/' ? defaultRoute : configuredRoute;
               //must use it to ensure that the correct router in RouterProvider is used before navigation
@@ -157,6 +157,11 @@ const EmbedPage = React.memo(() => {
                   hideFlowsPageNavbar:
                     event.data.data.hideFlowsPageNavbar ?? false,
                   hidePageHeader: event.data.data.hidePageHeader ?? false,
+                  hideActiveUsers: event.data.data.hideActiveUsers ?? false,
+                  hideGlobalSearch: event.data.data.hideGlobalSearch ?? false,
+                  formulasDocsUrl: event.data.data.formulasDocsUrl,
+                  gtmContainerId: event.data.data.gtmContainerId,
+                  clarityProjectId: event.data.data.clarityProjectId,
                 });
               });
               memoryRouter.navigate(initialRoute);

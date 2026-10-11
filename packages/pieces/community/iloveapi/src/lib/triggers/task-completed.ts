@@ -11,9 +11,14 @@ import { taskCompletedSample } from './sample-payloads';
 export const taskCompletedTrigger = createTrigger({
   auth: iloveapiAuth,
   name: 'task_completed',
+  classification: 'READ',
   displayName: 'Task Completed',
   description:
     'Fires when a processing task finishes successfully. Optionally filter by tool.',
+  aiMetadata: {
+    description:
+      'Fires when an iLoveAPI processing task completes successfully (the task.completed webhook event). The event payload represents the finished task, including its tool and result details. Optionally scoped to specific tools via the tools filter so only completions from those tools trigger the flow.',
+  },
   type: TriggerStrategy.WEBHOOK,
   props: {
     instructions: Property.MarkDown({

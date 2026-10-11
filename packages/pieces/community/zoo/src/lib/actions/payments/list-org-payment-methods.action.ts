@@ -4,8 +4,11 @@ import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 
 export const listOrgPaymentMethodsAction = createAction({
   name: 'list_org_payment_methods',
+  classification: 'SEARCH',
   displayName: 'List Organization Payment Methods',
   description: 'List all payment methods for your organization',
+  audience: 'both',
+  aiMetadata: { description: 'List the payment methods registered on the organization, with optional limit and offset paging. Use to enumerate available methods or find a payment method ID to pass to the org payment update action. Read-only and idempotent.', idempotent: true },
   auth: zooAuth,
   // category: 'Payments',
   props: {

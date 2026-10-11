@@ -8,15 +8,19 @@ import {
 	verifyWebhookSignature,
 	unsubscribeWebhook,
 } from '../common';
-import { WebhookHandshakeStrategy } from '@activepieces/shared';
+import { WebhookHandshakeStrategy } from '@activepieces/pieces-framework';
 
 const TRIGGER_KEY = 'smartsheet_updated_row_trigger';
 
 export const updatedRowTrigger = createTrigger({
 	auth: smartsheetAuth,
 	name: 'updated_row',
+	classification: 'READ',
 	displayName: 'Row Updated',
 	description: 'Triggers when an existing row is updated.',
+	aiMetadata: {
+		description: 'Fires when an existing row is modified in the configured Smartsheet sheet, delivering the update event with the fetched full row details. Represents any edit to a row on that sheet, such as changed cell values.',
+	},
 	props: {
 		sheet_id: smartsheetCommon.sheet_id(),
 	},

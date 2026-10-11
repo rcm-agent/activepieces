@@ -4,8 +4,11 @@ import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 
 export const deleteShortlinkAction = createAction({
   name: 'delete_shortlink',
+  classification: 'DESTRUCTIVE',
   displayName: 'Delete Shortlink',
   description: 'Delete an existing shortlink',
+  audience: 'both',
+  aiMetadata: { description: 'Permanently delete a Zoo shortlink identified by its key. Destructive; the first call removes the link and later calls for the same key have no further effect. Requires the exact shortlink key.', idempotent: false },
   auth: zooAuth,
   // category: 'Shortlinks',
   props: {

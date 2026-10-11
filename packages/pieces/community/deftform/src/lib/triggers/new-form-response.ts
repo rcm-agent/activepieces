@@ -14,8 +14,12 @@ const setupMarkdown = `
 export const newFormResponseTrigger = createTrigger({
     auth: deftformAuth,
     name: 'new_form_response',
+    classification: 'READ',
     displayName: 'New Form Response',
     description: 'Triggers instantly when a new response is submitted to a Deftform form.',
+    aiMetadata: {
+        description: 'Fires when a new response is submitted to a watched Deftform form, delivering the submitted answers. Requires a webhook endpoint to be configured manually in the Deftform workspace settings and enabled on the target form.',
+    },
     props: {
         instructions: Property.MarkDown({ value: setupMarkdown }),
     },

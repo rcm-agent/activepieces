@@ -4,8 +4,11 @@ import { httpClient, HttpMethod } from '@activepieces/pieces-common';
 
 export const deleteUserPaymentAction = createAction({
   name: 'delete_user_payment',
+  classification: 'DESTRUCTIVE',
   displayName: 'Delete User Payment Info',
   description: 'Delete payment information for your user account',
+  audience: 'both',
+  aiMetadata: { description: 'Remove the stored payment information from the authenticated user account. Destructive and not reversible; confirm intent before calling. Applies to the individual user, not the organization.', idempotent: false },
   auth: zooAuth,
   // category: 'Payments',
   props: {},

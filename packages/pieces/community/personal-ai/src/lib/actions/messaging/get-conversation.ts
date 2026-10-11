@@ -6,8 +6,11 @@ import { BASE_URL } from '../../../index';
 export const getConversation = createAction({
   auth:personalAiAuth,
   name: 'get_conversation',
+  classification: 'SEARCH',
   displayName: 'Get Conversation History',
   description: 'Retrieve conversation history from AI assistant.',
+  audience: 'both',
+  aiMetadata: { description: 'Retrieve the message history for a conversation channel from the Personal AI assistant, with optional filtering by session/source and limit/skip pagination. Use when you need to read past messages rather than send a new one. The required channel ID identifies the conversation; this is a read-only lookup and is idempotent.', idempotent: true },
   // category: 'Messaging',
   props: {
     channelId: Property.ShortText({

@@ -4,30 +4,40 @@ import {
   createTrigger,
 } from '@activepieces/pieces-framework';
 import { slackAuth } from '../auth';
-import { userId } from '../common/props';
+import { appWebhookSetupInfo, userId } from '../common/props';
 import { getTeamId, getUserId, SlackAuthValue } from '../common/auth-helpers';
+import { newMentionInDirectMessageTriggerOutputSchema } from '../output-schemas';
 
 export const newMentionInDirectMessageTrigger = createTrigger({
   auth: slackAuth,
   name: 'new-mention-in-direct-message',
+  classification: 'READ',
   displayName: 'New Mention in Direct Message',
   description:
     'Triggers when a username is mentioned in a direct message channel.',
+  aiMetadata: {
+    description:
+      'Fires when the configured user is @-mentioned in a direct message (im channel). Only messages in DM channels that contain the mention token for the selected user fire; bot messages and the user\'s own messages can be optionally ignored. The event payload is the Slack message event including its text, channel, and sender.',
+  },
   props: {
+    info: appWebhookSetupInfo,
     user: userId(true),
     ignoreBots: Property.Checkbox({
-      displayName: 'Ignore Bot Messages ?',
-      required: true,
+      displayName: 'Ignore Bot Messages',
+      description: 'Skip messages posted by bots and apps.',
+      required: false,
       defaultValue: false,
     }),
     ignoreSelfMessages: Property.Checkbox({
-      displayName: 'Ignore Message from Yourself ?',
-      required: true,
+      displayName: 'Ignore My Own Messages',
+      description: 'Skip messages sent by the connected user. Needs a user token.',
+      required: false,
       defaultValue: false,
     }),
   },
   type: TriggerStrategy.APP_WEBHOOK,
   sampleData: undefined,
+  outputSchema: newMentionInDirectMessageTriggerOutputSchema,
   onEnable: async (context) => {
     // Older OAuth2 has team_id, newer has team.id
   		const teamId = await getTeamId(context.auth as SlackAuthValue);

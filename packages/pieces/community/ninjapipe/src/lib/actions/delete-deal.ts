@@ -6,8 +6,11 @@ import { ninjapipeApiCall, getAuth, ninjapipeCommon } from '../common';
 export const deleteDeal = createAction({
   auth: ninjapipeAuth,
   name: 'delete_deal',
+  classification: 'DESTRUCTIVE',
   displayName: 'Delete Deal',
   description: 'Deletes a deal by ID.',
+  audience: 'both',
+  aiMetadata: { description: 'Permanently delete a deal identified by its ID. Destructive and not reversible; re-running after the deal is gone will fail since the ID no longer exists.', idempotent: false },
   props: {
     dealId: ninjapipeCommon.dealDropdownRequired,
   },

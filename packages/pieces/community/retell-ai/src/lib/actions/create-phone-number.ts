@@ -7,8 +7,11 @@ import { agentIdDropdown, numberProviderDropdown } from '../common/props';
 export const createPhoneNumber = createAction({
   auth: retellAiAuth,
   name: 'create_phone_number',
+  classification: 'WRITE',
   displayName: 'Create Phone Number',
   description: 'Buys a new phone number and binds agents.',
+  audience: 'both',
+  aiMetadata: { description: 'Purchase a new US/Canada phone number from Retell and bind inbound and/or outbound AI agents to it. Either request a number by area code or pass a specific number in E.164 format; toll-free can be requested. Use to provision a callable number for an agent. Not idempotent: each call purchases a new number and incurs cost.', idempotent: false },
   props: {
     inboundAgentId: agentIdDropdown('Inbound Agent'),
     outboundAgentId: agentIdDropdown('Outbound Agent'),

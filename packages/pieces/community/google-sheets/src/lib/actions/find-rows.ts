@@ -6,26 +6,34 @@ import {
 	mapRowsToHeaderNames,
 } from '../common/common';
 import { googleSheetsAuth } from '../common/common';
-import { z } from 'zod';
+import * as z from 'zod/mini'
 import { propsValidation } from '@activepieces/pieces-common';
 import { columnNameProp, commonProps } from '../common/props';
+import { findRowsActionOutputSchema } from '../output-schemas';
 
 export const findRowsAction = createAction({
 	auth: googleSheetsAuth,
 	name: 'find_rows',
-description: 'Look up rows in a worksheet based on a column value.',
+	classification: 'SEARCH',
+	description: 'Look up rows in a worksheet based on a column value.',
+	audience: 'human',
+	aiMetadata: {
+		description:
+			'Searches a worksheet for rows whose value in a chosen column matches a search value (exact or contains), returning up to a requested number of matches. Use to locate rows before reading, updating, or deleting them; leave the search value empty to fetch rows sequentially. Read-only and idempotent.',
+		idempotent: true,
+	},
 	displayName: 'Find Rows',
 	props: {
 		...commonProps,
 		columnName: columnNameProp(),
 		searchValue: Property.ShortText({
 			displayName: 'Search Value',
-			description: 'The value to look for in the selected column. Leave empty to return all rows.',
+			description: 'The value to look for. Leave empty to return all rows.',
 			required: false,
 		}),
 		matchCase: Property.Checkbox({
 			displayName: 'Exact Match',
-			description: 'Only return rows where the cell value exactly matches the search value.',
+			description: 'Only return rows whose cell matches the value exactly.',
 			required: true,
 			defaultValue: false,
 		}),
@@ -33,30 +41,33 @@ description: 'Look up rows in a worksheet based on a column value.',
 			displayName: 'Starting Row',
 			description: 'Start searching from this row number.',
 			required: false,
+			advanced: true,
 		}),
 		numberOfRows: Property.Number({
 			displayName: 'Number of Rows',
-			description: 'How many rows to return. Defaults to 1 if not specified.',
+			description: 'How many matching rows to return.',
 			required: false,
 			defaultValue: 1,
 		}),
 		headerRow: Property.Number({
 			displayName: 'Header Row',
-			description: 'The row number that contains the column names.',
+			description: 'The row that contains the column names.',
 			required: true,
 			defaultValue: 1,
 		}),
 		useHeaderNames: Property.Checkbox({
 			displayName: 'Use Column Names',
-			description: 'Use column names as keys instead of A, B, C.',
+			description: 'Key each row by column name instead of A, B, C.',
 			required: false,
 			defaultValue: false,
+			advanced: true,
 		}),
 	},
+	outputSchema: findRowsActionOutputSchema,
 	async run({ propsValue, auth }) {
 		await propsValidation.validateZod(propsValue, {
-			startingRow: z.number().min(1).optional(),
-			numberOfRows: z.number().min(1).optional(),
+			startingRow: z.optional(z.number().check(z.minimum(1))),
+			numberOfRows: z.optional(z.number().check(z.minimum(1))),
 		});
 
 		const spreadsheetId = propsValue.spreadsheetId;
@@ -105,16 +116,17 @@ description: 'Look up rows in a worksheet based on a column value.',
 			if (keys.length <= columnNumber) continue;
 			const entry_value = row[keys[columnNumber]];
 
-			if (entry_value === undefined) {
+			if (entry_value === undefined || entry_value === null) {
 				continue;
 			}
+			const entryAsString = String(entry_value);
 			if (propsValue.matchCase) {
-				if (entry_value === searchValue) {
+				if (entryAsString === searchValue) {
 					matchedRowCount += 1;
 					matchingRows.push(rows[i]);
 				}
 			} else {
-				if (entry_value.toLowerCase().includes(searchValue.toLowerCase())) {
+				if (entryAsString.toLowerCase().includes(searchValue.toLowerCase())) {
 					matchedRowCount += 1;
 					matchingRows.push(rows[i]);
 				}

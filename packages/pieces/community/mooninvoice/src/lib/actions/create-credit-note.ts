@@ -9,6 +9,12 @@ export const createCreditNote = createAction({
   name: 'createCreditNote',
   displayName: 'Create Credit Note',
   description: 'Create a new credit note in MoonInvoice',
+  audience: 'both',
+  aiMetadata: {
+    description:
+      'Creates a new credit note for a contact under a MoonInvoice company. Use when issuing a refund or credit against prior billing. Requires the company, contact, a credit note number, and an entry date; line items (products and tasks) are supplied as JSON arrays. Not idempotent — each call creates a new credit note regardless of the credit note number.',
+    idempotent: false,
+  },
   props: {
     companyId: companyIdProp,
     contactId: contactIdProp,
@@ -251,12 +257,12 @@ export const createCreditNote = createAction({
       context.auth.props.secret_text
     );
 
-    const response = await makeRequest(
+    const response = await makeRequest({
       accessToken,
-      HttpMethod.POST,
-      '/create_credit_notes',
-      body
-    );
+      method: HttpMethod.POST,
+      path: '/create_credit_notes',
+      body,
+    });
 
     return response;
   },

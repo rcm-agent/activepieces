@@ -5,8 +5,11 @@ import { makeClient } from '../../common/client';
 export const createReceivablesInvoice = createAction({
     auth: oracleFusionCloudErpAuth,
     name: 'create_receivables_invoice',
+    classification: 'WRITE',
     displayName: 'Create Receivables Invoice',
     description: 'Creates a new receivables (AR) invoice in Oracle Fusion Cloud ERP.',
+    audience: 'both',
+    aiMetadata: { description: 'Create a new accounts-receivable (customer-billing) invoice, requiring at minimum a business unit, transaction type, and bill-to customer account number. Not idempotent: each call creates a new invoice, and an omitted transaction number is auto-generated, so re-running produces duplicates. Use for billing customers; for supplier bills you owe, use Create Invoice (payables) instead.', idempotent: false },
     props: {
         businessUnit: Property.ShortText({
             displayName: 'Business Unit',

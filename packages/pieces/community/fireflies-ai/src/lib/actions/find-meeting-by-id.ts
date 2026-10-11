@@ -7,8 +7,11 @@ import { BASE_URL } from '../common';
 export const findMeetingByIdAction = createAction({
 	auth: firefliesAiAuth,
 	name: 'find-meeting-by-id',
+	classification: 'READ',
 	displayName: 'Find Meeting by ID',
 	description: 'Finds a specific meeting by ID.',
+	audience: 'both',
+	aiMetadata: { description: 'Fetches a single Fireflies meeting transcript (with summary, speakers, attendees, and media URLs) by its exact transcript/meeting ID. Use when you already have a known meeting ID and want its full details; if you only have search criteria like title or date, use the search action instead. Read-only and idempotent.', idempotent: true },
 	props: {
 		meetingId: Property.ShortText({
 			displayName: 'Meeting ID',
