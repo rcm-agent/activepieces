@@ -3,7 +3,7 @@
   "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
   "pieces": [
     {
-      "action_count": 28,
+      "action_count": 73,
       "artifact_path": "catalog/activepieces/generated/pilot/pieces/slack.json",
       "auth_types": [
         "oauth2",
@@ -15,13 +15,13 @@
         "slack-dev"
       ],
       "package_name": "@activepieces/piece-slack",
-      "package_version": "0.17.0",
+      "package_version": "0.21.1",
       "runtime_status": "candidate_only",
       "slug": "slack",
       "trigger_count": 14
     },
     {
-      "action_count": 16,
+      "action_count": 61,
       "artifact_path": "catalog/activepieces/generated/pilot/pieces/discord.json",
       "auth_types": [
         "secret_text"
@@ -32,13 +32,13 @@
         "discord"
       ],
       "package_name": "@activepieces/piece-discord",
-      "package_version": "0.5.0",
+      "package_version": "0.7.2",
       "runtime_status": "candidate_only",
       "slug": "discord",
       "trigger_count": 2
     },
     {
-      "action_count": 7,
+      "action_count": 37,
       "artifact_path": "catalog/activepieces/generated/pilot/pieces/gmail.json",
       "auth_types": [
         "oauth2",
@@ -52,13 +52,13 @@
         "google-mail-dev"
       ],
       "package_name": "@activepieces/piece-gmail",
-      "package_version": "0.12.3",
+      "package_version": "0.17.5",
       "runtime_status": "candidate_only",
       "slug": "gmail",
       "trigger_count": 4
     },
     {
-      "action_count": 21,
+      "action_count": 61,
       "artifact_path": "catalog/activepieces/generated/pilot/pieces/google-sheets.json",
       "auth_types": [
         "oauth2",
@@ -70,45 +70,47 @@
         "google-sheets"
       ],
       "package_name": "@activepieces/piece-google-sheets",
-      "package_version": "0.14.6",
+      "package_version": "0.17.2",
       "runtime_status": "candidate_only",
       "slug": "google-sheets",
       "trigger_count": 4
     },
     {
-      "action_count": 45,
+      "action_count": 54,
       "artifact_path": "catalog/activepieces/generated/pilot/pieces/hubspot.json",
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "display_name": "HubSpot",
       "nango_provider_key_candidates": [
         "hubspot"
       ],
       "package_name": "@activepieces/piece-hubspot",
-      "package_version": "0.8.4",
+      "package_version": "0.12.1",
       "runtime_status": "candidate_only",
       "slug": "hubspot",
       "trigger_count": 24
     },
     {
-      "action_count": 18,
+      "action_count": 93,
       "artifact_path": "catalog/activepieces/generated/pilot/pieces/github.json",
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "display_name": "GitHub",
       "nango_provider_key_candidates": [
         "github"
       ],
       "package_name": "@activepieces/piece-github",
-      "package_version": "0.7.3",
+      "package_version": "0.9.3",
       "runtime_status": "candidate_only",
       "slug": "github",
       "trigger_count": 14
     },
     {
-      "action_count": 13,
+      "action_count": 37,
       "artifact_path": "catalog/activepieces/generated/pilot/pieces/notion.json",
       "auth_types": [
         "oauth2",
@@ -120,7 +122,7 @@
         "notion"
       ],
       "package_name": "@activepieces/piece-notion",
-      "package_version": "0.6.1",
+      "package_version": "0.7.5",
       "runtime_status": "candidate_only",
       "slug": "notion",
       "trigger_count": 4
@@ -130,5 +132,5 @@
   "schema_version": "activepieces-catalog-candidate.v1",
   "trigger_candidate_count": 66,
   "trigger_candidates_artifact_path": "catalog/activepieces/generated/pilot/trigger_candidates.json",
-  "upstream_commit": "4e381ffae90afc7bc79ef22c4c9486d051419e00"
+  "upstream_commit": "59c94f454ef3afed9974b41650e3d78067918328"
 }

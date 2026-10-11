@@ -12,7 +12,7 @@
       ],
       "candidate_id": "activepieces_candidate.slack.channel_created",
       "description": "Triggers when a channel is created",
-      "display_name": "Channel created",
+      "display_name": "New Channel",
       "nango_provider_key_candidates": [
         {
           "candidate_only": true,
@@ -28,7 +28,7 @@
         }
       ],
       "package_name": "@activepieces/piece-slack",
-      "package_version": "0.17.0",
+      "package_version": "0.21.1",
       "piece_display_name": "Slack",
       "piece_slug": "slack",
       "runtime_execution": {
@@ -37,7 +37,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 16,
+      "source_line": 7,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-channel.ts",
       "trigger_name": "channel_created",
       "trigger_strategy": "APP_WEBHOOK",
@@ -66,7 +66,7 @@
         }
       ],
       "package_name": "@activepieces/piece-slack",
-      "package_version": "0.17.0",
+      "package_version": "0.21.1",
       "piece_display_name": "Slack",
       "piece_slug": "slack",
       "runtime_execution": {
@@ -75,7 +75,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 11,
+      "source_line": 12,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-command.ts",
       "trigger_name": "new_command",
       "trigger_strategy": "APP_WEBHOOK",
@@ -104,7 +104,7 @@
         }
       ],
       "package_name": "@activepieces/piece-slack",
-      "package_version": "0.17.0",
+      "package_version": "0.21.1",
       "piece_display_name": "Slack",
       "piece_slug": "slack",
       "runtime_execution": {
@@ -113,7 +113,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 10,
+      "source_line": 11,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-mention.ts",
       "trigger_name": "new_mention",
       "trigger_strategy": "APP_WEBHOOK",
@@ -142,7 +142,7 @@
         }
       ],
       "package_name": "@activepieces/piece-slack",
-      "package_version": "0.17.0",
+      "package_version": "0.21.1",
       "piece_display_name": "Slack",
       "piece_slug": "slack",
       "runtime_execution": {
@@ -151,7 +151,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 11,
+      "source_line": 12,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-reaction-added.ts",
       "trigger_name": "new_reaction_added",
       "trigger_strategy": "APP_WEBHOOK",
@@ -180,7 +180,7 @@
         }
       ],
       "package_name": "@activepieces/piece-slack",
-      "package_version": "0.17.0",
+      "package_version": "0.21.1",
       "piece_display_name": "Slack",
       "piece_slug": "slack",
       "runtime_execution": {
@@ -189,7 +189,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 10,
+      "source_line": 11,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-reaction-removed.ts",
       "trigger_name": "new_reaction_removed",
       "trigger_strategy": "APP_WEBHOOK",
@@ -218,7 +218,7 @@
         }
       ],
       "package_name": "@activepieces/piece-slack",
-      "package_version": "0.17.0",
+      "package_version": "0.21.1",
       "piece_display_name": "Slack",
       "piece_slug": "slack",
       "runtime_execution": {
@@ -227,7 +227,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 11,
+      "source_line": 12,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-command-in-direct-message.ts",
       "trigger_name": "new-command-in-direct-message",
       "trigger_strategy": "APP_WEBHOOK",
@@ -256,7 +256,7 @@
         }
       ],
       "package_name": "@activepieces/piece-slack",
-      "package_version": "0.17.0",
+      "package_version": "0.21.1",
       "piece_display_name": "Slack",
       "piece_slug": "slack",
       "runtime_execution": {
@@ -265,7 +265,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 7,
+      "source_line": 9,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-direct-message.ts",
       "trigger_name": "new-direct-message",
       "trigger_strategy": "APP_WEBHOOK",
@@ -294,7 +294,7 @@
         }
       ],
       "package_name": "@activepieces/piece-slack",
-      "package_version": "0.17.0",
+      "package_version": "0.21.1",
       "piece_display_name": "Slack",
       "piece_slug": "slack",
       "runtime_execution": {
@@ -303,7 +303,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 10,
+      "source_line": 11,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-mention-in-direct-message.ts",
       "trigger_name": "new-mention-in-direct-message",
       "trigger_strategy": "APP_WEBHOOK",
@@ -332,7 +332,7 @@
         }
       ],
       "package_name": "@activepieces/piece-slack",
-      "package_version": "0.17.0",
+      "package_version": "0.21.1",
       "piece_display_name": "Slack",
       "piece_slug": "slack",
       "runtime_execution": {
@@ -341,7 +341,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 5,
+      "source_line": 7,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-message.ts",
       "trigger_name": "new-message",
       "trigger_strategy": "APP_WEBHOOK",
@@ -370,7 +370,7 @@
         }
       ],
       "package_name": "@activepieces/piece-slack",
-      "package_version": "0.17.0",
+      "package_version": "0.21.1",
       "piece_display_name": "Slack",
       "piece_slug": "slack",
       "runtime_execution": {
@@ -379,7 +379,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 8,
+      "source_line": 9,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-message-in-channel.ts",
       "trigger_name": "new-message-in-channel",
       "trigger_strategy": "APP_WEBHOOK",
@@ -408,7 +408,7 @@
         }
       ],
       "package_name": "@activepieces/piece-slack",
-      "package_version": "0.17.0",
+      "package_version": "0.21.1",
       "piece_display_name": "Slack",
       "piece_slug": "slack",
       "runtime_execution": {
@@ -417,7 +417,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 6,
+      "source_line": 8,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-modal-interaction.ts",
       "trigger_name": "new-modal-interaction",
       "trigger_strategy": "APP_WEBHOOK",
@@ -429,7 +429,7 @@
         "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.slack.new-saved-message",
-      "description": "Triggers when you save a message.",
+      "description": "Triggers when a message is saved.",
       "display_name": "New Saved Message",
       "nango_provider_key_candidates": [
         {
@@ -446,7 +446,7 @@
         }
       ],
       "package_name": "@activepieces/piece-slack",
-      "package_version": "0.17.0",
+      "package_version": "0.21.1",
       "piece_display_name": "Slack",
       "piece_slug": "slack",
       "runtime_execution": {
@@ -455,7 +455,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 5,
+      "source_line": 7,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-saved-message.ts",
       "trigger_name": "new-saved-message",
       "trigger_strategy": "APP_WEBHOOK",
@@ -484,7 +484,7 @@
         }
       ],
       "package_name": "@activepieces/piece-slack",
-      "package_version": "0.17.0",
+      "package_version": "0.21.1",
       "piece_display_name": "Slack",
       "piece_slug": "slack",
       "runtime_execution": {
@@ -493,7 +493,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 11,
+      "source_line": 13,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-team-custom-emoji.ts",
       "trigger_name": "new-team-custom-emoji",
       "trigger_strategy": "APP_WEBHOOK",
@@ -522,7 +522,7 @@
         }
       ],
       "package_name": "@activepieces/piece-slack",
-      "package_version": "0.17.0",
+      "package_version": "0.21.1",
       "piece_display_name": "Slack",
       "piece_slug": "slack",
       "runtime_execution": {
@@ -531,7 +531,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 54,
+      "source_line": 56,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-user.ts",
       "trigger_name": "new-user",
       "trigger_strategy": "APP_WEBHOOK",
@@ -542,7 +542,7 @@
         "secret_text"
       ],
       "candidate_id": "activepieces_candidate.discord.new_member",
-      "description": "Triggers when a new member joins a guild",
+      "description": "Fires when a member joins a server.",
       "display_name": "New Member",
       "nango_provider_key_candidates": [
         {
@@ -559,7 +559,7 @@
         }
       ],
       "package_name": "@activepieces/piece-discord",
-      "package_version": "0.5.0",
+      "package_version": "0.7.2",
       "piece_display_name": "Discord",
       "piece_slug": "discord",
       "runtime_execution": {
@@ -579,8 +579,8 @@
         "secret_text"
       ],
       "candidate_id": "activepieces_candidate.discord.new_message",
-      "description": "Triggers when a message is sent in a channel",
-      "display_name": "New message",
+      "description": "Fires when a message is posted in a channel.",
+      "display_name": "New Message",
       "nango_provider_key_candidates": [
         {
           "candidate_only": true,
@@ -596,7 +596,7 @@
         }
       ],
       "package_name": "@activepieces/piece-discord",
-      "package_version": "0.5.0",
+      "package_version": "0.7.2",
       "piece_display_name": "Discord",
       "piece_slug": "discord",
       "runtime_execution": {
@@ -605,7 +605,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 49,
+      "source_line": 50,
       "source_path": "packages/pieces/community/discord/src/lib/triggers/new-message.ts",
       "trigger_name": "new_message",
       "trigger_strategy": "POLLING",
@@ -617,7 +617,7 @@
         "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.gmail.gmail_new_email_received",
-      "description": "Triggers when new mail is found in your Gmail inbox",
+      "description": "Triggers when a new email matching the filters arrives.",
       "display_name": "New Email",
       "nango_provider_key_candidates": [
         {
@@ -646,7 +646,7 @@
         }
       ],
       "package_name": "@activepieces/piece-gmail",
-      "package_version": "0.12.3",
+      "package_version": "0.17.5",
       "piece_display_name": "Gmail",
       "piece_slug": "gmail",
       "runtime_execution": {
@@ -655,7 +655,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 16,
+      "source_line": 17,
       "source_path": "packages/pieces/community/gmail/src/lib/triggers/new-email.ts",
       "trigger_name": "gmail_new_email_received",
       "trigger_strategy": "POLLING",
@@ -667,7 +667,7 @@
         "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.gmail.new_attachment",
-      "description": "Triggers when an email with an attachment arrives.",
+      "description": "Triggers for each attachment on a new email.",
       "display_name": "New Attachment",
       "nango_provider_key_candidates": [
         {
@@ -696,7 +696,7 @@
         }
       ],
       "package_name": "@activepieces/piece-gmail",
-      "package_version": "0.12.3",
+      "package_version": "0.17.5",
       "piece_display_name": "Gmail",
       "piece_slug": "gmail",
       "runtime_execution": {
@@ -705,7 +705,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 26,
+      "source_line": 27,
       "source_path": "packages/pieces/community/gmail/src/lib/triggers/new-attachment.ts",
       "trigger_name": "new_attachment",
       "trigger_strategy": "POLLING",
@@ -717,7 +717,7 @@
         "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.gmail.new_label",
-      "description": "Triggers when a new label is created.",
+      "description": "Triggers when a new label is created in Gmail.",
       "display_name": "New Label",
       "nango_provider_key_candidates": [
         {
@@ -746,7 +746,7 @@
         }
       ],
       "package_name": "@activepieces/piece-gmail",
-      "package_version": "0.12.3",
+      "package_version": "0.17.5",
       "piece_display_name": "Gmail",
       "piece_slug": "gmail",
       "runtime_execution": {
@@ -755,7 +755,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 9,
+      "source_line": 10,
       "source_path": "packages/pieces/community/gmail/src/lib/triggers/new-label.ts",
       "trigger_name": "new_label",
       "trigger_strategy": "POLLING",
@@ -767,7 +767,7 @@
         "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.gmail.new_labeled_email",
-      "description": "Triggers when a label is added to an email",
+      "description": "Triggers when this label is added to an email.",
       "display_name": "New Labeled Email",
       "nango_provider_key_candidates": [
         {
@@ -796,7 +796,7 @@
         }
       ],
       "package_name": "@activepieces/piece-gmail",
-      "package_version": "0.12.3",
+      "package_version": "0.17.5",
       "piece_display_name": "Gmail",
       "piece_slug": "gmail",
       "runtime_execution": {
@@ -805,7 +805,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 56,
+      "source_line": 57,
       "source_path": "packages/pieces/community/gmail/src/lib/triggers/new-labeled-email.ts",
       "trigger_name": "new_labeled_email",
       "trigger_strategy": "POLLING",
@@ -834,7 +834,7 @@
         }
       ],
       "package_name": "@activepieces/piece-google-sheets",
-      "package_version": "0.14.6",
+      "package_version": "0.17.2",
       "piece_display_name": "Google Sheets",
       "piece_slug": "google-sheets",
       "runtime_execution": {
@@ -843,7 +843,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 30,
+      "source_line": 31,
       "source_path": "packages/pieces/community/google-sheets/src/lib/triggers/new-or-updated-row.trigger.ts",
       "trigger_name": "google-sheets-new-or-updated-row",
       "trigger_strategy": "WEBHOOK",
@@ -855,7 +855,7 @@
         "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.google-sheets.googlesheets_new_row_added",
-      "description": "Triggers when a new row is added to bottom of a spreadsheet.",
+      "description": "Triggers when a new row is added to the bottom of a worksheet.",
       "display_name": "New Row Added",
       "nango_provider_key_candidates": [
         {
@@ -872,7 +872,7 @@
         }
       ],
       "package_name": "@activepieces/piece-google-sheets",
-      "package_version": "0.14.6",
+      "package_version": "0.17.2",
       "piece_display_name": "Google Sheets",
       "piece_slug": "google-sheets",
       "runtime_execution": {
@@ -881,7 +881,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 25,
+      "source_line": 26,
       "source_path": "packages/pieces/community/google-sheets/src/lib/triggers/new-row-added-webhook.ts",
       "trigger_name": "googlesheets_new_row_added",
       "trigger_strategy": "WEBHOOK",
@@ -910,7 +910,7 @@
         }
       ],
       "package_name": "@activepieces/piece-google-sheets",
-      "package_version": "0.14.6",
+      "package_version": "0.17.2",
       "piece_display_name": "Google Sheets",
       "piece_slug": "google-sheets",
       "runtime_execution": {
@@ -919,7 +919,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 52,
+      "source_line": 54,
       "source_path": "packages/pieces/community/google-sheets/src/lib/triggers/new-spreadsheet.ts",
       "trigger_name": "new-spreadsheet",
       "trigger_strategy": "POLLING",
@@ -948,7 +948,7 @@
         }
       ],
       "package_name": "@activepieces/piece-google-sheets",
-      "package_version": "0.14.6",
+      "package_version": "0.17.2",
       "piece_display_name": "Google Sheets",
       "piece_slug": "google-sheets",
       "runtime_execution": {
@@ -957,7 +957,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 8,
+      "source_line": 9,
       "source_path": "packages/pieces/community/google-sheets/src/lib/triggers/new-worksheet.ts",
       "trigger_name": "new-worksheet",
       "trigger_strategy": "POLLING",
@@ -965,7 +965,8 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.hubspot.deal-stage-updated",
       "description": "Triggers when a deal enters a specified stage.",
@@ -979,7 +980,7 @@
         }
       ],
       "package_name": "@activepieces/piece-hubspot",
-      "package_version": "0.8.4",
+      "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
       "piece_slug": "hubspot",
       "runtime_execution": {
@@ -988,7 +989,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 96,
+      "source_line": 97,
       "source_path": "packages/pieces/community/hubspot/src/lib/triggers/deal-stage-updated.ts",
       "trigger_name": "deal-stage-updated",
       "trigger_strategy": "POLLING",
@@ -996,11 +997,12 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.hubspot.new-blog-article",
-      "description": "Triggers when a new article is added to your COS blog.",
-      "display_name": "New COS Blog Article",
+      "description": "Triggers when a post is added to your HubSpot blog.",
+      "display_name": "New Blog Post",
       "nango_provider_key_candidates": [
         {
           "candidate_only": true,
@@ -1010,7 +1012,7 @@
         }
       ],
       "package_name": "@activepieces/piece-hubspot",
-      "package_version": "0.8.4",
+      "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
       "piece_slug": "hubspot",
       "runtime_execution": {
@@ -1019,7 +1021,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 84,
+      "source_line": 85,
       "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-blog-article.ts",
       "trigger_name": "new-blog-article",
       "trigger_strategy": "POLLING",
@@ -1027,10 +1029,11 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.hubspot.new-company",
-      "description": "Trigger when a new company is added.",
+      "description": "Triggers when a new company is created.",
       "display_name": "New Company",
       "nango_provider_key_candidates": [
         {
@@ -1041,7 +1044,7 @@
         }
       ],
       "package_name": "@activepieces/piece-hubspot",
-      "package_version": "0.8.4",
+      "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
       "piece_slug": "hubspot",
       "runtime_execution": {
@@ -1050,7 +1053,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 71,
+      "source_line": 75,
       "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-company.ts",
       "trigger_name": "new-company",
       "trigger_strategy": "POLLING",
@@ -1058,7 +1061,8 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.hubspot.new-company-property-change",
       "description": "Triggers when a specified property is updated on a company.",
@@ -1072,7 +1076,7 @@
         }
       ],
       "package_name": "@activepieces/piece-hubspot",
-      "package_version": "0.8.4",
+      "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
       "piece_slug": "hubspot",
       "runtime_execution": {
@@ -1081,7 +1085,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 124,
+      "source_line": 126,
       "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-company-property-change.ts",
       "trigger_name": "new-company-property-change",
       "trigger_strategy": "POLLING",
@@ -1089,10 +1093,11 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.hubspot.new-contact",
-      "description": "Trigger when new contact is available.",
+      "description": "Triggers when a new contact is created.",
       "display_name": "New Contact",
       "nango_provider_key_candidates": [
         {
@@ -1103,7 +1108,7 @@
         }
       ],
       "package_name": "@activepieces/piece-hubspot",
-      "package_version": "0.8.4",
+      "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
       "piece_slug": "hubspot",
       "runtime_execution": {
@@ -1112,7 +1117,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 73,
+      "source_line": 75,
       "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-contact.ts",
       "trigger_name": "new-contact",
       "trigger_strategy": "POLLING",
@@ -1120,7 +1125,8 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.hubspot.new-contact-in-list",
       "description": "Triggers when a new contact is added to the specified list.",
@@ -1134,7 +1140,7 @@
         }
       ],
       "package_name": "@activepieces/piece-hubspot",
-      "package_version": "0.8.4",
+      "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
       "piece_slug": "hubspot",
       "runtime_execution": {
@@ -1151,7 +1157,8 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.hubspot.new-contact-property-change",
       "description": "Triggers when a specified property is updated on a contact.",
@@ -1165,7 +1172,7 @@
         }
       ],
       "package_name": "@activepieces/piece-hubspot",
-      "package_version": "0.8.4",
+      "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
       "piece_slug": "hubspot",
       "runtime_execution": {
@@ -1174,7 +1181,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 126,
+      "source_line": 127,
       "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-contact-property-change.ts",
       "trigger_name": "new-contact-property-change",
       "trigger_strategy": "POLLING",
@@ -1182,10 +1189,11 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.hubspot.new-custom-object",
-      "description": "Triggers when new custom object is available.",
+      "description": "Triggers when a new custom object record is created.",
       "display_name": "New Custom Object",
       "nango_provider_key_candidates": [
         {
@@ -1196,7 +1204,7 @@
         }
       ],
       "package_name": "@activepieces/piece-hubspot",
-      "package_version": "0.8.4",
+      "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
       "piece_slug": "hubspot",
       "runtime_execution": {
@@ -1205,7 +1213,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 89,
+      "source_line": 90,
       "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-custom-object.ts",
       "trigger_name": "new-custom-object",
       "trigger_strategy": "POLLING",
@@ -1213,7 +1221,8 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.hubspot.new-custom-object-property-change",
       "description": "Triggers when a specified property is updated on a custom object.",
@@ -1227,7 +1236,7 @@
         }
       ],
       "package_name": "@activepieces/piece-hubspot",
-      "package_version": "0.8.4",
+      "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
       "piece_slug": "hubspot",
       "runtime_execution": {
@@ -1236,7 +1245,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 131,
+      "source_line": 132,
       "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-custom-object-property-change.ts",
       "trigger_name": "new-custom-object-property-change",
       "trigger_strategy": "POLLING",
@@ -1244,10 +1253,11 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.hubspot.new-deal",
-      "description": "Trigger when a new deal is added.",
+      "description": "Triggers when a new deal is created.",
       "display_name": "New Deal",
       "nango_provider_key_candidates": [
         {
@@ -1258,7 +1268,7 @@
         }
       ],
       "package_name": "@activepieces/piece-hubspot",
-      "package_version": "0.8.4",
+      "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
       "piece_slug": "hubspot",
       "runtime_execution": {
@@ -1267,7 +1277,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 73,
+      "source_line": 75,
       "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-deal.ts",
       "trigger_name": "new-deal",
       "trigger_strategy": "POLLING",
@@ -1275,7 +1285,8 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.hubspot.new-deal-property-change",
       "description": "Triggers when a specified property is updated on a deal.",
@@ -1289,7 +1300,7 @@
         }
       ],
       "package_name": "@activepieces/piece-hubspot",
-      "package_version": "0.8.4",
+      "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
       "piece_slug": "hubspot",
       "runtime_execution": {
@@ -1298,7 +1309,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 125,
+      "source_line": 126,
       "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-deal-property-change.ts",
       "trigger_name": "new-deal-property-change",
       "trigger_strategy": "POLLING",
@@ -1306,10 +1317,11 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.hubspot.new-email-event",
-      "description": "Triggers when all,or specific new email event is available.",
+      "description": "Triggers on new marketing email events, such as opens or clicks.",
       "display_name": "New Email Event",
       "nango_provider_key_candidates": [
         {
@@ -1320,7 +1332,7 @@
         }
       ],
       "package_name": "@activepieces/piece-hubspot",
-      "package_version": "0.8.4",
+      "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
       "piece_slug": "hubspot",
       "runtime_execution": {
@@ -1329,7 +1341,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 70,
+      "source_line": 69,
       "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-email-event.ts",
       "trigger_name": "new-email-event",
       "trigger_strategy": "POLLING",
@@ -1337,11 +1349,12 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.hubspot.new-email-subscriptions-timeline",
-      "description": "Triggers when a new email timeline subscription added for the portal.",
-      "display_name": "New Email Subscriptions Timeline",
+      "description": "Triggers when a contact's email subscription status changes.",
+      "display_name": "New Email Subscription Change",
       "nango_provider_key_candidates": [
         {
           "candidate_only": true,
@@ -1351,7 +1364,7 @@
         }
       ],
       "package_name": "@activepieces/piece-hubspot",
-      "package_version": "0.8.4",
+      "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
       "piece_slug": "hubspot",
       "runtime_execution": {
@@ -1368,7 +1381,8 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.hubspot.new-engagement",
       "description": "Triggers when a new engagement is created.",
@@ -1382,7 +1396,7 @@
         }
       ],
       "package_name": "@activepieces/piece-hubspot",
-      "package_version": "0.8.4",
+      "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
       "piece_slug": "hubspot",
       "runtime_execution": {
@@ -1391,7 +1405,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 65,
+      "source_line": 64,
       "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-engagement.ts",
       "trigger_name": "new-engagement",
       "trigger_strategy": "POLLING",
@@ -1399,7 +1413,8 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.hubspot.new-form-submission",
       "description": "Triggers when a form is submitted.",
@@ -1413,7 +1428,7 @@
         }
       ],
       "package_name": "@activepieces/piece-hubspot",
-      "package_version": "0.8.4",
+      "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
       "piece_slug": "hubspot",
       "runtime_execution": {
@@ -1430,10 +1445,11 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.hubspot.new-line-item",
-      "description": "Triggers when new line item is available.",
+      "description": "Triggers when a new line item is created.",
       "display_name": "New Line Item",
       "nango_provider_key_candidates": [
         {
@@ -1444,7 +1460,7 @@
         }
       ],
       "package_name": "@activepieces/piece-hubspot",
-      "package_version": "0.8.4",
+      "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
       "piece_slug": "hubspot",
       "runtime_execution": {
@@ -1453,7 +1469,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 77,
+      "source_line": 78,
       "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-line-item.ts",
       "trigger_name": "new-line-item",
       "trigger_strategy": "POLLING",
@@ -1461,11 +1477,12 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.hubspot.new-or-updated-company",
-      "description": "Triggers when a company recently created or updated.",
-      "display_name": "Company Recently Created or Updated",
+      "description": "Triggers when a company is created or updated.",
+      "display_name": "New or Updated Company",
       "nango_provider_key_candidates": [
         {
           "candidate_only": true,
@@ -1475,7 +1492,7 @@
         }
       ],
       "package_name": "@activepieces/piece-hubspot",
-      "package_version": "0.8.4",
+      "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
       "piece_slug": "hubspot",
       "runtime_execution": {
@@ -1484,7 +1501,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 73,
+      "source_line": 74,
       "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-or-updated-company.ts",
       "trigger_name": "new-or-updated-company",
       "trigger_strategy": "POLLING",
@@ -1492,11 +1509,12 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.hubspot.new-or-updated-contact",
-      "description": "Triggers when a contact recently created or updated.",
-      "display_name": "Contact Recently Created or Updated",
+      "description": "Triggers when a contact is created or updated.",
+      "display_name": "New or Updated Contact",
       "nango_provider_key_candidates": [
         {
           "candidate_only": true,
@@ -1506,7 +1524,7 @@
         }
       ],
       "package_name": "@activepieces/piece-hubspot",
-      "package_version": "0.8.4",
+      "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
       "piece_slug": "hubspot",
       "runtime_execution": {
@@ -1515,7 +1533,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 73,
+      "source_line": 74,
       "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-or-updated-contact.ts",
       "trigger_name": "new-or-updated-contact",
       "trigger_strategy": "POLLING",
@@ -1523,11 +1541,12 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.hubspot.new-or-updated-line-item",
-      "description": "Triggers when a line item recently created or updated.",
-      "display_name": "Line Item Recently Created or Updated",
+      "description": "Triggers when a line item is created or updated.",
+      "display_name": "New or Updated Line Item",
       "nango_provider_key_candidates": [
         {
           "candidate_only": true,
@@ -1537,7 +1556,7 @@
         }
       ],
       "package_name": "@activepieces/piece-hubspot",
-      "package_version": "0.8.4",
+      "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
       "piece_slug": "hubspot",
       "runtime_execution": {
@@ -1546,7 +1565,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 73,
+      "source_line": 74,
       "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-or-updated-line-item.ts",
       "trigger_name": "new-or-updated-line-item",
       "trigger_strategy": "POLLING",
@@ -1554,11 +1573,12 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.hubspot.new-or-updated-product",
-      "description": "Triggers when a product recently created or updated.",
-      "display_name": "Product Recently Created or Updated",
+      "description": "Triggers when a product is created or updated.",
+      "display_name": "New or Updated Product",
       "nango_provider_key_candidates": [
         {
           "candidate_only": true,
@@ -1568,7 +1588,7 @@
         }
       ],
       "package_name": "@activepieces/piece-hubspot",
-      "package_version": "0.8.4",
+      "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
       "piece_slug": "hubspot",
       "runtime_execution": {
@@ -1577,7 +1597,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 73,
+      "source_line": 74,
       "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-or-updated-product.ts",
       "trigger_name": "new-or-updated-product",
       "trigger_strategy": "POLLING",
@@ -1585,10 +1605,11 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.hubspot.new-product",
-      "description": "Triggers when new product is available.",
+      "description": "Triggers when a new product is created.",
       "display_name": "New Product",
       "nango_provider_key_candidates": [
         {
@@ -1599,7 +1620,7 @@
         }
       ],
       "package_name": "@activepieces/piece-hubspot",
-      "package_version": "0.8.4",
+      "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
       "piece_slug": "hubspot",
       "runtime_execution": {
@@ -1608,7 +1629,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 77,
+      "source_line": 78,
       "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-product.ts",
       "trigger_name": "new-product",
       "trigger_strategy": "POLLING",
@@ -1616,10 +1637,11 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.hubspot.new-task",
-      "description": "Trigger when a new task is added.",
+      "description": "Triggers when a new task is created.",
       "display_name": "New Task",
       "nango_provider_key_candidates": [
         {
@@ -1630,7 +1652,7 @@
         }
       ],
       "package_name": "@activepieces/piece-hubspot",
-      "package_version": "0.8.4",
+      "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
       "piece_slug": "hubspot",
       "runtime_execution": {
@@ -1639,7 +1661,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 73,
+      "source_line": 75,
       "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-task.ts",
       "trigger_name": "new-task",
       "trigger_strategy": "POLLING",
@@ -1647,10 +1669,11 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.hubspot.new-ticket",
-      "description": "Trigger when new ticket is available.",
+      "description": "Triggers when a new ticket is created.",
       "display_name": "New Ticket",
       "nango_provider_key_candidates": [
         {
@@ -1661,7 +1684,7 @@
         }
       ],
       "package_name": "@activepieces/piece-hubspot",
-      "package_version": "0.8.4",
+      "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
       "piece_slug": "hubspot",
       "runtime_execution": {
@@ -1670,7 +1693,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 73,
+      "source_line": 75,
       "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-ticket.ts",
       "trigger_name": "new-ticket",
       "trigger_strategy": "POLLING",
@@ -1678,7 +1701,8 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.hubspot.new-ticket-property-change",
       "description": "Triggers when a specified property is updated on a ticket.",
@@ -1692,7 +1716,7 @@
         }
       ],
       "package_name": "@activepieces/piece-hubspot",
-      "package_version": "0.8.4",
+      "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
       "piece_slug": "hubspot",
       "runtime_execution": {
@@ -1701,7 +1725,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 125,
+      "source_line": 126,
       "source_path": "packages/pieces/community/hubspot/src/lib/triggers/new-ticket-property-change.ts",
       "trigger_name": "new-ticket-property-change",
       "trigger_strategy": "POLLING",
@@ -1709,7 +1733,8 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.github.new_branch",
       "description": "Triggers when a new branch is created.",
@@ -1723,7 +1748,7 @@
         }
       ],
       "package_name": "@activepieces/piece-github",
-      "package_version": "0.7.3",
+      "package_version": "0.9.3",
       "piece_display_name": "GitHub",
       "piece_slug": "github",
       "runtime_execution": {
@@ -1740,7 +1765,8 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.github.new_collaborator",
       "description": "Triggers when a new collaborator is added to a repository.",
@@ -1754,7 +1780,7 @@
         }
       ],
       "package_name": "@activepieces/piece-github",
-      "package_version": "0.7.3",
+      "package_version": "0.9.3",
       "piece_display_name": "GitHub",
       "piece_slug": "github",
       "runtime_execution": {
@@ -1771,7 +1797,8 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.github.new_commit",
       "description": "Triggers when a new commit is pushed.",
@@ -1785,7 +1812,7 @@
         }
       ],
       "package_name": "@activepieces/piece-github",
-      "package_version": "0.7.3",
+      "package_version": "0.9.3",
       "piece_display_name": "GitHub",
       "piece_slug": "github",
       "runtime_execution": {
@@ -1802,7 +1829,8 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.github.new_label",
       "description": "Triggers when a new label is created in a repository.",
@@ -1816,7 +1844,7 @@
         }
       ],
       "package_name": "@activepieces/piece-github",
-      "package_version": "0.7.3",
+      "package_version": "0.9.3",
       "piece_display_name": "GitHub",
       "piece_slug": "github",
       "runtime_execution": {
@@ -1833,7 +1861,8 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.github.new_mention",
       "description": "Triggers when you are mentioned in a comment.",
@@ -1847,7 +1876,7 @@
         }
       ],
       "package_name": "@activepieces/piece-github",
-      "package_version": "0.7.3",
+      "package_version": "0.9.3",
       "piece_display_name": "GitHub",
       "piece_slug": "github",
       "runtime_execution": {
@@ -1856,7 +1885,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 38,
+      "source_line": 35,
       "source_path": "packages/pieces/community/github/src/lib/trigger/new-mention.ts",
       "trigger_name": "new_mention",
       "trigger_strategy": "WEBHOOK",
@@ -1864,7 +1893,8 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.github.new_milestone",
       "description": "Triggers when a new milestone is created.",
@@ -1878,7 +1908,7 @@
         }
       ],
       "package_name": "@activepieces/piece-github",
-      "package_version": "0.7.3",
+      "package_version": "0.9.3",
       "piece_display_name": "GitHub",
       "piece_slug": "github",
       "runtime_execution": {
@@ -1895,7 +1925,8 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.github.new_release",
       "description": "Triggers when a new release is added.",
@@ -1909,7 +1940,7 @@
         }
       ],
       "package_name": "@activepieces/piece-github",
-      "package_version": "0.7.3",
+      "package_version": "0.9.3",
       "piece_display_name": "GitHub",
       "piece_slug": "github",
       "runtime_execution": {
@@ -1926,7 +1957,8 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.github.new_review_request",
       "description": "Triggers when you are requested to review a pull request.",
@@ -1940,7 +1972,7 @@
         }
       ],
       "package_name": "@activepieces/piece-github",
-      "package_version": "0.7.3",
+      "package_version": "0.9.3",
       "piece_display_name": "GitHub",
       "piece_slug": "github",
       "runtime_execution": {
@@ -1957,7 +1989,8 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.github.trigger_discussion",
       "description": "Triggers when there is activity relating to a discussion.",
@@ -1971,7 +2004,7 @@
         }
       ],
       "package_name": "@activepieces/piece-github",
-      "package_version": "0.7.3",
+      "package_version": "0.9.3",
       "piece_display_name": "GitHub",
       "piece_slug": "github",
       "runtime_execution": {
@@ -1980,7 +2013,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 913,
+      "source_line": 912,
       "source_path": "packages/pieces/community/github/src/lib/trigger/index.ts",
       "trigger_name": "trigger_discussion",
       "trigger_strategy": "WEBHOOK",
@@ -1988,7 +2021,8 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.github.trigger_discussion_comment",
       "description": "Triggers when there is a new comment posted on a discussion.",
@@ -2002,7 +2036,7 @@
         }
       ],
       "package_name": "@activepieces/piece-github",
-      "package_version": "0.7.3",
+      "package_version": "0.9.3",
       "piece_display_name": "GitHub",
       "piece_slug": "github",
       "runtime_execution": {
@@ -2011,7 +2045,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 1161,
+      "source_line": 1160,
       "source_path": "packages/pieces/community/github/src/lib/trigger/index.ts",
       "trigger_name": "trigger_discussion_comment",
       "trigger_strategy": "WEBHOOK",
@@ -2019,7 +2053,8 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.github.trigger_issues",
       "description": "Triggers when there is activity relating to an issue.",
@@ -2033,7 +2068,7 @@
         }
       ],
       "package_name": "@activepieces/piece-github",
-      "package_version": "0.7.3",
+      "package_version": "0.9.3",
       "piece_display_name": "GitHub",
       "piece_slug": "github",
       "runtime_execution": {
@@ -2042,7 +2077,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 460,
+      "source_line": 459,
       "source_path": "packages/pieces/community/github/src/lib/trigger/index.ts",
       "trigger_name": "trigger_issues",
       "trigger_strategy": "WEBHOOK",
@@ -2050,7 +2085,8 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.github.trigger_pull_request",
       "description": "Triggers when there is activity on a pull request.",
@@ -2064,7 +2100,7 @@
         }
       ],
       "package_name": "@activepieces/piece-github",
-      "package_version": "0.7.3",
+      "package_version": "0.9.3",
       "piece_display_name": "GitHub",
       "piece_slug": "github",
       "runtime_execution": {
@@ -2073,7 +2109,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 22,
+      "source_line": 21,
       "source_path": "packages/pieces/community/github/src/lib/trigger/index.ts",
       "trigger_name": "trigger_pull_request",
       "trigger_strategy": "WEBHOOK",
@@ -2081,7 +2117,8 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.github.trigger_push",
       "description": "Triggers when there is a push to a repository branch. This includes when a commit is pushed, when a commit tag is pushed, when a branch is deleted, when a tag is deleted, or when a repository is created from a template.",
@@ -2095,7 +2132,7 @@
         }
       ],
       "package_name": "@activepieces/piece-github",
-      "package_version": "0.7.3",
+      "package_version": "0.9.3",
       "piece_display_name": "GitHub",
       "piece_slug": "github",
       "runtime_execution": {
@@ -2104,7 +2141,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 701,
+      "source_line": 700,
       "source_path": "packages/pieces/community/github/src/lib/trigger/index.ts",
       "trigger_name": "trigger_push",
       "trigger_strategy": "WEBHOOK",
@@ -2112,7 +2149,8 @@
     },
     {
       "auth_types": [
-        "oauth2"
+        "oauth2",
+        "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.github.trigger_star",
       "description": "Trigger when there is activity relating to repository stars.",
@@ -2126,7 +2164,7 @@
         }
       ],
       "package_name": "@activepieces/piece-github",
-      "package_version": "0.7.3",
+      "package_version": "0.9.3",
       "piece_display_name": "GitHub",
       "piece_slug": "github",
       "runtime_execution": {
@@ -2135,7 +2173,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 285,
+      "source_line": 284,
       "source_path": "packages/pieces/community/github/src/lib/trigger/index.ts",
       "trigger_name": "trigger_star",
       "trigger_strategy": "WEBHOOK",
@@ -2147,7 +2185,7 @@
         "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.notion.new_comment",
-      "description": "Triggers whenever someone adds a new comment to a specific Notion page. Perfect for notifications, review workflows, or automated responses to team feedback.",
+      "description": "Triggers when a comment is added to a page.",
       "display_name": "New Comment",
       "nango_provider_key_candidates": [
         {
@@ -2164,7 +2202,7 @@
         }
       ],
       "package_name": "@activepieces/piece-notion",
-      "package_version": "0.6.1",
+      "package_version": "0.7.5",
       "piece_display_name": "Notion",
       "piece_slug": "notion",
       "runtime_execution": {
@@ -2173,7 +2211,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 16,
+      "source_line": 17,
       "source_path": "packages/pieces/community/notion/src/lib/triggers/new-comment.ts",
       "trigger_name": "new_comment",
       "trigger_strategy": "POLLING",
@@ -2202,7 +2240,7 @@
         }
       ],
       "package_name": "@activepieces/piece-notion",
-      "package_version": "0.6.1",
+      "package_version": "0.7.5",
       "piece_display_name": "Notion",
       "piece_slug": "notion",
       "runtime_execution": {
@@ -2211,7 +2249,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 17,
+      "source_line": 19,
       "source_path": "packages/pieces/community/notion/src/lib/triggers/new-database-item.ts",
       "trigger_name": "new_database_item",
       "trigger_strategy": "POLLING",
@@ -2240,7 +2278,7 @@
         }
       ],
       "package_name": "@activepieces/piece-notion",
-      "package_version": "0.6.1",
+      "package_version": "0.7.5",
       "piece_display_name": "Notion",
       "piece_slug": "notion",
       "runtime_execution": {
@@ -2249,7 +2287,7 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 17,
+      "source_line": 19,
       "source_path": "packages/pieces/community/notion/src/lib/triggers/updated-database-item.ts",
       "trigger_name": "updated_database_item",
       "trigger_strategy": "POLLING",
@@ -2261,7 +2299,7 @@
         "custom_auth"
       ],
       "candidate_id": "activepieces_candidate.notion.updated_page",
-      "description": "Triggers whenever any page in your Notion workspace is modified or updated. Ideal for syncing content changes, backup processes, or notifying teams about documentation updates.",
+      "description": "Triggers when any page shared with the integration is edited.",
       "display_name": "Updated Page",
       "nango_provider_key_candidates": [
         {
@@ -2278,7 +2316,7 @@
         }
       ],
       "package_name": "@activepieces/piece-notion",
-      "package_version": "0.6.1",
+      "package_version": "0.7.5",
       "piece_display_name": "Notion",
       "piece_slug": "notion",
       "runtime_execution": {
@@ -2287,12 +2325,12 @@
         "supported": false
       },
       "runtime_status": "candidate_only",
-      "source_line": 15,
+      "source_line": 17,
       "source_path": "packages/pieces/community/notion/src/lib/triggers/updated-page.ts",
       "trigger_name": "updated_page",
       "trigger_strategy": "POLLING",
       "trigger_strategy_family": "POLLING"
     }
   ],
-  "upstream_commit": "4e381ffae90afc7bc79ef22c4c9486d051419e00"
+  "upstream_commit": "59c94f454ef3afed9974b41650e3d78067918328"
 }

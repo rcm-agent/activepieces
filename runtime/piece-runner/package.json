@@ -13,13 +13,11 @@
     "update-pieces": "node update-pieces.mjs"
   },
   "dependencies": {
-    "@activepieces/piece-discord": "0.5.0",
-    "@activepieces/piece-google-calendar": "0.9.1",
-    "@activepieces/piece-google-drive": "0.7.5",
-    "@activepieces/piece-google-sheets": "0.14.6",
-    "@activepieces/piece-slack": "0.17.0",
-    "@activepieces/pieces-common": "0.12.3",
-    "@activepieces/pieces-framework": "0.28.1",
+    "@activepieces/piece-discord": "0.7.2",
+    "@activepieces/piece-google-calendar": "0.12.3",
+    "@activepieces/piece-google-drive": "0.11.3",
+    "@activepieces/piece-google-sheets": "0.17.2",
+    "@activepieces/piece-slack": "0.21.1",
     "@activepieces/shared": "0.68.3"
   }
 }

@@ -4,49 +4,259 @@
       "description": "Creates a draft reply to an existing email.",
       "display_name": "Create Draft Reply",
       "name": "create_draft_reply",
-      "source_line": 9,
+      "source_line": 10,
       "source_path": "packages/pieces/community/gmail/src/lib/actions/create-draft-reply-action.ts"
     },
     {
       "description": "Make a custom API call to a specific endpoint",
       "display_name": "Custom API Call",
       "name": "custom_api_call",
-      "source_line": 37,
+      "source_line": 97,
       "source_path": "packages/pieces/community/gmail/src/index.ts"
     },
     {
-      "description": "Get an email via Id.",
+      "description": "Apply a label to an email message.",
+      "display_name": "Add Label to Email",
+      "name": "gmail_add_label_to_email",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/add-label-to-email-action.ts"
+    },
+    {
+      "description": "Archive an email message by removing it from the inbox.",
+      "display_name": "Archive Email",
+      "name": "gmail_archive_email",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/archive-email-action.ts"
+    },
+    {
+      "description": "Archive an email message by removing it from the inbox.",
+      "display_name": "Archive Message",
+      "name": "gmail_archive_message",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/ai-archive-email-action.ts"
+    },
+    {
+      "description": "Create a new draft email (optionally inside an existing thread).",
+      "display_name": "Create Draft",
+      "name": "gmail_create_draft",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/create-draft-action.ts"
+    },
+    {
+      "description": "Create a new label in the mailbox.",
+      "display_name": "Create Label",
+      "name": "gmail_create_label",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/create-label-action.ts"
+    },
+    {
+      "description": "Permanently delete a draft email by its ID.",
+      "display_name": "Delete Draft",
+      "name": "gmail_delete_draft",
+      "source_line": 5,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/delete-draft-action.ts"
+    },
+    {
+      "description": "Forward an existing email to new recipients.",
+      "display_name": "Forward Message",
+      "name": "gmail_forward_message",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/forward-message-action.ts"
+    },
+    {
+      "description": "Download an email attachment by message ID and attachment ID.",
+      "display_name": "Get Attachment",
+      "name": "gmail_get_attachment",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/get-attachment-action.ts"
+    },
+    {
+      "description": "Get a single draft email by its ID.",
+      "display_name": "Get Draft",
+      "name": "gmail_get_draft",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/get-draft-action.ts"
+    },
+    {
+      "description": "Get a single label by its ID, including message and thread counts.",
+      "display_name": "Get Label",
+      "name": "gmail_get_label",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/get-label-action.ts"
+    },
+    {
+      "description": "Read one email by its message ID, including attachments.",
       "display_name": "Get Email",
       "name": "gmail_get_mail",
-      "source_line": 6,
+      "source_line": 8,
       "source_path": "packages/pieces/community/gmail/src/lib/actions/get-mail-action.ts"
     },
     {
-      "description": "Find emails using advanced search criteria. If no filters are provided, the latest emails are returned.",
+      "description": "Get a single email message by its ID.",
+      "display_name": "Get Message",
+      "name": "gmail_get_message",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/ai-get-message-action.ts"
+    },
+    {
+      "description": "Get an existing label by name, creating it first if it does not exist.",
+      "display_name": "Get or Create Label",
+      "name": "gmail_get_or_create_label",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/ai-create-label-action.ts"
+    },
+    {
+      "description": "Get the connected mailbox profile.",
+      "display_name": "Get Profile",
+      "name": "gmail_get_profile",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/get-profile-action.ts"
+    },
+    {
+      "description": "Get a thread from your Gmail account via Id",
+      "display_name": "Get Thread",
+      "name": "gmail_get_thread",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/get-thread-action.ts"
+    },
+    {
+      "description": "List draft emails in the mailbox.",
+      "display_name": "List Drafts",
+      "name": "gmail_list_drafts",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/list-drafts-action.ts"
+    },
+    {
+      "description": "List mailbox changes since a given history ID.",
+      "display_name": "List History",
+      "name": "gmail_list_history",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/list-history-action.ts"
+    },
+    {
+      "description": "List all labels in the mailbox.",
+      "display_name": "List Labels",
+      "name": "gmail_list_labels",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/list-labels-action.ts"
+    },
+    {
+      "description": "List email conversation threads in the mailbox.",
+      "display_name": "List Threads",
+      "name": "gmail_list_threads",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/list-threads-action.ts"
+    },
+    {
+      "description": "Add and/or remove labels across one or more email messages in a single call.",
+      "display_name": "Modify Labels",
+      "name": "gmail_modify_labels",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/modify-labels-action.ts"
+    },
+    {
+      "description": "Add and/or remove labels across every message in a thread in a single call.",
+      "display_name": "Modify Thread Labels",
+      "name": "gmail_modify_thread_labels",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/modify-thread-labels-action.ts"
+    },
+    {
+      "description": "Remove a label from an email message.",
+      "display_name": "Remove Label From Email",
+      "name": "gmail_remove_label_from_email",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/remove-label-from-email-action.ts"
+    },
+    {
+      "description": "Reply to an existing email thread.",
+      "display_name": "Reply to Thread",
+      "name": "gmail_reply_to_thread",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/ai-reply-to-thread-action.ts"
+    },
+    {
+      "description": "Search emails using advanced criteria. If no filters are provided, the latest emails are returned.",
+      "display_name": "Search Email",
+      "name": "gmail_search_email",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/ai-search-email-action.ts"
+    },
+    {
+      "description": "Search your mailbox; with no filters it returns the latest emails.",
       "display_name": "Find Email",
       "name": "gmail_search_mail",
       "source_line": 8,
       "source_path": "packages/pieces/community/gmail/src/lib/actions/search-email-action.ts"
     },
     {
+      "description": "Send an existing draft email by its ID.",
+      "display_name": "Send Draft",
+      "name": "gmail_send_draft",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/send-draft-action.ts"
+    },
+    {
+      "description": "Send an email through a Gmail account",
+      "display_name": "Send Email",
+      "name": "gmail_send_email",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/ai-send-email-action.ts"
+    },
+    {
+      "description": "Stop push notifications on the mailbox.",
+      "display_name": "Stop Watch",
+      "name": "gmail_stop_watch",
+      "source_line": 5,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/stop-watch-action.ts"
+    },
+    {
+      "description": "Move an email message to Trash.",
+      "display_name": "Trash Message",
+      "name": "gmail_trash_message",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/trash-message-action.ts"
+    },
+    {
+      "description": "Restore an email message from Trash.",
+      "display_name": "Untrash Message",
+      "name": "gmail_untrash_message",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/untrash-message-action.ts"
+    },
+    {
+      "description": "Replace the content of an existing draft email.",
+      "display_name": "Update Draft",
+      "name": "gmail_update_draft",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/update-draft-action.ts"
+    },
+    {
+      "description": "Rename, recolor, or change the visibility of a user label.",
+      "display_name": "Update Label",
+      "name": "gmail_update_label",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/gmail/src/lib/actions/update-label-action.ts"
+    },
+    {
       "description": "Reply to an existing email.",
       "display_name": "Reply to Email",
       "name": "reply_to_email",
-      "source_line": 9,
+      "source_line": 10,
       "source_path": "packages/pieces/community/gmail/src/lib/actions/reply-to-email-action.ts"
     },
     {
-      "description": "Send approval request email and then wait until the email is approved or disapproved",
+      "description": "Send an email with an approval link and pause until it is answered.",
       "display_name": "Request Approval in Email",
       "name": "request_approval_in_mail",
-      "source_line": 13,
+      "source_line": 16,
       "source_path": "packages/pieces/community/gmail/src/lib/actions/request-approval-in-email.ts"
     },
     {
       "description": "Send an email through a Gmail account",
       "display_name": "Send Email",
       "name": "send_email",
-      "source_line": 8,
+      "source_line": 9,
       "source_path": "packages/pieces/community/gmail/src/lib/actions/send-email-action.ts"
     }
   ],
@@ -92,7 +302,7 @@
   ],
   "package": {
     "name": "@activepieces/piece-gmail",
-    "version": "0.12.3"
+    "version": "0.17.5"
   },
   "piece": {
     "auth_symbol": "gmailAuth",
@@ -118,14 +328,14 @@
     "display_name": "Gmail",
     "export_name": "gmail",
     "logo_url": "https://cdn.activepieces.com/pieces/gmail.png",
-    "minimum_supported_release": "0.82.0",
+    "minimum_supported_release": "0.88.2",
     "slug": "gmail"
   },
   "provenance": {
     "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
     "index_path": "packages/pieces/community/gmail/src/index.ts",
     "piece_path": "packages/pieces/community/gmail",
-    "upstream_commit": "4e381ffae90afc7bc79ef22c4c9486d051419e00",
+    "upstream_commit": "59c94f454ef3afed9974b41650e3d78067918328",
     "upstream_repo": "activepieces/activepieces"
   },
   "runtime_execution": {
@@ -137,34 +347,34 @@
   "schema_version": "activepieces-catalog-candidate.v1",
   "triggers": [
     {
-      "description": "Triggers when new mail is found in your Gmail inbox",
+      "description": "Triggers when a new email matching the filters arrives.",
       "display_name": "New Email",
       "name": "gmail_new_email_received",
-      "source_line": 16,
+      "source_line": 17,
       "source_path": "packages/pieces/community/gmail/src/lib/triggers/new-email.ts",
       "trigger_strategy": "POLLING"
     },
     {
-      "description": "Triggers when an email with an attachment arrives.",
+      "description": "Triggers for each attachment on a new email.",
       "display_name": "New Attachment",
       "name": "new_attachment",
-      "source_line": 26,
+      "source_line": 27,
       "source_path": "packages/pieces/community/gmail/src/lib/triggers/new-attachment.ts",
       "trigger_strategy": "POLLING"
     },
     {
-      "description": "Triggers when a new label is created.",
+      "description": "Triggers when a new label is created in Gmail.",
       "display_name": "New Label",
       "name": "new_label",
-      "source_line": 9,
+      "source_line": 10,
       "source_path": "packages/pieces/community/gmail/src/lib/triggers/new-label.ts",
       "trigger_strategy": "POLLING"
     },
     {
-      "description": "Triggers when a label is added to an email",
+      "description": "Triggers when this label is added to an email.",
       "display_name": "New Labeled Email",
       "name": "new_labeled_email",
-      "source_line": 56,
+      "source_line": 57,
       "source_path": "packages/pieces/community/gmail/src/lib/triggers/new-labeled-email.ts",
       "trigger_strategy": "POLLING"
     }

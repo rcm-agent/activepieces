@@ -4,68 +4,103 @@
       "description": "Make a custom API call to a specific endpoint",
       "display_name": "Custom API Call",
       "name": "custom_api_call",
-      "source_line": 175,
+      "source_line": 263,
       "source_path": "packages/pieces/community/slack/src/index.ts"
     },
     {
-      "description": "Deletes a specific message from a channel using the message's timestamp.",
+      "description": "Deletes a message. Needs a user token.",
       "display_name": "Delete Message",
       "name": "delete-message",
       "source_line": 8,
       "source_path": "packages/pieces/community/slack/src/lib/actions/delete-message.ts"
     },
     {
-      "description": "Finds a user by their ID.",
+      "description": "Find a Slack user by their exact email address.",
+      "display_name": "Find User by Email",
+      "name": "find_user_by_email",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/find-user-by-email.ai.ts"
+    },
+    {
+      "description": "Find a Slack user by their handle (display name).",
+      "display_name": "Find User by Handle",
+      "name": "find_user_by_handle",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/find-user-by-handle.ai.ts"
+    },
+    {
+      "description": "Returns the profile of a user by ID.",
       "display_name": "Find User by ID",
       "name": "find-user-by-id",
-      "source_line": 6,
+      "source_line": 7,
       "source_path": "packages/pieces/community/slack/src/lib/actions/find-user-by-id.ts"
     },
     {
-      "description": "Finds a Slack user group by its handle (e.g., @user-group) and returns its details. To mention this group in a message, map the returned ID using the syntax <!subteam^ID>. Read more: https://api.slack.com/reference/surfaces/formatting#mentioning-groups",
+      "description": "Finds a user group by handle and returns its ID.",
       "display_name": "Get User Group by Handle",
       "name": "get_group_by_handle",
-      "source_line": 6,
+      "source_line": 7,
       "source_path": "packages/pieces/community/slack/src/lib/actions/get-group-by-handle.ts"
+    },
+    {
+      "description": "Get a Slack user profile by their user ID.",
+      "display_name": "Get User",
+      "name": "get_user",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/get-user.ai.ts"
     },
     {
       "description": "Return information about a given file ID.",
       "display_name": "Get File",
       "name": "get-file",
-      "source_line": 7,
+      "source_line": 8,
       "source_path": "packages/pieces/community/slack/src/lib/actions/get-file.ts"
     },
     {
       "description": "Retrieves a specific message from a channel history using the message's timestamp.",
       "display_name": "Get Message by Timestamp",
       "name": "get-message",
-      "source_line": 8,
+      "source_line": 9,
       "source_path": "packages/pieces/community/slack/src/lib/actions/get-message.ts"
     },
     {
-      "description": "Retrieve all messages from a specific channel (\"conversation\") between specified timestamps",
-      "display_name": "Get channel history",
+      "description": "Lists messages in a channel, newest first, within a time window.",
+      "display_name": "Get Channel History",
       "name": "getChannelHistory",
-      "source_line": 7,
+      "source_line": 8,
       "source_path": "packages/pieces/community/slack/src/lib/actions/get-channel-history.ts"
     },
     {
       "description": "Invites an existing User to an existing channel.",
       "display_name": "Invite User to Channel",
       "name": "invite-user-to-channel",
-      "source_line": 7,
+      "source_line": 8,
       "source_path": "packages/pieces/community/slack/src/lib/actions/invite-user-to-channel.ts"
     },
     {
-      "description": "List all users of the workspace",
-      "display_name": "List users",
-      "name": "listUsers",
+      "description": "List all Slack user groups (subteams) in the workspace.",
+      "display_name": "List User Groups",
+      "name": "list_user_groups",
       "source_line": 7,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/list-user-groups.ai.ts"
+    },
+    {
+      "description": "List all users in the workspace.",
+      "display_name": "List Users",
+      "name": "list_users",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/list-users.ai.ts"
+    },
+    {
+      "description": "List all users of the workspace",
+      "display_name": "List Users",
+      "name": "listUsers",
+      "source_line": 8,
       "source_path": "packages/pieces/community/slack/src/lib/actions/list-users.ts"
     },
     {
-      "description": "Convert Markdown-formatted text to Slack's pseudo - markdown syntax",
-      "display_name": "Markdown to Slack format",
+      "description": "Converts Markdown text to Slack's mrkdwn syntax.",
+      "display_name": "Markdown to Slack Format",
       "name": "markdownToSlackFormat",
       "source_line": 7,
       "source_path": "packages/pieces/community/slack/src/lib/actions/markdown-to-slack-format.ts"
@@ -74,64 +109,337 @@
       "description": "Send a message to a user and wait until the user selects an action",
       "display_name": "Request Action from A User",
       "name": "request_action_direct_message",
-      "source_line": 14,
+      "source_line": 15,
       "source_path": "packages/pieces/community/slack/src/lib/actions/request-action-direct-message.ts"
     },
     {
       "description": "Send a message in a channel and wait until an action is selected",
       "display_name": "Request Action in A Channel",
       "name": "request_action_message",
-      "source_line": 16,
+      "source_line": 8,
       "source_path": "packages/pieces/community/slack/src/lib/actions/request-action-message.ts"
     },
     {
-      "description": "Send approval message to a user and then wait until the message is approved or disapproved",
+      "description": "Sends approve/reject buttons to a user and waits for the answer.",
       "display_name": "Request Approval from A User",
       "name": "request_approval_direct_message",
-      "source_line": 12,
+      "source_line": 11,
       "source_path": "packages/pieces/community/slack/src/lib/actions/request-approval-direct-message.ts"
     },
     {
-      "description": "Send approval message to a channel and then wait until the message is approved or disapproved",
+      "description": "Sends approve/reject buttons to a channel and waits for the answer.",
       "display_name": "Request Approval in a Channel",
       "name": "request_approval_message",
-      "source_line": 19,
+      "source_line": 18,
       "source_path": "packages/pieces/community/slack/src/lib/actions/request-approval-message.ts"
     },
     {
       "description": "Retrieves thread messages by channel and thread timestamp.",
       "display_name": "Retrieve Thread Messages",
       "name": "retrieveThreadMessages",
-      "source_line": 8,
+      "source_line": 9,
       "source_path": "packages/pieces/community/slack/src/lib/actions/retrieve-thread-messages.ts"
     },
     {
-      "description": "Searches for messages matching a query",
-      "display_name": "Search messages",
+      "description": "Searches messages. Needs a user token.",
+      "display_name": "Search Messages",
       "name": "searchMessages",
-      "source_line": 6,
+      "source_line": 7,
       "source_path": "packages/pieces/community/slack/src/lib/actions/search-messages.ts"
     },
     {
       "description": "Send message to a channel",
       "display_name": "Send Message To A Channel",
       "name": "send_channel_message",
-      "source_line": 18,
+      "source_line": 10,
       "source_path": "packages/pieces/community/slack/src/lib/actions/send-message-action.ts"
     },
     {
       "description": "Send message to a user",
       "display_name": "Send Message To A User",
       "name": "send_direct_message",
-      "source_line": 18,
+      "source_line": 11,
       "source_path": "packages/pieces/community/slack/src/lib/actions/send-direct-message-action.ts"
+    },
+    {
+      "description": "Send a direct message to many users at once, in parallel.",
+      "display_name": "Send Message To Multiple Users",
+      "name": "send_message_to_multiple_users",
+      "source_line": 30,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/send-message-to-multiple-users.ts"
+    },
+    {
+      "description": "Set the authenticated user's custom status text and emoji.",
+      "display_name": "Set User Status",
+      "name": "set_user_status",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/set-user-status.ai.ts"
     },
     {
       "description": "Sets the topic on a selected channel.",
       "display_name": "Set Channel Topic",
       "name": "set-channel-topic",
-      "source_line": 7,
+      "source_line": 8,
       "source_path": "packages/pieces/community/slack/src/lib/actions/set-channel-topic.ts"
+    },
+    {
+      "description": "Add an emoji reaction to a message.",
+      "display_name": "Add Reaction",
+      "name": "slack_add_reaction",
+      "source_line": 5,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/add-reaction.ai.ts"
+    },
+    {
+      "description": "Archives a channel.",
+      "display_name": "Archive Channel",
+      "name": "slack_archive_channel",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/archive-channel.action.ts"
+    },
+    {
+      "description": "Closes a direct message or group DM conversation.",
+      "display_name": "Close Direct Message",
+      "name": "slack_close_dm",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/close-dm.action.ts"
+    },
+    {
+      "description": "Creates a new public or private channel.",
+      "display_name": "Create Channel",
+      "name": "slack_create_channel",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/create-channel-ai.ts"
+    },
+    {
+      "description": "Delete a message from a Slack channel by its timestamp.",
+      "display_name": "Delete Message",
+      "name": "slack_delete_message",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/delete-message.action.ts"
+    },
+    {
+      "description": "Cancel a pending scheduled message before it is sent.",
+      "display_name": "Delete Scheduled Message",
+      "name": "slack_delete_scheduled_message",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/delete-scheduled-message.action.ts"
+    },
+    {
+      "description": "Finds a channel by name and returns its ID.",
+      "display_name": "Find Channel",
+      "name": "slack_find_channel",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/find-channel.ts"
+    },
+    {
+      "description": "Retrieve top-level messages from a Slack channel, optionally bounded by timestamps.",
+      "display_name": "Get Channel History",
+      "name": "slack_get_channel_history",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/get-channel-history.action.ts"
+    },
+    {
+      "description": "Gets details about a single channel.",
+      "display_name": "Get Channel Info",
+      "name": "slack_get_channel_info",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/get-channel-info.ts"
+    },
+    {
+      "description": "Look up a Slack file by its ID and download its contents.",
+      "display_name": "Get File",
+      "name": "slack_get_file",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/get-file.ai.ts"
+    },
+    {
+      "description": "Get a shareable permalink URL for a specific message.",
+      "display_name": "Get Message Permalink",
+      "name": "slack_get_message_permalink",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/get-message-permalink.action.ts"
+    },
+    {
+      "description": "Get the reactions on a message or file.",
+      "display_name": "Get Reactions",
+      "name": "slack_get_reactions",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/get-reactions.ai.ts"
+    },
+    {
+      "description": "Retrieve the replies in a Slack thread.",
+      "display_name": "Get Thread Replies",
+      "name": "slack_get_thread_replies",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/get-thread-replies.action.ts"
+    },
+    {
+      "description": "Invites one or more existing users to a channel.",
+      "display_name": "Invite Users to Channel",
+      "name": "slack_invite_users_to_channel",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/invite-users-to-channel-ai.ts"
+    },
+    {
+      "description": "Joins an existing public channel.",
+      "display_name": "Join Channel",
+      "name": "slack_join_channel",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/join-channel.action.ts"
+    },
+    {
+      "description": "Leaves a channel.",
+      "display_name": "Leave Channel",
+      "name": "slack_leave_channel",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/leave-channel.action.ts"
+    },
+    {
+      "description": "Lists the user IDs of the members of a channel.",
+      "display_name": "List Channel Members",
+      "name": "slack_list_channel_members",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/list-channel-members.ts"
+    },
+    {
+      "description": "Lists channels in the workspace.",
+      "display_name": "List Channels",
+      "name": "slack_list_channels",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/list-channels.ts"
+    },
+    {
+      "description": "List the custom emoji of the workspace.",
+      "display_name": "List Custom Emoji",
+      "name": "slack_list_custom_emoji",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/list-custom-emoji.ai.ts"
+    },
+    {
+      "description": "List files in the workspace, optionally filtered by channel, user, or type.",
+      "display_name": "List Files",
+      "name": "slack_list_files",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/list-files.ai.ts"
+    },
+    {
+      "description": "List pending scheduled messages.",
+      "display_name": "List Scheduled Messages",
+      "name": "slack_list_scheduled_messages",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/list-scheduled-messages.action.ts"
+    },
+    {
+      "description": "Lists the channels a user belongs to.",
+      "display_name": "List User Conversations",
+      "name": "slack_list_user_conversations",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/list-user-conversations.ts"
+    },
+    {
+      "description": "List the items a user has reacted to.",
+      "display_name": "List User Reactions",
+      "name": "slack_list_user_reactions",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/list-user-reactions.ai.ts"
+    },
+    {
+      "description": "Move the read cursor in a channel up to a given message.",
+      "display_name": "Mark Conversation Read",
+      "name": "slack_mark_conversation_read",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/mark-conversation-read.action.ts"
+    },
+    {
+      "description": "Post a message to a Slack channel.",
+      "display_name": "Post Message",
+      "name": "slack_post_message",
+      "source_line": 16,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/post-message.action.ts"
+    },
+    {
+      "description": "Remove an emoji reaction from a message or file.",
+      "display_name": "Remove Reaction",
+      "name": "slack_remove_reaction",
+      "source_line": 11,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/remove-reaction.ai.ts"
+    },
+    {
+      "description": "Removes a user from a channel.",
+      "display_name": "Remove User from Channel",
+      "name": "slack_remove_user_from_channel",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/remove-user-from-channel.action.ts"
+    },
+    {
+      "description": "Renames a channel.",
+      "display_name": "Rename Channel",
+      "name": "slack_rename_channel",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/rename-channel.action.ts"
+    },
+    {
+      "description": "Schedule a message to be sent to a channel at a future time.",
+      "display_name": "Schedule Message",
+      "name": "slack_schedule_message",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/schedule-message.action.ts"
+    },
+    {
+      "description": "Search the workspace for both messages and files.",
+      "display_name": "Search All",
+      "name": "slack_search_all",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/search-all.action.ts"
+    },
+    {
+      "description": "Search the workspace for messages matching a query.",
+      "display_name": "Search Messages",
+      "name": "slack_search_messages",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/search-messages.action.ts"
+    },
+    {
+      "description": "Send a direct message (DM) to a single Slack user.",
+      "display_name": "Send Direct Message",
+      "name": "slack_send_direct_message",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/send-direct-message.action.ts"
+    },
+    {
+      "description": "Post a message visible only to one user within a channel.",
+      "display_name": "Send Ephemeral Message",
+      "name": "slack_send_ephemeral_message",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/send-ephemeral-message.action.ts"
+    },
+    {
+      "description": "Sets the purpose on a channel.",
+      "display_name": "Set Channel Purpose",
+      "name": "slack_set_channel_purpose",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/set-channel-purpose.action.ts"
+    },
+    {
+      "description": "Sets the topic on a channel.",
+      "display_name": "Set Channel Topic",
+      "name": "slack_set_channel_topic",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/set-channel-topic-ai.ts"
+    },
+    {
+      "description": "Reopens an archived channel.",
+      "display_name": "Unarchive Channel",
+      "name": "slack_unarchive_channel",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/unarchive-channel.action.ts"
+    },
+    {
+      "description": "Edit an existing Slack message in place.",
+      "display_name": "Update Message",
+      "name": "slack_update_message",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/update-message.action.ts"
     },
     {
       "description": "Add an emoji reaction to a message.",
@@ -144,56 +452,63 @@
       "description": "Creates a new channel.",
       "display_name": "Create Channel",
       "name": "slack-create-channel",
-      "source_line": 6,
+      "source_line": 7,
       "source_path": "packages/pieces/community/slack/src/lib/actions/create-channel.ts"
     },
     {
       "description": "Finds a user by matching against their email address.",
       "display_name": "Find User by Email",
       "name": "slack-find-user-by-email",
-      "source_line": 6,
+      "source_line": 7,
       "source_path": "packages/pieces/community/slack/src/lib/actions/find-user-by-email.ts"
     },
     {
       "description": "Finds a user by matching against their Slack handle.",
       "display_name": "Find User by Handle",
       "name": "slack-find-user-by-handle",
-      "source_line": 6,
+      "source_line": 7,
       "source_path": "packages/pieces/community/slack/src/lib/actions/find-user-by-handle.ts"
     },
     {
-      "description": "Sets a user's custom status",
+      "description": "Sets the connected user's status. Needs a user token.",
       "display_name": "Set User Status",
       "name": "slack-set-user-status",
-      "source_line": 8,
+      "source_line": 9,
       "source_path": "packages/pieces/community/slack/src/lib/actions/set-user-status.ts"
     },
     {
-      "description": "Update basic profile field such as name or title.",
+      "description": "Updates name, email or title. Needs a user token.",
       "display_name": "Update Profile",
       "name": "slack-update-profile",
-      "source_line": 6,
+      "source_line": 7,
       "source_path": "packages/pieces/community/slack/src/lib/actions/update-profile.ts"
     },
     {
       "description": "Add users to or overwrite the member list of a Slack user group.",
       "display_name": "Update User Group Members",
       "name": "update_group_users",
-      "source_line": 6,
+      "source_line": 7,
       "source_path": "packages/pieces/community/slack/src/lib/actions/update-user-groups.ts"
     },
     {
+      "description": "Update basic profile fields (name, title, email) for a user.",
+      "display_name": "Update Profile",
+      "name": "update_profile",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/slack/src/lib/actions/update-profile.ai.ts"
+    },
+    {
       "description": "Update an existing message",
-      "display_name": "Update message",
+      "display_name": "Update Message",
       "name": "updateMessage",
-      "source_line": 8,
+      "source_line": 9,
       "source_path": "packages/pieces/community/slack/src/lib/actions/update-message.ts"
     },
     {
-      "description": "Upload file without sharing it to a channel or user",
-      "display_name": "Upload file",
+      "description": "Uploads a file, optionally into a channel.",
+      "display_name": "Upload File",
       "name": "uploadFile",
-      "source_line": 9,
+      "source_line": 10,
       "source_path": "packages/pieces/community/slack/src/lib/actions/upload-file.ts"
     }
   ],
@@ -227,7 +542,7 @@
   ],
   "package": {
     "name": "@activepieces/piece-slack",
-    "version": "0.17.0"
+    "version": "0.21.1"
   },
   "piece": {
     "auth_symbol": "slackAuth",
@@ -248,14 +563,14 @@
     "display_name": "Slack",
     "export_name": "slack",
     "logo_url": "https://cdn.activepieces.com/pieces/slack.png",
-    "minimum_supported_release": "0.82.0",
+    "minimum_supported_release": "0.88.2",
     "slug": "slack"
   },
   "provenance": {
     "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
     "index_path": "packages/pieces/community/slack/src/index.ts",
     "piece_path": "packages/pieces/community/slack",
-    "upstream_commit": "4e381ffae90afc7bc79ef22c4c9486d051419e00",
+    "upstream_commit": "59c94f454ef3afed9974b41650e3d78067918328",
     "upstream_repo": "activepieces/activepieces"
   },
   "runtime_execution": {
@@ -268,9 +583,9 @@
   "triggers": [
     {
       "description": "Triggers when a channel is created",
-      "display_name": "Channel created",
+      "display_name": "New Channel",
       "name": "channel_created",
-      "source_line": 16,
+      "source_line": 7,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-channel.ts",
       "trigger_strategy": "APP_WEBHOOK"
     },
@@ -278,7 +593,7 @@
       "description": "Triggers when a specific command is sent to the bot (e.g., @bot command arg1 arg2)",
       "display_name": "New Command in Channel",
       "name": "new_command",
-      "source_line": 11,
+      "source_line": 12,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-command.ts",
       "trigger_strategy": "APP_WEBHOOK"
     },
@@ -286,7 +601,7 @@
       "description": "Triggers when a user or user group is mentioned.",
       "display_name": "New Mention in Channel",
       "name": "new_mention",
-      "source_line": 10,
+      "source_line": 11,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-mention.ts",
       "trigger_strategy": "APP_WEBHOOK"
     },
@@ -294,7 +609,7 @@
       "description": "Triggers when a new reaction is added to a message",
       "display_name": "New Reaction",
       "name": "new_reaction_added",
-      "source_line": 11,
+      "source_line": 12,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-reaction-added.ts",
       "trigger_strategy": "APP_WEBHOOK"
     },
@@ -302,7 +617,7 @@
       "description": "Triggers when a reaction is removed from a message",
       "display_name": "Reaction Removed",
       "name": "new_reaction_removed",
-      "source_line": 10,
+      "source_line": 11,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-reaction-removed.ts",
       "trigger_strategy": "APP_WEBHOOK"
     },
@@ -310,7 +625,7 @@
       "description": "Triggers when a specific command is sent to the bot (e.g., @bot command arg1 arg2) via Direct Message.",
       "display_name": "New Command in Direct Message",
       "name": "new-command-in-direct-message",
-      "source_line": 11,
+      "source_line": 12,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-command-in-direct-message.ts",
       "trigger_strategy": "APP_WEBHOOK"
     },
@@ -318,7 +633,7 @@
       "description": "Triggers when a message was posted in a direct message channel.",
       "display_name": "New Direct Message",
       "name": "new-direct-message",
-      "source_line": 7,
+      "source_line": 9,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-direct-message.ts",
       "trigger_strategy": "APP_WEBHOOK"
     },
@@ -326,7 +641,7 @@
       "description": "Triggers when a username is mentioned in a direct message channel.",
       "display_name": "New Mention in Direct Message",
       "name": "new-mention-in-direct-message",
-      "source_line": 10,
+      "source_line": 11,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-mention-in-direct-message.ts",
       "trigger_strategy": "APP_WEBHOOK"
     },
@@ -334,7 +649,7 @@
       "description": "Triggers when a new message is posted to any channel.",
       "display_name": "New Public Message Posted Anywhere",
       "name": "new-message",
-      "source_line": 5,
+      "source_line": 7,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-message.ts",
       "trigger_strategy": "APP_WEBHOOK"
     },
@@ -342,7 +657,7 @@
       "description": "Triggers when a new message is posted to a specific #channel you choose.",
       "display_name": "New Message Posted to Channel",
       "name": "new-message-in-channel",
-      "source_line": 8,
+      "source_line": 9,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-message-in-channel.ts",
       "trigger_strategy": "APP_WEBHOOK"
     },
@@ -350,15 +665,15 @@
       "description": "Triggers when a user interacts with a modal.",
       "display_name": "New Modal Interaction",
       "name": "new-modal-interaction",
-      "source_line": 6,
+      "source_line": 8,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-modal-interaction.ts",
       "trigger_strategy": "APP_WEBHOOK"
     },
     {
-      "description": "Triggers when you save a message.",
+      "description": "Triggers when a message is saved.",
       "display_name": "New Saved Message",
       "name": "new-saved-message",
-      "source_line": 5,
+      "source_line": 7,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-saved-message.ts",
       "trigger_strategy": "APP_WEBHOOK"
     },
@@ -366,7 +681,7 @@
       "description": "Triggers when a custom emoji has been added to a team.",
       "display_name": "New Team Custom Emoji",
       "name": "new-team-custom-emoji",
-      "source_line": 11,
+      "source_line": 13,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-team-custom-emoji.ts",
       "trigger_strategy": "APP_WEBHOOK"
     },
@@ -374,7 +689,7 @@
       "description": "Triggers when a new user is created / first joins your org.",
       "display_name": "New User",
       "name": "new-user",
-      "source_line": 54,
+      "source_line": 56,
       "source_path": "packages/pieces/community/slack/src/lib/triggers/new-user.ts",
       "trigger_strategy": "APP_WEBHOOK"
     }

@@ -1,31 +1,150 @@
 {
   "actions": [
     {
+      "description": "Assigns users to an issue or pull request.",
+      "display_name": "Add Assignees to Issue (Agent)",
+      "name": "add_assignees_to_issue",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/add-assignees-to-issue.ts"
+    },
+    {
+      "description": "Invites a user as a repository collaborator.",
+      "display_name": "Add Collaborator (Agent)",
+      "name": "add_collaborator",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/add-collaborator.ts"
+    },
+    {
       "description": "Adds labels to an existing issue.",
       "display_name": "Add Labels to Issue",
       "name": "add_labels_to_issue",
-      "source_line": 6,
+      "source_line": 7,
       "source_path": "packages/pieces/community/github/src/lib/actions/add-labels-to-issue.ts"
+    },
+    {
+      "description": "Adds labels to an issue without removing existing ones.",
+      "display_name": "Add Labels to Issue (Agent)",
+      "name": "add_labels_to_issue_ai",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/add-labels-to-issue-ai.ts"
+    },
+    {
+      "description": "Checks whether the connected user has starred a repository.",
+      "display_name": "Check Repository Starred (Agent)",
+      "name": "check_repository_starred",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/check-repository-starred.ts"
+    },
+    {
+      "description": "Compares two commits, branches, or tags.",
+      "display_name": "Compare Commits (Agent)",
+      "name": "compare_commits",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/compare-commits.ts"
     },
     {
       "description": "Creates a new branch on a repository.",
       "display_name": "Create Branch",
       "name": "create_branch",
-      "source_line": 6,
+      "source_line": 7,
       "source_path": "packages/pieces/community/github/src/lib/actions/create-branch.ts"
+    },
+    {
+      "description": "Creates a new branch from the tip of a source branch.",
+      "display_name": "Create Branch (Agent)",
+      "name": "create_branch_ai",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/create-branch-ai.ts"
+    },
+    {
+      "description": "Opens a new issue in a GitHub repository.",
+      "display_name": "Create Issue (Agent)",
+      "name": "create_issue_ai",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/create-issue-ai.ts"
+    },
+    {
+      "description": "Posts a comment on an issue or pull request.",
+      "display_name": "Create Issue Comment (Agent)",
+      "name": "create_issue_comment_ai",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/create-issue-comment-ai.ts"
+    },
+    {
+      "description": "Defines a new label in a repository.",
+      "display_name": "Create Label (Agent)",
+      "name": "create_label",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/create-label.ts"
+    },
+    {
+      "description": "Creates a milestone in a repository.",
+      "display_name": "Create Milestone (Agent)",
+      "name": "create_milestone",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/create-milestone.ts"
+    },
+    {
+      "description": "Creates or updates a single file via a commit.",
+      "display_name": "Create or Update File (Agent)",
+      "name": "create_or_update_file",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/create-or-update-file.ts"
+    },
+    {
+      "description": "Creates a new repository inside an organization.",
+      "display_name": "Create Organization Repository (Agent)",
+      "name": "create_organization_repository",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/create-organization-repository.ts"
+    },
+    {
+      "description": "Opens a pull request between two branches.",
+      "display_name": "Create Pull Request (Agent)",
+      "name": "create_pull_request",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/create-pull-request.ts"
+    },
+    {
+      "description": "Submits a review on a pull request.",
+      "display_name": "Create Pull Request Review (Agent)",
+      "name": "create_pull_request_review",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/create-pull-request-review.ts"
+    },
+    {
+      "description": "Posts an inline review comment on a pull request.",
+      "display_name": "Create Pull Request Review Comment (Agent)",
+      "name": "create_pull_request_review_comment_ai",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/create-pull-request-review-comment-ai.ts"
+    },
+    {
+      "description": "Creates a release for a tag.",
+      "display_name": "Create Release (Agent)",
+      "name": "create_release",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/create-release.ts"
+    },
+    {
+      "description": "Creates a new repository for the authenticated user.",
+      "display_name": "Create Repository (Agent)",
+      "name": "create_repository",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/create-repository.ts"
     },
     {
       "description": "Adds a comment to the specified issue (also works with pull requests)",
       "display_name": "Create comment on a issue",
       "name": "createCommentOnAIssue",
-      "source_line": 6,
+      "source_line": 7,
       "source_path": "packages/pieces/community/github/src/lib/actions/create-comment-on-a-issue.ts"
     },
     {
       "description": "Make a custom API call to a specific endpoint",
       "display_name": "Custom API Call",
       "name": "custom_api_call",
-      "source_line": 57,
+      "source_line": 207,
       "source_path": "packages/pieces/community/github/src/index.ts"
     },
     {
@@ -34,6 +153,20 @@
       "name": "delete_branch",
       "source_line": 6,
       "source_path": "packages/pieces/community/github/src/lib/actions/delete-branch.ts"
+    },
+    {
+      "description": "Deletes a branch from a repository.",
+      "display_name": "Delete Branch (Agent)",
+      "name": "delete_branch_ai",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/delete-branch-ai.ts"
+    },
+    {
+      "description": "Deletes a file from a repository via a commit.",
+      "display_name": "Delete File (Agent)",
+      "name": "delete_file",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/delete-file.ts"
     },
     {
       "description": "Finds a branch by name and returns its details.",
@@ -46,7 +179,7 @@
       "description": "Finds an issue based title.",
       "display_name": "Find Issue",
       "name": "find_issue",
-      "source_line": 6,
+      "source_line": 7,
       "source_path": "packages/pieces/community/github/src/lib/actions/find-issue.ts"
     },
     {
@@ -57,17 +190,108 @@
       "source_path": "packages/pieces/community/github/src/lib/actions/find-user.ts"
     },
     {
+      "description": "Returns the profile of the connected account.",
+      "display_name": "Get Authenticated User (Agent)",
+      "name": "get_authenticated_user",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/get-authenticated-user.ts"
+    },
+    {
+      "description": "Fetches a single branch including its tip commit.",
+      "display_name": "Get Branch (Agent)",
+      "name": "get_branch",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/get-branch.ts"
+    },
+    {
+      "description": "Fetches a single commit including its file changes.",
+      "display_name": "Get Commit (Agent)",
+      "name": "get_commit",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/get-commit.ts"
+    },
+    {
+      "description": "Reads a file (or directory listing) from a repository.",
+      "display_name": "Get File Content (Agent)",
+      "name": "get_file_content",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/get-file-content.ts"
+    },
+    {
+      "description": "Fetches the full details of a single issue by number.",
+      "display_name": "Get Issue (Agent)",
+      "name": "get_issue_ai",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/get-issue-ai.ts"
+    },
+    {
+      "description": "Fetches the latest published release.",
+      "display_name": "Get Latest Release (Agent)",
+      "name": "get_latest_release",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/get-latest-release.ts"
+    },
+    {
+      "description": "Fetches a single milestone by number.",
+      "display_name": "Get Milestone (Agent)",
+      "name": "get_milestone",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/get-milestone.ts"
+    },
+    {
+      "description": "Fetches a single pull request by number.",
+      "display_name": "Get Pull Request (Agent)",
+      "name": "get_pull_request",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/get-pull-request.ts"
+    },
+    {
+      "description": "Resolves a git ref to its commit SHA.",
+      "display_name": "Get Reference (Agent)",
+      "name": "get_reference",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/get-reference.ts"
+    },
+    {
+      "description": "Fetches a single release by its id.",
+      "display_name": "Get Release (Agent)",
+      "name": "get_release",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/get-release.ts"
+    },
+    {
+      "description": "Fetches metadata for a single repository.",
+      "display_name": "Get Repository (Agent)",
+      "name": "get_repository",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/get-repository.ts"
+    },
+    {
+      "description": "Lists the full file tree at a given ref.",
+      "display_name": "Get Repository Tree (Agent)",
+      "name": "get_repository_tree",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/get-repository-tree.ts"
+    },
+    {
+      "description": "Fetches a user's public profile by login.",
+      "display_name": "Get User (Agent)",
+      "name": "get_user",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/get-user.ts"
+    },
+    {
       "description": "Grabs information from a specific issue",
       "display_name": "Get issue information",
       "name": "getIssueInformation",
-      "source_line": 6,
+      "source_line": 7,
       "source_path": "packages/pieces/community/github/src/lib/actions/get-issue-information.ts"
     },
     {
       "description": "Creates a comment on a commit in a GitHub repository",
       "display_name": "Create Commit Comment",
       "name": "github_create_commit_comment",
-      "source_line": 6,
+      "source_line": 7,
       "source_path": "packages/pieces/community/github/src/lib/actions/create-commit-comment.ts"
     },
     {
@@ -78,25 +302,193 @@
       "source_path": "packages/pieces/community/github/src/lib/actions/create-discussion-comment.ts"
     },
     {
-      "description": "Create a GitHub Gist",
+      "description": "Create a GitHub Gist. Requires an OAuth or personal access token connection — Gists cannot be created with GitHub App authentication.",
       "display_name": "Create Gist",
       "name": "github_create_gist",
-      "source_line": 6,
+      "source_line": 8,
       "source_path": "packages/pieces/community/github/src/lib/actions/create-gist.ts"
     },
     {
       "description": "Create Issue in GitHub Repository",
       "display_name": "Create Issue",
       "name": "github_create_issue",
-      "source_line": 6,
+      "source_line": 7,
       "source_path": "packages/pieces/community/github/src/lib/actions/create-issue.ts"
     },
     {
       "description": "Creates a review comment on a pull request in a GitHub repository",
       "display_name": "Create Pull Request Review Comment",
       "name": "github_create_pull_request_review_comment",
-      "source_line": 6,
+      "source_line": 7,
       "source_path": "packages/pieces/community/github/src/lib/actions/create-pull-request-review-comment.ts"
+    },
+    {
+      "description": "Lists users who can be assigned to issues in a repository.",
+      "display_name": "List Assignees (Agent)",
+      "name": "list_assignees",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/list-assignees.ts"
+    },
+    {
+      "description": "Lists the branches in a repository.",
+      "display_name": "List Branches (Agent)",
+      "name": "list_branches",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/list-branches.ts"
+    },
+    {
+      "description": "Lists the collaborators on a repository.",
+      "display_name": "List Collaborators (Agent)",
+      "name": "list_collaborators",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/list-collaborators.ts"
+    },
+    {
+      "description": "Lists commits in a repository with optional filters.",
+      "display_name": "List Commits (Agent)",
+      "name": "list_commits",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/list-commits.ts"
+    },
+    {
+      "description": "Lists the contributors to a repository.",
+      "display_name": "List Contributors (Agent)",
+      "name": "list_contributors",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/list-contributors.ts"
+    },
+    {
+      "description": "Lists the comments on an issue or pull request.",
+      "display_name": "List Issue Comments (Agent)",
+      "name": "list_issue_comments",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/list-issue-comments.ts"
+    },
+    {
+      "description": "Lists the labels currently on an issue or pull request.",
+      "display_name": "List Issue Labels (Agent)",
+      "name": "list_issue_labels",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/list-issue-labels.ts"
+    },
+    {
+      "description": "Returns the language byte-count map for a repository.",
+      "display_name": "List Languages (Agent)",
+      "name": "list_languages",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/list-languages.ts"
+    },
+    {
+      "description": "Lists the milestones in a repository.",
+      "display_name": "List Milestones (Agent)",
+      "name": "list_milestones",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/list-milestones.ts"
+    },
+    {
+      "description": "Lists repositories the connected account can access.",
+      "display_name": "List My Repositories (Agent)",
+      "name": "list_my_repositories",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/list-my-repositories.ts"
+    },
+    {
+      "description": "Lists the members of an organization.",
+      "display_name": "List Organization Members (Agent)",
+      "name": "list_organization_members",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/list-organization-members.ts"
+    },
+    {
+      "description": "Lists the repositories in an organization.",
+      "display_name": "List Organization Repositories (Agent)",
+      "name": "list_organization_repositories",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/list-organization-repositories.ts"
+    },
+    {
+      "description": "Lists the commits in a pull request.",
+      "display_name": "List Pull Request Commits (Agent)",
+      "name": "list_pull_request_commits",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/list-pull-request-commits.ts"
+    },
+    {
+      "description": "Lists the files changed in a pull request.",
+      "display_name": "List Pull Request Files (Agent)",
+      "name": "list_pull_request_files",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/list-pull-request-files.ts"
+    },
+    {
+      "description": "Lists inline review comments on a pull request.",
+      "display_name": "List Pull Request Review Comments (Agent)",
+      "name": "list_pull_request_review_comments",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/list-pull-request-review-comments.ts"
+    },
+    {
+      "description": "Lists the reviews submitted on a pull request.",
+      "display_name": "List Pull Request Reviews (Agent)",
+      "name": "list_pull_request_reviews",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/list-pull-request-reviews.ts"
+    },
+    {
+      "description": "Lists pull requests in a repository with optional filters.",
+      "display_name": "List Pull Requests (Agent)",
+      "name": "list_pull_requests",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/list-pull-requests.ts"
+    },
+    {
+      "description": "Lists the releases in a repository.",
+      "display_name": "List Releases (Agent)",
+      "name": "list_releases",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/list-releases.ts"
+    },
+    {
+      "description": "Lists issues in a repository with optional filters.",
+      "display_name": "List Repository Issues (Agent)",
+      "name": "list_repository_issues",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/list-repository-issues.ts"
+    },
+    {
+      "description": "Lists a repository's label vocabulary.",
+      "display_name": "List Repository Labels (Agent)",
+      "name": "list_repository_labels",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/list-repository-labels.ts"
+    },
+    {
+      "description": "Lists the repositories the connected user has starred.",
+      "display_name": "List Starred Repositories (Agent)",
+      "name": "list_starred_repositories",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/list-starred-repositories.ts"
+    },
+    {
+      "description": "Lists the git tags in a repository.",
+      "display_name": "List Tags (Agent)",
+      "name": "list_tags",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/list-tags.ts"
+    },
+    {
+      "description": "Lists a specific user's public repositories.",
+      "display_name": "List User Repositories (Agent)",
+      "name": "list_user_repositories",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/list-user-repositories.ts"
+    },
+    {
+      "description": "Locks an issue or pull request conversation.",
+      "display_name": "Lock Issue (Agent)",
+      "name": "lock_issue_ai",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/lock-issue-ai.ts"
     },
     {
       "description": "Locks the specified issue",
@@ -106,11 +498,102 @@
       "source_path": "packages/pieces/community/github/src/lib/actions/lock-issue.ts"
     },
     {
+      "description": "Merges an open pull request into its base branch.",
+      "display_name": "Merge Pull Request (Agent)",
+      "name": "merge_pull_request",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/merge-pull-request.ts"
+    },
+    {
       "description": "Perform a raw GraphQL query",
       "display_name": "Raw GraphQL query",
       "name": "rawGraphqlQuery",
-      "source_line": 10,
+      "source_line": 7,
       "source_path": "packages/pieces/community/github/src/lib/actions/raw-graphql-query.ts"
+    },
+    {
+      "description": "Unassigns users from an issue or pull request.",
+      "display_name": "Remove Assignees from Issue (Agent)",
+      "name": "remove_assignees_from_issue",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/remove-assignees-from-issue.ts"
+    },
+    {
+      "description": "Revokes a user's collaborator access to a repository.",
+      "display_name": "Remove Collaborator (Agent)",
+      "name": "remove_collaborator",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/remove-collaborator.ts"
+    },
+    {
+      "description": "Detaches a single label from an issue or pull request.",
+      "display_name": "Remove Label from Issue (Agent)",
+      "name": "remove_label_from_issue",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/remove-label-from-issue.ts"
+    },
+    {
+      "description": "Requests reviews from users or teams on a pull request.",
+      "display_name": "Request Pull Request Reviewers (Agent)",
+      "name": "request_pull_request_reviewers",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/request-pull-request-reviewers.ts"
+    },
+    {
+      "description": "Searches file contents across repositories.",
+      "display_name": "Search Code (Agent)",
+      "name": "search_code",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/search-code.ts"
+    },
+    {
+      "description": "Searches issues and PRs across repositories with a query.",
+      "display_name": "Search Issues and Pull Requests (Agent)",
+      "name": "search_issues_and_pull_requests",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/search-issues-and-pull-requests.ts"
+    },
+    {
+      "description": "Searches public/accessible repositories with a query.",
+      "display_name": "Search Repositories (Agent)",
+      "name": "search_repositories",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/search-repositories.ts"
+    },
+    {
+      "description": "Searches GitHub users and organizations.",
+      "display_name": "Search Users (Agent)",
+      "name": "search_users",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/search-users.ts"
+    },
+    {
+      "description": "Replaces the entire label set on an issue or pull request.",
+      "display_name": "Set Issue Labels (Agent)",
+      "name": "set_issue_labels",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/set-issue-labels.ts"
+    },
+    {
+      "description": "Stars a repository for the connected user.",
+      "display_name": "Star Repository (Agent)",
+      "name": "star_repository",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/star-repository.ts"
+    },
+    {
+      "description": "Manually triggers a GitHub Actions workflow run via the workflow_dispatch event.",
+      "display_name": "Trigger Workflow Dispatch",
+      "name": "trigger_workflow_dispatch",
+      "source_line": 29,
+      "source_path": "packages/pieces/community/github/src/lib/actions/trigger-workflow-dispatch.ts"
+    },
+    {
+      "description": "Removes the conversation lock from an issue or pull request.",
+      "display_name": "Unlock Issue (Agent)",
+      "name": "unlock_issue_ai",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/unlock-issue-ai.ts"
     },
     {
       "description": "Unlocks the specified issue",
@@ -120,11 +603,53 @@
       "source_path": "packages/pieces/community/github/src/lib/actions/unlock-issue.ts"
     },
     {
+      "description": "Removes a star from a repository for the connected user.",
+      "display_name": "Unstar Repository (Agent)",
+      "name": "unstar_repository",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/unstar-repository.ts"
+    },
+    {
       "description": "Updates an existing issue.",
       "display_name": "Update Issue",
       "name": "update_issue",
-      "source_line": 6,
+      "source_line": 7,
       "source_path": "packages/pieces/community/github/src/lib/actions/update-issue.ts"
+    },
+    {
+      "description": "Edits an existing issue, including closing or reopening it.",
+      "display_name": "Update Issue (Agent)",
+      "name": "update_issue_ai",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/update-issue-ai.ts"
+    },
+    {
+      "description": "Renames or recolors an existing repository label.",
+      "display_name": "Update Label (Agent)",
+      "name": "update_label",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/update-label.ts"
+    },
+    {
+      "description": "Updates a milestone, including closing or reopening it.",
+      "display_name": "Update Milestone (Agent)",
+      "name": "update_milestone",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/update-milestone.ts"
+    },
+    {
+      "description": "Edits a pull request, including closing or reopening it.",
+      "display_name": "Update Pull Request (Agent)",
+      "name": "update_pull_request",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/update-pull-request.ts"
+    },
+    {
+      "description": "Updates settings on a repository.",
+      "display_name": "Update Repository (Agent)",
+      "name": "update_repository",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/github/src/lib/actions/ai/update-repository.ts"
     }
   ],
   "auth": {
@@ -137,7 +662,8 @@
       "https://github.com/login/oauth/access_token"
     ],
     "types": [
-      "oauth2"
+      "oauth2",
+      "custom_auth"
     ]
   },
   "nango_provider_key_candidates": [
@@ -150,7 +676,7 @@
   ],
   "package": {
     "name": "@activepieces/piece-github",
-    "version": "0.7.3"
+    "version": "0.9.3"
   },
   "piece": {
     "auth_symbol": "githubAuth",
@@ -171,14 +697,14 @@
     "display_name": "GitHub",
     "export_name": "github",
     "logo_url": "https://cdn.activepieces.com/pieces/github.png",
-    "minimum_supported_release": "0.30.0",
+    "minimum_supported_release": "0.86.4",
     "slug": "github"
   },
   "provenance": {
     "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
     "index_path": "packages/pieces/community/github/src/index.ts",
     "piece_path": "packages/pieces/community/github",
-    "upstream_commit": "4e381ffae90afc7bc79ef22c4c9486d051419e00",
+    "upstream_commit": "59c94f454ef3afed9974b41650e3d78067918328",
     "upstream_repo": "activepieces/activepieces"
   },
   "runtime_execution": {
@@ -225,7 +751,7 @@
       "description": "Triggers when you are mentioned in a comment.",
       "display_name": "New Mention",
       "name": "new_mention",
-      "source_line": 38,
+      "source_line": 35,
       "source_path": "packages/pieces/community/github/src/lib/trigger/new-mention.ts",
       "trigger_strategy": "WEBHOOK"
     },
@@ -257,7 +783,7 @@
       "description": "Triggers when there is activity relating to a discussion.",
       "display_name": "New Discussion",
       "name": "trigger_discussion",
-      "source_line": 913,
+      "source_line": 912,
       "source_path": "packages/pieces/community/github/src/lib/trigger/index.ts",
       "trigger_strategy": "WEBHOOK"
     },
@@ -265,7 +791,7 @@
       "description": "Triggers when there is a new comment posted on a discussion.",
       "display_name": "New Comment Posted",
       "name": "trigger_discussion_comment",
-      "source_line": 1161,
+      "source_line": 1160,
       "source_path": "packages/pieces/community/github/src/lib/trigger/index.ts",
       "trigger_strategy": "WEBHOOK"
     },
@@ -273,7 +799,7 @@
       "description": "Triggers when there is activity relating to an issue.",
       "display_name": "New Issue",
       "name": "trigger_issues",
-      "source_line": 460,
+      "source_line": 459,
       "source_path": "packages/pieces/community/github/src/lib/trigger/index.ts",
       "trigger_strategy": "WEBHOOK"
     },
@@ -281,7 +807,7 @@
       "description": "Triggers when there is activity on a pull request.",
       "display_name": "New Pull Request",
       "name": "trigger_pull_request",
-      "source_line": 22,
+      "source_line": 21,
       "source_path": "packages/pieces/community/github/src/lib/trigger/index.ts",
       "trigger_strategy": "WEBHOOK"
     },
@@ -289,7 +815,7 @@
       "description": "Triggers when there is a push to a repository branch. This includes when a commit is pushed, when a commit tag is pushed, when a branch is deleted, when a tag is deleted, or when a repository is created from a template.",
       "display_name": "Push",
       "name": "trigger_push",
-      "source_line": 701,
+      "source_line": 700,
       "source_path": "packages/pieces/community/github/src/lib/trigger/index.ts",
       "trigger_strategy": "WEBHOOK"
     },
@@ -297,7 +823,7 @@
       "description": "Trigger when there is activity relating to repository stars.",
       "display_name": "New Star",
       "name": "trigger_star",
-      "source_line": 285,
+      "source_line": 284,
       "source_path": "packages/pieces/community/github/src/lib/trigger/index.ts",
       "trigger_strategy": "WEBHOOK"
     }

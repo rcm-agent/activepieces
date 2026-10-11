@@ -1,94 +1,262 @@
 {
   "actions": [
     {
-      "description": "Add a comment to any Notion page to start discussions, provide feedback, or leave notes for team collaboration.",
+      "description": "Add a comment to a page.",
       "display_name": "Add Comment",
       "name": "add_comment",
-      "source_line": 6,
+      "source_line": 7,
       "source_path": "packages/pieces/community/notion/src/lib/actions/add-comment.ts"
     },
     {
       "description": "Appends content to the end of a page.",
       "display_name": "Append to Page",
       "name": "append_to_page",
-      "source_line": 9,
+      "source_line": 10,
       "source_path": "packages/pieces/community/notion/src/lib/actions/append-to-page.ts"
     },
     {
-      "description": "Archive (soft-delete) a database item without permanently removing it. Archived items can be restored later if needed.",
+      "description": "Archive a database item. It can be restored later.",
       "display_name": "Archive Database Item",
       "name": "archive_database_item",
-      "source_line": 6,
+      "source_line": 7,
       "source_path": "packages/pieces/community/notion/src/lib/actions/archive-database-item.ts"
     },
     {
-      "description": "Add a new item to a Notion database with custom field values and optional content. Ideal for creating tasks, records, or entries in structured databases.",
+      "description": "Add an item to a database and set its fields.",
       "display_name": "Create Database Item",
       "name": "create_database_item",
-      "source_line": 11,
+      "source_line": 12,
       "source_path": "packages/pieces/community/notion/src/lib/actions/create-database-item.ts"
     },
     {
-      "description": "Create a new Notion page as a sub-page with custom title and content. Perfect for organizing documentation, notes, or creating structured page hierarchies.",
+      "description": "Create a page inside another page, with a title and plain text.",
       "display_name": "Create Page",
       "name": "createPage",
-      "source_line": 7,
+      "source_line": 8,
       "source_path": "packages/pieces/community/notion/src/lib/actions/create-page.ts"
     },
     {
       "description": "Make a custom API call to a specific endpoint",
       "display_name": "Custom API Call",
       "name": "custom_api_call",
-      "source_line": 53,
+      "source_line": 104,
       "source_path": "packages/pieces/community/notion/src/index.ts"
     },
     {
-      "description": "Search for Notion pages by title with flexible matching options. Perfect for finding specific pages, building page references, or creating automated workflows based on page discovery.",
+      "description": "Find pages by title, with exact or partial matching.",
       "display_name": "Find Page",
       "name": "find_page",
-      "source_line": 6,
+      "source_line": 7,
       "source_path": "packages/pieces/community/notion/src/lib/actions/find-page.ts"
     },
     {
-      "description": "Retrieve all comments from a Notion page, organized by discussion threads. Perfect for tracking feedback, managing reviews, or monitoring page discussions.",
+      "description": "Get all comments on a page, grouped by thread.",
       "display_name": "Get Page Comments",
       "name": "get_page_comments",
-      "source_line": 6,
+      "source_line": 7,
       "source_path": "packages/pieces/community/notion/src/lib/actions/get-page-comments.ts"
     },
     {
-      "description": "Retrieve the actual content of a page (represented by blocks).",
-      "display_name": "Get block content",
+      "description": "Read a page's content as blocks or as Markdown.",
+      "display_name": "Get Block Content",
       "name": "getPageOrBlockChildren",
-      "source_line": 12,
+      "source_line": 13,
       "source_path": "packages/pieces/community/notion/src/lib/actions/get-page-or-block-children.ts"
     },
     {
-      "description": "Searches for an item in database by field.",
+      "description": "List pages in a database, optionally filtered by field values.",
+      "display_name": "List Pages",
+      "name": "list_database_pages",
+      "source_line": 13,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/list-database-pages.ts"
+    },
+    {
+      "description": "List the databases shared with your integration, newest edits first.",
+      "display_name": "List Databases",
+      "name": "list_databases",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/list-databases.ts"
+    },
+    {
+      "description": "Posts a new comment thread on a Notion page.",
+      "display_name": "Add Comment",
+      "name": "notion_add_comment",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/notion-add-comment.ts"
+    },
+    {
+      "description": "Appends new block content (parsed from markdown) to the end of a page or block.",
+      "display_name": "Append Content to Page",
+      "name": "notion_append_to_page",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/notion-append-to-page.ts"
+    },
+    {
+      "description": "Archives (soft-deletes) a Notion database item by its page id, keeping it recoverable.",
+      "display_name": "Archive Database Item",
+      "name": "notion_archive_database_item",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/notion-archive-database-item.ts"
+    },
+    {
+      "description": "Archives (trashes) or restores any page or database row by id via its archived flag.",
+      "display_name": "Archive or Restore Page",
+      "name": "notion_archive_page",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/notion-archive-page.ts"
+    },
+    {
+      "description": "Creates a new inline Notion database under a parent page, with a title and a property-schema object defining its columns.",
+      "display_name": "Create Database",
+      "name": "notion_create_database",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/notion-create-database.ts"
+    },
+    {
+      "description": "Creates a new row (page) in a Notion database, setting its property values from a raw Notion properties object, with optional body content.",
+      "display_name": "Create Database Item",
+      "name": "notion_create_database_item",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/notion-create-database-item.ts"
+    },
+    {
+      "description": "Creates a new sub-page under an existing Notion page, with a title and optional markdown body.",
+      "display_name": "Create Page",
+      "name": "notion_create_page",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/notion-create-page.ts"
+    },
+    {
+      "description": "Deletes (archives) a single block by id, removing it from its page.",
+      "display_name": "Delete Block",
+      "name": "notion_delete_block",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/notion-delete-block.ts"
+    },
+    {
+      "description": "Finds rows in a Notion database matching a raw Notion filter object, returning the first match and all matches.",
+      "display_name": "Find Database Item",
+      "name": "notion_find_database_item",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/notion-find-database-item.ts"
+    },
+    {
+      "description": "Reads the body content of a page or block by recursively listing its child blocks, optionally rendered as markdown.",
+      "display_name": "Get Page or Block Content",
+      "name": "notion_get_block_children",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/notion-get-block-children.ts"
+    },
+    {
+      "description": "Retrieves a Notion database's schema: its property names, field types, and select/status/relation options.",
+      "display_name": "Get Database Schema",
+      "name": "notion_get_database",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/notion-get-database.ts"
+    },
+    {
+      "description": "Fetches a single page's metadata and property values by id (a database row is a page).",
+      "display_name": "Get Page",
+      "name": "notion_get_page",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/notion-get-page.ts"
+    },
+    {
+      "description": "Lists all comments on a page, grouped into discussion threads.",
+      "display_name": "Get Page Comments",
+      "name": "notion_get_page_comments",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/notion-get-page-comments.ts"
+    },
+    {
+      "description": "Fetches a single workspace user's details by id.",
+      "display_name": "Get User",
+      "name": "notion_get_user",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/notion-get-user.ts"
+    },
+    {
+      "description": "Lists the people and bots in the workspace, returning each user's id, name, and type.",
+      "display_name": "List Users",
+      "name": "notion_list_users",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/notion-list-users.ts"
+    },
+    {
+      "description": "Moves a page under a different parent page (or into a database as a row).",
+      "display_name": "Move Page",
+      "name": "notion_move_page",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/notion-move-page.ts"
+    },
+    {
+      "description": "Queries a Notion database with the API's native filter and sort JSON objects (compound AND/OR, ranges, dates, contains, etc.).",
+      "display_name": "Query Database",
+      "name": "notion_query_database",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/notion-query-database.ts"
+    },
+    {
+      "description": "Restores an archived Notion database item back to active status by its page id.",
+      "display_name": "Restore Database Item",
+      "name": "notion_restore_database_item",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/notion-restore-database-item.ts"
+    },
+    {
+      "description": "Searches the workspace by title for pages and/or databases shared with the integration, with exact or partial matching.",
+      "display_name": "Search Pages and Databases",
+      "name": "notion_search",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/notion-search.ts"
+    },
+    {
+      "description": "Replaces the text content of a single existing block by id.",
+      "display_name": "Update Block Text",
+      "name": "notion_update_block",
+      "source_line": 35,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/notion-update-block.ts"
+    },
+    {
+      "description": "Overwrites property values on an existing Notion database row, identified by its page id, from a raw Notion properties object.",
+      "display_name": "Update Database Item",
+      "name": "notion_update_database_item",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/notion-update-database-item.ts"
+    },
+    {
+      "description": "Updates a Notion database's title and/or column schema (add, rename, retype, or remove properties) by id.",
+      "display_name": "Update Database Schema",
+      "name": "notion_update_database_schema",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/notion/src/lib/actions/notion-update-database-schema.ts"
+    },
+    {
+      "description": "Find items in a database whose fields match exact values.",
       "display_name": "Find Database Item",
       "name": "notion-find-database-item",
-      "source_line": 6,
+      "source_line": 11,
       "source_path": "packages/pieces/community/notion/src/lib/actions/find-item.ts"
     },
     {
-      "description": "Restore an archived database item back to active status. Perfect for recovering accidentally archived tasks, projects, or records.",
+      "description": "Restore an archived database item.",
       "display_name": "Restore Database Item",
       "name": "restore_database_item",
-      "source_line": 6,
+      "source_line": 7,
       "source_path": "packages/pieces/community/notion/src/lib/actions/restore-database-item.ts"
     },
     {
-      "description": "Get detailed information about a Notion database including all its properties, field types, and configuration. Perfect for building dynamic forms, validation rules, or understanding database schemas.",
+      "description": "Get a database's properties, field types and options.",
       "display_name": "Retrieve Database Structure",
       "name": "retrieve_database",
-      "source_line": 11,
+      "source_line": 12,
       "source_path": "packages/pieces/community/notion/src/lib/actions/retrieve-database.ts"
     },
     {
-      "description": "Update specific fields in a Notion database item. Perfect for maintaining data, tracking changes, or syncing information across systems.",
+      "description": "Change field values on an existing database item.",
       "display_name": "Update Database Item",
       "name": "update_database_item",
-      "source_line": 10,
+      "source_line": 11,
       "source_path": "packages/pieces/community/notion/src/lib/actions/update-database-item.ts"
     }
   ],
@@ -122,7 +290,7 @@
   ],
   "package": {
     "name": "@activepieces/piece-notion",
-    "version": "0.6.1"
+    "version": "0.7.5"
   },
   "piece": {
     "auth_symbol": "notionAuth",
@@ -143,14 +311,14 @@
     "display_name": "Notion",
     "export_name": "notion",
     "logo_url": "https://cdn.activepieces.com/pieces/notion.png",
-    "minimum_supported_release": "0.30.0",
+    "minimum_supported_release": "0.88.2",
     "slug": "notion"
   },
   "provenance": {
     "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
     "index_path": "packages/pieces/community/notion/src/index.ts",
     "piece_path": "packages/pieces/community/notion",
-    "upstream_commit": "4e381ffae90afc7bc79ef22c4c9486d051419e00",
+    "upstream_commit": "59c94f454ef3afed9974b41650e3d78067918328",
     "upstream_repo": "activepieces/activepieces"
   },
   "runtime_execution": {
@@ -162,10 +330,10 @@
   "schema_version": "activepieces-catalog-candidate.v1",
   "triggers": [
     {
-      "description": "Triggers whenever someone adds a new comment to a specific Notion page. Perfect for notifications, review workflows, or automated responses to team feedback.",
+      "description": "Triggers when a comment is added to a page.",
       "display_name": "New Comment",
       "name": "new_comment",
-      "source_line": 16,
+      "source_line": 17,
       "source_path": "packages/pieces/community/notion/src/lib/triggers/new-comment.ts",
       "trigger_strategy": "POLLING"
     },
@@ -173,7 +341,7 @@
       "description": "Triggers when an item is added to a database.",
       "display_name": "New Database Item",
       "name": "new_database_item",
-      "source_line": 17,
+      "source_line": 19,
       "source_path": "packages/pieces/community/notion/src/lib/triggers/new-database-item.ts",
       "trigger_strategy": "POLLING"
     },
@@ -181,15 +349,15 @@
       "description": "Triggers when an item is updated in a database.",
       "display_name": "Updated Database Item",
       "name": "updated_database_item",
-      "source_line": 17,
+      "source_line": 19,
       "source_path": "packages/pieces/community/notion/src/lib/triggers/updated-database-item.ts",
       "trigger_strategy": "POLLING"
     },
     {
-      "description": "Triggers whenever any page in your Notion workspace is modified or updated. Ideal for syncing content changes, backup processes, or notifying teams about documentation updates.",
+      "description": "Triggers when any page shared with the integration is edited.",
       "display_name": "Updated Page",
       "name": "updated_page",
-      "source_line": 15,
+      "source_line": 17,
       "source_path": "packages/pieces/community/notion/src/lib/triggers/updated-page.ts",
       "trigger_strategy": "POLLING"
     }

@@ -25,7 +25,7 @@ function request(input, options, callback) {
       done();
       if (fixture.mode === 'hang') { setInterval(() => {}, 1000); return; }
       const res = Readable.from([Buffer.from(JSON.stringify(expected.body ?? fixture.body))]);
-      Object.assign(res, { statusCode: expected.status ?? fixture.status ?? 200, statusMessage: 'Contract response', headers: { 'content-type': 'application/json' }, req });
+      Object.assign(res, { statusCode: expected.status ?? fixture.status ?? 200, statusMessage: 'Contract response', headers: { 'content-type': 'application/json' }, rawHeaders: ['content-type', 'application/json'], req });
       queueMicrotask(() => req.emit('response', res));
     },
   });
@@ -35,4 +35,13 @@ function request(input, options, callback) {
   return req;
 }
 http.request = https.request = request;
+// Newer pieces bundle their HTTP client and call fetch; it gets the same expected-request check as http.request.
+global.fetch = async (input, init) => {
+  const target = new Request(input, init), url = new URL(target.url);
+  const expected = fixture.requests ? fixture.requests.shift() : fixture;
+  assert.ok(expected, 'Unexpected outbound request');
+  assert.deepEqual([`${url.protocol}//${url.hostname}${url.pathname}${url.search}`, target.method, target.headers.get('authorization') ?? undefined], [expected.url, expected.method ?? 'POST', fixture.authorization]);
+  if (fixture.mode === 'hang') return new Promise(() => setInterval(() => {}, 1000));
+  return new Response(JSON.stringify(expected.body ?? fixture.body), { status: expected.status ?? fixture.status ?? 200, statusText: 'Contract response', headers: { 'content-type': 'application/json; charset=UTF-8' } });
+};
 http.get = https.get = (...args) => { const req = request(...args); req.end(); return req; };

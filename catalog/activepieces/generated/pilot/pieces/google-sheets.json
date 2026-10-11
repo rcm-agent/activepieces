@@ -1,115 +1,143 @@
 {
   "actions": [
     {
-      "description": "Clears all rows on an existing sheet.",
+      "description": "Clear every row on a worksheet, keeping the worksheet itself.",
       "display_name": "Clear Sheet",
       "name": "clear_sheet",
-      "source_line": 6,
+      "source_line": 7,
       "source_path": "packages/pieces/community/google-sheets/src/lib/actions/clear-sheet.ts"
+    },
+    {
+      "description": "Clears the contents of one or more rows without removing the rows themselves. Useful when you want to keep formatting and references stable.",
+      "display_name": "Clear Row(s)",
+      "name": "clear-rows",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/clear-rows.ts"
     },
     {
       "description": "Creates a new worksheet by copying an existing one.",
       "display_name": "Copy Worksheet",
       "name": "copy-worksheet",
-      "source_line": 7,
+      "source_line": 8,
       "source_path": "packages/pieces/community/google-sheets/src/lib/actions/copy-worksheet.ts"
     },
     {
-      "description": "Creates a new column in a specific spreadsheet.",
-      "display_name": "Create Spreadsheet Column",
+      "description": "Add a new column to a worksheet.",
+      "display_name": "Create Column",
       "name": "create-column",
-      "source_line": 14,
+      "source_line": 15,
       "source_path": "packages/pieces/community/google-sheets/src/lib/actions/create-column.ts"
     },
     {
       "description": "Creates a blank spreadsheet.",
       "display_name": "Create Spreadsheet",
       "name": "create-spreadsheet",
-      "source_line": 18,
+      "source_line": 19,
       "source_path": "packages/pieces/community/google-sheets/src/lib/actions/create-spreadsheet.ts"
     },
     {
       "description": "Create a new blank worksheet with a title.",
       "display_name": "Create Worksheet",
       "name": "create-worksheet",
-      "source_line": 7,
+      "source_line": 8,
       "source_path": "packages/pieces/community/google-sheets/src/lib/actions/create-worksheet.ts"
     },
     {
       "description": "Make a custom API call to a specific endpoint",
       "display_name": "Custom API Call",
       "name": "custom_api_call",
-      "source_line": 72,
+      "source_line": 152,
       "source_path": "packages/pieces/community/google-sheets/src/index.ts"
     },
     {
       "description": "Delete a specific row from the selected sheet.",
       "display_name": "Delete Row",
       "name": "delete_row",
-      "source_line": 6,
+      "source_line": 7,
       "source_path": "packages/pieces/community/google-sheets/src/lib/actions/delete-row.action.ts"
+    },
+    {
+      "description": "Deletes a contiguous range of rows, or a list of specific row numbers. Row numbers are 1-based.",
+      "display_name": "Delete Multiple Rows",
+      "name": "delete-multiple-rows",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/delete-multiple-rows.ts"
     },
     {
       "description": "Permanently delete a specific worksheet.",
       "display_name": "Delete Worksheet",
       "name": "delete-worksheet",
-      "source_line": 7,
+      "source_line": 8,
       "source_path": "packages/pieces/community/google-sheets/src/lib/actions/delete-worksheet.ts"
     },
     {
       "description": "Download a worksheet as a CSV or TSV file.",
       "display_name": "Export Worksheet",
       "name": "export_sheet",
-      "source_line": 11,
+      "source_line": 12,
       "source_path": "packages/pieces/community/google-sheets/src/lib/actions/export-sheet.ts"
     },
     {
-      "description": "Retrieve a specific row using its unique ID.",
-      "display_name": "Get Single Row by ID",
+      "description": "Retrieve one row by its row number.",
+      "display_name": "Get Row by Number",
       "name": "find_row_by_num",
-      "source_line": 6,
+      "source_line": 8,
       "source_path": "packages/pieces/community/google-sheets/src/lib/actions/find-row-by-num.ts"
     },
     {
       "description": "Look up rows in a worksheet based on a column value.",
       "display_name": "Find Rows",
       "name": "find_rows",
-      "source_line": 13,
+      "source_line": 14,
       "source_path": "packages/pieces/community/google-sheets/src/lib/actions/find-rows.ts"
     },
     {
       "description": "Find spreadsheet(s) by name.",
       "display_name": "Find Spreadsheet(s)",
       "name": "find_spreadsheets",
-      "source_line": 12,
+      "source_line": 13,
       "source_path": "packages/pieces/community/google-sheets/src/lib/actions/find-spreadsheets.ts"
     },
     {
-      "description": "Finds a worksheet(s) by title.",
+      "description": "Look up a row by column value; if no match is found, create a new row with the provided values.",
+      "display_name": "Find or Create Row",
+      "name": "find-or-create-row",
+      "source_line": 20,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/find-or-create-row.ts"
+    },
+    {
+      "description": "Look up a worksheet by title in a spreadsheet; if not found, create it with optional headers.",
+      "display_name": "Find or Create Worksheet",
+      "name": "find-or-create-worksheet",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/find-or-create-worksheet.ts"
+    },
+    {
+      "description": "Find worksheets in a spreadsheet by title.",
       "display_name": "Find Worksheet(s)",
       "name": "find-worksheet",
-      "source_line": 7,
+      "source_line": 8,
       "source_path": "packages/pieces/community/google-sheets/src/lib/actions/find-worksheet.ts"
     },
     {
-      "description": "Format one or multiple rows in specific spreadsheet.",
+      "description": "Apply colour and text styling to one or more rows.",
       "display_name": "Format Row(s)",
       "name": "format-row",
-      "source_line": 8,
+      "source_line": 9,
       "source_path": "packages/pieces/community/google-sheets/src/lib/actions/format-spreadsheet-row.ts"
     },
     {
-      "description": "Get next group of rows from a specifiec workheet",
-      "display_name": "Get next row(s)",
+      "description": "Read the next batch of rows from a worksheet, continuing where the last run left off.",
+      "display_name": "Get Next Rows",
       "name": "get_next_rows",
       "source_line": 105,
       "source_path": "packages/pieces/community/google-sheets/src/lib/actions/get-rows.ts"
     },
     {
-      "description": "Get all the rows from a specific sheet.",
+      "description": "Read every row from a worksheet.",
       "display_name": "Get All Rows",
       "name": "get-many-rows",
-      "source_line": 5,
+      "source_line": 6,
       "source_path": "packages/pieces/community/google-sheets/src/lib/actions/get-many-rows.ts"
     },
     {
@@ -123,28 +151,280 @@
       "description": "Add a new row of data to a specific spreadsheet.",
       "display_name": "Add Row",
       "name": "insert_row",
-      "source_line": 22,
+      "source_line": 23,
       "source_path": "packages/pieces/community/google-sheets/src/lib/actions/insert-row.action.ts"
     },
     {
-      "description": "Rename specific worksheet.",
+      "description": "Inserts a new row at the top of a worksheet, just below the header row.",
+      "display_name": "Add Row at Top",
+      "name": "insert-row-at-top",
+      "source_line": 17,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/insert-row-at-top.ts"
+    },
+    {
+      "description": "Read cells from a range using A1 notation (e.g. A1:D10). Returns rows and the resolved range.",
+      "display_name": "Read Data Range",
+      "name": "read-data-range",
+      "source_line": 13,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/read-data-range.ts"
+    },
+    {
+      "description": "Give an existing worksheet a new title.",
       "display_name": "Rename Worksheet",
       "name": "rename-worksheet",
-      "source_line": 7,
+      "source_line": 8,
       "source_path": "packages/pieces/community/google-sheets/src/lib/actions/rename-worksheet.ts"
+    },
+    {
+      "description": "Create a new column in a worksheet.",
+      "display_name": "Add Column",
+      "name": "sheets_add_column",
+      "source_line": 14,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-add-column.ts"
+    },
+    {
+      "description": "Add multiple rows of data at once to a worksheet.",
+      "display_name": "Add Multiple Rows",
+      "name": "sheets_add_multiple_rows",
+      "source_line": 19,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-add-multiple-rows.ts"
+    },
+    {
+      "description": "Append a single new row to the end of a worksheet.",
+      "display_name": "Add Row",
+      "name": "sheets_add_row",
+      "source_line": 22,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-add-row.ts"
+    },
+    {
+      "description": "Insert a new row near the top of a worksheet, just below the header row.",
+      "display_name": "Add Row at Top",
+      "name": "sheets_add_row_at_top",
+      "source_line": 16,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-add-row-at-top.ts"
+    },
+    {
+      "description": "Create a new blank worksheet with a title.",
+      "display_name": "Add Worksheet",
+      "name": "sheets_add_worksheet",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-add-worksheet.ts"
+    },
+    {
+      "description": "Append blank rows or columns to the end of a worksheet's grid.",
+      "display_name": "Append Rows/Columns",
+      "name": "sheets_append_dimension",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-append-dimension.ts"
+    },
+    {
+      "description": "Append rows of values after the last row with data in a worksheet.",
+      "display_name": "Append Values (Raw)",
+      "name": "sheets_append_values",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-append-values.ts"
+    },
+    {
+      "description": "Auto-fit the width of columns or height of rows to their content.",
+      "display_name": "Auto-Resize Columns/Rows",
+      "name": "sheets_auto_resize_dimensions",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-auto-resize-dimensions.ts"
+    },
+    {
+      "description": "Clear the contents of one or more rows without removing the rows themselves.",
+      "display_name": "Clear Cell Range",
+      "name": "sheets_clear_values",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-clear-values.ts"
+    },
+    {
+      "description": "Create a new worksheet by copying an existing one.",
+      "display_name": "Copy Worksheet",
+      "name": "sheets_copy_worksheet",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-copy-worksheet.ts"
+    },
+    {
+      "description": "Create a new, empty Google Sheets spreadsheet.",
+      "display_name": "Create Spreadsheet",
+      "name": "sheets_create_spreadsheet",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-create-spreadsheet.ts"
+    },
+    {
+      "description": "Delete a range of rows or columns, shifting the rest.",
+      "display_name": "Delete Rows/Columns",
+      "name": "sheets_delete_dimension",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-delete-dimension.ts"
+    },
+    {
+      "description": "Delete a contiguous range of rows, or a list of specific row numbers.",
+      "display_name": "Delete Multiple Rows",
+      "name": "sheets_delete_multiple_rows",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-delete-multiple-rows.ts"
+    },
+    {
+      "description": "Delete a single row by its row number.",
+      "display_name": "Delete Row",
+      "name": "sheets_delete_row",
+      "source_line": 5,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-delete-row.ts"
+    },
+    {
+      "description": "Permanently delete a specific worksheet.",
+      "display_name": "Delete Worksheet",
+      "name": "sheets_delete_worksheet",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-delete-worksheet.ts"
+    },
+    {
+      "description": "Download a worksheet as a CSV or TSV file.",
+      "display_name": "Export Worksheet (CSV/TSV)",
+      "name": "sheets_export_worksheet",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-export-worksheet.ts"
+    },
+    {
+      "description": "Look up a row by column value; if no match is found, create a new row with the provided values.",
+      "display_name": "Find or Create Row",
+      "name": "sheets_find_or_create_row",
+      "source_line": 19,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-find-or-create-row.ts"
+    },
+    {
+      "description": "Look up a worksheet by title in a spreadsheet; if not found, create it with optional headers.",
+      "display_name": "Find or Create Worksheet",
+      "name": "sheets_find_or_create_worksheet",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-find-or-create-worksheet.ts"
+    },
+    {
+      "description": "Look up rows in a worksheet based on a column value.",
+      "display_name": "Find Rows",
+      "name": "sheets_find_rows",
+      "source_line": 13,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-find-rows.ts"
+    },
+    {
+      "description": "Find a worksheet(s) by title.",
+      "display_name": "Find Worksheets",
+      "name": "sheets_find_worksheet",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-find-worksheet.ts"
+    },
+    {
+      "description": "Apply formatting to a range of rows in a worksheet.",
+      "display_name": "Format Cells",
+      "name": "sheets_format_cells",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-format-cells.ts"
+    },
+    {
+      "description": "Read every row from a worksheet in a single call.",
+      "display_name": "Get All Rows",
+      "name": "sheets_get_all_rows",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-get-all-rows.ts"
+    },
+    {
+      "description": "Get the next group of rows from a worksheet, advancing a stored cursor.",
+      "display_name": "Get Next Rows (Paginated)",
+      "name": "sheets_get_next_rows",
+      "source_line": 97,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-get-next-rows.ts"
+    },
+    {
+      "description": "Retrieve a single row by its row number.",
+      "display_name": "Get Row by Number",
+      "name": "sheets_get_row",
+      "source_line": 11,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-get-row.ts"
+    },
+    {
+      "description": "Fetch a spreadsheet's title and the list of its worksheets (tabs).",
+      "display_name": "Get Spreadsheet Info",
+      "name": "sheets_get_spreadsheet",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-get-spreadsheet.ts"
+    },
+    {
+      "description": "Read cell values from a worksheet using A1 notation.",
+      "display_name": "Read Cell Range",
+      "name": "sheets_get_values",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-get-values.ts"
+    },
+    {
+      "description": "Insert blank rows or columns at a position, shifting existing data.",
+      "display_name": "Insert Rows/Columns",
+      "name": "sheets_insert_dimension",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-insert-dimension.ts"
+    },
+    {
+      "description": "Rename a specific worksheet.",
+      "display_name": "Rename Worksheet",
+      "name": "sheets_rename_worksheet",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-rename-worksheet.ts"
+    },
+    {
+      "description": "Find spreadsheet(s) by name.",
+      "display_name": "Find Spreadsheets",
+      "name": "sheets_search_spreadsheets",
+      "source_line": 11,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-search-spreadsheets.ts"
+    },
+    {
+      "description": "Set a fixed pixel size for rows/columns, or hide/unhide them.",
+      "display_name": "Resize / Hide Rows or Columns",
+      "name": "sheets_update_dimension_properties",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-update-dimension-properties.ts"
+    },
+    {
+      "description": "Update several existing rows in one batch call.",
+      "display_name": "Update Multiple Rows",
+      "name": "sheets_update_multiple_rows",
+      "source_line": 15,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-update-multiple-rows.ts"
+    },
+    {
+      "description": "Update the data in an existing row, identified by its row number.",
+      "display_name": "Update Row",
+      "name": "sheets_update_row",
+      "source_line": 15,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-update-row.ts"
+    },
+    {
+      "description": "Update a worksheet's frozen rows/columns, tab color, or hidden state.",
+      "display_name": "Update Worksheet Properties",
+      "name": "sheets_update_sheet_properties",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-update-sheet-properties.ts"
+    },
+    {
+      "description": "Write a 2D array of values into a worksheet at a specific A1 range.",
+      "display_name": "Write Cell Range",
+      "name": "sheets_update_values",
+      "source_line": 11,
+      "source_path": "packages/pieces/community/google-sheets/src/lib/actions/sheets-update-values.ts"
     },
     {
       "description": "Update the data in an existing row.",
       "display_name": "Update Row",
       "name": "update_row",
-      "source_line": 9,
+      "source_line": 10,
       "source_path": "packages/pieces/community/google-sheets/src/lib/actions/update-row.ts"
     },
     {
       "description": "Updates multiple rows in a specific spreadsheet.",
       "display_name": "Update Multiple Rows",
       "name": "update-multiple-rows",
-      "source_line": 21,
+      "source_line": 23,
       "source_path": "packages/pieces/community/google-sheets/src/lib/actions/update-multiple-rows.ts"
     }
   ],
@@ -178,7 +458,7 @@
   ],
   "package": {
     "name": "@activepieces/piece-google-sheets",
-    "version": "0.14.6"
+    "version": "0.17.2"
   },
   "piece": {
     "auth_symbol": "googleSheetsAuth",
@@ -201,14 +481,14 @@
     "display_name": "Google Sheets",
     "export_name": "googleSheets",
     "logo_url": "https://cdn.activepieces.com/pieces/google-sheets.png",
-    "minimum_supported_release": "0.71.4",
+    "minimum_supported_release": "0.88.2",
     "slug": "google-sheets"
   },
   "provenance": {
     "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
     "index_path": "packages/pieces/community/google-sheets/src/index.ts",
     "piece_path": "packages/pieces/community/google-sheets",
-    "upstream_commit": "4e381ffae90afc7bc79ef22c4c9486d051419e00",
+    "upstream_commit": "59c94f454ef3afed9974b41650e3d78067918328",
     "upstream_repo": "activepieces/activepieces"
   },
   "runtime_execution": {
@@ -223,15 +503,15 @@
       "description": "Triggers when a new row is added or modified in a spreadsheet.",
       "display_name": "New or Updated Row",
       "name": "google-sheets-new-or-updated-row",
-      "source_line": 30,
+      "source_line": 31,
       "source_path": "packages/pieces/community/google-sheets/src/lib/triggers/new-or-updated-row.trigger.ts",
       "trigger_strategy": "WEBHOOK"
     },
     {
-      "description": "Triggers when a new row is added to bottom of a spreadsheet.",
+      "description": "Triggers when a new row is added to the bottom of a worksheet.",
       "display_name": "New Row Added",
       "name": "googlesheets_new_row_added",
-      "source_line": 25,
+      "source_line": 26,
       "source_path": "packages/pieces/community/google-sheets/src/lib/triggers/new-row-added-webhook.ts",
       "trigger_strategy": "WEBHOOK"
     },
@@ -239,7 +519,7 @@
       "description": "Triggers when a new spreadsheet is created.",
       "display_name": "New Spreadsheet",
       "name": "new-spreadsheet",
-      "source_line": 52,
+      "source_line": 54,
       "source_path": "packages/pieces/community/google-sheets/src/lib/triggers/new-spreadsheet.ts",
       "trigger_strategy": "POLLING"
     },
@@ -247,7 +527,7 @@
       "description": "Triggers when a worksheet is created in a spreadsheet.",
       "display_name": "New Worksheet",
       "name": "new-worksheet",
-      "source_line": 8,
+      "source_line": 9,
       "source_path": "packages/pieces/community/google-sheets/src/lib/triggers/new-worksheet.ts",
       "trigger_strategy": "POLLING"
     }

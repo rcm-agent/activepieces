@@ -1,115 +1,430 @@
 {
   "actions": [
     {
-      "description": "Add Guild Member Role",
-      "display_name": "Add role to member",
+      "description": "Give a member of a server a role.",
+      "display_name": "Add Role to Member",
       "name": "add_role_to_member",
-      "source_line": 10,
+      "source_line": 11,
       "source_path": "packages/pieces/community/discord/src/lib/actions/add-role-to-member.ts"
     },
     {
-      "description": "Bans a guild member",
-      "display_name": "Ban guild member",
+      "description": "Ban a user from a server so they cannot rejoin.",
+      "display_name": "Ban Member",
       "name": "ban_guild_member",
-      "source_line": 10,
+      "source_line": 11,
       "source_path": "packages/pieces/community/discord/src/lib/actions/ban-a-guild-member.ts"
     },
     {
-      "description": "create a channel",
-      "display_name": "Create channel",
+      "description": "Create a text channel in a server.",
+      "display_name": "Create Channel",
       "name": "create_channel",
-      "source_line": 10,
+      "source_line": 11,
       "source_path": "packages/pieces/community/discord/src/lib/actions/create-channel.ts"
     },
     {
-      "description": "Creates a new role on the specified guild",
-      "display_name": "Create guild role",
+      "description": "Create a role in a server.",
+      "display_name": "Create Role",
       "name": "createGuildRole",
-      "source_line": 10,
+      "source_line": 11,
       "source_path": "packages/pieces/community/discord/src/lib/actions/create-guild-role.ts"
     },
     {
       "description": "Make a custom API call to a specific endpoint",
       "display_name": "Custom API Call",
       "name": "custom_api_call",
-      "source_line": 54,
+      "source_line": 138,
       "source_path": "packages/pieces/community/discord/src/index.ts"
     },
     {
-      "description": "delete a channel",
-      "display_name": "Delete channel",
+      "description": "Permanently delete a channel and all of its messages.",
+      "display_name": "Delete Channel",
       "name": "delete_channel",
-      "source_line": 10,
+      "source_line": 11,
       "source_path": "packages/pieces/community/discord/src/lib/actions/delete-channel.ts"
     },
     {
-      "description": "Deletes the specified role from the specified guild",
-      "display_name": "Delete guild role",
+      "description": "Delete a role from a server.",
+      "display_name": "Delete Role",
       "name": "deleteGuildRole",
-      "source_line": 10,
+      "source_line": 11,
       "source_path": "packages/pieces/community/discord/src/lib/actions/delete-guild-role.ts"
     },
     {
-      "description": "find a channel by name",
-      "display_name": "Find channel",
-      "name": "find_channel",
+      "description": "Add the bot's reaction emoji to a message.",
+      "display_name": "Add Reaction",
+      "name": "discord_add_reaction",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-add-reaction.ts"
+    },
+    {
+      "description": "Assign a role to a guild member.",
+      "display_name": "Add Role to Member",
+      "name": "discord_add_role",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-add-role.ts"
+    },
+    {
+      "description": "Add a user to a thread.",
+      "display_name": "Add Thread Member",
+      "name": "discord_add_thread_member",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-add-thread-member.ts"
+    },
+    {
+      "description": "Delete 2-100 recent messages from a channel in one call.",
+      "display_name": "Bulk Delete Messages",
+      "name": "discord_bulk_delete_messages",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-bulk-delete-messages.ts"
+    },
+    {
+      "description": "Remove all reactions from a message.",
+      "display_name": "Clear All Reactions",
+      "name": "discord_clear_reactions",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-clear-reactions.ts"
+    },
+    {
+      "description": "Create a new channel in a guild.",
+      "display_name": "Create Channel",
+      "name": "discord_create_channel",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-create-channel.ts"
+    },
+    {
+      "description": "Open (or fetch) a direct-message channel with a user.",
+      "display_name": "Create DM Channel",
+      "name": "discord_create_dm",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-create-dm.ts"
+    },
+    {
+      "description": "Create a new role in a guild.",
+      "display_name": "Create Role",
+      "name": "discord_create_role",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-create-role.ts"
+    },
+    {
+      "description": "Create a scheduled event in a guild.",
+      "display_name": "Create Scheduled Event",
+      "name": "discord_create_scheduled_event",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-create-scheduled-event.ts"
+    },
+    {
+      "description": "Create a standalone thread (or forum post) in a channel.",
+      "display_name": "Create Thread",
+      "name": "discord_create_thread",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-create-thread.ts"
+    },
+    {
+      "description": "Start a thread attached to an existing message.",
+      "display_name": "Create Thread from Message",
+      "name": "discord_create_thread_from_message",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-create-thread-from-message.ts"
+    },
+    {
+      "description": "Permanently delete a channel by ID.",
+      "display_name": "Delete Channel",
+      "name": "discord_delete_channel",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-delete-channel.ts"
+    },
+    {
+      "description": "Delete a single message from a channel.",
+      "display_name": "Delete Message",
+      "name": "discord_delete_message",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-delete-message.ts"
+    },
+    {
+      "description": "Permanently delete a role from a guild.",
+      "display_name": "Delete Role",
+      "name": "discord_delete_role",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-delete-role.ts"
+    },
+    {
+      "description": "Delete a scheduled event.",
+      "display_name": "Delete Scheduled Event",
+      "name": "discord_delete_scheduled_event",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-delete-scheduled-event.ts"
+    },
+    {
+      "description": "Edit the content of one of the bot's own messages.",
+      "display_name": "Edit Message",
+      "name": "discord_edit_message",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-edit-message.ts"
+    },
+    {
+      "description": "Resolve a channel name to its ID within a guild.",
+      "display_name": "Find Channel",
+      "name": "discord_find_channel",
       "source_line": 11,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-find-channel.ts"
+    },
+    {
+      "description": "Search guild members by username/nickname prefix.",
+      "display_name": "Find Member",
+      "name": "discord_find_member",
+      "source_line": 17,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-find-member.ts"
+    },
+    {
+      "description": "Fetch the details of a single channel.",
+      "display_name": "Get Channel",
+      "name": "discord_get_channel",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-get-channel.ts"
+    },
+    {
+      "description": "Fetch metadata about a guild.",
+      "display_name": "Get Guild",
+      "name": "discord_get_guild",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-get-guild.ts"
+    },
+    {
+      "description": "Fetch a single guild member by user ID.",
+      "display_name": "Get Member",
+      "name": "discord_get_member",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-get-member.ts"
+    },
+    {
+      "description": "Fetch a global Discord user object by ID.",
+      "display_name": "Get User",
+      "name": "discord_get_user",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-get-user.ts"
+    },
+    {
+      "description": "Have the bot join a thread.",
+      "display_name": "Join Thread",
+      "name": "discord_join_thread",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-join-thread.ts"
+    },
+    {
+      "description": "Have the bot leave a thread.",
+      "display_name": "Leave Thread",
+      "name": "discord_leave_thread",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-leave-thread.ts"
+    },
+    {
+      "description": "List all active threads in a guild.",
+      "display_name": "List Active Threads",
+      "name": "discord_list_active_threads",
+      "source_line": 18,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-list-active-threads.ts"
+    },
+    {
+      "description": "List public archived threads in a channel.",
+      "display_name": "List Archived Threads",
+      "name": "discord_list_archived_threads",
+      "source_line": 18,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-list-archived-threads.ts"
+    },
+    {
+      "description": "List the banned users of a guild.",
+      "display_name": "List Bans",
+      "name": "discord_list_bans",
+      "source_line": 15,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-list-bans.ts"
+    },
+    {
+      "description": "Enumerate all channels in a guild.",
+      "display_name": "List Channels",
+      "name": "discord_list_channels",
+      "source_line": 19,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-list-channels.ts"
+    },
+    {
+      "description": "List a guild's custom emojis.",
+      "display_name": "List Emojis",
+      "name": "discord_list_emojis",
+      "source_line": 16,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-list-emojis.ts"
+    },
+    {
+      "description": "List the active invites of a guild.",
+      "display_name": "List Invites",
+      "name": "discord_list_invites",
+      "source_line": 19,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-list-invites.ts"
+    },
+    {
+      "description": "Read recent messages from a channel.",
+      "display_name": "List Messages",
+      "name": "discord_list_messages",
+      "source_line": 11,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-list-messages.ts"
+    },
+    {
+      "description": "List the pinned messages in a channel.",
+      "display_name": "List Pinned Messages",
+      "name": "discord_list_pinned_messages",
+      "source_line": 11,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-list-pinned-messages.ts"
+    },
+    {
+      "description": "List users who reacted to a message with an emoji.",
+      "display_name": "List Reactions",
+      "name": "discord_list_reactions",
+      "source_line": 16,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-list-reactions.ts"
+    },
+    {
+      "description": "List the roles of a guild.",
+      "display_name": "List Roles",
+      "name": "discord_list_roles",
+      "source_line": 19,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-list-roles.ts"
+    },
+    {
+      "description": "List the scheduled events of a guild.",
+      "display_name": "List Scheduled Events",
+      "name": "discord_list_scheduled_events",
+      "source_line": 20,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-list-scheduled-events.ts"
+    },
+    {
+      "description": "Pin a message in a channel.",
+      "display_name": "Pin Message",
+      "name": "discord_pin_message",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-pin-message.ts"
+    },
+    {
+      "description": "Remove the bot's own reaction from a message.",
+      "display_name": "Remove Own Reaction",
+      "name": "discord_remove_reaction",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-remove-reaction.ts"
+    },
+    {
+      "description": "Remove a role from a guild member.",
+      "display_name": "Remove Role from Member",
+      "name": "discord_remove_role",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-remove-role.ts"
+    },
+    {
+      "description": "Remove another user's reaction from a message (moderation).",
+      "display_name": "Remove User Reaction",
+      "name": "discord_remove_user_reaction",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-remove-user-reaction.ts"
+    },
+    {
+      "description": "Change the name of an existing channel.",
+      "display_name": "Rename Channel",
+      "name": "discord_rename_channel",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-rename-channel.ts"
+    },
+    {
+      "description": "Delete (revoke) an invite by its code.",
+      "display_name": "Revoke Invite",
+      "name": "discord_revoke_invite",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-revoke-invite.ts"
+    },
+    {
+      "description": "Post a message to a Discord channel or thread.",
+      "display_name": "Send Message",
+      "name": "discord_send_message",
+      "source_line": 15,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-send-message.ts"
+    },
+    {
+      "description": "Remove a pinned message from a channel.",
+      "display_name": "Unpin Message",
+      "name": "discord_unpin_message",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-unpin-message.ts"
+    },
+    {
+      "description": "Update a role's name, color, hoist, or mentionable settings.",
+      "display_name": "Update Role",
+      "name": "discord_update_role",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-update-role.ts"
+    },
+    {
+      "description": "Edit, start, or cancel a scheduled event.",
+      "display_name": "Update Scheduled Event",
+      "name": "discord_update_scheduled_event",
+      "source_line": 10,
+      "source_path": "packages/pieces/community/discord/src/lib/actions/ai-update-scheduled-event.ts"
+    },
+    {
+      "description": "Look up a channel in a server by its exact name.",
+      "display_name": "Find Channel",
+      "name": "find_channel",
+      "source_line": 12,
       "source_path": "packages/pieces/community/discord/src/lib/actions/find-channel.ts"
     },
     {
-      "description": "List Guild Members",
-      "display_name": "List guild members",
+      "description": "List server members, optionally filtered by name.",
+      "display_name": "List Members",
       "name": "list_guild_members",
       "source_line": 11,
       "source_path": "packages/pieces/community/discord/src/lib/actions/find-guild-member.ts"
     },
     {
-      "description": "Removes the guild ban from a user",
-      "display_name": "Remove ban from user",
+      "description": "Lift a ban so the user can rejoin the server.",
+      "display_name": "Remove Ban from User",
       "name": "remove_ban_from_user",
-      "source_line": 10,
+      "source_line": 11,
       "source_path": "packages/pieces/community/discord/src/lib/actions/remove-ban-from-user.ts"
     },
     {
-      "description": "Remove Guild Member",
-      "display_name": "Remove member from guild",
+      "description": "Kick a member; they can rejoin with an invite.",
+      "display_name": "Remove Member from Server",
       "name": "remove_member_from_guild",
-      "source_line": 10,
+      "source_line": 11,
       "source_path": "packages/pieces/community/discord/src/lib/actions/remove-member-from-guild.ts"
     },
     {
-      "description": "Remove Guild Member Role",
-      "display_name": "Remove role from member",
+      "description": "Take a role away from a member of a server.",
+      "display_name": "Remove Role from Member",
       "name": "remove_role_from_member",
-      "source_line": 10,
+      "source_line": 11,
       "source_path": "packages/pieces/community/discord/src/lib/actions/remove-role-from-member.ts"
     },
     {
-      "description": "rename a channel",
-      "display_name": "Rename channel",
+      "description": "Give a channel a new name.",
+      "display_name": "Rename Channel",
       "name": "rename_channel",
-      "source_line": 10,
+      "source_line": 11,
       "source_path": "packages/pieces/community/discord/src/lib/actions/rename-channel.ts"
     },
     {
-      "description": "send a message to a channel asking for approval and wait for a response",
+      "description": "Post a message with a review button and pause until someone responds.",
       "display_name": "Request Approval in a Channel",
       "name": "request_approval_message",
-      "source_line": 11,
+      "source_line": 12,
       "source_path": "packages/pieces/community/discord/src/lib/actions/send-approval-message.ts"
     },
     {
-      "description": "Send a discord message via webhook",
-      "display_name": "Send Message Webhook",
+      "description": "Post a message to a channel through a Discord webhook URL.",
+      "display_name": "Send Message via Webhook",
       "name": "send_message_webhook",
       "source_line": 8,
       "source_path": "packages/pieces/community/discord/src/lib/actions/send-message-webhook.ts"
     },
     {
-      "description": "Send messages via bot to any channel or thread you want, with an optional file attachment.",
+      "description": "Post a message and optional files to a channel or thread as the bot.",
       "display_name": "Send Message with Bot",
       "name": "sendMessageWithBot",
-      "source_line": 15,
+      "source_line": 16,
       "source_path": "packages/pieces/community/discord/src/lib/actions/send-message-with-bot.ts"
     }
   ],
@@ -138,7 +453,7 @@
   ],
   "package": {
     "name": "@activepieces/piece-discord",
-    "version": "0.5.0"
+    "version": "0.7.2"
   },
   "piece": {
     "auth_symbol": "discordAuth",
@@ -162,14 +477,14 @@
     "display_name": "Discord",
     "export_name": "discord",
     "logo_url": "https://cdn.activepieces.com/pieces/discord.png",
-    "minimum_supported_release": "0.82.0",
+    "minimum_supported_release": "0.88.2",
     "slug": "discord"
   },
   "provenance": {
     "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
     "index_path": "packages/pieces/community/discord/src/index.ts",
     "piece_path": "packages/pieces/community/discord",
-    "upstream_commit": "4e381ffae90afc7bc79ef22c4c9486d051419e00",
+    "upstream_commit": "59c94f454ef3afed9974b41650e3d78067918328",
     "upstream_repo": "activepieces/activepieces"
   },
   "runtime_execution": {
@@ -181,7 +496,7 @@
   "schema_version": "activepieces-catalog-candidate.v1",
   "triggers": [
     {
-      "description": "Triggers when a new member joins a guild",
+      "description": "Fires when a member joins a server.",
       "display_name": "New Member",
       "name": "new_member",
       "source_line": 53,
@@ -189,10 +504,10 @@
       "trigger_strategy": "POLLING"
     },
     {
-      "description": "Triggers when a message is sent in a channel",
-      "display_name": "New message",
+      "description": "Fires when a message is posted in a channel.",
+      "display_name": "New Message",
       "name": "new_message",
-      "source_line": 49,
+      "source_line": 50,
       "source_path": "packages/pieces/community/discord/src/lib/triggers/new-message.ts",
       "trigger_strategy": "POLLING"
     }

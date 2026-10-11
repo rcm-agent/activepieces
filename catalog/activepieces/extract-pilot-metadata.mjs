@@ -13,7 +13,7 @@ const TRIGGER_CANDIDATES_OUTPUT_PATH = path.join(OUTPUT_DIR, 'trigger_candidates
 const SCHEMA_VERSION = 'activepieces-catalog-candidate.v1';
 const RUNTIME_STATUS = 'candidate_only';
 const UPSTREAM_REPO = 'activepieces/activepieces';
-const UPSTREAM_COMMIT = '4e381ffae90afc7bc79ef22c4c9486d051419e00';
+const UPSTREAM_COMMIT = '59c94f454ef3afed9974b41650e3d78067918328';
 const PILOT_PIECES = ['slack', 'discord', 'gmail', 'google-sheets', 'hubspot', 'github', 'notion'];
 const WEBHOOK_TRIGGER_STRATEGIES = new Set(['WEBHOOK', 'APP_WEBHOOK']);
 const POLLING_TRIGGER_STRATEGIES = new Set(['POLLING']);
@@ -275,7 +275,8 @@ function extractOperations({ kind, pieceSlug, pieceObjectCode, indexCode, indexP
   const operations = [];
 
   for (const element of elements) {
-    const trimmed = element.trim();
+    // Upstream groups array entries under whole-line and block comments (e.g. `// audience:'ai' agent atomics`).
+    const trimmed = element.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '').trim();
     if (!trimmed) {
       continue;
     }

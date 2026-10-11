@@ -1,6 +1,20 @@
 {
-  "piece_count": 673,
+  "piece_count": 737,
   "pieces": [
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
+        "DEVELOPER_TOOLS",
+        "PRODUCTIVITY"
+      ],
+      "description": "Ready-made utilities for automations: dates and calendar weeks, conversions, validation, PDF and QR tools, file storage, AI text and image analysis, code execution, crypto and short links.",
+      "display_name": "0CodeKit",
+      "logo_url": "https://cdn.activepieces.com/pieces/0codekit.png",
+      "package_name": "@activepieces/piece-0codekit",
+      "slug": "0codekit"
+    },
     {
       "auth_kinds": [
         "secret_text"
@@ -82,6 +96,19 @@
         "secret_text"
       ],
       "categories": [
+        "PRODUCTIVITY"
+      ],
+      "description": "Create and manage calendars, events, and RSVPs with AddEvent — the add-to-calendar service.",
+      "display_name": "AddEvent",
+      "logo_url": "https://cdn.activepieces.com/pieces/add-event.png",
+      "package_name": "@activepieces/piece-add-event",
+      "slug": "add-event"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
         "ARTIFICIAL_INTELLIGENCE"
       ],
       "description": "Helps you search, summarize, and translate knowledge from hundreds of documents to help you produce trustworthy research.",
@@ -109,7 +136,7 @@
         "ARTIFICIAL_INTELLIGENCE",
         "UNIVERSAL_AI"
       ],
-      "description": null,
+      "description": "Ask, summarize, classify, extract and create images with AI.",
       "display_name": "AI",
       "logo_url": "https://cdn.activepieces.com/pieces/new-core/text-ai.svg",
       "package_name": "@activepieces/piece-ai",
@@ -598,6 +625,20 @@
         "secret_text"
       ],
       "categories": [
+        "ARTIFICIAL_INTELLIGENCE"
+      ],
+      "description": "Build generative AI applications with foundation models",
+      "display_name": "AWS Bedrock (Deprecated)",
+      "logo_url": "https://cdn.activepieces.com/pieces/amazon-bedrock.png",
+      "package_name": "@activepieces/piece-aws-bedrock",
+      "slug": "aws-bedrock"
+    },
+    {
+      "auth_kinds": [
+        "custom_auth",
+        "secret_text"
+      ],
+      "categories": [
         "DEVELOPER_TOOLS"
       ],
       "description": null,
@@ -657,6 +698,20 @@
       "logo_url": "https://cdn.activepieces.com/pieces/azure-communication-services.png",
       "package_name": "@activepieces/piece-azure-communication-services",
       "slug": "azure-communication-services"
+    },
+    {
+      "auth_kinds": [
+        "custom_auth",
+        "secret_text"
+      ],
+      "categories": [
+        "DEVELOPER_TOOLS"
+      ],
+      "description": "Track work, code, and ship software with Azure Boards, Repos, and Pipelines.",
+      "display_name": "Azure DevOps",
+      "logo_url": "https://cdn.activepieces.com/pieces/azure-devops.png",
+      "package_name": "@activepieces/piece-azure-devops",
+      "slug": "azure-devops"
     },
     {
       "auth_kinds": [
@@ -783,6 +838,20 @@
         "secret_text"
       ],
       "categories": [
+        "HUMAN_RESOURCES",
+        "PRODUCTIVITY"
+      ],
+      "description": "Time tracking and project management. Create companies, projects, people, and log time entries.",
+      "display_name": "Beebole",
+      "logo_url": "https://cdn.activepieces.com/pieces/beebole.png",
+      "package_name": "@activepieces/piece-beebole",
+      "slug": "beebole"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
         "MARKETING"
       ],
       "description": null,
@@ -870,7 +939,7 @@
     {
       "auth_kinds": [],
       "categories": [],
-      "description": "Fetch the price of a crypto pair from Binance",
+      "description": "Get public Binance spot market data: prices, 24h statistics, order book, recent trades, candles and trading pairs. No API key needed.",
       "display_name": "Binance",
       "logo_url": "https://cdn.activepieces.com/pieces/binance.png",
       "package_name": "@activepieces/piece-binance",
@@ -935,11 +1004,24 @@
       "categories": [
         "COMMUNICATION"
       ],
-      "description": null,
+      "description": "Decentralized social network built on the AT Protocol.",
       "display_name": "Bluesky",
       "logo_url": "https://cdn.activepieces.com/pieces/bluesky.png",
       "package_name": "@activepieces/piece-bluesky",
       "slug": "bluesky"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
+        "ARTIFICIAL_INTELLIGENCE"
+      ],
+      "description": "Web search API for AI agents, providing real-time web pages, images, and news.",
+      "display_name": "Bocha",
+      "logo_url": "https://cdn.activepieces.com/pieces/bocha-search.png",
+      "package_name": "@activepieces/piece-bocha-search",
+      "slug": "bocha-search"
     },
     {
       "auth_kinds": [
@@ -1086,6 +1168,19 @@
       "auth_kinds": [
         "secret_text"
       ],
+      "categories": [
+        "MARKETING"
+      ],
+      "description": "Schedule, publish and analyze social media posts across multiple channels with Buffer.",
+      "display_name": "Buffer",
+      "logo_url": "https://cdn.activepieces.com/pieces/buffer.png",
+      "package_name": "@activepieces/piece-buffer",
+      "slug": "buffer"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
       "categories": [],
       "description": null,
       "display_name": "Bumpups",
@@ -1155,7 +1250,7 @@
       "display_name": "Call-rounded",
       "logo_url": "https://cdn.activepieces.com/pieces/call-rounded.png",
       "package_name": "@activepieces/piece-rounded-studio",
-      "slug": "call-rounded"
+      "slug": "rounded-studio"
     },
     {
       "auth_kinds": [
@@ -1195,6 +1290,19 @@
       "logo_url": "https://cdn.activepieces.com/pieces/canny.png",
       "package_name": "@activepieces/piece-canny",
       "slug": "canny"
+    },
+    {
+      "auth_kinds": [
+        "oauth2"
+      ],
+      "categories": [
+        "CONTENT_AND_FILES"
+      ],
+      "description": "Create stunning designs with Canva's powerful design automation tools",
+      "display_name": "Canva",
+      "logo_url": "https://cdn.activepieces.com/pieces/canva.png",
+      "package_name": "@activepieces/piece-canva",
+      "slug": "canva"
     },
     {
       "auth_kinds": [
@@ -1505,6 +1613,19 @@
       "logo_url": "https://cdn.activepieces.com/pieces/clarifai.png",
       "package_name": "@activepieces/piece-clarifai",
       "slug": "clarifai"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
+        "SALES_AND_CRM"
+      ],
+      "description": "Search Clay's GTM database, and move table rows in and out of Clay.",
+      "display_name": "Clay",
+      "logo_url": "https://cdn.activepieces.com/pieces/clay.png",
+      "package_name": "@activepieces/piece-clay",
+      "slug": "clay"
     },
     {
       "auth_kinds": [
@@ -1824,6 +1945,19 @@
         "secret_text"
       ],
       "categories": [
+        "CONTENT_AND_FILES"
+      ],
+      "description": "Convert, merge and split documents, images and PDFs with 300+ file converters.",
+      "display_name": "ConvertAPI",
+      "logo_url": "https://cdn.activepieces.com/pieces/convertapi.png",
+      "package_name": "@activepieces/piece-convertapi",
+      "slug": "convertapi"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
         "MARKETING"
       ],
       "description": "Email marketing for creators",
@@ -1882,6 +2016,20 @@
       "logo_url": "https://cdn.activepieces.com/pieces/couchbase.png",
       "package_name": "@activepieces/piece-couchbase",
       "slug": "couchbase"
+    },
+    {
+      "auth_kinds": [
+        "custom_auth",
+        "secret_text"
+      ],
+      "categories": [
+        "ACCOUNTING"
+      ],
+      "description": "Business spend management — automate procurement, approvals, purchase orders, and ERP integrations with the Coupa Core API.",
+      "display_name": "Coupa",
+      "logo_url": "https://cdn.activepieces.com/pieces/coupa.png",
+      "package_name": "@activepieces/piece-coupa",
+      "slug": "coupa"
     },
     {
       "auth_kinds": [
@@ -2002,6 +2150,19 @@
       "logo_url": "https://cdn.activepieces.com/pieces/datadog.png",
       "package_name": "@activepieces/piece-datadog",
       "slug": "datadog"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
+        "SALES_AND_CRM"
+      ],
+      "description": "Power your sales or recruiting AI agent with live B2B data. DataForB2B is a people and company search API with 70+ filters including job title, skills, company size, LinkedIn URL, funding stage, inves",
+      "display_name": "DataForB2B",
+      "logo_url": "https://cdn.activepieces.com/pieces/dataforb2b.png",
+      "package_name": "@activepieces/piece-dataforb2b",
+      "slug": "dataforb2b"
     },
     {
       "auth_kinds": [
@@ -2278,7 +2439,7 @@
       "categories": [
         "MARKETING"
       ],
-      "description": "E-commerce CRM for B2B marketers",
+      "description": "Email and SMS marketing automation for e-commerce",
       "display_name": "Drip",
       "logo_url": "https://cdn.activepieces.com/pieces/drip.png",
       "package_name": "@activepieces/piece-drip",
@@ -2403,6 +2564,19 @@
       "logo_url": "https://cdn.activepieces.com/pieces/eden-ai.png",
       "package_name": "@activepieces/piece-eden-ai",
       "slug": "eden-ai"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
+        "CONTENT_AND_FILES"
+      ],
+      "description": "Secure eBook DRM and fulfillment — protect and deliver EPUB, MOBI, and PDF files with Adobe DRM, Readium LCP, or Social DRM.",
+      "display_name": "EditionGuard",
+      "logo_url": "https://cdn.activepieces.com/pieces/editionguard.png",
+      "package_name": "@activepieces/piece-editionguard",
+      "slug": "editionguard"
     },
     {
       "auth_kinds": [
@@ -2615,6 +2789,19 @@
     },
     {
       "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
+        "MARKETING"
+      ],
+      "description": "Schedule, manage and publish social media content with FeedHive.",
+      "display_name": "FeedHive",
+      "logo_url": "https://cdn.activepieces.com/pieces/feedhive.png",
+      "package_name": "@activepieces/piece-feedhive",
+      "slug": "feedhive"
+    },
+    {
+      "auth_kinds": [
         "custom_auth"
       ],
       "categories": [
@@ -2637,6 +2824,20 @@
       "logo_url": "https://cdn.activepieces.com/pieces/figma.png",
       "package_name": "@activepieces/piece-figma",
       "slug": "figma"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
+        "CONTENT_AND_FILES",
+        "PRODUCTIVITY"
+      ],
+      "description": "Convert files, HTML, and Markdown to PDF. Office documents (DOCX, XLSX, PPTX), images, web pages, and Markdown become clean PDFs over a simple API.",
+      "display_name": "FileToPDF",
+      "logo_url": "https://cdn.activepieces.com/pieces/filetopdf.png",
+      "package_name": "@activepieces/piece-filetopdf",
+      "slug": "filetopdf"
     },
     {
       "auth_kinds": [
@@ -2671,7 +2872,7 @@
       "categories": [
         "ARTIFICIAL_INTELLIGENCE"
       ],
-      "description": "Extract structured data from websites using AI with natural language prompts",
+      "description": "The context API to search, scrape, and interact with the web at scale.",
       "display_name": "Firecrawl",
       "logo_url": "https://cdn.activepieces.com/pieces/firecrawl.png",
       "package_name": "@activepieces/piece-firecrawl",
@@ -2717,6 +2918,19 @@
       "logo_url": "https://cdn.activepieces.com/pieces/fliqr-ai.png",
       "package_name": "@activepieces/piece-fliqr-ai",
       "slug": "fliqr-ai"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
+        "SALES_AND_CRM"
+      ],
+      "description": "Run Floqer shortcuts and push rows into workflow sheets.",
+      "display_name": "Floqer",
+      "logo_url": "https://cdn.activepieces.com/pieces/floqer.png",
+      "package_name": "@activepieces/piece-floqer",
+      "slug": "floqer"
     },
     {
       "auth_kinds": [],
@@ -2793,6 +3007,20 @@
       "logo_url": "https://cdn.activepieces.com/pieces/foreplay-co.png",
       "package_name": "@activepieces/piece-foreplay-co",
       "slug": "foreplay-co"
+    },
+    {
+      "auth_kinds": [
+        "custom_auth",
+        "secret_text"
+      ],
+      "categories": [
+        "FORMS_AND_SURVEYS"
+      ],
+      "description": "Build and manage forms and their submissions on Form.io, hosted or self-hosted",
+      "display_name": "Form.io",
+      "logo_url": "https://cdn.activepieces.com/pieces/formio.png",
+      "package_name": "@activepieces/piece-formio",
+      "slug": "formio"
     },
     {
       "auth_kinds": [
@@ -2951,6 +3179,19 @@
       "categories": [
         "CUSTOMER_SUPPORT"
       ],
+      "description": "Collect feedback, manage ideas, and publish announcements with Frill.",
+      "display_name": "Frill",
+      "logo_url": "https://cdn.activepieces.com/pieces/frill.png",
+      "package_name": "@activepieces/piece-frill",
+      "slug": "frill"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
+        "CUSTOMER_SUPPORT"
+      ],
       "description": null,
       "display_name": "Front",
       "logo_url": "https://cdn.activepieces.com/pieces/front.jpg",
@@ -3092,7 +3333,9 @@
     },
     {
       "auth_kinds": [
-        "oauth2"
+        "custom_auth",
+        "oauth2",
+        "secret_text"
       ],
       "categories": [
         "DEVELOPER_TOOLS"
@@ -3287,7 +3530,7 @@
       "categories": [
         "ARTIFICIAL_INTELLIGENCE"
       ],
-      "description": "Use the new Gemini models from Google",
+      "description": "Generate text, images, video and speech with Google Gemini.",
       "display_name": "Google Gemini",
       "logo_url": "https://cdn.activepieces.com/pieces/google-gemini.png",
       "package_name": "@activepieces/piece-google-gemini",
@@ -3300,7 +3543,7 @@
       "categories": [
         "MARKETING"
       ],
-      "description": "Manage your business on Google",
+      "description": "Publish posts and reply to reviews on Google Business Profile.",
       "display_name": "Google My Business",
       "logo_url": "https://cdn.activepieces.com/pieces/google-business.png",
       "package_name": "@activepieces/piece-google-my-business",
@@ -3322,8 +3565,10 @@
       "auth_kinds": [
         "oauth2"
       ],
-      "categories": [],
-      "description": null,
+      "categories": [
+        "MARKETING"
+      ],
+      "description": "Monitor your site's Google Search traffic, sitemaps and index status.",
       "display_name": "Google Search Console",
       "logo_url": "https://cdn.activepieces.com/pieces/google-search-console.png",
       "package_name": "@activepieces/piece-google-search-console",
@@ -3345,6 +3590,7 @@
     },
     {
       "auth_kinds": [
+        "custom_auth",
         "oauth2"
       ],
       "categories": [],
@@ -3369,6 +3615,19 @@
     },
     {
       "auth_kinds": [
+        "oauth2"
+      ],
+      "categories": [
+        "ARTIFICIAL_INTELLIGENCE"
+      ],
+      "description": "Translate text and detect languages with Google Cloud Translation.",
+      "display_name": "Google Translate",
+      "logo_url": "https://cdn.activepieces.com/pieces/google-translate.png",
+      "package_name": "@activepieces/piece-google-translate",
+      "slug": "google-translate"
+    },
+    {
+      "auth_kinds": [
         "custom_auth"
       ],
       "categories": [
@@ -3379,6 +3638,20 @@
       "logo_url": "https://cdn.activepieces.com/pieces/google-vertexai.png",
       "package_name": "@activepieces/piece-google-vertexai",
       "slug": "google-vertexai"
+    },
+    {
+      "auth_kinds": [
+        "custom_auth",
+        "secret_text"
+      ],
+      "categories": [
+        "CUSTOMER_SUPPORT"
+      ],
+      "description": "Helpdesk platform for ecommerce teams to manage tickets, customers, and support conversations.",
+      "display_name": "Gorgias",
+      "logo_url": "https://cdn.activepieces.com/pieces/gorgias.png",
+      "package_name": "@activepieces/piece-gorgias",
+      "slug": "gorgias"
     },
     {
       "auth_kinds": [
@@ -3593,7 +3866,7 @@
       "categories": [
         "COMMUNICATION"
       ],
-      "description": "Monitoring and alerting made easy",
+      "description": "Community platform for members, groups, channels, threads, events and courses",
       "display_name": "Heartbeat",
       "logo_url": "https://cdn.activepieces.com/pieces/heartbeat.png",
       "package_name": "@activepieces/piece-heartbeat",
@@ -3655,6 +3928,19 @@
     },
     {
       "auth_kinds": [
+        "oauth2"
+      ],
+      "categories": [
+        "MARKETING"
+      ],
+      "description": "Social media management — schedule posts and manage multiple networks from one dashboard.",
+      "display_name": "Hootsuite",
+      "logo_url": "https://cdn.activepieces.com/pieces/hootsuite.png",
+      "package_name": "@activepieces/piece-hootsuite",
+      "slug": "hootsuite"
+    },
+    {
+      "auth_kinds": [
         "secret_text"
       ],
       "categories": [
@@ -3679,7 +3965,9 @@
     },
     {
       "auth_kinds": [
-        "oauth2"
+        "custom_auth",
+        "oauth2",
+        "secret_text"
       ],
       "categories": [
         "SALES_AND_CRM"
@@ -3790,11 +4078,36 @@
       "categories": [
         "BUSINESS_INTELLIGENCE"
       ],
-      "description": "Receive new email trigger",
+      "description": "Watch for new emails and copy, move, mark or delete them over IMAP.",
       "display_name": "IMAP",
       "logo_url": "https://cdn.activepieces.com/pieces/imap.png",
       "package_name": "@activepieces/piece-imap",
       "slug": "imap"
+    },
+    {
+      "auth_kinds": [],
+      "categories": [
+        "PRODUCTIVITY"
+      ],
+      "description": "Online appointment scheduling: receive appointment confirmation and cancellation events via webhook.",
+      "display_name": "iMeetify",
+      "logo_url": "https://cdn.activepieces.com/pieces/imeetify.png",
+      "package_name": "@activepieces/piece-imeetify",
+      "slug": "imeetify"
+    },
+    {
+      "auth_kinds": [
+        "basic_auth"
+      ],
+      "categories": [
+        "COMMUNICATION",
+        "MARKETING"
+      ],
+      "description": "Email marketing and transactional email automation with INBOX (useinbox.com). Manage contacts, lists, campaigns, and react to delivery events.",
+      "display_name": "Inbox",
+      "logo_url": "https://cdn.activepieces.com/pieces/useinbox.png",
+      "package_name": "@activepieces/piece-useinbox",
+      "slug": "useinbox"
     },
     {
       "auth_kinds": [
@@ -3987,6 +4300,21 @@
     },
     {
       "auth_kinds": [
+        "basic_auth",
+        "custom_auth",
+        "secret_text"
+      ],
+      "categories": [
+        "DEVELOPER_TOOLS"
+      ],
+      "description": "Opsgenie alerts in Jira Service Management: create, acknowledge, close and route on-call alerts, and see who is on call.",
+      "display_name": "Jira Service Management Operations",
+      "logo_url": "https://cdn.activepieces.com/pieces/jira.png",
+      "package_name": "@activepieces/piece-jsm-operations",
+      "slug": "jsm-operations"
+    },
+    {
+      "auth_kinds": [
         "secret_text"
       ],
       "categories": [
@@ -4023,6 +4351,21 @@
       "logo_url": "https://cdn.activepieces.com/pieces/new-core/json-helper.svg",
       "package_name": "@activepieces/piece-json",
       "slug": "json"
+    },
+    {
+      "auth_kinds": [
+        "custom_auth",
+        "secret_text"
+      ],
+      "categories": [
+        "ARTIFICIAL_INTELLIGENCE",
+        "DEVELOPER_TOOLS"
+      ],
+      "description": "Submit async compute jobs, monitor status and logs, and retrieve artifacts from Jungle Grid.",
+      "display_name": "Jungle Grid",
+      "logo_url": "https://cdn.activepieces.com/pieces/jungle-grid.png",
+      "package_name": "@activepieces/piece-jungle-grid",
+      "slug": "jungle-grid"
     },
     {
       "auth_kinds": [
@@ -4143,6 +4486,19 @@
       "logo_url": "https://cdn.activepieces.com/pieces/klenty.png",
       "package_name": "@activepieces/piece-klenty",
       "slug": "klenty"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
+        "CONTENT_AND_FILES"
+      ],
+      "description": "Search and retrieve GIFs, stickers, and video clips from KLIPY's media library.",
+      "display_name": "Klipy",
+      "logo_url": "https://cdn.activepieces.com/pieces/klipy.png",
+      "package_name": "@activepieces/piece-klipy",
+      "slug": "klipy"
     },
     {
       "auth_kinds": [
@@ -4320,6 +4676,20 @@
         "secret_text"
       ],
       "categories": [
+        "MARKETING"
+      ],
+      "description": "Publish and schedule posts to Bluesky, X, LinkedIn, Instagram, Threads, Facebook, Pinterest, and TikTok through one API",
+      "display_name": "Letmepost",
+      "logo_url": "https://cdn.activepieces.com/pieces/letmepost.png",
+      "package_name": "@activepieces/piece-letmepost",
+      "slug": "letmepost"
+    },
+    {
+      "auth_kinds": [
+        "custom_auth",
+        "secret_text"
+      ],
+      "categories": [
         "ARTIFICIAL_INTELLIGENCE"
       ],
       "description": "Letta is the platform for building stateful agents: open AI with advanced memory that can learn and self-improve over time.",
@@ -4403,7 +4773,7 @@
       "categories": [
         "MARKETING"
       ],
-      "description": "Connect and network with professionals",
+      "description": "Post to LinkedIn profiles and Company Pages",
       "display_name": "LinkedIn",
       "logo_url": "https://cdn.activepieces.com/pieces/linkedin.png",
       "package_name": "@activepieces/piece-linkedin",
@@ -4421,6 +4791,20 @@
       "logo_url": "https://cdn.activepieces.com/pieces/linkup.png",
       "package_name": "@activepieces/piece-linkup",
       "slug": "linkup"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
+        "MARKETING",
+        "SALES_AND_CRM"
+      ],
+      "description": "LinkupAPI lets agents send messages, manage conversations, and automate outreach across every channel, for sales and recruitment.",
+      "display_name": "LinkupAPI",
+      "logo_url": "https://cdn.activepieces.com/pieces/linkupapi.png",
+      "package_name": "@activepieces/piece-linkupapi",
+      "slug": "linkupapi"
     },
     {
       "auth_kinds": [
@@ -4803,6 +5187,21 @@
     },
     {
       "auth_kinds": [
+        "custom_auth",
+        "secret_text"
+      ],
+      "categories": [
+        "ARTIFICIAL_INTELLIGENCE",
+        "UNIVERSAL_AI"
+      ],
+      "description": "Call tools on an external MCP server deterministically, without an LLM.",
+      "display_name": "MCP Client",
+      "logo_url": "https://cdn.activepieces.com/pieces/new-core/mcp.svg",
+      "package_name": "@activepieces/piece-mcp-client",
+      "slug": "mcp-client"
+    },
+    {
+      "auth_kinds": [
         "secret_text"
       ],
       "categories": [
@@ -5020,7 +5419,7 @@
       "categories": [
         "BUSINESS_INTELLIGENCE"
       ],
-      "description": "Create and manage Power BI datasets and push data to them",
+      "description": "Create and manage Power BI datasets and reports, and push data to them",
       "display_name": "Microsoft Power BI",
       "logo_url": "https://cdn.activepieces.com/pieces/microsoft-power-bi.png",
       "package_name": "@activepieces/piece-microsoft-power-bi",
@@ -5041,6 +5440,20 @@
     },
     {
       "auth_kinds": [
+        "custom_auth",
+        "secret_text"
+      ],
+      "categories": [
+        "DEVELOPER_TOOLS"
+      ],
+      "description": "Microsoft's relational database engine, on-premise or as Azure SQL",
+      "display_name": "Microsoft SQL Server",
+      "logo_url": "https://cdn.activepieces.com/pieces/microsoft-sql-server.png",
+      "package_name": "@activepieces/piece-microsoft-sql-server",
+      "slug": "microsoft-sql-server"
+    },
+    {
+      "auth_kinds": [
         "oauth2"
       ],
       "categories": [
@@ -5052,6 +5465,20 @@
       "logo_url": "https://cdn.activepieces.com/pieces/microsoft-teams.png",
       "package_name": "@activepieces/piece-microsoft-teams",
       "slug": "microsoft-teams"
+    },
+    {
+      "auth_kinds": [
+        "custom_auth",
+        "secret_text"
+      ],
+      "categories": [
+        "COMMUNICATION"
+      ],
+      "description": "Send messages to Teams channels from the Activepieces Bot, once it has been installed into a team.",
+      "display_name": "Microsoft Teams Bot",
+      "logo_url": "https://cdn.activepieces.com/pieces/microsoft-teams.png",
+      "package_name": "@activepieces/piece-microsoft-teams-bot",
+      "slug": "microsoft-teams-bot"
     },
     {
       "auth_kinds": [
@@ -5294,6 +5721,19 @@
       "categories": [
         "ARTIFICIAL_INTELLIGENCE"
       ],
+      "description": "Run on-device AI predictions using Muna predictors.",
+      "display_name": "Muna",
+      "logo_url": "https://cdn.activepieces.com/pieces/muna-ai.png",
+      "package_name": "@activepieces/piece-muna-ai",
+      "slug": "muna-ai"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
+        "ARTIFICIAL_INTELLIGENCE"
+      ],
       "description": null,
       "display_name": "Murf AI",
       "logo_url": "https://cdn.activepieces.com/pieces/murf-api.png",
@@ -5389,6 +5829,19 @@
       "logo_url": "https://cdn.activepieces.com/pieces/nifty.png",
       "package_name": "@activepieces/piece-nifty",
       "slug": "nifty"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
+        "PRODUCTIVITY"
+      ],
+      "description": "Run the EOS operating system in Ninety: to-dos, issues, rocks, milestones and the scorecard",
+      "display_name": "Ninety",
+      "logo_url": "https://cdn.activepieces.com/pieces/ninety.png",
+      "package_name": "@activepieces/piece-ninety",
+      "slug": "ninety"
     },
     {
       "auth_kinds": [
@@ -5541,6 +5994,20 @@
         "secret_text"
       ],
       "categories": [
+        "MARKETING",
+        "SALES_AND_CRM"
+      ],
+      "description": "All-in-one ecommerce marketing platform for email, SMS, and push notification campaigns with powerful automation and segmentation.",
+      "display_name": "Omnisend",
+      "logo_url": "https://cdn.activepieces.com/pieces/omnisend.png",
+      "package_name": "@activepieces/piece-omnisend",
+      "slug": "omnisend"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
         "SALES_AND_CRM"
       ],
       "description": "Build meaningful on-brand scheduling experiences with OnceHubs online appointment booking software",
@@ -5567,7 +6034,7 @@
       "categories": [
         "ARTIFICIAL_INTELLIGENCE"
       ],
-      "description": "Use the many tools ChatGPT has to offer.",
+      "description": "Chat, images, audio and embeddings from OpenAI models.",
       "display_name": "OpenAI",
       "logo_url": "https://cdn.activepieces.com/pieces/openai.png",
       "package_name": "@activepieces/piece-openai",
@@ -5832,6 +6299,19 @@
     },
     {
       "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
+        "CONTENT_AND_FILES"
+      ],
+      "description": "Convert, merge, split, compress, and protect PDF documents.",
+      "display_name": "PDF4me",
+      "logo_url": "https://cdn.activepieces.com/pieces/pdf4me.png",
+      "package_name": "@activepieces/piece-pdf4me",
+      "slug": "pdf4me"
+    },
+    {
+      "auth_kinds": [
         "basic_auth"
       ],
       "categories": [
@@ -5977,7 +6457,9 @@
       "auth_kinds": [
         "oauth2"
       ],
-      "categories": [],
+      "categories": [
+        "MARKETING"
+      ],
       "description": null,
       "display_name": "Pinterest",
       "logo_url": "https://cdn.activepieces.com/pieces/pinterest.png",
@@ -6018,11 +6500,26 @@
       "categories": [
         "MARKETING"
       ],
-      "description": "Privacy-friendly web analytics",
-      "display_name": "Plausible",
+      "description": "Privacy-friendly website analytics",
+      "display_name": "Plausible Analytics",
       "logo_url": "https://cdn.activepieces.com/pieces/plausible.png",
       "package_name": "@activepieces/piece-plausible",
       "slug": "plausible"
+    },
+    {
+      "auth_kinds": [
+        "custom_auth",
+        "secret_text"
+      ],
+      "categories": [
+        "COMMUNICATION",
+        "MARKETING"
+      ],
+      "description": "Open-source email platform for transactional emails, marketing campaigns, and contact management.",
+      "display_name": "Plunk",
+      "logo_url": "https://cdn.activepieces.com/pieces/plunk.png",
+      "package_name": "@activepieces/piece-plunk",
+      "slug": "plunk"
     },
     {
       "auth_kinds": [
@@ -6063,6 +6560,21 @@
       "slug": "pollybot-ai"
     },
     {
+      "auth_kinds": [
+        "custom_auth",
+        "secret_text"
+      ],
+      "categories": [
+        "CONTENT_AND_FILES",
+        "PRODUCTIVITY"
+      ],
+      "description": "Convert HTML or a URL to PDF, capture screenshots, and generate EU e-invoices (Factur-X / ZUGFeRD).",
+      "display_name": "PolyDoc",
+      "logo_url": "https://cdn.activepieces.com/pieces/polydoc.png",
+      "package_name": "@activepieces/piece-polydoc",
+      "slug": "polydoc"
+    },
+    {
       "auth_kinds": [],
       "categories": [
         "MARKETING"
@@ -6089,6 +6601,7 @@
     },
     {
       "auth_kinds": [
+        "custom_auth",
         "secret_text"
       ],
       "categories": [
@@ -6113,6 +6626,20 @@
       "logo_url": "https://cdn.activepieces.com/pieces/postiz.png",
       "package_name": "@activepieces/piece-postiz",
       "slug": "postiz"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
+        "COMMUNICATION",
+        "MARKETING"
+      ],
+      "description": "Transactional email platform for sending email, templates, and retrieving delivery and bounce insights.",
+      "display_name": "Postmark",
+      "logo_url": "https://cdn.activepieces.com/pieces/postmark.png",
+      "package_name": "@activepieces/piece-postmark",
+      "slug": "postmark"
     },
     {
       "auth_kinds": [
@@ -6153,7 +6680,7 @@
       "display_name": "Presenton",
       "logo_url": "https://cdn.activepieces.com/pieces/presenton.png",
       "package_name": "@activepieces/piece-presentation",
-      "slug": "presenton"
+      "slug": "presentation"
     },
     {
       "auth_kinds": [
@@ -6167,6 +6694,20 @@
       "logo_url": "https://cdn.activepieces.com/pieces/productboard.png",
       "package_name": "@activepieces/piece-productboard",
       "slug": "productboard"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
+        "MARKETING",
+        "PRODUCTIVITY"
+      ],
+      "description": "Onboarding, in-app announcements, feedback collection and NPS for SaaS products.",
+      "display_name": "Produktly",
+      "logo_url": "https://cdn.activepieces.com/pieces/produktly.png",
+      "package_name": "@activepieces/piece-produktly",
+      "slug": "produktly"
     },
     {
       "auth_kinds": [
@@ -6204,6 +6745,21 @@
       "logo_url": "https://cdn.activepieces.com/pieces/promptmate.png",
       "package_name": "@activepieces/piece-promptmate",
       "slug": "promptmate"
+    },
+    {
+      "auth_kinds": [
+        "custom_auth",
+        "secret_text"
+      ],
+      "categories": [
+        "FORMS_AND_SURVEYS",
+        "MARKETING"
+      ],
+      "description": "Collect customer reviews, send survey invitations, and pull rating data from ProvenExpert.",
+      "display_name": "ProvenExpert",
+      "logo_url": "https://cdn.activepieces.com/pieces/provenexpert.png",
+      "package_name": "@activepieces/piece-provenexpert",
+      "slug": "provenexpert"
     },
     {
       "auth_kinds": [
@@ -6333,6 +6889,20 @@
     },
     {
       "auth_kinds": [
+        "custom_auth",
+        "secret_text"
+      ],
+      "categories": [
+        "ACCOUNTING"
+      ],
+      "description": "Sync invoices, bills, customers, vendors and payments with QuickBooks Desktop through the Conductor API bridge.",
+      "display_name": "QuickBooks Desktop (via Conductor)",
+      "logo_url": "https://cdn.activepieces.com/pieces/quickbooks.png",
+      "package_name": "@activepieces/piece-quickbooks-desktop-conductor",
+      "slug": "quickbooks-desktop-conductor"
+    },
+    {
+      "auth_kinds": [
         "oauth2"
       ],
       "categories": [],
@@ -6344,6 +6914,17 @@
     },
     {
       "auth_kinds": [
+        "oauth2"
+      ],
+      "categories": [],
+      "description": null,
+      "display_name": "QuickBooks Online (Sandbox)",
+      "logo_url": "https://cdn.activepieces.com/pieces/quickbooks.png",
+      "package_name": "@activepieces/piece-quickbooks-sandbox",
+      "slug": "quickbooks-sandbox"
+    },
+    {
+      "auth_kinds": [
         "secret_text"
       ],
       "categories": [],
@@ -6352,6 +6933,20 @@
       "logo_url": "https://cdn.activepieces.com/pieces/quickzu.png",
       "package_name": "@activepieces/piece-quickzu",
       "slug": "quickzu"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
+        "COMMERCE",
+        "MARKETING"
+      ],
+      "description": "Quiz-based product recommendation and lead capture platform.",
+      "display_name": "Quizell",
+      "logo_url": "https://cdn.activepieces.com/pieces/quizell.png",
+      "package_name": "@activepieces/piece-quizell",
+      "slug": "quizell"
     },
     {
       "auth_kinds": [
@@ -6389,6 +6984,20 @@
       "logo_url": "https://cdn.activepieces.com/pieces/raia-ai.png",
       "package_name": "@activepieces/piece-raia-ai",
       "slug": "raia-ai"
+    },
+    {
+      "auth_kinds": [
+        "oauth2"
+      ],
+      "categories": [
+        "CONTENT_AND_FILES",
+        "PRODUCTIVITY"
+      ],
+      "description": "Bookmark manager to save, search, and organize content from the web",
+      "display_name": "Raindrop",
+      "logo_url": "https://cdn.activepieces.com/pieces/raindrop.png",
+      "package_name": "@activepieces/piece-raindrop",
+      "slug": "raindrop"
     },
     {
       "auth_kinds": [
@@ -6444,6 +7053,19 @@
     },
     {
       "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
+        "PRODUCTIVITY"
+      ],
+      "description": "Save and retrieve your highlights from Readwise — your reading notes, all in one place.",
+      "display_name": "Readwise",
+      "logo_url": "https://cdn.activepieces.com/pieces/readwise.png",
+      "package_name": "@activepieces/piece-readwise",
+      "slug": "readwise"
+    },
+    {
+      "auth_kinds": [
         "custom_auth",
         "secret_text"
       ],
@@ -6488,6 +7110,20 @@
         "secret_text"
       ],
       "categories": [
+        "CONTENT_AND_FILES",
+        "DEVELOPER_TOOLS"
+      ],
+      "description": "Render raw HTML, a URL, or Markdown to a PNG, JPEG, or WebP image or a PDF via the Rendex API.",
+      "display_name": "Rendex",
+      "logo_url": "https://cdn.activepieces.com/pieces/rendex.png",
+      "package_name": "@activepieces/piece-rendex",
+      "slug": "rendex"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
         "MARKETING"
       ],
       "description": "Email validation service that cleans invalid, temporary & unsafe email addresses.",
@@ -6515,10 +7151,9 @@
         "secret_text"
       ],
       "categories": [
-        "BUSINESS_INTELLIGENCE",
-        "MARKETING"
+        "COMMUNICATION"
       ],
-      "description": "Email for developers",
+      "description": "The email API for developers",
       "display_name": "Resend",
       "logo_url": "https://cdn.activepieces.com/pieces/resend.png",
       "package_name": "@activepieces/piece-resend",
@@ -6586,6 +7221,19 @@
       "logo_url": "https://cdn.activepieces.com/pieces/returning-ai.png",
       "package_name": "@activepieces/piece-returning-ai",
       "slug": "returning-ai"
+    },
+    {
+      "auth_kinds": [
+        "oauth2"
+      ],
+      "categories": [
+        "COMMUNICATION"
+      ],
+      "description": "Cloud business communications: send SMS, place calls, manage messages, and post to Team Messaging.",
+      "display_name": "RingCentral",
+      "logo_url": "https://cdn.activepieces.com/pieces/ringcentral.png",
+      "package_name": "@activepieces/piece-ringcentral",
+      "slug": "ringcentral"
     },
     {
       "auth_kinds": [
@@ -6661,6 +7309,19 @@
     },
     {
       "auth_kinds": [
+        "oauth2"
+      ],
+      "categories": [
+        "ACCOUNTING"
+      ],
+      "description": "Cloud accounting for small businesses — manage contacts, sales invoices, purchase invoices, and payments.",
+      "display_name": "Sage Accounting",
+      "logo_url": "https://cdn.activepieces.com/pieces/sage-accounting.png",
+      "package_name": "@activepieces/piece-sage-accounting",
+      "slug": "sage-accounting"
+    },
+    {
+      "auth_kinds": [
         "custom_auth"
       ],
       "categories": [],
@@ -6682,6 +7343,19 @@
       "logo_url": "https://cdn.activepieces.com/pieces/salesforce.png",
       "package_name": "@activepieces/piece-salesforce",
       "slug": "salesforce"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
+        "SALES_AND_CRM"
+      ],
+      "description": "Sales engagement platform for cadences, people, and revenue workflows.",
+      "display_name": "Salesloft",
+      "logo_url": "https://cdn.activepieces.com/pieces/salesloft.png",
+      "package_name": "@activepieces/piece-salesloft",
+      "slug": "salesloft"
     },
     {
       "auth_kinds": [
@@ -6854,6 +7528,19 @@
     },
     {
       "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
+        "MARKETING"
+      ],
+      "description": "Create personalized landing pages, dynamic audio, video, and manage campaigns with Sendr.",
+      "display_name": "Sendr",
+      "logo_url": "https://cdn.activepieces.com/pieces/sendr.png",
+      "package_name": "@activepieces/piece-sendr",
+      "slug": "sendr"
+    },
+    {
+      "auth_kinds": [
         "custom_auth",
         "secret_text"
       ],
@@ -6956,6 +7643,7 @@
     {
       "auth_kinds": [
         "custom_auth",
+        "oauth2",
         "secret_text"
       ],
       "categories": [
@@ -7045,6 +7733,19 @@
     },
     {
       "auth_kinds": [
+        "oauth2"
+      ],
+      "categories": [
+        "PRODUCTIVITY"
+      ],
+      "description": "3D printer fleet management: monitor printers, manage the print queue, track filament, and automate print jobs.",
+      "display_name": "SimplyPrint",
+      "logo_url": "https://cdn.activepieces.com/pieces/simplyprint.png",
+      "package_name": "@activepieces/piece-simplyprint",
+      "slug": "simplyprint"
+    },
+    {
+      "auth_kinds": [
         "secret_text"
       ],
       "categories": [
@@ -7098,6 +7799,19 @@
         "secret_text"
       ],
       "categories": [
+        "DEVELOPER_TOOLS"
+      ],
+      "description": "AV1 video encoding and transcoding via slashed.cloud.",
+      "display_name": "SlashedCloud",
+      "logo_url": "https://cdn.activepieces.com/pieces/slashed.png",
+      "package_name": "@activepieces/piece-slashed",
+      "slug": "slashed"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
         "CONTENT_AND_FILES",
         "PRODUCTIVITY"
       ],
@@ -7106,6 +7820,19 @@
       "logo_url": "https://cdn.activepieces.com/pieces/slidespeak.png",
       "package_name": "@activepieces/piece-slidespeak",
       "slug": "slidespeak"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
+        "PRODUCTIVITY"
+      ],
+      "description": "Slite is a modern knowledge base. Create, search, update, and ask questions about your team docs.",
+      "display_name": "Slite",
+      "logo_url": "https://cdn.activepieces.com/pieces/slite.png",
+      "package_name": "@activepieces/piece-slite",
+      "slug": "slite"
     },
     {
       "auth_kinds": [
@@ -7242,6 +7969,19 @@
     },
     {
       "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
+        "ARTIFICIAL_INTELLIGENCE"
+      ],
+      "description": "Web tools for AI agents: search the web, fetch pages as clean markdown, extract structured data with AI, and run deep multi-source research.",
+      "display_name": "Sofya",
+      "logo_url": "https://cdn.activepieces.com/pieces/sofya.png",
+      "package_name": "@activepieces/piece-sofya",
+      "slug": "sofya"
+    },
+    {
+      "auth_kinds": [
         "custom_auth",
         "secret_text"
       ],
@@ -7341,6 +8081,19 @@
       "logo_url": "https://cdn.activepieces.com/pieces/strale.png",
       "package_name": "@activepieces/piece-strale",
       "slug": "strale"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
+        "SALES_AND_CRM"
+      ],
+      "description": "CRM built into Gmail. Manage pipelines, boxes, tasks, comments, contacts and organizations from your flows.",
+      "display_name": "Streak",
+      "logo_url": "https://cdn.activepieces.com/pieces/streak.png",
+      "package_name": "@activepieces/piece-streak",
+      "slug": "streak"
     },
     {
       "auth_kinds": [
@@ -7537,7 +8290,7 @@
       "categories": [
         "PRODUCTIVITY"
       ],
-      "description": "collaboration platform for remote teams to organize and manage projects",
+      "description": "Collaboration platform for remote teams to organize projects, tasks and AI agents.",
       "display_name": "Taskade",
       "logo_url": "https://cdn.activepieces.com/pieces/taskade.png",
       "package_name": "@activepieces/piece-taskade",
@@ -7570,6 +8323,20 @@
       "logo_url": "https://cdn.activepieces.com/pieces/teable.png",
       "package_name": "@activepieces/piece-teable",
       "slug": "teable"
+    },
+    {
+      "auth_kinds": [
+        "custom_auth",
+        "secret_text"
+      ],
+      "categories": [
+        "PRODUCTIVITY"
+      ],
+      "description": "Visual project management for boards, tasks, and timelogs in Teamhood.",
+      "display_name": "Teamhood",
+      "logo_url": "https://cdn.activepieces.com/pieces/teamhood.png",
+      "package_name": "@activepieces/piece-teamhood",
+      "slug": "teamhood"
     },
     {
       "auth_kinds": [
@@ -7766,12 +8533,13 @@
     },
     {
       "auth_kinds": [
+        "custom_auth",
         "secret_text"
       ],
       "categories": [
         "PRODUCTIVITY"
       ],
-      "description": "Toggl Track is a time tracking application that allows users to track their daily activities across different platforms.",
+      "description": "Toggl Track is a time tracking application that allows users to track their daily activities across different platforms. Works with classic Toggl Track and Toggl 2.0 accounts.",
       "display_name": "Toggl Track",
       "logo_url": "https://cdn.activepieces.com/pieces/toggl-track.png",
       "package_name": "@activepieces/piece-toggl-track",
@@ -7785,7 +8553,7 @@
       "categories": [
         "MARKETING"
       ],
-      "description": "Content management system for modern websites",
+      "description": "Flat-file content management system for websites, with collections, blogs, images and files.",
       "display_name": "Total CMS",
       "logo_url": "https://cdn.activepieces.com/pieces/totalcms.png",
       "package_name": "@activepieces/piece-totalcms",
@@ -7816,6 +8584,20 @@
       "logo_url": "https://cdn.activepieces.com/pieces/truelayer.png",
       "package_name": "@activepieces/piece-truelayer",
       "slug": "truelayer"
+    },
+    {
+      "auth_kinds": [
+        "custom_auth",
+        "secret_text"
+      ],
+      "categories": [
+        "MARKETING"
+      ],
+      "description": "Collect and manage video and text testimonials from your customers.",
+      "display_name": "Trust",
+      "logo_url": "https://cdn.activepieces.com/pieces/trust.png",
+      "package_name": "@activepieces/piece-trust",
+      "slug": "trust"
     },
     {
       "auth_kinds": [
@@ -7873,7 +8655,7 @@
       "categories": [
         "COMMUNICATION"
       ],
-      "description": "Social media platform with over 500 million user",
+      "description": "Post tweets and replies on X, formerly Twitter.",
       "display_name": "Twitter",
       "logo_url": "https://cdn.activepieces.com/pieces/twitter.png",
       "package_name": "@activepieces/piece-twitter",
@@ -7938,6 +8720,19 @@
         "secret_text"
       ],
       "categories": [
+        "DEVELOPER_TOOLS"
+      ],
+      "description": "Monitor your websites, APIs, and servers. Get alerted when things go down.",
+      "display_name": "UptimeRobot",
+      "logo_url": "https://cdn.activepieces.com/pieces/uptimerobot.png",
+      "package_name": "@activepieces/piece-uptimerobot",
+      "slug": "uptimerobot"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
         "COMMERCE",
         "MARKETING"
       ],
@@ -7946,6 +8741,20 @@
       "logo_url": "https://cdn.activepieces.com/pieces/uscreen.png",
       "package_name": "@activepieces/piece-uscreen",
       "slug": "uscreen"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
+        "BUSINESS_INTELLIGENCE",
+        "MARKETING"
+      ],
+      "description": "AI-powered UX analytics: session recordings, heatmaps, feedback widgets, and surveys for your website.",
+      "display_name": "UXsniff",
+      "logo_url": "https://cdn.activepieces.com/pieces/uxsniff.png",
+      "package_name": "@activepieces/piece-uxsniff",
+      "slug": "uxsniff"
     },
     {
       "auth_kinds": [
@@ -8211,6 +9020,18 @@
     },
     {
       "auth_kinds": [
+        "custom_auth",
+        "secret_text"
+      ],
+      "categories": [],
+      "description": "Unify your process, automate steps, and help clients find what they need.",
+      "display_name": "Wayfront",
+      "logo_url": "https://cdn.activepieces.com/pieces/wayfront.png",
+      "package_name": "@activepieces/piece-wayfront",
+      "slug": "wayfront"
+    },
+    {
+      "auth_kinds": [
         "secret_text"
       ],
       "categories": [],
@@ -8291,6 +9112,19 @@
     },
     {
       "auth_kinds": [
+        "oauth2"
+      ],
+      "categories": [
+        "PRODUCTIVITY"
+      ],
+      "description": "OKR & weekly status reporting tool for teams.",
+      "display_name": "Weekdone",
+      "logo_url": "https://cdn.activepieces.com/pieces/weekdone.png",
+      "package_name": "@activepieces/piece-weekdone",
+      "slug": "weekdone"
+    },
+    {
+      "auth_kinds": [
         "custom_auth",
         "secret_text"
       ],
@@ -8320,8 +9154,10 @@
         "custom_auth",
         "secret_text"
       ],
-      "categories": [],
-      "description": "Manage your WhatsApp business account",
+      "categories": [
+        "COMMUNICATION"
+      ],
+      "description": "Send text, media and template messages from your WhatsApp Business number.",
       "display_name": "WhatsApp Business",
       "logo_url": "https://cdn.activepieces.com/pieces/whatsapp.png",
       "package_name": "@activepieces/piece-whatsapp",
@@ -8341,6 +9177,20 @@
       "logo_url": "https://cdn.activepieces.com/pieces/whatsscale.png",
       "package_name": "@activepieces/piece-whatsscale",
       "slug": "whatsscale"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
+        "CONTENT_AND_FILES",
+        "MARKETING"
+      ],
+      "description": "Video hosting and analytics for business. Manage your projects and media library.",
+      "display_name": "Wistia",
+      "logo_url": "https://cdn.activepieces.com/pieces/wistia.png",
+      "package_name": "@activepieces/piece-wistia",
+      "slug": "wistia"
     },
     {
       "auth_kinds": [
@@ -8491,6 +9341,20 @@
         "secret_text"
       ],
       "categories": [
+        "BUSINESS_INTELLIGENCE",
+        "MARKETING"
+      ],
+      "description": "Search public X/Twitter posts, users, timelines, and trends for automation workflows.",
+      "display_name": "Xquik",
+      "logo_url": "https://cdn.activepieces.com/pieces/xquik.png",
+      "package_name": "@activepieces/piece-xquik",
+      "slug": "xquik"
+    },
+    {
+      "auth_kinds": [
+        "secret_text"
+      ],
+      "categories": [
         "SALES_AND_CRM"
       ],
       "description": "YouCanBookMe is an online scheduling tool that helps you manage appointments and bookings efficiently.",
@@ -8511,6 +9375,20 @@
       "logo_url": "https://cdn.activepieces.com/pieces/youform.png",
       "package_name": "@activepieces/piece-youform",
       "slug": "youform"
+    },
+    {
+      "auth_kinds": [
+        "custom_auth",
+        "secret_text"
+      ],
+      "categories": [
+        "DEVELOPER_TOOLS"
+      ],
+      "description": "JetBrains project management and issue tracking for agile teams.",
+      "display_name": "YouTrack",
+      "logo_url": "https://cdn.activepieces.com/pieces/youtrack.png",
+      "package_name": "@activepieces/piece-youtrack",
+      "slug": "youtrack"
     },
     {
       "auth_kinds": [
@@ -8540,7 +9418,8 @@
     },
     {
       "auth_kinds": [
-        "custom_auth"
+        "custom_auth",
+        "oauth2"
       ],
       "categories": [
         "CUSTOMER_SUPPORT"
