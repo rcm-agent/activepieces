@@ -162,7 +162,7 @@ function nonemptyString(value) {
 
 const runnerRoot = dirname(fileURLToPath(import.meta.url));
 const entries = Object.freeze([
-  Object.freeze({ piece: '@activepieces/piece-slack', version: '0.17.0', action: 'send_channel_message', exportName: 'slack', forkDirectory: 'slack' }),
+  Object.freeze({ piece: '@activepieces/piece-slack', version: '0.17.0', action: 'send_channel_message', exportName: 'slack', forkDirectory: 'slack', memoryMb: 512 }),
   Object.freeze({ piece: '@activepieces/piece-discord', version: '0.5.0', action: 'sendMessageWithBot', exportName: 'discord', forkDirectory: 'discord' }),
   Object.freeze({ piece: '@activepieces/piece-google-sheets', version: '0.14.6', action: 'get-many-rows', exportName: 'googleSheets', forkDirectory: 'google-sheets' }),
   Object.freeze({ piece: '@activepieces/piece-google-sheets', version: '0.14.6', action: 'find_rows', exportName: 'googleSheets', forkDirectory: 'google-sheets' }),

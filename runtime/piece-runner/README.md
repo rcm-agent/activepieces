@@ -38,7 +38,7 @@ Each allowed invocation starts a fresh child with an empty environment. Defaults
 | `memory_mb` | 256 | 512 |
 | `max_output_bytes` | 262,144 | 1,048,576 |
 
-Google Calendar and Google Drive entries set `memoryMb: 512` as a per-call floor. The effective memory limit is the larger of the requested value (256 MiB by default) and the entry's floor. Requested limits are validated before applying the floor, so requests above 512 MiB are still refused.
+Slack, Google Calendar and Google Drive entries set `memoryMb: 512`, the default memory limit for their calls; other entries default to 256 MiB. A request's own `memory_mb` replaces the default and is validated the same way, so requests above 512 MiB are still refused.
 
 Limits must be integers; timeout and output limits must be positive, and memory must be at least 64 MiB. Memory enforcement combines a V8 heap limit with a Linux RSS monitor. The serialized request is capped at 1 MiB; the output limit counts serialized response bytes. Expiry kills the child and returns `TIMEOUT`. Invalid limits, excessive memory and excessive output return named refusals. Store, files, server, pause, connections, agent and flows services throw `CONTEXT_SERVICE_UNAVAILABLE` when used.
 

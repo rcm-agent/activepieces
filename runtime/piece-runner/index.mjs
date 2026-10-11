@@ -22,19 +22,17 @@ async function invoke(request) {
 function getLimits({ request, entry }) {
   const limits = {
     timeout_ms: request.timeout_ms ?? 30000,
-    memory_mb: request.memory_mb ?? 256,
+    memory_mb: request.memory_mb ?? entry.memoryMb ?? 256,
     max_output_bytes: request.max_output_bytes ?? 262144,
   };
   for (const [name, minimum, maximum] of [['timeout_ms', 1, 60000], ['memory_mb', 64, 512], ['max_output_bytes', 1, 1048576]]) {
-    const values = name === 'memory_mb' ? [limits[name], entry.memoryMb ?? minimum] : [limits[name]];
-    if (values.some((value) => !Number.isInteger(value) || value < minimum || value > maximum)) {
+    if (!Number.isInteger(limits[name]) || limits[name] < minimum || limits[name] > maximum) {
       const error = new Error(`Invalid ${name} limit`);
       error.name = 'RunnerRefusal';
       error.code = 'INVALID_LIMIT';
       throw error;
     }
   }
-  limits.memory_mb = Math.max(limits.memory_mb, entry.memoryMb ?? 64);
   return limits;
 }
 
