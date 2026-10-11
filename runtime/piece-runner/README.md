@@ -2,21 +2,27 @@
 
 Standalone Node 20 package outside the repository's Bun workspaces. It executes the Slack, Discord and Google actions listed below. RCM's orchestrator connector runtime supplies a Nango credential; Nango remains the connection owner.
 
-| Piece | Version | Allowed actions |
-| --- | --- | --- |
-| Slack | 0.17.0 | `send_channel_message` |
-| Discord | 0.5.0 | `sendMessageWithBot` |
-| Google Sheets | 0.14.6 | `get-many-rows`, `find_rows`, `find_row_by_num`, `insert_row`, `google-sheets-insert-multiple-rows`, `update_row` |
-| Google Calendar | 0.9.1 | `google_calendar_find_busy_free_periods`, `google_calendar_get_events`, `google_calendar_get_event_by_id`, `create_google_calendar_event`, `update_event` |
-| Google Drive | 0.7.5 | `search-folder`, `create_new_gdrive_folder` |
+| Piece | Allowed actions |
+| --- | --- |
+| Slack | `send_channel_message` |
+| Discord | `sendMessageWithBot` |
+| Google Sheets | `get-many-rows`, `find_rows`, `find_row_by_num`, `insert_row`, `google-sheets-insert-multiple-rows`, `update_row` |
+| Google Calendar | `google_calendar_find_busy_free_periods`, `google_calendar_get_events`, `google_calendar_get_event_by_id`, `create_google_calendar_event`, `update_event` |
+| Google Drive | `search-folder`, `create_new_gdrive_folder` |
+
+Runner versions come from `package.json` dependencies; allowlist entries derive their versions from that manifest.
 
 ```js
 import { pieceRunner } from './index.mjs';
+import { pieceCatalog } from './catalog.mjs';
+
+const entry = pieceCatalog.entries.find(({ action }) => action === 'sendMessageWithBot');
+if (!entry) throw new Error('Action is not allowlisted');
 
 const result = await pieceRunner.invoke({
-  piece: '@activepieces/piece-discord',
-  version: '0.5.0',
-  action: 'sendMessageWithBot',
+  piece: entry.piece,
+  version: entry.version,
+  action: entry.action,
   auth_type: 'API_KEY',
   auth: { apiKey: 'NANGO_CREDENTIAL' },
   props: { channel_id: 'CHANNEL_ID', message: 'Hello' },
@@ -47,12 +53,28 @@ Install exact locked npm packages during a build, with scripts disabled. No runt
 ```sh
 npm ci --ignore-scripts
 node check-versions.mjs
+node --test test/update-pieces.contract.test.mjs
 node --test test/invoke.contract.test.mjs
 node --test test/export-actions.contract.test.mjs
 node export-actions.mjs actions.json
 ```
 
 The version check compares the lock and installed pieces with the fork's piece manifests using each entry's explicit `forkDirectory`, and checks the pinned root framework. Pieces retain their own nested framework, common and shared dependencies. Export reads metadata from installed piece code, including props, required flags, descriptions, declared auth kinds and versions. Exported action IDs use deterministic snake case (`sendMessageWithBot` → `send_message_with_bot`).
+
+## Updating pieces
+
+From the repository root:
+
+```sh
+node runtime/piece-runner/update-pieces.mjs outdated
+node runtime/piece-runner/update-pieces.mjs refresh --upstream <commit>
+```
+
+`outdated` reports each runner piece and the framework's runner pin, fork version, npm latest and whether npm is newer. Add `--json` for machine-readable output. It changes no files.
+
+`refresh` requires an empty Git index and no unmerged paths, fetches `upstream/main`, and accepts only a commit on that branch that HEAD does not already contain. It merges with `--no-ff`; conflicts stop immediately and remain for the owner to resolve. It then re-pins dependencies to fork versions, rewrites the lock, updates pilot provenance, and regenerates and checks pilot and directory artifacts. A Linux Node 20 Docker check installs locked packages, verifies versions, runs contract tests and replaces the runner action export. Docker honors `DOCKER_HOST`.
+
+Review the printed per-action version, added or removed props, prop type/required flags and auth-kind changes before committing the generated updates. A missing allowlisted action stops the refresh and names the piece and action to resolve. Only Git's merge creates a commit; the remaining updates stay uncommitted. The command prints Git status and downstream sync commands for the owner to run after review; it does not run those cross-repository syncs.
 
 Build the Lambda container from the repository root:
 

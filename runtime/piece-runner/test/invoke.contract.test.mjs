@@ -5,8 +5,14 @@ import { syncBuiltinESMExports } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { pieceRunner } from '../index.mjs';
 import { runnerErrors } from '../errors.mjs';
-const discord = { piece: '@activepieces/piece-discord', version: '0.5.0', action: 'sendMessageWithBot', auth_type: 'API_KEY', auth: { type: 'API_KEY', apiKey: 'discord-contract-token' }, props: { channel_id: 'C123', message: 'contract message' }, timeout_ms: 15000 };
-const slack = { piece: '@activepieces/piece-slack', version: '0.17.0', action: 'send_channel_message', auth_type: 'OAUTH2', auth: { type: 'OAUTH2', access_token: 'slack-contract-token', raw: { team: { id: 'contract-team' } } }, props: { channel: 'C123', sendAsBot: true, text: 'contract message' }, timeout_ms: 15000 };
+import { pieceCatalog } from '../catalog.mjs';
+function requestTuple({ piece, action }) {
+  const entry = pieceCatalog.entries.find((candidate) => candidate.piece === piece && candidate.action === action);
+  assert.ok(entry, `Missing allowlisted action ${piece}/${action}`);
+  return { piece, version: entry.version, action };
+}
+const discord = { ...requestTuple({ piece: '@activepieces/piece-discord', action: 'sendMessageWithBot' }), auth_type: 'API_KEY', auth: { type: 'API_KEY', apiKey: 'discord-contract-token' }, props: { channel_id: 'C123', message: 'contract message' }, timeout_ms: 15000 };
+const slack = { ...requestTuple({ piece: '@activepieces/piece-slack', action: 'send_channel_message' }), auth_type: 'OAUTH2', auth: { type: 'OAUTH2', access_token: 'slack-contract-token', raw: { team: { id: 'contract-team' } } }, props: { channel: 'C123', sendAsBot: true, text: 'contract message' }, timeout_ms: 15000 };
 const output = { id: 'message-123', content: 'contract message', nested: { untouched: true } };
 const defaultMemoryMb = { '@activepieces/piece-slack': 512, '@activepieces/piece-google-calendar': 512, '@activepieces/piece-google-drive': 512 };
 const originalSpawn = childProcess.spawn;
@@ -31,18 +37,18 @@ test('runs installed Discord and Slack actions in an empty child environment and
   assert.deepEqual(await run({ request: { ...slack, auth: userAuth, props: { ...slack.props, sendAsBot: false } }, body: slackOutput }), { status: 'completed', output: slackOutput });
 });
 test('Google Sheets passes the OAuth token through its nested HTTP client', async () => {
-  const request = { piece: '@activepieces/piece-google-sheets', version: '0.14.6', action: 'get-many-rows', auth_type: 'OAUTH2', auth: { access_token: 'sheets-contract-token', data: {} }, props: { spreadsheetId: 'contract-sheet', sheetId: 0, first_row_headers: false }, timeout_ms: 15000 };
+  const request = { ...requestTuple({ piece: '@activepieces/piece-google-sheets', action: 'get-many-rows' }), auth_type: 'OAUTH2', auth: { access_token: 'sheets-contract-token', data: {} }, props: { spreadsheetId: 'contract-sheet', sheetId: 0, first_row_headers: false }, timeout_ms: 15000 };
   const baseUrl = 'https://sheets.googleapis.com/v4/spreadsheets/contract-sheet';
   const requests = [{ url: baseUrl, method: 'GET', body: { sheets: [{ properties: { sheetId: 0, title: 'Sheet1' } }] } }, { url: `${baseUrl}/values/Sheet1`, method: 'GET', body: {} }];
   assert.deepEqual(await run({ request, requests }), { status: 'completed', output: [] });
 });
 test('Google Calendar passes the OAuth token through its nested HTTP client', async () => {
-  const request = { piece: '@activepieces/piece-google-calendar', version: '0.9.1', action: 'google_calendar_get_event_by_id', auth_type: 'OAUTH2', auth: { access_token: 'calendar-contract-token', raw: {} }, props: { calendar_id: 'primary', event_id: 'contract-event' }, timeout_ms: 15000 };
+  const request = { ...requestTuple({ piece: '@activepieces/piece-google-calendar', action: 'google_calendar_get_event_by_id' }), auth_type: 'OAUTH2', auth: { access_token: 'calendar-contract-token', raw: {} }, props: { calendar_id: 'primary', event_id: 'contract-event' }, timeout_ms: 15000 };
   const body = { id: 'contract-event', summary: 'Contract event' };
   assert.deepEqual(await run({ request, body, method: 'GET', url: 'https://www.googleapis.com/calendar/v3/calendars/primary/events/contract-event' }), { status: 'completed', output: body });
 });
 test('Google Drive passes the OAuth token, defaults to its entry memory and refuses requests above 512 MiB', async () => {
-  const request = { piece: '@activepieces/piece-google-drive', version: '0.7.5', action: 'create_new_gdrive_folder', auth_type: 'OAUTH2', auth: { access_token: 'drive-contract-token', data: {} }, props: { folderName: 'Contract folder' }, timeout_ms: 15000 };
+  const request = { ...requestTuple({ piece: '@activepieces/piece-google-drive', action: 'create_new_gdrive_folder' }), auth_type: 'OAUTH2', auth: { access_token: 'drive-contract-token', data: {} }, props: { folderName: 'Contract folder' }, timeout_ms: 15000 };
   const body = { id: 'contract-folder', name: 'Contract folder' };
   assert.deepEqual(await run({ request, body, url: 'https://www.googleapis.com/drive/v3/files', memoryMb: 512 }), { status: 'completed', output: body });
   assert.deepEqual(await run({ request: { ...request, memory_mb: 384 }, body, url: 'https://www.googleapis.com/drive/v3/files' }), { status: 'completed', output: body });

@@ -4,6 +4,8 @@ This directory contains catalog-only extraction for a pilot set of Activepieces
 pieces. The generated files are candidate source data for downstream connector
 mapping; they do not enable or imply Activepieces runtime execution.
 
+See [Updating pieces](../../runtime/piece-runner/README.md#updating-pieces) for the upstream refresh command and review workflow.
+
 ## Commands
 
 ```bash
