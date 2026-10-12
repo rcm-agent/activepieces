@@ -71,7 +71,9 @@ Auth input is selected exclusively by `auth_type`: `API_KEY` accepts `{ apiKey }
 
 Every `API_KEY`, `BASIC` and `CUSTOM_AUTH` invocation, including property loaders, requires `allowed_hosts`: 1-10 lowercase DNS names saved with the credential, without IP literals or wildcards. Missing or invalid lists return `ALLOWED_HOSTS_REQUIRED` before piece code loads. The fresh worker guards outbound hostname lookups and socket connections for its lifetime, refuses hosts outside that list and resolved non-public addresses, and refuses IP-literal connections with `EGRESS_HOST_REFUSED`. ServiceNow needs its instance hostname; DocuSign needs its OAuth and API hostnames; Shippo needs `api.goshippo.com`.
 
-`OAUTH2` retains `{ access_token, raw }` or `{ access_token, data }`, with `raw` taking precedence and becoming AP's `data`. OAuth calls require no host list and retain their existing egress behavior. `apiKey` takes precedence over `secret_text` when both are supplied.
+`OAUTH2` retains `{ access_token, raw }` or `{ access_token, data }`, with `raw` taking precedence and becoming AP's `data`. When the piece declares OAuth2 auth props, supply `auth.props`; the runner validates them with the same required-field, unknown-key, type and static-choice checks as CustomAuth and passes a copy to the piece. QuickBooks Online and QuickBooks Online Sandbox require `auth.props.companyId`. Pieces without OAuth2 auth props accept an absent or empty `auth.props` and retain `{ type, access_token, data }`. Auth prop strings are redacted from failures. OAuth calls require no host list and retain their existing egress behavior. `apiKey` takes precedence over `secret_text` when both are supplied.
+
+The finance catalog admits 11 actions each for QuickBooks Online and QuickBooks Online Sandbox and 13 for Xero. Xero takes its organization through the action's loadable `tenant_id` prop.
 
 Microsoft 365 actions accept `OAUTH2` and use `https://graph.microsoft.com`; Outlook defaults to the connected user's `/me` mailbox. Outlook email attachments remain unavailable because supplied File props are refused.
 
@@ -100,7 +102,7 @@ node export-actions.mjs actions.json
 
 The version check compares the lock and installed pieces with the fork's piece manifests using each entry's explicit `forkDirectory`. Pieces retain their own nested (older versions) or bundled (newer versions) framework, common and shared code, so the runner's root framework, common and shared pins are not compared with the fork. Export reads metadata from installed piece code, including props, required flags, descriptions, declared auth kinds and versions. Exported action IDs use deterministic snake case (`sendMessageWithBot` → `send_message_with_bot`). Each prop includes `display_name` and a `default` when its value survives JSON serialization unchanged. Static dropdowns include ordered `options` with their original value types. Loaded dropdowns and dynamic fields include `refreshers` (default `[]`); loaded dropdowns also include `refresh_on_search` (default `false`). Nested `properties` use the same export. Placeholders, disabled states and loader code are not exported.
 
-Each exported action retains `auth_kinds` and adds `auth: { kind, props }` describing its first declared auth kind. CustomAuth fields use the same metadata export as action props; other auth kinds have empty `props`. Types are the declared types: ServiceNow's `password` remains `SHORT_TEXT`, while DocuSign's `privateKey` is `SECRET_TEXT`.
+Each exported action retains `auth_kinds` and adds `auth: { kind, props }` describing its first declared auth kind. CustomAuth and declared OAuth2 fields use the same metadata export as action props; auth kinds without declared fields have empty `props`. Types are the declared types: ServiceNow's `password` remains `SHORT_TEXT`, while DocuSign's `privateKey` is `SECRET_TEXT`.
 
 ## Updating pieces
 

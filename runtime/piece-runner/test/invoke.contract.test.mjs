@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { after, test } from 'node:test';
 import childProcess from 'node:child_process';
+import { existsSync } from 'node:fs';
 import { mkdtemp, mkdir, readFile, writeFile, rm } from 'node:fs/promises';
 import { syncBuiltinESMExports } from 'node:module';
 import { tmpdir } from 'node:os';
@@ -20,6 +21,7 @@ const discord = { ...requestTuple({ piece: '@activepieces/piece-discord', action
 const slack = { ...requestTuple({ piece: '@activepieces/piece-slack', action: 'send_channel_message' }), auth_type: 'OAUTH2', auth: { type: 'OAUTH2', access_token: 'slack-contract-token', raw: { team: { id: 'contract-team' } } }, props: { channel: 'C123', sendAsBot: true, text: 'contract message' }, timeout_ms: 15000 };
 const teams = { ...requestTuple({ piece: '@activepieces/piece-microsoft-teams', action: 'microsoft_teams_send_channel_message' }), auth_type: 'OAUTH2', auth: { access_token: 'teams-contract-token', raw: {} }, props: { teamId: 'contract-team' }, timeout_ms: 15000 };
 const output = { id: 'message-123', content: 'contract message', nested: { untouched: true } };
+const installedOptions = { skip: pieceCatalog.entries.some((entry) => !existsSync(new URL(`../node_modules/${entry.piece}/package.json`, import.meta.url))) ? 'Pinned packages are unavailable; run installed-piece checks in the runner image.' : false };
 const originalSpawn = childProcess.spawn;
 let fixture;
 let spawnCount = 0;
@@ -34,7 +36,7 @@ function run({ request = discord, body = output, status = 200, mode, url, method
   fixture = { body, status, mode, method, requests, memoryMb, url: url ?? (request.piece === slack.piece ? 'https://slack.com/api/chat.postMessage' : 'https://discord.com/api/v10/channels/C123/messages'), authorization };
   return pieceRunner.invoke(request);
 }
-test('runs installed Discord and Slack actions in an empty child environment and preserves output', async () => {
+test('runs installed Discord and Slack actions in an empty child environment and preserves output', installedOptions, async () => {
   assert.deepEqual(await run(), { status: 'completed', output });
   assert.deepEqual(await run({ request: { ...discord, mode: 'run' } }), { status: 'completed', output });
   assert.deepEqual(await run({ request: { ...discord, auth: { secret_text: discord.auth.apiKey } } }), { status: 'completed', output });
@@ -46,18 +48,18 @@ test('runs installed Discord and Slack actions in an empty child environment and
   const userAuth = { ...slack.auth, raw: { authed_user: { access_token: 'slack-user-contract-token' } } };
   assert.deepEqual(await run({ request: { ...slack, auth: userAuth, props: { ...slack.props, sendAsBot: false } }, body: slackOutput }), { status: 'completed', output: slackOutput });
 });
-test('Google Sheets passes the OAuth token through its nested HTTP client', async () => {
+test('Google Sheets passes the OAuth token through its nested HTTP client', installedOptions, async () => {
   const request = { ...requestTuple({ piece: '@activepieces/piece-google-sheets', action: 'get-many-rows' }), auth_type: 'OAUTH2', auth: { access_token: 'sheets-contract-token', data: {} }, props: { spreadsheetId: 'contract-sheet', sheetId: 0, first_row_headers: false }, timeout_ms: 15000 };
   const baseUrl = 'https://sheets.googleapis.com/v4/spreadsheets/contract-sheet';
   const requests = [{ url: baseUrl, method: 'GET', body: { sheets: [{ properties: { sheetId: 0, title: 'Sheet1' } }] } }, { url: `${baseUrl}/values/Sheet1`, method: 'GET', body: {} }];
   assert.deepEqual(await run({ request, requests }), { status: 'completed', output: [] });
 });
-test('Google Calendar passes the OAuth token through its nested HTTP client', async () => {
+test('Google Calendar passes the OAuth token through its nested HTTP client', installedOptions, async () => {
   const request = { ...requestTuple({ piece: '@activepieces/piece-google-calendar', action: 'google_calendar_get_event_by_id' }), auth_type: 'OAUTH2', auth: { access_token: 'calendar-contract-token', raw: {} }, props: { calendar_id: 'primary', event_id: 'contract-event' }, timeout_ms: 15000 };
   const body = { id: 'contract-event', summary: 'Contract event' };
   assert.deepEqual(await run({ request, body, method: 'GET', url: 'https://www.googleapis.com/calendar/v3/calendars/primary/events/contract-event' }), { status: 'completed', output: body });
 });
-test('Google Drive passes the OAuth token, defaults to 256 MiB, honors a request limit and refuses requests above 512 MiB', async () => {
+test('Google Drive passes the OAuth token, defaults to 256 MiB, honors a request limit and refuses requests above 512 MiB', installedOptions, async () => {
   const request = { ...requestTuple({ piece: '@activepieces/piece-google-drive', action: 'create_new_gdrive_folder' }), auth_type: 'OAUTH2', auth: { access_token: 'drive-contract-token', data: {} }, props: { folderName: 'Contract folder' }, timeout_ms: 15000 };
   const body = { id: 'contract-folder', name: 'Contract folder' };
   assert.deepEqual(await run({ request, body, url: 'https://www.googleapis.com/drive/v3/files?supportsAllDrives=false', memoryMb: 256 }), { status: 'completed', output: body });
@@ -65,39 +67,39 @@ test('Google Drive passes the OAuth token, defaults to 256 MiB, honors a request
   const result = await run({ request: { ...request, memory_mb: 513 } });
   assert.deepEqual([result.status, result.refusal?.code], ['refused', 'INVALID_LIMIT']);
 });
-test('Microsoft Outlook passes the OAuth token to the default Graph mailbox', async () => {
+test('Microsoft Outlook passes the OAuth token to the default Graph mailbox', installedOptions, async () => {
   const request = { ...requestTuple({ piece: '@activepieces/piece-microsoft-outlook', action: 'outlook_get_message' }), auth_type: 'OAUTH2', auth: { access_token: 'outlook-contract-token', raw: {} }, props: { messageId: 'contract-message' }, timeout_ms: 15000 };
   const body = { id: 'contract-message', subject: 'Contract message' };
   assert.deepEqual(await run({ request, body, method: 'GET', url: 'https://graph.microsoft.com/v1.0/me/messages/contract-message' }), { status: 'completed', output: body });
 });
-test('Microsoft Outlook Calendar passes the OAuth token to the default Graph calendar', async () => {
+test('Microsoft Outlook Calendar passes the OAuth token to the default Graph calendar', installedOptions, async () => {
   const request = { ...requestTuple({ piece: '@activepieces/piece-microsoft-outlook-calendar', action: 'list_events' }), auth_type: 'OAUTH2', auth: { access_token: 'outlook-calendar-contract-token', data: {} }, props: { calendarId: 'contract-calendar' }, timeout_ms: 15000 };
   const body = { value: [{ id: 'contract-event', subject: 'Contract event' }] };
   assert.deepEqual(await run({ request, body, method: 'GET', url: 'https://graph.microsoft.com/v1.0/me/calendars/contract-calendar/events' }), { status: 'completed', output: body });
 });
-test('Microsoft Teams passes the OAuth token through its Graph client', async () => {
+test('Microsoft Teams passes the OAuth token through its Graph client', installedOptions, async () => {
   const request = { ...requestTuple({ piece: '@activepieces/piece-microsoft-teams', action: 'microsoft_teams_get_channel_message' }), auth_type: 'OAUTH2', auth: { access_token: 'teams-contract-token', raw: {} }, props: { teamId: 'contract-team', channelId: 'contract-channel', messageId: 'contract-message' }, timeout_ms: 15000 };
   const body = { id: 'contract-message', body: { content: 'Contract message' } };
   assert.deepEqual(await run({ request, body, method: 'GET', url: 'https://graph.microsoft.com/v1.0/teams/contract-team/channels/contract-channel/messages/contract-message' }), { status: 'completed', output: body });
 });
-test('loads Teams channel options without running the send action or requiring its other props', async () => {
+test('loads Teams channel options without running the send action or requiring its other props', installedOptions, async () => {
   const channels = [{ id: 'contract-channel', displayName: 'Contract channel' }, { id: 'second-channel', displayName: 'Second channel' }];
   const request = { ...teams, mode: 'options', property: 'channelId' };
   const requests = [{ method: 'GET', url: 'https://graph.microsoft.com/v1.0/teams/contract-team/channels', body: { value: channels } }];
   assert.deepEqual(await run({ request, requests }), { status: 'completed', output: { disabled: false, placeholder: null, options: channels.map((channel) => ({ label: channel.displayName, value: channel.id })) } });
 });
-test('passes search_value to the Google Drive folder loader', async () => {
+test('passes search_value to the Google Drive folder loader', installedOptions, async () => {
   const request = { ...requestTuple({ piece: '@activepieces/piece-google-drive', action: 'create_new_gdrive_folder' }), mode: 'options', property: 'parentFolder', search_value: '  Contract  ', auth_type: 'OAUTH2', auth: { access_token: 'drive-contract-token', data: {} }, props: {}, timeout_ms: 15000 };
   const requests = [{ method: 'GET', url: 'https://www.googleapis.com/drive/v3/files?q=mimeType%3D%27application%2Fvnd.google-apps.folder%27+and+trashed+%3D+false+and+name+contains+%27Contract%27&includeItemsFromAllDrives=false&supportsAllDrives=true&corpora=user&pageSize=1000&fields=nextPageToken%2C+files%28id%2C+name%29', body: { files: [{ id: 'contract-folder', name: 'Contract folder' }] } }];
   assert.deepEqual(await run({ request, requests }), { status: 'completed', output: { disabled: false, placeholder: null, options: [{ label: 'Contract folder', value: 'contract-folder' }] } });
 });
-test('exports Excel dynamic header props with defaults and without running append_row', async () => {
+test('exports Excel dynamic header props with defaults and without running append_row', installedOptions, async () => {
   const request = { ...requestTuple({ piece: '@activepieces/piece-microsoft-excel-365', action: 'append_row' }), mode: 'props', property: 'values', auth_type: 'OAUTH2', auth: { access_token: 'excel-contract-token', data: {} }, props: { workbookId: 'contract-workbook', worksheetId: 'contract-worksheet', isFirstRowHeaders: true }, timeout_ms: 15000 };
   const requests = [{ method: 'GET', url: "https://graph.microsoft.com/v1.0/me/drive/items/contract-workbook/workbook/worksheets/contract-worksheet/range(address='A1:ZZ1')/usedRange", body: { values: [['Name', 'Count']] } }];
   const props = { 0: { type: 'SHORT_TEXT', required: false, description: 'Name', display_name: 'Name', default: '' }, 1: { type: 'SHORT_TEXT', required: false, description: 'Count', display_name: 'Count', default: '' } };
   assert.deepEqual(await run({ request, requests }), { status: 'completed', output: { props } });
 });
-test('refuses invalid loader requests before spawning a worker', async () => {
+test('refuses invalid loader requests before spawning a worker', installedOptions, async () => {
   for (const [request, code] of [
     [{ ...teams, mode: 'unknown' }, 'INVALID_MODE'],
     [{ ...teams, mode: 'options' }, 'PROPERTY_NOT_LOADABLE'],
@@ -116,29 +118,29 @@ test('refuses invalid loader requests before spawning a worker', async () => {
     assert.equal(spawnCount, before);
   }
 });
-test('refuses supplied FILE props in an options worker', async () => {
+test('refuses supplied FILE props in an options worker', installedOptions, async () => {
   const before = spawnCount;
   const result = await run({ request: { ...slack, mode: 'options', property: 'channel', props: { file: { filename: 'file.txt' } } }, requests: [] });
   assert.deepEqual([result.status, result.refusal?.code], ['refused', 'FILE_PROP_REFUSED']);
   assert.equal(spawnCount, before + 1);
 });
-test('Microsoft Excel passes the OAuth token through its Graph client', async () => {
+test('Microsoft Excel passes the OAuth token through its Graph client', installedOptions, async () => {
   const request = { ...requestTuple({ piece: '@activepieces/piece-microsoft-excel-365', action: 'get_worksheets' }), auth_type: 'OAUTH2', auth: { access_token: 'excel-contract-token', data: {} }, props: { storageSource: 'onedrive', workbookId: 'contract-workbook', returnAll: true }, timeout_ms: 15000 };
   const worksheets = [{ id: 'contract-worksheet', name: 'Sheet1', position: 0 }];
   assert.deepEqual(await run({ request, body: { value: worksheets }, method: 'GET', url: 'https://graph.microsoft.com/v1.0/me/drive/items/contract-workbook/workbook/worksheets' }), { status: 'completed', output: worksheets });
 });
-test('Microsoft OneDrive passes the OAuth token to the default Graph drive', async () => {
+test('Microsoft OneDrive passes the OAuth token to the default Graph drive', installedOptions, async () => {
   const request = { ...requestTuple({ piece: '@activepieces/piece-microsoft-onedrive', action: 'onedrive_get_item' }), auth_type: 'OAUTH2', auth: { access_token: 'onedrive-contract-token', raw: {} }, props: { itemId: 'contract-item' }, timeout_ms: 15000 };
   const body = { id: 'contract-item', name: 'Contract file' };
   const output = { ...body, type: 'file', mimeType: null, size: null, webUrl: null, createdDateTime: null, lastModifiedDateTime: null, childCount: null, parentId: null, parentPath: null, driveId: null, driveType: null, createdByName: null, createdByEmail: null, lastModifiedByName: null, lastModifiedByEmail: null, description: null, deleted: false, remoteItemId: null, remoteDriveId: null };
   assert.deepEqual(await run({ request, body, method: 'GET', url: 'https://graph.microsoft.com/v1.0/me/drive/items/contract-item' }), { status: 'completed', output });
 });
-test('Microsoft SharePoint passes the OAuth token through its Graph client', async () => {
+test('Microsoft SharePoint passes the OAuth token through its Graph client', installedOptions, async () => {
   const request = { ...requestTuple({ piece: '@activepieces/piece-microsoft-sharepoint', action: 'microsoft_sharepoint_get_folder_contents' }), auth_type: 'OAUTH2', auth: { access_token: 'sharepoint-contract-token', data: {} }, props: { siteId: 'contract-site', driveId: 'contract-drive', folderId: 'root' }, timeout_ms: 15000 };
   const items = [{ id: 'contract-item', name: 'Contract folder', folder: { childCount: 0 } }];
   assert.deepEqual(await run({ request, body: { value: items }, method: 'GET', url: 'https://graph.microsoft.com/v1.0/sites/contract-site/drive/root/children' }), { status: 'completed', output: items });
 });
-test('refuses invalid calls, unavailable store/server services, hung actions and excessive output or limits', async () => {
+test('refuses invalid calls, unavailable store/server services, hung actions and excessive output or limits', installedOptions, async () => {
   for (const [request, response, code] of [
     [{ ...discord, auth_type: 'BASIC' }, {}, 'AUTH_TYPE_MISMATCH'],
     [{ ...slack, auth_type: 'API_KEY', allowed_hosts: ['slack.com'] }, {}, 'AUTH_TYPE_MISMATCH'],
@@ -159,7 +161,7 @@ test('refuses invalid calls, unavailable store/server services, hung actions and
     assert.deepEqual([result.status, result.refusal?.code], ['refused', code]);
   }
 });
-test('provider errors expose only class, HTTP status and a message with every auth string scrubbed', async () => {
+test('provider errors expose only class, HTTP status and a message with every auth string scrubbed', installedOptions, async () => {
   const auth = { apiKey: discord.auth.apiKey, raw: { other: 'raw-provider-contract-secret' } };
   const result = await run({ request: { ...discord, auth }, status: 400, body: { message: `${auth.apiKey} ${auth.raw.other}` } });
   assert.deepEqual([result.status, result.error.class, result.error.http_status], ['failed', 'HttpError', 400]);
@@ -217,6 +219,54 @@ test('stub CustomAuth validates declared credentials and reaches context.auth.pr
     const basic = { props: { username: 'contract-username', password: 'contract-password' } };
     const encoded = Buffer.from(`${basic.props.username}:${basic.props.password}`).toString('base64');
     assert.equal(runnerErrors.failure({ error: new Error(`Basic ${encoded}`), auth: basic }).error.message, 'Basic [REDACTED]');
+  } finally { await rm(packageRoot, { recursive: true, force: true }); }
+});
+
+test('stub OAuth2 declared props refuse invalid credentials before running and preserve no-props auth', async () => {
+  const packageRoot = await mkdtemp(join(tmpdir(), 'piece-runner-oauth-props-'));
+  try {
+    await writeFile(join(packageRoot, 'package.json'), '{}');
+    const finance = pieceCatalog.entries.filter((entry) => ['@activepieces/piece-quickbooks', '@activepieces/piece-quickbooks-sandbox', '@activepieces/piece-xero'].includes(entry.piece));
+    const pieces = [...new Map([...finance, ...pieceCatalog.entries.filter((entry) => [slack.piece, '@activepieces/piece-google-sheets', '@activepieces/piece-microsoft-teams'].includes(entry.piece))].map((entry) => [entry.piece, entry])).values()];
+    const declarations = { companyId: { type: 'SHORT_TEXT', displayName: 'Company ID', required: true }, environment: { type: 'STATIC_DROPDOWN', required: false, options: { options: [{ label: 'Production', value: 'production' }, { label: 'Sandbox', value: 'sandbox' }] } } };
+    for (const entry of pieces) {
+      const auth = { type: 'OAUTH2', ...(entry.forkDirectory.startsWith('quickbooks') ? { props: declarations } : {}) };
+      const target = join(packageRoot, 'node_modules', entry.piece);
+      await mkdir(target, { recursive: true });
+      await writeFile(join(target, 'package.json'), JSON.stringify({ version: entry.version, main: 'index.cjs' }));
+      await writeFile(join(target, 'index.cjs'), `const piece = { runs: 0, auth: ${JSON.stringify(auth)}, getAction: () => ({ props: { fail: { type: 'CHECKBOX', required: false }, tenant_id: { type: 'DROPDOWN', required: true, options: async ({ auth }) => ({ options: [{ label: auth.props?.companyId ?? auth.access_token, value: 'contract-tenant' }] }) } }, run: ({ auth, propsValue }) => { piece.runs += 1; if (propsValue.fail) throw new Error('Company ' + auth.props.companyId + ' failed'); return auth; } }) }; module.exports = { ${entry.exportName}: piece };`);
+    }
+    const catalog = { prepare: ({ request }) => pieceCatalog.prepare({ request, packageRoot }), prepareLoader: ({ request }) => pieceCatalog.prepareLoader({ request, packageRoot }) };
+    for (const entry of pieces) {
+      const request = { ...requestTuple({ piece: entry.piece, action: entry.action }), auth_type: 'OAUTH2', auth: { access_token: 'oauth-contract-token', raw: { provider: 'contract-provider' } }, props: { tenant_id: 'contract-tenant' } };
+      const loaded = pieceCatalog.loadAction({ ...request, packageRoot });
+      if (entry.forkDirectory.startsWith('quickbooks')) {
+        const props = { companyId: '123456789012345', environment: 'production' };
+        for (const invalid of [undefined, null, [], {}, { environment: 'production' }, { ...props, unknown: 'value' }, { ...props, companyId: '' }, { ...props, companyId: 123456789012345 }, { ...props, companyId: 'x'.repeat(4097) }, { ...props, environment: 'Production' }]) {
+          await assert.rejects(runnerExecution.execute({ request: { ...request, auth: { ...request.auth, props: invalid } }, pieceCatalog: catalog }), { name: 'RunnerRefusal', code: 'INVALID_AUTH' });
+          assert.equal(loaded.piece.runs, 0);
+        }
+        request.auth.props = props;
+        assert.deepEqual(await runnerExecution.execute({ request, pieceCatalog: catalog }), { type: 'OAUTH2', access_token: request.auth.access_token, data: request.auth.raw, props });
+        assert.notEqual(pieceCatalog.prepare({ request, packageRoot }).auth.props, props);
+        assert.deepEqual(await runnerExecution.execute({ request: { ...request, mode: 'options', property: 'tenant_id', props: {} }, pieceCatalog: catalog }), { options: [{ label: props.companyId, value: 'contract-tenant' }], disabled: false, placeholder: null });
+        const failure = await runnerExecution.execute({ request: { ...request, props: { ...request.props, fail: true } }, pieceCatalog: catalog }).catch((error) => runnerErrors.failure({ error, auth: request.auth }));
+        assert.deepEqual(failure, { status: 'failed', error: { class: 'Error', http_status: null, message: 'Company [REDACTED] failed' } });
+      } else {
+        for (const invalid of [{ x: '1' }, null, [], 'value']) {
+          await assert.rejects(runnerExecution.execute({ request: { ...request, auth: { ...request.auth, props: invalid } }, pieceCatalog: catalog }), { code: 'INVALID_AUTH' });
+          assert.equal(loaded.piece.runs, 0);
+        }
+        for (const props of [undefined, {}]) {
+          assert.deepEqual(await runnerExecution.execute({ request: { ...request, auth: { ...request.auth, props } }, pieceCatalog: catalog }), { type: 'OAUTH2', access_token: request.auth.access_token, data: request.auth.raw });
+        }
+        if (entry.forkDirectory === 'xero') assert.deepEqual(await runnerExecution.execute({ request: { ...request, mode: 'options', property: 'tenant_id', props: {} }, pieceCatalog: catalog }), { options: [{ label: request.auth.access_token, value: 'contract-tenant' }], disabled: false, placeholder: null });
+      }
+    }
+    for (const entry of pieces.filter((entry) => ['quickbooks', 'quickbooks-sandbox', 'xero'].includes(entry.forkDirectory))) {
+      const result = await pieceRunner.invoke({ ...requestTuple({ piece: entry.piece, action: entry.action }), action: 'custom_api_call', auth_type: 'OAUTH2', auth: { access_token: 'oauth-contract-token' } });
+      assert.deepEqual([result.status, result.refusal?.code], ['refused', 'ACTION_NOT_ALLOWLISTED']);
+    }
   } finally { await rm(packageRoot, { recursive: true, force: true }); }
 });
 

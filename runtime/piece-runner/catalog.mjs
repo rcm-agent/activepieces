@@ -125,6 +125,11 @@ function buildAuth({ authType, auth, piece }) {
   }
   const data = auth.raw ?? auth.data ?? {};
   if (!nonemptyString(auth.access_token) || !isRecord(data)) throw invalidAuth();
+  if (declaration.props !== undefined) {
+    validateAuthProps({ declarations: declaration.props, props: auth.props });
+    return { type, access_token: auth.access_token, data, props: { ...auth.props } };
+  }
+  if (auth.props !== undefined) validateAuthProps({ declarations: {}, props: auth.props });
   return { type, access_token: auth.access_token, data };
 }
 
@@ -138,7 +143,7 @@ function authDeclarations({ piece }) {
 
 function exportAuth({ piece }) {
   const [declaration] = authDeclarations({ piece });
-  return { kind: declaration.type, props: declaration.type === 'CUSTOM_AUTH' ? exportProps({ declarations: declaration.props }) : {} };
+  return { kind: declaration.type, props: declaration.type === 'CUSTOM_AUTH' || (declaration.type === 'OAUTH2' && declaration.props !== undefined) ? exportProps({ declarations: declaration.props }) : {} };
 }
 
 function validateAuthProps({ declarations, props }) {
@@ -319,6 +324,41 @@ const entries = Object.freeze([
   { piece: '@activepieces/piece-shippo', action: 'create_order', exportName: 'shippo', forkDirectory: 'shippo' },
   { piece: '@activepieces/piece-shippo', action: 'find_order', exportName: 'shippo', forkDirectory: 'shippo' },
   { piece: '@activepieces/piece-shippo', action: 'find_shipping_label', exportName: 'shippo', forkDirectory: 'shippo' },
+  { piece: '@activepieces/piece-quickbooks', action: 'find_invoice', exportName: 'quickbooks', forkDirectory: 'quickbooks' },
+  { piece: '@activepieces/piece-quickbooks', action: 'find_customer', exportName: 'quickbooks', forkDirectory: 'quickbooks' },
+  { piece: '@activepieces/piece-quickbooks', action: 'find_payment', exportName: 'quickbooks', forkDirectory: 'quickbooks' },
+  { piece: '@activepieces/piece-quickbooks', action: 'find_vendor', exportName: 'quickbooks', forkDirectory: 'quickbooks' },
+  { piece: '@activepieces/piece-quickbooks', action: 'find_account', exportName: 'quickbooks', forkDirectory: 'quickbooks' },
+  { piece: '@activepieces/piece-quickbooks', action: 'read_aging_report', exportName: 'quickbooks', forkDirectory: 'quickbooks' },
+  { piece: '@activepieces/piece-quickbooks', action: 'create_invoice', exportName: 'quickbooks', forkDirectory: 'quickbooks' },
+  { piece: '@activepieces/piece-quickbooks', action: 'create_bill', exportName: 'quickbooks', forkDirectory: 'quickbooks' },
+  { piece: '@activepieces/piece-quickbooks', action: 'create_vendor', exportName: 'quickbooks', forkDirectory: 'quickbooks' },
+  { piece: '@activepieces/piece-quickbooks', action: 'record_payment', exportName: 'quickbooks', forkDirectory: 'quickbooks' },
+  { piece: '@activepieces/piece-quickbooks', action: 'record_bill_payment', exportName: 'quickbooks', forkDirectory: 'quickbooks' },
+  { piece: '@activepieces/piece-quickbooks-sandbox', action: 'find_invoice', exportName: 'quickbooksSandbox', forkDirectory: 'quickbooks-sandbox' },
+  { piece: '@activepieces/piece-quickbooks-sandbox', action: 'find_customer', exportName: 'quickbooksSandbox', forkDirectory: 'quickbooks-sandbox' },
+  { piece: '@activepieces/piece-quickbooks-sandbox', action: 'find_payment', exportName: 'quickbooksSandbox', forkDirectory: 'quickbooks-sandbox' },
+  { piece: '@activepieces/piece-quickbooks-sandbox', action: 'find_vendor', exportName: 'quickbooksSandbox', forkDirectory: 'quickbooks-sandbox' },
+  { piece: '@activepieces/piece-quickbooks-sandbox', action: 'find_account', exportName: 'quickbooksSandbox', forkDirectory: 'quickbooks-sandbox' },
+  { piece: '@activepieces/piece-quickbooks-sandbox', action: 'read_aging_report', exportName: 'quickbooksSandbox', forkDirectory: 'quickbooks-sandbox' },
+  { piece: '@activepieces/piece-quickbooks-sandbox', action: 'create_invoice', exportName: 'quickbooksSandbox', forkDirectory: 'quickbooks-sandbox' },
+  { piece: '@activepieces/piece-quickbooks-sandbox', action: 'create_bill', exportName: 'quickbooksSandbox', forkDirectory: 'quickbooks-sandbox' },
+  { piece: '@activepieces/piece-quickbooks-sandbox', action: 'create_vendor', exportName: 'quickbooksSandbox', forkDirectory: 'quickbooks-sandbox' },
+  { piece: '@activepieces/piece-quickbooks-sandbox', action: 'record_payment', exportName: 'quickbooksSandbox', forkDirectory: 'quickbooks-sandbox' },
+  { piece: '@activepieces/piece-quickbooks-sandbox', action: 'record_bill_payment', exportName: 'quickbooksSandbox', forkDirectory: 'quickbooks-sandbox' },
+  { piece: '@activepieces/piece-xero', action: 'xero_find_contact', exportName: 'xero', forkDirectory: 'xero' },
+  { piece: '@activepieces/piece-xero', action: 'xero_find_invoice', exportName: 'xero', forkDirectory: 'xero' },
+  { piece: '@activepieces/piece-xero', action: 'xero_get_invoice', exportName: 'xero', forkDirectory: 'xero' },
+  { piece: '@activepieces/piece-xero', action: 'xero_search_invoices', exportName: 'xero', forkDirectory: 'xero' },
+  { piece: '@activepieces/piece-xero', action: 'xero_search_payments', exportName: 'xero', forkDirectory: 'xero' },
+  { piece: '@activepieces/piece-xero', action: 'xero_get_aged_receivables', exportName: 'xero', forkDirectory: 'xero' },
+  { piece: '@activepieces/piece-xero', action: 'xero_get_aged_payables', exportName: 'xero', forkDirectory: 'xero' },
+  { piece: '@activepieces/piece-xero', action: 'xero_list_accounts', exportName: 'xero', forkDirectory: 'xero' },
+  { piece: '@activepieces/piece-xero', action: 'xero_list_organisations', exportName: 'xero', forkDirectory: 'xero' },
+  { piece: '@activepieces/piece-xero', action: 'xero_create_contact', exportName: 'xero', forkDirectory: 'xero' },
+  { piece: '@activepieces/piece-xero', action: 'xero_create_invoice', exportName: 'xero', forkDirectory: 'xero' },
+  { piece: '@activepieces/piece-xero', action: 'xero_create_bill', exportName: 'xero', forkDirectory: 'xero' },
+  { piece: '@activepieces/piece-xero', action: 'xero_create_payment', exportName: 'xero', forkDirectory: 'xero' },
 ].map((entry) => Object.freeze({ ...entry, version: dependencyVersion({ manifest: runnerManifest, name: entry.piece }) })));
 
 export const pieceCatalog = { entries, validateTuple, loadAction, prepare, validateLoader, prepareLoader, exportProps, exportAuth, exportActions, verifyVersions, camelToSnake };

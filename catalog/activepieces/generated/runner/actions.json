@@ -4381,5 +4381,2704 @@
         "display_name": "Label ID"
       }
     }
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks",
+    "version": "0.3.3",
+    "action": "find_invoice",
+    "id": "find_invoice",
+    "display_name": "Find Invoice",
+    "description": "Search for an invoice by its number in QuickBooks.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {
+      "invoice_number": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The document number (DocNumber) of the invoice to search for.",
+        "display_name": "Invoice Number"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks",
+    "version": "0.3.3",
+    "action": "find_customer",
+    "id": "find_customer",
+    "display_name": "Find Customer",
+    "description": "Search for a customer by display name in QuickBooks.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {
+      "search_term": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The display name of the customer to search for.",
+        "display_name": "Customer Name"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks",
+    "version": "0.3.3",
+    "action": "find_payment",
+    "id": "find_payment",
+    "display_name": "Find Payment",
+    "description": "Finds an existing payment in QuickBooks.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {
+      "customerId": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The ID of the customer to find payments for.",
+        "display_name": "Customer ID"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks",
+    "version": "0.3.3",
+    "action": "find_vendor",
+    "id": "find_vendor",
+    "display_name": "Find Vendor",
+    "description": "Search for a vendor in QuickBooks by display name, email address, or account number.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {
+      "searchBy": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Search By",
+        "default": "DisplayName",
+        "options": [
+          {
+            "label": "Vendor Name",
+            "value": "DisplayName"
+          },
+          {
+            "label": "Email Address",
+            "value": "Email"
+          },
+          {
+            "label": "Account Number",
+            "value": "AcctNum"
+          }
+        ]
+      },
+      "search_term": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The exact vendor display name, email address, or account number to search for, depending on Search By.",
+        "display_name": "Search Value"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks",
+    "version": "0.3.3",
+    "action": "find_account",
+    "id": "find_account",
+    "display_name": "Find Account",
+    "description": "List or search the chart of accounts to get an account Id (e.g. an expense account for a bill).",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {
+      "search_term": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Optional. Filter accounts whose name contains this text.",
+        "display_name": "Account Name Contains"
+      },
+      "accountType": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "Optional. Filter by account type.",
+        "display_name": "Account Type",
+        "options": [
+          {
+            "label": "Bank",
+            "value": "Bank"
+          },
+          {
+            "label": "Accounts Receivable",
+            "value": "Accounts Receivable"
+          },
+          {
+            "label": "Other Current Asset",
+            "value": "Other Current Asset"
+          },
+          {
+            "label": "Fixed Asset",
+            "value": "Fixed Asset"
+          },
+          {
+            "label": "Other Asset",
+            "value": "Other Asset"
+          },
+          {
+            "label": "Accounts Payable",
+            "value": "Accounts Payable"
+          },
+          {
+            "label": "Credit Card",
+            "value": "Credit Card"
+          },
+          {
+            "label": "Other Current Liability",
+            "value": "Other Current Liability"
+          },
+          {
+            "label": "Long Term Liability",
+            "value": "Long Term Liability"
+          },
+          {
+            "label": "Equity",
+            "value": "Equity"
+          },
+          {
+            "label": "Income",
+            "value": "Income"
+          },
+          {
+            "label": "Cost of Goods Sold",
+            "value": "Cost of Goods Sold"
+          },
+          {
+            "label": "Expense",
+            "value": "Expense"
+          },
+          {
+            "label": "Other Income",
+            "value": "Other Income"
+          },
+          {
+            "label": "Other Expense",
+            "value": "Other Expense"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks",
+    "version": "0.3.3",
+    "action": "read_aging_report",
+    "id": "read_aging_report",
+    "display_name": "Read AR/AP Aging",
+    "description": "Reads an accounts receivable or accounts payable aging report from QuickBooks.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {
+      "reportType": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Report",
+        "default": "AgedReceivables",
+        "options": [
+          {
+            "label": "A/R Aging Summary",
+            "value": "AgedReceivables"
+          },
+          {
+            "label": "A/R Aging Detail",
+            "value": "AgedReceivableDetail"
+          },
+          {
+            "label": "A/P Aging Summary",
+            "value": "AgedPayables"
+          },
+          {
+            "label": "A/P Aging Detail",
+            "value": "AgedPayableDetail"
+          }
+        ]
+      },
+      "reportDate": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": "The date to age balances against. Defaults to today if empty.",
+        "display_name": "As Of Date"
+      },
+      "agingPeriod": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Number of days in each aging bucket (e.g. 30).",
+        "display_name": "Days Per Period"
+      },
+      "numPeriods": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "How many aging buckets to include.",
+        "display_name": "Number of Periods"
+      },
+      "agingMethod": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "Whether buckets are calculated from the report date or from each transaction's due date.",
+        "display_name": "Aging Method",
+        "options": [
+          {
+            "label": "Report Date",
+            "value": "Report_Date"
+          },
+          {
+            "label": "Current",
+            "value": "Current"
+          }
+        ]
+      },
+      "pastDue": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Only include transactions overdue by at least this many days.",
+        "display_name": "Minimum Days Past Due"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks",
+    "version": "0.3.3",
+    "action": "create_invoice",
+    "id": "create_invoice",
+    "display_name": "Create Invoice",
+    "description": "Creates an invoice in QuickBooks.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {
+      "customerRef": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Customer",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "lineItems": {
+        "type": "ARRAY",
+        "required": true,
+        "description": "Line items for the invoice",
+        "display_name": "Line Items",
+        "properties": {
+          "description": {
+            "type": "SHORT_TEXT",
+            "required": false,
+            "description": "",
+            "display_name": "Description"
+          },
+          "amount": {
+            "type": "NUMBER",
+            "required": true,
+            "description": "Total amount for this line (Exclusive of tax). Required.",
+            "display_name": "Amount"
+          },
+          "detailType": {
+            "type": "STATIC_DROPDOWN",
+            "required": true,
+            "description": "",
+            "display_name": "Detail Type",
+            "default": "SalesItemLineDetail",
+            "options": [
+              {
+                "label": "Sales Item Line Detail",
+                "value": "SalesItemLineDetail"
+              }
+            ]
+          },
+          "itemId": {
+            "type": "SHORT_TEXT",
+            "required": true,
+            "description": "Enter the ID of the Item (Product/Service). Required for SalesItemLineDetail.",
+            "display_name": "Item ID (Product/Service)"
+          },
+          "quantity": {
+            "type": "NUMBER",
+            "required": false,
+            "description": "",
+            "display_name": "Quantity"
+          },
+          "unitPrice": {
+            "type": "NUMBER",
+            "required": false,
+            "description": "If specified, Amount will be Qty * UnitPrice. If Amount is also specified, Amount overrides calculation.",
+            "display_name": "Unit Price"
+          }
+        }
+      },
+      "emailStatus": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "Specify whether the invoice should be emailed after creation.",
+        "display_name": "Email Status",
+        "default": "NotSet",
+        "options": [
+          {
+            "label": "Not Set (Default - No Email)",
+            "value": "NotSet"
+          },
+          {
+            "label": "Needs To Be Sent",
+            "value": "NeedToSend"
+          }
+        ]
+      },
+      "billEmail": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Email address to send the invoice to. Required if Email Status is \"Needs To Be Sent\". Overrides customer default.",
+        "display_name": "Billing Email Address"
+      },
+      "dueDate": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": "The date when the payment for the invoice is due. If not provided, default term from customer or company is used.",
+        "display_name": "Due Date"
+      },
+      "docNumber": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Optional reference number for the invoice. If not provided, QuickBooks assigns the next sequential number.",
+        "display_name": "Invoice Number"
+      },
+      "txnDate": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": "The date entered on the transaction. Defaults to the current date if not specified.",
+        "display_name": "Transaction Date"
+      },
+      "privateNote": {
+        "type": "LONG_TEXT",
+        "required": false,
+        "description": "Note to self. Does not appear on the invoice sent to the customer.",
+        "display_name": "Private Note (Memo)"
+      },
+      "customerMemo": {
+        "type": "LONG_TEXT",
+        "required": false,
+        "description": "Memo to be displayed on the invoice sent to the customer (appears on statement).",
+        "display_name": "Customer Memo (Statement Memo)"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks",
+    "version": "0.3.3",
+    "action": "create_bill",
+    "id": "create_bill",
+    "display_name": "Create Bill",
+    "description": "Creates a bill (accounts payable) in QuickBooks.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {
+      "vendorRef": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Vendor",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "lineItems": {
+        "type": "ARRAY",
+        "required": true,
+        "description": "Details of the bill (expense categories). At least one line is required.",
+        "display_name": "Line Items",
+        "properties": {
+          "amount": {
+            "type": "NUMBER",
+            "required": true,
+            "description": "",
+            "display_name": "Amount"
+          },
+          "description": {
+            "type": "SHORT_TEXT",
+            "required": false,
+            "description": "",
+            "display_name": "Description"
+          },
+          "detailType": {
+            "type": "STATIC_DROPDOWN",
+            "required": true,
+            "description": "",
+            "display_name": "Detail Type",
+            "default": "AccountBasedExpenseLineDetail",
+            "options": [
+              {
+                "label": "Account Based Expense Line Detail",
+                "value": "AccountBasedExpenseLineDetail"
+              }
+            ]
+          },
+          "expenseAccountId": {
+            "type": "SHORT_TEXT",
+            "required": true,
+            "description": "The Id of the expense account. Use the \"Find Account\" action (filter by type Expense) to look this up.",
+            "display_name": "Expense Category/Account ID"
+          },
+          "classId": {
+            "type": "SHORT_TEXT",
+            "required": false,
+            "description": "Optional. The Id of the class to tag this line with. Only available on QuickBooks Plus and Advanced plans with class tracking enabled for per-line transactions; on other plans this is ignored.",
+            "display_name": "Class ID"
+          }
+        }
+      },
+      "txnDate": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": "The date of the bill. Defaults to today if empty.",
+        "display_name": "Bill Date"
+      },
+      "dueDate": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": "The date the payment is due. If empty, the vendor/company term is used.",
+        "display_name": "Due Date"
+      },
+      "docNumber": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Reference number for the bill.",
+        "display_name": "Bill Number"
+      },
+      "privateNote": {
+        "type": "LONG_TEXT",
+        "required": false,
+        "description": "Internal note about the bill.",
+        "display_name": "Memo (Private Note)"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks",
+    "version": "0.3.3",
+    "action": "create_vendor",
+    "id": "create_vendor",
+    "display_name": "Create Vendor",
+    "description": "Creates a vendor in QuickBooks.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {
+      "displayName": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The name QuickBooks will show for this vendor. Must be unique across all vendors, customers, and employees.",
+        "display_name": "Vendor Display Name"
+      },
+      "companyName": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Company Name"
+      },
+      "email": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Email Address"
+      },
+      "phone": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Phone Number"
+      },
+      "billAddrLine1": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Billing Address Line 1"
+      },
+      "billAddrCity": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Billing Address City"
+      },
+      "billAddrState": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "State or province code, e.g. CA.",
+        "display_name": "Billing Address State"
+      },
+      "billAddrPostalCode": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Billing Address Postal Code"
+      },
+      "vendor1099": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Whether this vendor should be tracked for 1099 reporting.",
+        "display_name": "Track for 1099",
+        "default": false
+      },
+      "taxIdentifier": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Tax ID (SSN or EIN)"
+      },
+      "acctNum": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Your own reference/account number for this vendor (external ID). Shown on checks.",
+        "display_name": "Account Number"
+      },
+      "termRef": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "Optional. The default payment term for bills from this vendor.",
+        "display_name": "Payment Term",
+        "refreshers": [],
+        "refresh_on_search": false
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks",
+    "version": "0.3.3",
+    "action": "record_payment",
+    "id": "record_payment",
+    "display_name": "Record Payment",
+    "description": "Records a customer payment in QuickBooks, optionally applying it to invoices.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {
+      "customerRef": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Customer",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "totalAmount": {
+        "type": "NUMBER",
+        "required": true,
+        "description": "The total amount of the payment received.",
+        "display_name": "Total Amount"
+      },
+      "lineItems": {
+        "type": "ARRAY",
+        "required": false,
+        "description": "Optional. Apply this payment to specific invoices. Leave empty to keep the amount unapplied.",
+        "display_name": "Apply to Invoices",
+        "properties": {
+          "invoiceId": {
+            "type": "SHORT_TEXT",
+            "required": true,
+            "description": "The transaction Id of the invoice to apply the payment to.",
+            "display_name": "Invoice ID"
+          },
+          "amount": {
+            "type": "NUMBER",
+            "required": true,
+            "description": "The amount of this payment to apply to the invoice.",
+            "display_name": "Amount Applied"
+          }
+        }
+      },
+      "depositToAccountId": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Optional. The account to deposit the payment into. Defaults to Undeposited Funds if empty.",
+        "display_name": "Deposit To Account ID"
+      },
+      "txnDate": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": "The date the payment was received. Defaults to today if empty.",
+        "display_name": "Payment Date"
+      },
+      "paymentRefNum": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Optional reference number for the payment (e.g. check number).",
+        "display_name": "Reference Number"
+      },
+      "privateNote": {
+        "type": "LONG_TEXT",
+        "required": false,
+        "description": "Internal note about the payment.",
+        "display_name": "Memo (Private Note)"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks",
+    "version": "0.3.3",
+    "action": "record_bill_payment",
+    "id": "record_bill_payment",
+    "display_name": "Record Bill Payment (AP)",
+    "description": "Pays one or more vendor bills in QuickBooks, in full or in part, by check or credit card.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {
+      "vendorRef": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Vendor",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "payType": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Pay With",
+        "default": "Check",
+        "options": [
+          {
+            "label": "Check",
+            "value": "Check"
+          },
+          {
+            "label": "Credit Card",
+            "value": "CreditCard"
+          }
+        ]
+      },
+      "payFromAccountRef": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "The checking/savings account (for Check) or credit card account (for Credit Card) the payment is made from.",
+        "display_name": "Pay From Account",
+        "refreshers": [
+          "payType"
+        ],
+        "refresh_on_search": false
+      },
+      "billLines": {
+        "type": "ARRAY",
+        "required": true,
+        "description": "One or more bills this payment applies to. Amounts can be less than the bill balance for a partial payment.",
+        "display_name": "Bills To Pay",
+        "properties": {
+          "billId": {
+            "type": "SHORT_TEXT",
+            "required": true,
+            "description": "The transaction Id of the bill being paid. Use the bill Id returned by Create Bill or a QuickBooks report.",
+            "display_name": "Bill ID"
+          },
+          "amount": {
+            "type": "NUMBER",
+            "required": true,
+            "description": "",
+            "display_name": "Amount To Apply"
+          }
+        }
+      },
+      "txnDate": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": "Defaults to today if empty.",
+        "display_name": "Payment Date"
+      },
+      "docNumber": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Reference / Check Number"
+      },
+      "privateNote": {
+        "type": "LONG_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Memo (Private Note)"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks-sandbox",
+    "version": "0.2.2",
+    "action": "find_invoice",
+    "id": "find_invoice",
+    "display_name": "Find Invoice",
+    "description": "Search for an invoice by its number in QuickBooks.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {
+      "invoice_number": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The document number (DocNumber) of the invoice to search for.",
+        "display_name": "Invoice Number"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks-sandbox",
+    "version": "0.2.2",
+    "action": "find_customer",
+    "id": "find_customer",
+    "display_name": "Find Customer",
+    "description": "Search for a customer by display name in QuickBooks.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {
+      "search_term": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The display name of the customer to search for.",
+        "display_name": "Customer Name"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks-sandbox",
+    "version": "0.2.2",
+    "action": "find_payment",
+    "id": "find_payment",
+    "display_name": "Find Payment",
+    "description": "Finds an existing payment in QuickBooks.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {
+      "customerId": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The ID of the customer to find payments for.",
+        "display_name": "Customer ID"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks-sandbox",
+    "version": "0.2.2",
+    "action": "find_vendor",
+    "id": "find_vendor",
+    "display_name": "Find Vendor",
+    "description": "Search for a vendor in QuickBooks by display name, email address, or account number.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {
+      "searchBy": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Search By",
+        "default": "DisplayName",
+        "options": [
+          {
+            "label": "Vendor Name",
+            "value": "DisplayName"
+          },
+          {
+            "label": "Email Address",
+            "value": "Email"
+          },
+          {
+            "label": "Account Number",
+            "value": "AcctNum"
+          }
+        ]
+      },
+      "search_term": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The exact vendor display name, email address, or account number to search for, depending on Search By.",
+        "display_name": "Search Value"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks-sandbox",
+    "version": "0.2.2",
+    "action": "find_account",
+    "id": "find_account",
+    "display_name": "Find Account",
+    "description": "List or search the chart of accounts to get an account Id (e.g. an expense account for a bill).",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {
+      "search_term": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Optional. Filter accounts whose name contains this text.",
+        "display_name": "Account Name Contains"
+      },
+      "accountType": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "Optional. Filter by account type.",
+        "display_name": "Account Type",
+        "options": [
+          {
+            "label": "Bank",
+            "value": "Bank"
+          },
+          {
+            "label": "Accounts Receivable",
+            "value": "Accounts Receivable"
+          },
+          {
+            "label": "Other Current Asset",
+            "value": "Other Current Asset"
+          },
+          {
+            "label": "Fixed Asset",
+            "value": "Fixed Asset"
+          },
+          {
+            "label": "Other Asset",
+            "value": "Other Asset"
+          },
+          {
+            "label": "Accounts Payable",
+            "value": "Accounts Payable"
+          },
+          {
+            "label": "Credit Card",
+            "value": "Credit Card"
+          },
+          {
+            "label": "Other Current Liability",
+            "value": "Other Current Liability"
+          },
+          {
+            "label": "Long Term Liability",
+            "value": "Long Term Liability"
+          },
+          {
+            "label": "Equity",
+            "value": "Equity"
+          },
+          {
+            "label": "Income",
+            "value": "Income"
+          },
+          {
+            "label": "Cost of Goods Sold",
+            "value": "Cost of Goods Sold"
+          },
+          {
+            "label": "Expense",
+            "value": "Expense"
+          },
+          {
+            "label": "Other Income",
+            "value": "Other Income"
+          },
+          {
+            "label": "Other Expense",
+            "value": "Other Expense"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks-sandbox",
+    "version": "0.2.2",
+    "action": "read_aging_report",
+    "id": "read_aging_report",
+    "display_name": "Read AR/AP Aging",
+    "description": "Reads an accounts receivable or accounts payable aging report from QuickBooks.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {
+      "reportType": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Report",
+        "default": "AgedReceivables",
+        "options": [
+          {
+            "label": "A/R Aging Summary",
+            "value": "AgedReceivables"
+          },
+          {
+            "label": "A/R Aging Detail",
+            "value": "AgedReceivableDetail"
+          },
+          {
+            "label": "A/P Aging Summary",
+            "value": "AgedPayables"
+          },
+          {
+            "label": "A/P Aging Detail",
+            "value": "AgedPayableDetail"
+          }
+        ]
+      },
+      "reportDate": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": "The date to age balances against. Defaults to today if empty.",
+        "display_name": "As Of Date"
+      },
+      "agingPeriod": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Number of days in each aging bucket (e.g. 30).",
+        "display_name": "Days Per Period"
+      },
+      "numPeriods": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "How many aging buckets to include.",
+        "display_name": "Number of Periods"
+      },
+      "agingMethod": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "Whether buckets are calculated from the report date or from each transaction's due date.",
+        "display_name": "Aging Method",
+        "options": [
+          {
+            "label": "Report Date",
+            "value": "Report_Date"
+          },
+          {
+            "label": "Current",
+            "value": "Current"
+          }
+        ]
+      },
+      "pastDue": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Only include transactions overdue by at least this many days.",
+        "display_name": "Minimum Days Past Due"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks-sandbox",
+    "version": "0.2.2",
+    "action": "create_invoice",
+    "id": "create_invoice",
+    "display_name": "Create Invoice",
+    "description": "Creates an invoice in QuickBooks.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {
+      "customerRef": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Customer",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "lineItems": {
+        "type": "ARRAY",
+        "required": true,
+        "description": "Line items for the invoice",
+        "display_name": "Line Items",
+        "properties": {
+          "description": {
+            "type": "SHORT_TEXT",
+            "required": false,
+            "description": "",
+            "display_name": "Description"
+          },
+          "amount": {
+            "type": "NUMBER",
+            "required": true,
+            "description": "Total amount for this line (Exclusive of tax). Required.",
+            "display_name": "Amount"
+          },
+          "detailType": {
+            "type": "STATIC_DROPDOWN",
+            "required": true,
+            "description": "",
+            "display_name": "Detail Type",
+            "default": "SalesItemLineDetail",
+            "options": [
+              {
+                "label": "Sales Item Line Detail",
+                "value": "SalesItemLineDetail"
+              }
+            ]
+          },
+          "itemId": {
+            "type": "SHORT_TEXT",
+            "required": true,
+            "description": "Enter the ID of the Item (Product/Service). Required for SalesItemLineDetail.",
+            "display_name": "Item ID (Product/Service)"
+          },
+          "quantity": {
+            "type": "NUMBER",
+            "required": false,
+            "description": "",
+            "display_name": "Quantity"
+          },
+          "unitPrice": {
+            "type": "NUMBER",
+            "required": false,
+            "description": "If specified, Amount will be Qty * UnitPrice. If Amount is also specified, Amount overrides calculation.",
+            "display_name": "Unit Price"
+          }
+        }
+      },
+      "emailStatus": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "Specify whether the invoice should be emailed after creation.",
+        "display_name": "Email Status",
+        "default": "NotSet",
+        "options": [
+          {
+            "label": "Not Set (Default - No Email)",
+            "value": "NotSet"
+          },
+          {
+            "label": "Needs To Be Sent",
+            "value": "NeedToSend"
+          }
+        ]
+      },
+      "billEmail": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Email address to send the invoice to. Required if Email Status is \"Needs To Be Sent\". Overrides customer default.",
+        "display_name": "Billing Email Address"
+      },
+      "dueDate": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": "The date when the payment for the invoice is due. If not provided, default term from customer or company is used.",
+        "display_name": "Due Date"
+      },
+      "docNumber": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Optional reference number for the invoice. If not provided, QuickBooks assigns the next sequential number.",
+        "display_name": "Invoice Number"
+      },
+      "txnDate": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": "The date entered on the transaction. Defaults to the current date if not specified.",
+        "display_name": "Transaction Date"
+      },
+      "privateNote": {
+        "type": "LONG_TEXT",
+        "required": false,
+        "description": "Note to self. Does not appear on the invoice sent to the customer.",
+        "display_name": "Private Note (Memo)"
+      },
+      "customerMemo": {
+        "type": "LONG_TEXT",
+        "required": false,
+        "description": "Memo to be displayed on the invoice sent to the customer (appears on statement).",
+        "display_name": "Customer Memo (Statement Memo)"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks-sandbox",
+    "version": "0.2.2",
+    "action": "create_bill",
+    "id": "create_bill",
+    "display_name": "Create Bill",
+    "description": "Creates a bill (accounts payable) in QuickBooks.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {
+      "vendorRef": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Vendor",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "lineItems": {
+        "type": "ARRAY",
+        "required": true,
+        "description": "Details of the bill (expense categories). At least one line is required.",
+        "display_name": "Line Items",
+        "properties": {
+          "amount": {
+            "type": "NUMBER",
+            "required": true,
+            "description": "",
+            "display_name": "Amount"
+          },
+          "description": {
+            "type": "SHORT_TEXT",
+            "required": false,
+            "description": "",
+            "display_name": "Description"
+          },
+          "detailType": {
+            "type": "STATIC_DROPDOWN",
+            "required": true,
+            "description": "",
+            "display_name": "Detail Type",
+            "default": "AccountBasedExpenseLineDetail",
+            "options": [
+              {
+                "label": "Account Based Expense Line Detail",
+                "value": "AccountBasedExpenseLineDetail"
+              }
+            ]
+          },
+          "expenseAccountId": {
+            "type": "SHORT_TEXT",
+            "required": true,
+            "description": "The Id of the expense account. Use the \"Find Account\" action (filter by type Expense) to look this up.",
+            "display_name": "Expense Category/Account ID"
+          },
+          "classId": {
+            "type": "SHORT_TEXT",
+            "required": false,
+            "description": "Optional. The Id of the class to tag this line with. Only available on QuickBooks Plus and Advanced plans with class tracking enabled for per-line transactions; on other plans this is ignored.",
+            "display_name": "Class ID"
+          }
+        }
+      },
+      "txnDate": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": "The date of the bill. Defaults to today if empty.",
+        "display_name": "Bill Date"
+      },
+      "dueDate": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": "The date the payment is due. If empty, the vendor/company term is used.",
+        "display_name": "Due Date"
+      },
+      "docNumber": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Reference number for the bill.",
+        "display_name": "Bill Number"
+      },
+      "privateNote": {
+        "type": "LONG_TEXT",
+        "required": false,
+        "description": "Internal note about the bill.",
+        "display_name": "Memo (Private Note)"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks-sandbox",
+    "version": "0.2.2",
+    "action": "create_vendor",
+    "id": "create_vendor",
+    "display_name": "Create Vendor",
+    "description": "Creates a vendor in QuickBooks.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {
+      "displayName": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The name QuickBooks will show for this vendor. Must be unique across all vendors, customers, and employees.",
+        "display_name": "Vendor Display Name"
+      },
+      "companyName": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Company Name"
+      },
+      "email": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Email Address"
+      },
+      "phone": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Phone Number"
+      },
+      "billAddrLine1": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Billing Address Line 1"
+      },
+      "billAddrCity": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Billing Address City"
+      },
+      "billAddrState": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "State or province code, e.g. CA.",
+        "display_name": "Billing Address State"
+      },
+      "billAddrPostalCode": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Billing Address Postal Code"
+      },
+      "vendor1099": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Whether this vendor should be tracked for 1099 reporting.",
+        "display_name": "Track for 1099",
+        "default": false
+      },
+      "taxIdentifier": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Tax ID (SSN or EIN)"
+      },
+      "acctNum": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Your own reference/account number for this vendor (external ID). Shown on checks.",
+        "display_name": "Account Number"
+      },
+      "termRef": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "Optional. The default payment term for bills from this vendor.",
+        "display_name": "Payment Term",
+        "refreshers": [],
+        "refresh_on_search": false
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks-sandbox",
+    "version": "0.2.2",
+    "action": "record_payment",
+    "id": "record_payment",
+    "display_name": "Record Payment",
+    "description": "Records a customer payment in QuickBooks, optionally applying it to invoices.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {
+      "customerRef": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Customer",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "totalAmount": {
+        "type": "NUMBER",
+        "required": true,
+        "description": "The total amount of the payment received.",
+        "display_name": "Total Amount"
+      },
+      "lineItems": {
+        "type": "ARRAY",
+        "required": false,
+        "description": "Optional. Apply this payment to specific invoices. Leave empty to keep the amount unapplied.",
+        "display_name": "Apply to Invoices",
+        "properties": {
+          "invoiceId": {
+            "type": "SHORT_TEXT",
+            "required": true,
+            "description": "The transaction Id of the invoice to apply the payment to.",
+            "display_name": "Invoice ID"
+          },
+          "amount": {
+            "type": "NUMBER",
+            "required": true,
+            "description": "The amount of this payment to apply to the invoice.",
+            "display_name": "Amount Applied"
+          }
+        }
+      },
+      "depositToAccountId": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Optional. The account to deposit the payment into. Defaults to Undeposited Funds if empty.",
+        "display_name": "Deposit To Account ID"
+      },
+      "txnDate": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": "The date the payment was received. Defaults to today if empty.",
+        "display_name": "Payment Date"
+      },
+      "paymentRefNum": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Optional reference number for the payment (e.g. check number).",
+        "display_name": "Reference Number"
+      },
+      "privateNote": {
+        "type": "LONG_TEXT",
+        "required": false,
+        "description": "Internal note about the payment.",
+        "display_name": "Memo (Private Note)"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks-sandbox",
+    "version": "0.2.2",
+    "action": "record_bill_payment",
+    "id": "record_bill_payment",
+    "display_name": "Record Bill Payment (AP)",
+    "description": "Pays one or more vendor bills in QuickBooks, in full or in part, by check or credit card.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {
+      "vendorRef": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Vendor",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "payType": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Pay With",
+        "default": "Check",
+        "options": [
+          {
+            "label": "Check",
+            "value": "Check"
+          },
+          {
+            "label": "Credit Card",
+            "value": "CreditCard"
+          }
+        ]
+      },
+      "payFromAccountRef": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "The checking/savings account (for Check) or credit card account (for Credit Card) the payment is made from.",
+        "display_name": "Pay From Account",
+        "refreshers": [
+          "payType"
+        ],
+        "refresh_on_search": false
+      },
+      "billLines": {
+        "type": "ARRAY",
+        "required": true,
+        "description": "One or more bills this payment applies to. Amounts can be less than the bill balance for a partial payment.",
+        "display_name": "Bills To Pay",
+        "properties": {
+          "billId": {
+            "type": "SHORT_TEXT",
+            "required": true,
+            "description": "The transaction Id of the bill being paid. Use the bill Id returned by Create Bill or a QuickBooks report.",
+            "display_name": "Bill ID"
+          },
+          "amount": {
+            "type": "NUMBER",
+            "required": true,
+            "description": "",
+            "display_name": "Amount To Apply"
+          }
+        }
+      },
+      "txnDate": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": "Defaults to today if empty.",
+        "display_name": "Payment Date"
+      },
+      "docNumber": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Reference / Check Number"
+      },
+      "privateNote": {
+        "type": "LONG_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Memo (Private Note)"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-xero",
+    "version": "0.8.1",
+    "action": "xero_find_contact",
+    "id": "xero_find_contact",
+    "display_name": "Find Contact",
+    "description": "Finds a contact by name or account number (or SearchTerm).",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "tenant_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Organization",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "search_by": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Search By",
+        "default": "NAME",
+        "options": [
+          {
+            "label": "Name (exact match)",
+            "value": "NAME"
+          },
+          {
+            "label": "Account Number (exact match)",
+            "value": "ACCOUNT_NUMBER"
+          },
+          {
+            "label": "Search Term (broad search)",
+            "value": "SEARCH_TERM"
+          }
+        ]
+      },
+      "value": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Name, Account Number, or Search Term depending on Search By.",
+        "display_name": "Value"
+      },
+      "include_archived": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "",
+        "display_name": "Include Archived",
+        "default": false
+      },
+      "summary_only": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Recommended for broad searches (Search Term). Excludes heavy fields.",
+        "display_name": "Summary Only (faster, lighter)",
+        "default": true
+      },
+      "page": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Pagination page (optional).",
+        "display_name": "Page"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-xero",
+    "version": "0.8.1",
+    "action": "xero_find_invoice",
+    "id": "xero_find_invoice",
+    "display_name": "Find Invoice",
+    "description": "Finds an invoice by number or reference.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "tenant_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Organization",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "search_by": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Search By",
+        "default": "INVOICE_NUMBER",
+        "options": [
+          {
+            "label": "Invoice Number (exact)",
+            "value": "INVOICE_NUMBER"
+          },
+          {
+            "label": "Reference (exact)",
+            "value": "REFERENCE"
+          },
+          {
+            "label": "Search Term (InvoiceNumber/Reference)",
+            "value": "SEARCH_TERM"
+          }
+        ]
+      },
+      "value": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Invoice Number, Reference, or Search Term.",
+        "display_name": "Value"
+      },
+      "type_filter": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Type Filter",
+        "options": [
+          {
+            "label": "Sales Invoice (ACCREC)",
+            "value": "ACCREC"
+          },
+          {
+            "label": "Bill (ACCPAY)",
+            "value": "ACCPAY"
+          }
+        ]
+      },
+      "summary_only": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "",
+        "display_name": "Summary Only (faster, lighter)",
+        "default": true
+      },
+      "page": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "",
+        "display_name": "Page"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-xero",
+    "version": "0.8.1",
+    "action": "xero_get_invoice",
+    "id": "xero_get_invoice",
+    "display_name": "Get Invoice",
+    "description": "Gets one invoice or bill by its ID or invoice number, including line items.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "tenant_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Organization",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "invoice_id": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The Xero InvoiceID (a GUID) or the invoice number, for example INV-0042.",
+        "display_name": "Invoice ID or Number"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-xero",
+    "version": "0.8.1",
+    "action": "xero_search_invoices",
+    "id": "xero_search_invoices",
+    "display_name": "Search Invoices",
+    "description": "Searches sales invoices and bills by type, status, contact, date range or text, one page at a time.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "tenant_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Organization",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "type": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "Leave empty to include both sales invoices and bills.",
+        "display_name": "Type",
+        "options": [
+          {
+            "label": "Sales invoice (ACCREC)",
+            "value": "ACCREC"
+          },
+          {
+            "label": "Bill (ACCPAY)",
+            "value": "ACCPAY"
+          }
+        ]
+      },
+      "statuses": {
+        "type": "STATIC_MULTI_SELECT_DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Statuses",
+        "options": [
+          {
+            "label": "DRAFT",
+            "value": "DRAFT"
+          },
+          {
+            "label": "SUBMITTED",
+            "value": "SUBMITTED"
+          },
+          {
+            "label": "AUTHORISED",
+            "value": "AUTHORISED"
+          },
+          {
+            "label": "PAID",
+            "value": "PAID"
+          },
+          {
+            "label": "VOIDED",
+            "value": "VOIDED"
+          },
+          {
+            "label": "DELETED",
+            "value": "DELETED"
+          }
+        ]
+      },
+      "contact_id": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Only invoices for this Xero ContactID. Use Find Contact to get it.",
+        "display_name": "Contact ID"
+      },
+      "date_from": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Invoice Date From (YYYY-MM-DD)"
+      },
+      "date_to": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Invoice Date To (YYYY-MM-DD)"
+      },
+      "search_term": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Matches invoice number and reference (case-insensitive, partial).",
+        "display_name": "Search Term"
+      },
+      "summary_only": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Leave on for faster results without line items; use Get Invoice for the full invoice.",
+        "display_name": "Summary Only",
+        "default": true
+      },
+      "page": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Page number, starting at 1.",
+        "display_name": "Page",
+        "default": 1
+      },
+      "page_size": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Invoices per page, 1 to 100.",
+        "display_name": "Page Size",
+        "default": 100
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-xero",
+    "version": "0.8.1",
+    "action": "xero_search_payments",
+    "id": "xero_search_payments",
+    "display_name": "Search Payments",
+    "description": "Searches payments by invoice, status, payment type or date range, one page at a time.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "tenant_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Organization",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "invoice_id": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Only payments on this Xero InvoiceID (a GUID).",
+        "display_name": "Invoice ID"
+      },
+      "status": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Status",
+        "options": [
+          {
+            "label": "AUTHORISED",
+            "value": "AUTHORISED"
+          },
+          {
+            "label": "DELETED",
+            "value": "DELETED"
+          }
+        ]
+      },
+      "payment_type": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Payment Type",
+        "options": [
+          {
+            "label": "ACCRECPAYMENT",
+            "value": "ACCRECPAYMENT"
+          },
+          {
+            "label": "ACCPAYPAYMENT",
+            "value": "ACCPAYPAYMENT"
+          },
+          {
+            "label": "ARCREDITPAYMENT",
+            "value": "ARCREDITPAYMENT"
+          },
+          {
+            "label": "APCREDITPAYMENT",
+            "value": "APCREDITPAYMENT"
+          },
+          {
+            "label": "AROVERPAYMENTPAYMENT",
+            "value": "AROVERPAYMENTPAYMENT"
+          },
+          {
+            "label": "APOVERPAYMENTPAYMENT",
+            "value": "APOVERPAYMENTPAYMENT"
+          },
+          {
+            "label": "ARPREPAYMENTPAYMENT",
+            "value": "ARPREPAYMENTPAYMENT"
+          },
+          {
+            "label": "APPREPAYMENTPAYMENT",
+            "value": "APPREPAYMENTPAYMENT"
+          }
+        ]
+      },
+      "reference": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Reference (exact)"
+      },
+      "date_from": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Payment Date From (YYYY-MM-DD)"
+      },
+      "date_to": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Payment Date To (YYYY-MM-DD)"
+      },
+      "page": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Page number, starting at 1.",
+        "display_name": "Page",
+        "default": 1
+      },
+      "page_size": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Payments per page, 1 to 100.",
+        "display_name": "Page Size",
+        "default": 100
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-xero",
+    "version": "0.8.1",
+    "action": "xero_get_aged_receivables",
+    "id": "xero_get_aged_receivables",
+    "display_name": "Get Aged Receivables for Contact",
+    "description": "Runs the Aged Receivables report for one customer: what they owe, by invoice and age.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "tenant_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Organization",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "contact_id": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The Xero ContactID (a GUID). Use Find Contact to get it.",
+        "display_name": "Contact ID"
+      },
+      "date": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Defaults to today.",
+        "display_name": "Aged As At (YYYY-MM-DD)"
+      },
+      "from_date": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Show Invoices From (YYYY-MM-DD)"
+      },
+      "to_date": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Show Invoices To (YYYY-MM-DD)"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-xero",
+    "version": "0.8.1",
+    "action": "xero_get_aged_payables",
+    "id": "xero_get_aged_payables",
+    "display_name": "Get Aged Payables for Contact",
+    "description": "Runs the Aged Payables report for one supplier: what you owe them, by bill and age.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "tenant_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Organization",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "contact_id": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The Xero ContactID (a GUID). Use Find Contact to get it.",
+        "display_name": "Contact ID"
+      },
+      "date": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Defaults to today.",
+        "display_name": "Aged As At (YYYY-MM-DD)"
+      },
+      "from_date": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Show Invoices From (YYYY-MM-DD)"
+      },
+      "to_date": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Show Invoices To (YYYY-MM-DD)"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-xero",
+    "version": "0.8.1",
+    "action": "xero_list_accounts",
+    "id": "xero_list_accounts",
+    "display_name": "List Accounts",
+    "description": "Lists the chart of accounts, optionally filtered by type, class or status.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "tenant_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Organization",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "type": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Type",
+        "options": [
+          {
+            "label": "BANK",
+            "value": "BANK"
+          },
+          {
+            "label": "CURRENT",
+            "value": "CURRENT"
+          },
+          {
+            "label": "CURRLIAB",
+            "value": "CURRLIAB"
+          },
+          {
+            "label": "DEPRECIATN",
+            "value": "DEPRECIATN"
+          },
+          {
+            "label": "DIRECTCOSTS",
+            "value": "DIRECTCOSTS"
+          },
+          {
+            "label": "EQUITY",
+            "value": "EQUITY"
+          },
+          {
+            "label": "EXPENSE",
+            "value": "EXPENSE"
+          },
+          {
+            "label": "FIXED",
+            "value": "FIXED"
+          },
+          {
+            "label": "INVENTORY",
+            "value": "INVENTORY"
+          },
+          {
+            "label": "LIABILITY",
+            "value": "LIABILITY"
+          },
+          {
+            "label": "NONCURRENT",
+            "value": "NONCURRENT"
+          },
+          {
+            "label": "OTHERINCOME",
+            "value": "OTHERINCOME"
+          },
+          {
+            "label": "OVERHEADS",
+            "value": "OVERHEADS"
+          },
+          {
+            "label": "PREPAYMENT",
+            "value": "PREPAYMENT"
+          },
+          {
+            "label": "REVENUE",
+            "value": "REVENUE"
+          },
+          {
+            "label": "SALES",
+            "value": "SALES"
+          },
+          {
+            "label": "TERMLIAB",
+            "value": "TERMLIAB"
+          }
+        ]
+      },
+      "account_class": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Class",
+        "options": [
+          {
+            "label": "ASSET",
+            "value": "ASSET"
+          },
+          {
+            "label": "EQUITY",
+            "value": "EQUITY"
+          },
+          {
+            "label": "EXPENSE",
+            "value": "EXPENSE"
+          },
+          {
+            "label": "LIABILITY",
+            "value": "LIABILITY"
+          },
+          {
+            "label": "REVENUE",
+            "value": "REVENUE"
+          }
+        ]
+      },
+      "status": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Status",
+        "default": "ACTIVE",
+        "options": [
+          {
+            "label": "Active",
+            "value": "ACTIVE"
+          },
+          {
+            "label": "Archived",
+            "value": "ARCHIVED"
+          }
+        ]
+      },
+      "payments_enabled_only": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Keep only bank accounts and accounts with \"Enable payments to this account\" on.",
+        "display_name": "Only Accounts That Accept Payments",
+        "default": false
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-xero",
+    "version": "0.8.1",
+    "action": "xero_list_organisations",
+    "id": "xero_list_organisations",
+    "display_name": "List Organisations",
+    "description": "Lists the Xero organisations this connection can access.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {}
+  },
+  {
+    "piece": "@activepieces/piece-xero",
+    "version": "0.8.1",
+    "action": "xero_create_contact",
+    "id": "xero_create_contact",
+    "display_name": "Create or Update Contact",
+    "description": "Create Xero Contact",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "tenant_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Organization",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "contact_id": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "ID of the contact to create invoice for.",
+        "display_name": "Contact ID"
+      },
+      "name": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Contact name, in full.",
+        "display_name": "Contact Name"
+      },
+      "email": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Email address of the contact.",
+        "display_name": "Contact Email"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-xero",
+    "version": "0.8.1",
+    "action": "xero_create_invoice",
+    "id": "xero_create_invoice",
+    "display_name": "Create or Update Invoice",
+    "description": "Create Xero Invoice",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "tenant_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Organization",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "invoice_id": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "Select an invoice",
+        "display_name": "Invoice",
+        "refreshers": [
+          "tenant_id"
+        ],
+        "refresh_on_search": true
+      },
+      "contact_id": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "Select a contact",
+        "display_name": "Contact",
+        "refreshers": [
+          "tenant_id"
+        ],
+        "refresh_on_search": true
+      },
+      "name": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Contact name, in full.",
+        "display_name": "Contact Name"
+      },
+      "email": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Email address of the contact.",
+        "display_name": "Contact Email"
+      },
+      "line_item": {
+        "type": "OBJECT",
+        "required": true,
+        "description": "One invoice line as key/value pairs, e.g. Description, Quantity, UnitAmount, AccountCode (such as 200 for Sales) and TaxType. Use List Accounts and List Tax Rates to find valid codes.",
+        "display_name": "Line Item"
+      },
+      "date": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Date the invoice was created. Format example: 2019-03-11",
+        "display_name": "Date Prepared"
+      },
+      "due_date": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Due date of the invoice. Format example: 2019-03-11",
+        "display_name": "Due Date"
+      },
+      "reference": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Reference number of the Invoice",
+        "display_name": "Invoice Reference"
+      },
+      "status": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "Invoice Status",
+        "display_name": "Status",
+        "options": [
+          {
+            "label": "Draft",
+            "value": "DRAFT"
+          },
+          {
+            "label": "Submitted",
+            "value": "SUBMITTED"
+          },
+          {
+            "label": "Authorised",
+            "value": "AUTHORISED"
+          },
+          {
+            "label": "Deleted",
+            "value": "DELETED"
+          },
+          {
+            "label": "Voided",
+            "value": "VOIDED"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-xero",
+    "version": "0.8.1",
+    "action": "xero_create_bill",
+    "id": "xero_create_bill",
+    "display_name": "Create Bill",
+    "description": "Creates a new bill (Accounts Payable).",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "tenant_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Organization",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "contact_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "Select a contact",
+        "display_name": "Contact",
+        "refreshers": [
+          "tenant_id"
+        ],
+        "refresh_on_search": true
+      },
+      "line_item": {
+        "type": "OBJECT",
+        "required": true,
+        "description": "At minimum, provide a Description.",
+        "display_name": "Line Item",
+        "default": {
+          "Description": "Goods/Services"
+        }
+      },
+      "date": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Date the bill was issued (YYYY-MM-DD). Optional.",
+        "display_name": "Date"
+      },
+      "due_date": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Date the bill is due (YYYY-MM-DD). Optional.",
+        "display_name": "Due Date"
+      },
+      "line_amount_types": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Line Amount Types",
+        "options": [
+          {
+            "label": "Exclusive",
+            "value": "Exclusive"
+          },
+          {
+            "label": "Inclusive",
+            "value": "Inclusive"
+          },
+          {
+            "label": "NoTax",
+            "value": "NoTax"
+          }
+        ]
+      },
+      "invoice_number": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Bill Number (Reference)"
+      },
+      "status": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Status",
+        "default": "DRAFT",
+        "options": [
+          {
+            "label": "Draft",
+            "value": "DRAFT"
+          },
+          {
+            "label": "Submitted",
+            "value": "SUBMITTED"
+          },
+          {
+            "label": "Authorised",
+            "value": "AUTHORISED"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-xero",
+    "version": "0.8.1",
+    "action": "xero_create_payment",
+    "id": "xero_create_payment",
+    "display_name": "Create Payment",
+    "description": "Applies a payment to an invoice.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "tenant_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Organization",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "invoice_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "Select an authorised invoice (sales or bill) to apply payment to.",
+        "display_name": "Invoice (Authorised)",
+        "refreshers": [
+          "tenant_id"
+        ],
+        "refresh_on_search": true
+      },
+      "account_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "Select a bank account",
+        "display_name": "Bank Account",
+        "refreshers": [
+          "tenant_id"
+        ],
+        "refresh_on_search": false
+      },
+      "amount": {
+        "type": "NUMBER",
+        "required": true,
+        "description": "Payment amount (must be <= amount due).",
+        "display_name": "Amount"
+      },
+      "date": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "YYYY-MM-DD.",
+        "display_name": "Payment Date"
+      },
+      "reference": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Reference"
+      },
+      "is_reconciled": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Mark payment as reconciled (optional).",
+        "display_name": "Is Reconciled",
+        "default": false
+      }
+    }
   }
 ]
