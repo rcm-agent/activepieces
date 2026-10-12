@@ -1189,7 +1189,59 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        },
+        "accessMode": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Pick the option matching your Grant Type. Use a Delegated option with the Authorization Code grant (acts as the signed-in user). Use an App-only option with the Client Credentials grant (acts as the application — also set Tenant ID and Mailbox), choosing the one that matches your Cloud Environment.",
+          "display_name": "Access Mode",
+          "default": "Mail.ReadWrite Mail.Send Calendars.Read offline_access User.Read openid email profile",
+          "options": [
+            {
+              "label": "Delegated — Commercial (Global)",
+              "value": "Mail.ReadWrite Mail.Send Calendars.Read offline_access User.Read openid email profile"
+            },
+            {
+              "label": "App-only — Commercial (Global)",
+              "value": "https://graph.microsoft.com/.default"
+            },
+            {
+              "label": "App-only — US Government (GCC High)",
+              "value": "https://graph.microsoft.us/.default"
+            }
+          ]
+        },
+        "tenant": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Use \"common\" for the default delegated multi-tenant flow. For app-only (Client Credentials), set this to your Directory (tenant) ID.",
+          "display_name": "Tenant ID",
+          "default": "common"
+        },
+        "mailbox": {
+          "type": "SHORT_TEXT",
+          "required": false,
+          "description": "Email/UPN or user object ID of the mailbox to act on. Required for app-only (Client Credentials). Leave blank for delegated access (acts as the signed-in user).",
+          "display_name": "Mailbox (App-only)"
+        }
+      }
     },
     "props": {
       "recipients": {
@@ -1273,7 +1325,59 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        },
+        "accessMode": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Pick the option matching your Grant Type. Use a Delegated option with the Authorization Code grant (acts as the signed-in user). Use an App-only option with the Client Credentials grant (acts as the application — also set Tenant ID and Mailbox), choosing the one that matches your Cloud Environment.",
+          "display_name": "Access Mode",
+          "default": "Mail.ReadWrite Mail.Send Calendars.Read offline_access User.Read openid email profile",
+          "options": [
+            {
+              "label": "Delegated — Commercial (Global)",
+              "value": "Mail.ReadWrite Mail.Send Calendars.Read offline_access User.Read openid email profile"
+            },
+            {
+              "label": "App-only — Commercial (Global)",
+              "value": "https://graph.microsoft.com/.default"
+            },
+            {
+              "label": "App-only — US Government (GCC High)",
+              "value": "https://graph.microsoft.us/.default"
+            }
+          ]
+        },
+        "tenant": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Use \"common\" for the default delegated multi-tenant flow. For app-only (Client Credentials), set this to your Directory (tenant) ID.",
+          "display_name": "Tenant ID",
+          "default": "common"
+        },
+        "mailbox": {
+          "type": "SHORT_TEXT",
+          "required": false,
+          "description": "Email/UPN or user object ID of the mailbox to act on. Required for app-only (Client Credentials). Leave blank for delegated access (acts as the signed-in user).",
+          "display_name": "Mailbox (App-only)"
+        }
+      }
     },
     "props": {
       "messageId": {
@@ -1308,7 +1412,59 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        },
+        "accessMode": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Pick the option matching your Grant Type. Use a Delegated option with the Authorization Code grant (acts as the signed-in user). Use an App-only option with the Client Credentials grant (acts as the application — also set Tenant ID and Mailbox), choosing the one that matches your Cloud Environment.",
+          "display_name": "Access Mode",
+          "default": "Mail.ReadWrite Mail.Send Calendars.Read offline_access User.Read openid email profile",
+          "options": [
+            {
+              "label": "Delegated — Commercial (Global)",
+              "value": "Mail.ReadWrite Mail.Send Calendars.Read offline_access User.Read openid email profile"
+            },
+            {
+              "label": "App-only — Commercial (Global)",
+              "value": "https://graph.microsoft.com/.default"
+            },
+            {
+              "label": "App-only — US Government (GCC High)",
+              "value": "https://graph.microsoft.us/.default"
+            }
+          ]
+        },
+        "tenant": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Use \"common\" for the default delegated multi-tenant flow. For app-only (Client Credentials), set this to your Directory (tenant) ID.",
+          "display_name": "Tenant ID",
+          "default": "common"
+        },
+        "mailbox": {
+          "type": "SHORT_TEXT",
+          "required": false,
+          "description": "Email/UPN or user object ID of the mailbox to act on. Required for app-only (Client Credentials). Leave blank for delegated access (acts as the signed-in user).",
+          "display_name": "Mailbox (App-only)"
+        }
+      }
     },
     "props": {
       "messageId": {
@@ -1343,7 +1499,59 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        },
+        "accessMode": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Pick the option matching your Grant Type. Use a Delegated option with the Authorization Code grant (acts as the signed-in user). Use an App-only option with the Client Credentials grant (acts as the application — also set Tenant ID and Mailbox), choosing the one that matches your Cloud Environment.",
+          "display_name": "Access Mode",
+          "default": "Mail.ReadWrite Mail.Send Calendars.Read offline_access User.Read openid email profile",
+          "options": [
+            {
+              "label": "Delegated — Commercial (Global)",
+              "value": "Mail.ReadWrite Mail.Send Calendars.Read offline_access User.Read openid email profile"
+            },
+            {
+              "label": "App-only — Commercial (Global)",
+              "value": "https://graph.microsoft.com/.default"
+            },
+            {
+              "label": "App-only — US Government (GCC High)",
+              "value": "https://graph.microsoft.us/.default"
+            }
+          ]
+        },
+        "tenant": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Use \"common\" for the default delegated multi-tenant flow. For app-only (Client Credentials), set this to your Directory (tenant) ID.",
+          "display_name": "Tenant ID",
+          "default": "common"
+        },
+        "mailbox": {
+          "type": "SHORT_TEXT",
+          "required": false,
+          "description": "Email/UPN or user object ID of the mailbox to act on. Required for app-only (Client Credentials). Leave blank for delegated access (acts as the signed-in user).",
+          "display_name": "Mailbox (App-only)"
+        }
+      }
     },
     "props": {
       "searchQuery": {
@@ -1379,7 +1587,59 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        },
+        "accessMode": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Pick the option matching your Grant Type. Use a Delegated option with the Authorization Code grant (acts as the signed-in user). Use an App-only option with the Client Credentials grant (acts as the application — also set Tenant ID and Mailbox), choosing the one that matches your Cloud Environment.",
+          "display_name": "Access Mode",
+          "default": "Mail.ReadWrite Mail.Send Calendars.Read offline_access User.Read openid email profile",
+          "options": [
+            {
+              "label": "Delegated — Commercial (Global)",
+              "value": "Mail.ReadWrite Mail.Send Calendars.Read offline_access User.Read openid email profile"
+            },
+            {
+              "label": "App-only — Commercial (Global)",
+              "value": "https://graph.microsoft.com/.default"
+            },
+            {
+              "label": "App-only — US Government (GCC High)",
+              "value": "https://graph.microsoft.us/.default"
+            }
+          ]
+        },
+        "tenant": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Use \"common\" for the default delegated multi-tenant flow. For app-only (Client Credentials), set this to your Directory (tenant) ID.",
+          "display_name": "Tenant ID",
+          "default": "common"
+        },
+        "mailbox": {
+          "type": "SHORT_TEXT",
+          "required": false,
+          "description": "Email/UPN or user object ID of the mailbox to act on. Required for app-only (Client Credentials). Leave blank for delegated access (acts as the signed-in user).",
+          "display_name": "Mailbox (App-only)"
+        }
+      }
     },
     "props": {
       "folderId": {
@@ -1421,7 +1681,59 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        },
+        "accessMode": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Pick the option matching your Grant Type. Use a Delegated option with the Authorization Code grant (acts as the signed-in user). Use an App-only option with the Client Credentials grant (acts as the application — also set Tenant ID and Mailbox), choosing the one that matches your Cloud Environment.",
+          "display_name": "Access Mode",
+          "default": "Mail.ReadWrite Mail.Send Calendars.Read offline_access User.Read openid email profile",
+          "options": [
+            {
+              "label": "Delegated — Commercial (Global)",
+              "value": "Mail.ReadWrite Mail.Send Calendars.Read offline_access User.Read openid email profile"
+            },
+            {
+              "label": "App-only — Commercial (Global)",
+              "value": "https://graph.microsoft.com/.default"
+            },
+            {
+              "label": "App-only — US Government (GCC High)",
+              "value": "https://graph.microsoft.us/.default"
+            }
+          ]
+        },
+        "tenant": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Use \"common\" for the default delegated multi-tenant flow. For app-only (Client Credentials), set this to your Directory (tenant) ID.",
+          "display_name": "Tenant ID",
+          "default": "common"
+        },
+        "mailbox": {
+          "type": "SHORT_TEXT",
+          "required": false,
+          "description": "Email/UPN or user object ID of the mailbox to act on. Required for app-only (Client Credentials). Leave blank for delegated access (acts as the signed-in user).",
+          "display_name": "Mailbox (App-only)"
+        }
+      }
     },
     "props": {
       "messageId": {
@@ -1444,7 +1756,25 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
     },
     "props": {
       "calendarId": {
@@ -1475,7 +1805,25 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
     },
     "props": {
       "calendarId": {
@@ -1532,7 +1880,32 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        },
+        "tenantId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Use \"common\" for the default multi-tenant flow, or your Directory (tenant) ID (a GUID) / \"<name>.onmicrosoft.com\" domain for a single-tenant app registration.",
+          "display_name": "Tenant ID",
+          "default": "common"
+        }
+      }
     },
     "props": {
       "teamId": {
@@ -1590,7 +1963,32 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        },
+        "tenantId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Use \"common\" for the default multi-tenant flow, or your Directory (tenant) ID (a GUID) / \"<name>.onmicrosoft.com\" domain for a single-tenant app registration.",
+          "display_name": "Tenant ID",
+          "default": "common"
+        }
+      }
     },
     "props": {
       "teamId": {
@@ -1654,7 +2052,32 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        },
+        "tenantId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Use \"common\" for the default multi-tenant flow, or your Directory (tenant) ID (a GUID) / \"<name>.onmicrosoft.com\" domain for a single-tenant app registration.",
+          "display_name": "Tenant ID",
+          "default": "common"
+        }
+      }
     },
     "props": {
       "chatId": {
@@ -1702,7 +2125,32 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        },
+        "tenantId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Use \"common\" for the default multi-tenant flow, or your Directory (tenant) ID (a GUID) / \"<name>.onmicrosoft.com\" domain for a single-tenant app registration.",
+          "display_name": "Tenant ID",
+          "default": "common"
+        }
+      }
     },
     "props": {
       "teamId": {
@@ -1733,7 +2181,32 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        },
+        "tenantId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Use \"common\" for the default multi-tenant flow, or your Directory (tenant) ID (a GUID) / \"<name>.onmicrosoft.com\" domain for a single-tenant app registration.",
+          "display_name": "Tenant ID",
+          "default": "common"
+        }
+      }
     },
     "props": {
       "teamId": {
@@ -1780,7 +2253,25 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
     },
     "props": {
       "storageSource": {
@@ -1841,7 +2332,25 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
     },
     "props": {
       "storageSource": {
@@ -1922,7 +2431,25 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
     },
     "props": {
       "storageSource": {
@@ -2041,7 +2568,25 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
     },
     "props": {
       "storageSource": {
@@ -2142,7 +2687,25 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
     },
     "props": {
       "storageSource": {
@@ -2288,7 +2851,25 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
     },
     "props": {
       "storageSource": {
@@ -2395,7 +2976,25 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
     },
     "props": {
       "query": {
@@ -2447,7 +3046,25 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
     },
     "props": {
       "folderId": {
@@ -2509,7 +3126,25 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
     },
     "props": {
       "itemId": {
@@ -2538,7 +3173,25 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
     },
     "props": {
       "parentFolderId": {
@@ -2567,7 +3220,25 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
     },
     "props": {
       "folderId": {
@@ -2623,7 +3294,25 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
     },
     "props": {
       "itemId": {
@@ -2664,7 +3353,25 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
     },
     "props": {
       "searchTerm": {
@@ -2687,7 +3394,25 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
     },
     "props": {
       "siteId": {
@@ -2758,7 +3483,25 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
     },
     "props": {
       "siteId": {
@@ -2833,7 +3576,25 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
     },
     "props": {
       "siteId": {
@@ -2874,7 +3635,25 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
     },
     "props": {
       "siteId": {
@@ -2922,7 +3701,25 @@
     ],
     "auth": {
       "kind": "OAUTH2",
-      "props": {}
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
     },
     "props": {
       "siteId": {

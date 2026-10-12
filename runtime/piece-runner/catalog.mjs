@@ -126,8 +126,10 @@ function buildAuth({ authType, auth, piece }) {
   const data = auth.raw ?? auth.data ?? {};
   if (!nonemptyString(auth.access_token) || !isRecord(data)) throw invalidAuth();
   if (declaration.props !== undefined) {
-    validateAuthProps({ declarations: declaration.props, props: auth.props });
-    return { type, access_token: auth.access_token, data, props: { ...auth.props } };
+    if (auth.props !== undefined && !isRecord(auth.props)) throw invalidAuth();
+    const props = withDefaults({ declarations: declaration.props, props: auth.props ?? {} });
+    validateAuthProps({ declarations: declaration.props, props });
+    return { type, access_token: auth.access_token, data, props };
   }
   if (auth.props !== undefined) validateAuthProps({ declarations: {}, props: auth.props });
   return { type, access_token: auth.access_token, data };

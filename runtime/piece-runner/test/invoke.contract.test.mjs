@@ -222,15 +222,16 @@ test('stub CustomAuth validates declared credentials and reaches context.auth.pr
   } finally { await rm(packageRoot, { recursive: true, force: true }); }
 });
 
-test('stub OAuth2 declared props refuse invalid credentials before running and preserve no-props auth', async () => {
+test('stub OAuth2 declared props refuse invalid credentials before running, fill declared defaults and preserve no-props auth', async () => {
   const packageRoot = await mkdtemp(join(tmpdir(), 'piece-runner-oauth-props-'));
   try {
     await writeFile(join(packageRoot, 'package.json'), '{}');
     const finance = pieceCatalog.entries.filter((entry) => ['@activepieces/piece-quickbooks', '@activepieces/piece-quickbooks-sandbox', '@activepieces/piece-xero'].includes(entry.piece));
     const pieces = [...new Map([...finance, ...pieceCatalog.entries.filter((entry) => [slack.piece, '@activepieces/piece-google-sheets', '@activepieces/piece-microsoft-teams'].includes(entry.piece))].map((entry) => [entry.piece, entry])).values()];
     const declarations = { companyId: { type: 'SHORT_TEXT', displayName: 'Company ID', required: true }, environment: { type: 'STATIC_DROPDOWN', required: false, options: { options: [{ label: 'Production', value: 'production' }, { label: 'Sandbox', value: 'sandbox' }] } } };
+    const microsoftDeclarations = { cloud: { type: 'STATIC_DROPDOWN', required: true, defaultValue: 'login.microsoftonline.com', options: { options: [{ label: 'Commercial', value: 'login.microsoftonline.com' }, { label: 'US Government', value: 'login.microsoftonline.us' }] } }, tenant: { type: 'SHORT_TEXT', required: true, defaultValue: 'common' }, mailbox: { type: 'SHORT_TEXT', required: false } };
     for (const entry of pieces) {
-      const auth = { type: 'OAUTH2', ...(entry.forkDirectory.startsWith('quickbooks') ? { props: declarations } : {}) };
+      const auth = { type: 'OAUTH2', ...(entry.forkDirectory.startsWith('quickbooks') ? { props: declarations } : entry.forkDirectory === 'microsoft-teams' ? { props: microsoftDeclarations } : {}) };
       const target = join(packageRoot, 'node_modules', entry.piece);
       await mkdir(target, { recursive: true });
       await writeFile(join(target, 'package.json'), JSON.stringify({ version: entry.version, main: 'index.cjs' }));
@@ -253,12 +254,17 @@ test('stub OAuth2 declared props refuse invalid credentials before running and p
         const failure = await runnerExecution.execute({ request: { ...request, props: { ...request.props, fail: true } }, pieceCatalog: catalog }).catch((error) => runnerErrors.failure({ error, auth: request.auth }));
         assert.deepEqual(failure, { status: 'failed', error: { class: 'Error', http_status: null, message: 'Company [REDACTED] failed' } });
       } else {
-        for (const invalid of [{ x: '1' }, null, [], 'value']) {
+        const defaults = entry.forkDirectory === 'microsoft-teams' ? { props: { cloud: 'login.microsoftonline.com', tenant: 'common' } } : {};
+        for (const invalid of [{ x: '1' }, null, [], 'value', ...(defaults.props ? [{ cloud: 'login.example.com' }, { tenant: '' }, { tenant: null }] : [])]) {
           await assert.rejects(runnerExecution.execute({ request: { ...request, auth: { ...request.auth, props: invalid } }, pieceCatalog: catalog }), { code: 'INVALID_AUTH' });
           assert.equal(loaded.piece.runs, 0);
         }
         for (const props of [undefined, {}]) {
-          assert.deepEqual(await runnerExecution.execute({ request: { ...request, auth: { ...request.auth, props } }, pieceCatalog: catalog }), { type: 'OAUTH2', access_token: request.auth.access_token, data: request.auth.raw });
+          assert.deepEqual(await runnerExecution.execute({ request: { ...request, auth: { ...request.auth, props } }, pieceCatalog: catalog }), { type: 'OAUTH2', access_token: request.auth.access_token, data: request.auth.raw, ...defaults });
+        }
+        if (defaults.props) {
+          const props = { cloud: 'login.microsoftonline.us', mailbox: 'shared@contract.example' };
+          assert.deepEqual(await runnerExecution.execute({ request: { ...request, auth: { ...request.auth, props } }, pieceCatalog: catalog }), { type: 'OAUTH2', access_token: request.auth.access_token, data: request.auth.raw, props: { ...props, tenant: 'common' } });
         }
         if (entry.forkDirectory === 'xero') assert.deepEqual(await runnerExecution.execute({ request: { ...request, mode: 'options', property: 'tenant_id', props: {} }, pieceCatalog: catalog }), { options: [{ label: request.auth.access_token, value: 'contract-tenant' }], disabled: false, placeholder: null });
       }

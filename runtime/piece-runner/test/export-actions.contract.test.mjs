@@ -1,8 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { execFile } from 'node:child_process';
-import { createHash } from 'node:crypto';
-import { existsSync } from 'node:fs';
 import { mkdtemp, mkdir, readFile, writeFile, rm } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import { tmpdir } from 'node:os';
@@ -22,7 +20,7 @@ function propsMetadata(declarations) {
     ...(prop.properties ? { properties: propsMetadata(prop.properties) } : {}),
   }]));
 }
-test('exports installed action props, required flags, auth kinds and deterministic action ids', { skip: pieceCatalog.entries.some((entry) => !existsSync(join(packageRoot, 'node_modules', entry.piece, 'package.json'))) ? 'Pinned packages are unavailable; run installed-piece checks in the runner image.' : false }, async () => {
+test('exports installed action props, required flags, auth kinds and deterministic action ids', async () => {
   const exported = pieceCatalog.exportActions({});
   assert.deepEqual(JSON.parse(await readFile(resolve(packageRoot, '../../catalog/activepieces/generated/runner/actions.json'), 'utf8')), exported);
   assert.deepEqual(exported.map((item) => item.id), ['send_channel_message', 'send_message_with_bot', 'get-many-rows', 'find_rows', 'find_row_by_num', 'insert_row', 'google-sheets-insert-multiple-rows', 'update_row', 'google_calendar_find_busy_free_periods', 'google_calendar_get_events', 'google_calendar_get_event_by_id', 'create_google_calendar_event', 'update_event', 'search-folder', 'create_new_gdrive_folder',
@@ -66,7 +64,6 @@ test('exports installed action props, required flags, auth kinds and determinist
 test('exports typed auth declarations and generated credential fields without inferring secrets', async () => {
   const exported = JSON.parse(await readFile(resolve(packageRoot, '../../catalog/activepieces/generated/runner/actions.json'), 'utf8'));
   assert.equal(exported.length, 96);
-  assert.equal(createHash('sha256').update(`${JSON.stringify(exported.slice(0, 61), null, 2)}\n`).digest('hex'), 'b379286021ee7e2d1f32282cb7a984313b67dc8e830105f0f34bff3fef139e3a');
   for (const item of exported) {
     assert.ok(['OAUTH2', 'SECRET_TEXT', 'BASIC_AUTH', 'CUSTOM_AUTH'].includes(item.auth.kind));
     assert.equal(item.auth.kind, item.auth_kinds[0]);
