@@ -268,11 +268,59 @@
       "runtime_status": "candidate_only",
       "slug": "microsoft-sharepoint",
       "trigger_count": 8
+    },
+    {
+      "action_count": 13,
+      "artifact_path": "catalog/activepieces/generated/pilot/pieces/quickbooks.json",
+      "auth_types": [
+        "oauth2"
+      ],
+      "display_name": "Quickbooks Online",
+      "nango_provider_key_candidates": [
+        "quickbooks"
+      ],
+      "package_name": "@activepieces/piece-quickbooks",
+      "package_version": "0.3.3",
+      "runtime_status": "candidate_only",
+      "slug": "quickbooks",
+      "trigger_count": 8
+    },
+    {
+      "action_count": 13,
+      "artifact_path": "catalog/activepieces/generated/pilot/pieces/quickbooks-sandbox.json",
+      "auth_types": [
+        "oauth2"
+      ],
+      "display_name": "QuickBooks Online (Sandbox)",
+      "nango_provider_key_candidates": [
+        "quickbooks-sandbox"
+      ],
+      "package_name": "@activepieces/piece-quickbooks-sandbox",
+      "package_version": "0.2.2",
+      "runtime_status": "candidate_only",
+      "slug": "quickbooks-sandbox",
+      "trigger_count": 8
+    },
+    {
+      "action_count": 58,
+      "artifact_path": "catalog/activepieces/generated/pilot/pieces/xero.json",
+      "auth_types": [
+        "oauth2"
+      ],
+      "display_name": "Xero",
+      "nango_provider_key_candidates": [
+        "xero"
+      ],
+      "package_name": "@activepieces/piece-xero",
+      "package_version": "0.8.1",
+      "runtime_status": "candidate_only",
+      "slug": "xero",
+      "trigger_count": 13
     }
   ],
   "runtime_status": "candidate_only",
   "schema_version": "activepieces-catalog-candidate.v1",
-  "trigger_candidate_count": 96,
+  "trigger_candidate_count": 125,
   "trigger_candidates_artifact_path": "catalog/activepieces/generated/pilot/trigger_candidates.json",
   "upstream_commit": "59c94f454ef3afed9974b41650e3d78067918328"
 }

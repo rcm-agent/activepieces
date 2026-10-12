@@ -2,7 +2,7 @@
   "artifact_root": "catalog/activepieces/generated/pilot",
   "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
   "frontend_generated_path": "src/generated/activepieces-nango-provider-map/index.ts",
-  "provider_config_count": 15,
+  "provider_config_count": 18,
   "provider_configs": [
     {
       "auth_types": [
@@ -564,6 +564,90 @@
       },
       "runtime_status": "candidate_only",
       "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/microsoft-sharepoint.json"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "display_name": "Quickbooks Online",
+      "logo_url": "https://cdn.activepieces.com/pieces/quickbooks.png",
+      "package_name": "@activepieces/piece-quickbooks",
+      "package_version": "0.3.3",
+      "piece_slug": "quickbooks",
+      "provider_config_key": "quickbooks",
+      "provider_config_key_candidate_records": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for quickbooks",
+          "provider_key": "quickbooks"
+        }
+      ],
+      "provider_config_key_candidates": [
+        "quickbooks"
+      ],
+      "provider_config_key_selection": {
+        "confidence": "high",
+        "policy": "first_high_confidence_else_first_candidate"
+      },
+      "runtime_status": "candidate_only",
+      "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/quickbooks.json"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "display_name": "QuickBooks Online (Sandbox)",
+      "logo_url": "https://cdn.activepieces.com/pieces/quickbooks.png",
+      "package_name": "@activepieces/piece-quickbooks-sandbox",
+      "package_version": "0.2.2",
+      "piece_slug": "quickbooks-sandbox",
+      "provider_config_key": "quickbooks-sandbox",
+      "provider_config_key_candidate_records": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for quickbooks-sandbox",
+          "provider_key": "quickbooks-sandbox"
+        }
+      ],
+      "provider_config_key_candidates": [
+        "quickbooks-sandbox"
+      ],
+      "provider_config_key_selection": {
+        "confidence": "high",
+        "policy": "first_high_confidence_else_first_candidate"
+      },
+      "runtime_status": "candidate_only",
+      "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/quickbooks-sandbox.json"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "display_name": "Xero",
+      "logo_url": "https://cdn.activepieces.com/pieces/xero.png",
+      "package_name": "@activepieces/piece-xero",
+      "package_version": "0.8.1",
+      "piece_slug": "xero",
+      "provider_config_key": "xero",
+      "provider_config_key_candidate_records": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for xero",
+          "provider_key": "xero"
+        }
+      ],
+      "provider_config_key_candidates": [
+        "xero"
+      ],
+      "provider_config_key_selection": {
+        "confidence": "high",
+        "policy": "first_high_confidence_else_first_candidate"
+      },
+      "runtime_status": "candidate_only",
+      "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/xero.json"
     }
   ],
   "runtime_status": "candidate_only",

@@ -3,7 +3,7 @@
   "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
   "runtime_status": "candidate_only",
   "schema_version": "activepieces-catalog-candidate.v1",
-  "trigger_count": 96,
+  "trigger_count": 125,
   "triggers": [
     {
       "auth_types": [
@@ -3556,6 +3556,905 @@
       "source_line": 13,
       "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/triggers/updated-list-item.ts",
       "trigger_name": "updated_list_item",
+      "trigger_strategy": "WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.quickbooks.new_bill",
+      "description": "Triggers when a new bill (accounts payable) is created in QuickBooks.",
+      "display_name": "New Bill",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for quickbooks",
+          "provider_key": "quickbooks"
+        }
+      ],
+      "package_name": "@activepieces/piece-quickbooks",
+      "package_version": "0.3.3",
+      "piece_display_name": "Quickbooks Online",
+      "piece_slug": "quickbooks",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/quickbooks/src/triggers/new-bill.ts",
+      "trigger_name": "new_bill",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.quickbooks.new_customer",
+      "description": "Triggers when a new customer is created.",
+      "display_name": "New Customer",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for quickbooks",
+          "provider_key": "quickbooks"
+        }
+      ],
+      "package_name": "@activepieces/piece-quickbooks",
+      "package_version": "0.3.3",
+      "piece_display_name": "Quickbooks Online",
+      "piece_slug": "quickbooks",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 51,
+      "source_path": "packages/pieces/community/quickbooks/src/triggers/new-customer.ts",
+      "trigger_name": "new_customer",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.quickbooks.new_deposit",
+      "description": "Triggers when a Deposit is created.",
+      "display_name": "New Deposit",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for quickbooks",
+          "provider_key": "quickbooks"
+        }
+      ],
+      "package_name": "@activepieces/piece-quickbooks",
+      "package_version": "0.3.3",
+      "piece_display_name": "Quickbooks Online",
+      "piece_slug": "quickbooks",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 47,
+      "source_path": "packages/pieces/community/quickbooks/src/triggers/new-deposit.ts",
+      "trigger_name": "new_deposit",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.quickbooks.new_expense",
+      "description": "Triggers when an Expense (Purchase) is created.",
+      "display_name": "New Expense (Purchase)",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for quickbooks",
+          "provider_key": "quickbooks"
+        }
+      ],
+      "package_name": "@activepieces/piece-quickbooks",
+      "package_version": "0.3.3",
+      "piece_display_name": "Quickbooks Online",
+      "piece_slug": "quickbooks",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 51,
+      "source_path": "packages/pieces/community/quickbooks/src/triggers/new-expense.ts",
+      "trigger_name": "new_expense",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.quickbooks.new_invoice",
+      "description": "Triggers when an invoice is created .",
+      "display_name": "New Invoice",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for quickbooks",
+          "provider_key": "quickbooks"
+        }
+      ],
+      "package_name": "@activepieces/piece-quickbooks",
+      "package_version": "0.3.3",
+      "piece_display_name": "Quickbooks Online",
+      "piece_slug": "quickbooks",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 51,
+      "source_path": "packages/pieces/community/quickbooks/src/triggers/new-invoice.ts",
+      "trigger_name": "new_invoice",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.quickbooks.new_or_updated_invoice",
+      "description": "Triggers when an invoice is created or updated in QuickBooks.",
+      "display_name": "New or Updated Invoice",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for quickbooks",
+          "provider_key": "quickbooks"
+        }
+      ],
+      "package_name": "@activepieces/piece-quickbooks",
+      "package_version": "0.3.3",
+      "piece_display_name": "Quickbooks Online",
+      "piece_slug": "quickbooks",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/quickbooks/src/triggers/new-or-updated-invoice.ts",
+      "trigger_name": "new_or_updated_invoice",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.quickbooks.new_transfer",
+      "description": "Triggers when a Transfer is created.",
+      "display_name": "New Transfer",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for quickbooks",
+          "provider_key": "quickbooks"
+        }
+      ],
+      "package_name": "@activepieces/piece-quickbooks",
+      "package_version": "0.3.3",
+      "piece_display_name": "Quickbooks Online",
+      "piece_slug": "quickbooks",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 51,
+      "source_path": "packages/pieces/community/quickbooks/src/triggers/new-transfer.ts",
+      "trigger_name": "new_transfer",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.quickbooks.payment_received",
+      "description": "Triggers when a new customer payment is recorded in QuickBooks.",
+      "display_name": "Payment Received",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for quickbooks",
+          "provider_key": "quickbooks"
+        }
+      ],
+      "package_name": "@activepieces/piece-quickbooks",
+      "package_version": "0.3.3",
+      "piece_display_name": "Quickbooks Online",
+      "piece_slug": "quickbooks",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/quickbooks/src/triggers/payment-received.ts",
+      "trigger_name": "payment_received",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.quickbooks-sandbox.new_bill",
+      "description": "Triggers when a new bill (accounts payable) is created in QuickBooks.",
+      "display_name": "New Bill",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for quickbooks-sandbox",
+          "provider_key": "quickbooks-sandbox"
+        }
+      ],
+      "package_name": "@activepieces/piece-quickbooks-sandbox",
+      "package_version": "0.2.2",
+      "piece_display_name": "QuickBooks Online (Sandbox)",
+      "piece_slug": "quickbooks-sandbox",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/triggers/new-bill.ts",
+      "trigger_name": "new_bill",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.quickbooks-sandbox.new_customer",
+      "description": "Triggers when a new customer is created.",
+      "display_name": "New Customer",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for quickbooks-sandbox",
+          "provider_key": "quickbooks-sandbox"
+        }
+      ],
+      "package_name": "@activepieces/piece-quickbooks-sandbox",
+      "package_version": "0.2.2",
+      "piece_display_name": "QuickBooks Online (Sandbox)",
+      "piece_slug": "quickbooks-sandbox",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 51,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/triggers/new-customer.ts",
+      "trigger_name": "new_customer",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.quickbooks-sandbox.new_deposit",
+      "description": "Triggers when a Deposit is created.",
+      "display_name": "New Deposit",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for quickbooks-sandbox",
+          "provider_key": "quickbooks-sandbox"
+        }
+      ],
+      "package_name": "@activepieces/piece-quickbooks-sandbox",
+      "package_version": "0.2.2",
+      "piece_display_name": "QuickBooks Online (Sandbox)",
+      "piece_slug": "quickbooks-sandbox",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 47,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/triggers/new-deposit.ts",
+      "trigger_name": "new_deposit",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.quickbooks-sandbox.new_expense",
+      "description": "Triggers when an Expense (Purchase) is created.",
+      "display_name": "New Expense (Purchase)",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for quickbooks-sandbox",
+          "provider_key": "quickbooks-sandbox"
+        }
+      ],
+      "package_name": "@activepieces/piece-quickbooks-sandbox",
+      "package_version": "0.2.2",
+      "piece_display_name": "QuickBooks Online (Sandbox)",
+      "piece_slug": "quickbooks-sandbox",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 51,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/triggers/new-expense.ts",
+      "trigger_name": "new_expense",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.quickbooks-sandbox.new_invoice",
+      "description": "Triggers when an invoice is created .",
+      "display_name": "New Invoice",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for quickbooks-sandbox",
+          "provider_key": "quickbooks-sandbox"
+        }
+      ],
+      "package_name": "@activepieces/piece-quickbooks-sandbox",
+      "package_version": "0.2.2",
+      "piece_display_name": "QuickBooks Online (Sandbox)",
+      "piece_slug": "quickbooks-sandbox",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 51,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/triggers/new-invoice.ts",
+      "trigger_name": "new_invoice",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.quickbooks-sandbox.new_or_updated_invoice",
+      "description": "Triggers when an invoice is created or updated in QuickBooks.",
+      "display_name": "New or Updated Invoice",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for quickbooks-sandbox",
+          "provider_key": "quickbooks-sandbox"
+        }
+      ],
+      "package_name": "@activepieces/piece-quickbooks-sandbox",
+      "package_version": "0.2.2",
+      "piece_display_name": "QuickBooks Online (Sandbox)",
+      "piece_slug": "quickbooks-sandbox",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/triggers/new-or-updated-invoice.ts",
+      "trigger_name": "new_or_updated_invoice",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.quickbooks-sandbox.new_transfer",
+      "description": "Triggers when a Transfer is created.",
+      "display_name": "New Transfer",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for quickbooks-sandbox",
+          "provider_key": "quickbooks-sandbox"
+        }
+      ],
+      "package_name": "@activepieces/piece-quickbooks-sandbox",
+      "package_version": "0.2.2",
+      "piece_display_name": "QuickBooks Online (Sandbox)",
+      "piece_slug": "quickbooks-sandbox",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 51,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/triggers/new-transfer.ts",
+      "trigger_name": "new_transfer",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.quickbooks-sandbox.payment_received",
+      "description": "Triggers when a new customer payment is recorded in QuickBooks.",
+      "display_name": "Payment Received",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for quickbooks-sandbox",
+          "provider_key": "quickbooks-sandbox"
+        }
+      ],
+      "package_name": "@activepieces/piece-quickbooks-sandbox",
+      "package_version": "0.2.2",
+      "piece_display_name": "QuickBooks Online (Sandbox)",
+      "piece_slug": "quickbooks-sandbox",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/triggers/payment-received.ts",
+      "trigger_name": "payment_received",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.xero.xero_new_bank_transaction",
+      "description": "Fires the first time a bank transaction is created or changed after the trigger is turned on.",
+      "display_name": "New Bank Transaction",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for xero",
+          "provider_key": "xero"
+        }
+      ],
+      "package_name": "@activepieces/piece-xero",
+      "package_version": "0.8.1",
+      "piece_display_name": "Xero",
+      "piece_slug": "xero",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 68,
+      "source_path": "packages/pieces/community/xero/src/lib/triggers/new-bank-transaction.ts",
+      "trigger_name": "xero_new_bank_transaction",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.xero.xero_new_bill",
+      "description": "Fires the first time a bill (Accounts Payable) is created or changed after the trigger is turned on.",
+      "display_name": "New Bill",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for xero",
+          "provider_key": "xero"
+        }
+      ],
+      "package_name": "@activepieces/piece-xero",
+      "package_version": "0.8.1",
+      "piece_display_name": "Xero",
+      "piece_slug": "xero",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 54,
+      "source_path": "packages/pieces/community/xero/src/lib/triggers/new-bill.ts",
+      "trigger_name": "xero_new_bill",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.xero.xero_new_contact",
+      "description": "Fires when a new contact is added to Xero (via Xero webhooks). Configure the webhook in Xero Developer portal to point to this URL.",
+      "display_name": "New Contact",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for xero",
+          "provider_key": "xero"
+        }
+      ],
+      "package_name": "@activepieces/piece-xero",
+      "package_version": "0.8.1",
+      "piece_display_name": "Xero",
+      "piece_slug": "xero",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/triggers/new-contact.ts",
+      "trigger_name": "xero_new_contact",
+      "trigger_strategy": "WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.xero.xero_new_credit_note",
+      "description": "Fires the first time a credit note is created or changed after the trigger is turned on.",
+      "display_name": "New Credit Note",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for xero",
+          "provider_key": "xero"
+        }
+      ],
+      "package_name": "@activepieces/piece-xero",
+      "package_version": "0.8.1",
+      "piece_display_name": "Xero",
+      "piece_slug": "xero",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 62,
+      "source_path": "packages/pieces/community/xero/src/lib/triggers/new-credit-note.ts",
+      "trigger_name": "xero_new_credit_note",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.xero.xero_new_or_updated_contact",
+      "description": "Fires when a contact is created or updated (via Xero webhooks).",
+      "display_name": "New or Updated Contact",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for xero",
+          "provider_key": "xero"
+        }
+      ],
+      "package_name": "@activepieces/piece-xero",
+      "package_version": "0.8.1",
+      "piece_display_name": "Xero",
+      "piece_slug": "xero",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/triggers/new-or-updated-contact.ts",
+      "trigger_name": "xero_new_or_updated_contact",
+      "trigger_strategy": "WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.xero.xero_new_payment",
+      "description": "Fires the first time a payment is recorded or changed after the trigger is turned on.",
+      "display_name": "New Payment",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for xero",
+          "provider_key": "xero"
+        }
+      ],
+      "package_name": "@activepieces/piece-xero",
+      "package_version": "0.8.1",
+      "piece_display_name": "Xero",
+      "piece_slug": "xero",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 61,
+      "source_path": "packages/pieces/community/xero/src/lib/triggers/new-payment.ts",
+      "trigger_name": "xero_new_payment",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.xero.xero_new_project",
+      "description": "Fires when a new project is created.",
+      "display_name": "New Project",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for xero",
+          "provider_key": "xero"
+        }
+      ],
+      "package_name": "@activepieces/piece-xero",
+      "package_version": "0.8.1",
+      "piece_display_name": "Xero",
+      "piece_slug": "xero",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 48,
+      "source_path": "packages/pieces/community/xero/src/lib/triggers/new-project.ts",
+      "trigger_name": "xero_new_project",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.xero.xero_new_purchase_order",
+      "description": "Fires the first time a purchase order is created or changed after the trigger is turned on, or enters a chosen status for the first time.",
+      "display_name": "New Purchase Order",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for xero",
+          "provider_key": "xero"
+        }
+      ],
+      "package_name": "@activepieces/piece-xero",
+      "package_version": "0.8.1",
+      "piece_display_name": "Xero",
+      "piece_slug": "xero",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 58,
+      "source_path": "packages/pieces/community/xero/src/lib/triggers/new-purchase-order.ts",
+      "trigger_name": "xero_new_purchase_order",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.xero.xero_new_quote",
+      "description": "Fires the first time a quote is created or changed after the trigger is turned on.",
+      "display_name": "New Quote",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for xero",
+          "provider_key": "xero"
+        }
+      ],
+      "package_name": "@activepieces/piece-xero",
+      "package_version": "0.8.1",
+      "piece_display_name": "Xero",
+      "piece_slug": "xero",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 56,
+      "source_path": "packages/pieces/community/xero/src/lib/triggers/new-quote.ts",
+      "trigger_name": "xero_new_quote",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.xero.xero_new_reconciled_payment",
+      "description": "Fires when a payment is reconciled for the first time.",
+      "display_name": "New Reconciled Payment",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for xero",
+          "provider_key": "xero"
+        }
+      ],
+      "package_name": "@activepieces/piece-xero",
+      "package_version": "0.8.1",
+      "piece_display_name": "Xero",
+      "piece_slug": "xero",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 61,
+      "source_path": "packages/pieces/community/xero/src/lib/triggers/new-reconciled-payment.ts",
+      "trigger_name": "xero_new_reconciled_payment",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.xero.xero_new_sales_invoice",
+      "description": "Fires when a new sales invoice (Accounts Receivable) is created.",
+      "display_name": "New Sales Invoice",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for xero",
+          "provider_key": "xero"
+        }
+      ],
+      "package_name": "@activepieces/piece-xero",
+      "package_version": "0.8.1",
+      "piece_display_name": "Xero",
+      "piece_slug": "xero",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/triggers/new-sales-invoice.ts",
+      "trigger_name": "xero_new_sales_invoice",
+      "trigger_strategy": "WEBHOOK",
+      "trigger_strategy_family": "WEBHOOK"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.xero.xero_updated_quote",
+      "description": "Fires when a quote is created or updated.",
+      "display_name": "Updated Quote",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for xero",
+          "provider_key": "xero"
+        }
+      ],
+      "package_name": "@activepieces/piece-xero",
+      "package_version": "0.8.1",
+      "piece_display_name": "Xero",
+      "piece_slug": "xero",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 56,
+      "source_path": "packages/pieces/community/xero/src/lib/triggers/updated-quote.ts",
+      "trigger_name": "xero_updated_quote",
+      "trigger_strategy": "POLLING",
+      "trigger_strategy_family": "POLLING"
+    },
+    {
+      "auth_types": [
+        "oauth2"
+      ],
+      "candidate_id": "activepieces_candidate.xero.xero_updated_sales_invoice",
+      "description": "Fires when an existing sales invoice (Accounts Receivable) is updated.",
+      "display_name": "Updated Sales Invoice",
+      "nango_provider_key_candidates": [
+        {
+          "candidate_only": true,
+          "confidence": "high",
+          "evidence": "inferred from package/auth metadata for xero",
+          "provider_key": "xero"
+        }
+      ],
+      "package_name": "@activepieces/piece-xero",
+      "package_version": "0.8.1",
+      "piece_display_name": "Xero",
+      "piece_slug": "xero",
+      "runtime_execution": {
+        "note": "Generated trigger candidate only; RCM-owned trigger catalog promotion is required before execution.",
+        "status": "candidate_only",
+        "supported": false
+      },
+      "runtime_status": "candidate_only",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/triggers/updated-sales-invoice.ts",
+      "trigger_name": "xero_updated_sales_invoice",
       "trigger_strategy": "WEBHOOK",
       "trigger_strategy_family": "WEBHOOK"
     }

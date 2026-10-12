@@ -14,7 +14,7 @@ const SCHEMA_VERSION = 'activepieces-catalog-candidate.v1';
 const RUNTIME_STATUS = 'candidate_only';
 const UPSTREAM_REPO = 'activepieces/activepieces';
 const UPSTREAM_COMMIT = '59c94f454ef3afed9974b41650e3d78067918328';
-const PILOT_PIECES = ['slack', 'discord', 'gmail', 'google-sheets', 'google-calendar', 'google-drive', 'hubspot', 'github', 'notion', 'microsoft-outlook', 'microsoft-outlook-calendar', 'microsoft-teams', 'microsoft-excel-365', 'microsoft-onedrive', 'microsoft-sharepoint'];
+const PILOT_PIECES = ['slack', 'discord', 'gmail', 'google-sheets', 'google-calendar', 'google-drive', 'hubspot', 'github', 'notion', 'microsoft-outlook', 'microsoft-outlook-calendar', 'microsoft-teams', 'microsoft-excel-365', 'microsoft-onedrive', 'microsoft-sharepoint', 'quickbooks', 'quickbooks-sandbox', 'xero'];
 const WEBHOOK_TRIGGER_STRATEGIES = new Set(['WEBHOOK', 'APP_WEBHOOK']);
 const POLLING_TRIGGER_STRATEGIES = new Set(['POLLING']);
 
@@ -40,6 +40,9 @@ const NANGO_PROVIDER_HINTS = {
   hubspot: ['hubspot'],
   github: ['github'],
   notion: ['notion-dev', 'notion'],
+  quickbooks: ['quickbooks'],
+  'quickbooks-sandbox': ['quickbooks-sandbox'],
+  xero: ['xero'],
 };
 
 function main() {

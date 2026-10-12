@@ -1,0 +1,214 @@
+{
+  "actions": [
+    {
+      "description": "Creates a bill (accounts payable) in QuickBooks.",
+      "display_name": "Create Bill",
+      "name": "create_bill",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/actions/create-bill.ts"
+    },
+    {
+      "description": "Creates an expense transaction (purchase) in QuickBooks.",
+      "display_name": "Create Expense",
+      "name": "create_expense",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/actions/create-expense.ts"
+    },
+    {
+      "description": "Creates an invoice in QuickBooks.",
+      "display_name": "Create Invoice",
+      "name": "create_invoice",
+      "source_line": 11,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/actions/create-invoice.ts"
+    },
+    {
+      "description": "Creates a vendor in QuickBooks.",
+      "display_name": "Create Vendor",
+      "name": "create_vendor",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/actions/create-vendor.ts"
+    },
+    {
+      "description": "Make a custom API call to a specific endpoint",
+      "display_name": "Custom API Call",
+      "name": "custom_api_call",
+      "source_line": 45,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/index.ts"
+    },
+    {
+      "description": "List or search the chart of accounts to get an account Id (e.g. an expense account for a bill).",
+      "display_name": "Find Account",
+      "name": "find_account",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/actions/find-account.ts"
+    },
+    {
+      "description": "Search for a customer by display name in QuickBooks.",
+      "display_name": "Find Customer",
+      "name": "find_customer",
+      "source_line": 5,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/actions/find-customer.ts"
+    },
+    {
+      "description": "Search for an invoice by its number in QuickBooks.",
+      "display_name": "Find Invoice",
+      "name": "find_invoice",
+      "source_line": 107,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/actions/find-invoice.ts"
+    },
+    {
+      "description": "Finds an existing payment in QuickBooks.",
+      "display_name": "Find Payment",
+      "name": "find_payment",
+      "source_line": 49,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/actions/find-payment.ts"
+    },
+    {
+      "description": "Search for a vendor in QuickBooks by display name, email address, or account number.",
+      "display_name": "Find Vendor",
+      "name": "find_vendor",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/actions/find-vendor.ts"
+    },
+    {
+      "description": "Reads an accounts receivable or accounts payable aging report from QuickBooks.",
+      "display_name": "Read AR/AP Aging",
+      "name": "read_aging_report",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/actions/read-aging-report.ts"
+    },
+    {
+      "description": "Pays one or more vendor bills in QuickBooks, in full or in part, by check or credit card.",
+      "display_name": "Record Bill Payment (AP)",
+      "name": "record_bill_payment",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/actions/record-bill-payment.ts"
+    },
+    {
+      "description": "Records a customer payment in QuickBooks, optionally applying it to invoices.",
+      "display_name": "Record Payment",
+      "name": "record_payment",
+      "source_line": 7,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/actions/record-payment.ts"
+    }
+  ],
+  "auth": {
+    "auth_url_candidates": [
+      "https://appcenter.intuit.com/connect/oauth2"
+    ],
+    "declared_symbol": "quickbooksAuth",
+    "source_path": "packages/pieces/community/quickbooks-sandbox/src/lib/auth.ts",
+    "token_url_candidates": [
+      "https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer"
+    ],
+    "types": [
+      "oauth2"
+    ]
+  },
+  "nango_provider_key_candidates": [
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for quickbooks-sandbox",
+      "provider_key": "quickbooks-sandbox"
+    }
+  ],
+  "package": {
+    "name": "@activepieces/piece-quickbooks-sandbox",
+    "version": "0.2.2"
+  },
+  "piece": {
+    "auth_symbol": "quickbooksAuth",
+    "authors": [
+      "onyedikachi-david",
+      "sanket-a11y"
+    ],
+    "categories": [],
+    "description": null,
+    "display_name": "QuickBooks Online (Sandbox)",
+    "export_name": "quickbooksSandbox",
+    "logo_url": "https://cdn.activepieces.com/pieces/quickbooks.png",
+    "minimum_supported_release": "0.36.1",
+    "slug": "quickbooks-sandbox"
+  },
+  "provenance": {
+    "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
+    "index_path": "packages/pieces/community/quickbooks-sandbox/src/index.ts",
+    "piece_path": "packages/pieces/community/quickbooks-sandbox",
+    "upstream_commit": "59c94f454ef3afed9974b41650e3d78067918328",
+    "upstream_repo": "activepieces/activepieces"
+  },
+  "runtime_execution": {
+    "note": "Generated catalog candidate only; Activepieces runtime execution is out of scope.",
+    "status": "candidate_only",
+    "supported": false
+  },
+  "runtime_status": "candidate_only",
+  "schema_version": "activepieces-catalog-candidate.v1",
+  "triggers": [
+    {
+      "description": "Triggers when a new bill (accounts payable) is created in QuickBooks.",
+      "display_name": "New Bill",
+      "name": "new_bill",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/triggers/new-bill.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a new customer is created.",
+      "display_name": "New Customer",
+      "name": "new_customer",
+      "source_line": 51,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/triggers/new-customer.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a Deposit is created.",
+      "display_name": "New Deposit",
+      "name": "new_deposit",
+      "source_line": 47,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/triggers/new-deposit.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when an Expense (Purchase) is created.",
+      "display_name": "New Expense (Purchase)",
+      "name": "new_expense",
+      "source_line": 51,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/triggers/new-expense.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when an invoice is created .",
+      "display_name": "New Invoice",
+      "name": "new_invoice",
+      "source_line": 51,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/triggers/new-invoice.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when an invoice is created or updated in QuickBooks.",
+      "display_name": "New or Updated Invoice",
+      "name": "new_or_updated_invoice",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/triggers/new-or-updated-invoice.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a Transfer is created.",
+      "display_name": "New Transfer",
+      "name": "new_transfer",
+      "source_line": 51,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/triggers/new-transfer.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Triggers when a new customer payment is recorded in QuickBooks.",
+      "display_name": "Payment Received",
+      "name": "payment_received",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/quickbooks-sandbox/src/triggers/payment-received.ts",
+      "trigger_strategy": "POLLING"
+    }
+  ]
+}

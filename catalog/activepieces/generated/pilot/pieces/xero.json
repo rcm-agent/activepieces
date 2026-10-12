@@ -1,0 +1,575 @@
+{
+  "actions": [
+    {
+      "description": "Make a custom API call to a specific endpoint",
+      "display_name": "Custom API Call",
+      "name": "custom_api_call",
+      "source_line": 186,
+      "source_path": "packages/pieces/community/xero/src/index.ts"
+    },
+    {
+      "description": "Adds line items to an existing sales invoice (ACCREC).",
+      "display_name": "Add Items to Existing Sales Invoice",
+      "name": "xero_add_items_to_sales_invoice",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/add-items-to-sales-invoice.ts"
+    },
+    {
+      "description": "Applies part or all of a credit note to an invoice or bill.",
+      "display_name": "Allocate Credit Note to Invoice",
+      "name": "xero_allocate_credit_note_ai",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/ai/allocate-credit-note.ts"
+    },
+    {
+      "description": "Allocates a credit note to a specific invoice.",
+      "display_name": "Allocate Credit Note to Invoice",
+      "name": "xero_allocate_credit_note_to_invoice",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/allocate-credit-note-to-invoice.ts"
+    },
+    {
+      "description": "Archives a contact so it no longer appears in contact lists.",
+      "display_name": "Archive Contact",
+      "name": "xero_archive_contact",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/archive-contact.ts"
+    },
+    {
+      "description": "Creates a new Spend/Receive Money bank transaction.",
+      "display_name": "Create Bank Transaction",
+      "name": "xero_create_bank_transaction",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/create-bank-transaction.ts"
+    },
+    {
+      "description": "Records a spend money or receive money transaction on a bank account.",
+      "display_name": "Create Bank Transaction",
+      "name": "xero_create_bank_transaction_ai",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/ai/create-bank-transaction.ts"
+    },
+    {
+      "description": "Transfers money between two bank accounts in Xero.",
+      "display_name": "Create Bank Transfer",
+      "name": "xero_create_bank_transfer",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/create-bank-transfer.ts"
+    },
+    {
+      "description": "Creates a new bill (Accounts Payable).",
+      "display_name": "Create Bill",
+      "name": "xero_create_bill",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/create-bill.ts"
+    },
+    {
+      "description": "Create Xero Contact",
+      "display_name": "Create or Update Contact",
+      "name": "xero_create_contact",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/create-contact.ts"
+    },
+    {
+      "description": "Creates a new credit note for a contact.",
+      "display_name": "Create Credit Note",
+      "name": "xero_create_credit_note",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/create-credit-note.ts"
+    },
+    {
+      "description": "Creates a customer or supplier credit note for a contact ID with line items.",
+      "display_name": "Create Credit Note",
+      "name": "xero_create_credit_note_ai",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/ai/create-credit-note.ts"
+    },
+    {
+      "description": "Creates a new inventory item in Xero.",
+      "display_name": "Create Inventory Item",
+      "name": "xero_create_inventory_item",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/create-inventory-item.ts"
+    },
+    {
+      "description": "Create Xero Invoice",
+      "display_name": "Create or Update Invoice",
+      "name": "xero_create_invoice",
+      "source_line": 13,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/create-invoice.ts"
+    },
+    {
+      "description": "Creates a sales invoice or a supplier bill for a contact ID with line items.",
+      "display_name": "Create Invoice or Bill",
+      "name": "xero_create_invoice_ai",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/ai/create-invoice.ts"
+    },
+    {
+      "description": "Creates a manual journal with balanced debit and credit lines.",
+      "display_name": "Create Manual Journal",
+      "name": "xero_create_manual_journal",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/create-manual-journal.ts"
+    },
+    {
+      "description": "Applies a payment to an invoice.",
+      "display_name": "Create Payment",
+      "name": "xero_create_payment",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/create-payment.ts"
+    },
+    {
+      "description": "Records a payment against an approved invoice or bill from a bank account.",
+      "display_name": "Record Payment",
+      "name": "xero_create_payment_ai",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/ai/create-payment.ts"
+    },
+    {
+      "description": "Creates a new project for a contact.",
+      "display_name": "Create Project",
+      "name": "xero_create_project",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/create-project.ts"
+    },
+    {
+      "description": "Creates a new purchase order for a contact.",
+      "display_name": "Create Purchase Order",
+      "name": "xero_create_purchase_order",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/create-purchase-order.ts"
+    },
+    {
+      "description": "Creates a purchase order to a supplier contact ID with line items.",
+      "display_name": "Create Purchase Order",
+      "name": "xero_create_purchase_order_ai",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/ai/create-purchase-order.ts"
+    },
+    {
+      "description": "Creates a quote for a contact ID with line items.",
+      "display_name": "Create Quote",
+      "name": "xero_create_quote_ai",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/ai/create-quote.ts"
+    },
+    {
+      "description": "Creates a new draft quote.",
+      "display_name": "Create New Quote Draft",
+      "name": "xero_create_quote_draft",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/create-quote-draft.ts"
+    },
+    {
+      "description": "Creates a repeating sales invoice (Accounts Receivable).",
+      "display_name": "Create Repeating Sales Invoice",
+      "name": "xero_create_repeating_sales_invoice",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/create-repeating-sales-invoice.ts"
+    },
+    {
+      "description": "Deletes (reverses) a payment so the invoice or bill is unpaid again.",
+      "display_name": "Delete Payment",
+      "name": "xero_delete_payment",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/delete-payment.ts"
+    },
+    {
+      "description": "Downloads the PDF of an invoice or bill so you can attach or send it in later steps.",
+      "display_name": "Download Invoice PDF",
+      "name": "xero_download_invoice_pdf",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/download-invoice-pdf.ts"
+    },
+    {
+      "description": "Emails a sales invoice to its contact through Xero.",
+      "display_name": "Email Invoice",
+      "name": "xero_email_invoice_ai",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/ai/email-invoice.ts"
+    },
+    {
+      "description": "Finds a contact by name or account number (or SearchTerm).",
+      "display_name": "Find Contact",
+      "name": "xero_find_contact",
+      "source_line": 13,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/find-contact.ts"
+    },
+    {
+      "description": "Finds an invoice by number or reference.",
+      "display_name": "Find Invoice",
+      "name": "xero_find_invoice",
+      "source_line": 13,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/find-invoice.ts"
+    },
+    {
+      "description": "Finds an item by name or code.",
+      "display_name": "Find Item",
+      "name": "xero_find_item",
+      "source_line": 13,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/find-item.ts"
+    },
+    {
+      "description": "Finds or creates a specific contact.",
+      "display_name": "Find or Create Contact",
+      "name": "xero_find_or_create_contact",
+      "source_line": 13,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/find-or-create-contact.ts"
+    },
+    {
+      "description": "Finds a purchase order by given parameters.",
+      "display_name": "Find Purchase Order",
+      "name": "xero_find_purchase_order",
+      "source_line": 13,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/find-purchase-order.ts"
+    },
+    {
+      "description": "Runs the Aged Payables report for one supplier: what you owe them, by bill and age.",
+      "display_name": "Get Aged Payables for Contact",
+      "name": "xero_get_aged_payables",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/get-aged-payables.ts"
+    },
+    {
+      "description": "Runs the Aged Receivables report for one customer: what they owe, by invoice and age.",
+      "display_name": "Get Aged Receivables for Contact",
+      "name": "xero_get_aged_receivables",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/get-aged-receivables.ts"
+    },
+    {
+      "description": "Runs the Balance Sheet report as at a date, with optional comparison periods.",
+      "display_name": "Get Balance Sheet",
+      "name": "xero_get_balance_sheet",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/get-balance-sheet.ts"
+    },
+    {
+      "description": "Runs the Bank Summary report: opening balance, cash in, cash out and closing balance per bank account.",
+      "display_name": "Get Bank Summary",
+      "name": "xero_get_bank_summary",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/get-bank-summary.ts"
+    },
+    {
+      "description": "Gets one contact by ID, with addresses and phone numbers.",
+      "display_name": "Get Contact",
+      "name": "xero_get_contact",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/get-contact.ts"
+    },
+    {
+      "description": "Runs the Executive Summary report: cash, profitability, balance sheet and performance ratios for a month.",
+      "display_name": "Get Executive Summary",
+      "name": "xero_get_executive_summary",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/get-executive-summary.ts"
+    },
+    {
+      "description": "Gets one invoice or bill by its ID or invoice number, including line items.",
+      "display_name": "Get Invoice",
+      "name": "xero_get_invoice",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/get-invoice.ts"
+    },
+    {
+      "description": "Returns a list of history records for a given invoice ID.",
+      "display_name": "Get Invoice History",
+      "name": "xero_get_invoice_history",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/get-invoice-history.ts"
+    },
+    {
+      "description": "Gets the settings of a Xero organisation, such as base currency, tax settings and financial year end.",
+      "display_name": "Get Organisation Details",
+      "name": "xero_get_organisation",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/get-organisation.ts"
+    },
+    {
+      "description": "Runs the Profit and Loss report for a date range, with optional comparison periods.",
+      "display_name": "Get Profit and Loss",
+      "name": "xero_get_profit_and_loss",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/get-profit-and-loss.ts"
+    },
+    {
+      "description": "Runs the Trial Balance report as at a date.",
+      "display_name": "Get Trial Balance",
+      "name": "xero_get_trial_balance",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/get-trial-balance.ts"
+    },
+    {
+      "description": "Lists the chart of accounts, optionally filtered by type, class or status.",
+      "display_name": "List Accounts",
+      "name": "xero_list_accounts",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/list-accounts.ts"
+    },
+    {
+      "description": "Lists the Xero organisations this connection can access.",
+      "display_name": "List Organisations",
+      "name": "xero_list_organisations",
+      "source_line": 6,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/list-organisations.ts"
+    },
+    {
+      "description": "Lists the tax rates of the organisation and the TaxType codes to use on line items.",
+      "display_name": "List Tax Rates",
+      "name": "xero_list_tax_rates",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/list-tax-rates.ts"
+    },
+    {
+      "description": "Lists tracking categories (such as Region or Department) and their options.",
+      "display_name": "List Tracking Categories",
+      "name": "xero_list_tracking_categories",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/list-tracking-categories.ts"
+    },
+    {
+      "description": "Searches spend and receive money transactions by type, status, bank account, contact or date range.",
+      "display_name": "Search Bank Transactions",
+      "name": "xero_search_bank_transactions",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/search-bank-transactions.ts"
+    },
+    {
+      "description": "Searches sales invoices and bills by type, status, contact, date range or text, one page at a time.",
+      "display_name": "Search Invoices",
+      "name": "xero_search_invoices",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/search-invoices.ts"
+    },
+    {
+      "description": "Searches payments by invoice, status, payment type or date range, one page at a time.",
+      "display_name": "Search Payments",
+      "name": "xero_search_payments",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/search-payments.ts"
+    },
+    {
+      "description": "Sends a sales invoice via email to a contact.",
+      "display_name": "Send Sales Invoice by Email",
+      "name": "xero_send_invoice_email",
+      "source_line": 11,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/send-invoice-email.ts"
+    },
+    {
+      "description": "Updates fields or line items of an existing invoice or bill by ID.",
+      "display_name": "Update Invoice or Bill",
+      "name": "xero_update_invoice_ai",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/ai/update-invoice.ts"
+    },
+    {
+      "description": "Updates details of an existing purchase order.",
+      "display_name": "Update Purchase Order",
+      "name": "xero_update_purchase_order",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/update-purchase-order.ts"
+    },
+    {
+      "description": "Updates details of an existing sales invoice (ACCREC).",
+      "display_name": "Update Sales Invoice",
+      "name": "xero_update_sales_invoice",
+      "source_line": 12,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/update-sales-invoice.ts"
+    },
+    {
+      "description": "Uploads an attachment to a specific Xero resource.",
+      "display_name": "Upload Attachment",
+      "name": "xero_upload_attachment",
+      "source_line": 27,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/upload-attachment.ts"
+    },
+    {
+      "description": "Attaches a file to an existing invoice, bill, credit note, quote, purchase order, contact or other record.",
+      "display_name": "Upload Attachment",
+      "name": "xero_upload_attachment_ai",
+      "source_line": 9,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/ai/upload-attachment.ts"
+    },
+    {
+      "description": "Creates a product or service item, or updates the item that already has this code.",
+      "display_name": "Create or Update Item",
+      "name": "xero_upsert_item",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/upsert-item.ts"
+    },
+    {
+      "description": "Voids an approved invoice or bill, or deletes it while it is still a draft or awaiting approval.",
+      "display_name": "Void or Delete Invoice",
+      "name": "xero_void_invoice",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/actions/void-invoice.ts"
+    }
+  ],
+  "auth": {
+    "auth_url_candidates": [
+      "https://login.xero.com/identity/connect/authorize"
+    ],
+    "declared_symbol": "xeroAuth",
+    "source_path": "packages/pieces/community/xero/src/index.ts",
+    "token_url_candidates": [
+      "https://identity.xero.com/connect/token"
+    ],
+    "types": [
+      "oauth2"
+    ]
+  },
+  "nango_provider_key_candidates": [
+    {
+      "candidate_only": true,
+      "confidence": "high",
+      "evidence": "inferred from package/auth metadata for xero",
+      "provider_key": "xero"
+    }
+  ],
+  "package": {
+    "name": "@activepieces/piece-xero",
+    "version": "0.8.1"
+  },
+  "piece": {
+    "auth_symbol": "xeroAuth",
+    "authors": [
+      "kanarelo",
+      "kishanprmr",
+      "MoShizzle",
+      "khaledmashaly",
+      "abuaboud",
+      "thejaachi"
+    ],
+    "categories": [
+      "ACCOUNTING"
+    ],
+    "description": "Beautiful accounting software",
+    "display_name": "Xero",
+    "export_name": "xero",
+    "logo_url": "https://cdn.activepieces.com/pieces/xero.png",
+    "minimum_supported_release": "0.88.2",
+    "slug": "xero"
+  },
+  "provenance": {
+    "extractor_path": "catalog/activepieces/extract-pilot-metadata.mjs",
+    "index_path": "packages/pieces/community/xero/src/index.ts",
+    "piece_path": "packages/pieces/community/xero",
+    "upstream_commit": "59c94f454ef3afed9974b41650e3d78067918328",
+    "upstream_repo": "activepieces/activepieces"
+  },
+  "runtime_execution": {
+    "note": "Generated catalog candidate only; Activepieces runtime execution is out of scope.",
+    "status": "candidate_only",
+    "supported": false
+  },
+  "runtime_status": "candidate_only",
+  "schema_version": "activepieces-catalog-candidate.v1",
+  "triggers": [
+    {
+      "description": "Fires the first time a bank transaction is created or changed after the trigger is turned on.",
+      "display_name": "New Bank Transaction",
+      "name": "xero_new_bank_transaction",
+      "source_line": 68,
+      "source_path": "packages/pieces/community/xero/src/lib/triggers/new-bank-transaction.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Fires the first time a bill (Accounts Payable) is created or changed after the trigger is turned on.",
+      "display_name": "New Bill",
+      "name": "xero_new_bill",
+      "source_line": 54,
+      "source_path": "packages/pieces/community/xero/src/lib/triggers/new-bill.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Fires when a new contact is added to Xero (via Xero webhooks). Configure the webhook in Xero Developer portal to point to this URL.",
+      "display_name": "New Contact",
+      "name": "xero_new_contact",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/triggers/new-contact.ts",
+      "trigger_strategy": "WEBHOOK"
+    },
+    {
+      "description": "Fires the first time a credit note is created or changed after the trigger is turned on.",
+      "display_name": "New Credit Note",
+      "name": "xero_new_credit_note",
+      "source_line": 62,
+      "source_path": "packages/pieces/community/xero/src/lib/triggers/new-credit-note.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Fires when a contact is created or updated (via Xero webhooks).",
+      "display_name": "New or Updated Contact",
+      "name": "xero_new_or_updated_contact",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/triggers/new-or-updated-contact.ts",
+      "trigger_strategy": "WEBHOOK"
+    },
+    {
+      "description": "Fires the first time a payment is recorded or changed after the trigger is turned on.",
+      "display_name": "New Payment",
+      "name": "xero_new_payment",
+      "source_line": 61,
+      "source_path": "packages/pieces/community/xero/src/lib/triggers/new-payment.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Fires when a new project is created.",
+      "display_name": "New Project",
+      "name": "xero_new_project",
+      "source_line": 48,
+      "source_path": "packages/pieces/community/xero/src/lib/triggers/new-project.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Fires the first time a purchase order is created or changed after the trigger is turned on, or enters a chosen status for the first time.",
+      "display_name": "New Purchase Order",
+      "name": "xero_new_purchase_order",
+      "source_line": 58,
+      "source_path": "packages/pieces/community/xero/src/lib/triggers/new-purchase-order.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Fires the first time a quote is created or changed after the trigger is turned on.",
+      "display_name": "New Quote",
+      "name": "xero_new_quote",
+      "source_line": 56,
+      "source_path": "packages/pieces/community/xero/src/lib/triggers/new-quote.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Fires when a payment is reconciled for the first time.",
+      "display_name": "New Reconciled Payment",
+      "name": "xero_new_reconciled_payment",
+      "source_line": 61,
+      "source_path": "packages/pieces/community/xero/src/lib/triggers/new-reconciled-payment.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Fires when a new sales invoice (Accounts Receivable) is created.",
+      "display_name": "New Sales Invoice",
+      "name": "xero_new_sales_invoice",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/triggers/new-sales-invoice.ts",
+      "trigger_strategy": "WEBHOOK"
+    },
+    {
+      "description": "Fires when a quote is created or updated.",
+      "display_name": "Updated Quote",
+      "name": "xero_updated_quote",
+      "source_line": 56,
+      "source_path": "packages/pieces/community/xero/src/lib/triggers/updated-quote.ts",
+      "trigger_strategy": "POLLING"
+    },
+    {
+      "description": "Fires when an existing sales invoice (Accounts Receivable) is updated.",
+      "display_name": "Updated Sales Invoice",
+      "name": "xero_updated_sales_invoice",
+      "source_line": 8,
+      "source_path": "packages/pieces/community/xero/src/lib/triggers/updated-sales-invoice.ts",
+      "trigger_strategy": "WEBHOOK"
+    }
+  ]
+}
