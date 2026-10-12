@@ -75,6 +75,7 @@ function exportActions({ packageRoot = runnerRoot, repositoryRoot = resolve(runn
       display_name: loaded.action.displayName,
       description: loaded.action.description,
       auth_kinds: authKinds({ piece: loaded.piece }),
+      auth: exportAuth({ piece: loaded.piece }),
       props: exportProps({ declarations: loaded.action.props }),
     };
   });
@@ -103,8 +104,9 @@ function camelToSnake({ name }) {
 }
 
 function buildAuth({ authType, auth, piece }) {
-  const type = { API_KEY: 'SECRET_TEXT', BASIC: 'BASIC_AUTH', OAUTH2: 'OAUTH2' }[authType];
-  if (!type || !authKinds({ piece }).includes(type)) {
+  const type = { API_KEY: 'SECRET_TEXT', BASIC: 'BASIC_AUTH', OAUTH2: 'OAUTH2', CUSTOM_AUTH: 'CUSTOM_AUTH' }[authType];
+  const declaration = authDeclarations({ piece }).find((candidate) => candidate.type === type);
+  if (!type || !declaration) {
     throw refusal({ code: 'AUTH_TYPE_MISMATCH', message: 'The auth type does not match a kind declared by the piece.' });
   }
   if (!isRecord(auth)) throw invalidAuth();
@@ -117,14 +119,53 @@ function buildAuth({ authType, auth, piece }) {
     if (typeof auth.username !== 'string' || typeof auth.password !== 'string') throw invalidAuth();
     return { type, username: auth.username, password: auth.password };
   }
+  if (type === 'CUSTOM_AUTH') {
+    validateAuthProps({ declarations: declaration.props, props: auth.props });
+    return { type, props: { ...auth.props } };
+  }
   const data = auth.raw ?? auth.data ?? {};
   if (!nonemptyString(auth.access_token) || !isRecord(data)) throw invalidAuth();
   return { type, access_token: auth.access_token, data };
 }
 
 function authKinds({ piece }) {
-  const declarations = Array.isArray(piece.auth) ? piece.auth : [piece.auth];
-  return declarations.filter(Boolean).map((declaration) => declaration.type);
+  return authDeclarations({ piece }).map((declaration) => declaration.type);
+}
+
+function authDeclarations({ piece }) {
+  return (Array.isArray(piece.auth) ? piece.auth : [piece.auth]).filter(Boolean);
+}
+
+function exportAuth({ piece }) {
+  const [declaration] = authDeclarations({ piece });
+  return { kind: declaration.type, props: declaration.type === 'CUSTOM_AUTH' ? exportProps({ declarations: declaration.props }) : {} };
+}
+
+function validateAuthProps({ declarations, props }) {
+  if (!isRecord(declarations) || !isRecord(props)) throw invalidAuth();
+  if (Object.keys(props).some((name) => !Object.hasOwn(declarations, name))) throw invalidAuth();
+  for (const [name, declaration] of Object.entries(declarations)) {
+    if (!Object.hasOwn(props, name)) {
+      if (declaration.required) throw invalidAuth();
+      continue;
+    }
+    const value = props[name];
+    if (['SHORT_TEXT', 'SECRET_TEXT'].includes(declaration.type)) {
+      if (!nonemptyString(value) || value.length > 4096) throw invalidAuth();
+    } else if (declaration.type === 'LONG_TEXT') {
+      if (!nonemptyString(value)) throw invalidAuth();
+    } else if (declaration.type === 'NUMBER') {
+      if (typeof value !== 'number' || !Number.isFinite(value)) throw invalidAuth();
+    } else if (declaration.type === 'CHECKBOX') {
+      if (typeof value !== 'boolean') throw invalidAuth();
+    } else if (declaration.type === 'STATIC_DROPDOWN') {
+      if (!declaration.options?.options?.some((option) => isDeepStrictEqual(option.value, value))) throw invalidAuth();
+    } else if (declaration.type === 'STATIC_MULTI_SELECT_DROPDOWN') {
+      if (!Array.isArray(value) || ![...value].every((selected) => declaration.options?.options?.some((option) => isDeepStrictEqual(option.value, selected)))) throw invalidAuth();
+    } else {
+      throw invalidAuth();
+    }
+  }
 }
 
 function validateProps({ declarations, props, requireRequired = true }) {
@@ -263,6 +304,21 @@ const entries = Object.freeze([
   { piece: '@activepieces/piece-microsoft-sharepoint', action: 'microsoft_sharepoint_search_list_item', exportName: 'microsoftSharePoint', forkDirectory: 'microsoft-sharepoint' },
   { piece: '@activepieces/piece-microsoft-sharepoint', action: 'microsoft_sharepoint_create_folder', exportName: 'microsoftSharePoint', forkDirectory: 'microsoft-sharepoint' },
   { piece: '@activepieces/piece-microsoft-sharepoint', action: 'microsoft_sharepoint_create_list_item', exportName: 'microsoftSharePoint', forkDirectory: 'microsoft-sharepoint' },
+  { piece: '@activepieces/piece-service-now', action: 'create_record', exportName: 'serviceNow', forkDirectory: 'service-now' },
+  { piece: '@activepieces/piece-service-now', action: 'get_record', exportName: 'serviceNow', forkDirectory: 'service-now' },
+  { piece: '@activepieces/piece-service-now', action: 'find_record', exportName: 'serviceNow', forkDirectory: 'service-now' },
+  { piece: '@activepieces/piece-service-now', action: 'update_record', exportName: 'serviceNow', forkDirectory: 'service-now' },
+  { piece: '@activepieces/piece-service-now', action: 'add_comment', exportName: 'serviceNow', forkDirectory: 'service-now' },
+  { piece: '@activepieces/piece-service-now', action: 'resolve_incident', exportName: 'serviceNow', forkDirectory: 'service-now' },
+  { piece: '@activepieces/piece-service-now', action: 'count_records', exportName: 'serviceNow', forkDirectory: 'service-now' },
+  { piece: '@activepieces/piece-service-now', action: 'search_knowledge_articles', exportName: 'serviceNow', forkDirectory: 'service-now' },
+  { piece: '@activepieces/piece-docusign', action: 'getEnvelope', exportName: 'docusign', forkDirectory: 'docusign' },
+  { piece: '@activepieces/piece-docusign', action: 'listEnvelopes', exportName: 'docusign', forkDirectory: 'docusign' },
+  { piece: '@activepieces/piece-docusign', action: 'listTemplates', exportName: 'docusign', forkDirectory: 'docusign' },
+  { piece: '@activepieces/piece-docusign', action: 'findEnvelopeRecipients', exportName: 'docusign', forkDirectory: 'docusign' },
+  { piece: '@activepieces/piece-shippo', action: 'create_order', exportName: 'shippo', forkDirectory: 'shippo' },
+  { piece: '@activepieces/piece-shippo', action: 'find_order', exportName: 'shippo', forkDirectory: 'shippo' },
+  { piece: '@activepieces/piece-shippo', action: 'find_shipping_label', exportName: 'shippo', forkDirectory: 'shippo' },
 ].map((entry) => Object.freeze({ ...entry, version: dependencyVersion({ manifest: runnerManifest, name: entry.piece }) })));
 
-export const pieceCatalog = { entries, validateTuple, loadAction, prepare, validateLoader, prepareLoader, exportProps, exportActions, verifyVersions, camelToSnake };
+export const pieceCatalog = { entries, validateTuple, loadAction, prepare, validateLoader, prepareLoader, exportProps, exportAuth, exportActions, verifyVersions, camelToSnake };

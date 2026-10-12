@@ -10,6 +10,10 @@
       "OAUTH2",
       "CUSTOM_AUTH"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "info": {
         "type": "MARKDOWN",
@@ -117,6 +121,10 @@
     "auth_kinds": [
       "SECRET_TEXT"
     ],
+    "auth": {
+      "kind": "SECRET_TEXT",
+      "props": {}
+    },
     "props": {
       "channel_id": {
         "type": "DROPDOWN",
@@ -160,6 +168,10 @@
       "OAUTH2",
       "CUSTOM_AUTH"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "spreadsheetId": {
         "type": "DROPDOWN",
@@ -208,6 +220,10 @@
       "OAUTH2",
       "CUSTOM_AUTH"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "spreadsheetId": {
         "type": "DROPDOWN",
@@ -300,6 +316,10 @@
       "OAUTH2",
       "CUSTOM_AUTH"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "spreadsheetId": {
         "type": "DROPDOWN",
@@ -361,6 +381,10 @@
       "OAUTH2",
       "CUSTOM_AUTH"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "spreadsheetId": {
         "type": "DROPDOWN",
@@ -426,6 +450,10 @@
       "OAUTH2",
       "CUSTOM_AUTH"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "spreadsheetId": {
         "type": "DROPDOWN",
@@ -539,6 +567,10 @@
       "OAUTH2",
       "CUSTOM_AUTH"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "spreadsheetId": {
         "type": "DROPDOWN",
@@ -604,6 +636,10 @@
       "OAUTH2",
       "CUSTOM_AUTH"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "calendar_ids": {
         "type": "MULTI_SELECT_DROPDOWN",
@@ -638,6 +674,10 @@
       "OAUTH2",
       "CUSTOM_AUTH"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "calendar_id": {
         "type": "DROPDOWN",
@@ -714,6 +754,10 @@
       "OAUTH2",
       "CUSTOM_AUTH"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "calendar_id": {
         "type": "DROPDOWN",
@@ -754,6 +798,10 @@
       "OAUTH2",
       "CUSTOM_AUTH"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "calendar_id": {
         "type": "DROPDOWN",
@@ -869,6 +917,10 @@
       "OAUTH2",
       "CUSTOM_AUTH"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "calendar_id": {
         "type": "DROPDOWN",
@@ -995,6 +1047,10 @@
       "OAUTH2",
       "CUSTOM_AUTH"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "queryTerm": {
         "type": "STATIC_DROPDOWN",
@@ -1091,6 +1147,10 @@
       "OAUTH2",
       "CUSTOM_AUTH"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "folderName": {
         "type": "SHORT_TEXT",
@@ -1127,6 +1187,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "recipients": {
         "type": "ARRAY",
@@ -1207,6 +1271,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "messageId": {
         "type": "SHORT_TEXT",
@@ -1238,6 +1306,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "messageId": {
         "type": "SHORT_TEXT",
@@ -1269,6 +1341,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "searchQuery": {
         "type": "SHORT_TEXT",
@@ -1301,6 +1377,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "folderId": {
         "type": "SHORT_TEXT",
@@ -1339,6 +1419,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "messageId": {
         "type": "SHORT_TEXT",
@@ -1358,6 +1442,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "calendarId": {
         "type": "DROPDOWN",
@@ -1385,6 +1473,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "calendarId": {
         "type": "DROPDOWN",
@@ -1438,6 +1530,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "teamId": {
         "type": "DROPDOWN",
@@ -1492,6 +1588,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "teamId": {
         "type": "DROPDOWN",
@@ -1552,6 +1652,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "chatId": {
         "type": "DROPDOWN",
@@ -1596,6 +1700,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "teamId": {
         "type": "DROPDOWN",
@@ -1623,6 +1731,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "teamId": {
         "type": "DROPDOWN",
@@ -1666,6 +1778,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "storageSource": {
         "type": "STATIC_DROPDOWN",
@@ -1723,6 +1839,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "storageSource": {
         "type": "STATIC_DROPDOWN",
@@ -1800,6 +1920,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "storageSource": {
         "type": "STATIC_DROPDOWN",
@@ -1915,6 +2039,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "storageSource": {
         "type": "STATIC_DROPDOWN",
@@ -2012,6 +2140,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "storageSource": {
         "type": "STATIC_DROPDOWN",
@@ -2154,6 +2286,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "storageSource": {
         "type": "STATIC_DROPDOWN",
@@ -2257,6 +2393,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "query": {
         "type": "SHORT_TEXT",
@@ -2305,6 +2445,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "folderId": {
         "type": "SHORT_TEXT",
@@ -2363,6 +2507,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "itemId": {
         "type": "SHORT_TEXT",
@@ -2388,6 +2536,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "parentFolderId": {
         "type": "SHORT_TEXT",
@@ -2413,6 +2565,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "folderId": {
         "type": "SHORT_TEXT",
@@ -2465,6 +2621,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "itemId": {
         "type": "SHORT_TEXT",
@@ -2502,6 +2662,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "searchTerm": {
         "type": "SHORT_TEXT",
@@ -2521,6 +2685,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "siteId": {
         "type": "DROPDOWN",
@@ -2588,6 +2756,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "siteId": {
         "type": "DROPDOWN",
@@ -2659,6 +2831,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "siteId": {
         "type": "DROPDOWN",
@@ -2696,6 +2872,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "siteId": {
         "type": "DROPDOWN",
@@ -2740,6 +2920,10 @@
     "auth_kinds": [
       "OAUTH2"
     ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
     "props": {
       "siteId": {
         "type": "DROPDOWN",
@@ -2768,6 +2952,1433 @@
           "siteId",
           "listId"
         ]
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-service-now",
+    "version": "0.3.1",
+    "action": "create_record",
+    "id": "create_record",
+    "display_name": "Create Record",
+    "description": "Create a new record in a specified table",
+    "auth_kinds": [
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "CUSTOM_AUTH",
+      "props": {
+        "instanceUrl": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow instance URL without trailing slash (e.g., https://dev12345.service-now.com)",
+          "display_name": "Instance URL"
+        },
+        "username": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow username (not email)",
+          "display_name": "Username"
+        },
+        "password": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow password (not API token)",
+          "display_name": "Password"
+        }
+      }
+    },
+    "props": {
+      "table": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "ServiceNow table to work with",
+        "display_name": "Table",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "fields": {
+        "type": "OBJECT",
+        "required": true,
+        "description": "Field names and values for the new record",
+        "display_name": "Record Fields"
+      },
+      "sysparm_display_value": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "How to format the response data",
+        "display_name": "Return Display Values",
+        "default": "false",
+        "options": [
+          {
+            "label": "Actual values",
+            "value": "false"
+          },
+          {
+            "label": "Display values",
+            "value": "true"
+          },
+          {
+            "label": "Both",
+            "value": "all"
+          }
+        ]
+      },
+      "sysparm_fields": {
+        "type": "ARRAY",
+        "required": false,
+        "description": "Specific fields to include in response (optional)",
+        "display_name": "Fields to Return"
+      },
+      "sysparm_input_display_value": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Treat input values as display names instead of IDs",
+        "display_name": "Use Display Values for Input",
+        "default": false
+      },
+      "sysparm_view": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "View context for returned fields",
+        "display_name": "UI View",
+        "options": [
+          {
+            "label": "Desktop",
+            "value": "desktop"
+          },
+          {
+            "label": "Mobile",
+            "value": "mobile"
+          },
+          {
+            "label": "Both",
+            "value": "both"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-service-now",
+    "version": "0.3.1",
+    "action": "get_record",
+    "id": "get_record",
+    "display_name": "Get Record",
+    "description": "Retrieve a specific record by its ID",
+    "auth_kinds": [
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "CUSTOM_AUTH",
+      "props": {
+        "instanceUrl": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow instance URL without trailing slash (e.g., https://dev12345.service-now.com)",
+          "display_name": "Instance URL"
+        },
+        "username": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow username (not email)",
+          "display_name": "Username"
+        },
+        "password": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow password (not API token)",
+          "display_name": "Password"
+        }
+      }
+    },
+    "props": {
+      "table": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "ServiceNow table to work with",
+        "display_name": "Table",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "record": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "Select a record from the table",
+        "display_name": "Record",
+        "refreshers": [
+          "table"
+        ],
+        "refresh_on_search": false
+      },
+      "manual_sys_id": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Enter the sys_id directly if not found in dropdown",
+        "display_name": "Or Enter Sys ID Manually"
+      },
+      "sysparm_display_value": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "How to format the response data",
+        "display_name": "Return Display Values",
+        "default": "false",
+        "options": [
+          {
+            "label": "Actual values",
+            "value": "false"
+          },
+          {
+            "label": "Display values",
+            "value": "true"
+          },
+          {
+            "label": "Both",
+            "value": "all"
+          }
+        ]
+      },
+      "sysparm_exclude_reference_link": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Exclude API links for reference fields",
+        "display_name": "Exclude Reference Links",
+        "default": false
+      },
+      "sysparm_fields": {
+        "type": "ARRAY",
+        "required": false,
+        "description": "Specific fields to include in response (optional)",
+        "display_name": "Fields to Return"
+      },
+      "sysparm_query_no_domain": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Include records from all domains",
+        "display_name": "Query No Domain",
+        "default": false
+      },
+      "sysparm_view": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "View context for returned fields",
+        "display_name": "UI View",
+        "options": [
+          {
+            "label": "Desktop",
+            "value": "desktop"
+          },
+          {
+            "label": "Mobile",
+            "value": "mobile"
+          },
+          {
+            "label": "Both",
+            "value": "both"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-service-now",
+    "version": "0.3.1",
+    "action": "find_record",
+    "id": "find_record",
+    "display_name": "Find Records",
+    "description": "Search for records in a table using a query",
+    "auth_kinds": [
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "CUSTOM_AUTH",
+      "props": {
+        "instanceUrl": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow instance URL without trailing slash (e.g., https://dev12345.service-now.com)",
+          "display_name": "Instance URL"
+        },
+        "username": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow username (not email)",
+          "display_name": "Username"
+        },
+        "password": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow password (not API token)",
+          "display_name": "Password"
+        }
+      }
+    },
+    "props": {
+      "table": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "ServiceNow table to work with",
+        "display_name": "Table",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "query": {
+        "type": "LONG_TEXT",
+        "required": true,
+        "description": "Encoded query string (e.g., state=1^priority=1)",
+        "display_name": "Query"
+      },
+      "limit": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Maximum records to return",
+        "display_name": "Limit",
+        "default": 100
+      },
+      "fields": {
+        "type": "ARRAY",
+        "required": false,
+        "description": "Specific fields to include in response (optional)",
+        "display_name": "Fields to Return"
+      },
+      "sysparm_display_value": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "How to format the response data",
+        "display_name": "Return Display Values",
+        "default": "false",
+        "options": [
+          {
+            "label": "Actual values",
+            "value": "false"
+          },
+          {
+            "label": "Display values",
+            "value": "true"
+          },
+          {
+            "label": "Both",
+            "value": "all"
+          }
+        ]
+      },
+      "sysparm_exclude_reference_link": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Exclude API links for reference fields",
+        "display_name": "Exclude Reference Links",
+        "default": false
+      },
+      "sysparm_query_no_domain": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Include records from all domains",
+        "display_name": "Query No Domain",
+        "default": false
+      },
+      "sysparm_view": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "View context for returned fields",
+        "display_name": "UI View",
+        "options": [
+          {
+            "label": "Desktop",
+            "value": "desktop"
+          },
+          {
+            "label": "Mobile",
+            "value": "mobile"
+          },
+          {
+            "label": "Both",
+            "value": "both"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-service-now",
+    "version": "0.3.1",
+    "action": "update_record",
+    "id": "update_record",
+    "display_name": "Update Record",
+    "description": "Update an existing record in a specified table",
+    "auth_kinds": [
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "CUSTOM_AUTH",
+      "props": {
+        "instanceUrl": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow instance URL without trailing slash (e.g., https://dev12345.service-now.com)",
+          "display_name": "Instance URL"
+        },
+        "username": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow username (not email)",
+          "display_name": "Username"
+        },
+        "password": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow password (not API token)",
+          "display_name": "Password"
+        }
+      }
+    },
+    "props": {
+      "table": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "ServiceNow table to work with",
+        "display_name": "Table",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "record": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "Select a record from the table",
+        "display_name": "Record",
+        "refreshers": [
+          "table"
+        ],
+        "refresh_on_search": false
+      },
+      "manual_sys_id": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Enter the sys_id directly if not found in dropdown",
+        "display_name": "Or Enter Sys ID Manually"
+      },
+      "fields": {
+        "type": "OBJECT",
+        "required": true,
+        "description": "Field names and new values to update",
+        "display_name": "Fields to Update"
+      },
+      "sysparm_display_value": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "How to format the response data",
+        "display_name": "Return Display Values",
+        "default": "false",
+        "options": [
+          {
+            "label": "Actual values",
+            "value": "false"
+          },
+          {
+            "label": "Display values",
+            "value": "true"
+          },
+          {
+            "label": "Both",
+            "value": "all"
+          }
+        ]
+      },
+      "sysparm_fields": {
+        "type": "ARRAY",
+        "required": false,
+        "description": "Specific fields to include in response (optional)",
+        "display_name": "Fields to Return"
+      },
+      "sysparm_input_display_value": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Treat input values as display names instead of IDs",
+        "display_name": "Use Display Values for Input",
+        "default": false
+      },
+      "sysparm_view": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "View context for returned fields",
+        "display_name": "UI View",
+        "options": [
+          {
+            "label": "Desktop",
+            "value": "desktop"
+          },
+          {
+            "label": "Mobile",
+            "value": "mobile"
+          },
+          {
+            "label": "Both",
+            "value": "both"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-service-now",
+    "version": "0.3.1",
+    "action": "add_comment",
+    "id": "add_comment",
+    "display_name": "Add Comment or Work Note",
+    "description": "Append a customer-visible comment or an internal work note to a record (incident, request, problem, change, etc.)",
+    "auth_kinds": [
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "CUSTOM_AUTH",
+      "props": {
+        "instanceUrl": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow instance URL without trailing slash (e.g., https://dev12345.service-now.com)",
+          "display_name": "Instance URL"
+        },
+        "username": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow username (not email)",
+          "display_name": "Username"
+        },
+        "password": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow password (not API token)",
+          "display_name": "Password"
+        }
+      }
+    },
+    "props": {
+      "table": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "ServiceNow table to work with",
+        "display_name": "Table",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "record": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "Select a record from the table",
+        "display_name": "Record",
+        "refreshers": [
+          "table"
+        ],
+        "refresh_on_search": false
+      },
+      "manual_sys_id": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Enter the sys_id directly if not found in dropdown",
+        "display_name": "Or Enter Sys ID Manually"
+      },
+      "comment_type": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "Customer-visible comment or internal work note",
+        "display_name": "Type",
+        "default": "comments",
+        "options": [
+          {
+            "label": "Customer-visible Comment",
+            "value": "comments"
+          },
+          {
+            "label": "Internal Work Note",
+            "value": "work_notes"
+          }
+        ]
+      },
+      "comment": {
+        "type": "LONG_TEXT",
+        "required": true,
+        "description": "The text to append to the record",
+        "display_name": "Comment"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-service-now",
+    "version": "0.3.1",
+    "action": "resolve_incident",
+    "id": "resolve_incident",
+    "display_name": "Resolve or Close Incident",
+    "description": "Move an incident to Resolved or Closed with a close code and resolution notes",
+    "auth_kinds": [
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "CUSTOM_AUTH",
+      "props": {
+        "instanceUrl": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow instance URL without trailing slash (e.g., https://dev12345.service-now.com)",
+          "display_name": "Instance URL"
+        },
+        "username": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow username (not email)",
+          "display_name": "Username"
+        },
+        "password": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow password (not API token)",
+          "display_name": "Password"
+        }
+      }
+    },
+    "props": {
+      "incident_sys_id": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "sys_id of the incident to resolve or close",
+        "display_name": "Incident sys_id"
+      },
+      "resolution": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "Resolved keeps the record open for closure later; Closed finalizes it.",
+        "display_name": "Resolution",
+        "default": "resolved",
+        "options": [
+          {
+            "label": "Resolved",
+            "value": "resolved"
+          },
+          {
+            "label": "Closed",
+            "value": "closed"
+          }
+        ]
+      },
+      "close_code": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Close code (e.g., \"Solved (Permanently)\", \"Solved Remotely\", \"Not Solved (Not Reproducible)\")",
+        "display_name": "Close Code"
+      },
+      "close_notes": {
+        "type": "LONG_TEXT",
+        "required": true,
+        "description": "Resolution notes shown to the caller",
+        "display_name": "Resolution Notes"
+      },
+      "resolved_by": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Optional sys_id of the user who resolved the incident. Defaults to the authenticated user.",
+        "display_name": "Resolved By (User sys_id)"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-service-now",
+    "version": "0.3.1",
+    "action": "count_records",
+    "id": "count_records",
+    "display_name": "Count Records",
+    "description": "Return the number of records in a table that match an optional encoded query (uses the Aggregate API)",
+    "auth_kinds": [
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "CUSTOM_AUTH",
+      "props": {
+        "instanceUrl": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow instance URL without trailing slash (e.g., https://dev12345.service-now.com)",
+          "display_name": "Instance URL"
+        },
+        "username": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow username (not email)",
+          "display_name": "Username"
+        },
+        "password": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow password (not API token)",
+          "display_name": "Password"
+        }
+      }
+    },
+    "props": {
+      "table": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "ServiceNow table to work with",
+        "display_name": "Table",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "query": {
+        "type": "LONG_TEXT",
+        "required": false,
+        "description": "Optional encoded query to filter records (e.g., active=true^state=1)",
+        "display_name": "Query"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-service-now",
+    "version": "0.3.1",
+    "action": "search_knowledge_articles",
+    "id": "search_knowledge_articles",
+    "display_name": "Search Knowledge Articles",
+    "description": "Search published knowledge base articles using free text. Requires the Knowledge API plugin to be active.",
+    "auth_kinds": [
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "CUSTOM_AUTH",
+      "props": {
+        "instanceUrl": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow instance URL without trailing slash (e.g., https://dev12345.service-now.com)",
+          "display_name": "Instance URL"
+        },
+        "username": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow username (not email)",
+          "display_name": "Username"
+        },
+        "password": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow password (not API token)",
+          "display_name": "Password"
+        }
+      }
+    },
+    "props": {
+      "query": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Free-text search query",
+        "display_name": "Search Text"
+      },
+      "kb": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Optional. Limit search to a specific knowledge base.",
+        "display_name": "Knowledge Base sys_id"
+      },
+      "language": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Optional ISO language code (e.g., en, de, fr)",
+        "display_name": "Language"
+      },
+      "limit": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Maximum number of articles to return (1-100)",
+        "display_name": "Limit",
+        "default": 20
+      },
+      "offset": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Number of articles to skip for pagination",
+        "display_name": "Offset",
+        "default": 0
+      },
+      "fields": {
+        "type": "ARRAY",
+        "required": false,
+        "description": "Optional list of article field names to include in the response",
+        "display_name": "Fields"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-docusign",
+    "version": "0.3.3",
+    "action": "getEnvelope",
+    "id": "get_envelope",
+    "display_name": "Get Signing Request Details",
+    "description": "Look up the full details of a signing request — status, recipients, and dates — using its ID.",
+    "auth_kinds": [
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "CUSTOM_AUTH",
+      "props": {
+        "clientId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "This can be obtained in your developer account from the<https://admindemo.docusign.com/authenticate?goTo=appsAndKeys|Apps and Keys> page. See the https://support.docusign.com/guides/ndse-admin-guide-api-and-keys|Docusign eSignature Admin Guide> for more information.",
+          "display_name": "Integration key / Client ID"
+        },
+        "privateKey": {
+          "type": "SECRET_TEXT",
+          "required": true,
+          "description": "This is for the integration key you obtained above and can also be created on the <https://admindemo.docusign.com/authenticate?goTo=appsAndKeys|Apps and Keys> page. You only need the private key, and it can only be copied once. Make sure to retain it for your records.",
+          "display_name": "RSA private key"
+        },
+        "environment": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "",
+          "display_name": "Environment",
+          "options": [
+            {
+              "label": "Demo / Test",
+              "value": "demo"
+            },
+            {
+              "label": "US production",
+              "value": "www"
+            },
+            {
+              "label": "EU production",
+              "value": "eu"
+            }
+          ]
+        },
+        "impersonatedUserId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "This is a GUID identifying the Docusign user that you will be impersonating with the access token. Your own User ID can be found at the top of the<https://admindemo.docusign.com/authenticate?goTo=appsAndKeys|Apps and Keys> page",
+          "display_name": "Impersonated user ID"
+        },
+        "scopes": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Comma-separated list of scopes. These represent the OAuth scopes (permissions) that are being requested. For eSignature REST API methods, use the signature scope. The impersonation scope is implied by the JWT Grant operation and does not need to be included. If the access token will be used for other Docusign APIs, additional scopes may be required; see each API's <https://developers.docusign.com/docs/esign-rest-api/esign101/auth/|authentication> requirements",
+          "display_name": "scopes"
+        }
+      }
+    },
+    "props": {
+      "accountId": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "",
+        "display_name": "Account ID"
+      },
+      "envelopeId": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "",
+        "display_name": "Envelope ID"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-docusign",
+    "version": "0.3.3",
+    "action": "listEnvelopes",
+    "id": "list_envelopes",
+    "display_name": "Search Signing Requests",
+    "description": "Find and list signing requests with optional filters like status, date range, or keyword.",
+    "auth_kinds": [
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "CUSTOM_AUTH",
+      "props": {
+        "clientId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "This can be obtained in your developer account from the<https://admindemo.docusign.com/authenticate?goTo=appsAndKeys|Apps and Keys> page. See the https://support.docusign.com/guides/ndse-admin-guide-api-and-keys|Docusign eSignature Admin Guide> for more information.",
+          "display_name": "Integration key / Client ID"
+        },
+        "privateKey": {
+          "type": "SECRET_TEXT",
+          "required": true,
+          "description": "This is for the integration key you obtained above and can also be created on the <https://admindemo.docusign.com/authenticate?goTo=appsAndKeys|Apps and Keys> page. You only need the private key, and it can only be copied once. Make sure to retain it for your records.",
+          "display_name": "RSA private key"
+        },
+        "environment": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "",
+          "display_name": "Environment",
+          "options": [
+            {
+              "label": "Demo / Test",
+              "value": "demo"
+            },
+            {
+              "label": "US production",
+              "value": "www"
+            },
+            {
+              "label": "EU production",
+              "value": "eu"
+            }
+          ]
+        },
+        "impersonatedUserId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "This is a GUID identifying the Docusign user that you will be impersonating with the access token. Your own User ID can be found at the top of the<https://admindemo.docusign.com/authenticate?goTo=appsAndKeys|Apps and Keys> page",
+          "display_name": "Impersonated user ID"
+        },
+        "scopes": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Comma-separated list of scopes. These represent the OAuth scopes (permissions) that are being requested. For eSignature REST API methods, use the signature scope. The impersonation scope is implied by the JWT Grant operation and does not need to be included. If the access token will be used for other Docusign APIs, additional scopes may be required; see each API's <https://developers.docusign.com/docs/esign-rest-api/esign101/auth/|authentication> requirements",
+          "display_name": "scopes"
+        }
+      }
+    },
+    "props": {
+      "accountId": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "",
+        "display_name": "Account ID"
+      },
+      "fromDate": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": "",
+        "display_name": "From date"
+      },
+      "toDate": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": "",
+        "display_name": "To date"
+      },
+      "searchText": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Search text"
+      },
+      "status": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Status"
+      },
+      "include": {
+        "type": "ARRAY",
+        "required": false,
+        "description": "",
+        "display_name": "Include (e.g. recipients)"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-docusign",
+    "version": "0.3.3",
+    "action": "listTemplates",
+    "id": "list_templates",
+    "display_name": "Find Templates by Name",
+    "description": "Search for reusable signing templates by name.",
+    "auth_kinds": [
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "CUSTOM_AUTH",
+      "props": {
+        "clientId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "This can be obtained in your developer account from the<https://admindemo.docusign.com/authenticate?goTo=appsAndKeys|Apps and Keys> page. See the https://support.docusign.com/guides/ndse-admin-guide-api-and-keys|Docusign eSignature Admin Guide> for more information.",
+          "display_name": "Integration key / Client ID"
+        },
+        "privateKey": {
+          "type": "SECRET_TEXT",
+          "required": true,
+          "description": "This is for the integration key you obtained above and can also be created on the <https://admindemo.docusign.com/authenticate?goTo=appsAndKeys|Apps and Keys> page. You only need the private key, and it can only be copied once. Make sure to retain it for your records.",
+          "display_name": "RSA private key"
+        },
+        "environment": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "",
+          "display_name": "Environment",
+          "options": [
+            {
+              "label": "Demo / Test",
+              "value": "demo"
+            },
+            {
+              "label": "US production",
+              "value": "www"
+            },
+            {
+              "label": "EU production",
+              "value": "eu"
+            }
+          ]
+        },
+        "impersonatedUserId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "This is a GUID identifying the Docusign user that you will be impersonating with the access token. Your own User ID can be found at the top of the<https://admindemo.docusign.com/authenticate?goTo=appsAndKeys|Apps and Keys> page",
+          "display_name": "Impersonated user ID"
+        },
+        "scopes": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Comma-separated list of scopes. These represent the OAuth scopes (permissions) that are being requested. For eSignature REST API methods, use the signature scope. The impersonation scope is implied by the JWT Grant operation and does not need to be included. If the access token will be used for other Docusign APIs, additional scopes may be required; see each API's <https://developers.docusign.com/docs/esign-rest-api/esign101/auth/|authentication> requirements",
+          "display_name": "scopes"
+        }
+      }
+    },
+    "props": {
+      "accountId": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "",
+        "display_name": "Account ID"
+      },
+      "templateName": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Full or partial name of the template to search for.",
+        "display_name": "Template Name"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-docusign",
+    "version": "0.3.3",
+    "action": "findEnvelopeRecipients",
+    "id": "find_envelope_recipients",
+    "display_name": "Get People on a Signing Request",
+    "description": "Get the full list of people on a signing request — signers, viewers, and anyone copied.",
+    "auth_kinds": [
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "CUSTOM_AUTH",
+      "props": {
+        "clientId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "This can be obtained in your developer account from the<https://admindemo.docusign.com/authenticate?goTo=appsAndKeys|Apps and Keys> page. See the https://support.docusign.com/guides/ndse-admin-guide-api-and-keys|Docusign eSignature Admin Guide> for more information.",
+          "display_name": "Integration key / Client ID"
+        },
+        "privateKey": {
+          "type": "SECRET_TEXT",
+          "required": true,
+          "description": "This is for the integration key you obtained above and can also be created on the <https://admindemo.docusign.com/authenticate?goTo=appsAndKeys|Apps and Keys> page. You only need the private key, and it can only be copied once. Make sure to retain it for your records.",
+          "display_name": "RSA private key"
+        },
+        "environment": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "",
+          "display_name": "Environment",
+          "options": [
+            {
+              "label": "Demo / Test",
+              "value": "demo"
+            },
+            {
+              "label": "US production",
+              "value": "www"
+            },
+            {
+              "label": "EU production",
+              "value": "eu"
+            }
+          ]
+        },
+        "impersonatedUserId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "This is a GUID identifying the Docusign user that you will be impersonating with the access token. Your own User ID can be found at the top of the<https://admindemo.docusign.com/authenticate?goTo=appsAndKeys|Apps and Keys> page",
+          "display_name": "Impersonated user ID"
+        },
+        "scopes": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Comma-separated list of scopes. These represent the OAuth scopes (permissions) that are being requested. For eSignature REST API methods, use the signature scope. The impersonation scope is implied by the JWT Grant operation and does not need to be included. If the access token will be used for other Docusign APIs, additional scopes may be required; see each API's <https://developers.docusign.com/docs/esign-rest-api/esign101/auth/|authentication> requirements",
+          "display_name": "scopes"
+        }
+      }
+    },
+    "props": {
+      "accountId": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "",
+        "display_name": "Account ID"
+      },
+      "envelopeId": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "",
+        "display_name": "Envelope ID"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-shippo",
+    "version": "0.1.7",
+    "action": "create_order",
+    "id": "create_order",
+    "display_name": "Create Order",
+    "description": "Create a new order in Shippo",
+    "auth_kinds": [
+      "SECRET_TEXT"
+    ],
+    "auth": {
+      "kind": "SECRET_TEXT",
+      "props": {}
+    },
+    "props": {
+      "order_number": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Custom reference number for the order",
+        "display_name": "Order Number"
+      },
+      "order_status": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "Current status of the order",
+        "display_name": "Order Status",
+        "default": "AWAITPAY",
+        "options": [
+          {
+            "label": "Unknown",
+            "value": "UNKNOWN"
+          },
+          {
+            "label": "Awaiting Payment",
+            "value": "AWAITPAY"
+          },
+          {
+            "label": "Paid",
+            "value": "PAID"
+          },
+          {
+            "label": "Refunded",
+            "value": "REFUNDED"
+          },
+          {
+            "label": "Cancelled",
+            "value": "CANCELLED"
+          },
+          {
+            "label": "Partially Fulfilled",
+            "value": "PARTIALLY_FULFILLED"
+          },
+          {
+            "label": "Shipped",
+            "value": "SHIPPED"
+          }
+        ]
+      },
+      "placed_at": {
+        "type": "DATE_TIME",
+        "required": true,
+        "description": "When the order was placed by the buyer (mandatory) - Format: 2025-10-31T11:56:29.244Z",
+        "display_name": "Order Date"
+      },
+      "total_price": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Total price including shipping and tax",
+        "display_name": "Total Price"
+      },
+      "subtotal_price": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Price before shipping and tax (optional)",
+        "display_name": "Subtotal Price"
+      },
+      "total_tax": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Total tax amount",
+        "display_name": "Total Tax"
+      },
+      "currency": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Currency code (e.g., USD, EUR)",
+        "display_name": "Currency",
+        "default": "USD"
+      },
+      "from_name": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Name of the sender",
+        "display_name": "Sender Name"
+      },
+      "from_company": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Company name of the sender",
+        "display_name": "Sender Company"
+      },
+      "from_street1": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Street address line 1",
+        "display_name": "Sender Street Address"
+      },
+      "from_city": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "City",
+        "display_name": "Sender City"
+      },
+      "from_state": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "State/Province",
+        "display_name": "Sender State"
+      },
+      "from_zip": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "ZIP/Postal code",
+        "display_name": "Sender ZIP Code"
+      },
+      "from_country": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Two-letter country code (e.g., US)",
+        "display_name": "Sender Country",
+        "default": "US"
+      },
+      "from_phone": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Sender Phone"
+      },
+      "from_email": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Sender Email"
+      },
+      "to_name": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Name of the recipient",
+        "display_name": "Recipient Name"
+      },
+      "to_company": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Company name of the recipient",
+        "display_name": "Recipient Company"
+      },
+      "to_street1": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Street address line 1",
+        "display_name": "Recipient Street Address"
+      },
+      "to_city": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "City",
+        "display_name": "Recipient City"
+      },
+      "to_state": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "State/Province",
+        "display_name": "Recipient State"
+      },
+      "to_zip": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "ZIP/Postal code",
+        "display_name": "Recipient ZIP Code"
+      },
+      "to_country": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Two-letter country code (e.g., US)",
+        "display_name": "Recipient Country",
+        "default": "US"
+      },
+      "to_phone": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Recipient Phone"
+      },
+      "to_email": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Recipient Email"
+      },
+      "line_item_title": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Name/description of the item (optional)",
+        "display_name": "Item Title"
+      },
+      "line_item_quantity": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "",
+        "display_name": "Item Quantity",
+        "default": 1
+      },
+      "line_item_total_price": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Total price for this line item (quantity × unit price)",
+        "display_name": "Item Total Price"
+      },
+      "line_item_sku": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Stock keeping unit",
+        "display_name": "Item SKU"
+      },
+      "line_item_weight": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Weight of a single item (e.g., \"0.5\")",
+        "display_name": "Item Weight"
+      },
+      "line_item_weight_unit": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Item Weight Unit",
+        "default": "lb",
+        "options": [
+          {
+            "label": "Pounds (lb)",
+            "value": "lb"
+          },
+          {
+            "label": "Ounces (oz)",
+            "value": "oz"
+          },
+          {
+            "label": "Kilograms (kg)",
+            "value": "kg"
+          },
+          {
+            "label": "Grams (g)",
+            "value": "g"
+          }
+        ]
+      },
+      "weight": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Total weight of the package for shipping (e.g., \"2.5\")",
+        "display_name": "Total Package Weight"
+      },
+      "weight_unit": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "Unit for total package weight",
+        "display_name": "Package Weight Unit",
+        "default": "lb",
+        "options": [
+          {
+            "label": "Pounds (lb)",
+            "value": "lb"
+          },
+          {
+            "label": "Ounces (oz)",
+            "value": "oz"
+          },
+          {
+            "label": "Kilograms (kg)",
+            "value": "kg"
+          },
+          {
+            "label": "Grams (g)",
+            "value": "g"
+          }
+        ]
+      },
+      "shipping_cost": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Shipping cost amount (e.g., \"5.99\")",
+        "display_name": "Shipping Cost"
+      },
+      "shipping_cost_currency": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Currency for shipping cost",
+        "display_name": "Shipping Cost Currency",
+        "default": "USD"
+      },
+      "shipping_method": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Shipping method name (e.g., \"USPS First Class Package\") - optional",
+        "display_name": "Shipping Method"
+      },
+      "additional_line_items": {
+        "type": "JSON",
+        "required": false,
+        "description": "Additional line items in JSON format. Example: [{\"title\": \"Product 2\", \"quantity\": 2, \"total_price\": \"20.00\"}]",
+        "display_name": "Additional Line Items",
+        "default": []
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-shippo",
+    "version": "0.1.7",
+    "action": "find_order",
+    "id": "find_order",
+    "display_name": "Find Order",
+    "description": "Search for an order by its ID",
+    "auth_kinds": [
+      "SECRET_TEXT"
+    ],
+    "auth": {
+      "kind": "SECRET_TEXT",
+      "props": {}
+    },
+    "props": {
+      "order_id": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The ID of the order to find",
+        "display_name": "Order ID"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-shippo",
+    "version": "0.1.7",
+    "action": "find_shipping_label",
+    "id": "find_shipping_label",
+    "display_name": "Find Shipping Label",
+    "description": "Search for a shipping label by its ID",
+    "auth_kinds": [
+      "SECRET_TEXT"
+    ],
+    "auth": {
+      "kind": "SECRET_TEXT",
+      "props": {}
+    },
+    "props": {
+      "label_id": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The ID of the shipping label to find",
+        "display_name": "Label ID"
       }
     }
   }

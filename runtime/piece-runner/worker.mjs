@@ -1,5 +1,6 @@
 import https from 'node:https';
 import { createRequire } from 'node:module';
+import { runnerEgress } from './egress.mjs';
 import { runnerErrors } from './errors.mjs';
 import { runnerExecution } from './execution.mjs';
 
@@ -18,8 +19,10 @@ process.stdin.on('data', (chunk) => {
 process.stdin.on('end', async () => {
   let request;
   let result;
+  let guard;
   try {
     request = JSON.parse(input);
+    guard = runnerEgress.install({ request });
     const { pieceCatalog } = await import('./catalog.mjs');
     pieceCatalog.verifyVersions({});
     const { tryCatch } = createRequire(import.meta.url)('@activepieces/shared');
@@ -30,6 +33,8 @@ process.stdin.on('end', async () => {
   } catch (error) {
     result = runnerErrors.failure({ error, auth: request?.auth });
   }
+  const refused = guard?.refusal();
+  if (refused) result = runnerErrors.failure({ error: refused, auth: request?.auth });
   try {
     const encoded = JSON.stringify(result);
     const cap = request?.max_output_bytes ?? 262144;

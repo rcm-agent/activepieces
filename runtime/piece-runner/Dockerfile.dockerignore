@@ -13,4 +13,7 @@
 !packages/pieces/community/microsoft-excel-365/package.json
 !packages/pieces/community/microsoft-onedrive/package.json
 !packages/pieces/community/microsoft-sharepoint/package.json
+!packages/pieces/community/service-now/package.json
+!packages/pieces/community/docusign/package.json
+!packages/pieces/community/shippo/package.json
 !packages/pieces/framework/package.json

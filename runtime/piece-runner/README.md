@@ -1,6 +1,6 @@
 # Piece runner
 
-Standalone Node 20 package outside the repository's Bun workspaces. It executes the Slack, Discord, Google and Microsoft 365 actions listed below. RCM's orchestrator connector runtime supplies a Nango credential; Nango remains the connection owner.
+Standalone Node 20 package outside the repository's Bun workspaces. It executes the actions listed below. Credentials arrive with each invocation; the orchestrator supplies OAuth credentials from Nango and typed credentials from the tenant's vault.
 
 | Piece | Allowed actions |
 | --- | --- |
@@ -15,6 +15,9 @@ Standalone Node 20 package outside the repository's Bun workspaces. It executes 
 | Microsoft Excel 365 | `get_workbooks`, `get_worksheets`, `get_worksheet_rows`, `append_row`, `append_multiple_rows`, `update_row` |
 | Microsoft OneDrive | `onedrive_search_items`, `onedrive_list_folder_children`, `onedrive_get_item`, `onedrive_create_folder`, `onedrive_create_text_file`, `onedrive_move_item` |
 | Microsoft SharePoint | `microsoft_sharepoint_find_site`, `microsoft_sharepoint_get_folder_contents`, `microsoft_sharepoint_find_file`, `microsoft_sharepoint_search_list_item`, `microsoft_sharepoint_create_folder`, `microsoft_sharepoint_create_list_item` |
+| ServiceNow | `create_record`, `get_record`, `find_record`, `update_record`, `add_comment`, `resolve_incident`, `count_records`, `search_knowledge_articles` |
+| DocuSign | `getEnvelope`, `listEnvelopes`, `listTemplates`, `findEnvelopeRecipients` |
+| Shippo | `create_order`, `find_order`, `find_shipping_label` |
 
 Runner versions come from `package.json` dependencies; allowlist entries derive their versions from that manifest.
 
@@ -31,6 +34,7 @@ const result = await pieceRunner.invoke({
   action: entry.action,
   auth_type: 'API_KEY',
   auth: { apiKey: 'NANGO_CREDENTIAL' },
+  allowed_hosts: ['discord.com'],
   props: { channel_id: 'CHANNEL_ID', message: 'Hello' },
   timeout_ms: 30_000,
   memory_mb: 256,
@@ -58,8 +62,16 @@ Options retain only `label` and `value`; missing `disabled` and `placeholder` be
 | `INVALID_MODE` | Mode is not `run`, `options` or `props`. |
 | `PROPERTY_NOT_LOADABLE` | Property is missing for a loader, supplied in run mode, undeclared, excluded, or lacks the requested loader type and function. |
 | `INVALID_SEARCH_VALUE` | Search text is not a string, exceeds 200 characters, or is supplied outside options mode. |
+| `AUTH_TYPE_MISMATCH` | Auth kind is not declared by the piece. |
+| `INVALID_AUTH` | Credential fields do not match the piece's auth declaration. |
+| `ALLOWED_HOSTS_REQUIRED` | A typed credential lacks a valid `allowed_hosts` list. |
+| `EGRESS_HOST_REFUSED` | A typed credential attempts an unlisted host, a non-public address, or an IP-literal connection. |
 
-Auth input is selected exclusively by `auth_type`: Nango's `API_KEY` credential `{ apiKey }` becomes `{ type: 'SECRET_TEXT', secret_text }`, `BASIC` accepts `{ username, password }`, and `OAUTH2` accepts `{ access_token, raw }`, mapping the provider's raw OAuth response to AP's `data`. Normalized `{ secret_text }` and OAuth `{ access_token, data }` inputs also work; Nango fields take precedence when both are supplied. Discord declares `SECRET_TEXT`, so it accepts `API_KEY`. Slack declares `OAUTH2` and `CUSTOM_AUTH`; this runner accepts only `OAUTH2` for Slack. An undeclared auth kind is refused. Props must match the installed action's declarations: unknown names, missing required values and supplied File props are refused.
+Auth input is selected exclusively by `auth_type`: `API_KEY` accepts `{ apiKey }` or `{ secret_text }` and builds `SECRET_TEXT`; `BASIC` accepts `{ username, password }` and builds `BASIC_AUTH`; `CUSTOM_AUTH` accepts `{ props: { ... } }` using the piece's declared auth fields. Every required CustomAuth field must be present, unknown keys are refused, ShortText and SecretText values must be non-empty strings of at most 4096 characters, and StaticDropdown values must match a declared option. An undeclared auth kind returns `AUTH_TYPE_MISMATCH`; malformed credentials return `INVALID_AUTH`. Slack accepts its declared OAuth and CustomAuth credentials. Action props still refuse unknown names, missing required values and supplied File props.
+
+Every `API_KEY`, `BASIC` and `CUSTOM_AUTH` invocation, including property loaders, requires `allowed_hosts`: 1-10 lowercase DNS names saved with the credential, without IP literals or wildcards. Missing or invalid lists return `ALLOWED_HOSTS_REQUIRED` before piece code loads. The fresh worker guards outbound hostname lookups and socket connections for its lifetime, refuses hosts outside that list and resolved non-public addresses, and refuses IP-literal connections with `EGRESS_HOST_REFUSED`. ServiceNow needs its instance hostname; DocuSign needs its OAuth and API hostnames; Shippo needs `api.goshippo.com`.
+
+`OAUTH2` retains `{ access_token, raw }` or `{ access_token, data }`, with `raw` taking precedence and becoming AP's `data`. OAuth calls require no host list and retain their existing egress behavior. `apiKey` takes precedence over `secret_text` when both are supplied.
 
 Microsoft 365 actions accept `OAUTH2` and use `https://graph.microsoft.com`; Outlook defaults to the connected user's `/me` mailbox. Outlook email attachments remain unavailable because supplied File props are refused.
 
@@ -87,6 +99,8 @@ node export-actions.mjs actions.json
 ```
 
 The version check compares the lock and installed pieces with the fork's piece manifests using each entry's explicit `forkDirectory`. Pieces retain their own nested (older versions) or bundled (newer versions) framework, common and shared code, so the runner's root framework, common and shared pins are not compared with the fork. Export reads metadata from installed piece code, including props, required flags, descriptions, declared auth kinds and versions. Exported action IDs use deterministic snake case (`sendMessageWithBot` → `send_message_with_bot`). Each prop includes `display_name` and a `default` when its value survives JSON serialization unchanged. Static dropdowns include ordered `options` with their original value types. Loaded dropdowns and dynamic fields include `refreshers` (default `[]`); loaded dropdowns also include `refresh_on_search` (default `false`). Nested `properties` use the same export. Placeholders, disabled states and loader code are not exported.
+
+Each exported action retains `auth_kinds` and adds `auth: { kind, props }` describing its first declared auth kind. CustomAuth fields use the same metadata export as action props; other auth kinds have empty `props`. Types are the declared types: ServiceNow's `password` remains `SHORT_TEXT`, while DocuSign's `privateKey` is `SECRET_TEXT`.
 
 ## Updating pieces
 

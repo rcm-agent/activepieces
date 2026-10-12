@@ -29,13 +29,17 @@ test('exports installed action props, required flags, auth kinds and determinist
     'microsoft_teams_send_channel_message', 'microsoft_teams_reply_to_channel_message', 'microsoft_teams_send_chat_message', 'microsoft_teams_find_channel', 'microsoft_teams_get_channel_message',
     'get_workbooks', 'get_worksheets', 'get_worksheet_rows', 'append_row', 'append_multiple_rows', 'update_row',
     'onedrive_search_items', 'onedrive_list_folder_children', 'onedrive_get_item', 'onedrive_create_folder', 'onedrive_create_text_file', 'onedrive_move_item',
-    'microsoft_sharepoint_find_site', 'microsoft_sharepoint_get_folder_contents', 'microsoft_sharepoint_find_file', 'microsoft_sharepoint_search_list_item', 'microsoft_sharepoint_create_folder', 'microsoft_sharepoint_create_list_item']);
+    'microsoft_sharepoint_find_site', 'microsoft_sharepoint_get_folder_contents', 'microsoft_sharepoint_find_file', 'microsoft_sharepoint_search_list_item', 'microsoft_sharepoint_create_folder', 'microsoft_sharepoint_create_list_item',
+    'create_record', 'get_record', 'find_record', 'update_record', 'add_comment', 'resolve_incident', 'count_records', 'search_knowledge_articles',
+    'get_envelope', 'list_envelopes', 'list_templates', 'find_envelope_recipients', 'create_order', 'find_order', 'find_shipping_label']);
   for (const entry of pieceCatalog.entries) {
     const piece = require(entry.piece)[entry.exportName], action = piece.getAction(entry.action);
     const metadata = exported.find((item) => item.piece === entry.piece && item.action === entry.action);
     assert.deepEqual([metadata.version, metadata.description], [require(`${entry.piece}/package.json`).version, action.description]);
     assert.deepEqual(metadata.props, propsMetadata(action.props));
-    assert.deepEqual(metadata.auth_kinds, (Array.isArray(piece.auth) ? piece.auth : [piece.auth]).map((auth) => auth.type));
+    const declarations = Array.isArray(piece.auth) ? piece.auth : [piece.auth];
+    assert.deepEqual(metadata.auth_kinds, declarations.map((auth) => auth.type));
+    assert.deepEqual(metadata.auth, { kind: declarations[0].type, props: declarations[0].type === 'CUSTOM_AUTH' ? propsMetadata(declarations[0].props) : {} });
   }
   const calendar = exported.find((item) => item.piece === '@activepieces/piece-google-calendar' && item.action === 'update_event');
   assert.deepEqual(calendar.props.guests_can_modify.options, [{ label: 'Yes', value: true }, { label: 'No', value: false }]);
@@ -55,6 +59,26 @@ test('exports installed action props, required flags, auth kinds and determinist
     assert.deepEqual(JSON.parse(await readFile(output, 'utf8')), exported);
   } finally { await rm(directory, { recursive: true, force: true }); }
 });
+test('exports typed auth declarations and generated credential fields without inferring secrets', async () => {
+  const exported = JSON.parse(await readFile(resolve(packageRoot, '../../catalog/activepieces/generated/runner/actions.json'), 'utf8'));
+  assert.equal(exported.length, 61);
+  for (const item of exported) {
+    assert.ok(['OAUTH2', 'SECRET_TEXT', 'BASIC_AUTH', 'CUSTOM_AUTH'].includes(item.auth.kind));
+    assert.equal(item.auth.kind, item.auth_kinds[0]);
+  }
+  const serviceNow = exported.find((item) => item.piece === '@activepieces/piece-service-now').auth;
+  assert.deepEqual(Object.keys(serviceNow.props), ['instanceUrl', 'username', 'password']);
+  assert.ok(Object.values(serviceNow.props).every((prop) => prop.required && prop.type === 'SHORT_TEXT'));
+  const docusign = exported.find((item) => item.piece === '@activepieces/piece-docusign').auth;
+  assert.equal(docusign.props.privateKey.type, 'SECRET_TEXT');
+  assert.deepEqual(docusign.props.environment.options.map((option) => option.value), ['demo', 'www', 'eu']);
+  assert.equal(exported.find((item) => item.piece === '@activepieces/piece-shippo').auth.kind, 'SECRET_TEXT');
+  const props = { password: { type: 'SHORT_TEXT', displayName: 'Secret API password', description: 'Secret credential', required: true }, privateKey: { type: 'SECRET_TEXT', displayName: 'Key', required: true } };
+  assert.deepEqual(pieceCatalog.exportAuth({ piece: { auth: { type: 'CUSTOM_AUTH', props } } }), { kind: 'CUSTOM_AUTH', props: propsMetadata(props) });
+  assert.notEqual(pieceCatalog.exportAuth({ piece: { auth: { type: 'CUSTOM_AUTH', props } } }).props.password.type, 'SECRET_TEXT');
+  for (const kind of ['OAUTH2', 'SECRET_TEXT', 'BASIC_AUTH']) assert.deepEqual(pieceCatalog.exportAuth({ piece: { auth: { type: kind } } }), { kind, props: {} });
+  assert.deepEqual(pieceCatalog.exportAuth({ piece: { auth: [{ type: 'OAUTH2' }, { type: 'CUSTOM_AUTH', props }] } }), { kind: 'OAUTH2', props: {} });
+});
 test('preserves JSON defaults including false, zero, empty strings and null', () => {
   const values = [false, 0, '', null, undefined, () => true, NaN, Infinity, { omitted: undefined }];
   const props = pieceCatalog.exportProps({ declarations: Object.fromEntries(values.map((defaultValue, name) => [name, { type: 'SHORT_TEXT', displayName: 'Value', required: false, defaultValue }])) });
@@ -66,7 +90,7 @@ test('fails closed when a pinned piece version differs from the fork', async () 
     for (const path of [...new Set(pieceCatalog.entries.map((entry) => `packages/pieces/community/${entry.forkDirectory}/package.json`))]) {
       const target = join(repositoryRoot, path); await mkdir(dirname(target), { recursive: true }); await writeFile(target, await readFile(resolve(packageRoot, '../..', path), 'utf8'));
     }
-    for (const forkDirectory of ['slack', 'google-sheets', 'google-calendar', 'google-drive', 'microsoft-outlook', 'microsoft-outlook-calendar', 'microsoft-teams', 'microsoft-excel-365', 'microsoft-onedrive', 'microsoft-sharepoint']) {
+    for (const forkDirectory of ['slack', 'google-sheets', 'google-calendar', 'google-drive', 'microsoft-outlook', 'microsoft-outlook-calendar', 'microsoft-teams', 'microsoft-excel-365', 'microsoft-onedrive', 'microsoft-sharepoint', 'service-now', 'docusign', 'shippo']) {
       const target = join(repositoryRoot, `packages/pieces/community/${forkDirectory}/package.json`), original = await readFile(target, 'utf8');
       await writeFile(target, JSON.stringify({ version: '0.0.0' }));
       assert.throws(() => pieceCatalog.verifyVersions({ repositoryRoot }), { name: 'RunnerRefusal', code: 'VERSION_MISMATCH' });

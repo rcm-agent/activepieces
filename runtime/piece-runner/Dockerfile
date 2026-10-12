@@ -15,6 +15,9 @@ COPY packages/pieces/community/microsoft-teams/package.json ${LAMBDA_TASK_ROOT}/
 COPY packages/pieces/community/microsoft-excel-365/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/microsoft-excel-365/package.json
 COPY packages/pieces/community/microsoft-onedrive/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/microsoft-onedrive/package.json
 COPY packages/pieces/community/microsoft-sharepoint/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/microsoft-sharepoint/package.json
+COPY packages/pieces/community/service-now/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/service-now/package.json
+COPY packages/pieces/community/docusign/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/docusign/package.json
+COPY packages/pieces/community/shippo/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/shippo/package.json
 RUN npm run check-versions
 
 CMD ["runtime/piece-runner/lambda.handler"]

@@ -1,17 +1,22 @@
 import assert from 'node:assert/strict';
 import { after, test } from 'node:test';
 import childProcess from 'node:child_process';
+import { mkdtemp, mkdir, readFile, writeFile, rm } from 'node:fs/promises';
 import { syncBuiltinESMExports } from 'node:module';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { promisify } from 'node:util';
 import { pieceRunner } from '../index.mjs';
 import { runnerErrors } from '../errors.mjs';
 import { pieceCatalog } from '../catalog.mjs';
+import { runnerExecution } from '../execution.mjs';
 function requestTuple({ piece, action }) {
   const entry = pieceCatalog.entries.find((candidate) => candidate.piece === piece && candidate.action === action);
   assert.ok(entry, `Missing allowlisted action ${piece}/${action}`);
   return { piece, version: entry.version, action };
 }
-const discord = { ...requestTuple({ piece: '@activepieces/piece-discord', action: 'sendMessageWithBot' }), auth_type: 'API_KEY', auth: { type: 'API_KEY', apiKey: 'discord-contract-token' }, props: { channel_id: 'C123', message: 'contract message' }, timeout_ms: 15000 };
+const discord = { ...requestTuple({ piece: '@activepieces/piece-discord', action: 'sendMessageWithBot' }), auth_type: 'API_KEY', auth: { type: 'API_KEY', apiKey: 'discord-contract-token' }, allowed_hosts: ['discord.com'], props: { channel_id: 'C123', message: 'contract message' }, timeout_ms: 15000 };
 const slack = { ...requestTuple({ piece: '@activepieces/piece-slack', action: 'send_channel_message' }), auth_type: 'OAUTH2', auth: { type: 'OAUTH2', access_token: 'slack-contract-token', raw: { team: { id: 'contract-team' } } }, props: { channel: 'C123', sendAsBot: true, text: 'contract message' }, timeout_ms: 15000 };
 const teams = { ...requestTuple({ piece: '@activepieces/piece-microsoft-teams', action: 'microsoft_teams_send_channel_message' }), auth_type: 'OAUTH2', auth: { access_token: 'teams-contract-token', raw: {} }, props: { teamId: 'contract-team' }, timeout_ms: 15000 };
 const output = { id: 'message-123', content: 'contract message', nested: { untouched: true } };
@@ -136,7 +141,7 @@ test('Microsoft SharePoint passes the OAuth token through its Graph client', asy
 test('refuses invalid calls, unavailable store/server services, hung actions and excessive output or limits', async () => {
   for (const [request, response, code] of [
     [{ ...discord, auth_type: 'BASIC' }, {}, 'AUTH_TYPE_MISMATCH'],
-    [{ ...slack, auth_type: 'API_KEY' }, {}, 'AUTH_TYPE_MISMATCH'],
+    [{ ...slack, auth_type: 'API_KEY', allowed_hosts: ['slack.com'] }, {}, 'AUTH_TYPE_MISMATCH'],
     [{ ...discord, action: 'discordSendMessageWebhook' }, {}, 'ACTION_NOT_ALLOWLISTED'],
     [{ ...slack, props: { ...slack.props, file: { filename: 'file.txt' } } }, {}, 'FILE_PROP_REFUSED'],
     [{ ...discord, props: { ...discord.props, files: [{ file: { filename: 'file.txt' } }] } }, {}, 'FILE_PROP_REFUSED'],
@@ -164,4 +169,127 @@ test('provider errors expose only class, HTTP status and a message with every au
   const special = { secret_text: 'quoted"\\token\n', other: '\ud800' };
   const echo = Object.values(special).flatMap((value) => [value, JSON.stringify(value).slice(1, -1)]).join(' ');
   assert.equal(runnerErrors.failure({ error: new Error(echo), auth: special }).error.message, '[REDACTED] [REDACTED] [REDACTED] [REDACTED]');
+});
+
+test('stub typed auth requires a valid host list before loading pieces or spawning', async () => {
+  const before = spawnCount;
+  for (const auth_type of ['API_KEY', 'BASIC', 'CUSTOM_AUTH']) {
+    for (const allowed_hosts of [undefined, null, [], Array(1), [null], [''], 'api.example.com', ['127.0.0.1'], ['::1'], ['*.example.com'], ['API.example.com'], ['https://api.example.com'], ['api.example.com:443'], Array(11).fill('api.example.com')]) {
+      const result = await pieceRunner.invoke({ ...discord, auth_type, allowed_hosts });
+      assert.deepEqual([result.status, result.refusal?.code, spawnCount], ['refused', 'ALLOWED_HOSTS_REQUIRED', before]);
+    }
+    const result = await pieceRunner.invoke({ ...discord, auth_type, allowed_hosts: undefined, mode: 'options', property: 'message' });
+    assert.deepEqual([result.refusal?.code, spawnCount], ['ALLOWED_HOSTS_REQUIRED', before]);
+  }
+});
+
+test('stub CustomAuth validates declared credentials and reaches context.auth.props; OAuth needs no list', async () => {
+  const packageRoot = await mkdtemp(join(tmpdir(), 'piece-runner-auth-'));
+  try {
+    const metadata = JSON.parse(await readFile(new URL('../../../catalog/activepieces/generated/runner/actions.json', import.meta.url), 'utf8'));
+    const entry = pieceCatalog.entries.find((item) => item.piece === '@activepieces/piece-docusign');
+    const fields = metadata.find((item) => item.piece === entry.piece).auth.props;
+    const declarations = Object.fromEntries(Object.entries(fields).map(([name, field]) => [name, { ...field, ...(field.options ? { options: { options: field.options } } : {}) }]));
+    const drive = pieceCatalog.entries.find((item) => item.piece === '@activepieces/piece-google-drive');
+    const driveAuth = { type: 'CUSTOM_AUTH', props: { serviceAccount: { type: 'LONG_TEXT', required: true }, userEmail: { type: 'SHORT_TEXT', required: false } } };
+    await writeFile(join(packageRoot, 'package.json'), '{}');
+    for (const [item, auth] of [[entry, { type: 'CUSTOM_AUTH', props: declarations }], [pieceCatalog.entries[0], { type: 'OAUTH2' }], [drive, driveAuth]]) {
+      const target = join(packageRoot, 'node_modules', item.piece);
+      await mkdir(target, { recursive: true });
+      await writeFile(join(target, 'package.json'), JSON.stringify({ version: item.version, main: 'index.cjs' }));
+      await writeFile(join(target, 'index.cjs'), `module.exports = { ${item.exportName}: { auth: ${JSON.stringify(auth)}, getAction: () => ({ props: {}, run: (context) => context.auth }) } };`);
+    }
+    const props = { clientId: 'contract-client', privateKey: 'contract-private-key', environment: 'demo', impersonatedUserId: 'contract-user', scopes: 'signature' };
+    const request = { piece: entry.piece, version: entry.version, action: entry.action, auth_type: 'CUSTOM_AUTH', auth: { props }, allowed_hosts: ['demo.docusign.net'] };
+    const catalog = { prepare: ({ request }) => pieceCatalog.prepare({ request, packageRoot }) };
+    assert.deepEqual(await runnerExecution.execute({ request, pieceCatalog: catalog }), { type: 'CUSTOM_AUTH', props });
+    const { privateKey, ...missing } = props;
+    for (const invalid of [undefined, [], missing, { ...props, unknown: 'value' }, { ...props, environment: 'other' }, { ...props, privateKey: '' }, { ...props, privateKey: 'x'.repeat(4097) }, { ...props, clientId: 1 }]) {
+      await assert.rejects(runnerExecution.execute({ request: { ...request, auth: { props: invalid } }, pieceCatalog: catalog }), { name: 'RunnerRefusal', code: 'INVALID_AUTH' });
+    }
+    assert.throws(() => pieceCatalog.prepare({ request: { ...request, auth_type: 'BASIC' }, packageRoot }), { code: 'AUTH_TYPE_MISMATCH' });
+    assert.deepEqual(await runnerExecution.execute({ request: { ...slack, props: {} }, pieceCatalog: catalog }), { type: 'OAUTH2', access_token: slack.auth.access_token, data: slack.auth.raw });
+    const driveRequest = { ...request, piece: drive.piece, version: drive.version, action: drive.action, auth: { props: { serviceAccount: JSON.stringify({ private_key: 'contract-key', padding: ' '.repeat(4096) }) } } };
+    assert.deepEqual(await runnerExecution.execute({ request: driveRequest, pieceCatalog: catalog }), { type: 'CUSTOM_AUTH', props: driveRequest.auth.props });
+    await assert.rejects(runnerExecution.execute({ request: { ...driveRequest, auth: { props: { serviceAccount: 1 } } }, pieceCatalog: catalog }), { code: 'INVALID_AUTH' });
+    const result = runnerErrors.failure({ error: new Error(`Credential ${privateKey} failed`), auth: request.auth });
+    assert.equal(result.error.message, 'Credential [REDACTED] failed');
+    const basic = { props: { username: 'contract-username', password: 'contract-password' } };
+    const encoded = Buffer.from(`${basic.props.username}:${basic.props.password}`).toString('base64');
+    assert.equal(runnerErrors.failure({ error: new Error(`Basic ${encoded}`), auth: basic }).error.message, 'Basic [REDACTED]');
+  } finally { await rm(packageRoot, { recursive: true, force: true }); }
+});
+
+test('stub egress guards DNS and sockets with public-address controls and no real DNS', async () => {
+  const script = `
+    import assert from 'node:assert/strict';
+    import dns, { lookup as namedLookup } from 'node:dns';
+    import { lookup as namedPromiseLookup } from 'node:dns/promises';
+    import net from 'node:net';
+    import tls from 'node:tls';
+    import http from 'node:http';
+    import https from 'node:https';
+    import { promisify } from 'node:util';
+    import { runnerEgress } from ${JSON.stringify(new URL('../egress.mjs', import.meta.url).href)};
+    let addresses = ['93.184.216.34'], sockets = 0, forwarded;
+    const records = () => addresses.map((address) => ({ address, family: net.isIP(address) }));
+    const nativeLookup = dns.lookup;
+    dns.lookup = (...args) => queueMicrotask(() => args.at(-1)(null, args[1]?.all ? records() : addresses[0], net.isIP(addresses[0] ?? '')));
+    for (const symbol of Object.getOwnPropertySymbols(nativeLookup)) Object.defineProperty(dns.lookup, symbol, Object.getOwnPropertyDescriptor(nativeLookup, symbol));
+    dns.promises.lookup = async (...args) => args[1]?.all ? records() : records()[0];
+    net.Socket.prototype.connect = function (options) { sockets += 1; forwarded = options; return this; };
+    tls.connect = () => { sockets += 1; return {}; };
+    const original = [dns.lookup, dns.promises.lookup, net.Socket.prototype.connect, tls.connect];
+    const oauth = runnerEgress.install({ request: { auth_type: 'OAUTH2' } });
+    assert.deepEqual([dns.lookup, dns.promises.lookup, net.Socket.prototype.connect, tls.connect], original);
+    assert.equal(oauth.refusal(), undefined);
+    const guard = runnerEgress.install({ request: { auth_type: 'CUSTOM_AUTH', allowed_hosts: ['api.example.com'] } });
+    assert.deepEqual(await promisify(dns.lookup)('api.example.com'), { address: addresses[0], family: 4 });
+    const callbackLookup = ({ host, all = false }) => new Promise((resolve, reject) => namedLookup(host, { all }, (...args) => args[0] ? reject(args[0]) : resolve(args[1])));
+    for (const lookup of [dns.promises.lookup, namedPromiseLookup, promisify(dns.lookup), (host) => callbackLookup({ host })]) {
+      assert.ok(await lookup('api.example.com'));
+      await assert.rejects(lookup('outside.example.com'), { code: 'EGRESS_HOST_REFUSED' });
+      for (const address of ['127.0.0.1', '10.0.0.1', '169.254.169.254', '::1', '0.0.0.0', '100.64.0.1', '172.16.0.1', '192.168.1.1', '224.0.0.1', '::', 'fc00::1', 'fe80::1', 'ff02::1', '::ffff:127.0.0.1', '64:ff9b::a00:1', '2001:5::1', '2001:db8::1']) {
+        addresses = [address]; await assert.rejects(lookup('api.example.com'), { code: 'EGRESS_HOST_REFUSED' });
+      }
+      addresses = ['93.184.216.34'];
+    }
+    for (const values of [['93.184.216.34', '10.0.0.1'], Array(1)]) {
+      addresses = values;
+      await assert.rejects(callbackLookup({ host: 'api.example.com', all: true }), { code: 'EGRESS_HOST_REFUSED' });
+      await assert.rejects(dns.promises.lookup('api.example.com', { all: true }), { code: 'EGRESS_HOST_REFUSED' });
+    }
+    for (const address of ['2606:4700:4700::1111', '::ffff:93.184.216.34', '64:ff9b::5db8:d822', '2001:1::1', '2001:3::1', '2001:200::1']) { addresses = [address]; assert.ok(await dns.promises.lookup('api.example.com')); }
+    for (const connect of [() => net.connect('127.0.0.1'), () => net.connect(443, '127.0.0.1'), () => net.createConnection({ port: 443, host: '93.184.216.34' }), () => new net.Socket().connect({ port: 443, host: '::1' }), () => tls.connect({ port: 443, host: '127.0.0.1' }), () => tls.connect(443, 'outside.example.com')]) assert.throws(connect, { code: 'EGRESS_HOST_REFUSED' });
+    for (const client of [http, https]) await assert.rejects(new Promise((resolve, reject) => client.get((client === https ? 'https' : 'http') + '://127.0.0.1', resolve).on('error', reject)), { code: 'EGRESS_HOST_REFUSED' });
+    await assert.rejects(fetch('http://127.0.0.1'), (error) => error.cause?.code === 'EGRESS_HOST_REFUSED');
+    assert.equal(sockets, 0);
+    net.connect({ port: 443, host: 'api.example.com', lookup: () => assert.fail('Custom DNS bypass') });
+    assert.equal(sockets, 1); assert.equal(forwarded.lookup, dns.lookup);
+    assert.equal(guard.refusal().code, 'EGRESS_HOST_REFUSED');
+    console.log('guard contracts passed');
+  `;
+  const { stdout } = await promisify(childProcess.execFile)(process.execPath, ['--input-type=module', '-e', script], { env: {}, timeout: 10000 });
+  assert.equal(stdout.trim(), 'guard contracts passed');
+  const workerScript = `
+    import dns from 'node:dns';
+    import nodeModule from 'node:module';
+    import { pieceCatalog } from ${JSON.stringify(new URL('../catalog.mjs', import.meta.url).href)};
+    nodeModule.createRequire = () => () => ({ tryCatch: async (callback) => { try { return { data: await callback() }; } catch (error) { return { data: null, error }; } } });
+    nodeModule.syncBuiltinESMExports();
+    dns.promises.lookup = async () => ({ address: '127.0.0.1', family: 4 });
+    pieceCatalog.verifyVersions = () => {};
+    pieceCatalog.prepare = () => ({ auth: {}, props: {}, action: { run: async () => {
+      try { await dns.promises.lookup('api.example.com'); } catch {}
+      return 'provider swallowed lookup';
+    } } });
+    await import(${JSON.stringify(new URL('../worker.mjs', import.meta.url).href)});
+    process.stdin.emit('data', process.argv[1]); process.stdin.emit('end');
+  `;
+  for (const auth_type of ['API_KEY', 'OAUTH2']) {
+    const request = { auth_type, ...(auth_type === 'API_KEY' ? { allowed_hosts: ['api.example.com'] } : {}) };
+    const { stdout } = await promisify(childProcess.execFile)(process.execPath, ['--input-type=module', '-e', workerScript, JSON.stringify(request)], { env: {}, timeout: 10000 });
+    const result = JSON.parse(stdout);
+    assert.deepEqual(auth_type === 'API_KEY' ? [result.status, result.refusal?.code] : result, auth_type === 'API_KEY' ? ['refused', 'EGRESS_HOST_REFUSED'] : { status: 'completed', output: 'provider swallowed lookup' });
+  }
 });

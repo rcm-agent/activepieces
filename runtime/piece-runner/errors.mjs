@@ -28,8 +28,10 @@ function failure({ error, auth }) {
 function redactor({ auth }) {
   const strings = new Set();
   collectStrings({ value: auth, strings });
-  if (typeof auth?.username === 'string' && typeof auth?.password === 'string') {
-    strings.add(Buffer.from(`${auth.username}:${auth.password}`).toString('base64'));
+  for (const credential of [auth, auth?.props]) {
+    if (typeof credential?.username === 'string' && typeof credential?.password === 'string') {
+      strings.add(Buffer.from(`${credential.username}:${credential.password}`).toString('base64'));
+    }
   }
   for (const value of [...strings]) {
     strings.add(JSON.stringify(value).slice(1, -1));
@@ -66,6 +68,8 @@ const codes = Object.freeze({
   invalidMode: 'INVALID_MODE',
   propertyNotLoadable: 'PROPERTY_NOT_LOADABLE',
   invalidSearchValue: 'INVALID_SEARCH_VALUE',
+  allowedHostsRequired: 'ALLOWED_HOSTS_REQUIRED',
+  egressHostRefused: 'EGRESS_HOST_REFUSED',
 });
 
 export const runnerErrors = { refusal, refusalError, failure, redactor, codes };

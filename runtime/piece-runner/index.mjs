@@ -2,6 +2,7 @@ import { spawn } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { pieceCatalog } from './catalog.mjs';
+import { runnerEgress } from './egress.mjs';
 import { runnerErrors } from './errors.mjs';
 
 // Readings are 20 ms apart, so a broken monitor still stops the action within 200 ms.
@@ -10,6 +11,7 @@ const MISSING_READING_LIMIT = 10;
 async function invoke(request) {
   try {
     const mode = validateRequest({ request: request ?? {} });
+    runnerEgress.validate({ request: request ?? {} });
     const entry = pieceCatalog.validateTuple(request ?? {});
     const limits = getLimits({ request, entry, mode });
     const payload = JSON.stringify(request);
