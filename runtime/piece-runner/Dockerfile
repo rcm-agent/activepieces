@@ -1,6 +1,6 @@
 FROM public.ecr.aws/lambda/nodejs:22
 
-RUN dnf -y upgrade && dnf clean all
+RUN dnf -y upgrade --releasever=latest && dnf clean all
 
 WORKDIR ${LAMBDA_TASK_ROOT}/runtime/piece-runner
 COPY runtime/piece-runner/package.json runtime/piece-runner/package-lock.json ./
