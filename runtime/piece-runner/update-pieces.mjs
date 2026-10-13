@@ -147,7 +147,7 @@ async function checkContainer({ repositoryRoot, exec, sources }) {
     'run_check "action export" node export-actions.mjs /work/catalog/activepieces/generated/runner/actions.json',
     'cat /work/catalog/activepieces/generated/runner/actions.json',
   ].join('\n');
-  const { stdout } = await exec({ command: 'docker', args: ['run', '--rm', '-i', 'node:20-bookworm', 'sh', '-c', script],
+  const { stdout } = await exec({ command: 'docker', args: ['run', '--rm', '-i', 'node:22-bookworm', 'sh', '-c', script],
     cwd: repositoryRoot, input: tar.stdout });
   return JSON.parse(stdout);
 }

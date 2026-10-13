@@ -1,6 +1,6 @@
 # Piece runner
 
-Standalone Node 20 package outside the repository's Bun workspaces. It executes the actions listed below. Credentials arrive with each invocation; the orchestrator supplies OAuth credentials from Nango and typed credentials from the tenant's vault.
+Standalone Node 22 package outside the repository's Bun workspaces. It executes the actions listed below. Credentials arrive with each invocation; the orchestrator supplies OAuth credentials from Nango and typed credentials from the tenant's vault.
 
 | Piece | Allowed actions |
 | --- | --- |
@@ -115,7 +115,7 @@ node runtime/piece-runner/update-pieces.mjs refresh --upstream <commit>
 
 `outdated` reports each runner piece's runner pin, fork version, npm latest and whether npm is newer. Add `--json` for machine-readable output. It changes no files.
 
-In a sparse checkout, `runtime` and `catalog` must be on the sparse list (`git sparse-checkout add runtime catalog`); otherwise the merge removes them from disk and re-pinning stops. `refresh` requires an empty Git index and no unmerged paths, fetches `upstream/main`, and accepts only a commit on that branch that HEAD does not already contain. It merges with `--no-ff`; conflicts stop immediately and remain for the owner to resolve. It then re-pins each runner piece to its fork version, rewrites the lock, updates pilot provenance, and regenerates and checks pilot and directory artifacts. A Linux Node 20 Docker check installs locked packages, verifies versions, runs contract tests and replaces the runner action export. Docker honors `DOCKER_HOST`.
+In a sparse checkout, `runtime` and `catalog` must be on the sparse list (`git sparse-checkout add runtime catalog`); otherwise the merge removes them from disk and re-pinning stops. `refresh` requires an empty Git index and no unmerged paths, fetches `upstream/main`, and accepts only a commit on that branch that HEAD does not already contain. It merges with `--no-ff`; conflicts stop immediately and remain for the owner to resolve. It then re-pins each runner piece to its fork version, rewrites the lock, updates pilot provenance, and regenerates and checks pilot and directory artifacts. A Linux Node 22 Docker check installs locked packages, verifies versions, runs contract tests and replaces the runner action export. Docker honors `DOCKER_HOST`.
 
 Review the printed per-action version, added or removed props, prop type/required flags and auth-kind changes before committing the generated updates. A missing allowlisted action stops the refresh and names the piece and action to resolve. Only Git's merge creates a commit; the remaining updates stay uncommitted. The command prints Git status and downstream sync commands for the owner to run after review; it does not run those cross-repository syncs.
 
@@ -125,4 +125,4 @@ Build the Lambda container from the repository root:
 docker build -f runtime/piece-runner/Dockerfile -t rcm-piece-runner .
 ```
 
-The AWS Node 20 base invokes `runtime/piece-runner/lambda.handler`. The image contains installed production dependencies and fork manifests for the version check. `Dockerfile.dockerignore` limits the repository build context to runner source, its lock and those manifests. AWS deployment, IAM and non-VPC Lambda configuration are owner steps. There is no Activepieces API, worker, queue or server.
+The AWS Node 22 base invokes `runtime/piece-runner/lambda.handler`. The image contains installed production dependencies and fork manifests for the version check. After that check the image drops npm, corepack and the base image's bundled AWS SDK, which the runner never loads, so their dependency trees do not ship. `Dockerfile.dockerignore` limits the repository build context to runner source, its lock and those manifests. AWS deployment, IAM and non-VPC Lambda configuration are owner steps. There is no Activepieces API, worker, queue or server.
