@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { execFile } from 'node:child_process';
+import { createHash } from 'node:crypto';
+import { existsSync } from 'node:fs';
 import { mkdtemp, mkdir, readFile, writeFile, rm } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import { tmpdir } from 'node:os';
@@ -10,6 +12,7 @@ import { promisify } from 'node:util';
 import { pieceCatalog } from '../catalog.mjs';
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(join(packageRoot, 'package.json'));
+const installedOptions = { skip: pieceCatalog.entries.some((entry) => !existsSync(join(packageRoot, 'node_modules', entry.piece, 'package.json'))) ? 'Pinned packages are unavailable; run installed-piece checks in the runner image.' : false };
 function propsMetadata(declarations) {
   return Object.fromEntries(Object.entries(declarations).map(([name, prop]) => [name, {
     type: prop.type, required: prop.required, description: prop.description ?? '', display_name: prop.displayName,
@@ -20,7 +23,7 @@ function propsMetadata(declarations) {
     ...(prop.properties ? { properties: propsMetadata(prop.properties) } : {}),
   }]));
 }
-test('exports installed action props, required flags, auth kinds and deterministic action ids', async () => {
+test('exports installed action props, required flags, auth kinds and deterministic action ids', installedOptions, async () => {
   const exported = pieceCatalog.exportActions({});
   assert.deepEqual(JSON.parse(await readFile(resolve(packageRoot, '../../catalog/activepieces/generated/runner/actions.json'), 'utf8')), exported);
   assert.deepEqual(exported.map((item) => item.id), ['send_channel_message', 'send_message_with_bot', 'get-many-rows', 'find_rows', 'find_row_by_num', 'insert_row', 'google-sheets-insert-multiple-rows', 'update_row', 'google_calendar_find_busy_free_periods', 'google_calendar_get_events', 'google_calendar_get_event_by_id', 'create_google_calendar_event', 'update_event', 'search-folder', 'create_new_gdrive_folder',
@@ -33,7 +36,8 @@ test('exports installed action props, required flags, auth kinds and determinist
     'create_record', 'get_record', 'find_record', 'update_record', 'add_comment', 'resolve_incident', 'count_records', 'search_knowledge_articles',
     'get_envelope', 'list_envelopes', 'list_templates', 'find_envelope_recipients', 'create_order', 'find_order', 'find_shipping_label',
     ...Array(2).fill(['find_invoice', 'find_customer', 'find_payment', 'find_vendor', 'find_account', 'read_aging_report', 'create_invoice', 'create_bill', 'create_vendor', 'record_payment', 'record_bill_payment']).flat(),
-    'xero_find_contact', 'xero_find_invoice', 'xero_get_invoice', 'xero_search_invoices', 'xero_search_payments', 'xero_get_aged_receivables', 'xero_get_aged_payables', 'xero_list_accounts', 'xero_list_organisations', 'xero_create_contact', 'xero_create_invoice', 'xero_create_bill', 'xero_create_payment']);
+    'xero_find_contact', 'xero_find_invoice', 'xero_get_invoice', 'xero_search_invoices', 'xero_search_payments', 'xero_get_aged_receivables', 'xero_get_aged_payables', 'xero_list_accounts', 'xero_list_organisations', 'xero_create_contact', 'xero_create_invoice', 'xero_create_bill', 'xero_create_payment',
+    'get-record', 'search-records', 'create-record', 'update-record']);
   for (const entry of pieceCatalog.entries) {
     const piece = require(entry.piece)[entry.exportName], action = piece.getAction(entry.action);
     const metadata = exported.find((item) => item.piece === entry.piece && item.action === entry.action);
@@ -63,7 +67,7 @@ test('exports installed action props, required flags, auth kinds and determinist
 });
 test('exports typed auth declarations and generated credential fields without inferring secrets', async () => {
   const exported = JSON.parse(await readFile(resolve(packageRoot, '../../catalog/activepieces/generated/runner/actions.json'), 'utf8'));
-  assert.equal(exported.length, 96);
+  assert.equal(exported.length, 100);
   for (const item of exported) {
     assert.ok(['OAUTH2', 'SECRET_TEXT', 'BASIC_AUTH', 'CUSTOM_AUTH'].includes(item.auth.kind));
     assert.equal(item.auth.kind, item.auth_kinds[0]);
@@ -81,38 +85,73 @@ test('exports typed auth declarations and generated credential fields without in
   for (const kind of ['OAUTH2', 'SECRET_TEXT', 'BASIC_AUTH']) assert.deepEqual(pieceCatalog.exportAuth({ piece: { auth: { type: kind } } }), { kind, props: {} });
   assert.deepEqual(pieceCatalog.exportAuth({ piece: { auth: [{ type: 'OAUTH2' }, { type: 'CUSTOM_AUTH', props }] } }), { kind: 'OAUTH2', props: {} });
 });
-test('exports 35 admitted finance actions and OAuth2 auth props through stubbed pieces', async () => {
+test('exports 39 admitted finance actions and OAuth2 auth props through stubbed pieces', async () => {
   const exported = JSON.parse(await readFile(resolve(packageRoot, '../../catalog/activepieces/generated/runner/actions.json'), 'utf8'));
   const companyId = { type: 'SHORT_TEXT', displayName: 'Company ID', required: true };
   const quickbooksAuth = { kind: 'OAUTH2', props: { companyId: { type: 'SHORT_TEXT', required: true, description: '', display_name: 'Company ID' } } };
+  const businessCentralPiece = '@activepieces/piece-microsoft-dynamics-365-business-central';
+  const businessCentralAuth = { type: 'OAUTH2', props: {
+    cloud: { type: 'STATIC_DROPDOWN', displayName: 'Cloud Environment', description: 'Select your Microsoft cloud environment.', required: true, defaultValue: 'login.microsoftonline.com', options: { options: [{ label: 'Commercial (Global)', value: 'login.microsoftonline.com' }, { label: 'US Government (GCC High)', value: 'login.microsoftonline.us' }] } },
+    environment: { type: 'SHORT_TEXT', displayName: 'Environment', description: "Name of the environment to connect to, e.g. 'Production' or 'Sandbox'. Environment names can be found in the Business Central Admin Center.", required: true, defaultValue: 'Production' },
+  } };
+  const businessCentralLoaders = {
+    company_id: { type: 'DROPDOWN', displayName: 'Company', required: true, refreshers: [] },
+    record_filter_fields: { type: 'DYNAMIC', displayName: 'Filter Fields', required: true, refreshers: ['company_id', 'record_type'] },
+    record_fields: { type: 'DYNAMIC', displayName: 'Record Fields', required: true, refreshers: ['company_id', 'record_type'] },
+  };
   assert.deepEqual(pieceCatalog.exportAuth({ piece: { auth: { type: 'OAUTH2', props: { companyId } } } }), quickbooksAuth);
-  for (const [piece, version, count] of [['@activepieces/piece-quickbooks', '0.3.3', 11], ['@activepieces/piece-quickbooks-sandbox', '0.2.2', 11], ['@activepieces/piece-xero', '0.8.1', 13]]) {
+  for (const [piece, version, count] of [['@activepieces/piece-quickbooks', '0.3.3', 11], ['@activepieces/piece-quickbooks-sandbox', '0.2.2', 11], ['@activepieces/piece-xero', '0.8.1', 13], [businessCentralPiece, '0.3.0', 4]]) {
     const records = exported.filter((item) => item.piece === piece);
     assert.equal(records.length, count);
     assert.deepEqual(records.map(({ action }) => action), pieceCatalog.entries.filter((entry) => entry.piece === piece).map(({ action }) => action));
     for (const record of records) {
       assert.equal(record.version, version);
       assert.deepEqual(record.auth_kinds, ['OAUTH2']);
-      assert.deepEqual(record.auth, piece === '@activepieces/piece-xero' ? { kind: 'OAUTH2', props: {} } : quickbooksAuth);
+      assert.deepEqual(record.auth, piece === businessCentralPiece ? { kind: 'OAUTH2', props: propsMetadata(businessCentralAuth.props) } : piece === '@activepieces/piece-xero' ? { kind: 'OAUTH2', props: {} } : quickbooksAuth);
       if (record.props.tenant_id) assert.deepEqual(record.props.tenant_id, { type: 'DROPDOWN', required: true, description: '', display_name: 'Organization', refreshers: [], refresh_on_search: false });
     }
   }
-  const stubRoot = await mkdtemp(join(tmpdir(), 'piece-runner-export-stub-'));
+  const businessCentralRecords = exported.filter((record) => record.piece === businessCentralPiece);
+  assert.deepEqual(businessCentralRecords.map(({ action }) => action), ['get-record', 'search-records', 'create-record', 'update-record']);
+  for (const record of businessCentralRecords) {
+    assert.deepEqual(record.props.company_id, propsMetadata(businessCentralLoaders).company_id);
+    const fields = { 'get-record': ['company_id', 'record_type', 'record_id'], 'search-records': ['company_id', 'record_type', 'markdown', 'record_filter_fields'], 'create-record': ['company_id', 'record_type', 'record_fields'], 'update-record': ['company_id', 'record_type', 'record_id', 'record_fields'] }[record.action];
+    assert.deepEqual(Object.keys(record.props), fields);
+    for (const name of fields.filter((name) => name.startsWith('record_') && name.endsWith('fields'))) assert.deepEqual(record.props[name], propsMetadata(businessCentralLoaders)[name]);
+  }
+  const stubRepository = await mkdtemp(join(tmpdir(), 'piece-runner-export-stub-'));
+  const stubRoot = join(stubRepository, 'runtime/piece-runner');
   try {
-    for (const filename of ['package.json', 'package-lock.json']) await writeFile(join(stubRoot, filename), await readFile(join(packageRoot, filename), 'utf8'));
+    await mkdir(stubRoot, { recursive: true });
+    for (const filename of ['package.json', 'package-lock.json', 'catalog.mjs', 'errors.mjs', 'export-actions.mjs']) await writeFile(join(stubRoot, filename), await readFile(join(packageRoot, filename), 'utf8'));
     const declarations = (props) => Object.fromEntries(Object.entries(props).map(([name, prop]) => [name, { type: prop.type, required: prop.required, description: prop.description, displayName: prop.display_name, ...(Object.hasOwn(prop, 'default') ? { defaultValue: prop.default } : {}), ...(prop.options ? { options: { options: prop.options } } : {}), ...(prop.refreshers ? { refreshers: prop.refreshers, refreshOnSearch: prop.refresh_on_search } : {}), ...(prop.properties ? { properties: declarations(prop.properties) } : {}) }]));
     for (const entry of [...new Map(pieceCatalog.entries.map((entry) => [entry.piece, entry])).values()]) {
       const records = exported.filter((record) => record.piece === entry.piece);
       const [record] = records;
-      const auth = record.auth_kinds.map((type, index) => ({ type, ...(index === 0 && ['CUSTOM_AUTH', 'OAUTH2'].includes(type) && Object.keys(record.auth.props).length ? { props: declarations(record.auth.props) } : {}) }));
-      const actions = Object.fromEntries(records.map((record) => [record.action, { displayName: record.display_name, description: record.description, props: declarations(record.props) }]));
+      const auth = entry.piece === businessCentralPiece ? [businessCentralAuth] : record.auth_kinds.map((type, index) => ({ type, ...(index === 0 && ['CUSTOM_AUTH', 'OAUTH2'].includes(type) && Object.keys(record.auth.props).length ? { props: declarations(record.auth.props) } : {}) }));
+      const actions = Object.fromEntries(records.map((record) => [record.action, { displayName: record.display_name, description: record.description, props: { ...declarations(record.props), ...(entry.piece === businessCentralPiece ? Object.fromEntries(Object.keys(record.props).filter((name) => businessCentralLoaders[name]).map((name) => [name, businessCentralLoaders[name]])) : {}) } }]));
       const target = join(stubRoot, 'node_modules', entry.piece);
       await mkdir(target, { recursive: true });
       await writeFile(join(target, 'package.json'), JSON.stringify({ version: entry.version, main: 'index.cjs' }));
       await writeFile(join(target, 'index.cjs'), `const actions = ${JSON.stringify(actions)}; module.exports = { ${entry.exportName}: { auth: ${JSON.stringify(auth)}, getAction: (name) => ({ ...actions[name], run: () => { throw new Error('Export must not run an action'); } }) } };`);
+      const forkManifest = join(stubRepository, `packages/pieces/community/${entry.forkDirectory}/package.json`);
+      await mkdir(dirname(forkManifest), { recursive: true });
+      await writeFile(forkManifest, await readFile(resolve(packageRoot, '../..', `packages/pieces/community/${entry.forkDirectory}/package.json`), 'utf8'));
     }
-    assert.deepEqual(pieceCatalog.exportActions({ packageRoot: stubRoot, repositoryRoot: resolve(packageRoot, '../..') }), exported);
-  } finally { await rm(stubRoot, { recursive: true, force: true }); }
+    assert.deepEqual(pieceCatalog.exportActions({ packageRoot: stubRoot, repositoryRoot: stubRepository }), exported);
+    await promisify(execFile)(process.execPath, ['export-actions.mjs', 'actions.json'], { cwd: stubRoot, env: {} });
+    assert.equal(await readFile(join(stubRoot, 'actions.json'), 'utf8'), await readFile(resolve(packageRoot, '../../catalog/activepieces/generated/runner/actions.json'), 'utf8'));
+    const stub = createRequire(join(stubRoot, 'package.json'))(businessCentralPiece).microsoftDynamics365BusinessCentral;
+    stub.auth[0].props = {};
+    assert.throws(() => assert.deepEqual(pieceCatalog.exportActions({ packageRoot: stubRoot, repositoryRoot: stubRepository }), exported), { code: 'ERR_ASSERTION' });
+  } finally { await rm(stubRepository, { recursive: true, force: true }); }
+});
+test('appends Business Central exports without changing any pre-existing record bytes', async () => {
+  const source = await readFile(resolve(packageRoot, '../../catalog/activepieces/generated/runner/actions.json'), 'utf8');
+  assertExistingRecordBytes({ source });
+  const changed = source.replace('"version": "0.21.1"', '"version": "0.0.0"');
+  assert.notEqual(changed, source);
+  assert.throws(() => assertExistingRecordBytes({ source: changed }), { code: 'ERR_ASSERTION' });
 });
 test('preserves JSON defaults including false, zero, empty strings and null', () => {
   const values = [false, 0, '', null, undefined, () => true, NaN, Infinity, { omitted: undefined }];
@@ -125,7 +164,7 @@ test('fails closed when a pinned piece version differs from the fork', async () 
     for (const path of [...new Set(pieceCatalog.entries.map((entry) => `packages/pieces/community/${entry.forkDirectory}/package.json`))]) {
       const target = join(repositoryRoot, path); await mkdir(dirname(target), { recursive: true }); await writeFile(target, await readFile(resolve(packageRoot, '../..', path), 'utf8'));
     }
-    for (const forkDirectory of ['slack', 'google-sheets', 'google-calendar', 'google-drive', 'microsoft-outlook', 'microsoft-outlook-calendar', 'microsoft-teams', 'microsoft-excel-365', 'microsoft-onedrive', 'microsoft-sharepoint', 'service-now', 'docusign', 'shippo', 'quickbooks', 'quickbooks-sandbox', 'xero']) {
+    for (const forkDirectory of ['slack', 'google-sheets', 'google-calendar', 'google-drive', 'microsoft-outlook', 'microsoft-outlook-calendar', 'microsoft-teams', 'microsoft-excel-365', 'microsoft-onedrive', 'microsoft-sharepoint', 'service-now', 'docusign', 'shippo', 'quickbooks', 'quickbooks-sandbox', 'xero', 'microsoft-dynamics-365-business-central']) {
       const target = join(repositoryRoot, `packages/pieces/community/${forkDirectory}/package.json`), original = await readFile(target, 'utf8');
       await writeFile(target, JSON.stringify({ version: '0.0.0' }));
       assert.throws(() => pieceCatalog.verifyVersions({ repositoryRoot }), { name: 'RunnerRefusal', code: 'VERSION_MISMATCH' });
@@ -133,3 +172,9 @@ test('fails closed when a pinned piece version differs from the fork', async () 
     }
   } finally { await rm(repositoryRoot, { recursive: true, force: true }); }
 });
+
+function assertExistingRecordBytes({ source }) {
+  const boundary = source.indexOf(',\n  {\n    "piece": "@activepieces/piece-microsoft-dynamics-365-business-central"');
+  assert.ok(boundary > 0);
+  assert.equal(createHash('sha256').update(`${source.slice(0, boundary)}\n]\n`).digest('hex'), '343d46e23d66886ac72166c0750ec78a64875929ea4107b5b5110b1bbdb39670');
+}
