@@ -276,6 +276,42 @@ test('stub OAuth2 declared props refuse invalid credentials before running, fill
   } finally { await rm(packageRoot, { recursive: true, force: true }); }
 });
 
+test('stub Business Central preserves OAuth2 defaults and tenant-qualified environments, loads fields and refuses deletion', async () => {
+  const packageRoot = await mkdtemp(join(tmpdir(), 'piece-runner-business-central-'));
+  try {
+    const request = { ...requestTuple({ piece: '@activepieces/piece-microsoft-dynamics-365-business-central', action: 'search-records' }), auth_type: 'OAUTH2', auth: { access_token: 'business-central-contract-token' }, props: { company_id: 'contract-company', record_type: 'customers', record_filter_fields: {} } };
+    const declarations = { cloud: { type: 'STATIC_DROPDOWN', required: true, defaultValue: 'login.microsoftonline.com', options: { options: [{ label: 'Commercial (Global)', value: 'login.microsoftonline.com' }, { label: 'US Government (GCC High)', value: 'login.microsoftonline.us' }] } }, environment: { type: 'SHORT_TEXT', required: true, defaultValue: 'Production' } };
+    const target = join(packageRoot, 'node_modules', request.piece);
+    await mkdir(target, { recursive: true });
+    await writeFile(join(packageRoot, 'package.json'), '{}');
+    await writeFile(join(target, 'package.json'), JSON.stringify({ version: request.version, main: 'index.cjs' }));
+    await writeFile(join(target, 'index.cjs'), `const fields = { type: 'DYNAMIC', required: true, refreshers: ['company_id', 'record_type'], props: async ({ auth, company_id, record_type }) => { if (!auth || !company_id || !record_type) return {}; return { displayName: { type: 'SHORT_TEXT', required: false, displayName: 'Display Name' } }; } }; const piece = { runs: 0, auth: { type: 'OAUTH2', props: ${JSON.stringify(declarations)} }, getAction: (name) => ({ props: { company_id: { type: 'DROPDOWN', required: true, refreshers: [], options: async ({ auth }) => ({ options: [{ label: auth.props.environment, value: 'contract-company' }] }) }, record_type: { type: 'STATIC_DROPDOWN', required: true, options: { options: [{ label: 'Customers', value: 'customers' }] } }, [name === 'search-records' ? 'record_filter_fields' : 'record_fields']: fields }, run: ({ auth }) => { piece.runs += 1; return auth; } }) }; module.exports = { microsoftDynamics365BusinessCentral: piece };`);
+    const catalog = { prepare: ({ request }) => pieceCatalog.prepare({ request, packageRoot }), prepareLoader: ({ request }) => pieceCatalog.prepareLoader({ request, packageRoot }), exportProps: pieceCatalog.exportProps };
+    const loaded = pieceCatalog.loadAction({ ...request, packageRoot });
+    const defaults = { cloud: 'login.microsoftonline.com', environment: 'Production' };
+    for (const props of [undefined, {}]) {
+      assert.deepEqual(await runnerExecution.execute({ request: { ...request, auth: { ...request.auth, props } }, pieceCatalog: catalog }), { type: 'OAUTH2', access_token: request.auth.access_token, data: {}, props: defaults });
+    }
+    const environment = '271592a8-9286-4526-9f93-0d02aeeae857/Production';
+    for (const cloud of ['login.microsoftonline.com', 'login.microsoftonline.us']) {
+      assert.deepEqual(await runnerExecution.execute({ request: { ...request, auth: { ...request.auth, props: { cloud, environment } } }, pieceCatalog: catalog }), { type: 'OAUTH2', access_token: request.auth.access_token, data: {}, props: { cloud, environment } });
+    }
+    const before = loaded.piece.runs;
+    await assert.rejects(runnerExecution.execute({ request: { ...request, auth: { ...request.auth, props: { cloud: 'login.example.com' } } }, pieceCatalog: catalog }), { name: 'RunnerRefusal', code: 'INVALID_AUTH' });
+    assert.equal(loaded.piece.runs, before);
+    assert.deepEqual(await runnerExecution.execute({ request: { ...request, mode: 'options', property: 'company_id', props: {} }, pieceCatalog: catalog }), { options: [{ label: 'Production', value: 'contract-company' }], disabled: false, placeholder: null });
+    for (const [action, property] of [['search-records', 'record_filter_fields'], ['create-record', 'record_fields'], ['update-record', 'record_fields']]) {
+      assert.deepEqual(await runnerExecution.execute({ request: { ...request, action, mode: 'props', property, props: { company_id: 'contract-company', record_type: 'customers' } }, pieceCatalog: catalog }), { props: { displayName: { type: 'SHORT_TEXT', required: false, description: '', display_name: 'Display Name' } } });
+    }
+    assert.equal(loaded.piece.runs, before);
+    for (const action of ['delete-record', 'custom_api_call']) {
+      const spawns = spawnCount;
+      const result = await pieceRunner.invoke({ ...request, action });
+      assert.deepEqual([result.status, result.refusal?.code, spawnCount], ['refused', 'ACTION_NOT_ALLOWLISTED', spawns]);
+    }
+  } finally { await rm(packageRoot, { recursive: true, force: true }); }
+});
+
 test('stub egress guards DNS and sockets with public-address controls and no real DNS', async () => {
   const script = `
     import assert from 'node:assert/strict';

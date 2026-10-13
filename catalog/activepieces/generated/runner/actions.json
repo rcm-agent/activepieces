@@ -7877,5 +7877,625 @@
         "default": false
       }
     }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-dynamics-365-business-central",
+    "version": "0.3.0",
+    "action": "get-record",
+    "id": "get-record",
+    "display_name": "Get Record",
+    "description": "Retrieves the details of a record by it's ID.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        },
+        "environment": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Name of the environment to connect to, e.g. 'Production' or 'Sandbox'. Environment names can be found in the Business Central Admin Center.",
+          "display_name": "Environment",
+          "default": "Production"
+        }
+      }
+    },
+    "props": {
+      "company_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Company",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "record_type": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Record Type",
+        "options": [
+          {
+            "label": "Bank Accounts",
+            "value": "bankAccounts"
+          },
+          {
+            "label": "Contacts",
+            "value": "contacts"
+          },
+          {
+            "label": "Currencies",
+            "value": "currencies"
+          },
+          {
+            "label": "Customers",
+            "value": "customers"
+          },
+          {
+            "label": "Dispute Status",
+            "value": "disputeStatus"
+          },
+          {
+            "label": "Employees",
+            "value": "employees"
+          },
+          {
+            "label": "Item Categories",
+            "value": "itemCategories"
+          },
+          {
+            "label": "Items",
+            "value": "items"
+          },
+          {
+            "label": "Item Variants",
+            "value": "itemVariants"
+          },
+          {
+            "label": "Journals",
+            "value": "journals"
+          },
+          {
+            "label": "Locations",
+            "value": "locations"
+          },
+          {
+            "label": "Payment Methods",
+            "value": "paymentMethods"
+          },
+          {
+            "label": "Payment Terms",
+            "value": "paymentTerms"
+          },
+          {
+            "label": "Projects",
+            "value": "projects"
+          },
+          {
+            "label": "Sales Invoice Lines",
+            "value": "salesInvoiceLines"
+          },
+          {
+            "label": "Sales Invoices",
+            "value": "salesInvoices"
+          },
+          {
+            "label": "Sales Order Lines",
+            "value": "salesOrderLines"
+          },
+          {
+            "label": "Sales Orders",
+            "value": "salesOrders"
+          },
+          {
+            "label": "Sales Quote Lines",
+            "value": "salesQuoteLines"
+          },
+          {
+            "label": "Sales Quotes",
+            "value": "salesQuotes"
+          },
+          {
+            "label": "Shipment Methods",
+            "value": "shipmentMethods"
+          },
+          {
+            "label": "Vendors",
+            "value": "vendors"
+          }
+        ]
+      },
+      "record_id": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "",
+        "display_name": "Record ID"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-dynamics-365-business-central",
+    "version": "0.3.0",
+    "action": "search-records",
+    "id": "search-records",
+    "display_name": "Search Records",
+    "description": "Retrieves a list of records.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        },
+        "environment": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Name of the environment to connect to, e.g. 'Production' or 'Sandbox'. Environment names can be found in the Business Central Admin Center.",
+          "display_name": "Environment",
+          "default": "Production"
+        }
+      }
+    },
+    "props": {
+      "company_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Company",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "record_type": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Record Type",
+        "options": [
+          {
+            "label": "Bank Accounts",
+            "value": "bankAccounts"
+          },
+          {
+            "label": "Contacts",
+            "value": "contacts"
+          },
+          {
+            "label": "Currencies",
+            "value": "currencies"
+          },
+          {
+            "label": "Customers",
+            "value": "customers"
+          },
+          {
+            "label": "Dispute Status",
+            "value": "disputeStatus"
+          },
+          {
+            "label": "Employees",
+            "value": "employees"
+          },
+          {
+            "label": "Item Categories",
+            "value": "itemCategories"
+          },
+          {
+            "label": "Items",
+            "value": "items"
+          },
+          {
+            "label": "Item Variants",
+            "value": "itemVariants"
+          },
+          {
+            "label": "Journals",
+            "value": "journals"
+          },
+          {
+            "label": "Locations",
+            "value": "locations"
+          },
+          {
+            "label": "Payment Methods",
+            "value": "paymentMethods"
+          },
+          {
+            "label": "Payment Terms",
+            "value": "paymentTerms"
+          },
+          {
+            "label": "Projects",
+            "value": "projects"
+          },
+          {
+            "label": "Sales Invoices",
+            "value": "salesInvoices"
+          },
+          {
+            "label": "Sales Orders",
+            "value": "salesOrders"
+          },
+          {
+            "label": "Sales Quotes",
+            "value": "salesQuotes"
+          },
+          {
+            "label": "Shipment Methods",
+            "value": "shipmentMethods"
+          },
+          {
+            "label": "Vendors",
+            "value": "vendors"
+          }
+        ]
+      },
+      "markdown": {
+        "type": "MARKDOWN",
+        "required": false,
+        "description": "You can search on any and all of the property fields below. We'll return only exact matches (capitalization matters!) on all values provided.",
+        "display_name": "Markdown"
+      },
+      "record_filter_fields": {
+        "type": "DYNAMIC",
+        "required": true,
+        "description": "",
+        "display_name": "Filter Fields",
+        "refreshers": [
+          "company_id",
+          "record_type"
+        ]
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-dynamics-365-business-central",
+    "version": "0.3.0",
+    "action": "create-record",
+    "id": "create-record",
+    "display_name": "Create Record",
+    "description": "Creates a new record.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        },
+        "environment": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Name of the environment to connect to, e.g. 'Production' or 'Sandbox'. Environment names can be found in the Business Central Admin Center.",
+          "display_name": "Environment",
+          "default": "Production"
+        }
+      }
+    },
+    "props": {
+      "company_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Company",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "record_type": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Record Type",
+        "options": [
+          {
+            "label": "Bank Accounts",
+            "value": "bankAccounts"
+          },
+          {
+            "label": "Contacts",
+            "value": "contacts"
+          },
+          {
+            "label": "Currencies",
+            "value": "currencies"
+          },
+          {
+            "label": "Customers",
+            "value": "customers"
+          },
+          {
+            "label": "Dispute Status",
+            "value": "disputeStatus"
+          },
+          {
+            "label": "Employees",
+            "value": "employees"
+          },
+          {
+            "label": "Item Categories",
+            "value": "itemCategories"
+          },
+          {
+            "label": "Items",
+            "value": "items"
+          },
+          {
+            "label": "Item Variants",
+            "value": "itemVariants"
+          },
+          {
+            "label": "Journals",
+            "value": "journals"
+          },
+          {
+            "label": "Locations",
+            "value": "locations"
+          },
+          {
+            "label": "Payment Methods",
+            "value": "paymentMethods"
+          },
+          {
+            "label": "Payment Terms",
+            "value": "paymentTerms"
+          },
+          {
+            "label": "Projects",
+            "value": "projects"
+          },
+          {
+            "label": "Sales Invoice Lines",
+            "value": "salesInvoiceLines"
+          },
+          {
+            "label": "Sales Invoices",
+            "value": "salesInvoices"
+          },
+          {
+            "label": "Sales Order Lines",
+            "value": "salesOrderLines"
+          },
+          {
+            "label": "Sales Orders",
+            "value": "salesOrders"
+          },
+          {
+            "label": "Sales Quote Lines",
+            "value": "salesQuoteLines"
+          },
+          {
+            "label": "Sales Quotes",
+            "value": "salesQuotes"
+          },
+          {
+            "label": "Shipment Methods",
+            "value": "shipmentMethods"
+          },
+          {
+            "label": "Vendors",
+            "value": "vendors"
+          }
+        ]
+      },
+      "record_fields": {
+        "type": "DYNAMIC",
+        "required": true,
+        "description": "",
+        "display_name": "Record Fields",
+        "refreshers": [
+          "company_id",
+          "record_type"
+        ]
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-dynamics-365-business-central",
+    "version": "0.3.0",
+    "action": "update-record",
+    "id": "update-record",
+    "display_name": "Update Record",
+    "description": "Updates an existing record.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        },
+        "environment": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Name of the environment to connect to, e.g. 'Production' or 'Sandbox'. Environment names can be found in the Business Central Admin Center.",
+          "display_name": "Environment",
+          "default": "Production"
+        }
+      }
+    },
+    "props": {
+      "company_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Company",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "record_type": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Record Type",
+        "options": [
+          {
+            "label": "Bank Accounts",
+            "value": "bankAccounts"
+          },
+          {
+            "label": "Contacts",
+            "value": "contacts"
+          },
+          {
+            "label": "Currencies",
+            "value": "currencies"
+          },
+          {
+            "label": "Customers",
+            "value": "customers"
+          },
+          {
+            "label": "Dispute Status",
+            "value": "disputeStatus"
+          },
+          {
+            "label": "Employees",
+            "value": "employees"
+          },
+          {
+            "label": "Item Categories",
+            "value": "itemCategories"
+          },
+          {
+            "label": "Items",
+            "value": "items"
+          },
+          {
+            "label": "Item Variants",
+            "value": "itemVariants"
+          },
+          {
+            "label": "Journals",
+            "value": "journals"
+          },
+          {
+            "label": "Locations",
+            "value": "locations"
+          },
+          {
+            "label": "Payment Methods",
+            "value": "paymentMethods"
+          },
+          {
+            "label": "Payment Terms",
+            "value": "paymentTerms"
+          },
+          {
+            "label": "Projects",
+            "value": "projects"
+          },
+          {
+            "label": "Sales Invoice Lines",
+            "value": "salesInvoiceLines"
+          },
+          {
+            "label": "Sales Invoices",
+            "value": "salesInvoices"
+          },
+          {
+            "label": "Sales Order Lines",
+            "value": "salesOrderLines"
+          },
+          {
+            "label": "Sales Orders",
+            "value": "salesOrders"
+          },
+          {
+            "label": "Sales Quote Lines",
+            "value": "salesQuoteLines"
+          },
+          {
+            "label": "Sales Quotes",
+            "value": "salesQuotes"
+          },
+          {
+            "label": "Shipment Methods",
+            "value": "shipmentMethods"
+          },
+          {
+            "label": "Vendors",
+            "value": "vendors"
+          }
+        ]
+      },
+      "record_id": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "",
+        "display_name": "Record ID"
+      },
+      "record_fields": {
+        "type": "DYNAMIC",
+        "required": true,
+        "description": "",
+        "display_name": "Record Fields",
+        "refreshers": [
+          "company_id",
+          "record_type"
+        ]
+      }
+    }
   }
 ]

@@ -19,4 +19,5 @@
 !packages/pieces/community/quickbooks/package.json
 !packages/pieces/community/quickbooks-sandbox/package.json
 !packages/pieces/community/xero/package.json
+!packages/pieces/community/microsoft-dynamics-365-business-central/package.json
 !packages/pieces/framework/package.json

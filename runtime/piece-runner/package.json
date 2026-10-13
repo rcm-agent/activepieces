@@ -18,6 +18,7 @@
     "@activepieces/piece-google-calendar": "0.12.3",
     "@activepieces/piece-google-drive": "0.11.3",
     "@activepieces/piece-google-sheets": "0.17.2",
+    "@activepieces/piece-microsoft-dynamics-365-business-central": "0.3.0",
     "@activepieces/piece-microsoft-excel-365": "0.8.2",
     "@activepieces/piece-microsoft-onedrive": "0.6.1",
     "@activepieces/piece-microsoft-outlook": "0.7.2",

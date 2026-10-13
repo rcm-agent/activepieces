@@ -361,6 +361,10 @@ const entries = Object.freeze([
   { piece: '@activepieces/piece-xero', action: 'xero_create_invoice', exportName: 'xero', forkDirectory: 'xero' },
   { piece: '@activepieces/piece-xero', action: 'xero_create_bill', exportName: 'xero', forkDirectory: 'xero' },
   { piece: '@activepieces/piece-xero', action: 'xero_create_payment', exportName: 'xero', forkDirectory: 'xero' },
+  { piece: '@activepieces/piece-microsoft-dynamics-365-business-central', action: 'get-record', exportName: 'microsoftDynamics365BusinessCentral', forkDirectory: 'microsoft-dynamics-365-business-central' },
+  { piece: '@activepieces/piece-microsoft-dynamics-365-business-central', action: 'search-records', exportName: 'microsoftDynamics365BusinessCentral', forkDirectory: 'microsoft-dynamics-365-business-central' },
+  { piece: '@activepieces/piece-microsoft-dynamics-365-business-central', action: 'create-record', exportName: 'microsoftDynamics365BusinessCentral', forkDirectory: 'microsoft-dynamics-365-business-central' },
+  { piece: '@activepieces/piece-microsoft-dynamics-365-business-central', action: 'update-record', exportName: 'microsoftDynamics365BusinessCentral', forkDirectory: 'microsoft-dynamics-365-business-central' },
 ].map((entry) => Object.freeze({ ...entry, version: dependencyVersion({ manifest: runnerManifest, name: entry.piece }) })));
 
 export const pieceCatalog = { entries, validateTuple, loadAction, prepare, validateLoader, prepareLoader, exportProps, exportAuth, exportActions, verifyVersions, camelToSnake };
