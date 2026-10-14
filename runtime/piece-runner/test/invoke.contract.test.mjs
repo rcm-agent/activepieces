@@ -54,6 +54,19 @@ test('Google Sheets passes the OAuth token through its nested HTTP client', inst
   const requests = [{ url: baseUrl, method: 'GET', body: { sheets: [{ properties: { sheetId: 0, title: 'Sheet1' } }] } }, { url: `${baseUrl}/values/Sheet1`, method: 'GET', body: {} }];
   assert.deepEqual(await run({ request, requests }), { status: 'completed', output: [] });
 });
+test('Slack history uses the OAuth token and refuses CustomAuth', installedOptions, async () => {
+  const request = { ...requestTuple({ piece: slack.piece, action: 'getChannelHistory' }), auth_type: 'OAUTH2', auth: { access_token: 'slack-history-contract-token' }, props: { channel: 'C123' }, timeout_ms: 15000 };
+  const messages = [{ ts: '123.456', text: 'Contract history' }];
+  assert.deepEqual(await run({ request, body: { ok: true, messages, has_more: false, response_metadata: { next_cursor: '' } }, url: 'https://slack.com/api/conversations.history' }), { status: 'completed', output: messages });
+  const result = await run({ request: { ...request, auth_type: 'CUSTOM_AUTH', auth: { props: { botToken: 'custom-contract-token' } }, allowed_hosts: ['slack.com'] } });
+  assert.deepEqual([result.status, result.refusal?.code], ['refused', 'AUTH_TYPE_MISMATCH']);
+});
+test('Sheets spreadsheet search uses the OAuth token at the Drive host', installedOptions, async () => {
+  const request = { ...requestTuple({ piece: '@activepieces/piece-google-sheets', action: 'find_spreadsheets' }), auth_type: 'OAUTH2', auth: { access_token: 'sheets-search-contract-token' }, props: { spreadsheet_name: 'Contract' }, timeout_ms: 15000 };
+  const files = [{ id: 'contract-sheet', name: 'Contract sheet' }];
+  const url = 'https://www.googleapis.com/drive/v3/files?q=mimeType%3D%27application%2Fvnd.google-apps.spreadsheet%27+and+trashed%3Dfalse+and+name+contains+%27Contract%27&includeItemsFromAllDrives=false&supportsAllDrives=true&corpora=user&fields=files%28id%2Cname%2CwebViewLink%2CcreatedTime%2CmodifiedTime%29%2CnextPageToken';
+  assert.deepEqual(await run({ request, body: { files }, method: 'GET', url }), { status: 'completed', output: { found: true, spreadsheets: files } });
+});
 test('Google Calendar passes the OAuth token through its nested HTTP client', installedOptions, async () => {
   const request = { ...requestTuple({ piece: '@activepieces/piece-google-calendar', action: 'google_calendar_get_event_by_id' }), auth_type: 'OAUTH2', auth: { access_token: 'calendar-contract-token', raw: {} }, props: { calendar_id: 'primary', event_id: 'contract-event' }, timeout_ms: 15000 };
   const body = { id: 'contract-event', summary: 'Contract event' };
@@ -219,6 +232,28 @@ test('stub CustomAuth validates declared credentials and reaches context.auth.pr
     const basic = { props: { username: 'contract-username', password: 'contract-password' } };
     const encoded = Buffer.from(`${basic.props.username}:${basic.props.password}`).toString('base64');
     assert.equal(runnerErrors.failure({ error: new Error(`Basic ${encoded}`), auth: basic }).error.message, 'Basic [REDACTED]');
+  } finally { await rm(packageRoot, { recursive: true, force: true }); }
+});
+
+test('stub Slack history and Sheets spreadsheet reads pass the OAuth2 token and refuse CustomAuth before running', async () => {
+  const packageRoot = await mkdtemp(join(tmpdir(), 'piece-runner-read-auth-'));
+  try {
+    await writeFile(join(packageRoot, 'package.json'), '{}');
+    const catalog = { prepare: ({ request }) => pieceCatalog.prepare({ request, packageRoot }) };
+    for (const [piece, version, action, exportName] of [
+      ['@activepieces/piece-slack', '0.21.1', 'getChannelHistory', 'slack'],
+      ['@activepieces/piece-google-sheets', '0.17.2', 'find_spreadsheets', 'googleSheets'],
+    ]) {
+      const target = join(packageRoot, 'node_modules', piece);
+      await mkdir(target, { recursive: true });
+      await writeFile(join(target, 'package.json'), JSON.stringify({ version, main: 'index.cjs' }));
+      await writeFile(join(target, 'index.cjs'), `const piece = { runs: 0, auth: [{ type: 'CUSTOM_AUTH', props: {} }, { type: 'OAUTH2' }], getAction: (name) => name === ${JSON.stringify(action)} ? { props: {}, run: ({ auth }) => { piece.runs += 1; return { action: name, access_token: auth.access_token }; } } : undefined }; module.exports = { ${exportName}: piece };`);
+      const request = { piece, version, action, auth_type: 'OAUTH2', auth: { access_token: `${exportName}-read-contract-token` }, props: {} };
+      const loaded = pieceCatalog.loadAction({ ...request, packageRoot });
+      await assert.rejects(runnerExecution.execute({ request: { ...request, auth_type: 'CUSTOM_AUTH', auth: { props: {} } }, pieceCatalog: catalog }), { name: 'RunnerRefusal', code: 'AUTH_TYPE_MISMATCH' });
+      assert.equal(loaded.piece.runs, 0);
+      assert.deepEqual(await runnerExecution.execute({ request, pieceCatalog: catalog }), { action, access_token: request.auth.access_token });
+    }
   } finally { await rm(packageRoot, { recursive: true, force: true }); }
 });
 

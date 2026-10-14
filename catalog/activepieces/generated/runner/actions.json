@@ -112,6 +112,129 @@
     }
   },
   {
+    "piece": "@activepieces/piece-slack",
+    "version": "0.21.1",
+    "action": "getChannelHistory",
+    "id": "get_channel_history",
+    "display_name": "Get Channel History",
+    "description": "Lists messages in a channel, newest first, within a time window.",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "info": {
+        "type": "MARKDOWN",
+        "required": false,
+        "description": "The list shows the first 2000 channels. Can't find yours? Invite the bot: type **/invite** in the channel, choose **Add apps** and pick the bot. Or click **ƒ** and paste the channel ID.",
+        "display_name": "Markdown"
+      },
+      "onlyBotChannels": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Show only channels the bot is a member of.",
+        "display_name": "Only Channels the Bot Is In",
+        "default": true
+      },
+      "channel": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "Private channels appear only after the bot is added to them.",
+        "display_name": "Channel",
+        "refreshers": [
+          "onlyBotChannels"
+        ],
+        "refresh_on_search": false
+      },
+      "oldest": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Unix timestamp; only later messages are returned.",
+        "display_name": "Oldest"
+      },
+      "latest": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Unix timestamp; only earlier messages are returned.",
+        "display_name": "Latest"
+      },
+      "inclusive": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Include messages exactly at the oldest and latest timestamps.",
+        "display_name": "Inclusive",
+        "default": false
+      },
+      "includeAllMetadata": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Return every metadata field Slack attaches to a message.",
+        "display_name": "Include All Metadata",
+        "default": false
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-slack",
+    "version": "0.21.1",
+    "action": "slack_list_channels",
+    "id": "slack_list_channels",
+    "display_name": "List Channels",
+    "description": "Lists channels in the workspace.",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "types": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Comma-separated conversation types to include. One or more of 'public_channel', 'private_channel', 'mpim', 'im'. Defaults to public and private channels.",
+        "display_name": "Types",
+        "default": "public_channel,private_channel"
+      },
+      "excludeArchived": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Omit archived channels from the results.",
+        "display_name": "Exclude Archived",
+        "default": true
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-slack",
+    "version": "0.21.1",
+    "action": "searchMessages",
+    "id": "search_messages",
+    "display_name": "Search Messages",
+    "description": "Searches messages. Needs a user token.",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "query": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Slack search syntax works, e.g. from:@jane in:#general.",
+        "display_name": "Search Query"
+      }
+    }
+  },
+  {
     "piece": "@activepieces/piece-discord",
     "version": "0.7.2",
     "action": "sendMessageWithBot",
@@ -154,6 +277,90 @@
             "display_name": "File"
           }
         }
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-discord",
+    "version": "0.7.2",
+    "action": "discord_list_messages",
+    "id": "discord_list_messages",
+    "display_name": "List Messages",
+    "description": "Read recent messages from a channel.",
+    "auth_kinds": [
+      "SECRET_TEXT"
+    ],
+    "auth": {
+      "kind": "SECRET_TEXT",
+      "props": {}
+    },
+    "props": {
+      "channel_id": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The numeric channel ID. Resolve a name with Find Channel.",
+        "display_name": "Channel ID"
+      },
+      "limit": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Max messages to return, 1-100. Defaults to 50.",
+        "display_name": "Limit",
+        "default": 50
+      },
+      "before": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Return messages before this message ID. Mutually exclusive with After and Around.",
+        "display_name": "Before Message ID"
+      },
+      "after": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Return messages after this message ID. Mutually exclusive with Before and Around.",
+        "display_name": "After Message ID"
+      },
+      "around": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Return messages around this message ID. Mutually exclusive with Before and After.",
+        "display_name": "Around Message ID"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-discord",
+    "version": "0.7.2",
+    "action": "discord_find_member",
+    "id": "discord_find_member",
+    "display_name": "Find Member",
+    "description": "Search guild members by username/nickname prefix.",
+    "auth_kinds": [
+      "SECRET_TEXT"
+    ],
+    "auth": {
+      "kind": "SECRET_TEXT",
+      "props": {}
+    },
+    "props": {
+      "guild_id": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The numeric guild (server) ID.",
+        "display_name": "Guild ID"
+      },
+      "query": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Username or nickname prefix to match (e.g. \"jane\"). Matched against the start of the name.",
+        "display_name": "Query"
+      },
+      "limit": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Max members to return, 1-1000. Defaults to 10.",
+        "display_name": "Limit",
+        "default": 10
       }
     }
   },
@@ -622,6 +829,44 @@
           "spreadsheetId",
           "first_row_headers"
         ]
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-google-sheets",
+    "version": "0.17.2",
+    "action": "find_spreadsheets",
+    "id": "find_spreadsheets",
+    "display_name": "Find Spreadsheet(s)",
+    "description": "Find spreadsheet(s) by name.",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "includeTeamDrives": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Also include spreadsheets stored in shared drives.",
+        "display_name": "Include Shared Drives",
+        "default": false
+      },
+      "spreadsheet_name": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Enter the name of the spreadsheet to search for",
+        "display_name": "Spreadsheet Name"
+      },
+      "exact_match": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Only return spreadsheets whose name matches exactly.",
+        "display_name": "Exact Match",
+        "default": false
       }
     }
   },

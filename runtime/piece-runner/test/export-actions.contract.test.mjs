@@ -26,7 +26,7 @@ function propsMetadata(declarations) {
 test('exports installed action props, required flags, auth kinds and deterministic action ids', installedOptions, async () => {
   const exported = pieceCatalog.exportActions({});
   assert.deepEqual(JSON.parse(await readFile(resolve(packageRoot, '../../catalog/activepieces/generated/runner/actions.json'), 'utf8')), exported);
-  assert.deepEqual(exported.map((item) => item.id), ['send_channel_message', 'send_message_with_bot', 'get-many-rows', 'find_rows', 'find_row_by_num', 'insert_row', 'google-sheets-insert-multiple-rows', 'update_row', 'google_calendar_find_busy_free_periods', 'google_calendar_get_events', 'google_calendar_get_event_by_id', 'create_google_calendar_event', 'update_event', 'search-folder', 'create_new_gdrive_folder',
+  assert.deepEqual(exported.map((item) => item.id), ['send_channel_message', 'get_channel_history', 'slack_list_channels', 'search_messages', 'send_message_with_bot', 'discord_list_messages', 'discord_find_member', 'get-many-rows', 'find_rows', 'find_row_by_num', 'insert_row', 'google-sheets-insert-multiple-rows', 'update_row', 'find_spreadsheets', 'google_calendar_find_busy_free_periods', 'google_calendar_get_events', 'google_calendar_get_event_by_id', 'create_google_calendar_event', 'update_event', 'search-folder', 'create_new_gdrive_folder',
     'outlook_send_email', 'outlook_reply_to_message', 'outlook_forward_message', 'outlook_search_messages', 'outlook_list_messages', 'outlook_get_message',
     'list_events', 'create_event',
     'microsoft_teams_send_channel_message', 'microsoft_teams_reply_to_channel_message', 'microsoft_teams_send_chat_message', 'microsoft_teams_find_channel', 'microsoft_teams_get_channel_message',
@@ -70,7 +70,7 @@ test('exports installed action props, required flags, auth kinds and determinist
 });
 test('exports typed auth declarations and generated credential fields without inferring secrets', async () => {
   const exported = JSON.parse(await readFile(resolve(packageRoot, '../../catalog/activepieces/generated/runner/actions.json'), 'utf8'));
-  assert.equal(exported.length, 120);
+  assert.equal(exported.length, 126);
   for (const item of exported) {
     assert.ok(['OAUTH2', 'SECRET_TEXT', 'BASIC_AUTH', 'CUSTOM_AUTH'].includes(item.auth.kind));
     const entry = pieceCatalog.entries.find((entry) => entry.piece === item.piece && entry.action === item.action);
@@ -165,7 +165,23 @@ test('exports 39 admitted finance actions and OAuth2 auth props through stubbed 
     assert.throws(() => assert.deepEqual(pieceCatalog.exportActions({ packageRoot: stubRoot, repositoryRoot: stubRepository }), exported), { code: 'ERR_ASSERTION' });
   } finally { await rm(stubRepository, { recursive: true, force: true }); }
 });
-test('appends Business Central and fulfillment exports without changing any pre-existing record bytes', async () => {
+test('exports six trigger read actions with admitted auth and declared props', async () => {
+  const exported = JSON.parse(await readFile(resolve(packageRoot, '../../catalog/activepieces/generated/runner/actions.json'), 'utf8'));
+  for (const [directory, action, id, version, kind, props] of [
+    ['slack', 'getChannelHistory', 'get_channel_history', '0.21.1', 'OAUTH2', ['info', 'onlyBotChannels', 'channel', 'oldest', 'latest', 'inclusive', 'includeAllMetadata']],
+    ['slack', 'slack_list_channels', 'slack_list_channels', '0.21.1', 'OAUTH2', ['types', 'excludeArchived']],
+    ['slack', 'searchMessages', 'search_messages', '0.21.1', 'OAUTH2', ['query']],
+    ['discord', 'discord_list_messages', 'discord_list_messages', '0.7.2', 'SECRET_TEXT', ['channel_id', 'limit', 'before', 'after', 'around']],
+    ['discord', 'discord_find_member', 'discord_find_member', '0.7.2', 'SECRET_TEXT', ['guild_id', 'query', 'limit']],
+    ['google-sheets', 'find_spreadsheets', 'find_spreadsheets', '0.17.2', 'OAUTH2', ['includeTeamDrives', 'spreadsheet_name', 'exact_match']],
+  ]) {
+    const piece = `@activepieces/piece-${directory}`, entry = pieceCatalog.validateTuple({ piece, action, version }), record = exported.find((item) => item.piece === piece && item.action === action);
+    assert.ok(record, `Missing exported read action ${piece}/${action}`);
+    assert.deepEqual([record.id, record.version, record.auth, record.auth_kinds, entry.authType], [id, version, { kind, props: {} }, kind === 'OAUTH2' ? ['OAUTH2', 'CUSTOM_AUTH'] : ['SECRET_TEXT'], kind === 'OAUTH2' ? kind : undefined]);
+    assert.deepEqual([Object.keys(record.props), Object.values(record.props).some((prop) => prop.type === 'FILE')], [props, false]);
+  }
+});
+test('adds admitted exports without changing any pre-existing record bytes', async () => {
   const source = await readFile(resolve(packageRoot, '../../catalog/activepieces/generated/runner/actions.json'), 'utf8');
   assertExistingRecordBytes({ source });
   const changed = source.replace('"version": "0.21.1"', '"version": "0.0.0"');
@@ -193,6 +209,11 @@ test('fails closed when a pinned piece version differs from the fork', async () 
 });
 
 function assertExistingRecordBytes({ source }) {
+  const triggerReadActions = new Set(['getChannelHistory', 'slack_list_channels', 'searchMessages', 'discord_list_messages', 'discord_find_member', 'find_spreadsheets']);
+  const records = source.slice(2, -3).split(/,\n(?=  {\n    "piece": )/), existing = records.filter((record) => !triggerReadActions.has(JSON.parse(record).action));
+  assert.equal(records.length - existing.length, 6);
+  source = `[\n${existing.join(',\n')}\n]\n`;
+  assert.equal(createHash('sha256').update(source).digest('hex'), '8f7e2ab822521ca382ea5ef188ae8c6d6f1d15f8b84efedb98af798ecf648bdc');
   const boundary = source.indexOf(',\n  {\n    "piece": "@activepieces/piece-microsoft-dynamics-365-business-central"');
   assert.ok(boundary > 0);
   assert.equal(createHash('sha256').update(`${source.slice(0, boundary)}\n]\n`).digest('hex'), '343d46e23d66886ac72166c0750ec78a64875929ea4107b5b5110b1bbdb39670');

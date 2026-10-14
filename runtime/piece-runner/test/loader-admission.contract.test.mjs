@@ -71,3 +71,27 @@ test('loading actions and property loaders refuses ambiguous, missing and duplic
     }
   } finally { await rm(packageRoot, { recursive: true, force: true }); }
 });
+
+for (const [piece, version, exportName, authType, actions] of [
+  ['@activepieces/piece-slack', '0.21.1', 'slack', 'OAUTH2', ['getChannelHistory', 'slack_list_channels', 'searchMessages']],
+  ['@activepieces/piece-discord', '0.7.2', 'discord', 'SECRET_TEXT', ['discord_list_messages', 'discord_find_member']],
+  ['@activepieces/piece-google-sheets', '0.17.2', 'googleSheets', 'OAUTH2', ['find_spreadsheets']],
+]) {
+  for (const action of actions) test(`admits pinned read action ${piece}/${action} with its allowed auth`, async () => {
+    const packageRoot = await mkdtemp(join(tmpdir(), 'piece-runner-read-admission-'));
+    try {
+      const target = join(packageRoot, 'node_modules', piece), tuple = { piece, version, action };
+      await mkdir(target, { recursive: true });
+      await writeFile(join(packageRoot, 'package.json'), '{}');
+      await writeFile(join(target, 'package.json'), JSON.stringify({ version, main: 'index.cjs' }));
+      const declarations = authType === 'OAUTH2' ? [{ type: 'CUSTOM_AUTH', props: {} }, { type: authType }] : { type: authType };
+      await writeFile(join(target, 'index.cjs'), `module.exports = { ${exportName}: { auth: ${JSON.stringify(declarations)}, getAction: (name) => name === ${JSON.stringify(action)} ? { props: {}, run: () => { throw Error('Action must not run'); } } : undefined } };`);
+      const loaded = pieceCatalog.loadAction({ ...tuple, packageRoot });
+      assert.deepEqual([loaded.entry.exportName, loaded.entry.authType], [exportName, authType === 'OAUTH2' ? authType : undefined]);
+      const auth = authType === 'OAUTH2' ? { access_token: 'read-contract-token' } : { secret_text: 'read-contract-token' };
+      const request = { ...tuple, auth_type: authType, auth, props: {} };
+      assert.deepEqual(pieceCatalog.prepare({ request, packageRoot }).auth, { type: authType, ...auth, ...(authType === 'OAUTH2' ? { data: {} } : {}) });
+      if (authType === 'OAUTH2') assert.throws(() => pieceCatalog.prepare({ request: { ...request, auth_type: 'CUSTOM_AUTH', auth: { props: {} } }, packageRoot }), { name: 'RunnerRefusal', code: 'AUTH_TYPE_MISMATCH' });
+    } finally { await rm(packageRoot, { recursive: true, force: true }); }
+  });
+}

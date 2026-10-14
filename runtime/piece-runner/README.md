@@ -4,9 +4,9 @@ Standalone Node 22 package outside the repository's Bun workspaces. It executes 
 
 | Piece | Allowed actions |
 | --- | --- |
-| Slack | `send_channel_message` |
-| Discord | `sendMessageWithBot` |
-| Google Sheets | `get-many-rows`, `find_rows`, `find_row_by_num`, `insert_row`, `google-sheets-insert-multiple-rows`, `update_row` |
+| Slack | `send_channel_message`, `getChannelHistory`, `slack_list_channels`, `searchMessages` |
+| Discord | `sendMessageWithBot`, `discord_list_messages`, `discord_find_member` |
+| Google Sheets | `get-many-rows`, `find_rows`, `find_row_by_num`, `insert_row`, `google-sheets-insert-multiple-rows`, `update_row`, `find_spreadsheets` |
 | Google Calendar | `google_calendar_find_busy_free_periods`, `google_calendar_get_events`, `google_calendar_get_event_by_id`, `create_google_calendar_event`, `update_event` |
 | Google Drive | `search-folder`, `create_new_gdrive_folder` |
 | Microsoft Outlook | `outlook_send_email`, `outlook_reply_to_message`, `outlook_forward_message`, `outlook_search_messages`, `outlook_list_messages`, `outlook_get_message` |
