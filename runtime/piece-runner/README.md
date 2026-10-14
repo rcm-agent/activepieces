@@ -5,15 +5,15 @@ Standalone Node 22 package outside the repository's Bun workspaces. It executes 
 | Piece | Allowed actions |
 | --- | --- |
 | Slack | `send_channel_message`, `getChannelHistory`, `slack_list_channels`, `searchMessages` |
-| Discord | `sendMessageWithBot`, `discord_list_messages`, `discord_find_member` |
+| Discord | `sendMessageWithBot`, `discord_list_messages`, `discord_find_member`, `list_guild_members` |
 | Google Sheets | `get-many-rows`, `find_rows`, `find_row_by_num`, `insert_row`, `google-sheets-insert-multiple-rows`, `update_row`, `find_spreadsheets` |
 | Google Calendar | `google_calendar_find_busy_free_periods`, `google_calendar_get_events`, `google_calendar_get_event_by_id`, `create_google_calendar_event`, `update_event` |
 | Google Drive | `search-folder`, `create_new_gdrive_folder` |
-| Microsoft Outlook | `outlook_send_email`, `outlook_reply_to_message`, `outlook_forward_message`, `outlook_search_messages`, `outlook_list_messages`, `outlook_get_message` |
+| Microsoft Outlook | `outlook_send_email`, `outlook_reply_to_message`, `outlook_forward_message`, `outlook_search_messages`, `outlook_list_messages`, `outlook_get_message`, `findEmail` |
 | Microsoft Outlook Calendar | `list_events`, `create_event` |
 | Microsoft Teams | `microsoft_teams_send_channel_message`, `microsoft_teams_reply_to_channel_message`, `microsoft_teams_send_chat_message`, `microsoft_teams_find_channel`, `microsoft_teams_get_channel_message` |
 | Microsoft Excel 365 | `get_workbooks`, `get_worksheets`, `get_worksheet_rows`, `append_row`, `append_multiple_rows`, `update_row` |
-| Microsoft OneDrive | `onedrive_search_items`, `onedrive_list_folder_children`, `onedrive_get_item`, `onedrive_create_folder`, `onedrive_create_text_file`, `onedrive_move_item` |
+| Microsoft OneDrive | `onedrive_search_items`, `onedrive_list_folder_children`, `onedrive_get_item`, `onedrive_create_folder`, `onedrive_create_text_file`, `onedrive_move_item`, `list_folders` |
 | Microsoft SharePoint | `microsoft_sharepoint_find_site`, `microsoft_sharepoint_get_folder_contents`, `microsoft_sharepoint_find_file`, `microsoft_sharepoint_search_list_item`, `microsoft_sharepoint_create_folder`, `microsoft_sharepoint_create_list_item` |
 | ServiceNow | `create_record`, `get_record`, `find_record`, `update_record`, `add_comment`, `resolve_incident`, `count_records`, `search_knowledge_articles` |
 | DocuSign | `getEnvelope`, `listEnvelopes`, `listTemplates`, `findEnvelopeRecipients` |

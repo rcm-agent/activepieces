@@ -365,6 +365,37 @@
     }
   },
   {
+    "piece": "@activepieces/piece-discord",
+    "version": "0.7.2",
+    "action": "list_guild_members",
+    "id": "list_guild_members",
+    "display_name": "List Members",
+    "description": "List server members, optionally filtered by name.",
+    "auth_kinds": [
+      "SECRET_TEXT"
+    ],
+    "auth": {
+      "kind": "SECRET_TEXT",
+      "props": {}
+    },
+    "props": {
+      "guild_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "Only servers the bot has been added to are listed.",
+        "display_name": "Server",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "shortText": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Only members whose username or nickname contains this text.",
+        "display_name": "Search"
+      }
+    }
+  },
+  {
     "piece": "@activepieces/piece-google-sheets",
     "version": "0.17.2",
     "action": "get-many-rows",
@@ -1990,6 +2021,96 @@
     }
   },
   {
+    "piece": "@activepieces/piece-microsoft-outlook",
+    "version": "0.7.2",
+    "action": "findEmail",
+    "id": "find_email",
+    "display_name": "Find Email",
+    "description": "Search your mailbox by keywords, sender or subject.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        },
+        "accessMode": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Pick the option matching your Grant Type. Use a Delegated option with the Authorization Code grant (acts as the signed-in user). Use an App-only option with the Client Credentials grant (acts as the application — also set Tenant ID and Mailbox), choosing the one that matches your Cloud Environment.",
+          "display_name": "Access Mode",
+          "default": "Mail.ReadWrite Mail.Send Calendars.Read offline_access User.Read openid email profile",
+          "options": [
+            {
+              "label": "Delegated — Commercial (Global)",
+              "value": "Mail.ReadWrite Mail.Send Calendars.Read offline_access User.Read openid email profile"
+            },
+            {
+              "label": "App-only — Commercial (Global)",
+              "value": "https://graph.microsoft.com/.default"
+            },
+            {
+              "label": "App-only — US Government (GCC High)",
+              "value": "https://graph.microsoft.us/.default"
+            }
+          ]
+        },
+        "tenant": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Use \"common\" for the default delegated multi-tenant flow. For app-only (Client Credentials), set this to your Directory (tenant) ID.",
+          "display_name": "Tenant ID",
+          "default": "common"
+        },
+        "mailbox": {
+          "type": "SHORT_TEXT",
+          "required": false,
+          "description": "Email/UPN or user object ID of the mailbox to act on. Required for app-only (Client Credentials). Leave blank for delegated access (acts as the signed-in user).",
+          "display_name": "Mailbox (App-only)"
+        }
+      }
+    },
+    "props": {
+      "searchQuery": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Words to find. Narrow with from:, subject: or hasAttachments:true.",
+        "display_name": "Search Query"
+      },
+      "folderId": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "Leave empty to search every folder.",
+        "display_name": "Folder",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "top": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "How many emails to return, up to 1000.",
+        "display_name": "Max Results",
+        "default": 25
+      }
+    }
+  },
+  {
     "piece": "@activepieces/piece-microsoft-outlook-calendar",
     "version": "0.3.1",
     "action": "list_events",
@@ -3583,6 +3704,57 @@
         "required": false,
         "description": "Optional new name for the item. Leave empty to keep its current name.",
         "display_name": "New Name"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-onedrive",
+    "version": "0.6.1",
+    "action": "list_folders",
+    "id": "list_folders",
+    "display_name": "List Folders",
+    "description": "List folders in a OneDrive folder",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
+    },
+    "props": {
+      "markdown": {
+        "type": "MARKDOWN",
+        "required": false,
+        "description": "**Note**: If you can't find the folder in the dropdown list (which fetches up to 1000 folders), please click on the **(F)** and type the folder ID directly.\n\n\n      you can find the folder ID in the OneDrive URL after **?id=**, e.g., \"onedrive.live.com/?id=**folder-id**&cid=some-other-id\"\n\n    ",
+        "display_name": "Markdown"
+      },
+      "parentFolder": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Parent Folder",
+        "refreshers": [
+          "auth"
+        ],
+        "refresh_on_search": false
       }
     }
   },

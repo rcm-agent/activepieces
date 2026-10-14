@@ -26,12 +26,12 @@ function propsMetadata(declarations) {
 test('exports installed action props, required flags, auth kinds and deterministic action ids', installedOptions, async () => {
   const exported = pieceCatalog.exportActions({});
   assert.deepEqual(JSON.parse(await readFile(resolve(packageRoot, '../../catalog/activepieces/generated/runner/actions.json'), 'utf8')), exported);
-  assert.deepEqual(exported.map((item) => item.id), ['send_channel_message', 'get_channel_history', 'slack_list_channels', 'search_messages', 'send_message_with_bot', 'discord_list_messages', 'discord_find_member', 'get-many-rows', 'find_rows', 'find_row_by_num', 'insert_row', 'google-sheets-insert-multiple-rows', 'update_row', 'find_spreadsheets', 'google_calendar_find_busy_free_periods', 'google_calendar_get_events', 'google_calendar_get_event_by_id', 'create_google_calendar_event', 'update_event', 'search-folder', 'create_new_gdrive_folder',
-    'outlook_send_email', 'outlook_reply_to_message', 'outlook_forward_message', 'outlook_search_messages', 'outlook_list_messages', 'outlook_get_message',
+  assert.deepEqual(exported.map((item) => item.id), ['send_channel_message', 'get_channel_history', 'slack_list_channels', 'search_messages', 'send_message_with_bot', 'discord_list_messages', 'discord_find_member', 'list_guild_members', 'get-many-rows', 'find_rows', 'find_row_by_num', 'insert_row', 'google-sheets-insert-multiple-rows', 'update_row', 'find_spreadsheets', 'google_calendar_find_busy_free_periods', 'google_calendar_get_events', 'google_calendar_get_event_by_id', 'create_google_calendar_event', 'update_event', 'search-folder', 'create_new_gdrive_folder',
+    'outlook_send_email', 'outlook_reply_to_message', 'outlook_forward_message', 'outlook_search_messages', 'outlook_list_messages', 'outlook_get_message', 'find_email',
     'list_events', 'create_event',
     'microsoft_teams_send_channel_message', 'microsoft_teams_reply_to_channel_message', 'microsoft_teams_send_chat_message', 'microsoft_teams_find_channel', 'microsoft_teams_get_channel_message',
     'get_workbooks', 'get_worksheets', 'get_worksheet_rows', 'append_row', 'append_multiple_rows', 'update_row',
-    'onedrive_search_items', 'onedrive_list_folder_children', 'onedrive_get_item', 'onedrive_create_folder', 'onedrive_create_text_file', 'onedrive_move_item',
+    'onedrive_search_items', 'onedrive_list_folder_children', 'onedrive_get_item', 'onedrive_create_folder', 'onedrive_create_text_file', 'onedrive_move_item', 'list_folders',
     'microsoft_sharepoint_find_site', 'microsoft_sharepoint_get_folder_contents', 'microsoft_sharepoint_find_file', 'microsoft_sharepoint_search_list_item', 'microsoft_sharepoint_create_folder', 'microsoft_sharepoint_create_list_item',
     'create_record', 'get_record', 'find_record', 'update_record', 'add_comment', 'resolve_incident', 'count_records', 'search_knowledge_articles',
     'get_envelope', 'list_envelopes', 'list_templates', 'find_envelope_recipients', 'create_order', 'find_order', 'find_shipping_label',
@@ -70,7 +70,7 @@ test('exports installed action props, required flags, auth kinds and determinist
 });
 test('exports typed auth declarations and generated credential fields without inferring secrets', async () => {
   const exported = JSON.parse(await readFile(resolve(packageRoot, '../../catalog/activepieces/generated/runner/actions.json'), 'utf8'));
-  assert.equal(exported.length, 126);
+  assert.equal(exported.length, 129);
   for (const item of exported) {
     assert.ok(['OAUTH2', 'SECRET_TEXT', 'BASIC_AUTH', 'CUSTOM_AUTH'].includes(item.auth.kind));
     const entry = pieceCatalog.entries.find((entry) => entry.piece === item.piece && entry.action === item.action);
@@ -181,6 +181,24 @@ test('exports six trigger read actions with admitted auth and declared props', a
     assert.deepEqual([Object.keys(record.props), Object.values(record.props).some((prop) => prop.type === 'FILE')], [props, false]);
   }
 });
+test('exports three borrowed-loader read actions with admitted auth and dropdown metadata', async () => {
+  const exported = JSON.parse(await readFile(resolve(packageRoot, '../../catalog/activepieces/generated/runner/actions.json'), 'utf8'));
+  for (const [directory, action, id, version, property, refreshers, kind] of [
+    ['microsoft-outlook', 'findEmail', 'find_email', '0.7.2', 'folderId', [], 'OAUTH2'],
+    ['microsoft-onedrive', 'list_folders', 'list_folders', '0.6.1', 'parentFolder', ['auth'], 'OAUTH2'],
+    ['discord', 'list_guild_members', 'list_guild_members', '0.7.2', 'guild_id', [], 'SECRET_TEXT'],
+  ]) {
+    const piece = `@activepieces/piece-${directory}`, record = exported.find((item) => item.piece === piece && item.action === action);
+    assert.ok(record, `Missing borrowed-loader read action ${piece}/${action}`);
+    const sibling = exported.find((item) => item.piece === piece && item.action !== action);
+    assert.deepEqual([record.id, record.version, record.auth.kind, record.auth, record.auth_kinds], [id, version, kind, sibling.auth, sibling.auth_kinds]);
+    assert.deepEqual([record.props[property].type, record.props[property].refreshers, record.props[property].refresh_on_search], ['DROPDOWN', refreshers, false]);
+    if (!installedOptions.skip) {
+      assert.equal(typeof pieceCatalog.validateLoader({ request: { piece, action, version, property, mode: 'options' } }).declaration.options, 'function');
+      assert.throws(() => pieceCatalog.validateLoader({ request: { piece, action, version, property, mode: 'props' } }), { name: 'RunnerRefusal', code: 'PROPERTY_NOT_LOADABLE' });
+    }
+  }
+});
 test('adds admitted exports without changing any pre-existing record bytes', async () => {
   const source = await readFile(resolve(packageRoot, '../../catalog/activepieces/generated/runner/actions.json'), 'utf8');
   assertExistingRecordBytes({ source });
@@ -209,6 +227,15 @@ test('fails closed when a pinned piece version differs from the fork', async () 
 });
 
 function assertExistingRecordBytes({ source }) {
+  const borrowedActions = new Set(['@activepieces/piece-microsoft-outlook/findEmail', '@activepieces/piece-microsoft-onedrive/list_folders', '@activepieces/piece-discord/list_guild_members']);
+  const allRecords = source.slice(2, -3).split(/,\n(?=  {\n    "piece": )/), baseline = allRecords.filter((record) => {
+    const { piece, action } = JSON.parse(record);
+    return !borrowedActions.has(`${piece}/${action}`);
+  });
+  assert.equal(allRecords.length - baseline.length, 3);
+  assert.equal(baseline.length, 126);
+  source = `[\n${baseline.join(',\n')}\n]\n`;
+  assert.equal(createHash('sha256').update(source).digest('hex'), 'a49a934c93d266884d912615e693d514b09f30e711c59e4ee72d2d0d1e9e0d75');
   const triggerReadActions = new Set(['getChannelHistory', 'slack_list_channels', 'searchMessages', 'discord_list_messages', 'discord_find_member', 'find_spreadsheets']);
   const records = source.slice(2, -3).split(/,\n(?=  {\n    "piece": )/), existing = records.filter((record) => !triggerReadActions.has(JSON.parse(record).action));
   assert.equal(records.length - existing.length, 6);
