@@ -23,12 +23,13 @@ function loadAction({ piece, version, action, packageRoot = runnerRoot }) {
   if (!installedAction || typeof installedAction.run !== 'function') {
     throw refusal({ code: 'ACTION_NOT_ALLOWLISTED', message: `The allowlisted action ${entry.piece}/${entry.action} is missing from the installed piece.` });
   }
+  authDeclarations({ piece: installedPiece, authType: entry.authType });
   return { entry, piece: installedPiece, action: installedAction };
 }
 
 function prepare({ request, packageRoot = runnerRoot }) {
   const loaded = loadAction({ ...request, packageRoot });
-  const auth = buildAuth({ authType: request.auth_type, auth: request.auth, piece: loaded.piece });
+  const auth = buildAuth({ authType: request.auth_type, auth: request.auth, piece: loaded.piece, admittedAuthType: loaded.entry.authType });
   const props = request.props ?? {};
   validateProps({ declarations: loaded.action.props, props });
   return { ...loaded, auth, props: withDefaults({ declarations: loaded.action.props, props }) };
@@ -49,7 +50,7 @@ function validateLoader({ request, packageRoot = runnerRoot }) {
 
 function prepareLoader({ request, packageRoot = runnerRoot }) {
   const loaded = validateLoader({ request, packageRoot });
-  const auth = buildAuth({ authType: request.auth_type, auth: request.auth, piece: loaded.piece });
+  const auth = buildAuth({ authType: request.auth_type, auth: request.auth, piece: loaded.piece, admittedAuthType: loaded.entry.authType });
   const props = request.props ?? {};
   validateProps({ declarations: loaded.action.props, props, requireRequired: false });
   return { ...loaded, auth, props: withDefaults({ declarations: loaded.action.props, props }) };
@@ -75,7 +76,7 @@ function exportActions({ packageRoot = runnerRoot, repositoryRoot = resolve(runn
       display_name: loaded.action.displayName,
       description: loaded.action.description,
       auth_kinds: authKinds({ piece: loaded.piece }),
-      auth: exportAuth({ piece: loaded.piece }),
+      auth: exportAuth({ piece: loaded.piece, authType: entry.authType }),
       props: exportProps({ declarations: loaded.action.props }),
     };
   });
@@ -103,9 +104,9 @@ function camelToSnake({ name }) {
   return name.replace(/([A-Z]+)([A-Z][a-z])/g, '$1_$2').replace(/([a-z0-9])([A-Z])/g, '$1_$2').toLowerCase();
 }
 
-function buildAuth({ authType, auth, piece }) {
-  const type = { API_KEY: 'SECRET_TEXT', BASIC: 'BASIC_AUTH', OAUTH2: 'OAUTH2', CUSTOM_AUTH: 'CUSTOM_AUTH' }[authType];
-  const declaration = authDeclarations({ piece }).find((candidate) => candidate.type === type);
+function buildAuth({ authType, auth, piece, admittedAuthType }) {
+  const type = { API_KEY: 'SECRET_TEXT', SECRET_TEXT: 'SECRET_TEXT', BASIC: 'BASIC_AUTH', OAUTH2: 'OAUTH2', CUSTOM_AUTH: 'CUSTOM_AUTH' }[authType];
+  const declaration = authDeclarations({ piece, authType: admittedAuthType }).find((candidate) => candidate.type === type);
   if (!type || !declaration) {
     throw refusal({ code: 'AUTH_TYPE_MISMATCH', message: 'The auth type does not match a kind declared by the piece.' });
   }
@@ -136,15 +137,20 @@ function buildAuth({ authType, auth, piece }) {
 }
 
 function authKinds({ piece }) {
-  return authDeclarations({ piece }).map((declaration) => declaration.type);
+  return (Array.isArray(piece.auth) ? piece.auth : [piece.auth]).filter(Boolean).map((declaration) => declaration.type);
 }
 
-function authDeclarations({ piece }) {
-  return (Array.isArray(piece.auth) ? piece.auth : [piece.auth]).filter(Boolean);
+function authDeclarations({ piece, authType }) {
+  const declarations = (Array.isArray(piece.auth) ? piece.auth : [piece.auth]).filter(Boolean);
+  const admitted = authType === undefined ? declarations : declarations.filter((declaration) => declaration.type === authType);
+  if (admitted.length !== 1) {
+    throw refusal({ code: 'AUTH_TYPE_MISMATCH', message: 'The allowlist must admit exactly one declared auth type.' });
+  }
+  return admitted;
 }
 
-function exportAuth({ piece }) {
-  const [declaration] = authDeclarations({ piece });
+function exportAuth({ piece, authType }) {
+  const [declaration] = authDeclarations({ piece, authType });
   return { kind: declaration.type, props: declaration.type === 'CUSTOM_AUTH' || (declaration.type === 'OAUTH2' && declaration.props !== undefined) ? exportProps({ declarations: declaration.props }) : {} };
 }
 
@@ -265,21 +271,21 @@ function dependencyVersion({ manifest, name }) {
 const runnerRoot = dirname(fileURLToPath(import.meta.url));
 const runnerManifest = readJson({ path: join(runnerRoot, 'package.json') });
 const entries = Object.freeze([
-  { piece: '@activepieces/piece-slack', action: 'send_channel_message', exportName: 'slack', forkDirectory: 'slack' },
+  { piece: '@activepieces/piece-slack', action: 'send_channel_message', exportName: 'slack', forkDirectory: 'slack', authType: 'OAUTH2' },
   { piece: '@activepieces/piece-discord', action: 'sendMessageWithBot', exportName: 'discord', forkDirectory: 'discord' },
-  { piece: '@activepieces/piece-google-sheets', action: 'get-many-rows', exportName: 'googleSheets', forkDirectory: 'google-sheets' },
-  { piece: '@activepieces/piece-google-sheets', action: 'find_rows', exportName: 'googleSheets', forkDirectory: 'google-sheets' },
-  { piece: '@activepieces/piece-google-sheets', action: 'find_row_by_num', exportName: 'googleSheets', forkDirectory: 'google-sheets' },
-  { piece: '@activepieces/piece-google-sheets', action: 'insert_row', exportName: 'googleSheets', forkDirectory: 'google-sheets' },
-  { piece: '@activepieces/piece-google-sheets', action: 'google-sheets-insert-multiple-rows', exportName: 'googleSheets', forkDirectory: 'google-sheets' },
-  { piece: '@activepieces/piece-google-sheets', action: 'update_row', exportName: 'googleSheets', forkDirectory: 'google-sheets' },
-  { piece: '@activepieces/piece-google-calendar', action: 'google_calendar_find_busy_free_periods', exportName: 'googleCalendar', forkDirectory: 'google-calendar' },
-  { piece: '@activepieces/piece-google-calendar', action: 'google_calendar_get_events', exportName: 'googleCalendar', forkDirectory: 'google-calendar' },
-  { piece: '@activepieces/piece-google-calendar', action: 'google_calendar_get_event_by_id', exportName: 'googleCalendar', forkDirectory: 'google-calendar' },
-  { piece: '@activepieces/piece-google-calendar', action: 'create_google_calendar_event', exportName: 'googleCalendar', forkDirectory: 'google-calendar' },
-  { piece: '@activepieces/piece-google-calendar', action: 'update_event', exportName: 'googleCalendar', forkDirectory: 'google-calendar' },
-  { piece: '@activepieces/piece-google-drive', action: 'search-folder', exportName: 'googleDrive', forkDirectory: 'google-drive' },
-  { piece: '@activepieces/piece-google-drive', action: 'create_new_gdrive_folder', exportName: 'googleDrive', forkDirectory: 'google-drive' },
+  { piece: '@activepieces/piece-google-sheets', action: 'get-many-rows', exportName: 'googleSheets', forkDirectory: 'google-sheets', authType: 'OAUTH2' },
+  { piece: '@activepieces/piece-google-sheets', action: 'find_rows', exportName: 'googleSheets', forkDirectory: 'google-sheets', authType: 'OAUTH2' },
+  { piece: '@activepieces/piece-google-sheets', action: 'find_row_by_num', exportName: 'googleSheets', forkDirectory: 'google-sheets', authType: 'OAUTH2' },
+  { piece: '@activepieces/piece-google-sheets', action: 'insert_row', exportName: 'googleSheets', forkDirectory: 'google-sheets', authType: 'OAUTH2' },
+  { piece: '@activepieces/piece-google-sheets', action: 'google-sheets-insert-multiple-rows', exportName: 'googleSheets', forkDirectory: 'google-sheets', authType: 'OAUTH2' },
+  { piece: '@activepieces/piece-google-sheets', action: 'update_row', exportName: 'googleSheets', forkDirectory: 'google-sheets', authType: 'OAUTH2' },
+  { piece: '@activepieces/piece-google-calendar', action: 'google_calendar_find_busy_free_periods', exportName: 'googleCalendar', forkDirectory: 'google-calendar', authType: 'OAUTH2' },
+  { piece: '@activepieces/piece-google-calendar', action: 'google_calendar_get_events', exportName: 'googleCalendar', forkDirectory: 'google-calendar', authType: 'OAUTH2' },
+  { piece: '@activepieces/piece-google-calendar', action: 'google_calendar_get_event_by_id', exportName: 'googleCalendar', forkDirectory: 'google-calendar', authType: 'OAUTH2' },
+  { piece: '@activepieces/piece-google-calendar', action: 'create_google_calendar_event', exportName: 'googleCalendar', forkDirectory: 'google-calendar', authType: 'OAUTH2' },
+  { piece: '@activepieces/piece-google-calendar', action: 'update_event', exportName: 'googleCalendar', forkDirectory: 'google-calendar', authType: 'OAUTH2' },
+  { piece: '@activepieces/piece-google-drive', action: 'search-folder', exportName: 'googleDrive', forkDirectory: 'google-drive', authType: 'OAUTH2' },
+  { piece: '@activepieces/piece-google-drive', action: 'create_new_gdrive_folder', exportName: 'googleDrive', forkDirectory: 'google-drive', authType: 'OAUTH2' },
   { piece: '@activepieces/piece-microsoft-outlook', action: 'outlook_send_email', exportName: 'microsoftOutlook', forkDirectory: 'microsoft-outlook' },
   { piece: '@activepieces/piece-microsoft-outlook', action: 'outlook_reply_to_message', exportName: 'microsoftOutlook', forkDirectory: 'microsoft-outlook' },
   { piece: '@activepieces/piece-microsoft-outlook', action: 'outlook_forward_message', exportName: 'microsoftOutlook', forkDirectory: 'microsoft-outlook' },
@@ -365,6 +371,26 @@ const entries = Object.freeze([
   { piece: '@activepieces/piece-microsoft-dynamics-365-business-central', action: 'search-records', exportName: 'microsoftDynamics365BusinessCentral', forkDirectory: 'microsoft-dynamics-365-business-central' },
   { piece: '@activepieces/piece-microsoft-dynamics-365-business-central', action: 'create-record', exportName: 'microsoftDynamics365BusinessCentral', forkDirectory: 'microsoft-dynamics-365-business-central' },
   { piece: '@activepieces/piece-microsoft-dynamics-365-business-central', action: 'update-record', exportName: 'microsoftDynamics365BusinessCentral', forkDirectory: 'microsoft-dynamics-365-business-central' },
+  { piece: '@activepieces/piece-shopify', action: 'get_order', exportName: 'shopify', forkDirectory: 'shopify', authType: 'OAUTH2' },
+  { piece: '@activepieces/piece-shopify', action: 'search_orders', exportName: 'shopify', forkDirectory: 'shopify', authType: 'OAUTH2' },
+  { piece: '@activepieces/piece-shopify', action: 'list_order_fulfillment_orders', exportName: 'shopify', forkDirectory: 'shopify', authType: 'OAUTH2' },
+  { piece: '@activepieces/piece-shopify', action: 'get_fulfillment_order', exportName: 'shopify', forkDirectory: 'shopify', authType: 'OAUTH2' },
+  { piece: '@activepieces/piece-shopify', action: 'create_fulfillment', exportName: 'shopify', forkDirectory: 'shopify', authType: 'OAUTH2' },
+  { piece: '@activepieces/piece-shopify', action: 'update_fulfillment_tracking', exportName: 'shopify', forkDirectory: 'shopify', authType: 'OAUTH2' },
+  { piece: '@activepieces/piece-shopify', action: 'list_locations', exportName: 'shopify', forkDirectory: 'shopify', authType: 'OAUTH2' },
+  { piece: '@activepieces/piece-shopify', action: 'list_inventory_levels', exportName: 'shopify', forkDirectory: 'shopify', authType: 'OAUTH2' },
+  { piece: '@activepieces/piece-shopify', action: 'get_inventory_item', exportName: 'shopify', forkDirectory: 'shopify', authType: 'OAUTH2' },
+  { piece: '@activepieces/piece-shopify', action: 'adjust_inventory_quantities', exportName: 'shopify', forkDirectory: 'shopify', authType: 'OAUTH2' },
+  { piece: '@activepieces/piece-shopify', action: 'get_product', exportName: 'shopify', forkDirectory: 'shopify', authType: 'OAUTH2' },
+  { piece: '@activepieces/piece-shopify', action: 'search_products', exportName: 'shopify', forkDirectory: 'shopify', authType: 'OAUTH2' },
+  { piece: '@activepieces/piece-onfleet', action: 'create_task', exportName: 'onfleet', forkDirectory: 'onfleet' },
+  { piece: '@activepieces/piece-onfleet', action: 'get_task', exportName: 'onfleet', forkDirectory: 'onfleet' },
+  { piece: '@activepieces/piece-onfleet', action: 'get_tasks', exportName: 'onfleet', forkDirectory: 'onfleet' },
+  { piece: '@activepieces/piece-onfleet', action: 'update_task', exportName: 'onfleet', forkDirectory: 'onfleet' },
+  { piece: '@activepieces/piece-onfleet', action: 'complete_task', exportName: 'onfleet', forkDirectory: 'onfleet' },
+  { piece: '@activepieces/piece-onfleet', action: 'get_worker', exportName: 'onfleet', forkDirectory: 'onfleet' },
+  { piece: '@activepieces/piece-onfleet', action: 'get_teams', exportName: 'onfleet', forkDirectory: 'onfleet' },
+  { piece: '@activepieces/piece-onfleet', action: 'get_hubs', exportName: 'onfleet', forkDirectory: 'onfleet' },
 ].map((entry) => Object.freeze({ ...entry, version: dependencyVersion({ manifest: runnerManifest, name: entry.piece }) })));
 
 export const pieceCatalog = { entries, validateTuple, loadAction, prepare, validateLoader, prepareLoader, exportProps, exportAuth, exportActions, verifyVersions, camelToSnake };

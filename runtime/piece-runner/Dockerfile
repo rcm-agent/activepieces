@@ -24,6 +24,8 @@ COPY packages/pieces/community/quickbooks/package.json ${LAMBDA_TASK_ROOT}/packa
 COPY packages/pieces/community/quickbooks-sandbox/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/quickbooks-sandbox/package.json
 COPY packages/pieces/community/xero/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/xero/package.json
 COPY packages/pieces/community/microsoft-dynamics-365-business-central/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/microsoft-dynamics-365-business-central/package.json
+COPY packages/pieces/community/shopify/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/shopify/package.json
+COPY packages/pieces/community/onfleet/package.json ${LAMBDA_TASK_ROOT}/packages/pieces/community/onfleet/package.json
 RUN npm run check-versions \
   && rm -rf /var/lang/lib/node_modules/npm /var/lang/lib/node_modules/corepack /var/lang/bin/npm /var/lang/bin/npx /var/lang/bin/corepack /var/runtime/node_modules/@aws-sdk
 

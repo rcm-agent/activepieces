@@ -175,7 +175,7 @@ test('provider errors expose only class, HTTP status and a message with every au
 
 test('stub typed auth requires a valid host list before loading pieces or spawning', async () => {
   const before = spawnCount;
-  for (const auth_type of ['API_KEY', 'BASIC', 'CUSTOM_AUTH']) {
+  for (const auth_type of ['API_KEY', 'SECRET_TEXT', 'BASIC', 'CUSTOM_AUTH']) {
     for (const allowed_hosts of [undefined, null, [], Array(1), [null], [''], 'api.example.com', ['127.0.0.1'], ['::1'], ['*.example.com'], ['API.example.com'], ['https://api.example.com'], ['api.example.com:443'], Array(11).fill('api.example.com')]) {
       const result = await pieceRunner.invoke({ ...discord, auth_type, allowed_hosts });
       assert.deepEqual([result.status, result.refusal?.code, spawnCount], ['refused', 'ALLOWED_HOSTS_REQUIRED', before]);
@@ -192,10 +192,10 @@ test('stub CustomAuth validates declared credentials and reaches context.auth.pr
     const entry = pieceCatalog.entries.find((item) => item.piece === '@activepieces/piece-docusign');
     const fields = metadata.find((item) => item.piece === entry.piece).auth.props;
     const declarations = Object.fromEntries(Object.entries(fields).map(([name, field]) => [name, { ...field, ...(field.options ? { options: { options: field.options } } : {}) }]));
-    const drive = pieceCatalog.entries.find((item) => item.piece === '@activepieces/piece-google-drive');
-    const driveAuth = { type: 'CUSTOM_AUTH', props: { serviceAccount: { type: 'LONG_TEXT', required: true }, userEmail: { type: 'SHORT_TEXT', required: false } } };
+    const longTextEntry = pieceCatalog.entries.find((item) => item.piece === '@activepieces/piece-service-now');
+    const longTextAuth = { type: 'CUSTOM_AUTH', props: { serviceAccount: { type: 'LONG_TEXT', required: true }, userEmail: { type: 'SHORT_TEXT', required: false } } };
     await writeFile(join(packageRoot, 'package.json'), '{}');
-    for (const [item, auth] of [[entry, { type: 'CUSTOM_AUTH', props: declarations }], [pieceCatalog.entries[0], { type: 'OAUTH2' }], [drive, driveAuth]]) {
+    for (const [item, auth] of [[entry, { type: 'CUSTOM_AUTH', props: declarations }], [pieceCatalog.entries[0], { type: 'OAUTH2' }], [longTextEntry, longTextAuth]]) {
       const target = join(packageRoot, 'node_modules', item.piece);
       await mkdir(target, { recursive: true });
       await writeFile(join(target, 'package.json'), JSON.stringify({ version: item.version, main: 'index.cjs' }));
@@ -211,9 +211,9 @@ test('stub CustomAuth validates declared credentials and reaches context.auth.pr
     }
     assert.throws(() => pieceCatalog.prepare({ request: { ...request, auth_type: 'BASIC' }, packageRoot }), { code: 'AUTH_TYPE_MISMATCH' });
     assert.deepEqual(await runnerExecution.execute({ request: { ...slack, props: {} }, pieceCatalog: catalog }), { type: 'OAUTH2', access_token: slack.auth.access_token, data: slack.auth.raw });
-    const driveRequest = { ...request, piece: drive.piece, version: drive.version, action: drive.action, auth: { props: { serviceAccount: JSON.stringify({ private_key: 'contract-key', padding: ' '.repeat(4096) }) } } };
-    assert.deepEqual(await runnerExecution.execute({ request: driveRequest, pieceCatalog: catalog }), { type: 'CUSTOM_AUTH', props: driveRequest.auth.props });
-    await assert.rejects(runnerExecution.execute({ request: { ...driveRequest, auth: { props: { serviceAccount: 1 } } }, pieceCatalog: catalog }), { code: 'INVALID_AUTH' });
+    const longTextRequest = { ...request, piece: longTextEntry.piece, version: longTextEntry.version, action: longTextEntry.action, auth: { props: { serviceAccount: JSON.stringify({ private_key: 'contract-key', padding: ' '.repeat(4096) }) } } };
+    assert.deepEqual(await runnerExecution.execute({ request: longTextRequest, pieceCatalog: catalog }), { type: 'CUSTOM_AUTH', props: longTextRequest.auth.props });
+    await assert.rejects(runnerExecution.execute({ request: { ...longTextRequest, auth: { props: { serviceAccount: 1 } } }, pieceCatalog: catalog }), { code: 'INVALID_AUTH' });
     const result = runnerErrors.failure({ error: new Error(`Credential ${privateKey} failed`), auth: request.auth });
     assert.equal(result.error.message, 'Credential [REDACTED] failed');
     const basic = { props: { username: 'contract-username', password: 'contract-password' } };
@@ -312,6 +312,42 @@ test('stub Business Central preserves OAuth2 defaults and tenant-qualified envir
   } finally { await rm(packageRoot, { recursive: true, force: true }); }
 });
 
+test('stub Shopify admits only OAuth2 shop credentials and Onfleet admits secret text before running', async () => {
+  const packageRoot = await mkdtemp(join(tmpdir(), 'piece-runner-fulfillment-auth-'));
+  try {
+    await writeFile(join(packageRoot, 'package.json'), '{}');
+    const shopName = { type: 'SHORT_TEXT', required: true };
+    const shopifyAuth = [{ type: 'CUSTOM_AUTH', props: { shopName, adminToken: { type: 'SECRET_TEXT', required: true } } }, { type: 'OAUTH2', props: { shopName } }];
+    const shopify = { ...requestTuple({ piece: '@activepieces/piece-shopify', action: 'get_order' }), auth_type: 'OAUTH2', auth: { access_token: 'shopify-contract-token', props: { shopName: 'basekey-dev' } }, allowed_hosts: ['basekey-dev.myshopify.com'], props: { order_id: 'contract-order' } };
+    const onfleet = { ...requestTuple({ piece: '@activepieces/piece-onfleet', action: 'get_task' }), auth_type: 'SECRET_TEXT', auth: { secret_text: 'onfleet-contract-token' }, allowed_hosts: ['onfleet.com'], props: { task: 'contract-task' } };
+    const catalog = { prepare: ({ request }) => pieceCatalog.prepare({ request, packageRoot }) };
+    for (const [request, auth] of [[shopify, shopifyAuth], [onfleet, { type: 'SECRET_TEXT' }]]) {
+      const entry = pieceCatalog.entries.find((item) => item.piece === request.piece && item.action === request.action);
+      const target = join(packageRoot, 'node_modules', entry.piece);
+      await mkdir(target, { recursive: true });
+      await writeFile(join(target, 'package.json'), JSON.stringify({ version: entry.version, main: 'index.cjs' }));
+      const props = Object.fromEntries(Object.keys(request.props).map((name) => [name, { type: 'SHORT_TEXT', required: true }]));
+      await writeFile(join(target, 'index.cjs'), `const piece = { runs: 0, auth: ${JSON.stringify(auth)}, getAction: () => ({ props: ${JSON.stringify(props)}, run: ({ auth, propsValue }) => { piece.runs += 1; return { auth, props: propsValue }; } }) }; module.exports = { ${entry.exportName}: piece };`);
+    }
+    const invalid = [
+      [{ ...shopify, auth_type: 'CUSTOM_AUTH', auth: { props: { shopName: 'basekey-dev', adminToken: 'legacy-contract-token' } } }, 'AUTH_TYPE_MISMATCH'],
+      [{ ...shopify, auth: { type: 'CUSTOM_AUTH', props: { shopName: 'basekey-dev', adminToken: 'legacy-contract-token' } } }, 'INVALID_AUTH'],
+      [{ ...shopify, auth: { access_token: shopify.auth.access_token } }, 'INVALID_AUTH'],
+      [{ ...shopify, auth: { ...shopify.auth, props: {} } }, 'INVALID_AUTH'],
+      [{ ...shopify, auth: { ...shopify.auth, props: { ...shopify.auth.props, unknown: 'value' } } }, 'INVALID_AUTH'],
+      [{ ...onfleet, auth: {} }, 'INVALID_AUTH'],
+      [{ ...onfleet, auth: { secret_text: '' } }, 'INVALID_AUTH'],
+    ];
+    for (const [request, code] of invalid) {
+      const loaded = pieceCatalog.loadAction({ ...request, packageRoot });
+      await assert.rejects(runnerExecution.execute({ request, pieceCatalog: catalog }), { name: 'RunnerRefusal', code });
+      assert.equal(loaded.piece.runs, 0);
+    }
+    assert.deepEqual(await runnerExecution.execute({ request: shopify, pieceCatalog: catalog }), { auth: { type: 'OAUTH2', access_token: shopify.auth.access_token, data: {}, props: { shopName: 'basekey-dev' } }, props: shopify.props });
+    for (const auth_type of ['SECRET_TEXT', 'API_KEY']) assert.deepEqual(await runnerExecution.execute({ request: { ...onfleet, auth_type }, pieceCatalog: catalog }), { auth: { type: 'SECRET_TEXT', secret_text: onfleet.auth.secret_text }, props: onfleet.props });
+  } finally { await rm(packageRoot, { recursive: true, force: true }); }
+});
+
 test('stub egress guards DNS and sockets with public-address controls and no real DNS', async () => {
   const script = `
     import assert from 'node:assert/strict';
@@ -378,10 +414,10 @@ test('stub egress guards DNS and sockets with public-address controls and no rea
     await import(${JSON.stringify(new URL('../worker.mjs', import.meta.url).href)});
     process.stdin.emit('data', process.argv[1]); process.stdin.emit('end');
   `;
-  for (const auth_type of ['API_KEY', 'OAUTH2']) {
-    const request = { auth_type, ...(auth_type === 'API_KEY' ? { allowed_hosts: ['api.example.com'] } : {}) };
+  for (const auth_type of ['API_KEY', 'SECRET_TEXT', 'OAUTH2']) {
+    const request = { auth_type, ...(auth_type !== 'OAUTH2' ? { allowed_hosts: ['api.example.com'] } : {}) };
     const { stdout } = await promisify(childProcess.execFile)(process.execPath, ['--input-type=module', '-e', workerScript, JSON.stringify(request)], { env: {}, timeout: 10000 });
     const result = JSON.parse(stdout);
-    assert.deepEqual(auth_type === 'API_KEY' ? [result.status, result.refusal?.code] : result, auth_type === 'API_KEY' ? ['refused', 'EGRESS_HOST_REFUSED'] : { status: 'completed', output: 'provider swallowed lookup' });
+    assert.deepEqual(auth_type !== 'OAUTH2' ? [result.status, result.refusal?.code] : result, auth_type !== 'OAUTH2' ? ['refused', 'EGRESS_HOST_REFUSED'] : { status: 'completed', output: 'provider swallowed lookup' });
   }
 });

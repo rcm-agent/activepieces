@@ -37,15 +37,18 @@ test('exports installed action props, required flags, auth kinds and determinist
     'get_envelope', 'list_envelopes', 'list_templates', 'find_envelope_recipients', 'create_order', 'find_order', 'find_shipping_label',
     ...Array(2).fill(['find_invoice', 'find_customer', 'find_payment', 'find_vendor', 'find_account', 'read_aging_report', 'create_invoice', 'create_bill', 'create_vendor', 'record_payment', 'record_bill_payment']).flat(),
     'xero_find_contact', 'xero_find_invoice', 'xero_get_invoice', 'xero_search_invoices', 'xero_search_payments', 'xero_get_aged_receivables', 'xero_get_aged_payables', 'xero_list_accounts', 'xero_list_organisations', 'xero_create_contact', 'xero_create_invoice', 'xero_create_bill', 'xero_create_payment',
-    'get-record', 'search-records', 'create-record', 'update-record']);
+    'get-record', 'search-records', 'create-record', 'update-record',
+    'get_order', 'search_orders', 'list_order_fulfillment_orders', 'get_fulfillment_order', 'create_fulfillment', 'update_fulfillment_tracking', 'list_locations', 'list_inventory_levels', 'get_inventory_item', 'adjust_inventory_quantities', 'get_product', 'search_products',
+    'create_task', 'get_task', 'get_tasks', 'update_task', 'complete_task', 'get_worker', 'get_teams', 'get_hubs']);
   for (const entry of pieceCatalog.entries) {
     const piece = require(entry.piece)[entry.exportName], action = piece.getAction(entry.action);
     const metadata = exported.find((item) => item.piece === entry.piece && item.action === entry.action);
     assert.deepEqual([metadata.version, metadata.description], [require(`${entry.piece}/package.json`).version, action.description]);
     assert.deepEqual(metadata.props, propsMetadata(action.props));
     const declarations = Array.isArray(piece.auth) ? piece.auth : [piece.auth];
+    const declaration = declarations.find((auth) => auth.type === (entry.authType ?? declarations[0].type));
     assert.deepEqual(metadata.auth_kinds, declarations.map((auth) => auth.type));
-    assert.deepEqual(metadata.auth, { kind: declarations[0].type, props: ['CUSTOM_AUTH', 'OAUTH2'].includes(declarations[0].type) && declarations[0].props !== undefined ? propsMetadata(declarations[0].props) : {} });
+    assert.deepEqual(metadata.auth, { kind: declaration.type, props: ['CUSTOM_AUTH', 'OAUTH2'].includes(declaration.type) && declaration.props !== undefined ? propsMetadata(declaration.props) : {} });
   }
   const calendar = exported.find((item) => item.piece === '@activepieces/piece-google-calendar' && item.action === 'update_event');
   assert.deepEqual(calendar.props.guests_can_modify.options, [{ label: 'Yes', value: true }, { label: 'No', value: false }]);
@@ -67,10 +70,11 @@ test('exports installed action props, required flags, auth kinds and determinist
 });
 test('exports typed auth declarations and generated credential fields without inferring secrets', async () => {
   const exported = JSON.parse(await readFile(resolve(packageRoot, '../../catalog/activepieces/generated/runner/actions.json'), 'utf8'));
-  assert.equal(exported.length, 100);
+  assert.equal(exported.length, 120);
   for (const item of exported) {
     assert.ok(['OAUTH2', 'SECRET_TEXT', 'BASIC_AUTH', 'CUSTOM_AUTH'].includes(item.auth.kind));
-    assert.equal(item.auth.kind, item.auth_kinds[0]);
+    const entry = pieceCatalog.entries.find((entry) => entry.piece === item.piece && entry.action === item.action);
+    assert.equal(item.auth.kind, entry.authType ?? item.auth_kinds[0]);
   }
   const serviceNow = exported.find((item) => item.piece === '@activepieces/piece-service-now').auth;
   assert.deepEqual(Object.keys(serviceNow.props), ['instanceUrl', 'username', 'password']);
@@ -79,11 +83,25 @@ test('exports typed auth declarations and generated credential fields without in
   assert.equal(docusign.props.privateKey.type, 'SECRET_TEXT');
   assert.deepEqual(docusign.props.environment.options.map((option) => option.value), ['demo', 'www', 'eu']);
   assert.equal(exported.find((item) => item.piece === '@activepieces/piece-shippo').auth.kind, 'SECRET_TEXT');
+  for (const [piece, version, count, kind, kinds] of [['@activepieces/piece-shopify', '0.9.1', 12, 'OAUTH2', ['CUSTOM_AUTH', 'OAUTH2']], ['@activepieces/piece-onfleet', '0.2.0', 8, 'SECRET_TEXT', ['SECRET_TEXT']]]) {
+    const records = exported.filter((record) => record.piece === piece);
+    assert.equal(records.length, count);
+    for (const record of records) {
+      assert.deepEqual([record.version, record.auth_kinds, record.auth.kind], [version, kinds, kind]);
+      assert.deepEqual(Object.keys(record.auth.props), kind === 'OAUTH2' ? ['shopName'] : []);
+      if (kind === 'OAUTH2') assert.deepEqual([record.auth.props.shopName.type, record.auth.props.shopName.required], ['SHORT_TEXT', true]);
+    }
+  }
   const props = { password: { type: 'SHORT_TEXT', displayName: 'Secret API password', description: 'Secret credential', required: true }, privateKey: { type: 'SECRET_TEXT', displayName: 'Key', required: true } };
   assert.deepEqual(pieceCatalog.exportAuth({ piece: { auth: { type: 'CUSTOM_AUTH', props } } }), { kind: 'CUSTOM_AUTH', props: propsMetadata(props) });
   assert.notEqual(pieceCatalog.exportAuth({ piece: { auth: { type: 'CUSTOM_AUTH', props } } }).props.password.type, 'SECRET_TEXT');
   for (const kind of ['OAUTH2', 'SECRET_TEXT', 'BASIC_AUTH']) assert.deepEqual(pieceCatalog.exportAuth({ piece: { auth: { type: kind } } }), { kind, props: {} });
-  assert.deepEqual(pieceCatalog.exportAuth({ piece: { auth: [{ type: 'OAUTH2' }, { type: 'CUSTOM_AUTH', props }] } }), { kind: 'OAUTH2', props: {} });
+  const oauthProps = { shopName: { type: 'SHORT_TEXT', displayName: 'Shop Name', required: true } };
+  const multi = { auth: [{ type: 'CUSTOM_AUTH', props }, { type: 'OAUTH2', props: oauthProps }] };
+  assert.deepEqual(pieceCatalog.exportAuth({ piece: multi, authType: 'OAUTH2' }), { kind: 'OAUTH2', props: propsMetadata(oauthProps) });
+  assert.deepEqual(pieceCatalog.exportAuth({ piece: multi, authType: 'CUSTOM_AUTH' }), { kind: 'CUSTOM_AUTH', props: propsMetadata(props) });
+  for (const authType of [undefined, 'BASIC_AUTH']) assert.throws(() => pieceCatalog.exportAuth({ piece: multi, authType }), { name: 'RunnerRefusal', code: 'AUTH_TYPE_MISMATCH' });
+  assert.throws(() => pieceCatalog.exportAuth({ piece: { auth: [...multi.auth, multi.auth[1]] }, authType: 'OAUTH2' }), { name: 'RunnerRefusal', code: 'AUTH_TYPE_MISMATCH' });
 });
 test('exports 39 admitted finance actions and OAuth2 auth props through stubbed pieces', async () => {
   const exported = JSON.parse(await readFile(resolve(packageRoot, '../../catalog/activepieces/generated/runner/actions.json'), 'utf8'));
@@ -128,7 +146,8 @@ test('exports 39 admitted finance actions and OAuth2 auth props through stubbed 
     for (const entry of [...new Map(pieceCatalog.entries.map((entry) => [entry.piece, entry])).values()]) {
       const records = exported.filter((record) => record.piece === entry.piece);
       const [record] = records;
-      const auth = entry.piece === businessCentralPiece ? [businessCentralAuth] : record.auth_kinds.map((type, index) => ({ type, ...(index === 0 && ['CUSTOM_AUTH', 'OAUTH2'].includes(type) && Object.keys(record.auth.props).length ? { props: declarations(record.auth.props) } : {}) }));
+      const pieceAuth = record.auth_kinds.map((type) => ({ type, ...(type === record.auth.kind && ['CUSTOM_AUTH', 'OAUTH2'].includes(type) && Object.keys(record.auth.props).length ? { props: declarations(record.auth.props) } : {}), ...(entry.forkDirectory === 'shopify' && type === 'CUSTOM_AUTH' ? { props: { shopName: { type: 'SHORT_TEXT', required: true }, adminToken: { type: 'SECRET_TEXT', required: true } } } : {}) }));
+      const auth = entry.piece === businessCentralPiece ? [businessCentralAuth] : pieceAuth;
       const actions = Object.fromEntries(records.map((record) => [record.action, { displayName: record.display_name, description: record.description, props: { ...declarations(record.props), ...(entry.piece === businessCentralPiece ? Object.fromEntries(Object.keys(record.props).filter((name) => businessCentralLoaders[name]).map((name) => [name, businessCentralLoaders[name]])) : {}) } }]));
       const target = join(stubRoot, 'node_modules', entry.piece);
       await mkdir(target, { recursive: true });
@@ -146,7 +165,7 @@ test('exports 39 admitted finance actions and OAuth2 auth props through stubbed 
     assert.throws(() => assert.deepEqual(pieceCatalog.exportActions({ packageRoot: stubRoot, repositoryRoot: stubRepository }), exported), { code: 'ERR_ASSERTION' });
   } finally { await rm(stubRepository, { recursive: true, force: true }); }
 });
-test('appends Business Central exports without changing any pre-existing record bytes', async () => {
+test('appends Business Central and fulfillment exports without changing any pre-existing record bytes', async () => {
   const source = await readFile(resolve(packageRoot, '../../catalog/activepieces/generated/runner/actions.json'), 'utf8');
   assertExistingRecordBytes({ source });
   const changed = source.replace('"version": "0.21.1"', '"version": "0.0.0"');
@@ -164,7 +183,7 @@ test('fails closed when a pinned piece version differs from the fork', async () 
     for (const path of [...new Set(pieceCatalog.entries.map((entry) => `packages/pieces/community/${entry.forkDirectory}/package.json`))]) {
       const target = join(repositoryRoot, path); await mkdir(dirname(target), { recursive: true }); await writeFile(target, await readFile(resolve(packageRoot, '../..', path), 'utf8'));
     }
-    for (const forkDirectory of ['slack', 'google-sheets', 'google-calendar', 'google-drive', 'microsoft-outlook', 'microsoft-outlook-calendar', 'microsoft-teams', 'microsoft-excel-365', 'microsoft-onedrive', 'microsoft-sharepoint', 'service-now', 'docusign', 'shippo', 'quickbooks', 'quickbooks-sandbox', 'xero', 'microsoft-dynamics-365-business-central']) {
+    for (const forkDirectory of ['slack', 'google-sheets', 'google-calendar', 'google-drive', 'microsoft-outlook', 'microsoft-outlook-calendar', 'microsoft-teams', 'microsoft-excel-365', 'microsoft-onedrive', 'microsoft-sharepoint', 'service-now', 'docusign', 'shippo', 'quickbooks', 'quickbooks-sandbox', 'xero', 'microsoft-dynamics-365-business-central', 'shopify', 'onfleet']) {
       const target = join(repositoryRoot, `packages/pieces/community/${forkDirectory}/package.json`), original = await readFile(target, 'utf8');
       await writeFile(target, JSON.stringify({ version: '0.0.0' }));
       assert.throws(() => pieceCatalog.verifyVersions({ repositoryRoot }), { name: 'RunnerRefusal', code: 'VERSION_MISMATCH' });
@@ -177,4 +196,7 @@ function assertExistingRecordBytes({ source }) {
   const boundary = source.indexOf(',\n  {\n    "piece": "@activepieces/piece-microsoft-dynamics-365-business-central"');
   assert.ok(boundary > 0);
   assert.equal(createHash('sha256').update(`${source.slice(0, boundary)}\n]\n`).digest('hex'), '343d46e23d66886ac72166c0750ec78a64875929ea4107b5b5110b1bbdb39670');
+  const fulfillmentBoundary = source.indexOf(',\n  {\n    "piece": "@activepieces/piece-shopify"');
+  assert.ok(fulfillmentBoundary > boundary);
+  assert.equal(createHash('sha256').update(`${source.slice(0, fulfillmentBoundary)}\n]\n`).digest('hex'), 'f0a2481a3abf3c1aab295c36f41bf15d875d3e1a7be70550bfbe56a4089e44c6');
 }

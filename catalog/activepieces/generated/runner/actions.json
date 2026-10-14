@@ -8497,5 +8497,1169 @@
         ]
       }
     }
+  },
+  {
+    "piece": "@activepieces/piece-shopify",
+    "version": "0.9.1",
+    "action": "get_order",
+    "id": "get_order",
+    "display_name": "Get Order",
+    "description": "Get one order with its totals, addresses and line items.",
+    "auth_kinds": [
+      "CUSTOM_AUTH",
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "shopName": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "The part before .myshopify.com in your store URL. For https://example.myshopify.com, enter example.",
+          "display_name": "Shop Name"
+        }
+      }
+    },
+    "props": {
+      "order_id": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The order id: a numeric id such as \"450789469\" or a full id such as \"gid://shopify/Order/450789469\". Find it with search_orders.",
+        "display_name": "Order ID"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-shopify",
+    "version": "0.9.1",
+    "action": "search_orders",
+    "id": "search_orders",
+    "display_name": "Search Orders",
+    "description": "Search orders with Shopify search syntax, one page at a time.",
+    "auth_kinds": [
+      "CUSTOM_AUTH",
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "shopName": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "The part before .myshopify.com in your store URL. For https://example.myshopify.com, enter example.",
+          "display_name": "Shop Name"
+        }
+      }
+    },
+    "props": {
+      "query": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Shopify order search syntax, for example \"status:open financial_status:paid\", \"tag:wholesale\" or \"created_at:>=2026-01-01\". Leave empty to list all orders.",
+        "display_name": "Search Query"
+      },
+      "sort_key": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "Field to sort by. Defaults to the order id.",
+        "display_name": "Sort By",
+        "options": [
+          {
+            "label": "Created at",
+            "value": "CREATED_AT"
+          },
+          {
+            "label": "Processed at",
+            "value": "PROCESSED_AT"
+          },
+          {
+            "label": "Updated at",
+            "value": "UPDATED_AT"
+          },
+          {
+            "label": "Order number",
+            "value": "ORDER_NUMBER"
+          },
+          {
+            "label": "Total price",
+            "value": "TOTAL_PRICE"
+          },
+          {
+            "label": "Customer name",
+            "value": "CUSTOMER_NAME"
+          },
+          {
+            "label": "Financial status",
+            "value": "FINANCIAL_STATUS"
+          },
+          {
+            "label": "Fulfillment status",
+            "value": "FULFILLMENT_STATUS"
+          },
+          {
+            "label": "Relevance (with a query)",
+            "value": "RELEVANCE"
+          },
+          {
+            "label": "ID",
+            "value": "ID"
+          }
+        ]
+      },
+      "reverse": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Return results in reverse sort order (for example newest first).",
+        "display_name": "Reverse Order",
+        "default": false
+      },
+      "first": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "How many records to return, 1 to 40. Defaults to 40.",
+        "display_name": "Page Size",
+        "default": 40
+      },
+      "after": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "The end_cursor from the previous page. Leave empty for the first page; pass it only while has_next_page is true.",
+        "display_name": "Cursor"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-shopify",
+    "version": "0.9.1",
+    "action": "list_order_fulfillment_orders",
+    "id": "list_order_fulfillment_orders",
+    "display_name": "List Order Fulfillment Orders",
+    "description": "List the fulfillment orders of an order: what still has to be shipped, from which location.",
+    "auth_kinds": [
+      "CUSTOM_AUTH",
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "shopName": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "The part before .myshopify.com in your store URL. For https://example.myshopify.com, enter example.",
+          "display_name": "Shop Name"
+        }
+      }
+    },
+    "props": {
+      "order_id": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The order id, numeric or \"gid://shopify/Order/…\". Find it with search_orders.",
+        "display_name": "Order ID"
+      },
+      "query": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Optional Shopify search syntax on the fulfillment orders, for example \"status:open\". Leave empty to list all.",
+        "display_name": "Search Query"
+      },
+      "first": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "How many records to return, 1 to 4. Defaults to 4.",
+        "display_name": "Page Size",
+        "default": 4
+      },
+      "after": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "The end_cursor from the previous page. Leave empty for the first page; pass it only while has_next_page is true.",
+        "display_name": "Cursor"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-shopify",
+    "version": "0.9.1",
+    "action": "get_fulfillment_order",
+    "id": "get_fulfillment_order",
+    "display_name": "Get Fulfillment Order",
+    "description": "Get one fulfillment order with its status, holds, location and line items.",
+    "auth_kinds": [
+      "CUSTOM_AUTH",
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "shopName": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "The part before .myshopify.com in your store URL. For https://example.myshopify.com, enter example.",
+          "display_name": "Shop Name"
+        }
+      }
+    },
+    "props": {
+      "fulfillment_order_id": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The fulfillment order id, numeric or \"gid://shopify/FulfillmentOrder/…\". Find it with list_order_fulfillment_orders.",
+        "display_name": "Fulfillment Order ID"
+      },
+      "line_items_after": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Leave empty for the first 50 line items. To read more, pass line_items_end_cursor from the previous call.",
+        "display_name": "Line Items Cursor"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-shopify",
+    "version": "0.9.1",
+    "action": "create_fulfillment",
+    "id": "create_fulfillment",
+    "display_name": "Create Fulfillment",
+    "description": "Mark items of a fulfillment order as shipped, with optional tracking details.",
+    "auth_kinds": [
+      "CUSTOM_AUTH",
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "shopName": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "The part before .myshopify.com in your store URL. For https://example.myshopify.com, enter example.",
+          "display_name": "Shop Name"
+        }
+      }
+    },
+    "props": {
+      "fulfillment_order_id": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The fulfillment order to fulfill, numeric or \"gid://shopify/FulfillmentOrder/…\". Find it with list_order_fulfillment_orders.",
+        "display_name": "Fulfillment Order ID"
+      },
+      "line_items": {
+        "type": "ARRAY",
+        "required": false,
+        "description": "Optional partial shipment: the fulfillment order line items and quantities to ship. Leave empty to ship all remaining items of the fulfillment order.",
+        "display_name": "Line Items",
+        "properties": {
+          "fulfillment_order_line_item_id": {
+            "type": "SHORT_TEXT",
+            "required": true,
+            "description": "The fulfillment order line item id from list_order_fulfillment_orders or get_fulfillment_order (line_items[].id), for example \"gid://shopify/FulfillmentOrderLineItem/1234\". This is not the order line item id.",
+            "display_name": "Fulfillment Order Line Item ID"
+          },
+          "quantity": {
+            "type": "NUMBER",
+            "required": true,
+            "description": "How many units of this line item, 1 or more and at most its remaining_quantity.",
+            "display_name": "Quantity"
+          }
+        }
+      },
+      "tracking_company": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "The carrier name, for example \"UPS\", \"USPS\", \"FedEx\" or \"DHL Express\". With a supported carrier Shopify builds the tracking URL itself.",
+        "display_name": "Tracking Company"
+      },
+      "tracking_numbers": {
+        "type": "ARRAY",
+        "required": false,
+        "description": "One or more tracking numbers, for example \"1Z999AA10123456784\".",
+        "display_name": "Tracking Numbers"
+      },
+      "tracking_urls": {
+        "type": "ARRAY",
+        "required": false,
+        "description": "Tracking page URLs, one per tracking number, for example \"https://www.ups.com/track?tracknum=1Z999AA10123456784\". Only needed for carriers Shopify does not know.",
+        "display_name": "Tracking URLs"
+      },
+      "notify_customer": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Send the customer a shipping confirmation email. Off by default.",
+        "display_name": "Notify Customer",
+        "default": false
+      },
+      "message": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Optional internal message recorded with the fulfillment.",
+        "display_name": "Message"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-shopify",
+    "version": "0.9.1",
+    "action": "update_fulfillment_tracking",
+    "id": "update_fulfillment_tracking",
+    "display_name": "Update Fulfillment Tracking",
+    "description": "Change the carrier, tracking numbers or tracking URLs of a fulfillment.",
+    "auth_kinds": [
+      "CUSTOM_AUTH",
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "shopName": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "The part before .myshopify.com in your store URL. For https://example.myshopify.com, enter example.",
+          "display_name": "Shop Name"
+        }
+      }
+    },
+    "props": {
+      "fulfillment_id": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The fulfillment id, numeric or \"gid://shopify/Fulfillment/…\". Find it with list_order_fulfillments.",
+        "display_name": "Fulfillment ID"
+      },
+      "tracking_company": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "The carrier name, for example \"UPS\", \"USPS\", \"FedEx\" or \"DHL Express\".",
+        "display_name": "Tracking Company"
+      },
+      "tracking_numbers": {
+        "type": "ARRAY",
+        "required": false,
+        "description": "The complete list of tracking numbers. Replaces the stored list; leave empty to keep it.",
+        "display_name": "Tracking Numbers"
+      },
+      "tracking_urls": {
+        "type": "ARRAY",
+        "required": false,
+        "description": "The complete list of tracking page URLs, one per tracking number. Replaces the stored list; leave empty to keep it.",
+        "display_name": "Tracking URLs"
+      },
+      "notify_customer": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Send the customer a shipping update email. Off by default.",
+        "display_name": "Notify Customer",
+        "default": false
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-shopify",
+    "version": "0.9.1",
+    "action": "list_locations",
+    "id": "list_locations",
+    "display_name": "List Locations",
+    "description": "List the store's locations (warehouses, shops, fulfillment services), one page at a time.",
+    "auth_kinds": [
+      "CUSTOM_AUTH",
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "shopName": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "The part before .myshopify.com in your store URL. For https://example.myshopify.com, enter example.",
+          "display_name": "Shop Name"
+        }
+      }
+    },
+    "props": {
+      "query": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Shopify location search syntax, for example \"name:Warehouse*\". Leave empty to list all.",
+        "display_name": "Search Query"
+      },
+      "include_inactive": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Also return deactivated locations. Off by default.",
+        "display_name": "Include Inactive",
+        "default": false
+      },
+      "include_legacy": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Also return legacy fulfillment-service locations. Off by default.",
+        "display_name": "Include Legacy",
+        "default": false
+      },
+      "sort_key": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "Field to sort by. Defaults to the name.",
+        "display_name": "Sort By",
+        "options": [
+          {
+            "label": "Name",
+            "value": "NAME"
+          },
+          {
+            "label": "ID",
+            "value": "ID"
+          },
+          {
+            "label": "Relevance (with a query)",
+            "value": "RELEVANCE"
+          }
+        ]
+      },
+      "reverse": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Return results in reverse sort order (for example newest first).",
+        "display_name": "Reverse Order",
+        "default": false
+      },
+      "first": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "How many records to return, 1 to 250. Defaults to 50.",
+        "display_name": "Page Size",
+        "default": 50
+      },
+      "after": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "The end_cursor from the previous page. Leave empty for the first page; pass it only while has_next_page is true.",
+        "display_name": "Cursor"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-shopify",
+    "version": "0.9.1",
+    "action": "list_inventory_levels",
+    "id": "list_inventory_levels",
+    "display_name": "List Inventory Levels",
+    "description": "List stock quantities of one item across locations, or of all items at one location.",
+    "auth_kinds": [
+      "CUSTOM_AUTH",
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "shopName": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "The part before .myshopify.com in your store URL. For https://example.myshopify.com, enter example.",
+          "display_name": "Shop Name"
+        }
+      }
+    },
+    "props": {
+      "inventory_item_id": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "List this item's levels at every location, numeric or \"gid://shopify/InventoryItem/…\". Leave empty when giving a location.",
+        "display_name": "Inventory Item ID"
+      },
+      "location_id": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "List every item stocked at this location, numeric or \"gid://shopify/Location/…\". Leave empty when giving an item.",
+        "display_name": "Location ID"
+      },
+      "include_inactive": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Also return levels that were deactivated. Off by default.",
+        "display_name": "Include Inactive",
+        "default": false
+      },
+      "first": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "How many records to return, 1 to 70. Defaults to 50.",
+        "display_name": "Page Size",
+        "default": 50
+      },
+      "after": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "The end_cursor from the previous page. Leave empty for the first page; pass it only while has_next_page is true.",
+        "display_name": "Cursor"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-shopify",
+    "version": "0.9.1",
+    "action": "get_inventory_item",
+    "id": "get_inventory_item",
+    "display_name": "Get Inventory Item",
+    "description": "Get one inventory item with its SKU, cost, tracking and shipping details.",
+    "auth_kinds": [
+      "CUSTOM_AUTH",
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "shopName": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "The part before .myshopify.com in your store URL. For https://example.myshopify.com, enter example.",
+          "display_name": "Shop Name"
+        }
+      }
+    },
+    "props": {
+      "inventory_item_id": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The inventory item id, numeric or \"gid://shopify/InventoryItem/…\" (from get_product_variant_details).",
+        "display_name": "Inventory Item ID"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-shopify",
+    "version": "0.9.1",
+    "action": "adjust_inventory_quantities",
+    "id": "adjust_inventory_quantities",
+    "display_name": "Adjust Inventory Quantities",
+    "description": "Increase or decrease stock by a relative amount at one or more locations.",
+    "auth_kinds": [
+      "CUSTOM_AUTH",
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "shopName": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "The part before .myshopify.com in your store URL. For https://example.myshopify.com, enter example.",
+          "display_name": "Shop Name"
+        }
+      }
+    },
+    "props": {
+      "name": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "Which quantity to adjust. Anything other than \"available\" needs a ledger document URI on each change.",
+        "display_name": "Quantity Name",
+        "options": [
+          {
+            "label": "Available",
+            "value": "available"
+          },
+          {
+            "label": "Damaged",
+            "value": "damaged"
+          },
+          {
+            "label": "Quality control",
+            "value": "quality_control"
+          },
+          {
+            "label": "Reserved",
+            "value": "reserved"
+          },
+          {
+            "label": "Safety stock",
+            "value": "safety_stock"
+          },
+          {
+            "label": "Incoming",
+            "value": "incoming"
+          }
+        ]
+      },
+      "reason": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "Why the stock changes; shown in the inventory history.",
+        "display_name": "Reason",
+        "options": [
+          {
+            "label": "Correction",
+            "value": "correction"
+          },
+          {
+            "label": "Cycle count",
+            "value": "cycle_count_available"
+          },
+          {
+            "label": "Damaged",
+            "value": "damaged"
+          },
+          {
+            "label": "Received",
+            "value": "received"
+          },
+          {
+            "label": "Restock",
+            "value": "restock"
+          },
+          {
+            "label": "Shrinkage",
+            "value": "shrinkage"
+          },
+          {
+            "label": "Promotion",
+            "value": "promotion"
+          },
+          {
+            "label": "Quality control",
+            "value": "quality_control"
+          },
+          {
+            "label": "Safety stock",
+            "value": "safety_stock"
+          },
+          {
+            "label": "Movement created",
+            "value": "movement_created"
+          },
+          {
+            "label": "Movement updated",
+            "value": "movement_updated"
+          },
+          {
+            "label": "Movement received",
+            "value": "movement_received"
+          },
+          {
+            "label": "Movement canceled",
+            "value": "movement_canceled"
+          },
+          {
+            "label": "Reservation created",
+            "value": "reservation_created"
+          },
+          {
+            "label": "Reservation updated",
+            "value": "reservation_updated"
+          },
+          {
+            "label": "Reservation deleted",
+            "value": "reservation_deleted"
+          },
+          {
+            "label": "Other",
+            "value": "other"
+          }
+        ]
+      },
+      "changes": {
+        "type": "ARRAY",
+        "required": true,
+        "description": "One entry per inventory item and location.",
+        "display_name": "Changes",
+        "properties": {
+          "inventory_item_id": {
+            "type": "SHORT_TEXT",
+            "required": true,
+            "description": "The inventory item id, numeric or \"gid://shopify/InventoryItem/…\" (from get_product_variant_details).",
+            "display_name": "Inventory Item ID"
+          },
+          "location_id": {
+            "type": "SHORT_TEXT",
+            "required": true,
+            "description": "The location id, numeric or \"gid://shopify/Location/…\" (from list_locations).",
+            "display_name": "Location ID"
+          },
+          "delta": {
+            "type": "NUMBER",
+            "required": true,
+            "description": "Whole number to add (positive) or subtract (negative), for example -2.",
+            "display_name": "Delta"
+          },
+          "expected_quantity": {
+            "type": "NUMBER",
+            "required": false,
+            "description": "Optional safety check: the quantity you expect right now. The call fails if stock moved in the meantime.",
+            "display_name": "Expected Current Quantity"
+          },
+          "ledger_document_uri": {
+            "type": "SHORT_TEXT",
+            "required": false,
+            "description": "Required for quantity names other than \"available\": a non-Shopify URI, for example \"gid://my-app/StockMovement/SM-1\".",
+            "display_name": "Ledger Document URI"
+          }
+        }
+      },
+      "reference_document_uri": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Optional URI of the document behind the change, for example \"gid://my-app/PurchaseOrder/PO-1\".",
+        "display_name": "Reference Document URI"
+      },
+      "idempotency_key": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "A unique key for this operation, for example a UUID such as \"3f1c2a9e-6b1d-4c8e-9a51-2f7d0e4b8c10\". Generate your own key on the first call and pass the same key again when retrying after a timeout or error, so Shopify does not repeat the operation. If left empty a key is generated; it is returned as idempotency_key and included in any error message.",
+        "display_name": "Idempotency Key"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-shopify",
+    "version": "0.9.1",
+    "action": "get_product",
+    "id": "get_product",
+    "display_name": "Get Product",
+    "description": "Get existing product.",
+    "auth_kinds": [
+      "CUSTOM_AUTH",
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "shopName": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "The part before .myshopify.com in your store URL. For https://example.myshopify.com, enter example.",
+          "display_name": "Shop Name"
+        }
+      }
+    },
+    "props": {
+      "id": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The ID of the product.",
+        "display_name": "Product"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-shopify",
+    "version": "0.9.1",
+    "action": "search_products",
+    "id": "search_products",
+    "display_name": "Search Products",
+    "description": "Search products with Shopify search syntax, one page at a time.",
+    "auth_kinds": [
+      "CUSTOM_AUTH",
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "shopName": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "The part before .myshopify.com in your store URL. For https://example.myshopify.com, enter example.",
+          "display_name": "Shop Name"
+        }
+      }
+    },
+    "props": {
+      "query": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Shopify product search syntax, for example \"title:*shirt*\", \"sku:TSHIRT-RED-L\", \"vendor:Nike\" or \"status:draft\". Leave empty to list all products.",
+        "display_name": "Search Query"
+      },
+      "sort_key": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "Field to sort by. Defaults to the product id.",
+        "display_name": "Sort By",
+        "options": [
+          {
+            "label": "Title",
+            "value": "TITLE"
+          },
+          {
+            "label": "Created at",
+            "value": "CREATED_AT"
+          },
+          {
+            "label": "Updated at",
+            "value": "UPDATED_AT"
+          },
+          {
+            "label": "Published at",
+            "value": "PUBLISHED_AT"
+          },
+          {
+            "label": "Inventory total",
+            "value": "INVENTORY_TOTAL"
+          },
+          {
+            "label": "Product type",
+            "value": "PRODUCT_TYPE"
+          },
+          {
+            "label": "Vendor",
+            "value": "VENDOR"
+          },
+          {
+            "label": "Relevance (with a query)",
+            "value": "RELEVANCE"
+          },
+          {
+            "label": "ID",
+            "value": "ID"
+          }
+        ]
+      },
+      "reverse": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Return results in reverse sort order (for example newest first).",
+        "display_name": "Reverse Order",
+        "default": false
+      },
+      "first": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "How many records to return, 1 to 80. Defaults to 50.",
+        "display_name": "Page Size",
+        "default": 50
+      },
+      "after": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "The end_cursor from the previous page. Leave empty for the first page; pass it only while has_next_page is true.",
+        "display_name": "Cursor"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-onfleet",
+    "version": "0.2.0",
+    "action": "create_task",
+    "id": "create_task",
+    "display_name": "Create Task",
+    "description": "Creates a task",
+    "auth_kinds": [
+      "SECRET_TEXT"
+    ],
+    "auth": {
+      "kind": "SECRET_TEXT",
+      "props": {}
+    },
+    "props": {
+      "merchant": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "ID of the organization that will be displayed on the task",
+        "display_name": "Merchant ID"
+      },
+      "executor": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "ID of the organization that will be executing the task",
+        "display_name": "Executor ID"
+      },
+      "destination": {
+        "type": "DYNAMIC",
+        "required": true,
+        "description": "The task destination",
+        "display_name": "Destination",
+        "refreshers": [
+          "unparsedDestination"
+        ]
+      },
+      "unparsedDestination": {
+        "type": "CHECKBOX",
+        "required": true,
+        "description": "Check this box if the destination is a single unparsed string",
+        "display_name": "Unparsed Destination",
+        "default": false
+      },
+      "recipient": {
+        "type": "DYNAMIC",
+        "required": true,
+        "description": "The task destination",
+        "display_name": "Destination",
+        "refreshers": [
+          "useRecipientID"
+        ]
+      },
+      "useRecipientID": {
+        "type": "CHECKBOX",
+        "required": true,
+        "description": "Check this box if you want to use an ID for the recipient",
+        "display_name": "Use Recipient ID",
+        "default": false
+      },
+      "completeAfter": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": "The earliest time the task should be completed",
+        "display_name": "Complete After"
+      },
+      "completeBefore": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": "The latest time the task should be completed",
+        "display_name": "Complete Before"
+      },
+      "pickupTask": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Whether the task is pickup",
+        "display_name": "Pickup"
+      },
+      "quantity": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "The number of units to be dropped off",
+        "display_name": "Quantity"
+      },
+      "recipientName": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Override the recipient name for this task only",
+        "display_name": "Recipient Name Override"
+      },
+      "recipientNotes": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Override the recipient notes for this task only",
+        "display_name": "Recipient Notes Override"
+      },
+      "recipientSkipSMSNotifications": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Override the recipient skip SMS option for this task only",
+        "display_name": "Recipient Skip SMS Override"
+      },
+      "serviceTime": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "The number of minutes to be spent by the worker on arrival at this task's destination",
+        "display_name": "Service Time"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-onfleet",
+    "version": "0.2.0",
+    "action": "get_task",
+    "id": "get_task",
+    "display_name": "Get Task",
+    "description": "Get a specific task",
+    "auth_kinds": [
+      "SECRET_TEXT"
+    ],
+    "auth": {
+      "kind": "SECRET_TEXT",
+      "props": {}
+    },
+    "props": {
+      "task": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The ID of the task you want to delete",
+        "display_name": "Task ID"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-onfleet",
+    "version": "0.2.0",
+    "action": "get_tasks",
+    "id": "get_tasks",
+    "display_name": "Get Tasks",
+    "description": "Get many task",
+    "auth_kinds": [
+      "SECRET_TEXT"
+    ],
+    "auth": {
+      "kind": "SECRET_TEXT",
+      "props": {}
+    },
+    "props": {
+      "from": {
+        "type": "DATE_TIME",
+        "required": true,
+        "description": "",
+        "display_name": "From"
+      },
+      "to": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": "",
+        "display_name": "To"
+      },
+      "state": {
+        "type": "MULTI_SELECT_DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "State",
+        "refreshers": [],
+        "refresh_on_search": false
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-onfleet",
+    "version": "0.2.0",
+    "action": "update_task",
+    "id": "update_task",
+    "display_name": "Update Task",
+    "description": "Updates a task",
+    "auth_kinds": [
+      "SECRET_TEXT"
+    ],
+    "auth": {
+      "kind": "SECRET_TEXT",
+      "props": {}
+    },
+    "props": {
+      "task": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "ID of the task you want to update",
+        "display_name": "Task ID"
+      },
+      "merchant": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "ID of the organization that will be displayed on the task",
+        "display_name": "Merchant ID"
+      },
+      "executor": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "ID of the organization that will be executing the task",
+        "display_name": "Executor ID"
+      },
+      "completeAfter": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": "The earliest time the task should be completed",
+        "display_name": "Complete After"
+      },
+      "completeBefore": {
+        "type": "DATE_TIME",
+        "required": false,
+        "description": "The latest time the task should be completed",
+        "display_name": "Complete Before"
+      },
+      "pickupTask": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Whether the task is pickup",
+        "display_name": "Pickup"
+      },
+      "quantity": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "The number of units to be dropped off",
+        "display_name": "Quantity"
+      },
+      "serviceTime": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "The number of minutes to be spent by the worker on arrival at this task's destination",
+        "display_name": "Service Time"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-onfleet",
+    "version": "0.2.0",
+    "action": "complete_task",
+    "id": "complete_task",
+    "display_name": "Force Complete Task",
+    "description": "Force completes a task",
+    "auth_kinds": [
+      "SECRET_TEXT"
+    ],
+    "auth": {
+      "kind": "SECRET_TEXT",
+      "props": {}
+    },
+    "props": {
+      "task": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "The ID of the task you want to complete",
+        "display_name": "Task ID"
+      },
+      "success": {
+        "type": "CHECKBOX",
+        "required": true,
+        "description": "Whether to complete the task as a success or not",
+        "display_name": "Complete as Success",
+        "default": true
+      },
+      "notes": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Notes"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-onfleet",
+    "version": "0.2.0",
+    "action": "get_worker",
+    "id": "get_worker",
+    "display_name": "Get Worker",
+    "description": "Get an existing worker's details",
+    "auth_kinds": [
+      "SECRET_TEXT"
+    ],
+    "auth": {
+      "kind": "SECRET_TEXT",
+      "props": {}
+    },
+    "props": {
+      "worker": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Worker",
+        "refreshers": [],
+        "refresh_on_search": false
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-onfleet",
+    "version": "0.2.0",
+    "action": "get_teams",
+    "id": "get_teams",
+    "display_name": "Get Teams",
+    "description": "Gets many existing team",
+    "auth_kinds": [
+      "SECRET_TEXT"
+    ],
+    "auth": {
+      "kind": "SECRET_TEXT",
+      "props": {}
+    },
+    "props": {}
+  },
+  {
+    "piece": "@activepieces/piece-onfleet",
+    "version": "0.2.0",
+    "action": "get_hubs",
+    "id": "get_hubs",
+    "display_name": "Get Hubs",
+    "description": "Get many hubs",
+    "auth_kinds": [
+      "SECRET_TEXT"
+    ],
+    "auth": {
+      "kind": "SECRET_TEXT",
+      "props": {}
+    },
+    "props": {}
   }
 ]

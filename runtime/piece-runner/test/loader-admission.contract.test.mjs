@@ -50,3 +50,24 @@ test('property context refuses all unavailable services while preserving search 
   assert.equal(context.searchValue, 'contract');
   for (const service of ['server', 'project', 'flows', 'connections']) assert.throws(() => context[service], { name: 'RunnerRefusal', code: 'CONTEXT_SERVICE_UNAVAILABLE' });
 });
+
+test('loading actions and property loaders refuses ambiguous, missing and duplicate admitted auth declarations', async () => {
+  const packageRoot = await mkdtemp(join(tmpdir(), 'piece-runner-auth-admission-'));
+  const cases = [
+    ['@activepieces/piece-discord', ['CUSTOM_AUTH', 'OAUTH2']],
+    ['@activepieces/piece-shopify', ['CUSTOM_AUTH']],
+    ['@activepieces/piece-shopify', ['OAUTH2', 'OAUTH2']],
+  ];
+  try {
+    for (const [index, [piece, types]] of cases.entries()) {
+      const entry = pieceCatalog.entries.find((item) => item.piece === piece);
+      const root = join(packageRoot, String(index)), target = join(root, 'node_modules', piece);
+      await mkdir(target, { recursive: true });
+      await writeFile(join(root, 'package.json'), '{}');
+      await writeFile(join(target, 'package.json'), JSON.stringify({ version: entry.version, main: 'index.cjs' }));
+      await writeFile(join(target, 'index.cjs'), `module.exports = { ${entry.exportName}: { auth: ${JSON.stringify(types.map((type) => ({ type })))}, getAction: () => ({ run: () => { throw Error('Action must not run'); }, props: { channel: { type: 'DROPDOWN', options: () => { throw Error('Loader must not run'); } } } }) } };`);
+      assert.throws(() => pieceCatalog.loadAction({ ...entry, packageRoot: root }), { name: 'RunnerRefusal', code: 'AUTH_TYPE_MISMATCH' });
+      assert.throws(() => pieceCatalog.validateLoader({ request: { ...entry, mode: 'options', property: 'channel' }, packageRoot: root }), { name: 'RunnerRefusal', code: 'AUTH_TYPE_MISMATCH' });
+    }
+  } finally { await rm(packageRoot, { recursive: true, force: true }); }
+});

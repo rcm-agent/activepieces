@@ -25,10 +25,12 @@
     "@activepieces/piece-microsoft-outlook-calendar": "0.3.1",
     "@activepieces/piece-microsoft-sharepoint": "0.4.2",
     "@activepieces/piece-microsoft-teams": "0.7.2",
+    "@activepieces/piece-onfleet": "0.2.0",
     "@activepieces/piece-quickbooks": "0.3.3",
     "@activepieces/piece-quickbooks-sandbox": "0.2.2",
     "@activepieces/piece-service-now": "0.3.1",
     "@activepieces/piece-shippo": "0.1.7",
+    "@activepieces/piece-shopify": "0.9.1",
     "@activepieces/piece-slack": "0.21.1",
     "@activepieces/piece-xero": "0.8.1",
     "@activepieces/shared": "0.68.3"

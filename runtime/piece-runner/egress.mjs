@@ -5,7 +5,7 @@ import { syncBuiltinESMExports } from 'node:module';
 import { runnerErrors } from './errors.mjs';
 
 function validate({ request }) {
-  if (!['API_KEY', 'BASIC', 'CUSTOM_AUTH'].includes(request.auth_type)) return undefined;
+  if (!['API_KEY', 'SECRET_TEXT', 'BASIC', 'CUSTOM_AUTH'].includes(request.auth_type)) return undefined;
   const hosts = request.allowed_hosts;
   if (!Array.isArray(hosts) || hosts.length < 1 || hosts.length > 10 || ![...hosts].every(validHost)) {
     throw runnerErrors.refusalError({ code: runnerErrors.codes.allowedHostsRequired });
