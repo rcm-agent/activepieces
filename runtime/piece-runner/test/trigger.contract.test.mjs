@@ -132,7 +132,7 @@ test('bundled LAST_ITEM initializes a baseline and emits a new calendar exactly 
 test('trigger export contains exactly installed POLLING metadata and deterministic artifact bytes', installedOptions, async () => {
   const exported = pieceCatalog.exportTriggers({}), expected = [...new Map(pieceCatalog.entries.map((entry) => [entry.piece, entry])).values()].flatMap((entry) => {
     const piece = require(entry.piece)[entry.exportName];
-    return Object.values(piece.metadata().triggers).filter((trigger) => trigger.type === 'POLLING').map((trigger) => ({ piece: entry.piece, version: entry.version, trigger: trigger.name, display_name: trigger.displayName, description: trigger.description, strategy: trigger.type, auth_kinds: (Array.isArray(piece.auth) ? piece.auth : [piece.auth]).map((auth) => auth.type), auth: pieceCatalog.exportAuth({ piece, authType: entry.authType }), props: pieceCatalog.exportProps({ declarations: trigger.props }), sampleData: trigger.sampleData ?? null }));
+    return Object.values(piece.metadata().triggers).filter((trigger) => trigger.type === 'POLLING').map((trigger) => ({ piece: entry.piece, version: entry.version, trigger: trigger.name, display_name: trigger.displayName, description: trigger.description, strategy: trigger.type, auth_kinds: (Array.isArray(piece.auth) ? piece.auth : [piece.auth]).map((auth) => auth.type), auth: pieceCatalog.exportAuth({ piece, authType: entry.authType }), props: pieceCatalog.exportProps({ declarations: trigger.props }), sampleData: runnerTriggerCatalog.sampleWithoutUrlQueries(trigger.sampleData ?? null) }));
   }).sort((left, right) => `${left.piece}\0${left.trigger}` < `${right.piece}\0${right.trigger}` ? -1 : 1);
   assert.deepEqual(exported, expected);
   const bytes = `${JSON.stringify(exported, null, 2)}\n`;
@@ -151,6 +151,7 @@ test('metadata export excludes every non-polling strategy and sorts admitted tri
   assert.deepEqual(exported.map(({ piece, trigger, strategy, auth }) => ({ piece, trigger, strategy, auth })), ['a', 'z'].map((piece) => ({ piece, trigger: 'polling', strategy: 'POLLING', auth: { kind: 'OAUTH2', props: {} } })));
   assert.deepEqual(exported[0].props.limit, { type: 'NUMBER', required: false, description: '', display_name: 'Limit', default: 0 });
   assert.deepEqual(exported[0].sampleData, { id: 1 }); assert.equal(verified, 1);
+  assert.deepEqual(runnerTriggerCatalog.sampleWithoutUrlQueries({ links: ['https://bucket.s3.amazonaws.com/a.pdf?AWSAccessKeyId=key&Signature=s#top', 'note?'], n: 2 }), { links: ['https://bucket.s3.amazonaws.com/a.pdf', 'note?'], n: 2 });
   assert.equal(JSON.stringify(runnerTriggerCatalog.exportTriggers(input)), JSON.stringify(exported));
 });
 

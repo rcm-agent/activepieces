@@ -193,7 +193,7 @@
       "etag": "\"3419997894982000\"",
       "id": "sample_event_id_67890",
       "status": "confirmed",
-      "htmlLink": "https://www.google.com/calendar/event?eid=c2FtcGxlX2V2ZW50X2lkXzY3ODkw",
+      "htmlLink": "https://www.google.com/calendar/event",
       "created": "2025-08-14T09:00:00.000Z",
       "updated": "2025-08-14T09:00:00.000Z",
       "summary": "Project Deadline",
@@ -501,7 +501,7 @@
       "kind": "calendar#event",
       "etag": "3350849506974000",
       "id": "0nsfi5ttd2b17ac76ma2f37oi9",
-      "htmlLink": "https://www.google.com/calendar/event?eid=kgjb90uioj4klrgfmdsnjsjvlgkm",
+      "htmlLink": "https://www.google.com/calendar/event",
       "summary": "ap-event-test",
       "created": "2023-02-03T11:36:36.000Z",
       "updated": "2023-02-03T11:45:53.487Z",
@@ -590,7 +590,7 @@
       "mimeType": "image/png",
       "id": "1dpv4-sKJfKRwI9qx1vWqQhEGEn3EpbI5",
       "name": "google-drive.png",
-      "webViewLink": "https://drive.google.com/file/d/1dpv4-sKJfKRwI9qx1vWqQhEGEn3EpbI5/view?usp=drivesdk",
+      "webViewLink": "https://drive.google.com/file/d/1dpv4-sKJfKRwI9qx1vWqQhEGEn3EpbI5/view",
       "createdTime": "2026-08-20T09:12:44.000Z",
       "modifiedTime": "2026-08-20T09:12:44.000Z"
     }
@@ -750,7 +750,7 @@
       "id": "1dpv4-sKJfKRwI9qx1vWqQhEGEn3EpbI5",
       "name": "quarterly-report.xlsx",
       "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      "webViewLink": "https://docs.google.com/spreadsheets/d/1dpv4-sKJfKRwI9qx1vWqQhEGEn3EpbI5/edit?usp=drivesdk",
+      "webViewLink": "https://docs.google.com/spreadsheets/d/1dpv4-sKJfKRwI9qx1vWqQhEGEn3EpbI5/edit",
       "createdTime": "2026-08-20T09:12:44.000Z",
       "modifiedTime": "2026-08-25T14:34:07.000Z"
     }
@@ -782,7 +782,7 @@
     "sampleData": {
       "kind": "drive#file",
       "mimeType": "application/vnd.google-apps.spreadsheet",
-      "webViewLink": "https://docs.google.com/document/d/1_9xjsrYFgHVvgqYwAJ8KcsDcNU/edit?usp=drivesdk",
+      "webViewLink": "https://docs.google.com/document/d/1_9xjsrYFgHVvgqYwAJ8KcsDcNU/edit",
       "id": "1_9xjsrYFgHVvgqYwAJ8KcsDcN3AzPelsux",
       "name": "Test Document"
     }
@@ -3045,7 +3045,7 @@
       },
       "eta": "string",
       "label_file_type": "PDF_4x6",
-      "label_url": "https://shippo-delivery.s3.amazonaws.com/70ae8117ee1749e393f249d5b77c45e0.pdf?Signature=vDw1ltcyGveVR1OQoUDdzC43BY8%3D&Expires=1437093830&AWSAccessKeyId=AKIAJTHP3LLFMYAWALIA",
+      "label_url": "https://shippo-delivery.s3.amazonaws.com/70ae8117ee1749e393f249d5b77c45e0.pdf",
       "messages": [],
       "metadata": "string",
       "object_created": "2019-08-24T14:15:22Z",
@@ -3054,13 +3054,13 @@
       "object_state": "VALID",
       "object_updated": "2019-08-24T14:15:22Z",
       "parcel": "e94c7fdfdc7b495dbb390a28d929d90a",
-      "qr_code_url": "https://shippo-delivery.s3.amazonaws.com/96_qr_code.pdf?Signature=PEdWrp0mFWAGwJp7FW3b%2FeA2eyY%3D&Expires=1385930652&AWSAccessKeyId=AKIAJTHP3LLFMYAWALIA",
+      "qr_code_url": "https://shippo-delivery.s3.amazonaws.com/96_qr_code.pdf",
       "rate": {},
       "status": "SUCCESS",
       "test": true,
       "tracking_number": "9499907123456123456781",
       "tracking_status": "DELIVERED",
-      "tracking_url_provider": "https://tools.usps.com/go/TrackConfirmAction_input?origTrackNum=9499907123456123456781"
+      "tracking_url_provider": "https://tools.usps.com/go/TrackConfirmAction_input"
     }
   },
   {

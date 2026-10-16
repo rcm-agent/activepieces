@@ -26,9 +26,17 @@ function exportTriggers({ entries, loadPiece, exportProps, exportAuth, verifyVer
       auth_kinds: (Array.isArray(piece.auth) ? piece.auth : [piece.auth]).filter(Boolean).map((auth) => auth.type),
       auth: exportAuth({ piece, authType: entry.authType }),
       props: exportProps({ declarations: trigger.props }),
-      sampleData: trigger.sampleData ?? null,
+      sampleData: sampleWithoutUrlQueries(trigger.sampleData ?? null),
     }));
   }).sort((left, right) => compareTriggers({ left, right }));
+}
+
+// Upstream samples include presigned links whose query strings carry access key ids; fields need only the shape.
+function sampleWithoutUrlQueries(value) {
+  if (typeof value === 'string') return /^https?:\/\//i.test(value) ? value.split(/[?#]/, 1)[0] : value;
+  if (Array.isArray(value)) return value.map(sampleWithoutUrlQueries);
+  if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, sampleWithoutUrlQueries(item)]));
+  return value;
 }
 
 function validateHook({ hook }) {
@@ -51,4 +59,4 @@ function notAdmitted() {
   return runnerErrors.refusalError({ code: 'TRIGGER_NOT_ADMITTED', message: 'The piece, version and trigger must identify an admitted polling trigger.' });
 }
 
-export const runnerTriggerCatalog = { load, exportTriggers, validateHook };
+export const runnerTriggerCatalog = { load, exportTriggers, validateHook, sampleWithoutUrlQueries };
