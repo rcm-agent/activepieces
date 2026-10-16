@@ -68,7 +68,7 @@ Options retain only `label` and `value`; missing `disabled` and `placeholder` be
 | `INVALID_AUTH` | Credential fields do not match the piece's auth declaration. |
 | `ALLOWED_HOSTS_REQUIRED` | A typed credential lacks a valid `allowed_hosts` list. |
 | `EGRESS_HOST_REFUSED` | A typed credential attempts an unlisted host, a non-public address, or an IP-literal connection. |
-| `TRIGGER_NOT_ADMITTED` | The piece/version is not bundled, the trigger is unknown, its strategy is not `POLLING`, or both `trigger` and `action` are supplied. |
+| `TRIGGER_NOT_ADMITTED` | The piece/version is not bundled, the trigger is unknown, its strategy is not `POLLING`, or a trigger invocation/loader also supplies `action`. |
 | `INVALID_TRIGGER_HOOK` | Trigger mode lacks an `enable`, `poll` or `test` hook. |
 | `INVALID_STORE` | Trigger state is not a JSON object, or a store operation uses a non-JSON value. |
 | `STORE_LIMIT_EXCEEDED` | The serialized request or resulting store exceeds 2048 UTF-8 bytes. |
