@@ -73,7 +73,7 @@ Options retain only `label` and `value`; missing `disabled` and `placeholder` be
 | `INVALID_STORE` | Trigger state is not a JSON object, or a store operation uses a non-JSON value. |
 | `STORE_LIMIT_EXCEEDED` | The serialized request or resulting store exceeds 2048 UTF-8 bytes. |
 | `INVALID_TRIGGER_OUTPUT` | A polling or test hook returns a value other than an array. |
-| `CONTEXT_SERVICE_UNAVAILABLE` | Piece code accesses an unavailable service or calls a trigger files method. |
+| `CONTEXT_SERVICE_UNAVAILABLE` | Piece code accesses an unavailable service, calls a trigger files method or reads a trigger server member. |
 
 ## Polling triggers
 
@@ -99,7 +99,7 @@ const recent = await pieceRunner.invoke({ ...request, hook: 'test' });
 
 The caller owns the cursor: pass the previous successful response's `store` into the next call. An absent store defaults to `{}`. Store get, put and delete use an invocation-local JSON map; scope arguments are ignored. Both input and resulting stores must fit in 2048 serialized UTF-8 bytes. State is never persisted by the runner, and a refused or failed invocation produces no replacement cursor.
 
-Trigger context provides `auth`, `propsValue`, the store, `isRepublish: false` and a readable `files` service so polling helpers can pass it through. Calling a files method refuses. Other services retain their access refusals.
+Trigger context provides `auth`, `propsValue`, the store, `isRepublish: false`, `maxItemsToPoll: undefined` and readable `files` and `server` services, because `pollingHelper.poll` and `test` read them from the whole context to pass them on. Calling a files method or reading a server member refuses. Other services retain their access refusals.
 
 Auth input is selected exclusively by `auth_type`: `API_KEY` or `SECRET_TEXT` accepts `{ apiKey }` or `{ secret_text }` and builds `SECRET_TEXT`; `BASIC` accepts `{ username, password }` and builds `BASIC_AUTH`; `CUSTOM_AUTH` accepts `{ props: { ... } }` using the piece's declared auth fields. Every required CustomAuth field must be present, unknown keys are refused, ShortText and SecretText values must be non-empty strings of at most 4096 characters, and StaticDropdown values must match a declared option. An unadmitted auth kind returns `AUTH_TYPE_MISMATCH`; malformed credentials return `INVALID_AUTH`. Slack and the Google pieces admit OAuth2. Action props still refuse unknown names, missing required values and supplied File props.
 
