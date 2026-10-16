@@ -4,6 +4,7 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { isDeepStrictEqual } from 'node:util';
 import { runnerErrors } from './errors.mjs';
+import { runnerTriggerCatalog } from './trigger-catalog.mjs';
 
 function validateTuple({ piece, version, action }) {
   const entry = entries.find((candidate) => candidate.piece === piece
@@ -14,31 +15,56 @@ function validateTuple({ piece, version, action }) {
 
 function loadAction({ piece, version, action, packageRoot = runnerRoot }) {
   const entry = validateTuple({ piece, version, action });
+  const loaded = loadPiece({ entry, packageRoot });
+  const installedAction = loaded.piece?.getAction(entry.action);
+  if (!installedAction || typeof installedAction.run !== 'function') {
+    throw refusal({ code: 'ACTION_NOT_ALLOWLISTED', message: `The allowlisted action ${entry.piece}/${entry.action} is missing from the installed piece.` });
+  }
+  authDeclarations({ piece: loaded.piece, authType: entry.authType });
+  return { ...loaded, action: installedAction };
+}
+
+function loadPiece({ entry, packageRoot }) {
   const installed = readJson({ path: join(packageRoot, 'node_modules', entry.piece, 'package.json') });
   if (installed.version !== entry.version) throw versionMismatch();
   const require = createRequire(join(packageRoot, 'package.json'));
   const imported = require(entry.piece);
   const installedPiece = imported[entry.exportName];
-  const installedAction = installedPiece?.getAction(entry.action);
-  if (!installedAction || typeof installedAction.run !== 'function') {
-    throw refusal({ code: 'ACTION_NOT_ALLOWLISTED', message: `The allowlisted action ${entry.piece}/${entry.action} is missing from the installed piece.` });
-  }
-  authDeclarations({ piece: installedPiece, authType: entry.authType });
-  return { entry, piece: installedPiece, action: installedAction };
+  return { entry, piece: installedPiece };
 }
 
 function prepare({ request, packageRoot = runnerRoot }) {
   const loaded = loadAction({ ...request, packageRoot });
+  return { ...loaded, ...prepareInputs({ request, loaded, declarations: loaded.action.props }) };
+}
+
+function loadTrigger({ packageRoot = runnerRoot, ...request }) {
+  const loaded = runnerTriggerCatalog.load({ request, entries, loadPiece, packageRoot });
+  authDeclarations({ piece: loaded.piece, authType: loaded.entry.authType });
+  return loaded;
+}
+
+function validateTriggerTuple(request) {
+  return loadTrigger({ ...request, packageRoot: runnerRoot }).entry;
+}
+
+function prepareTrigger({ request, packageRoot = runnerRoot }) {
+  const loaded = loadTrigger({ ...request, packageRoot });
+  return { ...loaded, ...prepareInputs({ request, loaded, declarations: loaded.trigger.props }) };
+}
+
+function prepareInputs({ request, loaded, declarations, requireRequired = true }) {
   const auth = buildAuth({ authType: request.auth_type, auth: request.auth, piece: loaded.piece, admittedAuthType: loaded.entry.authType });
   const props = request.props ?? {};
-  validateProps({ declarations: loaded.action.props, props });
-  return { ...loaded, auth, props: withDefaults({ declarations: loaded.action.props, props }) };
+  validateProps({ declarations, props, requireRequired });
+  return { auth, props: withDefaults({ declarations, props }) };
 }
 
 function validateLoader({ request, packageRoot = runnerRoot }) {
-  const loaded = loadAction({ ...request, packageRoot });
+  const loaded = Object.hasOwn(request, 'trigger') ? loadTrigger({ ...request, packageRoot }) : loadAction({ ...request, packageRoot });
+  const operation = loaded.trigger ?? loaded.action;
   const name = request.property;
-  const declaration = typeof name === 'string' && Object.hasOwn(loaded.action.props, name) ? loaded.action.props[name] : undefined;
+  const declaration = typeof name === 'string' && Object.hasOwn(operation.props, name) ? operation.props[name] : undefined;
   const callback = request.mode === 'options' ? 'options' : 'props';
   const types = request.mode === 'options' ? ['DROPDOWN', 'MULTI_SELECT_DROPDOWN'] : request.mode === 'props' ? ['DYNAMIC'] : [];
   const excluded = loaded.entry.loaderRefused?.some((item) => item.piece === request.piece && item.action === request.action && item.property === name);
@@ -50,10 +76,7 @@ function validateLoader({ request, packageRoot = runnerRoot }) {
 
 function prepareLoader({ request, packageRoot = runnerRoot }) {
   const loaded = validateLoader({ request, packageRoot });
-  const auth = buildAuth({ authType: request.auth_type, auth: request.auth, piece: loaded.piece, admittedAuthType: loaded.entry.authType });
-  const props = request.props ?? {};
-  validateProps({ declarations: loaded.action.props, props, requireRequired: false });
-  return { ...loaded, auth, props: withDefaults({ declarations: loaded.action.props, props }) };
+  return { ...loaded, ...prepareInputs({ request, loaded, declarations: (loaded.trigger ?? loaded.action).props, requireRequired: false }) };
 }
 
 function withDefaults({ declarations, props }) {
@@ -80,6 +103,10 @@ function exportActions({ packageRoot = runnerRoot, repositoryRoot = resolve(runn
       props: exportProps({ declarations: loaded.action.props }),
     };
   });
+}
+
+function exportTriggers({ packageRoot = runnerRoot, repositoryRoot = resolve(runnerRoot, '../..') } = {}) {
+  return runnerTriggerCatalog.exportTriggers({ entries, loadPiece, exportProps, exportAuth, verifyVersions, packageRoot, repositoryRoot });
 }
 
 function verifyVersions({ packageRoot = runnerRoot, repositoryRoot = resolve(runnerRoot, '../..') } = {}) {
@@ -402,4 +429,4 @@ const entries = Object.freeze([
   { piece: '@activepieces/piece-onfleet', action: 'get_hubs', exportName: 'onfleet', forkDirectory: 'onfleet' },
 ].map((entry) => Object.freeze({ ...entry, version: dependencyVersion({ manifest: runnerManifest, name: entry.piece }) })));
 
-export const pieceCatalog = { entries, validateTuple, loadAction, prepare, validateLoader, prepareLoader, exportProps, exportAuth, exportActions, verifyVersions, camelToSnake };
+export const pieceCatalog = { entries, validateTuple, loadAction, prepare, validateTriggerTuple, loadTrigger, prepareTrigger, validateLoader, prepareLoader, exportProps, exportAuth, exportActions, exportTriggers, verifyVersions, camelToSnake };

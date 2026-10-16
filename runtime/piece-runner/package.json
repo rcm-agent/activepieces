@@ -7,9 +7,10 @@
     "node": ">=22 <23"
   },
   "scripts": {
-    "test": "node --test test/update-pieces.contract.test.mjs && node --test test/loader-admission.contract.test.mjs && node --test test/loader-dispatch.contract.test.mjs && node --test test/invoke.contract.test.mjs && node --test test/export-actions.contract.test.mjs",
+    "test": "node --test test/update-pieces.contract.test.mjs && node --test test/loader-admission.contract.test.mjs && node --test test/loader-dispatch.contract.test.mjs && node --test test/invoke.contract.test.mjs && node --test test/export-actions.contract.test.mjs && node --test test/trigger.contract.test.mjs",
     "check-versions": "node check-versions.mjs",
     "export-actions": "node export-actions.mjs",
+    "export-triggers": "node export-triggers.mjs",
     "update-pieces": "node update-pieces.mjs"
   },
   "dependencies": {

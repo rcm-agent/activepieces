@@ -4,6 +4,8 @@ import { fileURLToPath } from 'node:url';
 import { pieceCatalog } from './catalog.mjs';
 import { runnerEgress } from './egress.mjs';
 import { runnerErrors } from './errors.mjs';
+import { runnerStore } from './store.mjs';
+import { runnerTriggerCatalog } from './trigger-catalog.mjs';
 
 // Readings are 20 ms apart, so a broken monitor still stops the action within 200 ms.
 const MISSING_READING_LIMIT = 10;
@@ -12,11 +14,12 @@ async function invoke(request) {
   try {
     const mode = validateRequest({ request: request ?? {} });
     runnerEgress.validate({ request: request ?? {} });
-    const entry = pieceCatalog.validateTuple(request ?? {});
+    const triggerRequest = mode === 'trigger' || (mode !== 'run' && Object.hasOwn(request, 'trigger'));
+    const entry = triggerRequest ? pieceCatalog.validateTriggerTuple(request) : pieceCatalog.validateTuple(request ?? {});
     const limits = getLimits({ request, entry, mode });
     const payload = JSON.stringify(request);
     if (Buffer.byteLength(payload) > 1048576) return runnerErrors.refusal({ code: 'INPUT_LIMIT_EXCEEDED' });
-    if (mode !== 'run') pieceCatalog.validateLoader({ request });
+    if (mode === 'options' || mode === 'props') pieceCatalog.validateLoader({ request });
     return await execute({ payload, limits, auth: request.auth });
   } catch (error) {
     return runnerErrors.failure({ error, auth: request?.auth });
@@ -25,23 +28,27 @@ async function invoke(request) {
 
 function validateRequest({ request }) {
   const mode = request.mode === undefined ? 'run' : request.mode;
-  if (!['run', 'options', 'props'].includes(mode)) {
-    throw runnerErrors.refusalError({ code: runnerErrors.codes.invalidMode, message: 'Mode must be run, options or props.' });
+  if (!['run', 'trigger', 'options', 'props'].includes(mode)) {
+    throw runnerErrors.refusalError({ code: runnerErrors.codes.invalidMode, message: 'Mode must be run, trigger, options or props.' });
   }
-  if ((mode === 'run' && Object.hasOwn(request, 'property'))
-    || (mode !== 'run' && (typeof request.property !== 'string' || request.property.length === 0))) {
+  if ((['run', 'trigger'].includes(mode) && Object.hasOwn(request, 'property'))
+    || (['options', 'props'].includes(mode) && (typeof request.property !== 'string' || request.property.length === 0))) {
     throw runnerErrors.refusalError({ code: runnerErrors.codes.propertyNotLoadable, message: 'A property is required only for options or props mode.' });
   }
   if (Object.hasOwn(request, 'search_value')
     && (mode !== 'options' || typeof request.search_value !== 'string' || request.search_value.length > 200)) {
     throw runnerErrors.refusalError({ code: runnerErrors.codes.invalidSearchValue, message: 'Search value must be a string of at most 200 characters in options mode.' });
   }
+  if (mode === 'trigger') {
+    runnerTriggerCatalog.validateHook({ hook: request.hook });
+    runnerStore.validate({ value: request.store });
+  }
   return mode;
 }
 
 function getLimits({ request, entry, mode }) {
   const limits = {
-    timeout_ms: request.timeout_ms ?? (mode === 'run' ? 30000 : 15000),
+    timeout_ms: request.timeout_ms ?? (['run', 'trigger'].includes(mode) ? 30000 : 15000),
     memory_mb: request.memory_mb ?? entry.memoryMb ?? 256,
     max_output_bytes: request.max_output_bytes ?? 262144,
   };

@@ -1,6 +1,6 @@
 # Piece runner
 
-Standalone Node 22 package outside the repository's Bun workspaces. It executes the actions listed below. Credentials arrive with each invocation; the orchestrator supplies OAuth credentials from Nango and typed credentials from the tenant's vault.
+Standalone Node 22 package outside the repository's Bun workspaces. It executes the actions listed below and every polling trigger registered by those bundled pieces. Credentials arrive with each invocation; the orchestrator supplies OAuth credentials from Nango and typed credentials from the tenant's vault.
 
 | Piece | Allowed actions |
 | --- | --- |
@@ -46,7 +46,7 @@ const result = await pieceRunner.invoke({
 
 The result is `{ status: 'completed', output }`, `{ status: 'refused', refusal }` or `{ status: 'failed', error }`. Successful action output is unchanged. Error responses contain only the class, optional HTTP status and message, with every string in `auth` scrubbed. The runner never logs the request or credentials.
 
-`mode` is optional and defaults to `"run"`. Use `"options"` to load a `DROPDOWN` or `MULTI_SELECT_DROPDOWN`, or `"props"` to load a `DYNAMIC` field set. Both loader modes require `property`, the key in the action's own props, and use the same `auth_type`, `auth` and sibling `props` as a run. Missing required props are allowed while loading; supplied File props and undeclared props remain refused. Defaults still apply. Loader modes call only the selected property's loader.
+`mode` is optional and defaults to `"run"`. Use `"options"` to load a `DROPDOWN` or `MULTI_SELECT_DROPDOWN`, or `"props"` to load a `DYNAMIC` field set. Both loader modes require `property`, the key in the action's own props, and use the same `auth_type`, `auth` and sibling `props` as a run. Supply `trigger` in place of `action` to load a polling trigger's property. Missing required props are allowed while loading; supplied File props and undeclared props remain refused. Defaults still apply. Loader modes call only the selected property's loader.
 
 `search_value` is an optional string of at most 200 characters, accepted only in options mode. It reaches the loader as `ctx.searchValue`. Static dropdown choices come from the exported catalog and cannot be loaded. Property admission happens before spawning a worker.
 
@@ -61,13 +61,45 @@ Options retain only `label` and `value`; missing `disabled` and `placeholder` be
 
 | Refusal code | Cause |
 | --- | --- |
-| `INVALID_MODE` | Mode is not `run`, `options` or `props`. |
-| `PROPERTY_NOT_LOADABLE` | Property is missing for a loader, supplied in run mode, undeclared, excluded, or lacks the requested loader type and function. |
+| `INVALID_MODE` | Mode is not `run`, `trigger`, `options` or `props`. |
+| `PROPERTY_NOT_LOADABLE` | Property is missing for a loader, supplied in run or trigger mode, undeclared, excluded, or lacks the requested loader type and function. |
 | `INVALID_SEARCH_VALUE` | Search text is not a string, exceeds 200 characters, or is supplied outside options mode. |
 | `AUTH_TYPE_MISMATCH` | The allowlist does not select exactly one declaration, or the invocation auth kind differs from it. |
 | `INVALID_AUTH` | Credential fields do not match the piece's auth declaration. |
 | `ALLOWED_HOSTS_REQUIRED` | A typed credential lacks a valid `allowed_hosts` list. |
 | `EGRESS_HOST_REFUSED` | A typed credential attempts an unlisted host, a non-public address, or an IP-literal connection. |
+| `TRIGGER_NOT_ADMITTED` | The piece/version is not bundled, the trigger is unknown, its strategy is not `POLLING`, or both `trigger` and `action` are supplied. |
+| `INVALID_TRIGGER_HOOK` | Trigger mode lacks an `enable`, `poll` or `test` hook. |
+| `INVALID_STORE` | Trigger state is not a JSON object, or a store operation uses a non-JSON value. |
+| `STORE_LIMIT_EXCEEDED` | The serialized request or resulting store exceeds 2048 UTF-8 bytes. |
+| `INVALID_TRIGGER_OUTPUT` | A polling or test hook returns a value other than an array. |
+| `CONTEXT_SERVICE_UNAVAILABLE` | Piece code accesses an unavailable service or calls a trigger files method. |
+
+## Polling triggers
+
+Use `mode: "trigger"`, a `trigger` name and `hook: "enable"`, `"poll"` or `"test"`. Admission reads the installed metadata of the pieces already admitted for actions and uses the same admitted auth declaration. `WEBHOOK`, `APP_WEBHOOK` and `MANUAL` triggers are refused. Trigger props, defaults, credentials, egress restrictions and limits use the action path.
+
+```js
+const request = {
+  mode: 'trigger',
+  piece: '@activepieces/piece-discord',
+  version: '0.7.2',
+  trigger: 'new_member',
+  auth_type: 'SECRET_TEXT',
+  auth: { secret_text: 'VAULT_CREDENTIAL' },
+  allowed_hosts: ['discord.com'],
+  props: { guildId: 'SERVER_ID' },
+};
+const enabled = await pieceRunner.invoke({ ...request, hook: 'enable' });
+const polled = await pieceRunner.invoke({ ...request, hook: 'poll', store: enabled.output.store });
+const recent = await pieceRunner.invoke({ ...request, hook: 'test' });
+```
+
+`enable` calls `onEnable` and returns `{ items: [], store }`. `poll` calls `run`; `test` calls `test`; both return `{ items: returnedArray, store }` inside the completed response's `output`. Enable establishes the baseline before polling. Test reads recent items without requiring a prior cursor.
+
+The caller owns the cursor: pass the previous successful response's `store` into the next call. An absent store defaults to `{}`. Store get, put and delete use an invocation-local JSON map; scope arguments are ignored. Both input and resulting stores must fit in 2048 serialized UTF-8 bytes. State is never persisted by the runner, and a refused or failed invocation produces no replacement cursor.
+
+Trigger context provides `auth`, `propsValue`, the store, `isRepublish: false` and a readable `files` service so polling helpers can pass it through. Calling a files method refuses. Other services retain their access refusals.
 
 Auth input is selected exclusively by `auth_type`: `API_KEY` or `SECRET_TEXT` accepts `{ apiKey }` or `{ secret_text }` and builds `SECRET_TEXT`; `BASIC` accepts `{ username, password }` and builds `BASIC_AUTH`; `CUSTOM_AUTH` accepts `{ props: { ... } }` using the piece's declared auth fields. Every required CustomAuth field must be present, unknown keys are refused, ShortText and SecretText values must be non-empty strings of at most 4096 characters, and StaticDropdown values must match a declared option. An unadmitted auth kind returns `AUTH_TYPE_MISMATCH`; malformed credentials return `INVALID_AUTH`. Slack and the Google pieces admit OAuth2. Action props still refuse unknown names, missing required values and supplied File props.
 
@@ -87,13 +119,13 @@ Each allowed invocation starts a fresh child with an empty environment. Defaults
 
 | Field | Default | Hard ceiling |
 | --- | ---: | ---: |
-| `timeout_ms` | 30,000 for run; 15,000 for options/props | 60,000 |
+| `timeout_ms` | 30,000 for run/trigger; 15,000 for options/props | 60,000 |
 | `memory_mb` | 256 | 512 |
 | `max_output_bytes` | 262,144 | 1,048,576 |
 
 An entry may set `memoryMb` (64-512) as the default memory limit for its calls; others default to 256 MiB. Give an entry 512 when its piece holds more than 200 MB resident right after `require`; no entry sets it today. Earlier bundled piece measurements held 60-67 MB; the Microsoft pieces still need resident-memory measurements. A request's own `memory_mb` replaces the default and is validated the same way, so requests above 512 MiB are still refused.
 
-Limits must be integers; timeout and output limits must be positive, and memory must be at least 64 MiB. Memory enforcement combines a V8 heap limit with a Linux RSS monitor. The serialized request is capped at 1 MiB; the output limit counts serialized response bytes. Expiry kills the child and returns `TIMEOUT`. Invalid limits, excessive memory and excessive output return named refusals. Store, files, server, pause, connections, agent and flows services throw `CONTEXT_SERVICE_UNAVAILABLE` when used.
+Limits must be integers; timeout and output limits must be positive, and memory must be at least 64 MiB. Memory enforcement combines a V8 heap limit with a Linux RSS monitor. The serialized request is capped at 1 MiB; the output limit counts serialized response bytes. Expiry kills the child and returns `TIMEOUT`. Invalid limits, excessive memory and excessive output return named refusals. Action store and files services, and unavailable services such as server, pause, connections, agent and flows, throw `CONTEXT_SERVICE_UNAVAILABLE` when used.
 
 Install exact locked npm packages during a build, with scripts disabled. No runtime installation occurs. From this directory:
 
@@ -103,12 +135,16 @@ node check-versions.mjs
 node --test test/update-pieces.contract.test.mjs
 node --test test/invoke.contract.test.mjs
 node --test test/export-actions.contract.test.mjs
+node --test test/trigger.contract.test.mjs
 node export-actions.mjs actions.json
+node export-triggers.mjs ../../catalog/activepieces/generated/runner/triggers.json
 ```
 
 The version check compares the lock and installed pieces with the fork's piece manifests using each entry's explicit `forkDirectory`. Pieces retain their own nested (older versions) or bundled (newer versions) framework, common and shared code, so the runner's root framework, common and shared pins are not compared with the fork. Export reads metadata from installed piece code, including props, required flags, descriptions, declared auth kinds and versions. Exported action IDs use deterministic snake case (`sendMessageWithBot` → `send_message_with_bot`). Each prop includes `display_name` and a `default` when its value survives JSON serialization unchanged. Static dropdowns include ordered `options` with their original value types. Loaded dropdowns and dynamic fields include `refreshers` (default `[]`); loaded dropdowns also include `refresh_on_search` (default `false`). Nested `properties` use the same export. Placeholders, disabled states and loader code are not exported.
 
 Each exported action retains `auth_kinds` and adds `auth: { kind, props }` describing its admitted auth declaration. CustomAuth and declared OAuth2 fields use the same metadata export as action props; auth kinds without declared fields have empty `props`. Types are the declared types: ServiceNow's `password` remains `SHORT_TEXT`, while DocuSign's `privateKey` is `SECRET_TEXT`.
+
+The sibling `export-triggers.mjs` command exports every installed `POLLING` trigger into `catalog/activepieces/generated/runner/triggers.json`, sorted by piece and trigger name. Records include `piece`, `version`, `trigger`, `display_name`, `description`, `strategy`, declared `auth_kinds`, admitted `auth`, `props` in the action export format, and `sampleData`. Regeneration is deterministic; the pilot trigger candidates remain a separate artifact.
 
 ## Updating pieces
 
