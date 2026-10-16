@@ -141,7 +141,7 @@ test('exports 39 admitted finance actions and OAuth2 auth props through stubbed 
   const stubRoot = join(stubRepository, 'runtime/piece-runner');
   try {
     await mkdir(stubRoot, { recursive: true });
-    for (const filename of ['package.json', 'package-lock.json', 'catalog.mjs', 'errors.mjs', 'export-actions.mjs']) await writeFile(join(stubRoot, filename), await readFile(join(packageRoot, filename), 'utf8'));
+    for (const filename of ['package.json', 'package-lock.json', 'catalog.mjs', 'trigger-catalog.mjs', 'errors.mjs', 'export-actions.mjs']) await writeFile(join(stubRoot, filename), await readFile(join(packageRoot, filename), 'utf8'));
     const declarations = (props) => Object.fromEntries(Object.entries(props).map(([name, prop]) => [name, { type: prop.type, required: prop.required, description: prop.description, displayName: prop.display_name, ...(Object.hasOwn(prop, 'default') ? { defaultValue: prop.default } : {}), ...(prop.options ? { options: { options: prop.options } } : {}), ...(prop.refreshers ? { refreshers: prop.refreshers, refreshOnSearch: prop.refresh_on_search } : {}), ...(prop.properties ? { properties: declarations(prop.properties) } : {}) }]));
     for (const entry of [...new Map(pieceCatalog.entries.map((entry) => [entry.piece, entry])).values()]) {
       const records = exported.filter((record) => record.piece === entry.piece);

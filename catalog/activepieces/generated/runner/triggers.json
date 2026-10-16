@@ -1,0 +1,4270 @@
+[
+  {
+    "piece": "@activepieces/piece-discord",
+    "version": "0.7.2",
+    "trigger": "new_member",
+    "display_name": "New Member",
+    "description": "Fires when a member joins a server.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "SECRET_TEXT"
+    ],
+    "auth": {
+      "kind": "SECRET_TEXT",
+      "props": {}
+    },
+    "props": {
+      "guildId": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Right-click the server and choose Copy Server ID in Developer Mode.",
+        "display_name": "Server ID"
+      },
+      "limit": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Most recent members checked each poll, up to 1000.",
+        "display_name": "Limit",
+        "default": 50
+      }
+    },
+    "sampleData": {}
+  },
+  {
+    "piece": "@activepieces/piece-discord",
+    "version": "0.7.2",
+    "trigger": "new_message",
+    "display_name": "New Message",
+    "description": "Fires when a message is posted in a channel.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "SECRET_TEXT"
+    ],
+    "auth": {
+      "kind": "SECRET_TEXT",
+      "props": {}
+    },
+    "props": {
+      "channel": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "Channels from every server the bot has joined.",
+        "display_name": "Channel",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "limit": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "Most recent messages checked each poll, up to 100.",
+        "display_name": "Limit",
+        "default": 50
+      }
+    },
+    "sampleData": {}
+  },
+  {
+    "piece": "@activepieces/piece-google-calendar",
+    "version": "0.12.3",
+    "trigger": "event_cancelled",
+    "display_name": "Event Cancelled",
+    "description": "Fires when an event is canceled or deleted.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "calendar_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Calendar",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "specific_event": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Watch one event instead of the whole calendar.",
+        "display_name": "Target Specific Event",
+        "default": false
+      },
+      "event_id": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "Upcoming events in the selected calendar.",
+        "display_name": "Event",
+        "refreshers": [
+          "calendar_id"
+        ],
+        "refresh_on_search": false
+      },
+      "cancellation_reason": {
+        "type": "STATIC_MULTI_SELECT_DROPDOWN",
+        "required": false,
+        "description": "Leave empty to fire on every cancellation.",
+        "display_name": "Cancellation Reasons",
+        "options": [
+          {
+            "label": "Event Deleted",
+            "value": "deleted"
+          },
+          {
+            "label": "Attendee Declined",
+            "value": "declined"
+          },
+          {
+            "label": "Event Rescheduled",
+            "value": "rescheduled"
+          },
+          {
+            "label": "Other Cancellations",
+            "value": "other"
+          }
+        ]
+      }
+    },
+    "sampleData": {
+      "id": "abc123def456_cancelled",
+      "summary": "Cancelled: Q3 Planning Session",
+      "status": "cancelled",
+      "created": "2025-07-20T10:00:00.000Z",
+      "updated": "2025-08-14T09:30:00.000Z",
+      "organizer": {
+        "email": "project.manager@example.com"
+      },
+      "start": {
+        "dateTime": "2025-08-25T10:00:00-07:00"
+      },
+      "end": {
+        "dateTime": "2025-08-25T11:30:00-07:00"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-google-calendar",
+    "version": "0.12.3",
+    "trigger": "event_ends",
+    "display_name": "Event Ends",
+    "description": "Fires when an event ends.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "calendar_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Calendar",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "specific_event": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Watch one event instead of the whole calendar.",
+        "display_name": "Target Specific Event",
+        "default": false
+      },
+      "event_id": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "Upcoming events in the selected calendar.",
+        "display_name": "Event",
+        "refreshers": [
+          "calendar_id"
+        ],
+        "refresh_on_search": false
+      }
+    },
+    "sampleData": {
+      "kind": "calendar#event",
+      "etag": "\"3419997894982000\"",
+      "id": "sample_event_id_67890",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=c2FtcGxlX2V2ZW50X2lkXzY3ODkw",
+      "created": "2025-08-14T09:00:00.000Z",
+      "updated": "2025-08-14T09:00:00.000Z",
+      "summary": "Project Deadline",
+      "creator": {
+        "email": "manager@example.com"
+      },
+      "organizer": {
+        "email": "manager@example.com",
+        "self": true
+      },
+      "start": {
+        "dateTime": "2025-08-14T14:30:00+05:30",
+        "timeZone": "Asia/Kolkata"
+      },
+      "end": {
+        "dateTime": "2025-08-14T15:30:00+05:30",
+        "timeZone": "Asia/Kolkata"
+      },
+      "iCalUID": "sample_event_id_67890@google.com",
+      "sequence": 0,
+      "reminders": {
+        "useDefault": true
+      },
+      "eventType": "default"
+    }
+  },
+  {
+    "piece": "@activepieces/piece-google-calendar",
+    "version": "0.12.3",
+    "trigger": "event_starts_in",
+    "display_name": "Event Start (Time Before)",
+    "description": "Fires at a specified amount of time before an event starts (e.g., a reminder).",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "calendar_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Calendar",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "specific_event": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Watch one event instead of the whole calendar.",
+        "display_name": "Target Specific Event",
+        "default": false
+      },
+      "event_id": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "Upcoming events in the selected calendar.",
+        "display_name": "Event",
+        "refreshers": [
+          "calendar_id"
+        ],
+        "refresh_on_search": false
+      },
+      "time_value": {
+        "type": "NUMBER",
+        "required": true,
+        "description": "How long before the event starts to fire.",
+        "display_name": "Time Before",
+        "default": 15
+      },
+      "time_unit": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "Unit for Time Before.",
+        "display_name": "Time Unit",
+        "default": "minutes",
+        "options": [
+          {
+            "label": "Minutes",
+            "value": "minutes"
+          },
+          {
+            "label": "Hours",
+            "value": "hours"
+          },
+          {
+            "label": "Days",
+            "value": "days"
+          }
+        ]
+      }
+    },
+    "sampleData": {}
+  },
+  {
+    "piece": "@activepieces/piece-google-calendar",
+    "version": "0.12.3",
+    "trigger": "new_calendar",
+    "display_name": "New Calendar",
+    "description": "Fires when a new calendar is created or becomes accessible.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "access_role_filter": {
+        "type": "STATIC_MULTI_SELECT_DROPDOWN",
+        "required": false,
+        "description": "Leave empty to fire for every access role.",
+        "display_name": "Access Role Filter",
+        "options": [
+          {
+            "label": "Owner",
+            "value": "owner"
+          },
+          {
+            "label": "Writer",
+            "value": "writer"
+          },
+          {
+            "label": "Reader",
+            "value": "reader"
+          },
+          {
+            "label": "Free/Busy Reader",
+            "value": "freeBusyReader"
+          }
+        ]
+      },
+      "calendar_name_filter": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Only calendars whose name or description contain this.",
+        "display_name": "Calendar Name Filter"
+      },
+      "exclude_shared": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Fires only for calendars you own.",
+        "display_name": "Exclude Shared Calendars",
+        "default": false
+      }
+    },
+    "sampleData": {
+      "id": "sample_calendar_id@group.calendar.google.com",
+      "summary": "New Project Team Calendar",
+      "description": "A shared calendar for the new project team.",
+      "timeZone": "Asia/Kolkata",
+      "backgroundColor": "#9fe1e7",
+      "foregroundColor": "#000000",
+      "accessRole": "owner",
+      "isOwned": true,
+      "isShared": false,
+      "calendarType": "owned",
+      "primary": false
+    }
+  },
+  {
+    "piece": "@activepieces/piece-google-calendar",
+    "version": "0.12.3",
+    "trigger": "new_event_matching_search",
+    "display_name": "New Event Matching Search",
+    "description": "Fires when a new event is created that matches a specified search term.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "calendar_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Calendar",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "search_term": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Matched against title, description, location and guests.",
+        "display_name": "Search Term"
+      },
+      "event_types": {
+        "type": "STATIC_MULTI_SELECT_DROPDOWN",
+        "required": false,
+        "description": "Leave empty to include every type.",
+        "display_name": "Event Types",
+        "options": [
+          {
+            "label": "Default",
+            "value": "default"
+          },
+          {
+            "label": "Birthday",
+            "value": "birthday"
+          },
+          {
+            "label": "Focus Time",
+            "value": "focusTime"
+          },
+          {
+            "label": "Out of Office",
+            "value": "outOfOffice"
+          },
+          {
+            "label": "Working Location",
+            "value": "workingLocation"
+          },
+          {
+            "label": "From Gmail",
+            "value": "fromGmail"
+          }
+        ]
+      },
+      "search_fields": {
+        "type": "STATIC_MULTI_SELECT_DROPDOWN",
+        "required": false,
+        "description": "Leave empty to search every field.",
+        "display_name": "Search In",
+        "options": [
+          {
+            "label": "Event Title/Summary",
+            "value": "summary"
+          },
+          {
+            "label": "Event Description",
+            "value": "description"
+          },
+          {
+            "label": "Event Location",
+            "value": "location"
+          },
+          {
+            "label": "Attendee Names/Emails",
+            "value": "attendees"
+          }
+        ]
+      }
+    },
+    "sampleData": {
+      "id": "abc123def456",
+      "summary": "Final Project Review",
+      "description": "Review of the Q3 final project deliverables.",
+      "status": "confirmed",
+      "created": "2025-08-14T09:05:00.000Z",
+      "updated": "2025-08-14T09:05:01.000Z",
+      "start": {
+        "dateTime": "2025-09-01T10:00:00-07:00"
+      },
+      "end": {
+        "dateTime": "2025-09-01T11:30:00-07:00"
+      },
+      "organizer": {
+        "email": "project.manager@example.com"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-google-calendar",
+    "version": "0.12.3",
+    "trigger": "new_or_updated_event",
+    "display_name": "New or Updated Event",
+    "description": "Triggers when an event is added or updated",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "calendar_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Calendar",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "expandRecurringEvent": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Fires once per occurrence of a recurring event.",
+        "display_name": "Expand Recurring Events",
+        "default": false
+      }
+    },
+    "sampleData": {
+      "kind": "calendar#event",
+      "etag": "3350849506974000",
+      "id": "0nsfi5ttd2b17ac76ma2f37oi9",
+      "htmlLink": "https://www.google.com/calendar/event?eid=kgjb90uioj4klrgfmdsnjsjvlgkm",
+      "summary": "ap-event-test",
+      "created": "2023-02-03T11:36:36.000Z",
+      "updated": "2023-02-03T11:45:53.487Z",
+      "description": "Sample description",
+      "status": "canceled",
+      "creator": {
+        "email": "test@test.com",
+        "self": true
+      },
+      "organizer": {
+        "email": "test@test.com",
+        "self": true
+      },
+      "start": {
+        "dateTime": "2023-02-02T22:30:00+03:00",
+        "timeZone": "Asia/Amman"
+      },
+      "end": {
+        "dateTime": "2023-02-02T23:30:00+03:00",
+        "timeZone": "Asia/Amman"
+      },
+      "transparency": "transparent",
+      "iCalUID": "0nsfi5ttd2b17ac76ma2f37oi9@google.com",
+      "sequence": 1,
+      "attendees": [
+        {
+          "email": "attende@test.com",
+          "responseStatus": "needsAction"
+        },
+        {
+          "email": "test@test.com",
+          "organizer": true,
+          "self": true,
+          "responseStatus": "accepted"
+        }
+      ],
+      "reminders": {
+        "useDefault": true
+      },
+      "eventType": "default"
+    }
+  },
+  {
+    "piece": "@activepieces/piece-google-drive",
+    "version": "0.11.3",
+    "trigger": "new_file",
+    "display_name": "New File",
+    "description": "Triggers when a new file is added to Drive or the chosen folder.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "parentFolder": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "Leave empty to watch all of My Drive. Type to search by folder name.",
+        "display_name": "Folder",
+        "refreshers": [
+          "include_team_drives"
+        ],
+        "refresh_on_search": true
+      },
+      "include_team_drives": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Also include shared drives, not only My Drive.",
+        "display_name": "Include Team Drives",
+        "default": false
+      },
+      "include_file_content": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Also download each file. Slower, and very large files may fail.",
+        "display_name": "Include File Content",
+        "default": false
+      }
+    },
+    "sampleData": {
+      "kind": "drive#file",
+      "mimeType": "image/png",
+      "id": "1dpv4-sKJfKRwI9qx1vWqQhEGEn3EpbI5",
+      "name": "google-drive.png",
+      "webViewLink": "https://drive.google.com/file/d/1dpv4-sKJfKRwI9qx1vWqQhEGEn3EpbI5/view?usp=drivesdk",
+      "createdTime": "2026-08-20T09:12:44.000Z",
+      "modifiedTime": "2026-08-20T09:12:44.000Z"
+    }
+  },
+  {
+    "piece": "@activepieces/piece-google-drive",
+    "version": "0.11.3",
+    "trigger": "new_folder",
+    "display_name": "New Folder",
+    "description": "Triggers when a new folder is created in Drive or the chosen folder.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "parentFolder": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "Leave empty to watch all of My Drive. Type to search by folder name.",
+        "display_name": "Folder",
+        "refreshers": [
+          "include_team_drives"
+        ],
+        "refresh_on_search": true
+      },
+      "include_team_drives": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Also include shared drives, not only My Drive.",
+        "display_name": "Include Team Drives",
+        "default": false
+      }
+    },
+    "sampleData": {
+      "kind": "drive#file",
+      "mimeType": "application/vnd.google-apps.folder",
+      "id": "1aMEtTqIYn5651wdK7WLxaK_SDim4mvXW",
+      "name": "Invoices 2026",
+      "createdTime": "2026-08-20T09:12:44.000Z"
+    }
+  },
+  {
+    "piece": "@activepieces/piece-google-drive",
+    "version": "0.11.3",
+    "trigger": "new_or_updated_file",
+    "display_name": "New or Updated File",
+    "description": "Triggers when a file is created or edited. A rename counts; trashing or moving does not.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "behaviourNote": {
+        "type": "MARKDOWN",
+        "required": false,
+        "description": "Each event carries a Change Type of created or updated. Several edits between two checks arrive as one event. A chosen folder is watched one level deep, not its subfolders.",
+        "display_name": "Markdown"
+      },
+      "parentFolder": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "Leave empty to watch all of My Drive. Type to search by folder name.",
+        "display_name": "Folder",
+        "refreshers": [
+          "include_team_drives"
+        ],
+        "refresh_on_search": true
+      },
+      "include_team_drives": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Also include shared drives, not only My Drive.",
+        "display_name": "Include Team Drives",
+        "default": false
+      },
+      "file_types": {
+        "type": "STATIC_MULTI_SELECT_DROPDOWN",
+        "required": false,
+        "description": "Empty watches every type. Use Dynamic value to add other MIME types.",
+        "display_name": "File Types",
+        "options": [
+          {
+            "label": "Google Sheets",
+            "value": "application/vnd.google-apps.spreadsheet"
+          },
+          {
+            "label": "Google Docs",
+            "value": "application/vnd.google-apps.document"
+          },
+          {
+            "label": "Google Slides",
+            "value": "application/vnd.google-apps.presentation"
+          },
+          {
+            "label": "Excel (XLSX)",
+            "value": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          },
+          {
+            "label": "Excel 97-2003 (XLS)",
+            "value": "application/vnd.ms-excel"
+          },
+          {
+            "label": "CSV",
+            "value": "text/csv"
+          },
+          {
+            "label": "Word (DOCX)",
+            "value": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          },
+          {
+            "label": "PowerPoint (PPTX)",
+            "value": "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+          },
+          {
+            "label": "PDF",
+            "value": "application/pdf"
+          },
+          {
+            "label": "Plain Text (TXT)",
+            "value": "text/plain"
+          },
+          {
+            "label": "PNG",
+            "value": "image/png"
+          },
+          {
+            "label": "JPEG",
+            "value": "image/jpeg"
+          },
+          {
+            "label": "ZIP",
+            "value": "application/zip"
+          }
+        ]
+      },
+      "include_file_content": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Also download each file. A failed download adds an error instead.",
+        "display_name": "Include File Content",
+        "default": false
+      }
+    },
+    "sampleData": {
+      "changeType": "updated",
+      "kind": "drive#file",
+      "id": "1dpv4-sKJfKRwI9qx1vWqQhEGEn3EpbI5",
+      "name": "quarterly-report.xlsx",
+      "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "webViewLink": "https://docs.google.com/spreadsheets/d/1dpv4-sKJfKRwI9qx1vWqQhEGEn3EpbI5/edit?usp=drivesdk",
+      "createdTime": "2026-08-20T09:12:44.000Z",
+      "modifiedTime": "2026-08-25T14:34:07.000Z"
+    }
+  },
+  {
+    "piece": "@activepieces/piece-google-sheets",
+    "version": "0.17.2",
+    "trigger": "new-spreadsheet",
+    "display_name": "New Spreadsheet",
+    "description": "Triggers when a new spreadsheet is created.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "includeTeamDrives": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Also include spreadsheets stored in shared drives.",
+        "display_name": "Include Shared Drives",
+        "default": false
+      }
+    },
+    "sampleData": {
+      "kind": "drive#file",
+      "mimeType": "application/vnd.google-apps.spreadsheet",
+      "webViewLink": "https://docs.google.com/document/d/1_9xjsrYFgHVvgqYwAJ8KcsDcNU/edit?usp=drivesdk",
+      "id": "1_9xjsrYFgHVvgqYwAJ8KcsDcN3AzPelsux",
+      "name": "Test Document"
+    }
+  },
+  {
+    "piece": "@activepieces/piece-google-sheets",
+    "version": "0.17.2",
+    "trigger": "new-worksheet",
+    "display_name": "New Worksheet",
+    "description": "Triggers when a worksheet is created in a spreadsheet.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "includeTeamDrives": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Also include spreadsheets stored in shared drives.",
+        "display_name": "Include Shared Drives",
+        "default": false
+      },
+      "spreadsheetId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "The spreadsheet to watch for new worksheets.",
+        "display_name": "Spreadsheet",
+        "refreshers": [
+          "includeTeamDrives"
+        ],
+        "refresh_on_search": false
+      }
+    },
+    "sampleData": {
+      "properties": {
+        "sheetId": 2077270595,
+        "title": "Sheet5",
+        "index": 1,
+        "sheetType": "GRID",
+        "gridProperties": {
+          "rowCount": 1000,
+          "columnCount": 26
+        }
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-dynamics-365-business-central",
+    "version": "0.3.0",
+    "trigger": "new-or-updated-record",
+    "display_name": "New or Updated Record",
+    "description": "Triggers when a new record is added or modified.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        },
+        "environment": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Name of the environment to connect to, e.g. 'Production' or 'Sandbox'. Environment names can be found in the Business Central Admin Center.",
+          "display_name": "Environment",
+          "default": "Production"
+        }
+      }
+    },
+    "props": {
+      "company_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Company",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "record_type": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Record Type",
+        "options": [
+          {
+            "label": "Bank Accounts",
+            "value": "bankAccounts"
+          },
+          {
+            "label": "Contacts",
+            "value": "contacts"
+          },
+          {
+            "label": "Currencies",
+            "value": "currencies"
+          },
+          {
+            "label": "Customers",
+            "value": "customers"
+          },
+          {
+            "label": "Dispute Status",
+            "value": "disputeStatus"
+          },
+          {
+            "label": "Employees",
+            "value": "employees"
+          },
+          {
+            "label": "Item Categories",
+            "value": "itemCategories"
+          },
+          {
+            "label": "Items",
+            "value": "items"
+          },
+          {
+            "label": "Item Variants",
+            "value": "itemVariants"
+          },
+          {
+            "label": "Journals",
+            "value": "journals"
+          },
+          {
+            "label": "Locations",
+            "value": "locations"
+          },
+          {
+            "label": "Payment Methods",
+            "value": "paymentMethods"
+          },
+          {
+            "label": "Payment Terms",
+            "value": "paymentTerms"
+          },
+          {
+            "label": "Projects",
+            "value": "projects"
+          },
+          {
+            "label": "Sales Invoices",
+            "value": "salesInvoices"
+          },
+          {
+            "label": "Sales Orders",
+            "value": "salesOrders"
+          },
+          {
+            "label": "Sales Quotes",
+            "value": "salesQuotes"
+          },
+          {
+            "label": "Shipment Methods",
+            "value": "shipmentMethods"
+          },
+          {
+            "label": "Vendors",
+            "value": "vendors"
+          }
+        ]
+      }
+    },
+    "sampleData": {}
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-excel-365",
+    "version": "0.8.2",
+    "trigger": "new_row",
+    "display_name": "New Row",
+    "description": "Trigger when a new row is added, and it can include existing rows as well.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
+    },
+    "props": {
+      "storageSource": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Excel File Source",
+        "default": "onedrive",
+        "options": [
+          {
+            "label": "OneDrive",
+            "value": "onedrive"
+          },
+          {
+            "label": "SharePoint",
+            "value": "sharepoint"
+          }
+        ]
+      },
+      "siteId": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Sharepoint Site",
+        "refreshers": [
+          "storageSource"
+        ],
+        "refresh_on_search": false
+      },
+      "documentId": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Sharepoint Document Library",
+        "refreshers": [
+          "storageSource",
+          "siteId"
+        ],
+        "refresh_on_search": false
+      },
+      "workbookId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Workbook",
+        "refreshers": [
+          "storageSource",
+          "siteId",
+          "documentId"
+        ],
+        "refresh_on_search": false
+      },
+      "worksheetId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Worksheet",
+        "refreshers": [
+          "storageSource",
+          "siteId",
+          "documentId",
+          "workbookId"
+        ],
+        "refresh_on_search": false
+      },
+      "max_rows_to_poll": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "The maximum number of rows to poll, the rest will be polled on the next run.",
+        "display_name": "Max Rows to Poll",
+        "default": 10
+      }
+    },
+    "sampleData": {}
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-excel-365",
+    "version": "0.8.2",
+    "trigger": "new_row_in_table",
+    "display_name": "New Row in Table",
+    "description": "Fires when a new row is added to a table within a worksheet.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
+    },
+    "props": {
+      "storageSource": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Excel File Source",
+        "default": "onedrive",
+        "options": [
+          {
+            "label": "OneDrive",
+            "value": "onedrive"
+          },
+          {
+            "label": "SharePoint",
+            "value": "sharepoint"
+          }
+        ]
+      },
+      "siteId": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Sharepoint Site",
+        "refreshers": [
+          "storageSource"
+        ],
+        "refresh_on_search": false
+      },
+      "documentId": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Sharepoint Document Library",
+        "refreshers": [
+          "storageSource",
+          "siteId"
+        ],
+        "refresh_on_search": false
+      },
+      "workbookId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Workbook",
+        "refreshers": [
+          "storageSource",
+          "siteId",
+          "documentId"
+        ],
+        "refresh_on_search": false
+      },
+      "worksheetId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Worksheet",
+        "refreshers": [
+          "storageSource",
+          "siteId",
+          "documentId",
+          "workbookId"
+        ],
+        "refresh_on_search": false
+      },
+      "tableId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Table",
+        "refreshers": [
+          "storageSource",
+          "siteId",
+          "documentId",
+          "workbookId",
+          "worksheetId"
+        ],
+        "refresh_on_search": false
+      },
+      "has_headers": {
+        "type": "CHECKBOX",
+        "required": true,
+        "description": "Enable this if the first row of your table is a header row.",
+        "display_name": "My table has headers",
+        "default": true
+      }
+    },
+    "sampleData": {
+      "rowIndex": 0,
+      "values": {
+        "ID": 1,
+        "Name": "John Doe",
+        "Email": "john.doe@example.com"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-excel-365",
+    "version": "0.8.2",
+    "trigger": "new_worksheet",
+    "display_name": "New Worksheet",
+    "description": "Fires when a new worksheet is created in a workbook.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
+    },
+    "props": {
+      "storageSource": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Excel File Source",
+        "default": "onedrive",
+        "options": [
+          {
+            "label": "OneDrive",
+            "value": "onedrive"
+          },
+          {
+            "label": "SharePoint",
+            "value": "sharepoint"
+          }
+        ]
+      },
+      "siteId": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Sharepoint Site",
+        "refreshers": [
+          "storageSource"
+        ],
+        "refresh_on_search": false
+      },
+      "documentId": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Sharepoint Document Library",
+        "refreshers": [
+          "storageSource",
+          "siteId"
+        ],
+        "refresh_on_search": false
+      },
+      "workbookId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Workbook",
+        "refreshers": [
+          "storageSource",
+          "siteId",
+          "documentId"
+        ],
+        "refresh_on_search": false
+      }
+    },
+    "sampleData": {
+      "@odata.id": "/workbook/worksheets(%27%7B00000000-0001-0000-0100-000000000000%7D%27)",
+      "id": "{00000000-0001-0000-0100-000000000000}",
+      "name": "Sheet2",
+      "position": 1,
+      "visibility": "Visible"
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-excel-365",
+    "version": "0.8.2",
+    "trigger": "updated_row",
+    "display_name": "Updated Row",
+    "description": "Fires when a row (in a worksheet) is added or updated.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
+    },
+    "props": {
+      "storageSource": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Excel File Source",
+        "default": "onedrive",
+        "options": [
+          {
+            "label": "OneDrive",
+            "value": "onedrive"
+          },
+          {
+            "label": "SharePoint",
+            "value": "sharepoint"
+          }
+        ]
+      },
+      "siteId": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Sharepoint Site",
+        "refreshers": [
+          "storageSource"
+        ],
+        "refresh_on_search": false
+      },
+      "documentId": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Sharepoint Document Library",
+        "refreshers": [
+          "storageSource",
+          "siteId"
+        ],
+        "refresh_on_search": false
+      },
+      "workbookId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Workbook",
+        "refreshers": [
+          "storageSource",
+          "siteId",
+          "documentId"
+        ],
+        "refresh_on_search": false
+      },
+      "worksheetId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Worksheet",
+        "refreshers": [
+          "storageSource",
+          "siteId",
+          "documentId",
+          "workbookId"
+        ],
+        "refresh_on_search": false
+      },
+      "has_headers": {
+        "type": "CHECKBOX",
+        "required": true,
+        "description": "Enable this if the first row of your worksheet should be treated as headers.",
+        "display_name": "First row has headers",
+        "default": false
+      }
+    },
+    "sampleData": {
+      "rowIndex": 1,
+      "values": {
+        "ID": 101,
+        "Product": "Widget",
+        "Price": 19.99
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-onedrive",
+    "version": "0.6.1",
+    "trigger": "new_file",
+    "display_name": "New File",
+    "description": "Trigger when a new file is uploaded.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
+    },
+    "props": {
+      "markdown": {
+        "type": "MARKDOWN",
+        "required": false,
+        "description": "**Note**: If you can't find the folder in the dropdown list (which fetches up to 1000 folders), please click on the **(F)** and type the folder ID directly.\n\n\n      you can find the folder ID in the OneDrive URL after **?id=**, e.g., \"onedrive.live.com/?id=**folder-id**&cid=some-other-id\"\n\n    ",
+        "display_name": "Markdown"
+      },
+      "parentFolder": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Parent Folder",
+        "refreshers": [
+          "auth"
+        ],
+        "refresh_on_search": false
+      }
+    },
+    "sampleData": {
+      "id": "123456",
+      "name": "example.jpg",
+      "createdDateTime": "2023-10-20T10:16:35.5Z",
+      "cTag": "07NkI9QUVCNEY1QzU9ITEySi4yNTD",
+      "eTag": "331E4899BE5BFA2!sccbdc3441b454cc0a13be0f6be58ca3d",
+      "lastModifiedDateTime": "2023-10-20T10:16:35.5Z",
+      "size": 53431,
+      "createdBy": {
+        "application": {
+          "id": "00000000-0000-0000-0000-0000481710a4",
+          "displayName": "4c5b-b112-36a304b66dad"
+        },
+        "user": {
+          "email": "john@outlook.com",
+          "id": "0331E4899BE5BFA2",
+          "displayName": "John Doe"
+        }
+      },
+      "lastModifiedBy": {
+        "application": {
+          "id": "00000000-0000-0000-0000-0000481710a4",
+          "displayName": "36a304b66dad"
+        },
+        "user": {
+          "email": "john@outlook.com",
+          "id": "0331E4899BE5BFA2",
+          "displayName": "John Doe"
+        }
+      },
+      "parentReference": {
+        "driveType": "personal",
+        "driveId": "E4899BE5BFA2",
+        "id": "48dd8265f06fd5e8024d",
+        "name": "child",
+        "path": "/drive/root:/parent/child",
+        "siteId": "043b2233-0eed-436a"
+      },
+      "file": {
+        "mimeType": "image/jpeg"
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2025-01-22T09:30:10Z",
+        "lastModifiedDateTime": "2025-01-22T09:30:12Z"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-outlook",
+    "version": "0.7.2",
+    "trigger": "newAttachment",
+    "display_name": "New Attachment",
+    "description": "Triggers once for each attachment on a new email.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        },
+        "accessMode": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Pick the option matching your Grant Type. Use a Delegated option with the Authorization Code grant (acts as the signed-in user). Use an App-only option with the Client Credentials grant (acts as the application — also set Tenant ID and Mailbox), choosing the one that matches your Cloud Environment.",
+          "display_name": "Access Mode",
+          "default": "Mail.ReadWrite Mail.Send Calendars.Read offline_access User.Read openid email profile",
+          "options": [
+            {
+              "label": "Delegated — Commercial (Global)",
+              "value": "Mail.ReadWrite Mail.Send Calendars.Read offline_access User.Read openid email profile"
+            },
+            {
+              "label": "App-only — Commercial (Global)",
+              "value": "https://graph.microsoft.com/.default"
+            },
+            {
+              "label": "App-only — US Government (GCC High)",
+              "value": "https://graph.microsoft.us/.default"
+            }
+          ]
+        },
+        "tenant": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Use \"common\" for the default delegated multi-tenant flow. For app-only (Client Credentials), set this to your Directory (tenant) ID.",
+          "display_name": "Tenant ID",
+          "default": "common"
+        },
+        "mailbox": {
+          "type": "SHORT_TEXT",
+          "required": false,
+          "description": "Email/UPN or user object ID of the mailbox to act on. Required for app-only (Client Credentials). Leave blank for delegated access (acts as the signed-in user).",
+          "display_name": "Mailbox (App-only)"
+        }
+      }
+    },
+    "props": {
+      "folderId": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "Leave empty to watch the whole mailbox, including sent mail.",
+        "display_name": "Folder",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "sender": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Only emails whose sender address contains this text.",
+        "display_name": "From"
+      },
+      "attachmentNameFilter": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Only attachments whose file name contains this text.",
+        "display_name": "Attachment Name"
+      },
+      "fileExtension": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Only attachments with this extension. Separate several with commas, e.g. pdf, docx.",
+        "display_name": "File Extension"
+      }
+    },
+    "sampleData": {}
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-outlook",
+    "version": "0.7.2",
+    "trigger": "newEmail",
+    "display_name": "New Email",
+    "description": "Triggers when a new email arrives in your Inbox.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        },
+        "accessMode": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Pick the option matching your Grant Type. Use a Delegated option with the Authorization Code grant (acts as the signed-in user). Use an App-only option with the Client Credentials grant (acts as the application — also set Tenant ID and Mailbox), choosing the one that matches your Cloud Environment.",
+          "display_name": "Access Mode",
+          "default": "Mail.ReadWrite Mail.Send Calendars.Read offline_access User.Read openid email profile",
+          "options": [
+            {
+              "label": "Delegated — Commercial (Global)",
+              "value": "Mail.ReadWrite Mail.Send Calendars.Read offline_access User.Read openid email profile"
+            },
+            {
+              "label": "App-only — Commercial (Global)",
+              "value": "https://graph.microsoft.com/.default"
+            },
+            {
+              "label": "App-only — US Government (GCC High)",
+              "value": "https://graph.microsoft.us/.default"
+            }
+          ]
+        },
+        "tenant": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Use \"common\" for the default delegated multi-tenant flow. For app-only (Client Credentials), set this to your Directory (tenant) ID.",
+          "display_name": "Tenant ID",
+          "default": "common"
+        },
+        "mailbox": {
+          "type": "SHORT_TEXT",
+          "required": false,
+          "description": "Email/UPN or user object ID of the mailbox to act on. Required for app-only (Client Credentials). Leave blank for delegated access (acts as the signed-in user).",
+          "display_name": "Mailbox (App-only)"
+        }
+      }
+    },
+    "props": {
+      "sender": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Only emails sent from this address.",
+        "display_name": "From"
+      },
+      "recipient": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Only emails sent to this address.",
+        "display_name": "To"
+      }
+    },
+    "sampleData": {}
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-outlook",
+    "version": "0.7.2",
+    "trigger": "newEmailInFolder",
+    "display_name": "New Email in Folder",
+    "description": "Triggers when a new email lands in the folder you pick.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        },
+        "accessMode": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Pick the option matching your Grant Type. Use a Delegated option with the Authorization Code grant (acts as the signed-in user). Use an App-only option with the Client Credentials grant (acts as the application — also set Tenant ID and Mailbox), choosing the one that matches your Cloud Environment.",
+          "display_name": "Access Mode",
+          "default": "Mail.ReadWrite Mail.Send Calendars.Read offline_access User.Read openid email profile",
+          "options": [
+            {
+              "label": "Delegated — Commercial (Global)",
+              "value": "Mail.ReadWrite Mail.Send Calendars.Read offline_access User.Read openid email profile"
+            },
+            {
+              "label": "App-only — Commercial (Global)",
+              "value": "https://graph.microsoft.com/.default"
+            },
+            {
+              "label": "App-only — US Government (GCC High)",
+              "value": "https://graph.microsoft.us/.default"
+            }
+          ]
+        },
+        "tenant": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Use \"common\" for the default delegated multi-tenant flow. For app-only (Client Credentials), set this to your Directory (tenant) ID.",
+          "display_name": "Tenant ID",
+          "default": "common"
+        },
+        "mailbox": {
+          "type": "SHORT_TEXT",
+          "required": false,
+          "description": "Email/UPN or user object ID of the mailbox to act on. Required for app-only (Client Credentials). Leave blank for delegated access (acts as the signed-in user).",
+          "display_name": "Mailbox (App-only)"
+        }
+      }
+    },
+    "props": {
+      "folderId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "New emails in this folder start the flow.",
+        "display_name": "Folder",
+        "refreshers": [],
+        "refresh_on_search": false
+      }
+    },
+    "sampleData": {}
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-sharepoint",
+    "version": "0.4.2",
+    "trigger": "new_list",
+    "display_name": "New List",
+    "description": "Triggers when a new list is created in a site.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
+    },
+    "props": {
+      "siteId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Site",
+        "refreshers": [],
+        "refresh_on_search": false
+      }
+    },
+    "sampleData": null
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-sharepoint",
+    "version": "0.4.2",
+    "trigger": "new_list_item",
+    "display_name": "New List Item",
+    "description": "Triggers when a new item is created in a SharePoint list.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
+    },
+    "props": {
+      "siteId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Site",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "listId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "List",
+        "refreshers": [
+          "siteId"
+        ],
+        "refresh_on_search": false
+      }
+    },
+    "sampleData": null
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-sharepoint",
+    "version": "0.4.2",
+    "trigger": "new_or_updated_file",
+    "display_name": "New or Updated File",
+    "description": "Triggers when a file is created or updated in a given folder.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
+    },
+    "props": {
+      "siteId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Site",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "driveId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Drive",
+        "refreshers": [
+          "siteId"
+        ],
+        "refresh_on_search": false
+      },
+      "folderId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "The folder to watch for new or updated files. Select \"Root Folder\" for the top-level folder of the drive.",
+        "display_name": "Folder to Monitor",
+        "refreshers": [
+          "siteId",
+          "driveId"
+        ],
+        "refresh_on_search": false
+      }
+    },
+    "sampleData": {
+      "id": "01DRYVE_ID_GOES_HERE",
+      "name": "Updated-Financials.xlsx",
+      "webUrl": "https://contoso.sharepoint.com/Shared%20Documents/Updated-Financials.xlsx",
+      "size": 65432,
+      "createdDateTime": "2025-09-26T10:00:00Z",
+      "lastModifiedDateTime": "2025-09-26T14:34:00Z",
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      },
+      "parentReference": {
+        "id": "PARENT_FOLDER_ID_HERE"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-sharepoint",
+    "version": "0.4.2",
+    "trigger": "new_or_updated_folder",
+    "display_name": "New or Updated Folder",
+    "description": "Triggers when a folder is created or updated (e.g., name change).",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
+    },
+    "props": {
+      "siteId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Site",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "driveId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Drive",
+        "refreshers": [
+          "siteId"
+        ],
+        "refresh_on_search": false
+      },
+      "parentFolderId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "The folder to watch for new or updated subfolders. Select \"Root Folder\" to monitor the top-level of the drive.",
+        "display_name": "Parent Folder to Monitor",
+        "refreshers": [
+          "siteId",
+          "driveId"
+        ],
+        "refresh_on_search": false
+      }
+    },
+    "sampleData": {
+      "id": "01DRYVE_FOLDER_ID_GOES_HERE",
+      "name": "Project Alpha",
+      "webUrl": "https://contoso.sharepoint.com/Shared%20Documents/Project%20Alpha",
+      "size": 0,
+      "createdDateTime": "2025-09-26T14:50:00Z",
+      "lastModifiedDateTime": "2025-09-26T14:50:00Z",
+      "folder": {
+        "childCount": 0
+      },
+      "parentReference": {
+        "id": "PARENT_FOLDER_ID_HERE"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-sharepoint",
+    "version": "0.4.2",
+    "trigger": "new_or_updated_list",
+    "display_name": "New or Updated List",
+    "description": "Triggers when a list is created or updated in a site.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        }
+      }
+    },
+    "props": {
+      "siteId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Site",
+        "refreshers": [],
+        "refresh_on_search": false
+      }
+    },
+    "sampleData": {
+      "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "displayName": "Projects Tracker",
+      "description": "Updated list for tracking all ongoing projects.",
+      "createdDateTime": "2025-09-26T11:00:00Z",
+      "lastModifiedDateTime": "2025-09-26T14:55:00Z",
+      "webUrl": "https://contoso.sharepoint.com/sites/MySite/Lists/Projects%20Tracker"
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-teams",
+    "version": "0.7.2",
+    "trigger": "new-channel",
+    "display_name": "New Channel",
+    "description": "Triggers when a new channel is created in a team.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        },
+        "tenantId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Use \"common\" for the default multi-tenant flow, or your Directory (tenant) ID (a GUID) / \"<name>.onmicrosoft.com\" domain for a single-tenant app registration.",
+          "display_name": "Tenant ID",
+          "default": "common"
+        }
+      }
+    },
+    "props": {
+      "teamId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Team ID",
+        "refreshers": [],
+        "refresh_on_search": false
+      }
+    },
+    "sampleData": {
+      "id": "19:561fbdbbfca848a484f0a6f00ce9dbbd@thread.tacv2",
+      "createdDateTime": "2025-05-21T12:40:13.175Z",
+      "displayName": "General",
+      "description": "Auto-generated channel",
+      "membershipType": "standard",
+      "isArchived": false
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-teams",
+    "version": "0.7.2",
+    "trigger": "new-channel-message",
+    "display_name": "New Channel Message",
+    "description": "Triggers when a new message is posted in a channel.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        },
+        "tenantId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Use \"common\" for the default multi-tenant flow, or your Directory (tenant) ID (a GUID) / \"<name>.onmicrosoft.com\" domain for a single-tenant app registration.",
+          "display_name": "Tenant ID",
+          "default": "common"
+        }
+      }
+    },
+    "props": {
+      "teamId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Team ID",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "channelId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Channel ID",
+        "refreshers": [
+          "teamId"
+        ],
+        "refresh_on_search": false
+      }
+    },
+    "sampleData": {
+      "replyToId": null,
+      "etag": "1747831213175",
+      "messageType": "message",
+      "createdDateTime": "2025-05-21T12:40:13.175Z",
+      "lastModifiedDateTime": "2025-05-21T12:40:13.175Z",
+      "lastEditedDateTime": null,
+      "deletedDateTime": null,
+      "subject": "Test",
+      "summary": null,
+      "chatId": null,
+      "importance": "normal",
+      "locale": "en-us",
+      "webUrl": "",
+      "policyViolation": null,
+      "eventDetail": null,
+      "id": "1747831213175",
+      "from": {
+        "application": null,
+        "device": null,
+        "user": {
+          "@odata.type": "#microsoft.graph.teamworkUserIdentity",
+          "id": "90b3720d-f459-42c1-a02e-a1ecb068",
+          "displayName": "Activepieces",
+          "userIdentityType": "aadUser",
+          "tenantId": "9b37335a-d996-4a8d-9ae4-a3a04c94"
+        }
+      },
+      "body": {
+        "contentType": "html",
+        "content": "<p>Test Message</p>"
+      },
+      "channelIdentity": {
+        "teamId": "99cb9-7ebe-43ee-a69b-5f77ce8a4b4e",
+        "channelId": "19:LiZnIkTo_1FmFY9OTsfym0q3bwo-y2UfV9FaYA1@thread.tacv2"
+      },
+      "attachments": [],
+      "mentions": [],
+      "reactions": []
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-teams",
+    "version": "0.7.2",
+    "trigger": "new-chat",
+    "display_name": "New Chat",
+    "description": "Triggers when a new chat is created.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        },
+        "tenantId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Use \"common\" for the default multi-tenant flow, or your Directory (tenant) ID (a GUID) / \"<name>.onmicrosoft.com\" domain for a single-tenant app registration.",
+          "display_name": "Tenant ID",
+          "default": "common"
+        }
+      }
+    },
+    "props": {},
+    "sampleData": {
+      "id": "19:example_chat_id@unq.gbl.spaces",
+      "createdDateTime": "2025-05-21T12:40:13.175Z",
+      "lastUpdatedDateTime": "2025-05-21T12:40:13.175Z",
+      "chatType": "oneOnOne",
+      "webUrl": "",
+      "isHiddenForAllMembers": false
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-teams",
+    "version": "0.7.2",
+    "trigger": "new-chat-message",
+    "display_name": "New Chat Message",
+    "description": "Triggers when a new message is received in a chat.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        },
+        "tenantId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Use \"common\" for the default multi-tenant flow, or your Directory (tenant) ID (a GUID) / \"<name>.onmicrosoft.com\" domain for a single-tenant app registration.",
+          "display_name": "Tenant ID",
+          "default": "common"
+        }
+      }
+    },
+    "props": {
+      "chatId": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Chat ID",
+        "refreshers": [],
+        "refresh_on_search": false
+      }
+    },
+    "sampleData": {
+      "replyToId": null,
+      "etag": "1747831213175",
+      "messageType": "message",
+      "createdDateTime": "2025-05-21T12:40:13.175Z",
+      "lastModifiedDateTime": "2025-05-21T12:40:13.175Z",
+      "lastEditedDateTime": null,
+      "deletedDateTime": null,
+      "subject": null,
+      "summary": null,
+      "chatId": "19:example_chat_id@unq.gbl.spaces",
+      "importance": "normal",
+      "locale": "en-us",
+      "webUrl": "",
+      "policyViolation": null,
+      "eventDetail": null,
+      "id": "1747831213175",
+      "from": {
+        "application": null,
+        "device": null,
+        "user": {
+          "@odata.type": "#microsoft.graph.teamworkUserIdentity",
+          "id": "90b3720d-f459-42c1-a02e-a1ecb068",
+          "displayName": "Activepieces",
+          "userIdentityType": "aadUser",
+          "tenantId": "9b37335a-d996-4a8d-9ae4-a3a04c94"
+        }
+      },
+      "body": {
+        "contentType": "html",
+        "content": "<p>Test Message</p>"
+      },
+      "attachments": [],
+      "mentions": [],
+      "reactions": []
+    }
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks",
+    "version": "0.3.3",
+    "trigger": "new_bill",
+    "display_name": "New Bill",
+    "description": "Triggers when a new bill (accounts payable) is created in QuickBooks.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {},
+    "sampleData": null
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks",
+    "version": "0.3.3",
+    "trigger": "new_customer",
+    "display_name": "New Customer",
+    "description": "Triggers when a new customer is created.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {},
+    "sampleData": null
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks",
+    "version": "0.3.3",
+    "trigger": "new_deposit",
+    "display_name": "New Deposit",
+    "description": "Triggers when a Deposit is created.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {},
+    "sampleData": null
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks",
+    "version": "0.3.3",
+    "trigger": "new_expense",
+    "display_name": "New Expense (Purchase)",
+    "description": "Triggers when an Expense (Purchase) is created.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {},
+    "sampleData": null
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks",
+    "version": "0.3.3",
+    "trigger": "new_invoice",
+    "display_name": "New Invoice",
+    "description": "Triggers when an invoice is created .",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {},
+    "sampleData": null
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks",
+    "version": "0.3.3",
+    "trigger": "new_or_updated_invoice",
+    "display_name": "New or Updated Invoice",
+    "description": "Triggers when an invoice is created or updated in QuickBooks.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {},
+    "sampleData": null
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks",
+    "version": "0.3.3",
+    "trigger": "new_transfer",
+    "display_name": "New Transfer",
+    "description": "Triggers when a Transfer is created.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {},
+    "sampleData": null
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks",
+    "version": "0.3.3",
+    "trigger": "payment_received",
+    "display_name": "Payment Received",
+    "description": "Triggers when a new customer payment is recorded in QuickBooks.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {},
+    "sampleData": null
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks-sandbox",
+    "version": "0.2.2",
+    "trigger": "new_bill",
+    "display_name": "New Bill",
+    "description": "Triggers when a new bill (accounts payable) is created in QuickBooks.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {},
+    "sampleData": null
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks-sandbox",
+    "version": "0.2.2",
+    "trigger": "new_customer",
+    "display_name": "New Customer",
+    "description": "Triggers when a new customer is created.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {},
+    "sampleData": null
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks-sandbox",
+    "version": "0.2.2",
+    "trigger": "new_deposit",
+    "display_name": "New Deposit",
+    "description": "Triggers when a Deposit is created.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {},
+    "sampleData": null
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks-sandbox",
+    "version": "0.2.2",
+    "trigger": "new_expense",
+    "display_name": "New Expense (Purchase)",
+    "description": "Triggers when an Expense (Purchase) is created.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {},
+    "sampleData": null
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks-sandbox",
+    "version": "0.2.2",
+    "trigger": "new_invoice",
+    "display_name": "New Invoice",
+    "description": "Triggers when an invoice is created .",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {},
+    "sampleData": null
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks-sandbox",
+    "version": "0.2.2",
+    "trigger": "new_or_updated_invoice",
+    "display_name": "New or Updated Invoice",
+    "description": "Triggers when an invoice is created or updated in QuickBooks.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {},
+    "sampleData": null
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks-sandbox",
+    "version": "0.2.2",
+    "trigger": "new_transfer",
+    "display_name": "New Transfer",
+    "description": "Triggers when a Transfer is created.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {},
+    "sampleData": null
+  },
+  {
+    "piece": "@activepieces/piece-quickbooks-sandbox",
+    "version": "0.2.2",
+    "trigger": "payment_received",
+    "display_name": "Payment Received",
+    "description": "Triggers when a new customer payment is recorded in QuickBooks.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "companyId": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "",
+          "display_name": "Company ID"
+        }
+      }
+    },
+    "props": {},
+    "sampleData": null
+  },
+  {
+    "piece": "@activepieces/piece-service-now",
+    "version": "0.3.1",
+    "trigger": "new_comment",
+    "display_name": "New Comment or Work Note",
+    "description": "Triggers when a new comment or work note is added to a record in the selected table",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "CUSTOM_AUTH",
+      "props": {
+        "instanceUrl": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow instance URL without trailing slash (e.g., https://dev12345.service-now.com)",
+          "display_name": "Instance URL"
+        },
+        "username": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow username (not email)",
+          "display_name": "Username"
+        },
+        "password": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow password (not API token)",
+          "display_name": "Password"
+        }
+      }
+    },
+    "props": {
+      "table": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "ServiceNow table to work with",
+        "display_name": "Table",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "entry_type": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "Which journal entries to watch",
+        "display_name": "Entry Type",
+        "default": "both",
+        "options": [
+          {
+            "label": "Comments and Work Notes",
+            "value": "both"
+          },
+          {
+            "label": "Customer-visible Comments only",
+            "value": "comments"
+          },
+          {
+            "label": "Internal Work Notes only",
+            "value": "work_notes"
+          }
+        ]
+      },
+      "record_sys_id": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "If set, only fire for comments on this specific record sys_id",
+        "display_name": "Record Sys ID Filter (optional)"
+      }
+    },
+    "sampleData": {
+      "sys_id": "sample_journal_sys_id",
+      "element": "comments",
+      "element_id": "sample_record_sys_id",
+      "name": "incident",
+      "value": "New comment text",
+      "sys_created_by": "admin",
+      "sys_created_on": "2026-04-30 12:00:00"
+    }
+  },
+  {
+    "piece": "@activepieces/piece-service-now",
+    "version": "0.3.1",
+    "trigger": "new_record",
+    "display_name": "New Record",
+    "description": "Triggers when a new record is created in a table",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "CUSTOM_AUTH",
+      "props": {
+        "instanceUrl": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow instance URL without trailing slash (e.g., https://dev12345.service-now.com)",
+          "display_name": "Instance URL"
+        },
+        "username": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow username (not email)",
+          "display_name": "Username"
+        },
+        "password": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow password (not API token)",
+          "display_name": "Password"
+        }
+      }
+    },
+    "props": {
+      "table": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "ServiceNow table to work with",
+        "display_name": "Table",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "filter": {
+        "type": "LONG_TEXT",
+        "required": false,
+        "description": "Encoded query to filter records (e.g., priority=1^state=1)",
+        "display_name": "Filter Query"
+      }
+    },
+    "sampleData": {
+      "sys_id": "sample_sys_id",
+      "number": "INC0000001",
+      "short_description": "Sample incident",
+      "state": "1",
+      "priority": "3",
+      "sys_created_on": "2023-01-01 00:00:00",
+      "sys_updated_on": "2023-01-01 00:00:00"
+    }
+  },
+  {
+    "piece": "@activepieces/piece-service-now",
+    "version": "0.3.1",
+    "trigger": "updated_record",
+    "display_name": "Updated Record",
+    "description": "Triggers when a record is updated in a table",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "CUSTOM_AUTH",
+      "props": {
+        "instanceUrl": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow instance URL without trailing slash (e.g., https://dev12345.service-now.com)",
+          "display_name": "Instance URL"
+        },
+        "username": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow username (not email)",
+          "display_name": "Username"
+        },
+        "password": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Your ServiceNow password (not API token)",
+          "display_name": "Password"
+        }
+      }
+    },
+    "props": {
+      "table": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "ServiceNow table to work with",
+        "display_name": "Table",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "filter": {
+        "type": "LONG_TEXT",
+        "required": false,
+        "description": "Encoded query to filter records (e.g., priority=1^state=1)",
+        "display_name": "Filter Query"
+      }
+    },
+    "sampleData": {
+      "sys_id": "sample_sys_id",
+      "number": "INC0000001",
+      "short_description": "Updated incident description",
+      "state": "2",
+      "priority": "2",
+      "sys_created_on": "2023-01-01 00:00:00",
+      "sys_updated_on": "2023-01-01 01:00:00"
+    }
+  },
+  {
+    "piece": "@activepieces/piece-shippo",
+    "version": "0.1.7",
+    "trigger": "new_order",
+    "display_name": "New Order",
+    "description": "Trigger when a new order is created",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "SECRET_TEXT"
+    ],
+    "auth": {
+      "kind": "SECRET_TEXT",
+      "props": {}
+    },
+    "props": {},
+    "sampleData": {
+      "object_id": "4f2bc588e4e5446cb3f9fdb7cd5e190b",
+      "object_owner": "shippotle@shippo.com",
+      "order_number": "#1068",
+      "order_status": "PAID",
+      "placed_at": "2016-09-23T01:28:12Z",
+      "to_address": {
+        "object_created": "2016-09-23T01:38:56Z",
+        "object_updated": "2016-09-23T01:38:56Z",
+        "object_id": "d799c2679e644279b59fe661ac8fa488",
+        "object_owner": "shippotle@shippo.com",
+        "is_complete": true,
+        "validation_results": {},
+        "name": "Mr Hippo",
+        "company": "Shippo",
+        "street1": "215 Clayton St.",
+        "street2": "",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94117",
+        "country": "US",
+        "phone": "15553419393",
+        "email": "shippotle@shippo.com",
+        "is_residential": null,
+        "metadata": ""
+      },
+      "from_address": null,
+      "line_items": [
+        {
+          "object_id": "abf7d5675d744b6ea9fdb6f796b28f28",
+          "title": "Hippo Magazines",
+          "variant_title": "",
+          "sku": "HM-123",
+          "quantity": 1,
+          "total_price": "12.10",
+          "currency": "USD",
+          "weight": "0.40",
+          "weight_unit": "lb",
+          "manufacture_country": null,
+          "max_ship_time": null,
+          "max_delivery_time": null,
+          "description": null
+        }
+      ],
+      "shipping_cost": "12.83",
+      "shipping_cost_currency": "USD",
+      "shipping_method": "USPS First Class Package",
+      "shop_app": "Shippo",
+      "subtotal_price": "12.10",
+      "total_price": "24.93",
+      "total_tax": "0.00",
+      "currency": "USD",
+      "transactions": [],
+      "weight": "0.40",
+      "weight_unit": "lb",
+      "notes": null
+    }
+  },
+  {
+    "piece": "@activepieces/piece-shippo",
+    "version": "0.1.7",
+    "trigger": "new_shipping_label",
+    "display_name": "New Shipping Label",
+    "description": "Trigger when a new shipping label is created",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "SECRET_TEXT"
+    ],
+    "auth": {
+      "kind": "SECRET_TEXT",
+      "props": {}
+    },
+    "props": {
+      "test_mode": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Include test shipping labels in the trigger",
+        "display_name": "Include Test Labels",
+        "default": false
+      }
+    },
+    "sampleData": {
+      "commercial_invoice_url": "string",
+      "created_by": {
+        "first_name": "Shwan",
+        "last_name": "Ippotle",
+        "username": "shippotle@shippo.com"
+      },
+      "eta": "string",
+      "label_file_type": "PDF_4x6",
+      "label_url": "https://shippo-delivery.s3.amazonaws.com/70ae8117ee1749e393f249d5b77c45e0.pdf?Signature=vDw1ltcyGveVR1OQoUDdzC43BY8%3D&Expires=1437093830&AWSAccessKeyId=AKIAJTHP3LLFMYAWALIA",
+      "messages": [],
+      "metadata": "string",
+      "object_created": "2019-08-24T14:15:22Z",
+      "object_id": "915d94940ea54c3a80cbfa328722f5a1",
+      "object_owner": "shippotle@shippo.com",
+      "object_state": "VALID",
+      "object_updated": "2019-08-24T14:15:22Z",
+      "parcel": "e94c7fdfdc7b495dbb390a28d929d90a",
+      "qr_code_url": "https://shippo-delivery.s3.amazonaws.com/96_qr_code.pdf?Signature=PEdWrp0mFWAGwJp7FW3b%2FeA2eyY%3D&Expires=1385930652&AWSAccessKeyId=AKIAJTHP3LLFMYAWALIA",
+      "rate": {},
+      "status": "SUCCESS",
+      "test": true,
+      "tracking_number": "9499907123456123456781",
+      "tracking_status": "DELIVERED",
+      "tracking_url_provider": "https://tools.usps.com/go/TrackConfirmAction_input?origTrackNum=9499907123456123456781"
+    }
+  },
+  {
+    "piece": "@activepieces/piece-shopify",
+    "version": "0.9.1",
+    "trigger": "new_abandoned_checkout",
+    "display_name": "New Abandoned Checkout",
+    "description": "Triggers when a checkout is abandoned.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "CUSTOM_AUTH",
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "shopName": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "The part before .myshopify.com in your store URL. For https://example.myshopify.com, enter example.",
+          "display_name": "Shop Name"
+        }
+      }
+    },
+    "props": {},
+    "sampleData": {}
+  },
+  {
+    "piece": "@activepieces/piece-xero",
+    "version": "0.8.1",
+    "trigger": "xero_new_bank_transaction",
+    "display_name": "New Bank Transaction",
+    "description": "Fires the first time a bank transaction is created or changed after the trigger is turned on.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "tenant_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Organization",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "types": {
+        "type": "STATIC_MULTI_SELECT_DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Types",
+        "options": [
+          {
+            "label": "RECEIVE",
+            "value": "RECEIVE"
+          },
+          {
+            "label": "SPEND",
+            "value": "SPEND"
+          },
+          {
+            "label": "RECEIVE-OVERPAYMENT",
+            "value": "RECEIVE-OVERPAYMENT"
+          },
+          {
+            "label": "SPEND-OVERPAYMENT",
+            "value": "SPEND-OVERPAYMENT"
+          },
+          {
+            "label": "RECEIVE-PREPAYMENT",
+            "value": "RECEIVE-PREPAYMENT"
+          },
+          {
+            "label": "SPEND-PREPAYMENT",
+            "value": "SPEND-PREPAYMENT"
+          },
+          {
+            "label": "RECEIVE-TRANSFER",
+            "value": "RECEIVE-TRANSFER"
+          },
+          {
+            "label": "SPEND-TRANSFER",
+            "value": "SPEND-TRANSFER"
+          }
+        ]
+      },
+      "statuses": {
+        "type": "STATIC_MULTI_SELECT_DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Statuses",
+        "options": [
+          {
+            "label": "AUTHORISED",
+            "value": "AUTHORISED"
+          },
+          {
+            "label": "DELETED",
+            "value": "DELETED"
+          }
+        ]
+      },
+      "contact_id": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "Select a contact",
+        "display_name": "Contact",
+        "refreshers": [
+          "tenant_id"
+        ],
+        "refresh_on_search": true
+      },
+      "bank_account_id": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "Select a bank account",
+        "display_name": "Bank Account",
+        "refreshers": [
+          "tenant_id"
+        ],
+        "refresh_on_search": false
+      },
+      "bank_account_code": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Bank Account Code"
+      },
+      "date_from": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Date From (YYYY-MM-DD)"
+      },
+      "date_to": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Date To (YYYY-MM-DD)"
+      },
+      "page_size": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "",
+        "display_name": "Page Size (1-1000)"
+      }
+    },
+    "sampleData": {
+      "BankTransactionID": "d20b6c54-7f5d-4ce6-ab83-55f609719126",
+      "Type": "RECEIVE",
+      "Status": "AUTHORISED",
+      "Reference": "Cash sale",
+      "Contact": {
+        "ContactID": "6d42f03b-181f-43e3-93fb-2025c012de92",
+        "Name": "Acme Ltd",
+        "EmailAddress": "accounts@acme.example"
+      },
+      "BankAccount": {
+        "AccountID": "bd9e85e0-0478-433d-ae9f-0b3c4f04bfe4",
+        "Code": "090",
+        "Name": "Business Bank Account"
+      },
+      "DateString": "2026-10-05T00:00:00",
+      "IsReconciled": false,
+      "LineAmountTypes": "Exclusive",
+      "SubTotal": 500,
+      "TotalTax": 75,
+      "Total": 575,
+      "CurrencyCode": "USD",
+      "CurrencyRate": 1,
+      "LineItems": [
+        {
+          "LineItemID": "52208ff9-528a-4985-a9ad-b2b1d4210e38",
+          "Description": "Consulting services",
+          "Quantity": 2,
+          "UnitAmount": 250,
+          "AccountCode": "200",
+          "TaxType": "OUTPUT",
+          "TaxAmount": 75,
+          "LineAmount": 500,
+          "DiscountRate": 0,
+          "Tracking": []
+        }
+      ]
+    }
+  },
+  {
+    "piece": "@activepieces/piece-xero",
+    "version": "0.8.1",
+    "trigger": "xero_new_bill",
+    "display_name": "New Bill",
+    "description": "Fires the first time a bill (Accounts Payable) is created or changed after the trigger is turned on.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "tenant_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Organization",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "statuses": {
+        "type": "STATIC_MULTI_SELECT_DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Statuses (optional)",
+        "options": [
+          {
+            "label": "DRAFT",
+            "value": "DRAFT"
+          },
+          {
+            "label": "SUBMITTED",
+            "value": "SUBMITTED"
+          },
+          {
+            "label": "AUTHORISED",
+            "value": "AUTHORISED"
+          },
+          {
+            "label": "PAID",
+            "value": "PAID"
+          },
+          {
+            "label": "VOIDED",
+            "value": "VOIDED"
+          },
+          {
+            "label": "DELETED",
+            "value": "DELETED"
+          }
+        ]
+      },
+      "contact_id": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "Select a contact",
+        "display_name": "Contact",
+        "refreshers": [
+          "tenant_id"
+        ],
+        "refresh_on_search": true
+      },
+      "date_from": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Date From (YYYY-MM-DD)"
+      },
+      "date_to": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Date To (YYYY-MM-DD)"
+      },
+      "summary_only": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "",
+        "display_name": "Summary Only (lighter, faster)",
+        "default": true
+      },
+      "page_size": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "",
+        "display_name": "Page Size (1-1000)"
+      }
+    },
+    "sampleData": {
+      "InvoiceID": "8a7d3f0c-2b1e-4d5f-9c8b-7a6e5d4c3b2a",
+      "InvoiceNumber": "SUP-77",
+      "Type": "ACCPAY",
+      "Status": "AUTHORISED",
+      "Reference": "PO-1001",
+      "Contact": {
+        "ContactID": "6d42f03b-181f-43e3-93fb-2025c012de92",
+        "Name": "Office Mart",
+        "EmailAddress": "accounts@acme.example"
+      },
+      "DateString": "2026-10-05T00:00:00",
+      "DueDateString": "2026-10-19T00:00:00",
+      "LineAmountTypes": "Exclusive",
+      "SubTotal": 500,
+      "TotalTax": 75,
+      "Total": 575,
+      "CurrencyCode": "USD",
+      "CurrencyRate": 1,
+      "AmountDue": 575,
+      "AmountPaid": 0,
+      "AmountCredited": 0,
+      "SentToContact": false,
+      "HasAttachments": false,
+      "LineItems": [
+        {
+          "LineItemID": "52208ff9-528a-4985-a9ad-b2b1d4210e38",
+          "Description": "Consulting services",
+          "Quantity": 2,
+          "UnitAmount": 250,
+          "AccountCode": "200",
+          "TaxType": "OUTPUT",
+          "TaxAmount": 75,
+          "LineAmount": 500,
+          "DiscountRate": 0,
+          "Tracking": []
+        }
+      ]
+    }
+  },
+  {
+    "piece": "@activepieces/piece-xero",
+    "version": "0.8.1",
+    "trigger": "xero_new_credit_note",
+    "display_name": "New Credit Note",
+    "description": "Fires the first time a credit note is created or changed after the trigger is turned on.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "tenant_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Organization",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "types": {
+        "type": "STATIC_MULTI_SELECT_DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Types",
+        "options": [
+          {
+            "label": "ACCRECCREDIT (Sales Credit)",
+            "value": "ACCRECCREDIT"
+          },
+          {
+            "label": "ACCPAYCREDIT (Supplier Credit)",
+            "value": "ACCPAYCREDIT"
+          }
+        ]
+      },
+      "statuses": {
+        "type": "STATIC_MULTI_SELECT_DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Statuses (optional)",
+        "options": [
+          {
+            "label": "DRAFT",
+            "value": "DRAFT"
+          },
+          {
+            "label": "AUTHORISED",
+            "value": "AUTHORISED"
+          },
+          {
+            "label": "PAID",
+            "value": "PAID"
+          },
+          {
+            "label": "VOIDED",
+            "value": "VOIDED"
+          }
+        ]
+      },
+      "contact_id": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "Select a contact",
+        "display_name": "Contact",
+        "refreshers": [
+          "tenant_id"
+        ],
+        "refresh_on_search": true
+      },
+      "reference": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Reference"
+      },
+      "date_from": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Date From (YYYY-MM-DD)"
+      },
+      "date_to": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Date To (YYYY-MM-DD)"
+      },
+      "page_size": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "",
+        "display_name": "Page Size (1-1000)"
+      }
+    },
+    "sampleData": {
+      "CreditNoteID": "c1d2e3f4-a5b6-4c7d-8e9f-0a1b2c3d4e5f",
+      "CreditNoteNumber": "CN-0007",
+      "Type": "ACCRECCREDIT",
+      "Status": "AUTHORISED",
+      "Reference": "Refund for INV-0042",
+      "Contact": {
+        "ContactID": "6d42f03b-181f-43e3-93fb-2025c012de92",
+        "Name": "Acme Ltd",
+        "EmailAddress": "accounts@acme.example"
+      },
+      "DateString": "2026-10-05T00:00:00",
+      "LineAmountTypes": "Exclusive",
+      "SubTotal": 500,
+      "TotalTax": 75,
+      "Total": 575,
+      "CurrencyCode": "USD",
+      "CurrencyRate": 1,
+      "RemainingCredit": 575,
+      "Allocations": [],
+      "LineItems": [
+        {
+          "LineItemID": "52208ff9-528a-4985-a9ad-b2b1d4210e38",
+          "Description": "Consulting services",
+          "Quantity": 2,
+          "UnitAmount": 250,
+          "AccountCode": "200",
+          "TaxType": "OUTPUT",
+          "TaxAmount": 75,
+          "LineAmount": 500,
+          "DiscountRate": 0,
+          "Tracking": []
+        }
+      ]
+    }
+  },
+  {
+    "piece": "@activepieces/piece-xero",
+    "version": "0.8.1",
+    "trigger": "xero_new_payment",
+    "display_name": "New Payment",
+    "description": "Fires the first time a payment is recorded or changed after the trigger is turned on.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "tenant_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Organization",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "payment_types": {
+        "type": "STATIC_MULTI_SELECT_DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Payment Types",
+        "default": [
+          "ACCRECPAYMENT"
+        ],
+        "options": [
+          {
+            "label": "ACCRECPAYMENT (Received on Sales Invoice)",
+            "value": "ACCRECPAYMENT"
+          },
+          {
+            "label": "ACCPAYPAYMENT (Paid on Bill)",
+            "value": "ACCPAYPAYMENT"
+          }
+        ]
+      },
+      "statuses": {
+        "type": "STATIC_MULTI_SELECT_DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Statuses",
+        "default": [
+          "AUTHORISED"
+        ],
+        "options": [
+          {
+            "label": "AUTHORISED",
+            "value": "AUTHORISED"
+          },
+          {
+            "label": "DELETED",
+            "value": "DELETED"
+          }
+        ]
+      },
+      "invoice_id": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "Select an invoice",
+        "display_name": "Invoice",
+        "refreshers": [
+          "tenant_id"
+        ],
+        "refresh_on_search": true
+      },
+      "reference": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Reference"
+      },
+      "date_from": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Date From (YYYY-MM-DD)"
+      },
+      "date_to": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Date To (YYYY-MM-DD)"
+      },
+      "page_size": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "",
+        "display_name": "Page Size (1-1000)"
+      }
+    },
+    "sampleData": {
+      "PaymentID": "0d666415-cf77-43fa-80c7-56775591d426",
+      "Amount": 575,
+      "BankAmount": 575,
+      "CurrencyRate": 1,
+      "Reference": "INV-0042 payment",
+      "Status": "AUTHORISED",
+      "PaymentType": "ACCRECPAYMENT",
+      "IsReconciled": false,
+      "Invoice": {
+        "InvoiceID": "4f7a5f8e-8e3c-4c4d-9b8a-0a1f2b3c4d5e",
+        "InvoiceNumber": "INV-0042",
+        "Type": "ACCREC",
+        "Contact": {
+          "ContactID": "6d42f03b-181f-43e3-93fb-2025c012de92",
+          "Name": "Acme Ltd",
+          "EmailAddress": "accounts@acme.example"
+        }
+      },
+      "Account": {
+        "AccountID": "bd9e85e0-0478-433d-ae9f-0b3c4f04bfe4",
+        "Code": "090",
+        "Name": "Business Bank Account"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-xero",
+    "version": "0.8.1",
+    "trigger": "xero_new_project",
+    "display_name": "New Project",
+    "description": "Fires when a new project is created.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "tenant_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Organization",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "contact_id": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "Select a contact",
+        "display_name": "Contact",
+        "refreshers": [
+          "tenant_id"
+        ],
+        "refresh_on_search": true
+      },
+      "states": {
+        "type": "STATIC_MULTI_SELECT_DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "States (optional)",
+        "options": [
+          {
+            "label": "INPROGRESS",
+            "value": "INPROGRESS"
+          },
+          {
+            "label": "CLOSED",
+            "value": "CLOSED"
+          }
+        ]
+      },
+      "page_size": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "No longer used: the trigger reads projects 500 at a time.",
+        "display_name": "Page Size (1-500)"
+      }
+    },
+    "sampleData": {
+      "projectId": "b7c8d9e0-f1a2-4b3c-8d4e-5f6a7b8c9d0e",
+      "name": "Website redesign",
+      "contactId": "6d42f03b-181f-43e3-93fb-2025c012de92",
+      "status": "INPROGRESS",
+      "currencyCode": "USD",
+      "deadlineUtc": "2026-12-31T00:00:00Z",
+      "minutesLogged": 0,
+      "estimate": {
+        "currency": "USD",
+        "value": 5000
+      },
+      "totalTaskAmount": {
+        "currency": "USD",
+        "value": 0
+      },
+      "totalInvoiced": {
+        "currency": "USD",
+        "value": 0
+      },
+      "totalToBeInvoiced": {
+        "currency": "USD",
+        "value": 0
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-xero",
+    "version": "0.8.1",
+    "trigger": "xero_new_purchase_order",
+    "display_name": "New Purchase Order",
+    "description": "Fires the first time a purchase order is created or changed after the trigger is turned on, or enters a chosen status for the first time.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "tenant_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Organization",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "statuses": {
+        "type": "STATIC_MULTI_SELECT_DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Filter by Status (optional)",
+        "options": [
+          {
+            "label": "DRAFT",
+            "value": "DRAFT"
+          },
+          {
+            "label": "SUBMITTED",
+            "value": "SUBMITTED"
+          },
+          {
+            "label": "AUTHORISED",
+            "value": "AUTHORISED"
+          },
+          {
+            "label": "BILLED",
+            "value": "BILLED"
+          },
+          {
+            "label": "DELETED",
+            "value": "DELETED"
+          }
+        ]
+      },
+      "first_time_status": {
+        "type": "STATIC_DROPDOWN",
+        "required": false,
+        "description": "Also fire when a purchase order enters this status for the first time (since enabling).",
+        "display_name": "First-time Status (optional)",
+        "options": [
+          {
+            "label": "DRAFT",
+            "value": "DRAFT"
+          },
+          {
+            "label": "SUBMITTED",
+            "value": "SUBMITTED"
+          },
+          {
+            "label": "AUTHORISED",
+            "value": "AUTHORISED"
+          },
+          {
+            "label": "BILLED",
+            "value": "BILLED"
+          },
+          {
+            "label": "DELETED",
+            "value": "DELETED"
+          }
+        ]
+      },
+      "contact_id": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "Select a contact",
+        "display_name": "Contact",
+        "refreshers": [
+          "tenant_id"
+        ],
+        "refresh_on_search": true
+      },
+      "date_from": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Date From (YYYY-MM-DD)"
+      },
+      "date_to": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Date To (YYYY-MM-DD)"
+      },
+      "page_size": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "",
+        "display_name": "Page Size (1-1000)"
+      }
+    },
+    "sampleData": {
+      "PurchaseOrderID": "f0e1d2c3-b4a5-4968-8776-655443322110",
+      "PurchaseOrderNumber": "PO-0005",
+      "Reference": "Stock reorder",
+      "Status": "AUTHORISED",
+      "Contact": {
+        "ContactID": "6d42f03b-181f-43e3-93fb-2025c012de92",
+        "Name": "Office Mart",
+        "EmailAddress": "accounts@acme.example"
+      },
+      "DateString": "2026-10-05T00:00:00",
+      "DeliveryDateString": "2026-10-12T00:00:00",
+      "DeliveryAddress": "1 Main Street, Springfield",
+      "AttentionTo": "Warehouse",
+      "Telephone": "5550100",
+      "DeliveryInstructions": "Rear entrance",
+      "SentToContact": false,
+      "LineAmountTypes": "Exclusive",
+      "SubTotal": 500,
+      "TotalTax": 75,
+      "Total": 575,
+      "CurrencyCode": "USD",
+      "CurrencyRate": 1,
+      "LineItems": [
+        {
+          "LineItemID": "52208ff9-528a-4985-a9ad-b2b1d4210e38",
+          "Description": "Consulting services",
+          "Quantity": 2,
+          "UnitAmount": 250,
+          "AccountCode": "200",
+          "TaxType": "OUTPUT",
+          "TaxAmount": 75,
+          "LineAmount": 500,
+          "DiscountRate": 0,
+          "Tracking": []
+        }
+      ]
+    }
+  },
+  {
+    "piece": "@activepieces/piece-xero",
+    "version": "0.8.1",
+    "trigger": "xero_new_quote",
+    "display_name": "New Quote",
+    "description": "Fires the first time a quote is created or changed after the trigger is turned on.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "tenant_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Organization",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "statuses": {
+        "type": "STATIC_MULTI_SELECT_DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Filter by Status (optional)",
+        "options": [
+          {
+            "label": "DRAFT",
+            "value": "DRAFT"
+          },
+          {
+            "label": "SENT",
+            "value": "SENT"
+          },
+          {
+            "label": "ACCEPTED",
+            "value": "ACCEPTED"
+          },
+          {
+            "label": "DECLINED",
+            "value": "DECLINED"
+          },
+          {
+            "label": "INVOICED",
+            "value": "INVOICED"
+          },
+          {
+            "label": "DELETED",
+            "value": "DELETED"
+          }
+        ]
+      },
+      "contact_id": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "Select a contact",
+        "display_name": "Contact",
+        "refreshers": [
+          "tenant_id"
+        ],
+        "refresh_on_search": true
+      },
+      "quote_number": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Quote Number (partial match)"
+      },
+      "date_from": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Date From (YYYY-MM-DD)"
+      },
+      "date_to": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Date To (YYYY-MM-DD)"
+      },
+      "expiry_date_from": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Expiry Date From (YYYY-MM-DD)"
+      },
+      "expiry_date_to": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Expiry Date To (YYYY-MM-DD)"
+      },
+      "page_size": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "",
+        "display_name": "Page Size (1-1000)"
+      }
+    },
+    "sampleData": {
+      "QuoteID": "a9b8c7d6-e5f4-4a3b-9c2d-1e0f9a8b7c6d",
+      "QuoteNumber": "QU-0012",
+      "Reference": "Website redesign",
+      "Status": "DRAFT",
+      "Title": "Website redesign",
+      "Summary": "Design and build of the new website",
+      "Terms": "Valid for 30 days",
+      "Contact": {
+        "ContactID": "6d42f03b-181f-43e3-93fb-2025c012de92",
+        "Name": "Acme Ltd",
+        "EmailAddress": "accounts@acme.example"
+      },
+      "DateString": "2026-10-05T00:00:00",
+      "ExpiryDateString": "2026-11-04T00:00:00",
+      "LineAmountTypes": "Exclusive",
+      "SubTotal": 500,
+      "TotalTax": 75,
+      "Total": 575,
+      "CurrencyCode": "USD",
+      "CurrencyRate": 1,
+      "LineItems": [
+        {
+          "LineItemID": "52208ff9-528a-4985-a9ad-b2b1d4210e38",
+          "Description": "Consulting services",
+          "Quantity": 2,
+          "UnitAmount": 250,
+          "AccountCode": "200",
+          "TaxType": "OUTPUT",
+          "TaxAmount": 75,
+          "LineAmount": 500,
+          "DiscountRate": 0,
+          "Tracking": []
+        }
+      ]
+    }
+  },
+  {
+    "piece": "@activepieces/piece-xero",
+    "version": "0.8.1",
+    "trigger": "xero_new_reconciled_payment",
+    "display_name": "New Reconciled Payment",
+    "description": "Fires when a payment is reconciled for the first time.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "tenant_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Organization",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "payment_types": {
+        "type": "STATIC_MULTI_SELECT_DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Payment Types",
+        "default": [
+          "ACCRECPAYMENT"
+        ],
+        "options": [
+          {
+            "label": "ACCRECPAYMENT (Received on Sales Invoice)",
+            "value": "ACCRECPAYMENT"
+          },
+          {
+            "label": "ACCPAYPAYMENT (Paid on Bill)",
+            "value": "ACCPAYPAYMENT"
+          }
+        ]
+      },
+      "statuses": {
+        "type": "STATIC_MULTI_SELECT_DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Statuses",
+        "default": [
+          "AUTHORISED"
+        ],
+        "options": [
+          {
+            "label": "AUTHORISED",
+            "value": "AUTHORISED"
+          },
+          {
+            "label": "DELETED",
+            "value": "DELETED"
+          }
+        ]
+      },
+      "invoice_id": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "Select an invoice",
+        "display_name": "Invoice",
+        "refreshers": [
+          "tenant_id"
+        ],
+        "refresh_on_search": true
+      },
+      "reference": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Reference"
+      },
+      "date_from": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Date From (YYYY-MM-DD)"
+      },
+      "date_to": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Date To (YYYY-MM-DD)"
+      },
+      "page_size": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "",
+        "display_name": "Page Size (1-1000)"
+      }
+    },
+    "sampleData": {
+      "PaymentID": "0d666415-cf77-43fa-80c7-56775591d426",
+      "Amount": 575,
+      "BankAmount": 575,
+      "CurrencyRate": 1,
+      "Reference": "INV-0042 payment",
+      "Status": "AUTHORISED",
+      "PaymentType": "ACCRECPAYMENT",
+      "IsReconciled": true,
+      "Invoice": {
+        "InvoiceID": "4f7a5f8e-8e3c-4c4d-9b8a-0a1f2b3c4d5e",
+        "InvoiceNumber": "INV-0042",
+        "Type": "ACCREC",
+        "Contact": {
+          "ContactID": "6d42f03b-181f-43e3-93fb-2025c012de92",
+          "Name": "Acme Ltd",
+          "EmailAddress": "accounts@acme.example"
+        }
+      },
+      "Account": {
+        "AccountID": "bd9e85e0-0478-433d-ae9f-0b3c4f04bfe4",
+        "Code": "090",
+        "Name": "Business Bank Account"
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-xero",
+    "version": "0.8.1",
+    "trigger": "xero_updated_quote",
+    "display_name": "Updated Quote",
+    "description": "Fires when a quote is created or updated.",
+    "strategy": "POLLING",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "tenant_id": {
+        "type": "DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Organization",
+        "refreshers": [],
+        "refresh_on_search": false
+      },
+      "statuses": {
+        "type": "STATIC_MULTI_SELECT_DROPDOWN",
+        "required": false,
+        "description": "",
+        "display_name": "Filter by Status (optional)",
+        "options": [
+          {
+            "label": "DRAFT",
+            "value": "DRAFT"
+          },
+          {
+            "label": "SENT",
+            "value": "SENT"
+          },
+          {
+            "label": "ACCEPTED",
+            "value": "ACCEPTED"
+          },
+          {
+            "label": "DECLINED",
+            "value": "DECLINED"
+          },
+          {
+            "label": "INVOICED",
+            "value": "INVOICED"
+          },
+          {
+            "label": "DELETED",
+            "value": "DELETED"
+          }
+        ]
+      },
+      "contact_id": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "Select a contact",
+        "display_name": "Contact",
+        "refreshers": [
+          "tenant_id"
+        ],
+        "refresh_on_search": true
+      },
+      "quote_number": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Quote Number (partial match)"
+      },
+      "date_from": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Date From (YYYY-MM-DD)"
+      },
+      "date_to": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Date To (YYYY-MM-DD)"
+      },
+      "expiry_date_from": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Expiry Date From (YYYY-MM-DD)"
+      },
+      "expiry_date_to": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "",
+        "display_name": "Expiry Date To (YYYY-MM-DD)"
+      },
+      "page_size": {
+        "type": "NUMBER",
+        "required": false,
+        "description": "",
+        "display_name": "Page Size (1-1000)"
+      }
+    },
+    "sampleData": {
+      "QuoteID": "a9b8c7d6-e5f4-4a3b-9c2d-1e0f9a8b7c6d",
+      "QuoteNumber": "QU-0012",
+      "Reference": "Website redesign",
+      "Status": "DRAFT",
+      "Title": "Website redesign",
+      "Summary": "Design and build of the new website",
+      "Terms": "Valid for 30 days",
+      "Contact": {
+        "ContactID": "6d42f03b-181f-43e3-93fb-2025c012de92",
+        "Name": "Acme Ltd",
+        "EmailAddress": "accounts@acme.example"
+      },
+      "DateString": "2026-10-05T00:00:00",
+      "ExpiryDateString": "2026-11-04T00:00:00",
+      "LineAmountTypes": "Exclusive",
+      "SubTotal": 500,
+      "TotalTax": 75,
+      "Total": 575,
+      "CurrencyCode": "USD",
+      "CurrencyRate": 1,
+      "LineItems": [
+        {
+          "LineItemID": "52208ff9-528a-4985-a9ad-b2b1d4210e38",
+          "Description": "Consulting services",
+          "Quantity": 2,
+          "UnitAmount": 250,
+          "AccountCode": "200",
+          "TaxType": "OUTPUT",
+          "TaxAmount": 75,
+          "LineAmount": 500,
+          "DiscountRate": 0,
+          "Tracking": []
+        }
+      ]
+    }
+  }
+]
