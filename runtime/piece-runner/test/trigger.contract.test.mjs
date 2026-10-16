@@ -23,8 +23,9 @@ test('TIMEBASED and LAST_ITEM hooks round-trip caller cursors without replay', a
   for (const [strategy, key, baseline, newer] of [['TIMEBASED', 'lastPoll', 100, 200], ['LAST_ITEM', 'lastItem', 'old', 'new']]) {
     const trigger = {
       onEnable: async ({ store }) => { await store.put(key, baseline); return ['ignored']; },
-      run: async ({ store }) => { const previous = await store.get(key); if (strategy === 'TIMEBASED' && previous === null) throw Error('Missing lastPoll'); await store.put(key, newer); return previous === newer ? [] : [{ strategy, id: newer }]; },
-      test: async () => [{ strategy, id: newer }],
+      // Reads what pollingHelper.poll and test read from the whole context.
+      run: async ({ store, auth, propsValue, maxItemsToPoll, files, server }) => { const previous = await store.get(key); if (strategy === 'TIMEBASED' && previous === null) throw Error('Missing lastPoll'); await store.put(key, newer); return previous === newer ? [] : [{ strategy, id: newer }]; },
+      test: async ({ store, auth, propsValue, files, server }) => [{ strategy, id: newer }],
     };
     const catalog = { prepareTrigger: () => ({ trigger, auth: {}, props: {} }) }, input = { caller: { preserved: true } };
     const run = ({ hook, store }) => runnerExecution.execute({ request: { mode: 'trigger', hook, store }, pieceCatalog: catalog });
@@ -61,7 +62,8 @@ test('trigger stores reject invalid JSON and oversized maps and isolate caller v
   assert.equal(context.store, store.service);
   assert.equal(typeof context.files.write, 'function');
   for (const method of ['write', 'read']) await assert.rejects(context.files[method]({}), { code: 'CONTEXT_SERVICE_UNAVAILABLE' });
-  for (const service of ['server', 'project', 'connections']) assert.throws(() => context[service], { code: 'CONTEXT_SERVICE_UNAVAILABLE' });
+  assert.throws(() => context.server.apiUrl, { code: 'CONTEXT_SERVICE_UNAVAILABLE' });
+  for (const service of ['project', 'connections']) assert.throws(() => context[service], { code: 'CONTEXT_SERVICE_UNAVAILABLE' });
 });
 
 test('trigger admission rejects webhook strategies and resolves only selected trigger loaders', async () => {

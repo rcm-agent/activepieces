@@ -12,9 +12,10 @@ function createPropertyContext({ searchValue }) {
 }
 
 function createTrigger({ auth, props, store }) {
+  // pollingHelper hands the whole context on, reading files, server and maxItemsToPoll; using a service refuses.
   const context = createServiceContext({
-    values: { auth, propsValue: props, store, files: createFilesService(), isRepublish: false },
-    services: ['server', 'pause', 'connections', 'agent', 'flows', 'project', 'step', 'run', 'tags', 'output', 'generateResumeUrl', 'createWaitpoint', 'waitForWaitpoint', 'setSchedule', 'webhookUrl', 'payload', 'app'],
+    values: { auth, propsValue: props, store, files: createFilesService(), server: createUnreadableService('server'), isRepublish: false, maxItemsToPoll: undefined },
+    services: ['pause', 'connections', 'agent', 'flows', 'project', 'step', 'run', 'tags', 'output', 'generateResumeUrl', 'createWaitpoint', 'waitForWaitpoint', 'setSchedule', 'webhookUrl', 'payload', 'app'],
   });
   return new Proxy(context, {
     get(target, service) {
@@ -41,6 +42,15 @@ function createFilesService() {
     throw unavailableServiceError({ service: 'files' });
   };
   return new Proxy(Object.create(null), { get: () => unavailable });
+}
+
+function createUnreadableService(service) {
+  return new Proxy(Object.create(null), {
+    get(target, key) {
+      if (key === 'then' || typeof key === 'symbol') return undefined;
+      throw unavailableServiceError({ service });
+    },
+  });
 }
 
 function unavailableServiceError({ service }) {
