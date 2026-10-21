@@ -45,10 +45,16 @@ async function main() {
   );
   const frontendTargetPath = path.join(frontendRoot, FRONTEND_TARGET_RELATIVE_PATH);
 
-  await assertFrontendRoot(frontendRoot);
-  if (options.check || options.skipGenerate) {
+  // --only source writes this repository's map; --only frontend (a consumer's tree-landing row) writes only the
+  // frontend read model, from the committed pilot artifacts.
+  const writesSource = options.only !== 'frontend';
+  const writesFrontend = options.only !== 'source';
+  if (writesFrontend) {
+    await assertFrontendRoot(frontendRoot);
+  }
+  if (writesSource && (options.check || options.skipGenerate)) {
     runExtractor('check');
-  } else {
+  } else if (writesSource) {
     runExtractor('generate');
     runExtractor('check');
   }
@@ -59,20 +65,23 @@ async function main() {
   const frontendModule = renderFrontendModule(providerMap);
 
   if (options.check) {
-    await assertCurrent(PROVIDER_MAP_OUTPUT_PATH, providerMapJson);
-    await assertCurrent(frontendTargetPath, frontendModule);
+    if (writesSource) await assertCurrent(PROVIDER_MAP_OUTPUT_PATH, providerMapJson);
+    if (writesFrontend) await assertCurrent(frontendTargetPath, frontendModule);
     console.log(
       `Generated Nango provider map is current for ${providerMap.provider_config_count} Activepieces pieces.`,
     );
     return;
   }
 
-  await fs.mkdir(path.dirname(PROVIDER_MAP_OUTPUT_PATH), { recursive: true });
-  await fs.writeFile(PROVIDER_MAP_OUTPUT_PATH, providerMapJson);
-
-  await fs.rm(path.dirname(frontendTargetPath), { recursive: true, force: true });
-  await fs.mkdir(path.dirname(frontendTargetPath), { recursive: true });
-  await fs.writeFile(frontendTargetPath, frontendModule);
+  if (writesSource) {
+    await fs.mkdir(path.dirname(PROVIDER_MAP_OUTPUT_PATH), { recursive: true });
+    await fs.writeFile(PROVIDER_MAP_OUTPUT_PATH, providerMapJson);
+  }
+  if (writesFrontend) {
+    await fs.rm(path.dirname(frontendTargetPath), { recursive: true, force: true });
+    await fs.mkdir(path.dirname(frontendTargetPath), { recursive: true });
+    await fs.writeFile(frontendTargetPath, frontendModule);
+  }
 
   console.log(
     JSON.stringify(
@@ -94,6 +103,7 @@ function parseArgs(args) {
     check: false,
     frontendRoot: undefined,
     help: false,
+    only: undefined,
     skipGenerate: false,
   };
 
@@ -105,6 +115,15 @@ function parseArgs(args) {
     }
     if (arg === '--check') {
       options.check = true;
+      continue;
+    }
+    if (arg === '--only') {
+      const value = args[index + 1];
+      if (value !== 'source' && value !== 'frontend') {
+        throw new Error('--only takes source or frontend.');
+      }
+      options.only = value;
+      index += 1;
       continue;
     }
     if (arg === '--skip-generate') {
@@ -144,6 +163,7 @@ Options:
                           Defaults to ../basekey-frontend or BASEKEY_FRONTEND_ROOT.
   --check                 Fail if generated source/frontend artifacts are stale.
   --skip-generate         Use existing extractor artifacts instead of regenerating.
+  --only source|frontend  Write or check only this repository's map, or only the frontend read model.
   -h, --help              Show this help.
 `);
 }

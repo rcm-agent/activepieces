@@ -51,7 +51,7 @@ async function createFrontendRoot(marker) {
 function runSync(frontendRoot) {
   return spawnSync(
     process.execPath,
-    [SCRIPT_PATH, '--skip-generate', '--frontend-root', frontendRoot],
+    [SCRIPT_PATH, '--only', 'frontend', '--frontend-root', frontendRoot],
     { encoding: 'utf8' },
   );
 }

@@ -12,7 +12,6 @@ See [Updating pieces](../../runtime/piece-runner/README.md#updating-pieces) for 
 node catalog/activepieces/extract-pilot-metadata.mjs generate
 node catalog/activepieces/extract-pilot-metadata.mjs check
 node catalog/activepieces/extract-pilot-metadata.mjs validate
-node catalog/activepieces/sync-to-orchestrator.mjs
 node catalog/activepieces/sync-provider-map-to-frontend.mjs
 node catalog/activepieces/generate-piece-directory.mjs generate
 node catalog/activepieces/generate-piece-directory.mjs check
@@ -27,16 +26,13 @@ Trigger candidates are emitted as first-class source-only records in
 `catalog/activepieces/generated/pilot/trigger_candidates.json`, with stable
 candidate IDs, piece slug, trigger name, display name, source path, trigger
 strategy/family, provider candidates, and `candidate_only` runtime status.
-`sync-to-orchestrator` runs `generate` + `check`, then copies the generated
-pilot JSON directory into the sibling `rcm-orchestrator` checkout. Use
-`--orchestrator-root /path/to/rcm-orchestrator` or `RCM_ORCHESTRATOR_ROOT` when
-the checkout is not a sibling directory.
 `sync-provider-map-to-frontend` reads the generated pilot artifacts, writes
 `catalog/activepieces/generated/provider-map/nango_provider_config_map.json`, and
 replaces the frontend generated TypeScript read model at
 `basekey-frontend/src/generated/activepieces-nango-provider-map/index.ts`. Use
 `--frontend-root /path/to/basekey-frontend` or `BASEKEY_FRONTEND_ROOT` when the checkout
-is not a sibling directory.
+is not a sibling directory; `--only source` or `--only frontend` writes (or, with
+`--check`, checks) one of the two.
 
 `generate-piece-directory` reads every piece under `packages/pieces/community`
 and writes `catalog/activepieces/generated/directory/pieces.json`: display name,
@@ -46,7 +42,12 @@ frontend read model at
 Data Hub connector catalog uses to list apps. The directory is display metadata
 only (`runtime_status: "catalog_only"`); a listed piece is connectable only
 through the provider map. Execution also requires promotion in the RCM catalog
-and an action on the piece runner's allowlist.
+and an action on the piece runner's allowlist. `frontend` and `check-frontend`
+write or check only the frontend read model.
+
+Tree landing regenerates each of these outputs with its sources, here and in
+basekey-frontend, through the rows in swarm-engine-private
+`bin/regen_generated.json`.
 
 ## Runtime Placement
 
@@ -71,9 +72,6 @@ runtime delivery.
   commit represented by the pilot source. The pin changes only when that source
   snapshot is deliberately refreshed, after which the extractor regenerates
   every artifact; catalog-only commits do not change it.
-- Distribution writer: `catalog/activepieces/sync-to-orchestrator.mjs` is the
-  only writer for the generated Activepieces pilot directory copied into
-  `rcm-orchestrator`.
 - Provider-map distribution writer:
   `catalog/activepieces/sync-provider-map-to-frontend.mjs` is the only writer
   for `catalog/activepieces/generated/provider-map` and the frontend generated
