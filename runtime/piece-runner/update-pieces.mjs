@@ -80,7 +80,7 @@ async function refresh({ repositoryRoot = defaultRoot, upstream, exec = execute,
   await step({ name: 'runner export', run: () => writeFile(output, `${JSON.stringify(after, null, 2)}\n`) });
   const diff = await step({ name: 'review', run: () => reviewActions({ before, after }) });
   log(`Action review:\n${JSON.stringify(diff, null, 2)}`);
-  log('Downstream sync commands (run after reviewing and committing):\nnode catalog/activepieces/sync-to-orchestrator.mjs\nnode catalog/activepieces/sync-provider-map-to-frontend.mjs\nnode catalog/activepieces/generate-piece-directory.mjs sync-frontend\nThen, until both follow, the orchestrator refuses moved pins with ACTION_NOT_ALLOWLISTED (fail closed):\n- rcm-orchestrator: set each moved version in contracts/activepieces-piece-allowlist.json, copy catalog/activepieces/generated/runner/actions.json byte for byte to contracts/activepieces-runner-actions.json, regenerate the connector action catalog and pass --check\n- rebuild and deploy the piece runner Lambda image');
+  log('Once these commit, tree landing regenerates the downstream copies (basekey-frontend read models, rcm-orchestrator runner snapshots and connector action catalog). Until both follow, the orchestrator refuses moved pins with ACTION_NOT_ALLOWLISTED (fail closed):\n- rcm-orchestrator: set each moved version in contracts/activepieces-piece-allowlist.json\n- rebuild and deploy the piece runner Lambda image');
   const status = await step({ name: 'status', run: () => git(['status', '--short']) });
   log(status.stdout);
   return diff;

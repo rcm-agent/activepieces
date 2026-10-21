@@ -231,27 +231,31 @@ function resolveFrontendRoot(argv) {
 
 function main(argv) {
   const command = argv[0] ?? 'generate';
-  const { directory, skipped } = buildPieceDirectory();
-  const json = renderJson(directory);
-  if (command === 'check') {
-    const current = fs.existsSync(OUTPUT_PATH) ? fs.readFileSync(OUTPUT_PATH, 'utf8') : '';
-    if (current !== json) {
-      throw new Error(`${path.relative(REPO_ROOT, OUTPUT_PATH)} is stale. Run generate.`);
+  if (!['generate', 'check', 'sync-frontend', 'frontend', 'check-frontend'].includes(command)) {
+    throw new Error(`Unknown command: ${command}`);
+  }
+  // frontend and check-frontend (basekey-frontend's tree-landing row) render the frontend read model from the
+  // committed directory and touch nothing here.
+  const consumer = command === 'frontend' || command === 'check-frontend';
+  const { directory, skipped } = consumer ? { directory: readJson(OUTPUT_PATH), skipped: [] } : buildPieceDirectory();
+  const [target, expected] = command === 'check' || command === 'generate' ? [OUTPUT_PATH, renderJson(directory)]
+    : [path.join(resolveFrontendRoot(argv), FRONTEND_MODULE_PATH), renderFrontendModule(directory)];
+  if (command === 'check' || command === 'check-frontend') {
+    const current = fs.existsSync(target) ? fs.readFileSync(target, 'utf8') : '';
+    if (current !== expected) {
+      throw new Error(`${target} is stale. Run ${command === 'check' ? 'generate' : 'frontend'}.`);
     }
     console.log(`Piece directory is current for ${directory.piece_count} pieces.`);
     return;
   }
-  if (command !== 'generate' && command !== 'sync-frontend') {
-    throw new Error(`Unknown command: ${command}`);
+  if (!consumer) {
+    fs.mkdirSync(path.dirname(OUTPUT_PATH), { recursive: true });
+    fs.writeFileSync(OUTPUT_PATH, renderJson(directory));
+    console.log(`Wrote ${directory.piece_count} pieces to ${path.relative(REPO_ROOT, OUTPUT_PATH)} (skipped ${skipped.length}).`);
   }
-  fs.mkdirSync(path.dirname(OUTPUT_PATH), { recursive: true });
-  fs.writeFileSync(OUTPUT_PATH, json);
-  console.log(`Wrote ${directory.piece_count} pieces to ${path.relative(REPO_ROOT, OUTPUT_PATH)} (skipped ${skipped.length}).`);
-  if (command === 'sync-frontend') {
-    const frontendRoot = resolveFrontendRoot(argv);
-    const target = path.join(frontendRoot, FRONTEND_MODULE_PATH);
+  if (consumer || command === 'sync-frontend') {
     fs.mkdirSync(path.dirname(target), { recursive: true });
-    fs.writeFileSync(target, renderFrontendModule(directory));
+    fs.writeFileSync(target, expected);
     console.log(`Wrote ${path.join('basekey-frontend', FRONTEND_MODULE_PATH)}.`);
   }
 }
