@@ -28,7 +28,46 @@
         "default": 50
       }
     },
-    "sampleData": {}
+    "sampleData": {},
+    "outputSchema": {
+      "fields": [
+        {
+          "key": "user",
+          "label": "User",
+          "children": [
+            {
+              "key": "id",
+              "label": "User ID"
+            },
+            {
+              "key": "username",
+              "label": "Username"
+            },
+            {
+              "key": "global_name",
+              "label": "Display Name"
+            },
+            {
+              "key": "avatar",
+              "label": "Avatar Hash"
+            }
+          ]
+        },
+        {
+          "key": "nick",
+          "label": "Nickname"
+        },
+        {
+          "key": "joined_at",
+          "label": "Joined At",
+          "format": "datetime"
+        },
+        {
+          "key": "roles",
+          "label": "Role IDs"
+        }
+      ]
+    }
   },
   {
     "piece": "@activepieces/piece-discord",
@@ -61,7 +100,100 @@
         "default": 50
       }
     },
-    "sampleData": {}
+    "sampleData": {},
+    "outputSchema": {
+      "fields": [
+        {
+          "key": "id",
+          "label": "Message ID"
+        },
+        {
+          "key": "channel_id",
+          "label": "Channel ID"
+        },
+        {
+          "key": "content",
+          "label": "Content"
+        },
+        {
+          "key": "timestamp",
+          "label": "Sent At",
+          "format": "datetime"
+        },
+        {
+          "key": "edited_timestamp",
+          "label": "Edited At",
+          "format": "datetime"
+        },
+        {
+          "key": "pinned",
+          "label": "Pinned",
+          "format": "boolean"
+        },
+        {
+          "key": "tts",
+          "label": "Text To Speech",
+          "format": "boolean"
+        },
+        {
+          "key": "mention_everyone",
+          "label": "Mentions Everyone",
+          "format": "boolean"
+        },
+        {
+          "key": "author",
+          "label": "Author",
+          "children": [
+            {
+              "key": "id",
+              "label": "User ID"
+            },
+            {
+              "key": "username",
+              "label": "Username"
+            },
+            {
+              "key": "global_name",
+              "label": "Display Name"
+            },
+            {
+              "key": "bot",
+              "label": "Is Bot",
+              "format": "boolean"
+            }
+          ]
+        },
+        {
+          "key": "attachments",
+          "label": "Attachments",
+          "labelKey": "filename",
+          "listItems": [
+            {
+              "key": "id",
+              "label": "Attachment ID"
+            },
+            {
+              "key": "filename",
+              "label": "File Name"
+            },
+            {
+              "key": "size",
+              "label": "Size",
+              "format": "filesize"
+            },
+            {
+              "key": "url",
+              "label": "URL",
+              "format": "url"
+            },
+            {
+              "key": "content_type",
+              "label": "Content Type"
+            }
+          ]
+        }
+      ]
+    }
   },
   {
     "piece": "@activepieces/piece-google-calendar",
@@ -144,6 +276,97 @@
       "end": {
         "dateTime": "2025-08-25T11:30:00-07:00"
       }
+    },
+    "outputSchema": {
+      "fields": [
+        {
+          "key": "summary",
+          "label": "Title"
+        },
+        {
+          "key": "status",
+          "label": "Status"
+        },
+        {
+          "key": "htmlLink",
+          "label": "Event Link",
+          "format": "url"
+        },
+        {
+          "key": "id",
+          "label": "Event ID"
+        },
+        {
+          "key": "eventType",
+          "label": "Event Type"
+        },
+        {
+          "key": "start",
+          "label": "Start",
+          "children": [
+            {
+              "key": "dateTime",
+              "label": "Start Time",
+              "format": "datetime"
+            },
+            {
+              "key": "timeZone",
+              "label": "Time Zone"
+            }
+          ]
+        },
+        {
+          "key": "end",
+          "label": "End",
+          "children": [
+            {
+              "key": "dateTime",
+              "label": "End Time",
+              "format": "datetime"
+            },
+            {
+              "key": "timeZone",
+              "label": "Time Zone"
+            }
+          ]
+        },
+        {
+          "key": "creator",
+          "label": "Creator",
+          "children": [
+            {
+              "key": "email",
+              "label": "Email",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "organizer",
+          "label": "Organizer",
+          "children": [
+            {
+              "key": "email",
+              "label": "Email",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "created",
+          "label": "Created",
+          "format": "datetime"
+        },
+        {
+          "key": "updated",
+          "label": "Updated",
+          "format": "datetime"
+        },
+        {
+          "key": "iCalUID",
+          "label": "iCal UID"
+        }
+      ]
     }
   },
   {
@@ -218,6 +441,97 @@
         "useDefault": true
       },
       "eventType": "default"
+    },
+    "outputSchema": {
+      "fields": [
+        {
+          "key": "summary",
+          "label": "Title"
+        },
+        {
+          "key": "status",
+          "label": "Status"
+        },
+        {
+          "key": "htmlLink",
+          "label": "Event Link",
+          "format": "url"
+        },
+        {
+          "key": "id",
+          "label": "Event ID"
+        },
+        {
+          "key": "eventType",
+          "label": "Event Type"
+        },
+        {
+          "key": "start",
+          "label": "Start",
+          "children": [
+            {
+              "key": "dateTime",
+              "label": "Start Time",
+              "format": "datetime"
+            },
+            {
+              "key": "timeZone",
+              "label": "Time Zone"
+            }
+          ]
+        },
+        {
+          "key": "end",
+          "label": "End",
+          "children": [
+            {
+              "key": "dateTime",
+              "label": "End Time",
+              "format": "datetime"
+            },
+            {
+              "key": "timeZone",
+              "label": "Time Zone"
+            }
+          ]
+        },
+        {
+          "key": "creator",
+          "label": "Creator",
+          "children": [
+            {
+              "key": "email",
+              "label": "Email",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "organizer",
+          "label": "Organizer",
+          "children": [
+            {
+              "key": "email",
+              "label": "Email",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "created",
+          "label": "Created",
+          "format": "datetime"
+        },
+        {
+          "key": "updated",
+          "label": "Updated",
+          "format": "datetime"
+        },
+        {
+          "key": "iCalUID",
+          "label": "iCal UID"
+        }
+      ]
     }
   },
   {
@@ -290,7 +604,98 @@
         ]
       }
     },
-    "sampleData": {}
+    "sampleData": {},
+    "outputSchema": {
+      "fields": [
+        {
+          "key": "summary",
+          "label": "Title"
+        },
+        {
+          "key": "status",
+          "label": "Status"
+        },
+        {
+          "key": "htmlLink",
+          "label": "Event Link",
+          "format": "url"
+        },
+        {
+          "key": "id",
+          "label": "Event ID"
+        },
+        {
+          "key": "eventType",
+          "label": "Event Type"
+        },
+        {
+          "key": "start",
+          "label": "Start",
+          "children": [
+            {
+              "key": "dateTime",
+              "label": "Start Time",
+              "format": "datetime"
+            },
+            {
+              "key": "timeZone",
+              "label": "Time Zone"
+            }
+          ]
+        },
+        {
+          "key": "end",
+          "label": "End",
+          "children": [
+            {
+              "key": "dateTime",
+              "label": "End Time",
+              "format": "datetime"
+            },
+            {
+              "key": "timeZone",
+              "label": "Time Zone"
+            }
+          ]
+        },
+        {
+          "key": "creator",
+          "label": "Creator",
+          "children": [
+            {
+              "key": "email",
+              "label": "Email",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "organizer",
+          "label": "Organizer",
+          "children": [
+            {
+              "key": "email",
+              "label": "Email",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "created",
+          "label": "Created",
+          "format": "datetime"
+        },
+        {
+          "key": "updated",
+          "label": "Updated",
+          "format": "datetime"
+        },
+        {
+          "key": "iCalUID",
+          "label": "iCal UID"
+        }
+      ]
+    }
   },
   {
     "piece": "@activepieces/piece-google-calendar",
@@ -358,6 +763,66 @@
       "isShared": false,
       "calendarType": "owned",
       "primary": false
+    },
+    "outputSchema": {
+      "fields": [
+        {
+          "key": "summary",
+          "label": "Name"
+        },
+        {
+          "key": "description",
+          "label": "Description"
+        },
+        {
+          "key": "id",
+          "label": "Calendar ID"
+        },
+        {
+          "key": "timeZone",
+          "label": "Time Zone"
+        },
+        {
+          "key": "accessRole",
+          "label": "Access Role"
+        },
+        {
+          "key": "primary",
+          "label": "Primary",
+          "format": "boolean"
+        },
+        {
+          "key": "isOwned",
+          "label": "Is Owned",
+          "format": "boolean"
+        },
+        {
+          "key": "selected",
+          "label": "Selected",
+          "format": "boolean"
+        },
+        {
+          "key": "isShared",
+          "label": "Is Shared",
+          "format": "boolean"
+        },
+        {
+          "key": "calendarType",
+          "label": "Calendar Type"
+        },
+        {
+          "key": "backgroundColor",
+          "label": "Background Color"
+        },
+        {
+          "key": "foregroundColor",
+          "label": "Foreground Color"
+        },
+        {
+          "key": "colorId",
+          "label": "Color ID"
+        }
+      ]
     }
   },
   {
@@ -463,6 +928,97 @@
       "organizer": {
         "email": "project.manager@example.com"
       }
+    },
+    "outputSchema": {
+      "fields": [
+        {
+          "key": "summary",
+          "label": "Title"
+        },
+        {
+          "key": "status",
+          "label": "Status"
+        },
+        {
+          "key": "htmlLink",
+          "label": "Event Link",
+          "format": "url"
+        },
+        {
+          "key": "id",
+          "label": "Event ID"
+        },
+        {
+          "key": "eventType",
+          "label": "Event Type"
+        },
+        {
+          "key": "start",
+          "label": "Start",
+          "children": [
+            {
+              "key": "dateTime",
+              "label": "Start Time",
+              "format": "datetime"
+            },
+            {
+              "key": "timeZone",
+              "label": "Time Zone"
+            }
+          ]
+        },
+        {
+          "key": "end",
+          "label": "End",
+          "children": [
+            {
+              "key": "dateTime",
+              "label": "End Time",
+              "format": "datetime"
+            },
+            {
+              "key": "timeZone",
+              "label": "Time Zone"
+            }
+          ]
+        },
+        {
+          "key": "creator",
+          "label": "Creator",
+          "children": [
+            {
+              "key": "email",
+              "label": "Email",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "organizer",
+          "label": "Organizer",
+          "children": [
+            {
+              "key": "email",
+              "label": "Email",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "created",
+          "label": "Created",
+          "format": "datetime"
+        },
+        {
+          "key": "updated",
+          "label": "Updated",
+          "format": "datetime"
+        },
+        {
+          "key": "iCalUID",
+          "label": "iCal UID"
+        }
+      ]
     }
   },
   {
@@ -542,6 +1098,97 @@
         "useDefault": true
       },
       "eventType": "default"
+    },
+    "outputSchema": {
+      "fields": [
+        {
+          "key": "summary",
+          "label": "Title"
+        },
+        {
+          "key": "status",
+          "label": "Status"
+        },
+        {
+          "key": "htmlLink",
+          "label": "Event Link",
+          "format": "url"
+        },
+        {
+          "key": "id",
+          "label": "Event ID"
+        },
+        {
+          "key": "eventType",
+          "label": "Event Type"
+        },
+        {
+          "key": "start",
+          "label": "Start",
+          "children": [
+            {
+              "key": "dateTime",
+              "label": "Start Time",
+              "format": "datetime"
+            },
+            {
+              "key": "timeZone",
+              "label": "Time Zone"
+            }
+          ]
+        },
+        {
+          "key": "end",
+          "label": "End",
+          "children": [
+            {
+              "key": "dateTime",
+              "label": "End Time",
+              "format": "datetime"
+            },
+            {
+              "key": "timeZone",
+              "label": "Time Zone"
+            }
+          ]
+        },
+        {
+          "key": "creator",
+          "label": "Creator",
+          "children": [
+            {
+              "key": "email",
+              "label": "Email",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "organizer",
+          "label": "Organizer",
+          "children": [
+            {
+              "key": "email",
+              "label": "Email",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "created",
+          "label": "Created",
+          "format": "datetime"
+        },
+        {
+          "key": "updated",
+          "label": "Updated",
+          "format": "datetime"
+        },
+        {
+          "key": "iCalUID",
+          "label": "iCal UID"
+        }
+      ]
     }
   },
   {
@@ -593,6 +1240,37 @@
       "webViewLink": "https://drive.google.com/file/d/1dpv4-sKJfKRwI9qx1vWqQhEGEn3EpbI5/view",
       "createdTime": "2026-08-20T09:12:44.000Z",
       "modifiedTime": "2026-08-20T09:12:44.000Z"
+    },
+    "outputSchema": {
+      "fields": [
+        {
+          "key": "name",
+          "label": "File Name"
+        },
+        {
+          "key": "modifiedTime",
+          "label": "Modified Time",
+          "format": "datetime"
+        },
+        {
+          "key": "webViewLink",
+          "label": "View Link",
+          "format": "url"
+        },
+        {
+          "key": "mimeType",
+          "label": "MIME Type"
+        },
+        {
+          "key": "createdTime",
+          "label": "Created Time",
+          "format": "datetime"
+        },
+        {
+          "key": "id",
+          "label": "File ID"
+        }
+      ]
     }
   },
   {
@@ -635,6 +1313,23 @@
       "id": "1aMEtTqIYn5651wdK7WLxaK_SDim4mvXW",
       "name": "Invoices 2026",
       "createdTime": "2026-08-20T09:12:44.000Z"
+    },
+    "outputSchema": {
+      "fields": [
+        {
+          "key": "name",
+          "label": "Folder Name"
+        },
+        {
+          "key": "id",
+          "label": "Folder ID"
+        },
+        {
+          "key": "createdTime",
+          "label": "Created Time",
+          "format": "datetime"
+        }
+      ]
     }
   },
   {
@@ -753,6 +1448,49 @@
       "webViewLink": "https://docs.google.com/spreadsheets/d/1dpv4-sKJfKRwI9qx1vWqQhEGEn3EpbI5/edit",
       "createdTime": "2026-08-20T09:12:44.000Z",
       "modifiedTime": "2026-08-25T14:34:07.000Z"
+    },
+    "outputSchema": {
+      "fields": [
+        {
+          "key": "changeType",
+          "label": "Change Type"
+        },
+        {
+          "key": "content",
+          "label": "File Content"
+        },
+        {
+          "key": "contentError",
+          "label": "File Content Error"
+        },
+        {
+          "key": "name",
+          "label": "File Name"
+        },
+        {
+          "key": "webViewLink",
+          "label": "View Link",
+          "format": "url"
+        },
+        {
+          "key": "mimeType",
+          "label": "MIME Type"
+        },
+        {
+          "key": "createdTime",
+          "label": "Created Time",
+          "format": "datetime"
+        },
+        {
+          "key": "modifiedTime",
+          "label": "Modified Time",
+          "format": "datetime"
+        },
+        {
+          "key": "id",
+          "label": "File ID"
+        }
+      ]
     }
   },
   {
@@ -785,6 +1523,145 @@
       "webViewLink": "https://docs.google.com/document/d/1_9xjsrYFgHVvgqYwAJ8KcsDcNU/edit",
       "id": "1_9xjsrYFgHVvgqYwAJ8KcsDcN3AzPelsux",
       "name": "Test Document"
+    },
+    "outputSchema": {
+      "fields": [
+        {
+          "key": "name",
+          "label": "Name"
+        },
+        {
+          "key": "id",
+          "label": "Spreadsheet ID"
+        },
+        {
+          "key": "webViewLink",
+          "label": "Web View Link",
+          "format": "url"
+        },
+        {
+          "key": "mimeType",
+          "label": "MIME Type"
+        },
+        {
+          "key": "createdTime",
+          "label": "Created Time",
+          "format": "datetime"
+        },
+        {
+          "key": "modifiedTime",
+          "label": "Modified Time",
+          "format": "datetime"
+        },
+        {
+          "key": "size",
+          "label": "Size",
+          "format": "filesize"
+        },
+        {
+          "key": "iconLink",
+          "label": "Icon Link",
+          "format": "image"
+        },
+        {
+          "key": "thumbnailLink",
+          "label": "Thumbnail Link",
+          "format": "image"
+        },
+        {
+          "key": "shared",
+          "label": "Shared",
+          "format": "boolean"
+        },
+        {
+          "key": "starred",
+          "label": "Starred",
+          "format": "boolean"
+        },
+        {
+          "key": "trashed",
+          "label": "Trashed",
+          "format": "boolean"
+        },
+        {
+          "key": "ownedByMe",
+          "label": "Owned By Me",
+          "format": "boolean"
+        },
+        {
+          "key": "parents",
+          "label": "Parent Folder IDs"
+        },
+        {
+          "key": "lastModifyingUser",
+          "label": "Last Modifying User",
+          "children": [
+            {
+              "key": "displayName",
+              "label": "Display Name"
+            },
+            {
+              "key": "emailAddress",
+              "label": "Email",
+              "format": "email"
+            },
+            {
+              "key": "photoLink",
+              "label": "Photo",
+              "format": "image"
+            }
+          ]
+        },
+        {
+          "key": "owners",
+          "label": "Owners",
+          "labelKey": "displayName",
+          "listItems": [
+            {
+              "key": "displayName",
+              "label": "Display Name"
+            },
+            {
+              "key": "emailAddress",
+              "label": "Email",
+              "format": "email"
+            },
+            {
+              "key": "photoLink",
+              "label": "Photo",
+              "format": "image"
+            }
+          ]
+        },
+        {
+          "key": "permissions",
+          "label": "Permissions",
+          "labelKey": "displayName",
+          "listItems": [
+            {
+              "key": "displayName",
+              "label": "Display Name"
+            },
+            {
+              "key": "emailAddress",
+              "label": "Email",
+              "format": "email"
+            },
+            {
+              "key": "role",
+              "label": "Role"
+            },
+            {
+              "key": "type",
+              "label": "Type"
+            },
+            {
+              "key": "id",
+              "label": "Permission ID"
+            }
+          ]
+        }
+      ]
     }
   },
   {
@@ -832,6 +1709,50 @@
           "columnCount": 26
         }
       }
+    },
+    "outputSchema": {
+      "fields": [
+        {
+          "key": "title",
+          "label": "Title",
+          "value": "properties.title"
+        },
+        {
+          "key": "sheetId",
+          "label": "Sheet ID",
+          "value": "properties.sheetId"
+        },
+        {
+          "key": "index",
+          "label": "Index",
+          "value": "properties.index",
+          "format": "number"
+        },
+        {
+          "key": "sheetType",
+          "label": "Sheet Type",
+          "value": "properties.sheetType"
+        },
+        {
+          "key": "gridProperties",
+          "label": "Grid Properties",
+          "value": "properties.gridProperties",
+          "children": [
+            {
+              "key": "rowCount",
+              "label": "Row Count",
+              "value": "rowCount",
+              "format": "number"
+            },
+            {
+              "key": "columnCount",
+              "label": "Column Count",
+              "value": "columnCount",
+              "format": "number"
+            }
+          ]
+        }
+      ]
     }
   },
   {
@@ -967,7 +1888,8 @@
         ]
       }
     },
-    "sampleData": {}
+    "sampleData": {},
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-microsoft-excel-365",
@@ -1073,7 +1995,8 @@
         "default": 10
       }
     },
-    "sampleData": {}
+    "sampleData": {},
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-microsoft-excel-365",
@@ -1200,7 +2123,8 @@
         "Name": "John Doe",
         "Email": "john.doe@example.com"
       }
-    }
+    },
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-microsoft-excel-365",
@@ -1292,7 +2216,8 @@
       "name": "Sheet2",
       "position": 1,
       "visibility": "Visible"
-    }
+    },
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-microsoft-excel-365",
@@ -1405,7 +2330,8 @@
         "Product": "Widget",
         "Price": 19.99
       }
-    }
+    },
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-microsoft-onedrive",
@@ -1502,6 +2428,124 @@
         "createdDateTime": "2025-01-22T09:30:10Z",
         "lastModifiedDateTime": "2025-01-22T09:30:12Z"
       }
+    },
+    "outputSchema": {
+      "fields": [
+        {
+          "key": "id",
+          "label": "Item ID"
+        },
+        {
+          "key": "name",
+          "label": "Name"
+        },
+        {
+          "key": "webUrl",
+          "label": "Web URL",
+          "format": "url"
+        },
+        {
+          "key": "size",
+          "label": "Size",
+          "format": "filesize"
+        },
+        {
+          "key": "createdDateTime",
+          "label": "Created At",
+          "format": "datetime"
+        },
+        {
+          "key": "lastModifiedDateTime",
+          "label": "Last Modified At",
+          "format": "datetime"
+        },
+        {
+          "key": "createdBy",
+          "label": "Created By",
+          "children": [
+            {
+              "key": "user",
+              "label": "User",
+              "children": [
+                {
+                  "key": "displayName",
+                  "label": "Name"
+                },
+                {
+                  "key": "email",
+                  "label": "Email",
+                  "format": "email"
+                },
+                {
+                  "key": "id",
+                  "label": "User ID"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "lastModifiedBy",
+          "label": "Last Modified By",
+          "children": [
+            {
+              "key": "user",
+              "label": "User",
+              "children": [
+                {
+                  "key": "displayName",
+                  "label": "Name"
+                },
+                {
+                  "key": "email",
+                  "label": "Email",
+                  "format": "email"
+                },
+                {
+                  "key": "id",
+                  "label": "User ID"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "parentReference",
+          "label": "Parent Folder",
+          "children": [
+            {
+              "key": "id",
+              "label": "Folder ID"
+            },
+            {
+              "key": "name",
+              "label": "Folder Name"
+            },
+            {
+              "key": "path",
+              "label": "Folder Path"
+            },
+            {
+              "key": "driveId",
+              "label": "Drive ID"
+            },
+            {
+              "key": "driveType",
+              "label": "Drive Type"
+            }
+          ]
+        },
+        {
+          "key": "file",
+          "label": "File",
+          "children": [
+            {
+              "key": "mimeType",
+              "label": "MIME Type"
+            }
+          ]
+        }
+      ]
     }
   },
   {
@@ -1598,7 +2642,77 @@
         "display_name": "File Extension"
       }
     },
-    "sampleData": {}
+    "sampleData": {},
+    "outputSchema": {
+      "fields": [
+        {
+          "key": "id",
+          "label": "Attachment ID"
+        },
+        {
+          "key": "name",
+          "label": "File Name"
+        },
+        {
+          "key": "file",
+          "label": "File",
+          "format": "url"
+        },
+        {
+          "key": "contentType",
+          "label": "Content Type"
+        },
+        {
+          "key": "size",
+          "label": "Size",
+          "format": "filesize"
+        },
+        {
+          "key": "isInline",
+          "label": "Is Inline",
+          "format": "boolean"
+        },
+        {
+          "key": "lastModifiedDateTime",
+          "label": "Last Modified At",
+          "format": "datetime"
+        },
+        {
+          "key": "messageId",
+          "label": "Message ID"
+        },
+        {
+          "key": "messageSubject",
+          "label": "Message Subject"
+        },
+        {
+          "key": "messageSender",
+          "label": "Message Sender",
+          "children": [
+            {
+              "key": "name",
+              "label": "Name",
+              "value": "emailAddress.name"
+            },
+            {
+              "key": "address",
+              "label": "Email Address",
+              "value": "emailAddress.address",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "messageReceivedDateTime",
+          "label": "Message Received At",
+          "format": "datetime"
+        },
+        {
+          "key": "parentFolderId",
+          "label": "Parent Folder ID"
+        }
+      ]
+    }
   },
   {
     "piece": "@activepieces/piece-microsoft-outlook",
@@ -1680,7 +2794,213 @@
         "display_name": "To"
       }
     },
-    "sampleData": {}
+    "sampleData": {},
+    "outputSchema": {
+      "fields": [
+        {
+          "key": "id",
+          "label": "Message ID"
+        },
+        {
+          "key": "subject",
+          "label": "Subject"
+        },
+        {
+          "key": "bodyPreview",
+          "label": "Body Preview"
+        },
+        {
+          "key": "body",
+          "label": "Body",
+          "children": [
+            {
+              "key": "contentType",
+              "label": "Content Type"
+            },
+            {
+              "key": "content",
+              "label": "Content"
+            }
+          ]
+        },
+        {
+          "key": "from",
+          "label": "From",
+          "children": [
+            {
+              "key": "name",
+              "label": "Name",
+              "value": "emailAddress.name"
+            },
+            {
+              "key": "address",
+              "label": "Email Address",
+              "value": "emailAddress.address",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "sender",
+          "label": "Sender",
+          "children": [
+            {
+              "key": "name",
+              "label": "Name",
+              "value": "emailAddress.name"
+            },
+            {
+              "key": "address",
+              "label": "Email Address",
+              "value": "emailAddress.address",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "toRecipients",
+          "label": "To Recipients",
+          "labelKey": "address",
+          "listItems": [
+            {
+              "key": "name",
+              "label": "Name",
+              "value": "emailAddress.name"
+            },
+            {
+              "key": "address",
+              "label": "Email Address",
+              "value": "emailAddress.address",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "ccRecipients",
+          "label": "CC Recipients",
+          "labelKey": "address",
+          "listItems": [
+            {
+              "key": "name",
+              "label": "Name",
+              "value": "emailAddress.name"
+            },
+            {
+              "key": "address",
+              "label": "Email Address",
+              "value": "emailAddress.address",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "bccRecipients",
+          "label": "BCC Recipients",
+          "labelKey": "address",
+          "listItems": [
+            {
+              "key": "name",
+              "label": "Name",
+              "value": "emailAddress.name"
+            },
+            {
+              "key": "address",
+              "label": "Email Address",
+              "value": "emailAddress.address",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "replyTo",
+          "label": "Reply To",
+          "labelKey": "address",
+          "listItems": [
+            {
+              "key": "name",
+              "label": "Name",
+              "value": "emailAddress.name"
+            },
+            {
+              "key": "address",
+              "label": "Email Address",
+              "value": "emailAddress.address",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "receivedDateTime",
+          "label": "Received At",
+          "format": "datetime"
+        },
+        {
+          "key": "sentDateTime",
+          "label": "Sent At",
+          "format": "datetime"
+        },
+        {
+          "key": "createdDateTime",
+          "label": "Created At",
+          "format": "datetime"
+        },
+        {
+          "key": "lastModifiedDateTime",
+          "label": "Last Modified At",
+          "format": "datetime"
+        },
+        {
+          "key": "hasAttachments",
+          "label": "Has Attachments",
+          "format": "boolean"
+        },
+        {
+          "key": "isRead",
+          "label": "Is Read",
+          "format": "boolean"
+        },
+        {
+          "key": "isDraft",
+          "label": "Is Draft",
+          "format": "boolean"
+        },
+        {
+          "key": "importance",
+          "label": "Importance"
+        },
+        {
+          "key": "categories",
+          "label": "Categories"
+        },
+        {
+          "key": "flag",
+          "label": "Flag",
+          "children": [
+            {
+              "key": "flagStatus",
+              "label": "Flag Status"
+            }
+          ]
+        },
+        {
+          "key": "webLink",
+          "label": "Web Link",
+          "format": "url"
+        },
+        {
+          "key": "parentFolderId",
+          "label": "Parent Folder ID"
+        },
+        {
+          "key": "conversationId",
+          "label": "Conversation ID"
+        },
+        {
+          "key": "internetMessageId",
+          "label": "Internet Message ID"
+        }
+      ]
+    }
   },
   {
     "piece": "@activepieces/piece-microsoft-outlook",
@@ -1758,7 +3078,213 @@
         "refresh_on_search": false
       }
     },
-    "sampleData": {}
+    "sampleData": {},
+    "outputSchema": {
+      "fields": [
+        {
+          "key": "id",
+          "label": "Message ID"
+        },
+        {
+          "key": "subject",
+          "label": "Subject"
+        },
+        {
+          "key": "bodyPreview",
+          "label": "Body Preview"
+        },
+        {
+          "key": "body",
+          "label": "Body",
+          "children": [
+            {
+              "key": "contentType",
+              "label": "Content Type"
+            },
+            {
+              "key": "content",
+              "label": "Content"
+            }
+          ]
+        },
+        {
+          "key": "from",
+          "label": "From",
+          "children": [
+            {
+              "key": "name",
+              "label": "Name",
+              "value": "emailAddress.name"
+            },
+            {
+              "key": "address",
+              "label": "Email Address",
+              "value": "emailAddress.address",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "sender",
+          "label": "Sender",
+          "children": [
+            {
+              "key": "name",
+              "label": "Name",
+              "value": "emailAddress.name"
+            },
+            {
+              "key": "address",
+              "label": "Email Address",
+              "value": "emailAddress.address",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "toRecipients",
+          "label": "To Recipients",
+          "labelKey": "address",
+          "listItems": [
+            {
+              "key": "name",
+              "label": "Name",
+              "value": "emailAddress.name"
+            },
+            {
+              "key": "address",
+              "label": "Email Address",
+              "value": "emailAddress.address",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "ccRecipients",
+          "label": "CC Recipients",
+          "labelKey": "address",
+          "listItems": [
+            {
+              "key": "name",
+              "label": "Name",
+              "value": "emailAddress.name"
+            },
+            {
+              "key": "address",
+              "label": "Email Address",
+              "value": "emailAddress.address",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "bccRecipients",
+          "label": "BCC Recipients",
+          "labelKey": "address",
+          "listItems": [
+            {
+              "key": "name",
+              "label": "Name",
+              "value": "emailAddress.name"
+            },
+            {
+              "key": "address",
+              "label": "Email Address",
+              "value": "emailAddress.address",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "replyTo",
+          "label": "Reply To",
+          "labelKey": "address",
+          "listItems": [
+            {
+              "key": "name",
+              "label": "Name",
+              "value": "emailAddress.name"
+            },
+            {
+              "key": "address",
+              "label": "Email Address",
+              "value": "emailAddress.address",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "receivedDateTime",
+          "label": "Received At",
+          "format": "datetime"
+        },
+        {
+          "key": "sentDateTime",
+          "label": "Sent At",
+          "format": "datetime"
+        },
+        {
+          "key": "createdDateTime",
+          "label": "Created At",
+          "format": "datetime"
+        },
+        {
+          "key": "lastModifiedDateTime",
+          "label": "Last Modified At",
+          "format": "datetime"
+        },
+        {
+          "key": "hasAttachments",
+          "label": "Has Attachments",
+          "format": "boolean"
+        },
+        {
+          "key": "isRead",
+          "label": "Is Read",
+          "format": "boolean"
+        },
+        {
+          "key": "isDraft",
+          "label": "Is Draft",
+          "format": "boolean"
+        },
+        {
+          "key": "importance",
+          "label": "Importance"
+        },
+        {
+          "key": "categories",
+          "label": "Categories"
+        },
+        {
+          "key": "flag",
+          "label": "Flag",
+          "children": [
+            {
+              "key": "flagStatus",
+              "label": "Flag Status"
+            }
+          ]
+        },
+        {
+          "key": "webLink",
+          "label": "Web Link",
+          "format": "url"
+        },
+        {
+          "key": "parentFolderId",
+          "label": "Parent Folder ID"
+        },
+        {
+          "key": "conversationId",
+          "label": "Conversation ID"
+        },
+        {
+          "key": "internetMessageId",
+          "label": "Internet Message ID"
+        }
+      ]
+    }
   },
   {
     "piece": "@activepieces/piece-microsoft-sharepoint",
@@ -1802,7 +3328,8 @@
         "refresh_on_search": false
       }
     },
-    "sampleData": null
+    "sampleData": null,
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-microsoft-sharepoint",
@@ -1856,7 +3383,8 @@
         "refresh_on_search": false
       }
     },
-    "sampleData": null
+    "sampleData": null,
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-microsoft-sharepoint",
@@ -1934,7 +3462,8 @@
       "parentReference": {
         "id": "PARENT_FOLDER_ID_HERE"
       }
-    }
+    },
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-microsoft-sharepoint",
@@ -2012,7 +3541,8 @@
       "parentReference": {
         "id": "PARENT_FOLDER_ID_HERE"
       }
-    }
+    },
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-microsoft-sharepoint",
@@ -2063,7 +3593,8 @@
       "createdDateTime": "2025-09-26T11:00:00Z",
       "lastModifiedDateTime": "2025-09-26T14:55:00Z",
       "webUrl": "https://contoso.sharepoint.com/sites/MySite/Lists/Projects%20Tracker"
-    }
+    },
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-microsoft-teams",
@@ -2121,7 +3652,8 @@
       "description": "Auto-generated channel",
       "membershipType": "standard",
       "isArchived": false
-    }
+    },
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-microsoft-teams",
@@ -2221,7 +3753,8 @@
       "attachments": [],
       "mentions": [],
       "reactions": []
-    }
+    },
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-microsoft-teams",
@@ -2270,7 +3803,8 @@
       "chatType": "oneOnOne",
       "webUrl": "",
       "isHiddenForAllMembers": false
-    }
+    },
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-microsoft-teams",
@@ -2356,7 +3890,8 @@
       "attachments": [],
       "mentions": [],
       "reactions": []
-    }
+    },
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-quickbooks",
@@ -2380,7 +3915,8 @@
       }
     },
     "props": {},
-    "sampleData": null
+    "sampleData": null,
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-quickbooks",
@@ -2404,7 +3940,8 @@
       }
     },
     "props": {},
-    "sampleData": null
+    "sampleData": null,
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-quickbooks",
@@ -2428,7 +3965,8 @@
       }
     },
     "props": {},
-    "sampleData": null
+    "sampleData": null,
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-quickbooks",
@@ -2452,7 +3990,8 @@
       }
     },
     "props": {},
-    "sampleData": null
+    "sampleData": null,
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-quickbooks",
@@ -2476,7 +4015,8 @@
       }
     },
     "props": {},
-    "sampleData": null
+    "sampleData": null,
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-quickbooks",
@@ -2500,7 +4040,8 @@
       }
     },
     "props": {},
-    "sampleData": null
+    "sampleData": null,
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-quickbooks",
@@ -2524,7 +4065,8 @@
       }
     },
     "props": {},
-    "sampleData": null
+    "sampleData": null,
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-quickbooks",
@@ -2548,7 +4090,8 @@
       }
     },
     "props": {},
-    "sampleData": null
+    "sampleData": null,
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-quickbooks-sandbox",
@@ -2572,7 +4115,8 @@
       }
     },
     "props": {},
-    "sampleData": null
+    "sampleData": null,
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-quickbooks-sandbox",
@@ -2596,7 +4140,8 @@
       }
     },
     "props": {},
-    "sampleData": null
+    "sampleData": null,
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-quickbooks-sandbox",
@@ -2620,7 +4165,8 @@
       }
     },
     "props": {},
-    "sampleData": null
+    "sampleData": null,
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-quickbooks-sandbox",
@@ -2644,7 +4190,8 @@
       }
     },
     "props": {},
-    "sampleData": null
+    "sampleData": null,
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-quickbooks-sandbox",
@@ -2668,7 +4215,8 @@
       }
     },
     "props": {},
-    "sampleData": null
+    "sampleData": null,
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-quickbooks-sandbox",
@@ -2692,7 +4240,8 @@
       }
     },
     "props": {},
-    "sampleData": null
+    "sampleData": null,
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-quickbooks-sandbox",
@@ -2716,7 +4265,8 @@
       }
     },
     "props": {},
-    "sampleData": null
+    "sampleData": null,
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-quickbooks-sandbox",
@@ -2740,7 +4290,8 @@
       }
     },
     "props": {},
-    "sampleData": null
+    "sampleData": null,
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-service-now",
@@ -2820,7 +4371,8 @@
       "value": "New comment text",
       "sys_created_by": "admin",
       "sys_created_on": "2026-04-30 12:00:00"
-    }
+    },
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-service-now",
@@ -2879,7 +4431,8 @@
       "priority": "3",
       "sys_created_on": "2023-01-01 00:00:00",
       "sys_updated_on": "2023-01-01 00:00:00"
-    }
+    },
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-service-now",
@@ -2938,7 +4491,8 @@
       "priority": "2",
       "sys_created_on": "2023-01-01 00:00:00",
       "sys_updated_on": "2023-01-01 01:00:00"
-    }
+    },
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-shippo",
@@ -3011,7 +4565,8 @@
       "weight": "0.40",
       "weight_unit": "lb",
       "notes": null
-    }
+    },
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-shippo",
@@ -3061,7 +4616,8 @@
       "tracking_number": "9499907123456123456781",
       "tracking_status": "DELIVERED",
       "tracking_url_provider": "https://tools.usps.com/go/TrackConfirmAction_input"
-    }
+    },
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-shopify",
@@ -3086,7 +4642,8 @@
       }
     },
     "props": {},
-    "sampleData": {}
+    "sampleData": {},
+    "outputSchema": null
   },
   {
     "piece": "@activepieces/piece-xero",
@@ -3249,6 +4806,173 @@
           "Tracking": []
         }
       ]
+    },
+    "outputSchema": {
+      "fields": [
+        {
+          "key": "BankTransactionID",
+          "label": "Bank Transaction ID"
+        },
+        {
+          "key": "Type",
+          "label": "Type"
+        },
+        {
+          "key": "Status",
+          "label": "Status"
+        },
+        {
+          "key": "Reference",
+          "label": "Reference"
+        },
+        {
+          "key": "Contact",
+          "label": "Contact",
+          "children": [
+            {
+              "key": "ContactID",
+              "label": "Contact ID"
+            },
+            {
+              "key": "Name",
+              "label": "Contact Name"
+            },
+            {
+              "key": "EmailAddress",
+              "label": "Contact Email",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "BankAccount",
+          "label": "Bank Account",
+          "children": [
+            {
+              "key": "AccountID",
+              "label": "Account ID"
+            },
+            {
+              "key": "Code",
+              "label": "Account Code"
+            },
+            {
+              "key": "Name",
+              "label": "Account Name"
+            }
+          ]
+        },
+        {
+          "key": "DateString",
+          "label": "Date",
+          "format": "date"
+        },
+        {
+          "key": "IsReconciled",
+          "label": "Is Reconciled",
+          "format": "boolean"
+        },
+        {
+          "key": "Url",
+          "label": "Source URL",
+          "format": "url"
+        },
+        {
+          "key": "LineAmountTypes",
+          "label": "Line Amount Types"
+        },
+        {
+          "key": "SubTotal",
+          "label": "Subtotal",
+          "format": "number"
+        },
+        {
+          "key": "TotalTax",
+          "label": "Total Tax",
+          "format": "number"
+        },
+        {
+          "key": "Total",
+          "label": "Total",
+          "format": "number"
+        },
+        {
+          "key": "CurrencyCode",
+          "label": "Currency"
+        },
+        {
+          "key": "CurrencyRate",
+          "label": "Currency Rate",
+          "format": "number"
+        },
+        {
+          "key": "LineItems",
+          "label": "Line Items",
+          "labelKey": "Description",
+          "listItems": [
+            {
+              "key": "LineItemID",
+              "label": "Line Item ID"
+            },
+            {
+              "key": "Description",
+              "label": "Description"
+            },
+            {
+              "key": "Quantity",
+              "label": "Quantity",
+              "format": "number"
+            },
+            {
+              "key": "UnitAmount",
+              "label": "Unit Amount",
+              "format": "number"
+            },
+            {
+              "key": "ItemCode",
+              "label": "Item Code"
+            },
+            {
+              "key": "AccountCode",
+              "label": "Account Code"
+            },
+            {
+              "key": "TaxType",
+              "label": "Tax Type"
+            },
+            {
+              "key": "TaxAmount",
+              "label": "Tax Amount",
+              "format": "number"
+            },
+            {
+              "key": "LineAmount",
+              "label": "Line Amount",
+              "format": "number"
+            },
+            {
+              "key": "DiscountRate",
+              "label": "Discount Rate (%)",
+              "format": "number"
+            },
+            {
+              "key": "Tracking",
+              "label": "Tracking",
+              "labelKey": "Name",
+              "listItems": [
+                {
+                  "key": "Name",
+                  "label": "Tracking Category"
+                },
+                {
+                  "key": "Option",
+                  "label": "Tracking Option"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   },
   {
@@ -3378,6 +5102,188 @@
           "LineAmount": 500,
           "DiscountRate": 0,
           "Tracking": []
+        }
+      ]
+    },
+    "outputSchema": {
+      "fields": [
+        {
+          "key": "InvoiceID",
+          "label": "Invoice ID"
+        },
+        {
+          "key": "InvoiceNumber",
+          "label": "Invoice Number"
+        },
+        {
+          "key": "Type",
+          "label": "Type (ACCREC sales / ACCPAY bill)"
+        },
+        {
+          "key": "Status",
+          "label": "Status"
+        },
+        {
+          "key": "Reference",
+          "label": "Reference"
+        },
+        {
+          "key": "Contact",
+          "label": "Contact",
+          "children": [
+            {
+              "key": "ContactID",
+              "label": "Contact ID"
+            },
+            {
+              "key": "Name",
+              "label": "Contact Name"
+            },
+            {
+              "key": "EmailAddress",
+              "label": "Contact Email",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "DateString",
+          "label": "Date",
+          "format": "date"
+        },
+        {
+          "key": "DueDateString",
+          "label": "Due Date",
+          "format": "date"
+        },
+        {
+          "key": "LineAmountTypes",
+          "label": "Line Amount Types"
+        },
+        {
+          "key": "SubTotal",
+          "label": "Subtotal",
+          "format": "number"
+        },
+        {
+          "key": "TotalTax",
+          "label": "Total Tax",
+          "format": "number"
+        },
+        {
+          "key": "Total",
+          "label": "Total",
+          "format": "number"
+        },
+        {
+          "key": "CurrencyCode",
+          "label": "Currency"
+        },
+        {
+          "key": "CurrencyRate",
+          "label": "Currency Rate",
+          "format": "number"
+        },
+        {
+          "key": "AmountDue",
+          "label": "Amount Due",
+          "format": "number"
+        },
+        {
+          "key": "AmountPaid",
+          "label": "Amount Paid",
+          "format": "number"
+        },
+        {
+          "key": "AmountCredited",
+          "label": "Amount Credited",
+          "format": "number"
+        },
+        {
+          "key": "SentToContact",
+          "label": "Sent to Contact",
+          "format": "boolean"
+        },
+        {
+          "key": "BrandingThemeID",
+          "label": "Branding Theme ID"
+        },
+        {
+          "key": "Url",
+          "label": "Source URL",
+          "format": "url"
+        },
+        {
+          "key": "HasAttachments",
+          "label": "Has Attachments",
+          "format": "boolean"
+        },
+        {
+          "key": "LineItems",
+          "label": "Line Items",
+          "labelKey": "Description",
+          "listItems": [
+            {
+              "key": "LineItemID",
+              "label": "Line Item ID"
+            },
+            {
+              "key": "Description",
+              "label": "Description"
+            },
+            {
+              "key": "Quantity",
+              "label": "Quantity",
+              "format": "number"
+            },
+            {
+              "key": "UnitAmount",
+              "label": "Unit Amount",
+              "format": "number"
+            },
+            {
+              "key": "ItemCode",
+              "label": "Item Code"
+            },
+            {
+              "key": "AccountCode",
+              "label": "Account Code"
+            },
+            {
+              "key": "TaxType",
+              "label": "Tax Type"
+            },
+            {
+              "key": "TaxAmount",
+              "label": "Tax Amount",
+              "format": "number"
+            },
+            {
+              "key": "LineAmount",
+              "label": "Line Amount",
+              "format": "number"
+            },
+            {
+              "key": "DiscountRate",
+              "label": "Discount Rate (%)",
+              "format": "number"
+            },
+            {
+              "key": "Tracking",
+              "label": "Tracking",
+              "labelKey": "Name",
+              "listItems": [
+                {
+                  "key": "Name",
+                  "label": "Tracking Category"
+                },
+                {
+                  "key": "Option",
+                  "label": "Tracking Option"
+                }
+              ]
+            }
+          ]
         }
       ]
     }
@@ -3514,6 +5420,183 @@
           "Tracking": []
         }
       ]
+    },
+    "outputSchema": {
+      "fields": [
+        {
+          "key": "CreditNoteID",
+          "label": "Credit Note ID"
+        },
+        {
+          "key": "CreditNoteNumber",
+          "label": "Credit Note Number"
+        },
+        {
+          "key": "Type",
+          "label": "Type"
+        },
+        {
+          "key": "Status",
+          "label": "Status"
+        },
+        {
+          "key": "Reference",
+          "label": "Reference"
+        },
+        {
+          "key": "Contact",
+          "label": "Contact",
+          "children": [
+            {
+              "key": "ContactID",
+              "label": "Contact ID"
+            },
+            {
+              "key": "Name",
+              "label": "Contact Name"
+            },
+            {
+              "key": "EmailAddress",
+              "label": "Contact Email",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "DateString",
+          "label": "Date",
+          "format": "date"
+        },
+        {
+          "key": "LineAmountTypes",
+          "label": "Line Amount Types"
+        },
+        {
+          "key": "SubTotal",
+          "label": "Subtotal",
+          "format": "number"
+        },
+        {
+          "key": "TotalTax",
+          "label": "Total Tax",
+          "format": "number"
+        },
+        {
+          "key": "Total",
+          "label": "Total",
+          "format": "number"
+        },
+        {
+          "key": "CurrencyCode",
+          "label": "Currency"
+        },
+        {
+          "key": "CurrencyRate",
+          "label": "Currency Rate",
+          "format": "number"
+        },
+        {
+          "key": "RemainingCredit",
+          "label": "Remaining Credit",
+          "format": "number"
+        },
+        {
+          "key": "Allocations",
+          "label": "Allocations",
+          "listItems": [
+            {
+              "key": "AllocationID",
+              "label": "Allocation ID"
+            },
+            {
+              "key": "Amount",
+              "label": "Amount",
+              "format": "number"
+            },
+            {
+              "key": "Invoice",
+              "label": "Invoice",
+              "children": [
+                {
+                  "key": "InvoiceID",
+                  "label": "Invoice ID"
+                },
+                {
+                  "key": "InvoiceNumber",
+                  "label": "Invoice Number"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "LineItems",
+          "label": "Line Items",
+          "labelKey": "Description",
+          "listItems": [
+            {
+              "key": "LineItemID",
+              "label": "Line Item ID"
+            },
+            {
+              "key": "Description",
+              "label": "Description"
+            },
+            {
+              "key": "Quantity",
+              "label": "Quantity",
+              "format": "number"
+            },
+            {
+              "key": "UnitAmount",
+              "label": "Unit Amount",
+              "format": "number"
+            },
+            {
+              "key": "ItemCode",
+              "label": "Item Code"
+            },
+            {
+              "key": "AccountCode",
+              "label": "Account Code"
+            },
+            {
+              "key": "TaxType",
+              "label": "Tax Type"
+            },
+            {
+              "key": "TaxAmount",
+              "label": "Tax Amount",
+              "format": "number"
+            },
+            {
+              "key": "LineAmount",
+              "label": "Line Amount",
+              "format": "number"
+            },
+            {
+              "key": "DiscountRate",
+              "label": "Discount Rate (%)",
+              "format": "number"
+            },
+            {
+              "key": "Tracking",
+              "label": "Tracking",
+              "labelKey": "Name",
+              "listItems": [
+                {
+                  "key": "Name",
+                  "label": "Tracking Category"
+                },
+                {
+                  "key": "Option",
+                  "label": "Tracking Option"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   },
   {
@@ -3636,6 +5719,101 @@
         "Code": "090",
         "Name": "Business Bank Account"
       }
+    },
+    "outputSchema": {
+      "fields": [
+        {
+          "key": "PaymentID",
+          "label": "Payment ID"
+        },
+        {
+          "key": "Amount",
+          "label": "Amount",
+          "format": "number"
+        },
+        {
+          "key": "BankAmount",
+          "label": "Bank Amount",
+          "format": "number"
+        },
+        {
+          "key": "CurrencyRate",
+          "label": "Currency Rate",
+          "format": "number"
+        },
+        {
+          "key": "Reference",
+          "label": "Reference"
+        },
+        {
+          "key": "Status",
+          "label": "Status"
+        },
+        {
+          "key": "PaymentType",
+          "label": "Payment Type"
+        },
+        {
+          "key": "IsReconciled",
+          "label": "Is Reconciled",
+          "format": "boolean"
+        },
+        {
+          "key": "Invoice",
+          "label": "Invoice",
+          "children": [
+            {
+              "key": "InvoiceID",
+              "label": "Invoice ID"
+            },
+            {
+              "key": "InvoiceNumber",
+              "label": "Invoice Number"
+            },
+            {
+              "key": "Type",
+              "label": "Invoice Type"
+            },
+            {
+              "key": "Contact",
+              "label": "Contact",
+              "children": [
+                {
+                  "key": "ContactID",
+                  "label": "Contact ID"
+                },
+                {
+                  "key": "Name",
+                  "label": "Contact Name"
+                },
+                {
+                  "key": "EmailAddress",
+                  "label": "Contact Email",
+                  "format": "email"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "Account",
+          "label": "Bank Account",
+          "children": [
+            {
+              "key": "AccountID",
+              "label": "Account ID"
+            },
+            {
+              "key": "Code",
+              "label": "Account Code"
+            },
+            {
+              "key": "Name",
+              "label": "Account Name"
+            }
+          ]
+        }
+      ]
     }
   },
   {
@@ -3718,6 +5896,100 @@
         "currency": "USD",
         "value": 0
       }
+    },
+    "outputSchema": {
+      "fields": [
+        {
+          "key": "projectId",
+          "label": "Project ID"
+        },
+        {
+          "key": "name",
+          "label": "Name"
+        },
+        {
+          "key": "contactId",
+          "label": "Contact ID"
+        },
+        {
+          "key": "status",
+          "label": "Status"
+        },
+        {
+          "key": "currencyCode",
+          "label": "Currency"
+        },
+        {
+          "key": "deadlineUtc",
+          "label": "Deadline",
+          "format": "datetime"
+        },
+        {
+          "key": "minutesLogged",
+          "label": "Minutes Logged",
+          "format": "number"
+        },
+        {
+          "key": "estimate",
+          "label": "Estimate",
+          "children": [
+            {
+              "key": "currency",
+              "label": "Currency"
+            },
+            {
+              "key": "value",
+              "label": "Amount",
+              "format": "number"
+            }
+          ]
+        },
+        {
+          "key": "totalTaskAmount",
+          "label": "Total Task Amount",
+          "children": [
+            {
+              "key": "currency",
+              "label": "Currency"
+            },
+            {
+              "key": "value",
+              "label": "Amount",
+              "format": "number"
+            }
+          ]
+        },
+        {
+          "key": "totalInvoiced",
+          "label": "Total Invoiced",
+          "children": [
+            {
+              "key": "currency",
+              "label": "Currency"
+            },
+            {
+              "key": "value",
+              "label": "Amount",
+              "format": "number"
+            }
+          ]
+        },
+        {
+          "key": "totalToBeInvoiced",
+          "label": "Total To Be Invoiced",
+          "children": [
+            {
+              "key": "currency",
+              "label": "Currency"
+            },
+            {
+              "key": "value",
+              "label": "Amount",
+              "format": "number"
+            }
+          ]
+        }
+      ]
     }
   },
   {
@@ -3865,6 +6137,171 @@
           "Tracking": []
         }
       ]
+    },
+    "outputSchema": {
+      "fields": [
+        {
+          "key": "PurchaseOrderID",
+          "label": "Purchase Order ID"
+        },
+        {
+          "key": "PurchaseOrderNumber",
+          "label": "Purchase Order Number"
+        },
+        {
+          "key": "Reference",
+          "label": "Reference"
+        },
+        {
+          "key": "Status",
+          "label": "Status"
+        },
+        {
+          "key": "Contact",
+          "label": "Supplier",
+          "children": [
+            {
+              "key": "ContactID",
+              "label": "Contact ID"
+            },
+            {
+              "key": "Name",
+              "label": "Contact Name"
+            },
+            {
+              "key": "EmailAddress",
+              "label": "Contact Email",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "DateString",
+          "label": "Date",
+          "format": "date"
+        },
+        {
+          "key": "DeliveryDateString",
+          "label": "Delivery Date",
+          "format": "date"
+        },
+        {
+          "key": "DeliveryAddress",
+          "label": "Delivery Address"
+        },
+        {
+          "key": "AttentionTo",
+          "label": "Attention To"
+        },
+        {
+          "key": "Telephone",
+          "label": "Telephone"
+        },
+        {
+          "key": "DeliveryInstructions",
+          "label": "Delivery Instructions"
+        },
+        {
+          "key": "SentToContact",
+          "label": "Sent to Contact",
+          "format": "boolean"
+        },
+        {
+          "key": "LineAmountTypes",
+          "label": "Line Amount Types"
+        },
+        {
+          "key": "SubTotal",
+          "label": "Subtotal",
+          "format": "number"
+        },
+        {
+          "key": "TotalTax",
+          "label": "Total Tax",
+          "format": "number"
+        },
+        {
+          "key": "Total",
+          "label": "Total",
+          "format": "number"
+        },
+        {
+          "key": "CurrencyCode",
+          "label": "Currency"
+        },
+        {
+          "key": "CurrencyRate",
+          "label": "Currency Rate",
+          "format": "number"
+        },
+        {
+          "key": "LineItems",
+          "label": "Line Items",
+          "labelKey": "Description",
+          "listItems": [
+            {
+              "key": "LineItemID",
+              "label": "Line Item ID"
+            },
+            {
+              "key": "Description",
+              "label": "Description"
+            },
+            {
+              "key": "Quantity",
+              "label": "Quantity",
+              "format": "number"
+            },
+            {
+              "key": "UnitAmount",
+              "label": "Unit Amount",
+              "format": "number"
+            },
+            {
+              "key": "ItemCode",
+              "label": "Item Code"
+            },
+            {
+              "key": "AccountCode",
+              "label": "Account Code"
+            },
+            {
+              "key": "TaxType",
+              "label": "Tax Type"
+            },
+            {
+              "key": "TaxAmount",
+              "label": "Tax Amount",
+              "format": "number"
+            },
+            {
+              "key": "LineAmount",
+              "label": "Line Amount",
+              "format": "number"
+            },
+            {
+              "key": "DiscountRate",
+              "label": "Discount Rate (%)",
+              "format": "number"
+            },
+            {
+              "key": "Tracking",
+              "label": "Tracking",
+              "labelKey": "Name",
+              "listItems": [
+                {
+                  "key": "Name",
+                  "label": "Tracking Category"
+                },
+                {
+                  "key": "Option",
+                  "label": "Tracking Option"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   },
   {
@@ -4004,6 +6441,158 @@
           "Tracking": []
         }
       ]
+    },
+    "outputSchema": {
+      "fields": [
+        {
+          "key": "QuoteID",
+          "label": "Quote ID"
+        },
+        {
+          "key": "QuoteNumber",
+          "label": "Quote Number"
+        },
+        {
+          "key": "Reference",
+          "label": "Reference"
+        },
+        {
+          "key": "Status",
+          "label": "Status"
+        },
+        {
+          "key": "Title",
+          "label": "Title"
+        },
+        {
+          "key": "Terms",
+          "label": "Terms"
+        },
+        {
+          "key": "Contact",
+          "label": "Contact",
+          "children": [
+            {
+              "key": "ContactID",
+              "label": "Contact ID"
+            },
+            {
+              "key": "Name",
+              "label": "Contact Name"
+            },
+            {
+              "key": "EmailAddress",
+              "label": "Contact Email",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "DateString",
+          "label": "Date",
+          "format": "date"
+        },
+        {
+          "key": "ExpiryDateString",
+          "label": "Expiry Date",
+          "format": "date"
+        },
+        {
+          "key": "LineAmountTypes",
+          "label": "Line Amount Types"
+        },
+        {
+          "key": "SubTotal",
+          "label": "Subtotal",
+          "format": "number"
+        },
+        {
+          "key": "TotalTax",
+          "label": "Total Tax",
+          "format": "number"
+        },
+        {
+          "key": "Total",
+          "label": "Total",
+          "format": "number"
+        },
+        {
+          "key": "CurrencyCode",
+          "label": "Currency"
+        },
+        {
+          "key": "CurrencyRate",
+          "label": "Currency Rate",
+          "format": "number"
+        },
+        {
+          "key": "LineItems",
+          "label": "Line Items",
+          "labelKey": "Description",
+          "listItems": [
+            {
+              "key": "LineItemID",
+              "label": "Line Item ID"
+            },
+            {
+              "key": "Description",
+              "label": "Description"
+            },
+            {
+              "key": "Quantity",
+              "label": "Quantity",
+              "format": "number"
+            },
+            {
+              "key": "UnitAmount",
+              "label": "Unit Amount",
+              "format": "number"
+            },
+            {
+              "key": "ItemCode",
+              "label": "Item Code"
+            },
+            {
+              "key": "AccountCode",
+              "label": "Account Code"
+            },
+            {
+              "key": "TaxType",
+              "label": "Tax Type"
+            },
+            {
+              "key": "TaxAmount",
+              "label": "Tax Amount",
+              "format": "number"
+            },
+            {
+              "key": "LineAmount",
+              "label": "Line Amount",
+              "format": "number"
+            },
+            {
+              "key": "DiscountRate",
+              "label": "Discount Rate (%)",
+              "format": "number"
+            },
+            {
+              "key": "Tracking",
+              "label": "Tracking",
+              "labelKey": "Name",
+              "listItems": [
+                {
+                  "key": "Name",
+                  "label": "Tracking Category"
+                },
+                {
+                  "key": "Option",
+                  "label": "Tracking Option"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   },
   {
@@ -4126,6 +6715,101 @@
         "Code": "090",
         "Name": "Business Bank Account"
       }
+    },
+    "outputSchema": {
+      "fields": [
+        {
+          "key": "PaymentID",
+          "label": "Payment ID"
+        },
+        {
+          "key": "Amount",
+          "label": "Amount",
+          "format": "number"
+        },
+        {
+          "key": "BankAmount",
+          "label": "Bank Amount",
+          "format": "number"
+        },
+        {
+          "key": "CurrencyRate",
+          "label": "Currency Rate",
+          "format": "number"
+        },
+        {
+          "key": "Reference",
+          "label": "Reference"
+        },
+        {
+          "key": "Status",
+          "label": "Status"
+        },
+        {
+          "key": "PaymentType",
+          "label": "Payment Type"
+        },
+        {
+          "key": "IsReconciled",
+          "label": "Is Reconciled",
+          "format": "boolean"
+        },
+        {
+          "key": "Invoice",
+          "label": "Invoice",
+          "children": [
+            {
+              "key": "InvoiceID",
+              "label": "Invoice ID"
+            },
+            {
+              "key": "InvoiceNumber",
+              "label": "Invoice Number"
+            },
+            {
+              "key": "Type",
+              "label": "Invoice Type"
+            },
+            {
+              "key": "Contact",
+              "label": "Contact",
+              "children": [
+                {
+                  "key": "ContactID",
+                  "label": "Contact ID"
+                },
+                {
+                  "key": "Name",
+                  "label": "Contact Name"
+                },
+                {
+                  "key": "EmailAddress",
+                  "label": "Contact Email",
+                  "format": "email"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "Account",
+          "label": "Bank Account",
+          "children": [
+            {
+              "key": "AccountID",
+              "label": "Account ID"
+            },
+            {
+              "key": "Code",
+              "label": "Account Code"
+            },
+            {
+              "key": "Name",
+              "label": "Account Name"
+            }
+          ]
+        }
+      ]
     }
   },
   {
@@ -4263,6 +6947,158 @@
           "LineAmount": 500,
           "DiscountRate": 0,
           "Tracking": []
+        }
+      ]
+    },
+    "outputSchema": {
+      "fields": [
+        {
+          "key": "QuoteID",
+          "label": "Quote ID"
+        },
+        {
+          "key": "QuoteNumber",
+          "label": "Quote Number"
+        },
+        {
+          "key": "Reference",
+          "label": "Reference"
+        },
+        {
+          "key": "Status",
+          "label": "Status"
+        },
+        {
+          "key": "Title",
+          "label": "Title"
+        },
+        {
+          "key": "Terms",
+          "label": "Terms"
+        },
+        {
+          "key": "Contact",
+          "label": "Contact",
+          "children": [
+            {
+              "key": "ContactID",
+              "label": "Contact ID"
+            },
+            {
+              "key": "Name",
+              "label": "Contact Name"
+            },
+            {
+              "key": "EmailAddress",
+              "label": "Contact Email",
+              "format": "email"
+            }
+          ]
+        },
+        {
+          "key": "DateString",
+          "label": "Date",
+          "format": "date"
+        },
+        {
+          "key": "ExpiryDateString",
+          "label": "Expiry Date",
+          "format": "date"
+        },
+        {
+          "key": "LineAmountTypes",
+          "label": "Line Amount Types"
+        },
+        {
+          "key": "SubTotal",
+          "label": "Subtotal",
+          "format": "number"
+        },
+        {
+          "key": "TotalTax",
+          "label": "Total Tax",
+          "format": "number"
+        },
+        {
+          "key": "Total",
+          "label": "Total",
+          "format": "number"
+        },
+        {
+          "key": "CurrencyCode",
+          "label": "Currency"
+        },
+        {
+          "key": "CurrencyRate",
+          "label": "Currency Rate",
+          "format": "number"
+        },
+        {
+          "key": "LineItems",
+          "label": "Line Items",
+          "labelKey": "Description",
+          "listItems": [
+            {
+              "key": "LineItemID",
+              "label": "Line Item ID"
+            },
+            {
+              "key": "Description",
+              "label": "Description"
+            },
+            {
+              "key": "Quantity",
+              "label": "Quantity",
+              "format": "number"
+            },
+            {
+              "key": "UnitAmount",
+              "label": "Unit Amount",
+              "format": "number"
+            },
+            {
+              "key": "ItemCode",
+              "label": "Item Code"
+            },
+            {
+              "key": "AccountCode",
+              "label": "Account Code"
+            },
+            {
+              "key": "TaxType",
+              "label": "Tax Type"
+            },
+            {
+              "key": "TaxAmount",
+              "label": "Tax Amount",
+              "format": "number"
+            },
+            {
+              "key": "LineAmount",
+              "label": "Line Amount",
+              "format": "number"
+            },
+            {
+              "key": "DiscountRate",
+              "label": "Discount Rate (%)",
+              "format": "number"
+            },
+            {
+              "key": "Tracking",
+              "label": "Tracking",
+              "labelKey": "Name",
+              "listItems": [
+                {
+                  "key": "Name",
+                  "label": "Tracking Category"
+                },
+                {
+                  "key": "Option",
+                  "label": "Tracking Option"
+                }
+              ]
+            }
+          ]
         }
       ]
     }

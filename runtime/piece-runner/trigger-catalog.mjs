@@ -27,6 +27,7 @@ function exportTriggers({ entries, loadPiece, exportProps, exportAuth, verifyVer
       auth: exportAuth({ piece, authType: entry.authType }),
       props: exportProps({ declarations: trigger.props }),
       sampleData: sampleWithoutUrlQueries(trigger.sampleData ?? null),
+      outputSchema: outputSchemaWithoutUrlQueries(trigger.outputSchema),
     }));
   }).sort((left, right) => compareTriggers({ left, right }));
 }
@@ -37,6 +38,20 @@ function sampleWithoutUrlQueries(value) {
   if (Array.isArray(value)) return value.map(sampleWithoutUrlQueries);
   if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, sampleWithoutUrlQueries(item)]));
   return value;
+}
+
+function outputSchemaWithoutUrlQueries(schema) {
+  if (schema == null) return null;
+  return { ...schema, fields: schema.fields.map(outputSchemaFieldWithoutUrlQueries) };
+}
+
+function outputSchemaFieldWithoutUrlQueries(field) {
+  return {
+    ...field,
+    ...(field.value === undefined ? {} : { value: sampleWithoutUrlQueries(field.value) }),
+    ...(field.children ? { children: field.children.map(outputSchemaFieldWithoutUrlQueries) } : {}),
+    ...(field.listItems ? { listItems: field.listItems.map(outputSchemaFieldWithoutUrlQueries) } : {}),
+  };
 }
 
 function validateHook({ hook }) {
@@ -59,4 +74,4 @@ function notAdmitted() {
   return runnerErrors.refusalError({ code: 'TRIGGER_NOT_ADMITTED', message: 'The piece, version and trigger must identify an admitted polling trigger.' });
 }
 
-export const runnerTriggerCatalog = { load, exportTriggers, validateHook, sampleWithoutUrlQueries };
+export const runnerTriggerCatalog = { load, exportTriggers, validateHook, sampleWithoutUrlQueries, outputSchemaWithoutUrlQueries };
