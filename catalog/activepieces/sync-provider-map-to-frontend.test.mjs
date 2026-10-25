@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { mkdtemp, mkdir, readFile, rm, symlink, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -49,6 +49,24 @@ test('admits the canonical TanStack Start route and generates the Discord provid
     assert.match(generated, /"logoUrl": "https:\/\/cdn\.activepieces\.com\/pieces\/discord\.png"/);
   } finally {
     await rm(frontendRoot, { recursive: true, force: true });
+  }
+});
+
+test('a consumer landing that reaches the catalog through a symlink still refuses a stale frontend map', async () => {
+  const frontendRoot = await createFrontendRoot(providerMapPaths.frontendMarkers[0]);
+  const linkDir = await mkdtemp(path.join(tmpdir(), 'activepieces-catalog-link-'));
+  try {
+    const target = path.join(frontendRoot, providerMapPaths.frontendTarget);
+    await mkdir(path.dirname(target), { recursive: true });
+    await writeFile(target, '// stale\n');
+    await symlink(path.resolve(SCRIPT_DIR, '..', '..'), path.join(linkDir, 'activepieces-catalog'));
+    const linked = path.join(linkDir, 'activepieces-catalog', path.relative(path.resolve(SCRIPT_DIR, '..', '..'), SCRIPT_PATH));
+    const result = spawnSync(process.execPath, [linked, '--only', 'frontend', '--frontend-root', frontendRoot, '--check'],
+      { encoding: 'utf8' });
+    assert.notEqual(result.status, 0, result.stdout);
+  } finally {
+    await rm(frontendRoot, { recursive: true, force: true });
+    await rm(linkDir, { recursive: true, force: true });
   }
 });
 
