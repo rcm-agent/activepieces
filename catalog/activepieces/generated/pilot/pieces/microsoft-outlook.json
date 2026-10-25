@@ -401,32 +401,12 @@
     }
   ],
   "auth": {
-    "auth_url_candidates": [
-      "https://{cloud}/{tenant}/oauth2/v2.0/authorize"
-    ],
     "declared_symbol": "microsoftOutlookAuth",
     "source_path": "packages/pieces/community/microsoft-outlook/src/lib/common/auth.ts",
-    "token_url_candidates": [
-      "https://{cloud}/{tenant}/oauth2/v2.0/token"
-    ],
     "types": [
       "oauth2"
     ]
   },
-  "nango_provider_key_candidates": [
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for microsoft-outlook",
-      "provider_key": "outlook"
-    },
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for microsoft-outlook",
-      "provider_key": "outlook-dev"
-    }
-  ],
   "package": {
     "name": "@activepieces/piece-microsoft-outlook",
     "version": "0.7.2"

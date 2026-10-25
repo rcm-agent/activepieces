@@ -653,27 +653,13 @@
     }
   ],
   "auth": {
-    "auth_url_candidates": [
-      "https://github.com/login/oauth/authorize"
-    ],
     "declared_symbol": "githubAuth",
     "source_path": "packages/pieces/community/github/src/lib/auth.ts",
-    "token_url_candidates": [
-      "https://github.com/login/oauth/access_token"
-    ],
     "types": [
       "oauth2",
       "custom_auth"
     ]
   },
-  "nango_provider_key_candidates": [
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for github",
-      "provider_key": "github"
-    }
-  ],
   "package": {
     "name": "@activepieces/piece-github",
     "version": "0.9.3"

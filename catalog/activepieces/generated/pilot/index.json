@@ -10,10 +10,6 @@
         "custom_auth"
       ],
       "display_name": "Slack",
-      "nango_provider_key_candidates": [
-        "slack",
-        "slack-dev"
-      ],
       "package_name": "@activepieces/piece-slack",
       "package_version": "0.21.1",
       "runtime_status": "candidate_only",
@@ -27,10 +23,6 @@
         "secret_text"
       ],
       "display_name": "Discord",
-      "nango_provider_key_candidates": [
-        "discord-dev",
-        "discord"
-      ],
       "package_name": "@activepieces/piece-discord",
       "package_version": "0.7.2",
       "runtime_status": "candidate_only",
@@ -45,12 +37,6 @@
         "custom_auth"
       ],
       "display_name": "Gmail",
-      "nango_provider_key_candidates": [
-        "google",
-        "gmail",
-        "google-mail",
-        "google-mail-dev"
-      ],
       "package_name": "@activepieces/piece-gmail",
       "package_version": "0.17.5",
       "runtime_status": "candidate_only",
@@ -65,12 +51,6 @@
         "custom_auth"
       ],
       "display_name": "Google Sheets",
-      "nango_provider_key_candidates": [
-        "google",
-        "google-sheets",
-        "google-sheet",
-        "google-sheet-dev"
-      ],
       "package_name": "@activepieces/piece-google-sheets",
       "package_version": "0.17.2",
       "runtime_status": "candidate_only",
@@ -85,11 +65,6 @@
         "custom_auth"
       ],
       "display_name": "Google Calendar",
-      "nango_provider_key_candidates": [
-        "google-calendar",
-        "google-calendar-dev",
-        "google"
-      ],
       "package_name": "@activepieces/piece-google-calendar",
       "package_version": "0.12.3",
       "runtime_status": "candidate_only",
@@ -104,11 +79,6 @@
         "custom_auth"
       ],
       "display_name": "Google Drive",
-      "nango_provider_key_candidates": [
-        "google-drive",
-        "google-drive-dev",
-        "google"
-      ],
       "package_name": "@activepieces/piece-google-drive",
       "package_version": "0.11.3",
       "runtime_status": "candidate_only",
@@ -123,9 +93,6 @@
         "custom_auth"
       ],
       "display_name": "HubSpot",
-      "nango_provider_key_candidates": [
-        "hubspot"
-      ],
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.12.1",
       "runtime_status": "candidate_only",
@@ -140,9 +107,6 @@
         "custom_auth"
       ],
       "display_name": "GitHub",
-      "nango_provider_key_candidates": [
-        "github"
-      ],
       "package_name": "@activepieces/piece-github",
       "package_version": "0.9.3",
       "runtime_status": "candidate_only",
@@ -157,10 +121,6 @@
         "custom_auth"
       ],
       "display_name": "Notion",
-      "nango_provider_key_candidates": [
-        "notion-dev",
-        "notion"
-      ],
       "package_name": "@activepieces/piece-notion",
       "package_version": "0.7.5",
       "runtime_status": "candidate_only",
@@ -174,10 +134,6 @@
         "oauth2"
       ],
       "display_name": "Microsoft Outlook",
-      "nango_provider_key_candidates": [
-        "outlook",
-        "outlook-dev"
-      ],
       "package_name": "@activepieces/piece-microsoft-outlook",
       "package_version": "0.7.2",
       "runtime_status": "candidate_only",
@@ -191,10 +147,6 @@
         "oauth2"
       ],
       "display_name": "Microsoft Outlook Calendar",
-      "nango_provider_key_candidates": [
-        "outlook",
-        "outlook-dev"
-      ],
       "package_name": "@activepieces/piece-microsoft-outlook-calendar",
       "package_version": "0.3.1",
       "runtime_status": "candidate_only",
@@ -208,10 +160,6 @@
         "oauth2"
       ],
       "display_name": "Microsoft Teams",
-      "nango_provider_key_candidates": [
-        "microsoft-teams",
-        "microsoft-teams-dev"
-      ],
       "package_name": "@activepieces/piece-microsoft-teams",
       "package_version": "0.7.2",
       "runtime_status": "candidate_only",
@@ -225,10 +173,6 @@
         "oauth2"
       ],
       "display_name": "Microsoft Excel 365",
-      "nango_provider_key_candidates": [
-        "microsoft-excel",
-        "microsoft-excel-dev"
-      ],
       "package_name": "@activepieces/piece-microsoft-excel-365",
       "package_version": "0.8.2",
       "runtime_status": "candidate_only",
@@ -242,10 +186,6 @@
         "oauth2"
       ],
       "display_name": "Microsoft OneDrive",
-      "nango_provider_key_candidates": [
-        "one-drive",
-        "one-drive-dev"
-      ],
       "package_name": "@activepieces/piece-microsoft-onedrive",
       "package_version": "0.6.1",
       "runtime_status": "candidate_only",
@@ -259,10 +199,6 @@
         "oauth2"
       ],
       "display_name": "Microsoft SharePoint",
-      "nango_provider_key_candidates": [
-        "sharepoint-online",
-        "sharepoint-online-dev"
-      ],
       "package_name": "@activepieces/piece-microsoft-sharepoint",
       "package_version": "0.4.2",
       "runtime_status": "candidate_only",
@@ -276,9 +212,6 @@
         "oauth2"
       ],
       "display_name": "Quickbooks Online",
-      "nango_provider_key_candidates": [
-        "quickbooks"
-      ],
       "package_name": "@activepieces/piece-quickbooks",
       "package_version": "0.3.3",
       "runtime_status": "candidate_only",
@@ -292,9 +225,6 @@
         "oauth2"
       ],
       "display_name": "QuickBooks Online (Sandbox)",
-      "nango_provider_key_candidates": [
-        "quickbooks-sandbox"
-      ],
       "package_name": "@activepieces/piece-quickbooks-sandbox",
       "package_version": "0.2.2",
       "runtime_status": "candidate_only",
@@ -308,9 +238,6 @@
         "oauth2"
       ],
       "display_name": "Xero",
-      "nango_provider_key_candidates": [
-        "xero"
-      ],
       "package_name": "@activepieces/piece-xero",
       "package_version": "0.8.1",
       "runtime_status": "candidate_only",

@@ -373,39 +373,13 @@
     }
   ],
   "auth": {
-    "auth_url_candidates": [
-      "https://accounts.google.com/o/oauth2/auth"
-    ],
     "declared_symbol": "googleDriveAuth",
     "source_path": "packages/pieces/community/google-drive/src/lib/auth.ts",
-    "token_url_candidates": [
-      "https://oauth2.googleapis.com/token"
-    ],
     "types": [
       "oauth2",
       "custom_auth"
     ]
   },
-  "nango_provider_key_candidates": [
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for google-drive",
-      "provider_key": "google-drive"
-    },
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for google-drive",
-      "provider_key": "google-drive-dev"
-    },
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for google-drive",
-      "provider_key": "google"
-    }
-  ],
   "package": {
     "name": "@activepieces/piece-google-drive",
     "version": "0.11.3"

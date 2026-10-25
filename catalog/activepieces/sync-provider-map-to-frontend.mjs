@@ -27,7 +27,6 @@ const SCHEMA_VERSION = 'activepieces-nango-provider-map.v1';
 const CATALOG_SCHEMA_VERSION = 'activepieces-catalog-candidate.v1';
 const RUNTIME_STATUS = 'candidate_only';
 const CANONICAL_PACKAGE_PATTERN = /^@activepieces\/piece-[a-z0-9][a-z0-9-]*$/;
-const PROVIDER_CONFIG_KEY_PATTERN = /^[a-z0-9][a-z0-9._-]*$/;
 const FRONTEND_MARKERS = [
   path.join('src', 'routes', 'api', 'activepieces', 'nango', 'connect-session.tsx'),
   path.join('src', 'generated', 'activepieces-nango-oauth-client', 'index.ts'),
@@ -251,12 +250,6 @@ function buildProviderConfig({ indexPiece, artifact }) {
     throw new Error(`${packageName} must be candidate_only in index and artifact.`);
   }
 
-  const candidateRecords = requiredCandidateRecords(
-    artifact.nango_provider_key_candidates,
-    packageName,
-  );
-  const selected = selectProviderConfigKey(candidateRecords, packageName);
-  const candidateKeys = candidateRecords.map((candidate) => candidate.provider_key);
   const artifactPath = requiredString(indexPiece.artifact_path, `${packageName} artifact_path`);
 
   return sortObjectKeys({
@@ -266,13 +259,6 @@ function buildProviderConfig({ indexPiece, artifact }) {
     package_name: packageName,
     package_version: requiredString(indexPiece.package_version, `${packageName} package_version`),
     piece_slug: requiredString(indexPiece.slug, `${packageName} slug`),
-    provider_config_key: selected.provider_key,
-    provider_config_key_candidate_records: candidateRecords,
-    provider_config_key_candidates: candidateKeys,
-    provider_config_key_selection: {
-      confidence: selected.confidence,
-      policy: 'first_high_confidence_else_first_candidate',
-    },
     runtime_status: RUNTIME_STATUS,
     source_artifact_path: artifactPath,
   });
@@ -284,44 +270,6 @@ function requiredLogoUrl(value, packageName) {
     throw new Error(`${packageName} logo_url must be an https URL.`);
   }
   return logoUrl;
-}
-
-function requiredCandidateRecords(value, contextLabel) {
-  if (!Array.isArray(value) || value.length === 0) {
-    throw new Error(`${contextLabel} must include provider candidate records.`);
-  }
-
-  const seen = new Set();
-  return value.map((candidate) => {
-    if (!candidate || typeof candidate !== 'object' || Array.isArray(candidate)) {
-      throw new Error(`${contextLabel} provider candidate must be an object.`);
-    }
-    const providerKey = requiredString(candidate.provider_key, `${contextLabel} provider_key`);
-    if (!PROVIDER_CONFIG_KEY_PATTERN.test(providerKey)) {
-      throw new Error(`${contextLabel} provider_key is invalid: ${providerKey}`);
-    }
-    if (seen.has(providerKey)) {
-      throw new Error(`${contextLabel} has duplicate provider_key ${providerKey}.`);
-    }
-    seen.add(providerKey);
-    if (candidate.candidate_only !== true) {
-      throw new Error(`${contextLabel} provider candidate ${providerKey} must be candidate_only.`);
-    }
-    return sortObjectKeys({
-      candidate_only: true,
-      confidence: requiredString(candidate.confidence, `${contextLabel} ${providerKey} confidence`),
-      evidence: requiredString(candidate.evidence, `${contextLabel} ${providerKey} evidence`),
-      provider_key: providerKey,
-    });
-  });
-}
-
-function selectProviderConfigKey(candidates, contextLabel) {
-  const selected = candidates.find((candidate) => candidate.confidence === 'high') ?? candidates[0];
-  if (!selected) {
-    throw new Error(`${contextLabel} has no provider config key candidates.`);
-  }
-  return selected;
 }
 
 function validateProviderMap(providerMap) {
@@ -353,17 +301,6 @@ function validateProviderConfig(config) {
   if (!CANONICAL_PACKAGE_PATTERN.test(packageName)) {
     throw new Error(`Provider config package_name is not canonical: ${packageName}`);
   }
-  const providerConfigKey = requiredString(config.provider_config_key, `${packageName} provider_config_key`);
-  if (!PROVIDER_CONFIG_KEY_PATTERN.test(providerConfigKey)) {
-    throw new Error(`${packageName} provider_config_key is invalid: ${providerConfigKey}`);
-  }
-  const candidates = requiredStringArray(
-    config.provider_config_key_candidates,
-    `${packageName} provider_config_key_candidates`,
-  );
-  if (!candidates.includes(providerConfigKey)) {
-    throw new Error(`${packageName} selected provider_config_key must appear in candidates.`);
-  }
   requiredString(config.source_artifact_path, `${packageName} source_artifact_path`);
   requiredString(config.display_name, `${packageName} display_name`);
   requiredString(config.piece_slug, `${packageName} piece_slug`);
@@ -380,14 +317,6 @@ function renderFrontendModule(providerMap) {
     packageName: config.package_name,
     packageVersion: config.package_version,
     pieceSlug: config.piece_slug,
-    providerConfigKey: config.provider_config_key,
-    providerConfigKeyCandidateRecords: config.provider_config_key_candidate_records.map((candidate) => sortObjectKeys({
-      candidateOnly: candidate.candidate_only,
-      confidence: candidate.confidence,
-      evidence: candidate.evidence,
-      providerKey: candidate.provider_key,
-    })),
-    providerConfigKeyCandidates: config.provider_config_key_candidates,
     runtimeStatus: config.runtime_status,
     sourceArtifactPath: config.source_artifact_path,
   }));
@@ -474,7 +403,17 @@ function toRepoPath(filePath) {
   return path.relative(REPO_ROOT, filePath).split(path.sep).join('/');
 }
 
-main().catch((error) => {
-  console.error(error instanceof Error ? error.message : String(error));
-  process.exitCode = 1;
-});
+if (process.argv[1] && path.resolve(process.argv[1]) === SCRIPT_PATH) {
+  main().catch((error) => {
+    console.error(error instanceof Error ? error.message : String(error));
+    process.exitCode = 1;
+  });
+}
+
+export const providerMapPaths = {
+  frontendMarkers: FRONTEND_MARKERS,
+  frontendTarget: FRONTEND_TARGET_RELATIVE_PATH,
+  sourceIndex: SOURCE_INDEX_PATH,
+  sourceRoot: SOURCE_ROOT,
+  providerMapOutput: PROVIDER_MAP_OUTPUT_PATH,
+};

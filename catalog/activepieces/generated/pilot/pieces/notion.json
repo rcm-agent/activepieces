@@ -261,33 +261,13 @@
     }
   ],
   "auth": {
-    "auth_url_candidates": [
-      "https://api.notion.com/v1/oauth/authorize"
-    ],
     "declared_symbol": "notionAuth",
     "source_path": "packages/pieces/community/notion/src/lib/auth.ts",
-    "token_url_candidates": [
-      "https://api.notion.com/v1/oauth/token"
-    ],
     "types": [
       "oauth2",
       "custom_auth"
     ]
   },
-  "nango_provider_key_candidates": [
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for notion",
-      "provider_key": "notion-dev"
-    },
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for notion",
-      "provider_key": "notion"
-    }
-  ],
   "package": {
     "name": "@activepieces/piece-notion",
     "version": "0.7.5"

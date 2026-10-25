@@ -93,26 +93,12 @@
     }
   ],
   "auth": {
-    "auth_url_candidates": [
-      "https://appcenter.intuit.com/connect/oauth2"
-    ],
     "declared_symbol": "quickbooksAuth",
     "source_path": "packages/pieces/community/quickbooks/src/lib/auth.ts",
-    "token_url_candidates": [
-      "https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer"
-    ],
     "types": [
       "oauth2"
     ]
   },
-  "nango_provider_key_candidates": [
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for quickbooks",
-      "provider_key": "quickbooks"
-    }
-  ],
   "package": {
     "name": "@activepieces/piece-quickbooks",
     "version": "0.3.3"

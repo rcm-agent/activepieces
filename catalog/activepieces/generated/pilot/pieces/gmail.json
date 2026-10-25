@@ -261,45 +261,13 @@
     }
   ],
   "auth": {
-    "auth_url_candidates": [
-      "https://accounts.google.com/o/oauth2/auth"
-    ],
     "declared_symbol": "gmailAuth",
     "source_path": "packages/pieces/community/gmail/src/lib/auth.ts",
-    "token_url_candidates": [
-      "https://oauth2.googleapis.com/token"
-    ],
     "types": [
       "oauth2",
       "custom_auth"
     ]
   },
-  "nango_provider_key_candidates": [
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for gmail",
-      "provider_key": "google"
-    },
-    {
-      "candidate_only": true,
-      "confidence": "possible",
-      "evidence": "inferred from package/auth metadata for gmail",
-      "provider_key": "gmail"
-    },
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for gmail",
-      "provider_key": "google-mail"
-    },
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for gmail",
-      "provider_key": "google-mail-dev"
-    }
-  ],
   "package": {
     "name": "@activepieces/piece-gmail",
     "version": "0.17.5"

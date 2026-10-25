@@ -14,29 +14,6 @@
       "package_name": "@activepieces/piece-slack",
       "package_version": "0.21.1",
       "piece_slug": "slack",
-      "provider_config_key": "slack",
-      "provider_config_key_candidate_records": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack-dev"
-        }
-      ],
-      "provider_config_key_candidates": [
-        "slack",
-        "slack-dev"
-      ],
-      "provider_config_key_selection": {
-        "confidence": "high",
-        "policy": "first_high_confidence_else_first_candidate"
-      },
       "runtime_status": "candidate_only",
       "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/slack.json"
     },
@@ -49,29 +26,6 @@
       "package_name": "@activepieces/piece-discord",
       "package_version": "0.7.2",
       "piece_slug": "discord",
-      "provider_config_key": "discord-dev",
-      "provider_config_key_candidate_records": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for discord",
-          "provider_key": "discord-dev"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for discord",
-          "provider_key": "discord"
-        }
-      ],
-      "provider_config_key_candidates": [
-        "discord-dev",
-        "discord"
-      ],
-      "provider_config_key_selection": {
-        "confidence": "high",
-        "policy": "first_high_confidence_else_first_candidate"
-      },
       "runtime_status": "candidate_only",
       "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/discord.json"
     },
@@ -85,43 +39,6 @@
       "package_name": "@activepieces/piece-gmail",
       "package_version": "0.17.5",
       "piece_slug": "gmail",
-      "provider_config_key": "google",
-      "provider_config_key_candidate_records": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for gmail",
-          "provider_key": "google"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "possible",
-          "evidence": "inferred from package/auth metadata for gmail",
-          "provider_key": "gmail"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for gmail",
-          "provider_key": "google-mail"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for gmail",
-          "provider_key": "google-mail-dev"
-        }
-      ],
-      "provider_config_key_candidates": [
-        "google",
-        "gmail",
-        "google-mail",
-        "google-mail-dev"
-      ],
-      "provider_config_key_selection": {
-        "confidence": "high",
-        "policy": "first_high_confidence_else_first_candidate"
-      },
       "runtime_status": "candidate_only",
       "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/gmail.json"
     },
@@ -135,43 +52,6 @@
       "package_name": "@activepieces/piece-google-sheets",
       "package_version": "0.17.2",
       "piece_slug": "google-sheets",
-      "provider_config_key": "google",
-      "provider_config_key_candidate_records": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-sheets",
-          "provider_key": "google"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "possible",
-          "evidence": "inferred from package/auth metadata for google-sheets",
-          "provider_key": "google-sheets"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-sheets",
-          "provider_key": "google-sheet"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-sheets",
-          "provider_key": "google-sheet-dev"
-        }
-      ],
-      "provider_config_key_candidates": [
-        "google",
-        "google-sheets",
-        "google-sheet",
-        "google-sheet-dev"
-      ],
-      "provider_config_key_selection": {
-        "confidence": "high",
-        "policy": "first_high_confidence_else_first_candidate"
-      },
       "runtime_status": "candidate_only",
       "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/google-sheets.json"
     },
@@ -185,36 +65,6 @@
       "package_name": "@activepieces/piece-google-calendar",
       "package_version": "0.12.3",
       "piece_slug": "google-calendar",
-      "provider_config_key": "google-calendar",
-      "provider_config_key_candidate_records": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-calendar",
-          "provider_key": "google-calendar"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-calendar",
-          "provider_key": "google-calendar-dev"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-calendar",
-          "provider_key": "google"
-        }
-      ],
-      "provider_config_key_candidates": [
-        "google-calendar",
-        "google-calendar-dev",
-        "google"
-      ],
-      "provider_config_key_selection": {
-        "confidence": "high",
-        "policy": "first_high_confidence_else_first_candidate"
-      },
       "runtime_status": "candidate_only",
       "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/google-calendar.json"
     },
@@ -228,36 +78,6 @@
       "package_name": "@activepieces/piece-google-drive",
       "package_version": "0.11.3",
       "piece_slug": "google-drive",
-      "provider_config_key": "google-drive",
-      "provider_config_key_candidate_records": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-drive",
-          "provider_key": "google-drive"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-drive",
-          "provider_key": "google-drive-dev"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-drive",
-          "provider_key": "google"
-        }
-      ],
-      "provider_config_key_candidates": [
-        "google-drive",
-        "google-drive-dev",
-        "google"
-      ],
-      "provider_config_key_selection": {
-        "confidence": "high",
-        "policy": "first_high_confidence_else_first_candidate"
-      },
       "runtime_status": "candidate_only",
       "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/google-drive.json"
     },
@@ -271,22 +91,6 @@
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.12.1",
       "piece_slug": "hubspot",
-      "provider_config_key": "hubspot",
-      "provider_config_key_candidate_records": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for hubspot",
-          "provider_key": "hubspot"
-        }
-      ],
-      "provider_config_key_candidates": [
-        "hubspot"
-      ],
-      "provider_config_key_selection": {
-        "confidence": "high",
-        "policy": "first_high_confidence_else_first_candidate"
-      },
       "runtime_status": "candidate_only",
       "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/hubspot.json"
     },
@@ -300,22 +104,6 @@
       "package_name": "@activepieces/piece-github",
       "package_version": "0.9.3",
       "piece_slug": "github",
-      "provider_config_key": "github",
-      "provider_config_key_candidate_records": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for github",
-          "provider_key": "github"
-        }
-      ],
-      "provider_config_key_candidates": [
-        "github"
-      ],
-      "provider_config_key_selection": {
-        "confidence": "high",
-        "policy": "first_high_confidence_else_first_candidate"
-      },
       "runtime_status": "candidate_only",
       "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/github.json"
     },
@@ -329,29 +117,6 @@
       "package_name": "@activepieces/piece-notion",
       "package_version": "0.7.5",
       "piece_slug": "notion",
-      "provider_config_key": "notion-dev",
-      "provider_config_key_candidate_records": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for notion",
-          "provider_key": "notion-dev"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for notion",
-          "provider_key": "notion"
-        }
-      ],
-      "provider_config_key_candidates": [
-        "notion-dev",
-        "notion"
-      ],
-      "provider_config_key_selection": {
-        "confidence": "high",
-        "policy": "first_high_confidence_else_first_candidate"
-      },
       "runtime_status": "candidate_only",
       "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/notion.json"
     },
@@ -364,29 +129,6 @@
       "package_name": "@activepieces/piece-microsoft-outlook",
       "package_version": "0.7.2",
       "piece_slug": "microsoft-outlook",
-      "provider_config_key": "outlook",
-      "provider_config_key_candidate_records": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-outlook",
-          "provider_key": "outlook"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-outlook",
-          "provider_key": "outlook-dev"
-        }
-      ],
-      "provider_config_key_candidates": [
-        "outlook",
-        "outlook-dev"
-      ],
-      "provider_config_key_selection": {
-        "confidence": "high",
-        "policy": "first_high_confidence_else_first_candidate"
-      },
       "runtime_status": "candidate_only",
       "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/microsoft-outlook.json"
     },
@@ -399,29 +141,6 @@
       "package_name": "@activepieces/piece-microsoft-outlook-calendar",
       "package_version": "0.3.1",
       "piece_slug": "microsoft-outlook-calendar",
-      "provider_config_key": "outlook",
-      "provider_config_key_candidate_records": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-outlook-calendar",
-          "provider_key": "outlook"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-outlook-calendar",
-          "provider_key": "outlook-dev"
-        }
-      ],
-      "provider_config_key_candidates": [
-        "outlook",
-        "outlook-dev"
-      ],
-      "provider_config_key_selection": {
-        "confidence": "high",
-        "policy": "first_high_confidence_else_first_candidate"
-      },
       "runtime_status": "candidate_only",
       "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/microsoft-outlook-calendar.json"
     },
@@ -434,29 +153,6 @@
       "package_name": "@activepieces/piece-microsoft-teams",
       "package_version": "0.7.2",
       "piece_slug": "microsoft-teams",
-      "provider_config_key": "microsoft-teams",
-      "provider_config_key_candidate_records": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-teams",
-          "provider_key": "microsoft-teams"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-teams",
-          "provider_key": "microsoft-teams-dev"
-        }
-      ],
-      "provider_config_key_candidates": [
-        "microsoft-teams",
-        "microsoft-teams-dev"
-      ],
-      "provider_config_key_selection": {
-        "confidence": "high",
-        "policy": "first_high_confidence_else_first_candidate"
-      },
       "runtime_status": "candidate_only",
       "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/microsoft-teams.json"
     },
@@ -469,29 +165,6 @@
       "package_name": "@activepieces/piece-microsoft-excel-365",
       "package_version": "0.8.2",
       "piece_slug": "microsoft-excel-365",
-      "provider_config_key": "microsoft-excel",
-      "provider_config_key_candidate_records": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-excel-365",
-          "provider_key": "microsoft-excel"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-excel-365",
-          "provider_key": "microsoft-excel-dev"
-        }
-      ],
-      "provider_config_key_candidates": [
-        "microsoft-excel",
-        "microsoft-excel-dev"
-      ],
-      "provider_config_key_selection": {
-        "confidence": "high",
-        "policy": "first_high_confidence_else_first_candidate"
-      },
       "runtime_status": "candidate_only",
       "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/microsoft-excel-365.json"
     },
@@ -504,29 +177,6 @@
       "package_name": "@activepieces/piece-microsoft-onedrive",
       "package_version": "0.6.1",
       "piece_slug": "microsoft-onedrive",
-      "provider_config_key": "one-drive",
-      "provider_config_key_candidate_records": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-onedrive",
-          "provider_key": "one-drive"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-onedrive",
-          "provider_key": "one-drive-dev"
-        }
-      ],
-      "provider_config_key_candidates": [
-        "one-drive",
-        "one-drive-dev"
-      ],
-      "provider_config_key_selection": {
-        "confidence": "high",
-        "policy": "first_high_confidence_else_first_candidate"
-      },
       "runtime_status": "candidate_only",
       "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/microsoft-onedrive.json"
     },
@@ -539,29 +189,6 @@
       "package_name": "@activepieces/piece-microsoft-sharepoint",
       "package_version": "0.4.2",
       "piece_slug": "microsoft-sharepoint",
-      "provider_config_key": "sharepoint-online",
-      "provider_config_key_candidate_records": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
-          "provider_key": "sharepoint-online"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
-          "provider_key": "sharepoint-online-dev"
-        }
-      ],
-      "provider_config_key_candidates": [
-        "sharepoint-online",
-        "sharepoint-online-dev"
-      ],
-      "provider_config_key_selection": {
-        "confidence": "high",
-        "policy": "first_high_confidence_else_first_candidate"
-      },
       "runtime_status": "candidate_only",
       "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/microsoft-sharepoint.json"
     },
@@ -574,22 +201,6 @@
       "package_name": "@activepieces/piece-quickbooks",
       "package_version": "0.3.3",
       "piece_slug": "quickbooks",
-      "provider_config_key": "quickbooks",
-      "provider_config_key_candidate_records": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for quickbooks",
-          "provider_key": "quickbooks"
-        }
-      ],
-      "provider_config_key_candidates": [
-        "quickbooks"
-      ],
-      "provider_config_key_selection": {
-        "confidence": "high",
-        "policy": "first_high_confidence_else_first_candidate"
-      },
       "runtime_status": "candidate_only",
       "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/quickbooks.json"
     },
@@ -602,22 +213,6 @@
       "package_name": "@activepieces/piece-quickbooks-sandbox",
       "package_version": "0.2.2",
       "piece_slug": "quickbooks-sandbox",
-      "provider_config_key": "quickbooks-sandbox",
-      "provider_config_key_candidate_records": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for quickbooks-sandbox",
-          "provider_key": "quickbooks-sandbox"
-        }
-      ],
-      "provider_config_key_candidates": [
-        "quickbooks-sandbox"
-      ],
-      "provider_config_key_selection": {
-        "confidence": "high",
-        "policy": "first_high_confidence_else_first_candidate"
-      },
       "runtime_status": "candidate_only",
       "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/quickbooks-sandbox.json"
     },
@@ -630,22 +225,6 @@
       "package_name": "@activepieces/piece-xero",
       "package_version": "0.8.1",
       "piece_slug": "xero",
-      "provider_config_key": "xero",
-      "provider_config_key_candidate_records": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for xero",
-          "provider_key": "xero"
-        }
-      ],
-      "provider_config_key_candidates": [
-        "xero"
-      ],
-      "provider_config_key_selection": {
-        "confidence": "high",
-        "policy": "first_high_confidence_else_first_candidate"
-      },
       "runtime_status": "candidate_only",
       "source_artifact_path": "catalog/activepieces/generated/pilot/pieces/xero.json"
     }

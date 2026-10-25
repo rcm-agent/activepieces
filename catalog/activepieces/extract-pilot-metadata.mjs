@@ -24,27 +24,6 @@ const DEFAULT_CUSTOM_API_ACTION = {
   description: 'Make a custom API call to a specific endpoint',
 };
 
-const NANGO_PROVIDER_HINTS = {
-  slack: ['slack', 'slack-dev'],
-  discord: ['discord-dev', 'discord'],
-  gmail: ['google', 'gmail', 'google-mail', 'google-mail-dev'],
-  'google-sheets': ['google', 'google-sheets', 'google-sheet', 'google-sheet-dev'],
-  'google-calendar': ['google-calendar', 'google-calendar-dev'],
-  'google-drive': ['google-drive', 'google-drive-dev'],
-  'microsoft-outlook': ['outlook', 'outlook-dev'],
-  'microsoft-outlook-calendar': ['outlook', 'outlook-dev'],
-  'microsoft-teams': ['microsoft-teams', 'microsoft-teams-dev'],
-  'microsoft-excel-365': ['microsoft-excel', 'microsoft-excel-dev'],
-  'microsoft-onedrive': ['one-drive', 'one-drive-dev'],
-  'microsoft-sharepoint': ['sharepoint-online', 'sharepoint-online-dev'],
-  hubspot: ['hubspot'],
-  github: ['github'],
-  notion: ['notion-dev', 'notion'],
-  quickbooks: ['quickbooks'],
-  'quickbooks-sandbox': ['quickbooks-sandbox'],
-  xero: ['xero'],
-};
-
 function main() {
   const command = process.argv[2] ?? 'generate';
   if (!['generate', 'check', 'validate'].includes(command)) {
@@ -136,7 +115,6 @@ function buildPieceArtifact({ slug, upstreamCommit }) {
     },
     piece: pieceMetadata,
     auth,
-    nango_provider_key_candidates: inferNangoCandidates({ slug, packageName: packageJson.name, auth }),
     actions,
     triggers,
   });
@@ -158,9 +136,6 @@ function buildIndex({ artifacts, triggerCandidates, upstreamCommit }) {
       package_version: artifact.package.version,
       display_name: artifact.piece.display_name,
       auth_types: artifact.auth.types,
-      nango_provider_key_candidates: artifact.nango_provider_key_candidates.map(
-        (candidate) => candidate.provider_key,
-      ),
       action_count: artifact.actions.length,
       trigger_count: artifact.triggers.length,
       runtime_status: artifact.runtime_status,
@@ -204,7 +179,6 @@ function buildTriggerCandidateRecord({ artifact, trigger }) {
     package_name: artifact.package.name,
     package_version: artifact.package.version,
     auth_types: artifact.auth.types,
-    nango_provider_key_candidates: artifact.nango_provider_key_candidates,
     trigger_name: triggerName,
     display_name: trigger.display_name,
     description: trigger.description,
@@ -281,8 +255,6 @@ function extractAuth({ authSymbol, indexCode, indexImports, indexPath }) {
     declared_symbol: authSymbol,
     source_path: toRepoPath(sourceFile),
     types: unique(types),
-    auth_url_candidates: unique(readStringFieldValues({ code, fieldName: 'authUrl' })),
-    token_url_candidates: unique(readStringFieldValues({ code, fieldName: 'tokenUrl' })),
   });
 }
 
@@ -437,36 +409,6 @@ function readTriggerStrategy(object) {
   return match ? match[1] : null;
 }
 
-function inferNangoCandidates({ slug, packageName, auth }) {
-  const hints = new Set(NANGO_PROVIDER_HINTS[slug] ?? []);
-  const evidence = [
-    packageName,
-    ...auth.auth_url_candidates,
-    ...auth.token_url_candidates,
-  ].join(' ');
-
-  const lower = evidence.toLowerCase();
-  if (lower.includes('slack.com')) {
-    hints.add('slack');
-  }
-  if (lower.includes('google.com') || lower.includes('googleapis.com')) {
-    hints.add('google');
-  }
-  if (lower.includes('hubspot.com') || lower.includes('hubapi.com')) {
-    hints.add('hubspot');
-  }
-  if (lower.includes('github.com')) {
-    hints.add('github');
-  }
-
-  return [...hints].map((providerKey) => ({
-    provider_key: providerKey,
-    confidence: providerKey === 'google-sheets' || providerKey === 'gmail' ? 'possible' : 'high',
-    evidence: `inferred from package/auth metadata for ${slug}`,
-    candidate_only: true,
-  }));
-}
-
 function validateCatalog({ artifacts, index, triggerCandidates }) {
   if (artifacts.length !== PILOT_PIECES.length) {
     throw new Error(`Expected ${PILOT_PIECES.length} artifacts, got ${artifacts.length}.`);
@@ -529,9 +471,6 @@ function validateArtifact(artifact) {
   requiredString(artifact.piece?.logo_url, `${artifact.piece.slug} piece.logo_url`);
   if (!Array.isArray(artifact.auth?.types) || artifact.auth.types.length === 0) {
     throw new Error(`${artifact.piece.slug} must include at least one auth type.`);
-  }
-  if (!Array.isArray(artifact.nango_provider_key_candidates) || artifact.nango_provider_key_candidates.length === 0) {
-    throw new Error(`${artifact.piece.slug} must include Nango provider key candidates.`);
   }
   validateOperations({ operations: artifact.actions, kind: 'action', slug: artifact.piece.slug });
   validateOperations({ operations: artifact.triggers, kind: 'trigger', slug: artifact.piece.slug });
@@ -626,7 +565,6 @@ function validateTriggerCandidateRecord(candidate) {
     throw new Error(`${candidateId} trigger_strategy_family must be ${expectedFamily}.`);
   }
   validateStringArray(candidate.auth_types, `${candidateId} auth_types`);
-  validateProviderCandidates(candidate.nango_provider_key_candidates, candidateId);
 }
 
 function validateLegacyTriggerCandidateRejection(triggerCandidates) {
@@ -647,28 +585,6 @@ function validateLegacyTriggerCandidateRejection(triggerCandidates) {
     throw error;
   }
   throw new Error('Legacy Activepieces package ID was accepted as a trigger candidate_id.');
-}
-
-function validateProviderCandidates(candidates, contextLabel) {
-  if (!Array.isArray(candidates) || candidates.length === 0) {
-    throw new Error(`${contextLabel} must include Nango provider key candidates.`);
-  }
-  const seen = new Set();
-  for (const candidate of candidates) {
-    if (!candidate || typeof candidate !== 'object' || Array.isArray(candidate)) {
-      throw new Error(`${contextLabel} provider candidate must be an object.`);
-    }
-    const providerKey = requiredString(candidate.provider_key, `${contextLabel} provider_key`);
-    requiredString(candidate.confidence, `${contextLabel} provider candidate confidence`);
-    requiredString(candidate.evidence, `${contextLabel} provider candidate evidence`);
-    if (candidate.candidate_only !== true) {
-      throw new Error(`${contextLabel} provider candidate ${providerKey} must be candidate_only.`);
-    }
-    if (seen.has(providerKey)) {
-      throw new Error(`${contextLabel} has duplicate provider candidate ${providerKey}.`);
-    }
-    seen.add(providerKey);
-  }
 }
 
 function validateStringArray(values, label) {
@@ -1115,21 +1031,6 @@ function readStringField({ object, fieldName, required = true, contextLabel = 'o
     return null;
   }
   return readQuotedString({ code: object, start: valueIndex });
-}
-
-function readStringFieldValues({ code, fieldName }) {
-  const values = [];
-  const pattern = new RegExp(`\\b${escapeRegExp(fieldName)}\\s*:`, 'g');
-  for (const match of code.matchAll(pattern)) {
-    let valueIndex = match.index + match[0].length;
-    while (/\s/.test(code[valueIndex] ?? '')) {
-      valueIndex += 1;
-    }
-    if (['\'', '"', '`'].includes(code[valueIndex])) {
-      values.push(readQuotedString({ code, start: valueIndex }));
-    }
-  }
-  return values;
 }
 
 function readStringArrayField({ object, fieldName }) {

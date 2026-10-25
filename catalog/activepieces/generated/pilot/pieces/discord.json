@@ -429,28 +429,12 @@
     }
   ],
   "auth": {
-    "auth_url_candidates": [],
     "declared_symbol": "discordAuth",
     "source_path": "packages/pieces/community/discord/src/lib/auth.ts",
-    "token_url_candidates": [],
     "types": [
       "secret_text"
     ]
   },
-  "nango_provider_key_candidates": [
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for discord",
-      "provider_key": "discord-dev"
-    },
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for discord",
-      "provider_key": "discord"
-    }
-  ],
   "package": {
     "name": "@activepieces/piece-discord",
     "version": "0.7.2"

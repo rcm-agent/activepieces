@@ -429,45 +429,13 @@
     }
   ],
   "auth": {
-    "auth_url_candidates": [
-      "https://accounts.google.com/o/oauth2/auth"
-    ],
     "declared_symbol": "googleSheetsAuth",
     "source_path": "packages/pieces/community/google-sheets/src/lib/common/common.ts",
-    "token_url_candidates": [
-      "https://oauth2.googleapis.com/token"
-    ],
     "types": [
       "oauth2",
       "custom_auth"
     ]
   },
-  "nango_provider_key_candidates": [
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for google-sheets",
-      "provider_key": "google"
-    },
-    {
-      "candidate_only": true,
-      "confidence": "possible",
-      "evidence": "inferred from package/auth metadata for google-sheets",
-      "provider_key": "google-sheets"
-    },
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for google-sheets",
-      "provider_key": "google-sheet"
-    },
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for google-sheets",
-      "provider_key": "google-sheet-dev"
-    }
-  ],
   "package": {
     "name": "@activepieces/piece-google-sheets",
     "version": "0.17.2"

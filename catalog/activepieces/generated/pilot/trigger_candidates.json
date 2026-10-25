@@ -13,20 +13,6 @@
       "candidate_id": "activepieces_candidate.slack.channel_created",
       "description": "Triggers when a channel is created",
       "display_name": "New Channel",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-slack",
       "package_version": "0.21.1",
       "piece_display_name": "Slack",
@@ -51,20 +37,6 @@
       "candidate_id": "activepieces_candidate.slack.new_command",
       "description": "Triggers when a specific command is sent to the bot (e.g., @bot command arg1 arg2)",
       "display_name": "New Command in Channel",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-slack",
       "package_version": "0.21.1",
       "piece_display_name": "Slack",
@@ -89,20 +61,6 @@
       "candidate_id": "activepieces_candidate.slack.new_mention",
       "description": "Triggers when a user or user group is mentioned.",
       "display_name": "New Mention in Channel",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-slack",
       "package_version": "0.21.1",
       "piece_display_name": "Slack",
@@ -127,20 +85,6 @@
       "candidate_id": "activepieces_candidate.slack.new_reaction_added",
       "description": "Triggers when a new reaction is added to a message",
       "display_name": "New Reaction",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-slack",
       "package_version": "0.21.1",
       "piece_display_name": "Slack",
@@ -165,20 +109,6 @@
       "candidate_id": "activepieces_candidate.slack.new_reaction_removed",
       "description": "Triggers when a reaction is removed from a message",
       "display_name": "Reaction Removed",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-slack",
       "package_version": "0.21.1",
       "piece_display_name": "Slack",
@@ -203,20 +133,6 @@
       "candidate_id": "activepieces_candidate.slack.new-command-in-direct-message",
       "description": "Triggers when a specific command is sent to the bot (e.g., @bot command arg1 arg2) via Direct Message.",
       "display_name": "New Command in Direct Message",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-slack",
       "package_version": "0.21.1",
       "piece_display_name": "Slack",
@@ -241,20 +157,6 @@
       "candidate_id": "activepieces_candidate.slack.new-direct-message",
       "description": "Triggers when a message was posted in a direct message channel.",
       "display_name": "New Direct Message",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-slack",
       "package_version": "0.21.1",
       "piece_display_name": "Slack",
@@ -279,20 +181,6 @@
       "candidate_id": "activepieces_candidate.slack.new-mention-in-direct-message",
       "description": "Triggers when a username is mentioned in a direct message channel.",
       "display_name": "New Mention in Direct Message",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-slack",
       "package_version": "0.21.1",
       "piece_display_name": "Slack",
@@ -317,20 +205,6 @@
       "candidate_id": "activepieces_candidate.slack.new-message",
       "description": "Triggers when a new message is posted to any channel.",
       "display_name": "New Public Message Posted Anywhere",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-slack",
       "package_version": "0.21.1",
       "piece_display_name": "Slack",
@@ -355,20 +229,6 @@
       "candidate_id": "activepieces_candidate.slack.new-message-in-channel",
       "description": "Triggers when a new message is posted to a specific #channel you choose.",
       "display_name": "New Message Posted to Channel",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-slack",
       "package_version": "0.21.1",
       "piece_display_name": "Slack",
@@ -393,20 +253,6 @@
       "candidate_id": "activepieces_candidate.slack.new-modal-interaction",
       "description": "Triggers when a user interacts with a modal.",
       "display_name": "New Modal Interaction",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-slack",
       "package_version": "0.21.1",
       "piece_display_name": "Slack",
@@ -431,20 +277,6 @@
       "candidate_id": "activepieces_candidate.slack.new-saved-message",
       "description": "Triggers when a message is saved.",
       "display_name": "New Saved Message",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-slack",
       "package_version": "0.21.1",
       "piece_display_name": "Slack",
@@ -469,20 +301,6 @@
       "candidate_id": "activepieces_candidate.slack.new-team-custom-emoji",
       "description": "Triggers when a custom emoji has been added to a team.",
       "display_name": "New Team Custom Emoji",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-slack",
       "package_version": "0.21.1",
       "piece_display_name": "Slack",
@@ -507,20 +325,6 @@
       "candidate_id": "activepieces_candidate.slack.new-user",
       "description": "Triggers when a new user is created / first joins your org.",
       "display_name": "New User",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for slack",
-          "provider_key": "slack-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-slack",
       "package_version": "0.21.1",
       "piece_display_name": "Slack",
@@ -544,20 +348,6 @@
       "candidate_id": "activepieces_candidate.discord.new_member",
       "description": "Fires when a member joins a server.",
       "display_name": "New Member",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for discord",
-          "provider_key": "discord-dev"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for discord",
-          "provider_key": "discord"
-        }
-      ],
       "package_name": "@activepieces/piece-discord",
       "package_version": "0.7.2",
       "piece_display_name": "Discord",
@@ -581,20 +371,6 @@
       "candidate_id": "activepieces_candidate.discord.new_message",
       "description": "Fires when a message is posted in a channel.",
       "display_name": "New Message",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for discord",
-          "provider_key": "discord-dev"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for discord",
-          "provider_key": "discord"
-        }
-      ],
       "package_name": "@activepieces/piece-discord",
       "package_version": "0.7.2",
       "piece_display_name": "Discord",
@@ -619,32 +395,6 @@
       "candidate_id": "activepieces_candidate.gmail.gmail_new_email_received",
       "description": "Triggers when a new email matching the filters arrives.",
       "display_name": "New Email",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for gmail",
-          "provider_key": "google"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "possible",
-          "evidence": "inferred from package/auth metadata for gmail",
-          "provider_key": "gmail"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for gmail",
-          "provider_key": "google-mail"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for gmail",
-          "provider_key": "google-mail-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-gmail",
       "package_version": "0.17.5",
       "piece_display_name": "Gmail",
@@ -669,32 +419,6 @@
       "candidate_id": "activepieces_candidate.gmail.new_attachment",
       "description": "Triggers for each attachment on a new email.",
       "display_name": "New Attachment",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for gmail",
-          "provider_key": "google"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "possible",
-          "evidence": "inferred from package/auth metadata for gmail",
-          "provider_key": "gmail"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for gmail",
-          "provider_key": "google-mail"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for gmail",
-          "provider_key": "google-mail-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-gmail",
       "package_version": "0.17.5",
       "piece_display_name": "Gmail",
@@ -719,32 +443,6 @@
       "candidate_id": "activepieces_candidate.gmail.new_label",
       "description": "Triggers when a new label is created in Gmail.",
       "display_name": "New Label",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for gmail",
-          "provider_key": "google"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "possible",
-          "evidence": "inferred from package/auth metadata for gmail",
-          "provider_key": "gmail"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for gmail",
-          "provider_key": "google-mail"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for gmail",
-          "provider_key": "google-mail-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-gmail",
       "package_version": "0.17.5",
       "piece_display_name": "Gmail",
@@ -769,32 +467,6 @@
       "candidate_id": "activepieces_candidate.gmail.new_labeled_email",
       "description": "Triggers when this label is added to an email.",
       "display_name": "New Labeled Email",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for gmail",
-          "provider_key": "google"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "possible",
-          "evidence": "inferred from package/auth metadata for gmail",
-          "provider_key": "gmail"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for gmail",
-          "provider_key": "google-mail"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for gmail",
-          "provider_key": "google-mail-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-gmail",
       "package_version": "0.17.5",
       "piece_display_name": "Gmail",
@@ -819,32 +491,6 @@
       "candidate_id": "activepieces_candidate.google-sheets.google-sheets-new-or-updated-row",
       "description": "Triggers when a new row is added or modified in a spreadsheet.",
       "display_name": "New or Updated Row",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-sheets",
-          "provider_key": "google"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "possible",
-          "evidence": "inferred from package/auth metadata for google-sheets",
-          "provider_key": "google-sheets"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-sheets",
-          "provider_key": "google-sheet"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-sheets",
-          "provider_key": "google-sheet-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-google-sheets",
       "package_version": "0.17.2",
       "piece_display_name": "Google Sheets",
@@ -869,32 +515,6 @@
       "candidate_id": "activepieces_candidate.google-sheets.googlesheets_new_row_added",
       "description": "Triggers when a new row is added to the bottom of a worksheet.",
       "display_name": "New Row Added",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-sheets",
-          "provider_key": "google"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "possible",
-          "evidence": "inferred from package/auth metadata for google-sheets",
-          "provider_key": "google-sheets"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-sheets",
-          "provider_key": "google-sheet"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-sheets",
-          "provider_key": "google-sheet-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-google-sheets",
       "package_version": "0.17.2",
       "piece_display_name": "Google Sheets",
@@ -919,32 +539,6 @@
       "candidate_id": "activepieces_candidate.google-sheets.new-spreadsheet",
       "description": "Triggers when a new spreadsheet is created.",
       "display_name": "New Spreadsheet",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-sheets",
-          "provider_key": "google"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "possible",
-          "evidence": "inferred from package/auth metadata for google-sheets",
-          "provider_key": "google-sheets"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-sheets",
-          "provider_key": "google-sheet"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-sheets",
-          "provider_key": "google-sheet-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-google-sheets",
       "package_version": "0.17.2",
       "piece_display_name": "Google Sheets",
@@ -969,32 +563,6 @@
       "candidate_id": "activepieces_candidate.google-sheets.new-worksheet",
       "description": "Triggers when a worksheet is created in a spreadsheet.",
       "display_name": "New Worksheet",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-sheets",
-          "provider_key": "google"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "possible",
-          "evidence": "inferred from package/auth metadata for google-sheets",
-          "provider_key": "google-sheets"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-sheets",
-          "provider_key": "google-sheet"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-sheets",
-          "provider_key": "google-sheet-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-google-sheets",
       "package_version": "0.17.2",
       "piece_display_name": "Google Sheets",
@@ -1019,26 +587,6 @@
       "candidate_id": "activepieces_candidate.google-calendar.event_cancelled",
       "description": "Fires when an event is canceled or deleted.",
       "display_name": "Event Cancelled",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-calendar",
-          "provider_key": "google-calendar"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-calendar",
-          "provider_key": "google-calendar-dev"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-calendar",
-          "provider_key": "google"
-        }
-      ],
       "package_name": "@activepieces/piece-google-calendar",
       "package_version": "0.12.3",
       "piece_display_name": "Google Calendar",
@@ -1063,26 +611,6 @@
       "candidate_id": "activepieces_candidate.google-calendar.event_ends",
       "description": "Fires when an event ends.",
       "display_name": "Event Ends",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-calendar",
-          "provider_key": "google-calendar"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-calendar",
-          "provider_key": "google-calendar-dev"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-calendar",
-          "provider_key": "google"
-        }
-      ],
       "package_name": "@activepieces/piece-google-calendar",
       "package_version": "0.12.3",
       "piece_display_name": "Google Calendar",
@@ -1107,26 +635,6 @@
       "candidate_id": "activepieces_candidate.google-calendar.event_starts_in",
       "description": "Fires at a specified amount of time before an event starts (e.g., a reminder).",
       "display_name": "Event Start (Time Before)",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-calendar",
-          "provider_key": "google-calendar"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-calendar",
-          "provider_key": "google-calendar-dev"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-calendar",
-          "provider_key": "google"
-        }
-      ],
       "package_name": "@activepieces/piece-google-calendar",
       "package_version": "0.12.3",
       "piece_display_name": "Google Calendar",
@@ -1151,26 +659,6 @@
       "candidate_id": "activepieces_candidate.google-calendar.new_calendar",
       "description": "Fires when a new calendar is created or becomes accessible.",
       "display_name": "New Calendar",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-calendar",
-          "provider_key": "google-calendar"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-calendar",
-          "provider_key": "google-calendar-dev"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-calendar",
-          "provider_key": "google"
-        }
-      ],
       "package_name": "@activepieces/piece-google-calendar",
       "package_version": "0.12.3",
       "piece_display_name": "Google Calendar",
@@ -1195,26 +683,6 @@
       "candidate_id": "activepieces_candidate.google-calendar.new_event",
       "description": "Fires when a new event is created in a calendar.",
       "display_name": "New Event",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-calendar",
-          "provider_key": "google-calendar"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-calendar",
-          "provider_key": "google-calendar-dev"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-calendar",
-          "provider_key": "google"
-        }
-      ],
       "package_name": "@activepieces/piece-google-calendar",
       "package_version": "0.12.3",
       "piece_display_name": "Google Calendar",
@@ -1239,26 +707,6 @@
       "candidate_id": "activepieces_candidate.google-calendar.new_event_matching_search",
       "description": "Fires when a new event is created that matches a specified search term.",
       "display_name": "New Event Matching Search",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-calendar",
-          "provider_key": "google-calendar"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-calendar",
-          "provider_key": "google-calendar-dev"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-calendar",
-          "provider_key": "google"
-        }
-      ],
       "package_name": "@activepieces/piece-google-calendar",
       "package_version": "0.12.3",
       "piece_display_name": "Google Calendar",
@@ -1283,26 +731,6 @@
       "candidate_id": "activepieces_candidate.google-calendar.new_or_updated_event",
       "description": "Triggers when an event is added or updated",
       "display_name": "New or Updated Event",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-calendar",
-          "provider_key": "google-calendar"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-calendar",
-          "provider_key": "google-calendar-dev"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-calendar",
-          "provider_key": "google"
-        }
-      ],
       "package_name": "@activepieces/piece-google-calendar",
       "package_version": "0.12.3",
       "piece_display_name": "Google Calendar",
@@ -1327,26 +755,6 @@
       "candidate_id": "activepieces_candidate.google-drive.new_file",
       "description": "Triggers when a new file is added to Drive or the chosen folder.",
       "display_name": "New File",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-drive",
-          "provider_key": "google-drive"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-drive",
-          "provider_key": "google-drive-dev"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-drive",
-          "provider_key": "google"
-        }
-      ],
       "package_name": "@activepieces/piece-google-drive",
       "package_version": "0.11.3",
       "piece_display_name": "Google Drive",
@@ -1371,26 +779,6 @@
       "candidate_id": "activepieces_candidate.google-drive.new_folder",
       "description": "Triggers when a new folder is created in Drive or the chosen folder.",
       "display_name": "New Folder",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-drive",
-          "provider_key": "google-drive"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-drive",
-          "provider_key": "google-drive-dev"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-drive",
-          "provider_key": "google"
-        }
-      ],
       "package_name": "@activepieces/piece-google-drive",
       "package_version": "0.11.3",
       "piece_display_name": "Google Drive",
@@ -1415,26 +803,6 @@
       "candidate_id": "activepieces_candidate.google-drive.new_or_updated_file",
       "description": "Triggers when a file is created or edited. A rename counts; trashing or moving does not.",
       "display_name": "New or Updated File",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-drive",
-          "provider_key": "google-drive"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-drive",
-          "provider_key": "google-drive-dev"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for google-drive",
-          "provider_key": "google"
-        }
-      ],
       "package_name": "@activepieces/piece-google-drive",
       "package_version": "0.11.3",
       "piece_display_name": "Google Drive",
@@ -1459,14 +827,6 @@
       "candidate_id": "activepieces_candidate.hubspot.deal-stage-updated",
       "description": "Triggers when a deal enters a specified stage.",
       "display_name": "Updated Deal Stage",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for hubspot",
-          "provider_key": "hubspot"
-        }
-      ],
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
@@ -1491,14 +851,6 @@
       "candidate_id": "activepieces_candidate.hubspot.new-blog-article",
       "description": "Triggers when a post is added to your HubSpot blog.",
       "display_name": "New Blog Post",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for hubspot",
-          "provider_key": "hubspot"
-        }
-      ],
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
@@ -1523,14 +875,6 @@
       "candidate_id": "activepieces_candidate.hubspot.new-company",
       "description": "Triggers when a new company is created.",
       "display_name": "New Company",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for hubspot",
-          "provider_key": "hubspot"
-        }
-      ],
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
@@ -1555,14 +899,6 @@
       "candidate_id": "activepieces_candidate.hubspot.new-company-property-change",
       "description": "Triggers when a specified property is updated on a company.",
       "display_name": "New Company Property Change",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for hubspot",
-          "provider_key": "hubspot"
-        }
-      ],
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
@@ -1587,14 +923,6 @@
       "candidate_id": "activepieces_candidate.hubspot.new-contact",
       "description": "Triggers when a new contact is created.",
       "display_name": "New Contact",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for hubspot",
-          "provider_key": "hubspot"
-        }
-      ],
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
@@ -1619,14 +947,6 @@
       "candidate_id": "activepieces_candidate.hubspot.new-contact-in-list",
       "description": "Triggers when a new contact is added to the specified list.",
       "display_name": "New Contact in List",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for hubspot",
-          "provider_key": "hubspot"
-        }
-      ],
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
@@ -1651,14 +971,6 @@
       "candidate_id": "activepieces_candidate.hubspot.new-contact-property-change",
       "description": "Triggers when a specified property is updated on a contact.",
       "display_name": "New Contact Property Change",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for hubspot",
-          "provider_key": "hubspot"
-        }
-      ],
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
@@ -1683,14 +995,6 @@
       "candidate_id": "activepieces_candidate.hubspot.new-custom-object",
       "description": "Triggers when a new custom object record is created.",
       "display_name": "New Custom Object",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for hubspot",
-          "provider_key": "hubspot"
-        }
-      ],
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
@@ -1715,14 +1019,6 @@
       "candidate_id": "activepieces_candidate.hubspot.new-custom-object-property-change",
       "description": "Triggers when a specified property is updated on a custom object.",
       "display_name": "New Custom Object Property Change",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for hubspot",
-          "provider_key": "hubspot"
-        }
-      ],
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
@@ -1747,14 +1043,6 @@
       "candidate_id": "activepieces_candidate.hubspot.new-deal",
       "description": "Triggers when a new deal is created.",
       "display_name": "New Deal",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for hubspot",
-          "provider_key": "hubspot"
-        }
-      ],
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
@@ -1779,14 +1067,6 @@
       "candidate_id": "activepieces_candidate.hubspot.new-deal-property-change",
       "description": "Triggers when a specified property is updated on a deal.",
       "display_name": "New Deal Property Change",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for hubspot",
-          "provider_key": "hubspot"
-        }
-      ],
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
@@ -1811,14 +1091,6 @@
       "candidate_id": "activepieces_candidate.hubspot.new-email-event",
       "description": "Triggers on new marketing email events, such as opens or clicks.",
       "display_name": "New Email Event",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for hubspot",
-          "provider_key": "hubspot"
-        }
-      ],
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
@@ -1843,14 +1115,6 @@
       "candidate_id": "activepieces_candidate.hubspot.new-email-subscriptions-timeline",
       "description": "Triggers when a contact's email subscription status changes.",
       "display_name": "New Email Subscription Change",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for hubspot",
-          "provider_key": "hubspot"
-        }
-      ],
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
@@ -1875,14 +1139,6 @@
       "candidate_id": "activepieces_candidate.hubspot.new-engagement",
       "description": "Triggers when a new engagement is created.",
       "display_name": "New Engagement",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for hubspot",
-          "provider_key": "hubspot"
-        }
-      ],
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
@@ -1907,14 +1163,6 @@
       "candidate_id": "activepieces_candidate.hubspot.new-form-submission",
       "description": "Triggers when a form is submitted.",
       "display_name": "New Form Submission",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for hubspot",
-          "provider_key": "hubspot"
-        }
-      ],
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
@@ -1939,14 +1187,6 @@
       "candidate_id": "activepieces_candidate.hubspot.new-line-item",
       "description": "Triggers when a new line item is created.",
       "display_name": "New Line Item",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for hubspot",
-          "provider_key": "hubspot"
-        }
-      ],
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
@@ -1971,14 +1211,6 @@
       "candidate_id": "activepieces_candidate.hubspot.new-or-updated-company",
       "description": "Triggers when a company is created or updated.",
       "display_name": "New or Updated Company",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for hubspot",
-          "provider_key": "hubspot"
-        }
-      ],
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
@@ -2003,14 +1235,6 @@
       "candidate_id": "activepieces_candidate.hubspot.new-or-updated-contact",
       "description": "Triggers when a contact is created or updated.",
       "display_name": "New or Updated Contact",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for hubspot",
-          "provider_key": "hubspot"
-        }
-      ],
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
@@ -2035,14 +1259,6 @@
       "candidate_id": "activepieces_candidate.hubspot.new-or-updated-line-item",
       "description": "Triggers when a line item is created or updated.",
       "display_name": "New or Updated Line Item",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for hubspot",
-          "provider_key": "hubspot"
-        }
-      ],
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
@@ -2067,14 +1283,6 @@
       "candidate_id": "activepieces_candidate.hubspot.new-or-updated-product",
       "description": "Triggers when a product is created or updated.",
       "display_name": "New or Updated Product",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for hubspot",
-          "provider_key": "hubspot"
-        }
-      ],
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
@@ -2099,14 +1307,6 @@
       "candidate_id": "activepieces_candidate.hubspot.new-product",
       "description": "Triggers when a new product is created.",
       "display_name": "New Product",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for hubspot",
-          "provider_key": "hubspot"
-        }
-      ],
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
@@ -2131,14 +1331,6 @@
       "candidate_id": "activepieces_candidate.hubspot.new-task",
       "description": "Triggers when a new task is created.",
       "display_name": "New Task",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for hubspot",
-          "provider_key": "hubspot"
-        }
-      ],
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
@@ -2163,14 +1355,6 @@
       "candidate_id": "activepieces_candidate.hubspot.new-ticket",
       "description": "Triggers when a new ticket is created.",
       "display_name": "New Ticket",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for hubspot",
-          "provider_key": "hubspot"
-        }
-      ],
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
@@ -2195,14 +1379,6 @@
       "candidate_id": "activepieces_candidate.hubspot.new-ticket-property-change",
       "description": "Triggers when a specified property is updated on a ticket.",
       "display_name": "New Ticket Property Change",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for hubspot",
-          "provider_key": "hubspot"
-        }
-      ],
       "package_name": "@activepieces/piece-hubspot",
       "package_version": "0.12.1",
       "piece_display_name": "HubSpot",
@@ -2227,14 +1403,6 @@
       "candidate_id": "activepieces_candidate.github.new_branch",
       "description": "Triggers when a new branch is created.",
       "display_name": "New Branch",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for github",
-          "provider_key": "github"
-        }
-      ],
       "package_name": "@activepieces/piece-github",
       "package_version": "0.9.3",
       "piece_display_name": "GitHub",
@@ -2259,14 +1427,6 @@
       "candidate_id": "activepieces_candidate.github.new_collaborator",
       "description": "Triggers when a new collaborator is added to a repository.",
       "display_name": "New Collaborator",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for github",
-          "provider_key": "github"
-        }
-      ],
       "package_name": "@activepieces/piece-github",
       "package_version": "0.9.3",
       "piece_display_name": "GitHub",
@@ -2291,14 +1451,6 @@
       "candidate_id": "activepieces_candidate.github.new_commit",
       "description": "Triggers when a new commit is pushed.",
       "display_name": "New Commit",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for github",
-          "provider_key": "github"
-        }
-      ],
       "package_name": "@activepieces/piece-github",
       "package_version": "0.9.3",
       "piece_display_name": "GitHub",
@@ -2323,14 +1475,6 @@
       "candidate_id": "activepieces_candidate.github.new_label",
       "description": "Triggers when a new label is created in a repository.",
       "display_name": "New Label",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for github",
-          "provider_key": "github"
-        }
-      ],
       "package_name": "@activepieces/piece-github",
       "package_version": "0.9.3",
       "piece_display_name": "GitHub",
@@ -2355,14 +1499,6 @@
       "candidate_id": "activepieces_candidate.github.new_mention",
       "description": "Triggers when you are mentioned in a comment.",
       "display_name": "New Mention",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for github",
-          "provider_key": "github"
-        }
-      ],
       "package_name": "@activepieces/piece-github",
       "package_version": "0.9.3",
       "piece_display_name": "GitHub",
@@ -2387,14 +1523,6 @@
       "candidate_id": "activepieces_candidate.github.new_milestone",
       "description": "Triggers when a new milestone is created.",
       "display_name": "New Milestone",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for github",
-          "provider_key": "github"
-        }
-      ],
       "package_name": "@activepieces/piece-github",
       "package_version": "0.9.3",
       "piece_display_name": "GitHub",
@@ -2419,14 +1547,6 @@
       "candidate_id": "activepieces_candidate.github.new_release",
       "description": "Triggers when a new release is added.",
       "display_name": "New Release",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for github",
-          "provider_key": "github"
-        }
-      ],
       "package_name": "@activepieces/piece-github",
       "package_version": "0.9.3",
       "piece_display_name": "GitHub",
@@ -2451,14 +1571,6 @@
       "candidate_id": "activepieces_candidate.github.new_review_request",
       "description": "Triggers when you are requested to review a pull request.",
       "display_name": "New Review Request",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for github",
-          "provider_key": "github"
-        }
-      ],
       "package_name": "@activepieces/piece-github",
       "package_version": "0.9.3",
       "piece_display_name": "GitHub",
@@ -2483,14 +1595,6 @@
       "candidate_id": "activepieces_candidate.github.trigger_discussion",
       "description": "Triggers when there is activity relating to a discussion.",
       "display_name": "New Discussion",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for github",
-          "provider_key": "github"
-        }
-      ],
       "package_name": "@activepieces/piece-github",
       "package_version": "0.9.3",
       "piece_display_name": "GitHub",
@@ -2515,14 +1619,6 @@
       "candidate_id": "activepieces_candidate.github.trigger_discussion_comment",
       "description": "Triggers when there is a new comment posted on a discussion.",
       "display_name": "New Comment Posted",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for github",
-          "provider_key": "github"
-        }
-      ],
       "package_name": "@activepieces/piece-github",
       "package_version": "0.9.3",
       "piece_display_name": "GitHub",
@@ -2547,14 +1643,6 @@
       "candidate_id": "activepieces_candidate.github.trigger_issues",
       "description": "Triggers when there is activity relating to an issue.",
       "display_name": "New Issue",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for github",
-          "provider_key": "github"
-        }
-      ],
       "package_name": "@activepieces/piece-github",
       "package_version": "0.9.3",
       "piece_display_name": "GitHub",
@@ -2579,14 +1667,6 @@
       "candidate_id": "activepieces_candidate.github.trigger_pull_request",
       "description": "Triggers when there is activity on a pull request.",
       "display_name": "New Pull Request",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for github",
-          "provider_key": "github"
-        }
-      ],
       "package_name": "@activepieces/piece-github",
       "package_version": "0.9.3",
       "piece_display_name": "GitHub",
@@ -2611,14 +1691,6 @@
       "candidate_id": "activepieces_candidate.github.trigger_push",
       "description": "Triggers when there is a push to a repository branch. This includes when a commit is pushed, when a commit tag is pushed, when a branch is deleted, when a tag is deleted, or when a repository is created from a template.",
       "display_name": "Push",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for github",
-          "provider_key": "github"
-        }
-      ],
       "package_name": "@activepieces/piece-github",
       "package_version": "0.9.3",
       "piece_display_name": "GitHub",
@@ -2643,14 +1715,6 @@
       "candidate_id": "activepieces_candidate.github.trigger_star",
       "description": "Trigger when there is activity relating to repository stars.",
       "display_name": "New Star",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for github",
-          "provider_key": "github"
-        }
-      ],
       "package_name": "@activepieces/piece-github",
       "package_version": "0.9.3",
       "piece_display_name": "GitHub",
@@ -2675,20 +1739,6 @@
       "candidate_id": "activepieces_candidate.notion.new_comment",
       "description": "Triggers when a comment is added to a page.",
       "display_name": "New Comment",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for notion",
-          "provider_key": "notion-dev"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for notion",
-          "provider_key": "notion"
-        }
-      ],
       "package_name": "@activepieces/piece-notion",
       "package_version": "0.7.5",
       "piece_display_name": "Notion",
@@ -2713,20 +1763,6 @@
       "candidate_id": "activepieces_candidate.notion.new_database_item",
       "description": "Triggers when an item is added to a database.",
       "display_name": "New Database Item",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for notion",
-          "provider_key": "notion-dev"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for notion",
-          "provider_key": "notion"
-        }
-      ],
       "package_name": "@activepieces/piece-notion",
       "package_version": "0.7.5",
       "piece_display_name": "Notion",
@@ -2751,20 +1787,6 @@
       "candidate_id": "activepieces_candidate.notion.updated_database_item",
       "description": "Triggers when an item is updated in a database.",
       "display_name": "Updated Database Item",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for notion",
-          "provider_key": "notion-dev"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for notion",
-          "provider_key": "notion"
-        }
-      ],
       "package_name": "@activepieces/piece-notion",
       "package_version": "0.7.5",
       "piece_display_name": "Notion",
@@ -2789,20 +1811,6 @@
       "candidate_id": "activepieces_candidate.notion.updated_page",
       "description": "Triggers when any page shared with the integration is edited.",
       "display_name": "Updated Page",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for notion",
-          "provider_key": "notion-dev"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for notion",
-          "provider_key": "notion"
-        }
-      ],
       "package_name": "@activepieces/piece-notion",
       "package_version": "0.7.5",
       "piece_display_name": "Notion",
@@ -2826,20 +1834,6 @@
       "candidate_id": "activepieces_candidate.microsoft-outlook.newAttachment",
       "description": "Triggers once for each attachment on a new email.",
       "display_name": "New Attachment",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-outlook",
-          "provider_key": "outlook"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-outlook",
-          "provider_key": "outlook-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-microsoft-outlook",
       "package_version": "0.7.2",
       "piece_display_name": "Microsoft Outlook",
@@ -2863,20 +1857,6 @@
       "candidate_id": "activepieces_candidate.microsoft-outlook.newEmail",
       "description": "Triggers when a new email arrives in your Inbox.",
       "display_name": "New Email",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-outlook",
-          "provider_key": "outlook"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-outlook",
-          "provider_key": "outlook-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-microsoft-outlook",
       "package_version": "0.7.2",
       "piece_display_name": "Microsoft Outlook",
@@ -2900,20 +1880,6 @@
       "candidate_id": "activepieces_candidate.microsoft-outlook.newEmailInFolder",
       "description": "Triggers when a new email lands in the folder you pick.",
       "display_name": "New Email in Folder",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-outlook",
-          "provider_key": "outlook"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-outlook",
-          "provider_key": "outlook-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-microsoft-outlook",
       "package_version": "0.7.2",
       "piece_display_name": "Microsoft Outlook",
@@ -2937,20 +1903,6 @@
       "candidate_id": "activepieces_candidate.microsoft-teams.new-channel",
       "description": "Triggers when a new channel is created in a team.",
       "display_name": "New Channel",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-teams",
-          "provider_key": "microsoft-teams"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-teams",
-          "provider_key": "microsoft-teams-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-microsoft-teams",
       "package_version": "0.7.2",
       "piece_display_name": "Microsoft Teams",
@@ -2974,20 +1926,6 @@
       "candidate_id": "activepieces_candidate.microsoft-teams.new-channel-message",
       "description": "Triggers when a new message is posted in a channel.",
       "display_name": "New Channel Message",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-teams",
-          "provider_key": "microsoft-teams"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-teams",
-          "provider_key": "microsoft-teams-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-microsoft-teams",
       "package_version": "0.7.2",
       "piece_display_name": "Microsoft Teams",
@@ -3011,20 +1949,6 @@
       "candidate_id": "activepieces_candidate.microsoft-teams.new-chat",
       "description": "Triggers when a new chat is created.",
       "display_name": "New Chat",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-teams",
-          "provider_key": "microsoft-teams"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-teams",
-          "provider_key": "microsoft-teams-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-microsoft-teams",
       "package_version": "0.7.2",
       "piece_display_name": "Microsoft Teams",
@@ -3048,20 +1972,6 @@
       "candidate_id": "activepieces_candidate.microsoft-teams.new-chat-message",
       "description": "Triggers when a new message is received in a chat.",
       "display_name": "New Chat Message",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-teams",
-          "provider_key": "microsoft-teams"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-teams",
-          "provider_key": "microsoft-teams-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-microsoft-teams",
       "package_version": "0.7.2",
       "piece_display_name": "Microsoft Teams",
@@ -3085,20 +1995,6 @@
       "candidate_id": "activepieces_candidate.microsoft-excel-365.new_row",
       "description": "Trigger when a new row is added, and it can include existing rows as well.",
       "display_name": "New Row",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-excel-365",
-          "provider_key": "microsoft-excel"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-excel-365",
-          "provider_key": "microsoft-excel-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-microsoft-excel-365",
       "package_version": "0.8.2",
       "piece_display_name": "Microsoft Excel 365",
@@ -3122,20 +2018,6 @@
       "candidate_id": "activepieces_candidate.microsoft-excel-365.new_row_in_table",
       "description": "Fires when a new row is added to a table within a worksheet.",
       "display_name": "New Row in Table",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-excel-365",
-          "provider_key": "microsoft-excel"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-excel-365",
-          "provider_key": "microsoft-excel-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-microsoft-excel-365",
       "package_version": "0.8.2",
       "piece_display_name": "Microsoft Excel 365",
@@ -3159,20 +2041,6 @@
       "candidate_id": "activepieces_candidate.microsoft-excel-365.new_worksheet",
       "description": "Fires when a new worksheet is created in a workbook.",
       "display_name": "New Worksheet",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-excel-365",
-          "provider_key": "microsoft-excel"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-excel-365",
-          "provider_key": "microsoft-excel-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-microsoft-excel-365",
       "package_version": "0.8.2",
       "piece_display_name": "Microsoft Excel 365",
@@ -3196,20 +2064,6 @@
       "candidate_id": "activepieces_candidate.microsoft-excel-365.updated_row",
       "description": "Fires when a row (in a worksheet) is added or updated.",
       "display_name": "Updated Row",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-excel-365",
-          "provider_key": "microsoft-excel"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-excel-365",
-          "provider_key": "microsoft-excel-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-microsoft-excel-365",
       "package_version": "0.8.2",
       "piece_display_name": "Microsoft Excel 365",
@@ -3233,20 +2087,6 @@
       "candidate_id": "activepieces_candidate.microsoft-onedrive.new_file",
       "description": "Trigger when a new file is uploaded.",
       "display_name": "New File",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-onedrive",
-          "provider_key": "one-drive"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-onedrive",
-          "provider_key": "one-drive-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-microsoft-onedrive",
       "package_version": "0.6.1",
       "piece_display_name": "Microsoft OneDrive",
@@ -3270,20 +2110,6 @@
       "candidate_id": "activepieces_candidate.microsoft-sharepoint.new_file_in_folder",
       "description": "Fires when a new file is created or added in a specific folder.",
       "display_name": "New File in Folder",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
-          "provider_key": "sharepoint-online"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
-          "provider_key": "sharepoint-online-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-microsoft-sharepoint",
       "package_version": "0.4.2",
       "piece_display_name": "Microsoft SharePoint",
@@ -3307,20 +2133,6 @@
       "candidate_id": "activepieces_candidate.microsoft-sharepoint.new_file_in_subfolders",
       "description": "Fires when a new file is added anywhere in the first-level subfolders of a folder. Note: This trigger will not monitor subfolders created after the flow is activated.",
       "display_name": "New File in Subfolders",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
-          "provider_key": "sharepoint-online"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
-          "provider_key": "sharepoint-online-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-microsoft-sharepoint",
       "package_version": "0.4.2",
       "piece_display_name": "Microsoft SharePoint",
@@ -3344,20 +2156,6 @@
       "candidate_id": "activepieces_candidate.microsoft-sharepoint.new_list",
       "description": "Triggers when a new list is created in a site.",
       "display_name": "New List",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
-          "provider_key": "sharepoint-online"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
-          "provider_key": "sharepoint-online-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-microsoft-sharepoint",
       "package_version": "0.4.2",
       "piece_display_name": "Microsoft SharePoint",
@@ -3381,20 +2179,6 @@
       "candidate_id": "activepieces_candidate.microsoft-sharepoint.new_list_item",
       "description": "Triggers when a new item is created in a SharePoint list.",
       "display_name": "New List Item",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
-          "provider_key": "sharepoint-online"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
-          "provider_key": "sharepoint-online-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-microsoft-sharepoint",
       "package_version": "0.4.2",
       "piece_display_name": "Microsoft SharePoint",
@@ -3418,20 +2202,6 @@
       "candidate_id": "activepieces_candidate.microsoft-sharepoint.new_or_updated_file",
       "description": "Triggers when a file is created or updated in a given folder.",
       "display_name": "New or Updated File",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
-          "provider_key": "sharepoint-online"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
-          "provider_key": "sharepoint-online-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-microsoft-sharepoint",
       "package_version": "0.4.2",
       "piece_display_name": "Microsoft SharePoint",
@@ -3455,20 +2225,6 @@
       "candidate_id": "activepieces_candidate.microsoft-sharepoint.new_or_updated_folder",
       "description": "Triggers when a folder is created or updated (e.g., name change).",
       "display_name": "New or Updated Folder",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
-          "provider_key": "sharepoint-online"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
-          "provider_key": "sharepoint-online-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-microsoft-sharepoint",
       "package_version": "0.4.2",
       "piece_display_name": "Microsoft SharePoint",
@@ -3492,20 +2248,6 @@
       "candidate_id": "activepieces_candidate.microsoft-sharepoint.new_or_updated_list",
       "description": "Triggers when a list is created or updated in a site.",
       "display_name": "New or Updated List",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
-          "provider_key": "sharepoint-online"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
-          "provider_key": "sharepoint-online-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-microsoft-sharepoint",
       "package_version": "0.4.2",
       "piece_display_name": "Microsoft SharePoint",
@@ -3529,20 +2271,6 @@
       "candidate_id": "activepieces_candidate.microsoft-sharepoint.updated_list_item",
       "description": "Fires when an existing item in a SharePoint list is updated.",
       "display_name": "Updated List Item",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
-          "provider_key": "sharepoint-online"
-        },
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
-          "provider_key": "sharepoint-online-dev"
-        }
-      ],
       "package_name": "@activepieces/piece-microsoft-sharepoint",
       "package_version": "0.4.2",
       "piece_display_name": "Microsoft SharePoint",
@@ -3566,14 +2294,6 @@
       "candidate_id": "activepieces_candidate.quickbooks.new_bill",
       "description": "Triggers when a new bill (accounts payable) is created in QuickBooks.",
       "display_name": "New Bill",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for quickbooks",
-          "provider_key": "quickbooks"
-        }
-      ],
       "package_name": "@activepieces/piece-quickbooks",
       "package_version": "0.3.3",
       "piece_display_name": "Quickbooks Online",
@@ -3597,14 +2317,6 @@
       "candidate_id": "activepieces_candidate.quickbooks.new_customer",
       "description": "Triggers when a new customer is created.",
       "display_name": "New Customer",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for quickbooks",
-          "provider_key": "quickbooks"
-        }
-      ],
       "package_name": "@activepieces/piece-quickbooks",
       "package_version": "0.3.3",
       "piece_display_name": "Quickbooks Online",
@@ -3628,14 +2340,6 @@
       "candidate_id": "activepieces_candidate.quickbooks.new_deposit",
       "description": "Triggers when a Deposit is created.",
       "display_name": "New Deposit",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for quickbooks",
-          "provider_key": "quickbooks"
-        }
-      ],
       "package_name": "@activepieces/piece-quickbooks",
       "package_version": "0.3.3",
       "piece_display_name": "Quickbooks Online",
@@ -3659,14 +2363,6 @@
       "candidate_id": "activepieces_candidate.quickbooks.new_expense",
       "description": "Triggers when an Expense (Purchase) is created.",
       "display_name": "New Expense (Purchase)",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for quickbooks",
-          "provider_key": "quickbooks"
-        }
-      ],
       "package_name": "@activepieces/piece-quickbooks",
       "package_version": "0.3.3",
       "piece_display_name": "Quickbooks Online",
@@ -3690,14 +2386,6 @@
       "candidate_id": "activepieces_candidate.quickbooks.new_invoice",
       "description": "Triggers when an invoice is created .",
       "display_name": "New Invoice",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for quickbooks",
-          "provider_key": "quickbooks"
-        }
-      ],
       "package_name": "@activepieces/piece-quickbooks",
       "package_version": "0.3.3",
       "piece_display_name": "Quickbooks Online",
@@ -3721,14 +2409,6 @@
       "candidate_id": "activepieces_candidate.quickbooks.new_or_updated_invoice",
       "description": "Triggers when an invoice is created or updated in QuickBooks.",
       "display_name": "New or Updated Invoice",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for quickbooks",
-          "provider_key": "quickbooks"
-        }
-      ],
       "package_name": "@activepieces/piece-quickbooks",
       "package_version": "0.3.3",
       "piece_display_name": "Quickbooks Online",
@@ -3752,14 +2432,6 @@
       "candidate_id": "activepieces_candidate.quickbooks.new_transfer",
       "description": "Triggers when a Transfer is created.",
       "display_name": "New Transfer",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for quickbooks",
-          "provider_key": "quickbooks"
-        }
-      ],
       "package_name": "@activepieces/piece-quickbooks",
       "package_version": "0.3.3",
       "piece_display_name": "Quickbooks Online",
@@ -3783,14 +2455,6 @@
       "candidate_id": "activepieces_candidate.quickbooks.payment_received",
       "description": "Triggers when a new customer payment is recorded in QuickBooks.",
       "display_name": "Payment Received",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for quickbooks",
-          "provider_key": "quickbooks"
-        }
-      ],
       "package_name": "@activepieces/piece-quickbooks",
       "package_version": "0.3.3",
       "piece_display_name": "Quickbooks Online",
@@ -3814,14 +2478,6 @@
       "candidate_id": "activepieces_candidate.quickbooks-sandbox.new_bill",
       "description": "Triggers when a new bill (accounts payable) is created in QuickBooks.",
       "display_name": "New Bill",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for quickbooks-sandbox",
-          "provider_key": "quickbooks-sandbox"
-        }
-      ],
       "package_name": "@activepieces/piece-quickbooks-sandbox",
       "package_version": "0.2.2",
       "piece_display_name": "QuickBooks Online (Sandbox)",
@@ -3845,14 +2501,6 @@
       "candidate_id": "activepieces_candidate.quickbooks-sandbox.new_customer",
       "description": "Triggers when a new customer is created.",
       "display_name": "New Customer",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for quickbooks-sandbox",
-          "provider_key": "quickbooks-sandbox"
-        }
-      ],
       "package_name": "@activepieces/piece-quickbooks-sandbox",
       "package_version": "0.2.2",
       "piece_display_name": "QuickBooks Online (Sandbox)",
@@ -3876,14 +2524,6 @@
       "candidate_id": "activepieces_candidate.quickbooks-sandbox.new_deposit",
       "description": "Triggers when a Deposit is created.",
       "display_name": "New Deposit",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for quickbooks-sandbox",
-          "provider_key": "quickbooks-sandbox"
-        }
-      ],
       "package_name": "@activepieces/piece-quickbooks-sandbox",
       "package_version": "0.2.2",
       "piece_display_name": "QuickBooks Online (Sandbox)",
@@ -3907,14 +2547,6 @@
       "candidate_id": "activepieces_candidate.quickbooks-sandbox.new_expense",
       "description": "Triggers when an Expense (Purchase) is created.",
       "display_name": "New Expense (Purchase)",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for quickbooks-sandbox",
-          "provider_key": "quickbooks-sandbox"
-        }
-      ],
       "package_name": "@activepieces/piece-quickbooks-sandbox",
       "package_version": "0.2.2",
       "piece_display_name": "QuickBooks Online (Sandbox)",
@@ -3938,14 +2570,6 @@
       "candidate_id": "activepieces_candidate.quickbooks-sandbox.new_invoice",
       "description": "Triggers when an invoice is created .",
       "display_name": "New Invoice",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for quickbooks-sandbox",
-          "provider_key": "quickbooks-sandbox"
-        }
-      ],
       "package_name": "@activepieces/piece-quickbooks-sandbox",
       "package_version": "0.2.2",
       "piece_display_name": "QuickBooks Online (Sandbox)",
@@ -3969,14 +2593,6 @@
       "candidate_id": "activepieces_candidate.quickbooks-sandbox.new_or_updated_invoice",
       "description": "Triggers when an invoice is created or updated in QuickBooks.",
       "display_name": "New or Updated Invoice",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for quickbooks-sandbox",
-          "provider_key": "quickbooks-sandbox"
-        }
-      ],
       "package_name": "@activepieces/piece-quickbooks-sandbox",
       "package_version": "0.2.2",
       "piece_display_name": "QuickBooks Online (Sandbox)",
@@ -4000,14 +2616,6 @@
       "candidate_id": "activepieces_candidate.quickbooks-sandbox.new_transfer",
       "description": "Triggers when a Transfer is created.",
       "display_name": "New Transfer",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for quickbooks-sandbox",
-          "provider_key": "quickbooks-sandbox"
-        }
-      ],
       "package_name": "@activepieces/piece-quickbooks-sandbox",
       "package_version": "0.2.2",
       "piece_display_name": "QuickBooks Online (Sandbox)",
@@ -4031,14 +2639,6 @@
       "candidate_id": "activepieces_candidate.quickbooks-sandbox.payment_received",
       "description": "Triggers when a new customer payment is recorded in QuickBooks.",
       "display_name": "Payment Received",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for quickbooks-sandbox",
-          "provider_key": "quickbooks-sandbox"
-        }
-      ],
       "package_name": "@activepieces/piece-quickbooks-sandbox",
       "package_version": "0.2.2",
       "piece_display_name": "QuickBooks Online (Sandbox)",
@@ -4062,14 +2662,6 @@
       "candidate_id": "activepieces_candidate.xero.xero_new_bank_transaction",
       "description": "Fires the first time a bank transaction is created or changed after the trigger is turned on.",
       "display_name": "New Bank Transaction",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for xero",
-          "provider_key": "xero"
-        }
-      ],
       "package_name": "@activepieces/piece-xero",
       "package_version": "0.8.1",
       "piece_display_name": "Xero",
@@ -4093,14 +2685,6 @@
       "candidate_id": "activepieces_candidate.xero.xero_new_bill",
       "description": "Fires the first time a bill (Accounts Payable) is created or changed after the trigger is turned on.",
       "display_name": "New Bill",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for xero",
-          "provider_key": "xero"
-        }
-      ],
       "package_name": "@activepieces/piece-xero",
       "package_version": "0.8.1",
       "piece_display_name": "Xero",
@@ -4124,14 +2708,6 @@
       "candidate_id": "activepieces_candidate.xero.xero_new_contact",
       "description": "Fires when a new contact is added to Xero (via Xero webhooks). Configure the webhook in Xero Developer portal to point to this URL.",
       "display_name": "New Contact",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for xero",
-          "provider_key": "xero"
-        }
-      ],
       "package_name": "@activepieces/piece-xero",
       "package_version": "0.8.1",
       "piece_display_name": "Xero",
@@ -4155,14 +2731,6 @@
       "candidate_id": "activepieces_candidate.xero.xero_new_credit_note",
       "description": "Fires the first time a credit note is created or changed after the trigger is turned on.",
       "display_name": "New Credit Note",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for xero",
-          "provider_key": "xero"
-        }
-      ],
       "package_name": "@activepieces/piece-xero",
       "package_version": "0.8.1",
       "piece_display_name": "Xero",
@@ -4186,14 +2754,6 @@
       "candidate_id": "activepieces_candidate.xero.xero_new_or_updated_contact",
       "description": "Fires when a contact is created or updated (via Xero webhooks).",
       "display_name": "New or Updated Contact",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for xero",
-          "provider_key": "xero"
-        }
-      ],
       "package_name": "@activepieces/piece-xero",
       "package_version": "0.8.1",
       "piece_display_name": "Xero",
@@ -4217,14 +2777,6 @@
       "candidate_id": "activepieces_candidate.xero.xero_new_payment",
       "description": "Fires the first time a payment is recorded or changed after the trigger is turned on.",
       "display_name": "New Payment",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for xero",
-          "provider_key": "xero"
-        }
-      ],
       "package_name": "@activepieces/piece-xero",
       "package_version": "0.8.1",
       "piece_display_name": "Xero",
@@ -4248,14 +2800,6 @@
       "candidate_id": "activepieces_candidate.xero.xero_new_project",
       "description": "Fires when a new project is created.",
       "display_name": "New Project",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for xero",
-          "provider_key": "xero"
-        }
-      ],
       "package_name": "@activepieces/piece-xero",
       "package_version": "0.8.1",
       "piece_display_name": "Xero",
@@ -4279,14 +2823,6 @@
       "candidate_id": "activepieces_candidate.xero.xero_new_purchase_order",
       "description": "Fires the first time a purchase order is created or changed after the trigger is turned on, or enters a chosen status for the first time.",
       "display_name": "New Purchase Order",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for xero",
-          "provider_key": "xero"
-        }
-      ],
       "package_name": "@activepieces/piece-xero",
       "package_version": "0.8.1",
       "piece_display_name": "Xero",
@@ -4310,14 +2846,6 @@
       "candidate_id": "activepieces_candidate.xero.xero_new_quote",
       "description": "Fires the first time a quote is created or changed after the trigger is turned on.",
       "display_name": "New Quote",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for xero",
-          "provider_key": "xero"
-        }
-      ],
       "package_name": "@activepieces/piece-xero",
       "package_version": "0.8.1",
       "piece_display_name": "Xero",
@@ -4341,14 +2869,6 @@
       "candidate_id": "activepieces_candidate.xero.xero_new_reconciled_payment",
       "description": "Fires when a payment is reconciled for the first time.",
       "display_name": "New Reconciled Payment",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for xero",
-          "provider_key": "xero"
-        }
-      ],
       "package_name": "@activepieces/piece-xero",
       "package_version": "0.8.1",
       "piece_display_name": "Xero",
@@ -4372,14 +2892,6 @@
       "candidate_id": "activepieces_candidate.xero.xero_new_sales_invoice",
       "description": "Fires when a new sales invoice (Accounts Receivable) is created.",
       "display_name": "New Sales Invoice",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for xero",
-          "provider_key": "xero"
-        }
-      ],
       "package_name": "@activepieces/piece-xero",
       "package_version": "0.8.1",
       "piece_display_name": "Xero",
@@ -4403,14 +2915,6 @@
       "candidate_id": "activepieces_candidate.xero.xero_updated_quote",
       "description": "Fires when a quote is created or updated.",
       "display_name": "Updated Quote",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for xero",
-          "provider_key": "xero"
-        }
-      ],
       "package_name": "@activepieces/piece-xero",
       "package_version": "0.8.1",
       "piece_display_name": "Xero",
@@ -4434,14 +2938,6 @@
       "candidate_id": "activepieces_candidate.xero.xero_updated_sales_invoice",
       "description": "Fires when an existing sales invoice (Accounts Receivable) is updated.",
       "display_name": "Updated Sales Invoice",
-      "nango_provider_key_candidates": [
-        {
-          "candidate_only": true,
-          "confidence": "high",
-          "evidence": "inferred from package/auth metadata for xero",
-          "provider_key": "xero"
-        }
-      ],
       "package_name": "@activepieces/piece-xero",
       "package_version": "0.8.1",
       "piece_display_name": "Xero",

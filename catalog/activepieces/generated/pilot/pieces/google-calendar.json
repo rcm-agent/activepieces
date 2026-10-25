@@ -177,39 +177,13 @@
     }
   ],
   "auth": {
-    "auth_url_candidates": [
-      "https://accounts.google.com/o/oauth2/auth"
-    ],
     "declared_symbol": "googleCalendarAuth",
     "source_path": "packages/pieces/community/google-calendar/src/lib/auth.ts",
-    "token_url_candidates": [
-      "https://oauth2.googleapis.com/token"
-    ],
     "types": [
       "oauth2",
       "custom_auth"
     ]
   },
-  "nango_provider_key_candidates": [
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for google-calendar",
-      "provider_key": "google-calendar"
-    },
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for google-calendar",
-      "provider_key": "google-calendar-dev"
-    },
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for google-calendar",
-      "provider_key": "google"
-    }
-  ],
   "package": {
     "name": "@activepieces/piece-google-calendar",
     "version": "0.12.3"

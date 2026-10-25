@@ -114,32 +114,12 @@
     }
   ],
   "auth": {
-    "auth_url_candidates": [
-      "https://{cloud}/common/oauth2/v2.0/authorize"
-    ],
     "declared_symbol": "microsoftSharePointAuth",
     "source_path": "packages/pieces/community/microsoft-sharepoint/src/lib/auth.ts",
-    "token_url_candidates": [
-      "https://{cloud}/common/oauth2/v2.0/token"
-    ],
     "types": [
       "oauth2"
     ]
   },
-  "nango_provider_key_candidates": [
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
-      "provider_key": "sharepoint-online"
-    },
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for microsoft-sharepoint",
-      "provider_key": "sharepoint-online-dev"
-    }
-  ],
   "package": {
     "name": "@activepieces/piece-microsoft-sharepoint",
     "version": "0.4.2"

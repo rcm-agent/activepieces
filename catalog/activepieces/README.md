@@ -51,3 +51,7 @@ writes `generated/provider-map` and the frontend provider map;
 `generate-piece-directory.mjs` writes `generated/directory` and the frontend piece
 directory. Generated records stay `candidate_only` and never execute; only RCM
 catalogs promote an action or trigger to runtime.
+
+The provider map carries only display metadata. Nango integration keys are
+deployment values owned by basekey-pulumi; consumers resolve them through the
+environment variable recorded in the orchestrator catalog.

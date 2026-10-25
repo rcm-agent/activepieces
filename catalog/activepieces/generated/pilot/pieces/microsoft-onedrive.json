@@ -289,32 +289,12 @@
     }
   ],
   "auth": {
-    "auth_url_candidates": [
-      "https://{cloud}/common/oauth2/v2.0/authorize"
-    ],
     "declared_symbol": "oneDriveAuth",
     "source_path": "packages/pieces/community/microsoft-onedrive/src/lib/auth.ts",
-    "token_url_candidates": [
-      "https://{cloud}/common/oauth2/v2.0/token"
-    ],
     "types": [
       "oauth2"
     ]
   },
-  "nango_provider_key_candidates": [
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for microsoft-onedrive",
-      "provider_key": "one-drive"
-    },
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for microsoft-onedrive",
-      "provider_key": "one-drive-dev"
-    }
-  ],
   "package": {
     "name": "@activepieces/piece-microsoft-onedrive",
     "version": "0.6.1"

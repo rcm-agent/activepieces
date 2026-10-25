@@ -30,32 +30,12 @@
     }
   ],
   "auth": {
-    "auth_url_candidates": [
-      "https://{cloud}/common/oauth2/v2.0/authorize"
-    ],
     "declared_symbol": "outlookCalendarAuth",
     "source_path": "packages/pieces/community/microsoft-outlook-calendar/src/index.ts",
-    "token_url_candidates": [
-      "https://{cloud}/common/oauth2/v2.0/token"
-    ],
     "types": [
       "oauth2"
     ]
   },
-  "nango_provider_key_candidates": [
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for microsoft-outlook-calendar",
-      "provider_key": "outlook"
-    },
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for microsoft-outlook-calendar",
-      "provider_key": "outlook-dev"
-    }
-  ],
   "package": {
     "name": "@activepieces/piece-microsoft-outlook-calendar",
     "version": "0.3.1"

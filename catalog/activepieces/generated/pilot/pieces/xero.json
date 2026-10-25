@@ -408,26 +408,12 @@
     }
   ],
   "auth": {
-    "auth_url_candidates": [
-      "https://login.xero.com/identity/connect/authorize"
-    ],
     "declared_symbol": "xeroAuth",
     "source_path": "packages/pieces/community/xero/src/index.ts",
-    "token_url_candidates": [
-      "https://identity.xero.com/connect/token"
-    ],
     "types": [
       "oauth2"
     ]
   },
-  "nango_provider_key_candidates": [
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for xero",
-      "provider_key": "xero"
-    }
-  ],
   "package": {
     "name": "@activepieces/piece-xero",
     "version": "0.8.1"

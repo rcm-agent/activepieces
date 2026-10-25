@@ -380,27 +380,13 @@
     }
   ],
   "auth": {
-    "auth_url_candidates": [
-      "https://app.hubspot.com/oauth/authorize"
-    ],
     "declared_symbol": "hubspotAuth",
     "source_path": "packages/pieces/community/hubspot/src/lib/auth.ts",
-    "token_url_candidates": [
-      "https://api.hubapi.com/oauth/v1/token"
-    ],
     "types": [
       "oauth2",
       "custom_auth"
     ]
   },
-  "nango_provider_key_candidates": [
-    {
-      "candidate_only": true,
-      "confidence": "high",
-      "evidence": "inferred from package/auth metadata for hubspot",
-      "provider_key": "hubspot"
-    }
-  ],
   "package": {
     "name": "@activepieces/piece-hubspot",
     "version": "0.12.1"
