@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { spawnSync } from 'node:child_process';
+import { realpathSync } from 'node:fs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -403,7 +404,8 @@ function toRepoPath(filePath) {
   return path.relative(REPO_ROOT, filePath).split(path.sep).join('/');
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === SCRIPT_PATH) {
+// Node runs a symlinked script under its real path (a consumer's tree landing reaches this repo through a symlink).
+if (process.argv[1] && realpathSync(process.argv[1]) === SCRIPT_PATH) {
   main().catch((error) => {
     console.error(error instanceof Error ? error.message : String(error));
     process.exitCode = 1;
