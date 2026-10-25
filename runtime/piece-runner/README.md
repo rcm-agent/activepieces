@@ -8,7 +8,7 @@ invocation; the orchestrator supplies them. The Lambda image's entry is
 
 | Fact | Owner |
 | --- | --- |
-| Allowlisted pieces, actions, versions, `authType`, `memoryMb` | `catalog.mjs` (versions from `package.json`) |
+| Bundled pieces and actions mirror the orchestrator allowlist; versions and `authType` | `rcm-orchestrator/contracts/activepieces-piece-allowlist.json`; runner mirror `catalog.mjs` (versions from `package.json`) |
 | Request modes (`run`, `options`, `props`, `trigger`) and result shape | `index.mjs`, `worker.mjs`, `execution.mjs` |
 | Refusal codes | `errors.mjs` |
 | Timeout, memory and output defaults and ceilings | `index.mjs`, `worker.mjs` |

@@ -18,7 +18,7 @@ function requestTuple({ piece, action }) {
   return { piece, version: entry.version, action };
 }
 const discord = { ...requestTuple({ piece: '@activepieces/piece-discord', action: 'sendMessageWithBot' }), auth_type: 'API_KEY', auth: { type: 'API_KEY', apiKey: 'discord-contract-token' }, allowed_hosts: ['discord.com'], props: { channel_id: 'C123', message: 'contract message' }, timeout_ms: 15000 };
-const slack = { ...requestTuple({ piece: '@activepieces/piece-slack', action: 'send_channel_message' }), auth_type: 'OAUTH2', auth: { type: 'OAUTH2', access_token: 'slack-contract-token', raw: { team: { id: 'contract-team' } } }, props: { channel: 'C123', sendAsBot: true, text: 'contract message' }, timeout_ms: 15000 };
+const slack = { ...requestTuple({ piece: '@activepieces/piece-slack', action: 'getChannelHistory' }), auth_type: 'OAUTH2', auth: { type: 'OAUTH2', access_token: 'slack-contract-token', raw: { team: { id: 'contract-team' } } }, props: { channel: 'C123' }, timeout_ms: 15000 };
 const teams = { ...requestTuple({ piece: '@activepieces/piece-microsoft-teams', action: 'microsoft_teams_send_channel_message' }), auth_type: 'OAUTH2', auth: { access_token: 'teams-contract-token', raw: {} }, props: { teamId: 'contract-team' }, timeout_ms: 15000 };
 const output = { id: 'message-123', content: 'contract message', nested: { untouched: true } };
 const installedOptions = { skip: pieceCatalog.entries.some((entry) => !existsSync(new URL(`../node_modules/${entry.piece}/package.json`, import.meta.url))) ? 'Pinned packages are unavailable; run installed-piece checks in the runner image.' : false };
@@ -32,21 +32,18 @@ childProcess.spawn = (command, args, options) => {
 };
 syncBuiltinESMExports(); after(() => { childProcess.spawn = originalSpawn; syncBuiltinESMExports(); });
 function run({ request = discord, body = output, status = 200, mode, url, method = 'POST', requests, memoryMb = request.memory_mb ?? 256 } = {}) {
-  const authorization = request.piece === slack.piece ? `Bearer ${request.props.sendAsBot ?? true ? request.auth.access_token : (request.auth.raw ?? request.auth.data)?.authed_user?.access_token}` : request.piece === discord.piece ? `Bot ${request.auth.apiKey ?? request.auth.secret_text}` : `Bearer ${request.auth.access_token}`;
-  fixture = { body, status, mode, method, requests, memoryMb, url: url ?? (request.piece === slack.piece ? 'https://slack.com/api/chat.postMessage' : 'https://discord.com/api/v10/channels/C123/messages'), authorization };
+  const authorization = request.piece === discord.piece ? `Bot ${request.auth.apiKey ?? request.auth.secret_text}` : `Bearer ${request.auth.access_token}`;
+  fixture = { body, status, mode, method, requests, memoryMb, url: url ?? (request.piece === slack.piece ? 'https://slack.com/api/conversations.history' : 'https://discord.com/api/v10/channels/C123/messages'), authorization };
   return pieceRunner.invoke(request);
 }
 test('runs installed Discord and Slack actions in an empty child environment and preserves output', installedOptions, async () => {
   assert.deepEqual(await run(), { status: 'completed', output });
   assert.deepEqual(await run({ request: { ...discord, mode: 'run' } }), { status: 'completed', output });
   assert.deepEqual(await run({ request: { ...discord, auth: { secret_text: discord.auth.apiKey } } }), { status: 'completed', output });
-  const slackOutput = { ok: true, channel: 'C123', ts: '123.456', message: { text: 'contract message' }, response_metadata: {} };
-  assert.deepEqual(await run({ request: slack, body: slackOutput }), { status: 'completed', output: slackOutput });
-  const { sendAsBot, ...withoutSender } = slack.props;
-  assert.deepEqual(await run({ request: { ...slack, auth: { ...slack.auth, raw: { authed_user: { access_token: 'slack-user-contract-token' } } }, props: withoutSender }, body: slackOutput }), { status: 'completed', output: slackOutput });
-  assert.deepEqual(await run({ request: { ...slack, auth: { access_token: slack.auth.access_token, data: slack.auth.raw } }, body: slackOutput }), { status: 'completed', output: slackOutput });
-  const userAuth = { ...slack.auth, raw: { authed_user: { access_token: 'slack-user-contract-token' } } };
-  assert.deepEqual(await run({ request: { ...slack, auth: userAuth, props: { ...slack.props, sendAsBot: false } }, body: slackOutput }), { status: 'completed', output: slackOutput });
+  const slackOutput = [{ ts: '123.456', text: 'contract message', nested: { untouched: true } }];
+  const slackBody = { ok: true, messages: slackOutput, has_more: false, response_metadata: { next_cursor: '' } };
+  assert.deepEqual(await run({ request: slack, body: slackBody }), { status: 'completed', output: slackOutput });
+  assert.deepEqual(await run({ request: { ...slack, auth: { access_token: slack.auth.access_token, data: slack.auth.raw } }, body: slackBody }), { status: 'completed', output: slackOutput });
 });
 test('Google Sheets passes the OAuth token through its nested HTTP client', installedOptions, async () => {
   const request = { ...requestTuple({ piece: '@activepieces/piece-google-sheets', action: 'get-many-rows' }), auth_type: 'OAUTH2', auth: { access_token: 'sheets-contract-token', data: {} }, props: { spreadsheetId: 'contract-sheet', sheetId: 0, first_row_headers: false }, timeout_ms: 15000 };
@@ -133,7 +130,7 @@ test('refuses invalid loader requests before spawning a worker', installedOption
 });
 test('refuses supplied FILE props in an options worker', installedOptions, async () => {
   const before = spawnCount;
-  const result = await run({ request: { ...slack, mode: 'options', property: 'channel', props: { file: { filename: 'file.txt' } } }, requests: [] });
+  const result = await run({ request: { ...discord, mode: 'options', property: 'channel_id', props: { files: [{ file: { filename: 'file.txt' } }] } }, requests: [] });
   assert.deepEqual([result.status, result.refusal?.code], ['refused', 'FILE_PROP_REFUSED']);
   assert.equal(spawnCount, before + 1);
 });
@@ -158,12 +155,11 @@ test('refuses invalid calls, unavailable store/server services, hung actions and
     [{ ...discord, auth_type: 'BASIC' }, {}, 'AUTH_TYPE_MISMATCH'],
     [{ ...slack, auth_type: 'API_KEY', allowed_hosts: ['slack.com'] }, {}, 'AUTH_TYPE_MISMATCH'],
     [{ ...discord, action: 'discordSendMessageWebhook' }, {}, 'ACTION_NOT_ALLOWLISTED'],
-    [{ ...slack, props: { ...slack.props, file: { filename: 'file.txt' } } }, {}, 'FILE_PROP_REFUSED'],
     [{ ...discord, props: { ...discord.props, files: [{ file: { filename: 'file.txt' } }] } }, {}, 'FILE_PROP_REFUSED'],
     [{ ...discord, props: { ...discord.props, undeclared: true } }, {}, 'UNDECLARED_PROP'],
     [{ ...discord, props: {} }, {}, 'MISSING_REQUIRED_PROP'],
     [discord, { mode: 'store' }, 'CONTEXT_SERVICE_UNAVAILABLE'],
-    [{ ...slack, props: { ...slack.props, mentionOriginFlow: true } }, {}, 'CONTEXT_SERVICE_UNAVAILABLE'],
+    [discord, { mode: 'server' }, 'CONTEXT_SERVICE_UNAVAILABLE'],
     [{ ...discord, timeout_ms: 2500 }, { mode: 'hang' }, 'TIMEOUT'],
     [{ ...discord, max_output_bytes: 128 }, { body: { message: 'x'.repeat(2048) } }, 'OUTPUT_LIMIT_EXCEEDED'],
     [{ ...discord, memory_mb: 513 }, {}, 'INVALID_LIMIT'],
@@ -212,7 +208,7 @@ test('stub CustomAuth validates declared credentials and reaches context.auth.pr
       const target = join(packageRoot, 'node_modules', item.piece);
       await mkdir(target, { recursive: true });
       await writeFile(join(target, 'package.json'), JSON.stringify({ version: item.version, main: 'index.cjs' }));
-      await writeFile(join(target, 'index.cjs'), `module.exports = { ${item.exportName}: { auth: ${JSON.stringify(auth)}, getAction: () => ({ props: {}, run: (context) => context.auth }) } };`);
+      await writeFile(join(target, 'index.cjs'), `module.exports = { ${item.exportName}: { auth: ${JSON.stringify(auth)}, getAction: () => ({ props: { file: { type: 'FILE', required: false } }, run: (context) => context.auth }) } };`);
     }
     const props = { clientId: 'contract-client', privateKey: 'contract-private-key', environment: 'demo', impersonatedUserId: 'contract-user', scopes: 'signature' };
     const request = { piece: entry.piece, version: entry.version, action: entry.action, auth_type: 'CUSTOM_AUTH', auth: { props }, allowed_hosts: ['demo.docusign.net'] };
@@ -224,6 +220,7 @@ test('stub CustomAuth validates declared credentials and reaches context.auth.pr
     }
     assert.throws(() => pieceCatalog.prepare({ request: { ...request, auth_type: 'BASIC' }, packageRoot }), { code: 'AUTH_TYPE_MISMATCH' });
     assert.deepEqual(await runnerExecution.execute({ request: { ...slack, props: {} }, pieceCatalog: catalog }), { type: 'OAUTH2', access_token: slack.auth.access_token, data: slack.auth.raw });
+    await assert.rejects(runnerExecution.execute({ request: { ...slack, props: { file: { filename: 'file.txt' } } }, pieceCatalog: catalog }), { name: 'RunnerRefusal', code: 'FILE_PROP_REFUSED' });
     const longTextRequest = { ...request, piece: longTextEntry.piece, version: longTextEntry.version, action: longTextEntry.action, auth: { props: { serviceAccount: JSON.stringify({ private_key: 'contract-key', padding: ' '.repeat(4096) }) } } };
     assert.deepEqual(await runnerExecution.execute({ request: longTextRequest, pieceCatalog: catalog }), { type: 'CUSTOM_AUTH', props: longTextRequest.auth.props });
     await assert.rejects(runnerExecution.execute({ request: { ...longTextRequest, auth: { props: { serviceAccount: 1 } } }, pieceCatalog: catalog }), { code: 'INVALID_AUTH' });

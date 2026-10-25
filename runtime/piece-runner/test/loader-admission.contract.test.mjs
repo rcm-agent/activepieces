@@ -73,11 +73,9 @@ test('loading actions and property loaders refuses ambiguous, missing and duplic
 });
 
 for (const [piece, version, exportName, authType, admittedAuthType, actions] of [
-  ['@activepieces/piece-slack', '0.21.1', 'slack', 'OAUTH2', 'OAUTH2', ['getChannelHistory', 'slack_list_channels', 'searchMessages']],
-  ['@activepieces/piece-discord', '0.7.2', 'discord', 'SECRET_TEXT', undefined, ['discord_list_messages', 'discord_find_member', 'list_guild_members']],
+  ['@activepieces/piece-slack', '0.21.1', 'slack', 'OAUTH2', 'OAUTH2', ['getChannelHistory', 'slack_list_channels']],
+  ['@activepieces/piece-discord', '0.7.2', 'discord', 'SECRET_TEXT', undefined, ['discord_list_messages', 'discord_find_member']],
   ['@activepieces/piece-google-sheets', '0.17.2', 'googleSheets', 'OAUTH2', 'OAUTH2', ['find_spreadsheets']],
-  ['@activepieces/piece-microsoft-outlook', '0.7.2', 'microsoftOutlook', 'OAUTH2', undefined, ['findEmail']],
-  ['@activepieces/piece-microsoft-onedrive', '0.6.1', 'microsoftOneDrive', 'OAUTH2', undefined, ['list_folders']],
 ]) {
   for (const action of actions) test(`admits pinned read action ${piece}/${action} with its allowed auth`, async () => {
     const packageRoot = await mkdtemp(join(tmpdir(), 'piece-runner-read-admission-'));
@@ -94,29 +92,6 @@ for (const [piece, version, exportName, authType, admittedAuthType, actions] of 
       const request = { ...tuple, auth_type: authType, auth, props: {} };
       assert.deepEqual(pieceCatalog.prepare({ request, packageRoot }).auth, { type: authType, ...auth, ...(authType === 'OAUTH2' ? { data: {} } : {}) });
       if (authType === 'OAUTH2') assert.throws(() => pieceCatalog.prepare({ request: { ...request, auth_type: 'CUSTOM_AUTH', auth: { props: {} } }, packageRoot }), { name: 'RunnerRefusal', code: 'AUTH_TYPE_MISMATCH' });
-    } finally { await rm(packageRoot, { recursive: true, force: true }); }
-  });
-}
-
-for (const [directory, version, action, exportName, property, authType, refreshers] of [
-  ['microsoft-outlook', '0.7.2', 'findEmail', 'microsoftOutlook', 'folderId', 'OAUTH2', []],
-  ['microsoft-onedrive', '0.6.1', 'list_folders', 'microsoftOneDrive', 'parentFolder', 'OAUTH2', ['auth']],
-  ['discord', '0.7.2', 'list_guild_members', 'discord', 'guild_id', 'SECRET_TEXT', []],
-]) {
-  test(`admits borrowed dropdown ${action}.${property} only in options mode`, async () => {
-    const packageRoot = await mkdtemp(join(tmpdir(), 'piece-runner-borrowed-loader-'));
-    try {
-      const piece = `@activepieces/piece-${directory}`, target = join(packageRoot, 'node_modules', piece);
-      await mkdir(target, { recursive: true });
-      await writeFile(join(packageRoot, 'package.json'), '{}');
-      await writeFile(join(target, 'package.json'), JSON.stringify({ version, main: 'index.cjs' }));
-      await writeFile(join(target, 'index.cjs'), `module.exports = { ${exportName}: { auth: { type: ${JSON.stringify(authType)} }, getAction: (name) => name === ${JSON.stringify(action)} ? { run: () => { throw Error('Action must not run'); }, props: { ${property}: { type: 'DROPDOWN', refreshers: ${JSON.stringify(refreshers)}, options: () => { throw Error('Loader must not run during admission'); } } } } : undefined } };`);
-      const auth = authType === 'OAUTH2' ? { access_token: 'borrowed-contract-token' } : { secret_text: 'borrowed-contract-token' };
-      const request = { piece, version, action, property, mode: 'options', auth_type: authType, auth, props: {} };
-      const loaded = pieceCatalog.validateLoader({ request, packageRoot });
-      assert.deepEqual([loaded.declaration.type, loaded.declaration.refreshers], ['DROPDOWN', refreshers]);
-      assert.deepEqual(pieceCatalog.prepareLoader({ request, packageRoot }).auth, { type: authType, ...auth, ...(authType === 'OAUTH2' ? { data: {} } : {}) });
-      assert.throws(() => pieceCatalog.validateLoader({ request: { ...request, mode: 'props' }, packageRoot }), { name: 'RunnerRefusal', code: 'PROPERTY_NOT_LOADABLE' });
     } finally { await rm(packageRoot, { recursive: true, force: true }); }
   });
 }

@@ -2,118 +2,6 @@
   {
     "piece": "@activepieces/piece-slack",
     "version": "0.21.1",
-    "action": "send_channel_message",
-    "id": "send_channel_message",
-    "display_name": "Send Message To A Channel",
-    "description": "Send message to a channel",
-    "auth_kinds": [
-      "OAUTH2",
-      "CUSTOM_AUTH"
-    ],
-    "auth": {
-      "kind": "OAUTH2",
-      "props": {}
-    },
-    "props": {
-      "info": {
-        "type": "MARKDOWN",
-        "required": false,
-        "description": "The list shows the first 2000 channels. Can't find yours? Invite the bot: type **/invite** in the channel, choose **Add apps** and pick the bot. Or click **ƒ** and paste the channel ID.",
-        "display_name": "Markdown"
-      },
-      "onlyBotChannels": {
-        "type": "CHECKBOX",
-        "required": false,
-        "description": "Show only channels the bot is a member of.",
-        "display_name": "Only Channels the Bot Is In",
-        "default": true
-      },
-      "channel": {
-        "type": "DROPDOWN",
-        "required": true,
-        "description": "Private channels appear only after the bot is added to them.",
-        "display_name": "Channel",
-        "refreshers": [
-          "onlyBotChannels"
-        ],
-        "refresh_on_search": false
-      },
-      "text": {
-        "type": "LONG_TEXT",
-        "required": false,
-        "description": "Slack mrkdwn is supported. Empty sends blocks only.",
-        "display_name": "Message"
-      },
-      "sendAsBot": {
-        "type": "CHECKBOX",
-        "required": false,
-        "description": "Off posts as the connected user and needs a user token.",
-        "display_name": "Send as Bot",
-        "default": true
-      },
-      "threadTs": {
-        "type": "SHORT_TEXT",
-        "required": false,
-        "description": "Timestamp or link of the parent message to reply under.",
-        "display_name": "Reply to Thread"
-      },
-      "file": {
-        "type": "FILE",
-        "required": false,
-        "description": "Sent with the message as its comment. Other options are skipped.",
-        "display_name": "Attachment"
-      },
-      "username": {
-        "type": "SHORT_TEXT",
-        "required": false,
-        "description": "Overrides the bot's display name for this message.",
-        "display_name": "Username"
-      },
-      "profilePicture": {
-        "type": "SHORT_TEXT",
-        "required": false,
-        "description": "Image URL used as the sender's avatar.",
-        "display_name": "Profile Picture"
-      },
-      "iconEmoji": {
-        "type": "SHORT_TEXT",
-        "required": false,
-        "description": "Emoji used as the sender's avatar.",
-        "display_name": "Icon Emoji"
-      },
-      "replyBroadcast": {
-        "type": "CHECKBOX",
-        "required": false,
-        "description": "When replying in a thread, also show the reply in the channel.",
-        "display_name": "Also Post to Channel",
-        "default": false
-      },
-      "mentionOriginFlow": {
-        "type": "CHECKBOX",
-        "required": false,
-        "description": "Append a link to this flow at the end of the message.",
-        "display_name": "Mention Origin Flow",
-        "default": false
-      },
-      "unfurlLinks": {
-        "type": "CHECKBOX",
-        "required": false,
-        "description": "Show link previews in the message.",
-        "display_name": "Unfurl Links",
-        "default": true
-      },
-      "blocks": {
-        "type": "JSON",
-        "required": false,
-        "description": "JSON array of blocks from the Block Kit Builder.",
-        "display_name": "Block Kit Blocks",
-        "default": []
-      }
-    }
-  },
-  {
-    "piece": "@activepieces/piece-slack",
-    "version": "0.21.1",
     "action": "getChannelHistory",
     "id": "get_channel_history",
     "display_name": "Get Channel History",
@@ -207,30 +95,6 @@
         "description": "Omit archived channels from the results.",
         "display_name": "Exclude Archived",
         "default": true
-      }
-    }
-  },
-  {
-    "piece": "@activepieces/piece-slack",
-    "version": "0.21.1",
-    "action": "searchMessages",
-    "id": "search_messages",
-    "display_name": "Search Messages",
-    "description": "Searches messages. Needs a user token.",
-    "auth_kinds": [
-      "OAUTH2",
-      "CUSTOM_AUTH"
-    ],
-    "auth": {
-      "kind": "OAUTH2",
-      "props": {}
-    },
-    "props": {
-      "query": {
-        "type": "SHORT_TEXT",
-        "required": true,
-        "description": "Slack search syntax works, e.g. from:@jane in:#general.",
-        "display_name": "Search Query"
       }
     }
   },
@@ -361,37 +225,6 @@
         "description": "Max members to return, 1-1000. Defaults to 10.",
         "display_name": "Limit",
         "default": 10
-      }
-    }
-  },
-  {
-    "piece": "@activepieces/piece-discord",
-    "version": "0.7.2",
-    "action": "list_guild_members",
-    "id": "list_guild_members",
-    "display_name": "List Members",
-    "description": "List server members, optionally filtered by name.",
-    "auth_kinds": [
-      "SECRET_TEXT"
-    ],
-    "auth": {
-      "kind": "SECRET_TEXT",
-      "props": {}
-    },
-    "props": {
-      "guild_id": {
-        "type": "DROPDOWN",
-        "required": true,
-        "description": "Only servers the bot has been added to are listed.",
-        "display_name": "Server",
-        "refreshers": [],
-        "refresh_on_search": false
-      },
-      "shortText": {
-        "type": "SHORT_TEXT",
-        "required": false,
-        "description": "Only members whose username or nickname contains this text.",
-        "display_name": "Search"
       }
     }
   },
@@ -2021,96 +1854,6 @@
     }
   },
   {
-    "piece": "@activepieces/piece-microsoft-outlook",
-    "version": "0.7.2",
-    "action": "findEmail",
-    "id": "find_email",
-    "display_name": "Find Email",
-    "description": "Search your mailbox by keywords, sender or subject.",
-    "auth_kinds": [
-      "OAUTH2"
-    ],
-    "auth": {
-      "kind": "OAUTH2",
-      "props": {
-        "cloud": {
-          "type": "STATIC_DROPDOWN",
-          "required": true,
-          "description": "Select your Microsoft cloud environment.",
-          "display_name": "Cloud Environment",
-          "default": "login.microsoftonline.com",
-          "options": [
-            {
-              "label": "Commercial (Global)",
-              "value": "login.microsoftonline.com"
-            },
-            {
-              "label": "US Government (GCC High)",
-              "value": "login.microsoftonline.us"
-            }
-          ]
-        },
-        "accessMode": {
-          "type": "STATIC_DROPDOWN",
-          "required": true,
-          "description": "Pick the option matching your Grant Type. Use a Delegated option with the Authorization Code grant (acts as the signed-in user). Use an App-only option with the Client Credentials grant (acts as the application — also set Tenant ID and Mailbox), choosing the one that matches your Cloud Environment.",
-          "display_name": "Access Mode",
-          "default": "Mail.ReadWrite Mail.Send Calendars.Read offline_access User.Read openid email profile",
-          "options": [
-            {
-              "label": "Delegated — Commercial (Global)",
-              "value": "Mail.ReadWrite Mail.Send Calendars.Read offline_access User.Read openid email profile"
-            },
-            {
-              "label": "App-only — Commercial (Global)",
-              "value": "https://graph.microsoft.com/.default"
-            },
-            {
-              "label": "App-only — US Government (GCC High)",
-              "value": "https://graph.microsoft.us/.default"
-            }
-          ]
-        },
-        "tenant": {
-          "type": "SHORT_TEXT",
-          "required": true,
-          "description": "Use \"common\" for the default delegated multi-tenant flow. For app-only (Client Credentials), set this to your Directory (tenant) ID.",
-          "display_name": "Tenant ID",
-          "default": "common"
-        },
-        "mailbox": {
-          "type": "SHORT_TEXT",
-          "required": false,
-          "description": "Email/UPN or user object ID of the mailbox to act on. Required for app-only (Client Credentials). Leave blank for delegated access (acts as the signed-in user).",
-          "display_name": "Mailbox (App-only)"
-        }
-      }
-    },
-    "props": {
-      "searchQuery": {
-        "type": "SHORT_TEXT",
-        "required": true,
-        "description": "Words to find. Narrow with from:, subject: or hasAttachments:true.",
-        "display_name": "Search Query"
-      },
-      "folderId": {
-        "type": "DROPDOWN",
-        "required": false,
-        "description": "Leave empty to search every folder.",
-        "display_name": "Folder",
-        "refreshers": [],
-        "refresh_on_search": false
-      },
-      "top": {
-        "type": "NUMBER",
-        "required": false,
-        "description": "How many emails to return, up to 1000.",
-        "display_name": "Max Results",
-        "default": 25
-      }
-    }
-  },
-  {
     "piece": "@activepieces/piece-microsoft-outlook-calendar",
     "version": "0.3.1",
     "action": "list_events",
@@ -3704,57 +3447,6 @@
         "required": false,
         "description": "Optional new name for the item. Leave empty to keep its current name.",
         "display_name": "New Name"
-      }
-    }
-  },
-  {
-    "piece": "@activepieces/piece-microsoft-onedrive",
-    "version": "0.6.1",
-    "action": "list_folders",
-    "id": "list_folders",
-    "display_name": "List Folders",
-    "description": "List folders in a OneDrive folder",
-    "auth_kinds": [
-      "OAUTH2"
-    ],
-    "auth": {
-      "kind": "OAUTH2",
-      "props": {
-        "cloud": {
-          "type": "STATIC_DROPDOWN",
-          "required": true,
-          "description": "Select your Microsoft cloud environment.",
-          "display_name": "Cloud Environment",
-          "default": "login.microsoftonline.com",
-          "options": [
-            {
-              "label": "Commercial (Global)",
-              "value": "login.microsoftonline.com"
-            },
-            {
-              "label": "US Government (GCC High)",
-              "value": "login.microsoftonline.us"
-            }
-          ]
-        }
-      }
-    },
-    "props": {
-      "markdown": {
-        "type": "MARKDOWN",
-        "required": false,
-        "description": "**Note**: If you can't find the folder in the dropdown list (which fetches up to 1000 folders), please click on the **(F)** and type the folder ID directly.\n\n\n      you can find the folder ID in the OneDrive URL after **?id=**, e.g., \"onedrive.live.com/?id=**folder-id**&cid=some-other-id\"\n\n    ",
-        "display_name": "Markdown"
-      },
-      "parentFolder": {
-        "type": "DROPDOWN",
-        "required": false,
-        "description": "",
-        "display_name": "Parent Folder",
-        "refreshers": [
-          "auth"
-        ],
-        "refresh_on_search": false
       }
     }
   },

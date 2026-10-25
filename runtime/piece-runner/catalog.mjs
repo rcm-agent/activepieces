@@ -298,14 +298,11 @@ function dependencyVersion({ manifest, name }) {
 const runnerRoot = dirname(fileURLToPath(import.meta.url));
 const runnerManifest = readJson({ path: join(runnerRoot, 'package.json') });
 const entries = Object.freeze([
-  { piece: '@activepieces/piece-slack', action: 'send_channel_message', exportName: 'slack', forkDirectory: 'slack', authType: 'OAUTH2' },
   { piece: '@activepieces/piece-slack', action: 'getChannelHistory', exportName: 'slack', forkDirectory: 'slack', authType: 'OAUTH2' },
   { piece: '@activepieces/piece-slack', action: 'slack_list_channels', exportName: 'slack', forkDirectory: 'slack', authType: 'OAUTH2' },
-  { piece: '@activepieces/piece-slack', action: 'searchMessages', exportName: 'slack', forkDirectory: 'slack', authType: 'OAUTH2' },
   { piece: '@activepieces/piece-discord', action: 'sendMessageWithBot', exportName: 'discord', forkDirectory: 'discord' },
   { piece: '@activepieces/piece-discord', action: 'discord_list_messages', exportName: 'discord', forkDirectory: 'discord' },
   { piece: '@activepieces/piece-discord', action: 'discord_find_member', exportName: 'discord', forkDirectory: 'discord' },
-  { piece: '@activepieces/piece-discord', action: 'list_guild_members', exportName: 'discord', forkDirectory: 'discord' },
   { piece: '@activepieces/piece-google-sheets', action: 'get-many-rows', exportName: 'googleSheets', forkDirectory: 'google-sheets', authType: 'OAUTH2' },
   { piece: '@activepieces/piece-google-sheets', action: 'find_rows', exportName: 'googleSheets', forkDirectory: 'google-sheets', authType: 'OAUTH2' },
   { piece: '@activepieces/piece-google-sheets', action: 'find_row_by_num', exportName: 'googleSheets', forkDirectory: 'google-sheets', authType: 'OAUTH2' },
@@ -326,7 +323,6 @@ const entries = Object.freeze([
   { piece: '@activepieces/piece-microsoft-outlook', action: 'outlook_search_messages', exportName: 'microsoftOutlook', forkDirectory: 'microsoft-outlook' },
   { piece: '@activepieces/piece-microsoft-outlook', action: 'outlook_list_messages', exportName: 'microsoftOutlook', forkDirectory: 'microsoft-outlook' },
   { piece: '@activepieces/piece-microsoft-outlook', action: 'outlook_get_message', exportName: 'microsoftOutlook', forkDirectory: 'microsoft-outlook' },
-  { piece: '@activepieces/piece-microsoft-outlook', action: 'findEmail', exportName: 'microsoftOutlook', forkDirectory: 'microsoft-outlook' },
   { piece: '@activepieces/piece-microsoft-outlook-calendar', action: 'list_events', exportName: 'microsoftOutlookCalendar', forkDirectory: 'microsoft-outlook-calendar' },
   { piece: '@activepieces/piece-microsoft-outlook-calendar', action: 'create_event', exportName: 'microsoftOutlookCalendar', forkDirectory: 'microsoft-outlook-calendar' },
   { piece: '@activepieces/piece-microsoft-teams', action: 'microsoft_teams_send_channel_message', exportName: 'microsoftTeams', forkDirectory: 'microsoft-teams' },
@@ -346,7 +342,6 @@ const entries = Object.freeze([
   { piece: '@activepieces/piece-microsoft-onedrive', action: 'onedrive_create_folder', exportName: 'microsoftOneDrive', forkDirectory: 'microsoft-onedrive' },
   { piece: '@activepieces/piece-microsoft-onedrive', action: 'onedrive_create_text_file', exportName: 'microsoftOneDrive', forkDirectory: 'microsoft-onedrive' },
   { piece: '@activepieces/piece-microsoft-onedrive', action: 'onedrive_move_item', exportName: 'microsoftOneDrive', forkDirectory: 'microsoft-onedrive' },
-  { piece: '@activepieces/piece-microsoft-onedrive', action: 'list_folders', exportName: 'microsoftOneDrive', forkDirectory: 'microsoft-onedrive' },
   { piece: '@activepieces/piece-microsoft-sharepoint', action: 'microsoft_sharepoint_find_site', exportName: 'microsoftSharePoint', forkDirectory: 'microsoft-sharepoint' },
   { piece: '@activepieces/piece-microsoft-sharepoint', action: 'microsoft_sharepoint_get_folder_contents', exportName: 'microsoftSharePoint', forkDirectory: 'microsoft-sharepoint' },
   { piece: '@activepieces/piece-microsoft-sharepoint', action: 'microsoft_sharepoint_find_file', exportName: 'microsoftSharePoint', forkDirectory: 'microsoft-sharepoint' },

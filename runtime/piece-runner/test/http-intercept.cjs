@@ -10,6 +10,7 @@ net.connect = net.createConnection = net.Socket.prototype.connect = tls.connect 
 Module._load = function (...args) {
   const exported = originalLoad.apply(this, args);
   if (fixture.mode === 'store' && args[0] === '@activepieces/piece-discord') exported.discord.getAction('sendMessageWithBot').run = async (context) => context.store.get('contract');
+  if (fixture.mode === 'server' && args[0] === '@activepieces/piece-discord') exported.discord.getAction('sendMessageWithBot').run = async (context) => context.server.apiUrl;
   if (fixture.mode === 'trigger-egress' && args[0] === '@activepieces/piece-discord') exported.discord.getTrigger('new_member').run = async () => require('node:dns').promises.lookup('outside.example.com');
   return exported;
 };

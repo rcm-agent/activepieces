@@ -72,7 +72,7 @@ test('a merge conflict preserves manifest, lock and provenance', async (context)
 test('lock failure names its package and stops before container or review', async (context) => { const value = fixture({ context, lockFailure: true }); await assert.rejects(refresh(value), /lock.*piece-slack/is);
   assert.equal(value.containers.length, 0); assert.equal(value.calls.some(({ args }) => args[0].startsWith('catalog/')), false); assert.equal(value.logs.some((line) => String(line).startsWith('Action review:')), false);
 });
-test('a missing exported action stops with its piece and action names', async (context) => { const value = fixture({ context, missing: true }); await assert.rejects(refresh(value), /review.*@activepieces\/piece-slack.*send_channel_message/i);
+test('a missing exported action stops with its piece and action names', async (context) => { const value = fixture({ context, missing: true }), { piece, action } = pieceCatalog.entries[0]; await assert.rejects(refresh(value), (error) => error.message.includes('review') && error.message.includes(piece) && error.message.includes(action));
 });
 test('outdated marks only newer versions behind, once per piece', async (context) => { const value = fixture({ context }), rows = await outdated({ ...value, npmView: async ({ name }) => name.endsWith('slack') ? `${BigInt(value.pins[name].split('.')[0]) + 1n}.0.0` : name.endsWith('discord') ? '0.0.0' : name.endsWith('calendar') ? `${value.pins[name]}-rc.1` : value.pins[name] });
   assert.equal(rows.length, new Set(pieceCatalog.entries.map((entry) => entry.piece)).size); assert.deepEqual(rows.filter((row) => row.behind).map((row) => row.name), ['@activepieces/piece-slack']);
