@@ -1854,6 +1854,223 @@
     }
   },
   {
+    "piece": "@activepieces/piece-microsoft-outlook",
+    "version": "0.7.2",
+    "action": "outlook_create_draft",
+    "id": "outlook_create_draft",
+    "display_name": "Create Draft",
+    "description": "Creates an unsent draft message.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        },
+        "accessMode": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Pick the option matching your Grant Type. Use a Delegated option with the Authorization Code grant (acts as the signed-in user). Use an App-only option with the Client Credentials grant (acts as the application — also set Tenant ID and Mailbox), choosing the one that matches your Cloud Environment.",
+          "display_name": "Access Mode",
+          "default": "Mail.ReadWrite Mail.Send Calendars.Read offline_access User.Read openid email profile",
+          "options": [
+            {
+              "label": "Delegated — Commercial (Global)",
+              "value": "Mail.ReadWrite Mail.Send Calendars.Read offline_access User.Read openid email profile"
+            },
+            {
+              "label": "App-only — Commercial (Global)",
+              "value": "https://graph.microsoft.com/.default"
+            },
+            {
+              "label": "App-only — US Government (GCC High)",
+              "value": "https://graph.microsoft.us/.default"
+            }
+          ]
+        },
+        "tenant": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Use \"common\" for the default delegated multi-tenant flow. For app-only (Client Credentials), set this to your Directory (tenant) ID.",
+          "display_name": "Tenant ID",
+          "default": "common"
+        },
+        "mailbox": {
+          "type": "SHORT_TEXT",
+          "required": false,
+          "description": "Email/UPN or user object ID of the mailbox to act on. Required for app-only (Client Credentials). Leave blank for delegated access (acts as the signed-in user).",
+          "display_name": "Mailbox (App-only)"
+        }
+      }
+    },
+    "props": {
+      "recipients": {
+        "type": "ARRAY",
+        "required": false,
+        "description": "",
+        "display_name": "To Email(s)"
+      },
+      "ccRecipients": {
+        "type": "ARRAY",
+        "required": false,
+        "description": "",
+        "display_name": "CC Email(s)"
+      },
+      "bccRecipients": {
+        "type": "ARRAY",
+        "required": false,
+        "description": "",
+        "display_name": "BCC Email(s)"
+      },
+      "subject": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "",
+        "display_name": "Subject"
+      },
+      "bodyFormat": {
+        "type": "STATIC_DROPDOWN",
+        "required": true,
+        "description": "",
+        "display_name": "Body Format",
+        "default": "text",
+        "options": [
+          {
+            "label": "HTML",
+            "value": "html"
+          },
+          {
+            "label": "Text",
+            "value": "text"
+          }
+        ]
+      },
+      "body": {
+        "type": "LONG_TEXT",
+        "required": true,
+        "description": "",
+        "display_name": "Body"
+      },
+      "folderId": {
+        "type": "SHORT_TEXT",
+        "required": false,
+        "description": "Create the draft inside a specific folder. Accepts a mail folder ID or a well-known name such as inbox, drafts, sentitems, deleteditems, archive or junkemail. Leave empty to use the Drafts folder.",
+        "display_name": "Folder ID"
+      },
+      "attachments": {
+        "type": "ARRAY",
+        "required": false,
+        "description": "Files to attach. Total message size must stay under 3 MB.",
+        "display_name": "Attachments",
+        "properties": {
+          "file": {
+            "type": "FILE",
+            "required": true,
+            "description": "",
+            "display_name": "File"
+          },
+          "fileName": {
+            "type": "SHORT_TEXT",
+            "required": false,
+            "description": "",
+            "display_name": "File Name"
+          }
+        }
+      }
+    }
+  },
+  {
+    "piece": "@activepieces/piece-microsoft-outlook",
+    "version": "0.7.2",
+    "action": "outlook_send_draft",
+    "id": "outlook_send_draft",
+    "display_name": "Send Draft",
+    "description": "Sends an existing draft message.",
+    "auth_kinds": [
+      "OAUTH2"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {
+        "cloud": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Select your Microsoft cloud environment.",
+          "display_name": "Cloud Environment",
+          "default": "login.microsoftonline.com",
+          "options": [
+            {
+              "label": "Commercial (Global)",
+              "value": "login.microsoftonline.com"
+            },
+            {
+              "label": "US Government (GCC High)",
+              "value": "login.microsoftonline.us"
+            }
+          ]
+        },
+        "accessMode": {
+          "type": "STATIC_DROPDOWN",
+          "required": true,
+          "description": "Pick the option matching your Grant Type. Use a Delegated option with the Authorization Code grant (acts as the signed-in user). Use an App-only option with the Client Credentials grant (acts as the application — also set Tenant ID and Mailbox), choosing the one that matches your Cloud Environment.",
+          "display_name": "Access Mode",
+          "default": "Mail.ReadWrite Mail.Send Calendars.Read offline_access User.Read openid email profile",
+          "options": [
+            {
+              "label": "Delegated — Commercial (Global)",
+              "value": "Mail.ReadWrite Mail.Send Calendars.Read offline_access User.Read openid email profile"
+            },
+            {
+              "label": "App-only — Commercial (Global)",
+              "value": "https://graph.microsoft.com/.default"
+            },
+            {
+              "label": "App-only — US Government (GCC High)",
+              "value": "https://graph.microsoft.us/.default"
+            }
+          ]
+        },
+        "tenant": {
+          "type": "SHORT_TEXT",
+          "required": true,
+          "description": "Use \"common\" for the default delegated multi-tenant flow. For app-only (Client Credentials), set this to your Directory (tenant) ID.",
+          "display_name": "Tenant ID",
+          "default": "common"
+        },
+        "mailbox": {
+          "type": "SHORT_TEXT",
+          "required": false,
+          "description": "Email/UPN or user object ID of the mailbox to act on. Required for app-only (Client Credentials). Leave blank for delegated access (acts as the signed-in user).",
+          "display_name": "Mailbox (App-only)"
+        }
+      }
+    },
+    "props": {
+      "messageId": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "ID of the draft to send. Obtain it from Create Draft or one of the Create ... Draft actions.",
+        "display_name": "Draft Message ID"
+      }
+    }
+  },
+  {
     "piece": "@activepieces/piece-microsoft-outlook-calendar",
     "version": "0.3.1",
     "action": "list_events",

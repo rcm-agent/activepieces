@@ -323,6 +323,8 @@ const entries = Object.freeze([
   { piece: '@activepieces/piece-microsoft-outlook', action: 'outlook_search_messages', exportName: 'microsoftOutlook', forkDirectory: 'microsoft-outlook' },
   { piece: '@activepieces/piece-microsoft-outlook', action: 'outlook_list_messages', exportName: 'microsoftOutlook', forkDirectory: 'microsoft-outlook' },
   { piece: '@activepieces/piece-microsoft-outlook', action: 'outlook_get_message', exportName: 'microsoftOutlook', forkDirectory: 'microsoft-outlook' },
+  { piece: '@activepieces/piece-microsoft-outlook', action: 'outlook_create_draft', exportName: 'microsoftOutlook', forkDirectory: 'microsoft-outlook' },
+  { piece: '@activepieces/piece-microsoft-outlook', action: 'outlook_send_draft', exportName: 'microsoftOutlook', forkDirectory: 'microsoft-outlook' },
   { piece: '@activepieces/piece-microsoft-outlook-calendar', action: 'list_events', exportName: 'microsoftOutlookCalendar', forkDirectory: 'microsoft-outlook-calendar' },
   { piece: '@activepieces/piece-microsoft-outlook-calendar', action: 'create_event', exportName: 'microsoftOutlookCalendar', forkDirectory: 'microsoft-outlook-calendar' },
   { piece: '@activepieces/piece-microsoft-teams', action: 'microsoft_teams_send_channel_message', exportName: 'microsoftTeams', forkDirectory: 'microsoft-teams' },

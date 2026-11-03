@@ -82,6 +82,14 @@ test('Microsoft Outlook passes the OAuth token to the default Graph mailbox', in
   const body = { id: 'contract-message', subject: 'Contract message' };
   assert.deepEqual(await run({ request, body, method: 'GET', url: 'https://graph.microsoft.com/v1.0/me/messages/contract-message' }), { status: 'completed', output: body });
 });
+test('Microsoft Outlook saves a draft without sending it and sends a saved draft by id', installedOptions, async () => {
+  const auth = { auth_type: 'OAUTH2', auth: { access_token: 'outlook-contract-token', raw: {} }, timeout_ms: 15000 };
+  const create = { ...requestTuple({ piece: '@activepieces/piece-microsoft-outlook', action: 'outlook_create_draft' }), ...auth, props: { recipients: ['to@example.test'], subject: 'Contract draft', bodyFormat: 'text', body: 'Contract body' } };
+  const draft = { id: 'contract-draft', isDraft: true, subject: 'Contract draft' };
+  assert.deepEqual(await run({ request: create, body: draft, url: 'https://graph.microsoft.com/v1.0/me/messages' }), { status: 'completed', output: draft });
+  const send = { ...requestTuple({ piece: '@activepieces/piece-microsoft-outlook', action: 'outlook_send_draft' }), ...auth, props: { messageId: 'contract-draft' } };
+  assert.deepEqual(await run({ request: send, body: {}, url: 'https://graph.microsoft.com/v1.0/me/messages/contract-draft/send' }), { status: 'completed', output: { success: true, message: 'Draft sent successfully.', messageId: 'contract-draft' } });
+});
 test('Microsoft Outlook Calendar passes the OAuth token to the default Graph calendar', installedOptions, async () => {
   const request = { ...requestTuple({ piece: '@activepieces/piece-microsoft-outlook-calendar', action: 'list_events' }), auth_type: 'OAUTH2', auth: { access_token: 'outlook-calendar-contract-token', data: {} }, props: { calendarId: 'contract-calendar' }, timeout_ms: 15000 };
   const body = { value: [{ id: 'contract-event', subject: 'Contract event' }] };
