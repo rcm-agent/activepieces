@@ -317,6 +317,7 @@ const entries = Object.freeze([
   { piece: '@activepieces/piece-google-calendar', action: 'update_event', exportName: 'googleCalendar', forkDirectory: 'google-calendar', authType: 'OAUTH2' },
   { piece: '@activepieces/piece-google-drive', action: 'search-folder', exportName: 'googleDrive', forkDirectory: 'google-drive', authType: 'OAUTH2' },
   { piece: '@activepieces/piece-google-drive', action: 'create_new_gdrive_folder', exportName: 'googleDrive', forkDirectory: 'google-drive', authType: 'OAUTH2' },
+  { piece: '@activepieces/piece-google-drive', action: 'create_new_gdrive_file', exportName: 'googleDrive', forkDirectory: 'google-drive', authType: 'OAUTH2' },
   { piece: '@activepieces/piece-microsoft-outlook', action: 'outlook_send_email', exportName: 'microsoftOutlook', forkDirectory: 'microsoft-outlook' },
   { piece: '@activepieces/piece-microsoft-outlook', action: 'outlook_reply_to_message', exportName: 'microsoftOutlook', forkDirectory: 'microsoft-outlook' },
   { piece: '@activepieces/piece-microsoft-outlook', action: 'outlook_forward_message', exportName: 'microsoftOutlook', forkDirectory: 'microsoft-outlook' },

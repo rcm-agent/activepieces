@@ -74,6 +74,8 @@ test('Google Drive passes the OAuth token, defaults to 256 MiB, honors a request
   const body = { id: 'contract-folder', name: 'Contract folder' };
   assert.deepEqual(await run({ request, body, url: 'https://www.googleapis.com/drive/v3/files?supportsAllDrives=false', memoryMb: 256 }), { status: 'completed', output: body });
   assert.deepEqual(await run({ request: { ...request, memory_mb: 384 }, body, url: 'https://www.googleapis.com/drive/v3/files?supportsAllDrives=false' }), { status: 'completed', output: body });
+  const file = { ...request, ...requestTuple({ piece: request.piece, action: 'create_new_gdrive_file' }), props: { fileName: 'contract.csv', text: 'a,b', fileType: 'text/csv' } };
+  assert.deepEqual(await run({ request: file, body, url: 'https://www.googleapis.com/upload/drive/v3/files?supportsAllDrives=false&fields=id%2C%20name%2C%20mimeType%2C%20kind&uploadType=multipart' }), { status: 'completed', output: body });
   const result = await run({ request: { ...request, memory_mb: 513 } });
   assert.deepEqual([result.status, result.refusal?.code], ['refused', 'INVALID_LIMIT']);
 });
