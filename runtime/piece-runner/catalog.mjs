@@ -57,7 +57,26 @@ function prepareInputs({ request, loaded, declarations, requireRequired = true }
   const auth = buildAuth({ authType: request.auth_type, auth: request.auth, piece: loaded.piece, admittedAuthType: loaded.entry.authType });
   const props = request.props ?? {};
   validateProps({ declarations, props, requireRequired });
-  return { auth, props: withDefaults({ declarations, props }) };
+  return { auth, props: withDefaults({ declarations, props: withFiles({ declarations, props }) }) };
+}
+
+function withFiles({ declarations, props }) {
+  return Object.fromEntries(Object.entries(props).map(([name, value]) => {
+    const { type, properties } = declarations[name];
+    if (type === 'FILE') return [name, toFile({ value })];
+    if (type === 'ARRAY' && properties && Array.isArray(value)) return [name, value.map((item) => withFiles({ declarations: properties, props: item }))];
+    return [name, value];
+  }));
+}
+
+function toFile({ value: { filename, base64 } }) {
+  const extension = /\.([^./\\]+)$/.exec(filename)?.[1];
+  return { filename, data: Buffer.from(base64, 'base64'), base64, ...(extension ? { extension } : {}) };
+}
+
+function isFileValue(value) {
+  return isRecord(value) && Object.keys(value).length === 2 && nonemptyString(value.filename) && value.filename.length <= 255
+    && nonemptyString(value.base64) && /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(value.base64);
 }
 
 function validateLoader({ request, packageRoot = runnerRoot }) {
@@ -217,8 +236,8 @@ function validateProps({ declarations, props, requireRequired = true }) {
   }
   for (const [name, declaration] of Object.entries(declarations)) {
     const supplied = Object.hasOwn(props, name);
-    if (supplied && declaration.type === 'FILE') {
-      throw refusal({ code: 'FILE_PROP_REFUSED', message: 'File props are unavailable in this runner.' });
+    if (supplied && declaration.type === 'FILE' && !isFileValue(props[name])) {
+      throw refusal({ code: 'FILE_PROP_REFUSED', message: 'A file prop takes only { filename, base64 }: the file name and its bytes as standard base64, never a URL.' });
     }
     const value = props[name];
     if (requireRequired && declaration.required && (!supplied || value === null || value === undefined || value === '')) {
@@ -318,6 +337,7 @@ const entries = Object.freeze([
   { piece: '@activepieces/piece-google-drive', action: 'search-folder', exportName: 'googleDrive', forkDirectory: 'google-drive', authType: 'OAUTH2' },
   { piece: '@activepieces/piece-google-drive', action: 'create_new_gdrive_folder', exportName: 'googleDrive', forkDirectory: 'google-drive', authType: 'OAUTH2' },
   { piece: '@activepieces/piece-google-drive', action: 'create_new_gdrive_file', exportName: 'googleDrive', forkDirectory: 'google-drive', authType: 'OAUTH2' },
+  { piece: '@activepieces/piece-google-drive', action: 'upload_gdrive_file', exportName: 'googleDrive', forkDirectory: 'google-drive', authType: 'OAUTH2' },
   { piece: '@activepieces/piece-microsoft-outlook', action: 'outlook_send_email', exportName: 'microsoftOutlook', forkDirectory: 'microsoft-outlook' },
   { piece: '@activepieces/piece-microsoft-outlook', action: 'outlook_reply_to_message', exportName: 'microsoftOutlook', forkDirectory: 'microsoft-outlook' },
   { piece: '@activepieces/piece-microsoft-outlook', action: 'outlook_forward_message', exportName: 'microsoftOutlook', forkDirectory: 'microsoft-outlook' },

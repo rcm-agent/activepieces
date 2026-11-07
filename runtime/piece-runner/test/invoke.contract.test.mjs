@@ -31,9 +31,9 @@ childProcess.spawn = (command, args, options) => {
   return originalSpawn(command, ['--require', fileURLToPath(new URL('./http-intercept.cjs', import.meta.url)), ...args, JSON.stringify(fixture)], options);
 };
 syncBuiltinESMExports(); after(() => { childProcess.spawn = originalSpawn; syncBuiltinESMExports(); });
-function run({ request = discord, body = output, status = 200, mode, url, method = 'POST', requests, memoryMb = request.memory_mb ?? 256 } = {}) {
+function run({ request = discord, body = output, status = 200, mode, url, method = 'POST', requests, sent, memoryMb = request.memory_mb ?? 256 } = {}) {
   const authorization = request.piece === discord.piece ? `Bot ${request.auth.apiKey ?? request.auth.secret_text}` : `Bearer ${request.auth.access_token}`;
-  fixture = { body, status, mode, method, requests, memoryMb, url: url ?? (request.piece === slack.piece ? 'https://slack.com/api/conversations.history' : 'https://discord.com/api/v10/channels/C123/messages'), authorization };
+  fixture = { body, status, mode, method, requests, sent, memoryMb, url: url ?? (request.piece === slack.piece ? 'https://slack.com/api/conversations.history' : 'https://discord.com/api/v10/channels/C123/messages'), authorization };
   return pieceRunner.invoke(request);
 }
 test('runs installed Discord and Slack actions in an empty child environment and preserves output', installedOptions, async () => {
@@ -76,6 +76,8 @@ test('Google Drive passes the OAuth token, defaults to 256 MiB, honors a request
   assert.deepEqual(await run({ request: { ...request, memory_mb: 384 }, body, url: 'https://www.googleapis.com/drive/v3/files?supportsAllDrives=false' }), { status: 'completed', output: body });
   const file = { ...request, ...requestTuple({ piece: request.piece, action: 'create_new_gdrive_file' }), props: { fileName: 'contract.csv', text: 'a,b', fileType: 'text/csv' } };
   assert.deepEqual(await run({ request: file, body, url: 'https://www.googleapis.com/upload/drive/v3/files?supportsAllDrives=false&fields=id%2C%20name%2C%20mimeType%2C%20kind&uploadType=multipart' }), { status: 'completed', output: body });
+  const upload = { ...request, ...requestTuple({ piece: request.piece, action: 'upload_gdrive_file' }), props: { fileName: 'waiver.pdf', file: { filename: 'waiver.pdf', base64: Buffer.from('%PDF-1.4 contract waiver').toString('base64') } } };
+  assert.deepEqual(await run({ request: upload, body, sent: '%PDF-1.4 contract waiver', url: 'https://www.googleapis.com/upload/drive/v3/files?supportsAllDrives=false&fields=id%2C%20name%2C%20mimeType%2C%20kind&uploadType=multipart' }), { status: 'completed', output: body });
   const result = await run({ request: { ...request, memory_mb: 513 } });
   assert.deepEqual([result.status, result.refusal?.code], ['refused', 'INVALID_LIMIT']);
 });
@@ -166,6 +168,7 @@ test('refuses invalid calls, unavailable store/server services, hung actions and
     [{ ...slack, auth_type: 'API_KEY', allowed_hosts: ['slack.com'] }, {}, 'AUTH_TYPE_MISMATCH'],
     [{ ...discord, action: 'discordSendMessageWebhook' }, {}, 'ACTION_NOT_ALLOWLISTED'],
     [{ ...discord, props: { ...discord.props, files: [{ file: { filename: 'file.txt' } }] } }, {}, 'FILE_PROP_REFUSED'],
+    [{ ...discord, props: { ...discord.props, files: [{ file: 'https://outside.example.com/waiver.pdf' }] } }, {}, 'FILE_PROP_REFUSED'],
     [{ ...discord, props: { ...discord.props, undeclared: true } }, {}, 'UNDECLARED_PROP'],
     [{ ...discord, props: {} }, {}, 'MISSING_REQUIRED_PROP'],
     [discord, { mode: 'store' }, 'CONTEXT_SERVICE_UNAVAILABLE'],

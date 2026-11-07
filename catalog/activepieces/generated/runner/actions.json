@@ -1355,6 +1355,53 @@
     }
   },
   {
+    "piece": "@activepieces/piece-google-drive",
+    "version": "0.11.3",
+    "action": "upload_gdrive_file",
+    "id": "upload_gdrive_file",
+    "display_name": "Upload File",
+    "description": "Upload a file to Google Drive.",
+    "auth_kinds": [
+      "OAUTH2",
+      "CUSTOM_AUTH"
+    ],
+    "auth": {
+      "kind": "OAUTH2",
+      "props": {}
+    },
+    "props": {
+      "fileName": {
+        "type": "SHORT_TEXT",
+        "required": true,
+        "description": "Name shown in Drive, including the extension.",
+        "display_name": "File Name"
+      },
+      "file": {
+        "type": "FILE",
+        "required": true,
+        "description": "The file to upload, from an earlier step or a URL.",
+        "display_name": "File"
+      },
+      "parentFolder": {
+        "type": "DROPDOWN",
+        "required": false,
+        "description": "Leave empty for the root of My Drive. Type to search by folder name.",
+        "display_name": "Parent Folder",
+        "refreshers": [
+          "include_team_drives"
+        ],
+        "refresh_on_search": true
+      },
+      "include_team_drives": {
+        "type": "CHECKBOX",
+        "required": false,
+        "description": "Also include shared drives, not only My Drive.",
+        "display_name": "Include Team Drives",
+        "default": false
+      }
+    }
+  },
+  {
     "piece": "@activepieces/piece-microsoft-outlook",
     "version": "0.7.2",
     "action": "outlook_send_email",

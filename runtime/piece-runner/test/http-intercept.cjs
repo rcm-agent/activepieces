@@ -21,9 +21,11 @@ function request(input, options, callback) {
   const expected = fixture.requests ? fixture.requests.shift() : fixture;
   assert.ok(expected, 'Unexpected outbound request');
   assert.deepEqual([`${config.protocol}//${config.hostname ?? config.host}${config.path ?? `${config.pathname}${config.search}`}`, config.method, headers.authorization], [expected.url, expected.method ?? 'POST', fixture.authorization]);
+  const sent = [];
   const req = new Writable({
-    write(chunk, encoding, done) { done(); },
+    write(chunk, encoding, done) { sent.push(Buffer.from(chunk)); done(); },
     final(done) {
+      if (fixture.sent) assert.ok(Buffer.concat(sent).includes(fixture.sent), 'The request body lacks the sent bytes');
       done();
       if (fixture.mode === 'hang') { setInterval(() => {}, 1000); return; }
       const res = Readable.from([Buffer.from(JSON.stringify(expected.body ?? fixture.body))]);
@@ -43,6 +45,7 @@ global.fetch = async (input, init) => {
   const expected = fixture.requests ? fixture.requests.shift() : fixture;
   assert.ok(expected, 'Unexpected outbound request');
   assert.deepEqual([`${url.protocol}//${url.hostname}${url.pathname}${url.search}`, target.method, target.headers.get('authorization') ?? undefined], [expected.url, expected.method ?? 'POST', fixture.authorization]);
+  if (fixture.sent) assert.ok(Buffer.from(await target.arrayBuffer()).includes(fixture.sent), 'The request body lacks the sent bytes');
   if (fixture.mode === 'hang') return new Promise(() => setInterval(() => {}, 1000));
   return new Response(JSON.stringify(expected.body ?? fixture.body), { status: expected.status ?? fixture.status ?? 200, statusText: 'Contract response', headers: { 'content-type': 'application/json; charset=UTF-8' } });
 };
