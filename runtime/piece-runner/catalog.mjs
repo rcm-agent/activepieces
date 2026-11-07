@@ -76,7 +76,7 @@ function toFile({ value: { filename, base64 } }) {
 
 function isFileValue(value) {
   return isRecord(value) && Object.keys(value).length === 2 && nonemptyString(value.filename) && value.filename.length <= 255
-    && nonemptyString(value.base64) && /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(value.base64);
+    && nonemptyString(value.base64) && value.base64.length % 4 === 0 && /^[A-Za-z0-9+/]*={0,2}$/.test(value.base64);
 }
 
 function validateLoader({ request, packageRoot = runnerRoot }) {
