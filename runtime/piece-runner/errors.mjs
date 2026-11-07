@@ -72,4 +72,9 @@ const codes = Object.freeze({
   egressHostRefused: 'EGRESS_HOST_REFUSED',
 });
 
-export const runnerErrors = { refusal, refusalError, failure, redactor, codes };
+// Lambda's synchronous request limit (AWS Lambda quotas, Invocation payload); base64 makes a file 4/3 its size.
+const requestLimitBytes = 6 * 1048576;
+const requestLimit = `One request carries at most ${requestLimitBytes / 1048576} MB, about ${requestLimitBytes * 3 / 4 / 1048576} MB of file.`;
+const fileForm = `A file prop takes only { filename, base64 }: the file name and its bytes as standard base64, never a URL. ${requestLimit}`;
+
+export const runnerErrors = { refusal, refusalError, failure, redactor, codes, requestLimitBytes, requestLimit, fileForm };

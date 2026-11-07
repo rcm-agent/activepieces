@@ -169,6 +169,7 @@ test('refuses invalid calls, unavailable store/server services, hung actions and
     [{ ...discord, action: 'discordSendMessageWebhook' }, {}, 'ACTION_NOT_ALLOWLISTED'],
     [{ ...discord, props: { ...discord.props, files: [{ file: { filename: 'file.txt' } }] } }, {}, 'FILE_PROP_REFUSED'],
     [{ ...discord, props: { ...discord.props, files: [{ file: 'https://outside.example.com/waiver.pdf' }] } }, {}, 'FILE_PROP_REFUSED'],
+    [{ ...discord, props: { ...discord.props, files: [{ file: { filename: 'big.pdf', base64: 'A'.repeat(runnerErrors.requestLimitBytes) } }] } }, {}, 'INPUT_LIMIT_EXCEEDED'],
     [{ ...discord, props: { ...discord.props, undeclared: true } }, {}, 'UNDECLARED_PROP'],
     [{ ...discord, props: {} }, {}, 'MISSING_REQUIRED_PROP'],
     [discord, { mode: 'store' }, 'CONTEXT_SERVICE_UNAVAILABLE'],

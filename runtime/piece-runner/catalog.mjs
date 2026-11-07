@@ -237,7 +237,7 @@ function validateProps({ declarations, props, requireRequired = true }) {
   for (const [name, declaration] of Object.entries(declarations)) {
     const supplied = Object.hasOwn(props, name);
     if (supplied && declaration.type === 'FILE' && !isFileValue(props[name])) {
-      throw refusal({ code: 'FILE_PROP_REFUSED', message: 'A file prop takes only { filename, base64 }: the file name and its bytes as standard base64, never a URL.' });
+      throw refusal({ code: 'FILE_PROP_REFUSED', message: runnerErrors.fileForm });
     }
     const value = props[name];
     if (requireRequired && declaration.required && (!supplied || value === null || value === undefined || value === '')) {

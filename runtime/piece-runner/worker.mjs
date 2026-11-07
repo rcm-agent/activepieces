@@ -11,10 +11,12 @@ process.stderr.write = () => true;
 https.globalAgent.options.rejectUnauthorized = true;
 
 let input = '';
+let bytes = 0;
 process.stdin.setEncoding('utf8');
 process.stdin.on('data', (chunk) => {
   input += chunk;
-  if (Buffer.byteLength(input) > 1048576) process.exit(1);
+  bytes += Buffer.byteLength(chunk);
+  if (bytes > runnerErrors.requestLimitBytes) process.exit(1);
 });
 process.stdin.on('end', async () => {
   let request;

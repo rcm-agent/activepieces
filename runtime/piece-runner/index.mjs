@@ -18,7 +18,7 @@ async function invoke(request) {
     const entry = triggerRequest ? pieceCatalog.validateTriggerTuple(request) : pieceCatalog.validateTuple(request ?? {});
     const limits = getLimits({ request, entry, mode });
     const payload = JSON.stringify(request);
-    if (Buffer.byteLength(payload) > 1048576) return runnerErrors.refusal({ code: 'INPUT_LIMIT_EXCEEDED' });
+    if (Buffer.byteLength(payload) > runnerErrors.requestLimitBytes) return runnerErrors.refusal({ code: 'INPUT_LIMIT_EXCEEDED', message: runnerErrors.requestLimit });
     if (mode === 'options' || mode === 'props') pieceCatalog.validateLoader({ request });
     return await execute({ payload, limits, auth: request.auth });
   } catch (error) {
